@@ -1,0 +1,136 @@
+
+  Б              А                           А              Б
+  лА             ллБ                       Влл             Ал
+  лл             ллллВБ                 БВлллл             лл
+  ллл            лллллллВ             Вллллллл            ллл
+  лллВ           лллллллллВБ       БВллллллллл           Вллл
+  ллллБ          ллллллллллллВ   Влллллллллллл          Влллл
+  лллллБ         ллллллллллллллВлллллллллллллл         Бллллл
+  ллллллА        ллллллллллллВ   Влллллллллллл        Алллллл
+  ллллллл        лллллллллВБ       БВллллллллл        ллллллл
+  лллллллл       ллллллВВ             ВВлллллл       лллллллл
+  ллллллллл      ллллБА                 АБлллл      ллллллллл
+  лллллллллВ     ллБ                       Влл     Вллллллллл
+  ллллллллллБ    А            млм            А    Блллллллллл
+  лллллллллллА               ллллл               Аллллллллллл
+  лллллллллллл                плп                лллллллллллл
+  ллллллллллллл                                 ллллллллллллл
+  лллллллллллллл                               лллллллллллллл
+  ллллллллллллллл                             ллллллллллллллл
+  лллллллллллллллВ            млм            Вллллллллллллллл
+  ллллллллллллллллБ          ллллл          Блллллллллллллллл
+  лллллллллллллллллБ          плп          Бллллллллллллллллл
+  ллллллллллллллллллА                     Алллллллллллллллллл
+  ллллллллллллллллллл                     ллллллллллллллллллл
+  лллллллллллллллллллл                   лллллллллллллллллллл
+  ллллллллллллллллллллВ       млм       Влллллллллллллллллллл
+  лллллллллллллллллллллВ     ллллл     Вллллллллллллллллллллл
+  ллллллллллллллллллллллБ     плп     Блллллллллллллллллллллл
+  лллллллллллллллллллллллА           Аллллллллллллллллллллллл
+  лллллллллллллллллллллллл           лллллллллллллллллллллллл
+  ллллллллллллллллллллллллл         ллллллллллллллллллллллллл
+  лллллллллллллллллллллллллл       лллллллллллллллллллллллллл
+  ллллллллллллллллллллллллллл     ллллллллллллллллллллллллллл
+  лллллллллллллллллллллллллллВ   Вллллллллллллллллллллллллллл
+  ллллллллллллллллллллллллллллВ Влллллллллллллллллллллллллллл
+  лллллллллллллллллллллллллллллВллллллллллллллллллллллллллллл
+
+     лллА    лллллллллА   лллА    лллА   лллА        лллллллА
+    лллА     лллллллллА   лллА    лллА   лллА        лллллллА
+   лллА         лллА       лллА  лллА    лллА        лллА
+   лллА         лллА       лллА  лллА    лллА        лллА
+    лллА        лллА        ллВ ВллА     лллА        лллА
+     лллА       лллА        ллл лллА     лллА        лллА
+      лллА      лллА         лллллА      лллА        лллллллА
+       лллА     лллА         лллллА      лллА        лллллллА
+        лллА    лллА          лллА       лллА        лллА
+         лллА   лллА          лллА       лллА        лллА
+         лллА   лллА          лллА       лллА        лллА
+         лллА   лллА          лллА       лллА        лллА
+        лллА    лллА          лллА       лллА        лллА
+       лллА     лллА          лллА       лллА        лллА
+     ллллА      лллА          лллА       лллллллА    лллллллА
+    лллА        лллА          лллА       лллллллА    лллллллА
+
+  п ппппппппппппппппппппппппппппппппппппппппппппппппппппппп п
+     title: C64 TrueType v1.2             type: fonts
+      date: September 2, 2014         platform: Any OS/web
+  м ммммммммммммммммммммммммммммммммммммммммммммммммммммммм м
+
+     Welcome to the second release and first major update
+    (since 2010) of our C64 TrueType font package.  Note
+    that there was no v1.1 release. This version brings
+    updates to two of the faces, C64 Pro Mono and C64
+    Pro, the variable pitch version of the legendary
+    character set:
+   
+    * Both fonts:
+      > corrected a couple Unicode mappings
+      > added a couple missing Mac Roman mappings for
+        anyone still using pre-OSX fruit
+      > some name table updates re: version and font
+        family to maximize compatibility
+      > added mappings to conform with Apple/MS
+        TrueType recommendations re: $00-$1f
+      > now includes the 'Direct PETSCII' mappings
+        ($e0xx/$e1xx) that were previously only found
+        in C64 Elite Mono from the v1.0 package
+      > added SVG and WOFF2 variants
+
+    * C64 Pro:
+      > corrected bullet, pipe (VERTICAL LINE)
+        bearing/width
+      > removed some Unicode "spacing" glyphs that
+        didn't fall on even 'pixel' boundaries
+
+     We didn't update C64 User, C64 User Mono, or C64
+    Elite, choosing instead to simplify and focus on
+    the Pro faces. C64 Elite was our answer to the
+    potential complaint that our other font faces
+    contained more than the bare minimum 304 glyphs
+    and was meant to be a smaller file for programmatic
+    use. C64 User was meant to be a small font for
+    people who only wanted to produce documents with
+    the glyphs that reasonably map to ASCII, CP-1252
+    and Mac Roman - that is, none of the extra PETSCII
+    graphical characters. If those fonts previously
+    included in v1.0 are working well for whatever your
+    usage entails there is no reason you need to switch.
+    But C64 Pro Mono is now a superset of C64 Elite and
+    still not much larger thanks to compositing
+    optimizations while C64 Pro is a superset of
+    C64 User.
+
+     Note also that DirMaster v3.x uses the C64 Pro Mono
+    font face. The DirMaster installer should provide
+    that font, but the version included in this package
+    is compatible as well.
+
+     Known issue: the SVG files are quite large (many
+    redundant nodes) and could possibly be optimized;
+    but SVG fonts are on their way out and gzipping
+    from the server side should bring them back to a
+    very reasonable size anyway.
+
+
+     For more information:
+ 
+                 http://style64.org/c64-truetype
+
+             http://style64.org/c64-truetype/license
+
+                    http://style64.org/petscii
+
+  п ппппппппппппппппппппппппппппппппппппппппппппппппппппппп п
+                          Greetings
+
+       NTSC: FTA, RPG, FOE, UDI, Arkanix Labs, Retro64,
+             PSW, Krionyx, Venom, Carcass, Electron
+
+        PAL: Censor Design, Scene World staff
+
+         PC: Deathy/Brainstorm, Vintage
+
+  п ппппппппппппппппппппппппппппппппппппппппппппппппппппппп п
+                   Keep scene spirit alive!
+  м ммммммммммммммммммммммммммммммммммммммммммммммммммммммм м

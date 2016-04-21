@@ -1,0 +1,62 @@
+{
+  "manifest_version": 2,
+
+  "name": "RetroTxt",
+  "description": "RetroTxt stylises ASCII and MS-DOS text-art files with authentic fonts and colours from the 8 and 16-bit home computing eras.",
+  "version": "1.0.0",
+  "version_name": "1.0",
+  "minimum_chrome_version": "41",
+  "default_locale": "en_US",
+  "author": "Ben Garrett",
+  "homepage_url": "https://github.com/bengarrett/RetroTxt",
+
+  "background": {
+    "scripts": ["functions.js", "eventPage.js"],
+    "persistent": false
+  },
+
+  "browser_action": {
+    "default_title": "Stylise this text"
+  },
+
+  "icons": {
+    "16": "assets/RetroTxt-16.png",
+    "19": "assets/RetroTxt-19.png",
+    "32": "assets/RetroTxt-32.png",
+    "38": "assets/RetroTxt-38.png",
+    "48": "assets/RetroTxt-48.png",
+    "128": "assets/RetroTxt-128.png"
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "windows": "Alt+T",
+        "mac": "Alt+T",
+        "chromeos": "Alt+T",
+        "linux": "Alt+T"
+      }
+    }
+  },
+
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "tabs", "http://*/", "https://*/"
+  ],
+  "optional_permissions": ["tabs", "file:///*"],
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+
+  "web_accessible_resources": [
+    "fonts/PC/*.ttf",
+    "fonts/Amiga/*.ttf",
+    "fonts/AppleII/*.ttf",
+    "fonts/Commodore64/fonts/*.ttf",
+    "text.css",
+    "text.js"
+  ]
+}

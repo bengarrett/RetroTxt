@@ -1,0 +1,14 @@
+{
+  "color": {
+    "message": "color"
+  },
+  "center": {
+    "message": "center"
+  },
+  "gray_white_option": {
+    "message": "DOS gray on white"
+  },
+  "url_help": {
+    "message": "https://github.com/bengarrett/RetroTxt/blob/master/README.md"
+  }
+}
