@@ -17,7 +17,7 @@ In developing this extension I had a few goals in mind.
 ## Install
 Chrome and compatible browsers (Vivaldi, Chromium) can install the extension using the Chrome Store.
 
-[RetroTxt on Chrome store](https://chrome.google.com/webstore/search/retrotxt)
+[RetroTxt on Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
 
 You can test your new RetroTxt install with the thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or with [Project Gutenberg's](http://www.gutenberg.org/catalog/) _plain text_ books.
 ## Requirements
