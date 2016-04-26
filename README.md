@@ -160,6 +160,7 @@ You could also disable RetroTxt character encoding conversion by right-clicking 
 
 ## Known issues
 
+* The __Automatic detect & run RetroTxt on text files__ can force a login session disconnect with websites that only permit a single session (ie some bank web applications).
 * Context and tool bar button menus actions don't always apply changes to existing tabs. Pressing __F5__ will refresh and update the tab.
 * When using Chrome Developer Tools the font selection may not be applied to the text.
 
