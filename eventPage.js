@@ -242,10 +242,12 @@ function handleURL(url, tabid)
           firstChr,
           r = false,
           text = xhttp.responseText.trim();
+        //console.log(content);
         firstChr = text.split(0, 1);
         if (content.type !== null) {
           if (content.type === "text") r = true;
           if (content.subtype !== "plain") r = false;
+          if (content.subtype === "x-nfo") r = true; // unofficial mime type for nfos
         }
         // xhttp.open("HEAD", url, false) returns an empty responseText value 
         // (but saves bandwidth). So to enable this 'is first character a <tag>?' check, 

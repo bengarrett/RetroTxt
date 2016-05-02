@@ -12,7 +12,7 @@ In developing this extension I had a few goals in mind.
 
 ---
 
-![Cows animated gif](assets/cows.gif)
+[![RetroTxt running example](http://img.youtube.com/vi/VR9jpLaVO20/0.jpg)](http://www.youtube.com/watch?v=VR9jpLaVO20)
 
 ## Install
 Chrome and compatible browsers (Vivaldi, Chromium) can install the extension using the Chrome Store.
@@ -207,3 +207,5 @@ Is a collection of tools for various systems to convert many more formats of tex
 ##### PabloDraw
 _PabloDraw is an Ansi/Ascii text and RIPscrip vector graphic art editor/viewer with multi-user capabilities._
 - [PabloDraw](http://picoe.ca/products/pablodraw/) (Windows, OS X and Linux)
+
+![Cows animated gif](assets/cows.gif)
