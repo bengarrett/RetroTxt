@@ -120,6 +120,7 @@ file:///C:/Users/Ben/Downloads/myfile.txt
 You can also [browse your Windows drive](file:///C:/) or [your Linux and OSX drives](file:///).
 
 Chrome will need [__Allow access to the file URLs__ permission](chrome://extensions/) enabled if you want the __Automatic detect & run RetroTxt on text files__ feature to work with local files.  If it is selected by default, you should reselect it so the permission is actually applied by Chrome.
+
 ![Allow access to the file URLs helper](assets/allow_access_to_file_urls.png)
 
 To make Chrome your default text file viewer in Windows. Right-click on your desktop and choose __text file__ under __New__. This creates the file `New Text Document.txt`. Right-click on the file, select __Choose another app__ (_Choose default program..._ in Windows 7) under __Open with__ item. Then under __Other options__ scroll down and select Chrome.
@@ -160,6 +161,7 @@ You could also disable RetroTxt character encoding conversion by right-clicking 
 
 ## Known issues
 
+* Chrome refuses to open some text files because it treats them as binary files. This is a Chrome trait and can possibly be fixed using the Downloads API in a future update.
 * The __Automatic detect & run RetroTxt on text files__ can force a login session disconnect with websites that only permit a single session (ie some bank web applications).
 * Context and tool bar button menus actions don't always apply changes to existing tabs. Pressing __F5__ will refresh and update the tab.
 * When using Chrome Developer Tools the font selection may not be applied to the text.
