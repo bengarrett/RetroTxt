@@ -2,237 +2,266 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Options</title>
-    <style>
+  <meta charset="UTF-8">
+  <title>Options</title>
+  <style>
     body {
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
-    
+
     footer {
-        order: 6;
+      order: 6;
     }
-    
+
     hr {
-        background: Silver;
-        border: 0;
-        height: 1px;
+      background: silver;
+      border: 0;
+      height: 1px;
     }
-    
+
     .flexed-cols {
-        width: 50%;
+      width: 50%;
     }
-    
-    .flexed-cols h2 {
-        margin-top: 0em;
+
+    h2 {
+      margin-bottom: 0.75em;
+      margin-top: 0;
+      text-indent: 1em;
     }
-    
+
+    h3 {
+      margin-bottom: 0.25em;
+    }
+
     #advanced-options {
-        order: 5;
+      order: 5;
     }
-    
-    #font-colors {
-        order: 1;
-        width: 40%;
-    }
-    
-    #font-colors h2 {
-        margin-top: 0;
-    }
-    
-    #font-effects {
-        order: 2;
-        width: 50%;
-    }
-    
+
     #font-form {
-        display: flex;
-        order: 3;
+      display: flex;
+      order: 3;
     }
-    
+
     #font-styles {
-        margin-top: 1em;
-        order: 4;
-        display: flex;
-        justify-content: space-around;
+      margin-top: 1em;
+      order: 4;
+      display: flex;
+      justify-content: space-around;
     }
-    
-    #narrow-fonts h2 {
-        margin-top: 1em;
+
+    #font-styles-colors {
+      order: 1;
+      width: 30%;
     }
-    
-    #other-fonts {
-        order: 2;
-        background-color: white;
+
+    #font-styles-colors h2 {
+      margin-top: 0;
     }
-    
+
+    #font-styles-effects {
+      order: 3;
+      width: 40%;
+    }
+
+    #font-styles-line-heights {
+      order: 2;
+      width: 25%;
+    }
+
+    #font-styles-line-heights h2 {
+      margin-top: 0;
+    }
+
+    #fonts-ibm {
+      order: 1;
+    }
+
+    #fonts-computer {
+      order: 2;
+    }
+
     #sample-dos-text {
-        align-items: center;
-        background-color: black;
-        color: gray;
-        display: flex;
-        height: 30px;
-        font-size: 16px;
-        margin: 0;
-        order: 1;
-        overflow: hidden;
-        padding: 0;
-        text-indent: 5px;
+      align-items: center;
+      background-color: black;
+      color: gray;
+      display: flex;
+      height: 30px;
+      font-size: 16px;
+      margin: 0;
+      order: 1;
+      overflow: hidden;
+      padding: 0;
+      text-indent: 5px;
     }
-    
+
     #status {
-        order: 2;
+      order: 2;
     }
-    
-    #standard-fonts {
-        order: 1;
+
+    .var-option {
+      margin-left: 1em;
     }
-    </style>
+  </style>
 </head>
 
 <body>
-    <pre id="sample-dos-text">Sample text ╔═╝ ░▒▓▒░</pre>
-    <div id="status">&nbsp;</div>
-    <form name="fonts" id="font-form">
-        <div class="flexed-cols" id="standard-fonts">
-            <h2>Standard fonts<br><small>1:1 pixel ratios</small></h2>
-            <label for="rsf1">
-                <input type="radio" name="font" value="pc1512" id="rsf1"> Amstrad PC1512</label>
-            <br>
-            <label for="rsf15">
-                <input type="radio" name="font" value="appleii" id="rsf15"> Apple II</label>
-            <br>
-            <label for="rsf13">
-                <input type="radio" name="font" value="amiga" id="rsf13"> Commodore Amiga</label>
-            <br>
-            <label for="rsf14">
-                <input type="radio" name="font" value="c64" id="rsf14"> Commodore 64</label>
-            <br>
-            <label for="rsf3">
-                <input type="radio" name="font" value="cga" id="rsf3"> IBM CGA</label>
-            <br>
-            <label for="rsf4">
-                <input type="radio" name="font" value="cgathin" id="rsf4"> IBM thin CGA</label>
-            <br>
-            <label for="rsf5">
-                <input type="radio" name="font" value="ega8" id="rsf5"> IBM EGA 8</label>
-            <br>
-            <label for="rsf6">
-                <input type="radio" name="font" value="ega9" id="rsf6"> IBM EGA 9</label>
-            <br>
-            <label for="rsf7">
-                <input type="radio" name="font" value="mda" id="rsf7"> IBM MDA</label>
-            <br>
-            <label for="rsf8">
-                <input type="radio" name="font" value="vga8" id="rsf8"> IBM VGA 8</label>
-            <br>
-            <label for="rsf9">
-                <input type="radio" name="font" value="vga9" id="rsf9"> IBM VGA 9</label>
-            <br>
-            <label for="rsf10">
-                <input type="radio" name="font" value="tandynewtv" id="rsf10"> Tandy TV</label>
-            <br>
-            <label for="rsf11">
-                <input type="radio" name="font" value="tandynew225" id="rsf11"> Tandy 225 lines</label>
-            <br>
-            <label for="rsf12">
-                <input type="radio" name="font" value="vgalcd" id="rsf12"> VGA LCD</label>
-        </div>
-        <div class="flexed-cols" id="other-fonts">
-            <div id="wide-fonts">
-                <h2>Wide fonts<br><small>2:1 pixel ratios</small></h2>
-                <label for="rwf2">
-                    <input type="radio" name="font" value="bios-2x" id="rwf2"> IBM BIOS</label>
-                <br>
-                <label for="rwf3">
-                    <input type="radio" name="font" value="ega8-2x" id="rwf3"> IBM EGA 8</label>
-                <br>
-                <label for="rwf4">
-                    <input type="radio" name="font" value="ega9-2x" id="rwf4"> IBM EGA 9</label>
-                <br>
-                <label for="rwf5">
-                    <input type="radio" name="font" value="vga8-2x" id="rwf5"> IBM VGA 8</label>
-                <br>
-                <label for="rwf6">
-                    <input type="radio" name="font" value="vga9-2x" id="rwf6"> IBM VGA 9</label>
-            </div>
-            <div id="narrow-fonts">
-                <h2>Narrow fonts<br><small>1:2 pixel ratios</small></h2>
-                <label for="rnf6">
-                    <input type="radio" name="font" value="pc1512-2y" id="rnf6"> Amstrad PC1512</label>
-                <br>
-                <label for="rnf1">
-                    <input type="radio" name="font" value="bios-2y" id="rnf1"> IBM BIOS</label>
-                <br>
-                <label for="rnf2">
-                    <input type="radio" name="font" value="cga-2y" id="rnf2"> IBM CGA</label>
-                <br>
-                <label for="rnf3">
-                    <input type="radio" name="font" value="cgathin-2y" id="rnf3"> IBM thin CGA</label>
-                <br>
-                <label for="rnf4">
-                    <input type="radio" name="font" value="tandynewtv-2y" id="rnf4"> Tandy TV</label>
-                <br>
-                <label for="rnf5">
-                    <input type="radio" name="font" value="tandynew225-2y" id="rnf5"> Tandy 225 lines</label>
-            </div>
-        </div>
-    </form>
-    <div id="font-styles">
-        <div id="font-colors">
-            <h2>Font <span class="msg-color">color</span></h2>
-            <select id="font-color">
-                <optgroup label="Themed">
-                    <option value="gray-black" id="gray-black-option">MS-DOS</option>
-                    <option value="black-white">Web</option>
-                    <option value="appleiiGreen-appleiiBlack">Apple II</option>
-                    <option value="amigaWhite-amigaGray">Amiga</option>
-                    <option value="c64fg-c64bg">Commodore 64</option>
-                </optgroup>
-                <optgroup label="Dark">
-                    <option value="white-black">White on black</option>
-                    <option value="green-black">Green on black</option>
-                    <option value="amber-black">Amber on black</option>
-                </optgroup>
-                <optgroup label="Light">
-                    <option value="gray-white" id="gray-white-option">DOS gray on white</option>
-                    <option value="green-white">Green on white</option>
-                    <option value="amber-white">Amber on white</option>
-                </optgroup>
-            </select>
-        </div>
-        <div id="font-effects">
-            <label>
-                <input type="checkbox" id="text-font-information"> Show text and font information</label>
-            <br>
-            <label>
-                <input type="checkbox" id="center-alignment"> <span class="msg-center">Center</span> alignment of text</label>
-            <br>
-            <label>
-                <input type="checkbox" id="font-shadows"> Font shadows</label>
-            <br>
-        </div>
+  <pre id="sample-dos-text">Sample ▄█ ╔═╝ ▒▒</pre>
+  <div id="status">&nbsp;</div>
+  <form name="fonts" id="font-form">
+    <div class="flexed-cols" id="fonts-ibm">
+      <hr />
+      <h2>IBM PC fonts</h2>
+      <label for="rsf3x">
+        <input type="radio" name="font" value="bios" id="rsf3x"> <strong>BIOS</strong></label>
+      <label for="rwf2" class="var-option">
+        <input type="radio" name="font" value="bios-2x" id="rwf2"> wide</label>
+      <label for="rnf1" class="var-option">
+        <input type="radio" name="font" value="bios-2y" id="rnf1"> thin</label>
+      <br>
+      <label for="rsf7">
+        <input type="radio" name="font" value="mda" id="rsf7"> <strong>MDA</strong></label>
+      <br>
+      <label for="rsf3">
+        <input type="radio" name="font" value="cga" id="rsf3"> <strong>CGA</strong></label>
+      <label for="rnf2" class="var-option">
+        <input type="radio" name="font" value="cga-2y" id="rnf2"> thin</label>
+      <br>
+      <label for="rsf4">
+        <input type="radio" name="font" value="cgathin" id="rsf4"> <strong>CGA</strong> Alternative</label>
+      <label for="rnf3" class="var-option">
+        <input type="radio" name="font" value="cgathin-2y" id="rnf3"> thin</label>
+      <br>
+      <label for="rsf5">
+        <input type="radio" name="font" value="ega8" id="rsf5"> <strong>EGA 8</strong>px</label>
+      <label for="rwf3" class="var-option">
+        <input type="radio" name="font" value="ega8-2x" id="rwf3"> wide</label>
+      <br>
+      <label for="rsf6">
+        <input type="radio" name="font" value="ega9" id="rsf6"> <strong>EGA 9</strong>px</label>
+      <label for="rwf4" class="var-option">
+        <input type="radio" name="font" value="ega9-2x" id="rwf4"> wide</label>
+      <br>
+      <label for="rsf8">
+        <input type="radio" name="font" value="vga8" id="rsf8"> <strong>VGA 8</strong>px</label>
+      <label for="rwf5" class="var-option">
+        <input type="radio" name="font" value="vga8-2x" id="rwf5"> wide</label>
+      <br>
+      <label for="rsf9">
+        <input type="radio" name="font" value="vga9" id="rsf9"> <strong>VGA 9</strong>px</label>
+      <label for="rwf6" class="var-option">
+        <input type="radio" name="font" value="vga9-2x" id="rwf6"> wide</label>
+      <br>
     </div>
-    <div id="advanced-options">
-        <hr>
-        <label>
-            <input type="checkbox" id="cp437-ctrl-codes"> Display formatting control codes as DOS CP-437 glyphs</label>
-        <br>
-        <label>
-            <input type="checkbox" id="auto-detect-run"> Automatic detect & run RetroTxt on text files <small>(experimental)</small></label>
-        <br>
+    <div class="flexed-cols" id="fonts-computer">
+      <hr />
+      <h2>Home computer fonts</h2>
+      <label for="rsf1">
+        <input type="radio" name="font" value="pc1512" id="rsf1"> <strong>Amstrad</strong> PC1512</label>
+      <label for="rnf6" class="var-option">
+        <input type="radio" name="font" value="pc1512-2y" id="rnf6"> thin</label>
+      <br>
+      <label for="rsf15">
+        <input type="radio" name="font" value="appleii" id="rsf15"> <strong>Apple II</strong></label>
+      <br>
+      <label for="rsf13">
+        <input type="radio" name="font" value="amiga" id="rsf13"> <strong>Commodore Amiga</strong></label>
+      <br>
+      <label for="rsf14">
+        <input type="radio" name="font" value="c64" id="rsf14"> <strong>Commodore 64</strong></label>
+      <br>
+      <label for="rsf10">
+        <input type="radio" name="font" value="tandynewtv" id="rsf10"> <strong>Tandy TV</strong></label>
+      <label for="rnf4" class="var-option">
+        <input type="radio" name="font" value="tandynewtv-2y" id="rnf4"> thin</label>
+      <br>
+      <label for="rsf11">
+        <input type="radio" name="font" value="tandynew225" id="rsf11"> <strong>Tandy 225</strong> lines</label>
+      <label for="rnf5" class="var-option">
+        <input type="radio" name="font" value="tandynew225-2y" id="rnf5"> thin</label>
+      <br>
+      <label for="rsf12">
+        <input type="radio" name="font" value="vgalcd" id="rsf12"> <strong>VGA LCD</strong> laptop</label>
     </div>
-    <footer>
-        <hr> Created by <a href="http://bens.zone">Ben Garrett</a> © 2016 - <a href="https://github.com/bengarrett/RetroTxt">GitHub</a> <b><a href="" id="help-id">Help</a></b>
-        <br> Fonts - IBM & other PC systems by <a href="http://int10h.org/oldschool-pc-fonts/">Viler</a>
-        <br> Amiga by <a href="http://www.freakyfonts.de/">ck!</a>,
-        Apple II by <a href="http://www.kreativekorp.com/software/fonts/apple2.shtml">Kreative Korp</a>,
-        Commodore 64 by <a href="http://style64.org/c64-truetype">Style</a>
-    </footer>
-    <script src="functions.js"></script>
-    <script src="options.js"></script>
+  </form>
+  <div id="font-styles">
+    <div id="font-styles-colors">
+      <h3>Font <span class="msg-color">color</span></h3>
+      <select id="font-color">
+        <optgroup label="Themed">
+          <option value="gray-black" id="gray-black-option">MS-DOS</option>
+          <option value="black-white">Web</option>
+          <option value="appleiiGreen-appleiiBlack">Apple II</option>
+          <option value="amigaWhite-amigaGray">Amiga</option>
+          <option value="c64fg-c64bg">C64</option>
+        </optgroup>
+        <optgroup label="Dark (on black)">
+          <option value="white-black">White</option>
+          <option value="green-black">Green</option>
+          <option value="amber-black">Amber</option>
+        </optgroup>
+        <optgroup label="Light (on white)">
+          <option value="gray-white" id="gray-white-option">DOS gray</option>
+          <option value="green-white">Green</option>
+          <option value="amber-white">Amber</option>
+        </optgroup>
+      </select>
+    </div>
+    <div id="font-styles-line-heights">
+      <h3>Line height</h3>
+      <select id="line-height">
+        <optgroup label="Default">
+          <option value="normal">Normal</option>
+        </optgroup>
+        <optgroup label="Increases">
+          <option value="1.1">+10%</option>
+          <option value="1.25">+25%</option>
+          <option value="1.5">+50%</option>
+          <option value="1.75">+75%</option>
+          <option value="2">x2</option>
+          <option value="3">x3</option>
+          <option value="4">x4</option>
+        </optgroup>
+      </select>
+    </div>
+    <div id="font-styles-effects">
+      <label>
+        <input type="checkbox" id="text-font-information"> Text &amp; font information</label>
+      <br>
+      <label>
+        <input type="checkbox" id="center-alignment"> <span class="msg-center">Center</span> align text</label>
+      <br>
+      <label>
+        <input type="checkbox" id="font-shadows"> Font shadows</label>
+      <br>
+    </div>
+  </div>
+  <div id="advanced-options">
+    <hr>
+    <label>
+      <input type="checkbox" id="cp437-ctrl-codes"> Display formatting control codes as DOS CP-437 glyphs</label>
+    <br>
+    <label>
+      <input type="checkbox" id="auto-detect-run"> Automatic detect &amp; run RetroTxt on text files <small>(experimental)</small></label>
+    <br>
+  </div>
+  <footer>
+    <hr>
+    <b><a href="" id="help-id">Help</a></b>
+    <a href="https://github.com/bengarrett/RetroTxt" class="var-option">GitHub</a>
+    <small style="float:right;">Created by <a href="http://bens.zone">Ben Garrett</a> © 2016</small>
+    <br>
+    <small style="float:right;"> <em>Fonts</em>
+          PC <a href="http://int10h.org/oldschool-pc-fonts/">Viler</a>,
+          Amiga <a href="http://www.freakyfonts.de/">ck!</a>,
+          Apple II <a href="http://www.kreativekorp.com/software/fonts/apple2.shtml">Kreative Korp</a>,
+          Commodore 64 <a href="http://style64.org/c64-truetype">Style</a>
+        </small>
+    <br>
+  </footer>
+  <script src="functions.js"></script>
+  <script src="options.js"></script>
 </body>
 
 </html>

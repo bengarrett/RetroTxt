@@ -49,6 +49,14 @@ function changeColors(ff)
   }
 }
 
+function changeLineHeight(lh)
+// Applies line height modifications to the <PRE> tag containing the text document.
+// @lh Number that will be multiplied with the font size to set the line height.
+{
+  var pre = document.getElementsByTagName("pre")[0];
+  pre.style.lineHeight = lh;
+}
+
 function changeFont(ff)
 // Applies the font family to the <PRE> tag containing the text document.
 // @ff  Font family to apply
@@ -62,7 +70,7 @@ function changeFont(ff)
     textWidthPx = 0;
   // determine width of text and header
   textWidthPx = font.width * spanCols;
-  // sometimes text contains no fix lines breaks, 
+  // sometimes text contains no fix lines breaks,
   // so in that case we use CSS to wrap the text.
   if (spanCols > defaults.columns && window.innerWidth <= font.width * spanCols) {
     pre.style.whiteSpace = "pre-line";
@@ -141,6 +149,7 @@ function exeRetroTxt(evt)
   // end the function if the browser tab already had RetroTxt applied
   if (evt.split("-")[0] === "tab" && elm.cssLink !== null) return;
 
+  // get and apply user's saved color choices
   chrome.storage.local.get("retroColor", function(result) {
     var r = result.retroColor;
     if (typeof r === "string") changeColors(r);
@@ -149,6 +158,11 @@ function exeRetroTxt(evt)
   chrome.storage.local.get("retroFont", function(result) {
     var r = result.retroFont;
     if (typeof r === "string") changeFont(r);
+  });
+  // get and apply user's line height choices
+  chrome.storage.local.get("lineHeight", function(result) {
+    var r = result.lineHeight;
+    if (typeof r === "string") changeLineHeight(r);
   });
 
   // context menu onclick listener
@@ -170,6 +184,9 @@ function exeRetroTxt(evt)
     // font
     if (changes.retroFont) {
       changeFont(changes.retroFont.newValue);
+      chrome.storage.local.get("lineHeight", function(result) {
+        changeLineHeight(result.lineHeight);
+      });
     }
     // colour
     else if (changes.retroColor) {
@@ -185,6 +202,10 @@ function exeRetroTxt(evt)
           textShadow(true, pre, changedC);
         }
       });
+    }
+    // line height
+    else if (changes.lineHeight) {
+      changeLineHeight(changes.lineHeight.newValue);
     }
     // information text
     else if (changes.textFontInformation) {
@@ -253,10 +274,17 @@ function exeRetroTxt(evt)
       // count the number of text columns
       txtCols = calcColumns(txtStr);
 
-      // TODO UTF-8 detection of text, by default JavaScript encodes everything into UTF-16.
+      // Abort CP437 to Unicode encoding?
+      var utf8abort = false,
+        utf8patt = /â\S\Sâ\S\S/g; // crude regex for UTF-8 detection
 
-      // User forced abort encoding
-      var utf8abort = sessionStorage.getItem("abortEncoding");
+      // User forced abort using the 'Text encoding' context menu item
+      utf8abort = sessionStorage.getItem("abortEncoding");
+
+      // Otherwise use this crude regex to detect UTF-8 encoding
+      if (utf8abort !== "true" && utf8abort !== true) {
+        utf8abort = utf8patt.test(txtStr);
+      }
 
       // if source text is already encoded in UTF-8, skip the conversion
       if (utf8abort !== "true" && utf8abort !== true && (evt.length === 0 || evt.split("-")[1].toLowerCase !== "utf-8")) {
@@ -342,6 +370,7 @@ function exeRetroTxt(evt)
         txtFormat = elm.pre0.innerHTML;
         txtLength = txtFormat.split(/\r\n|\r|\n/).length;
         newPre.innerHTML = txtFormat;
+        console.log("UTF-8 encoding was detected in this document")
       }
 
       // lock centring alignment to 640px columns

@@ -30,9 +30,9 @@ Tested on [Chrome](https://www.google.com/intl/en/chrome/browser/desktop/index.h
 
 ## Options Help
 
-![Options screen capture](assets/options.png)
+![Options screen capture](assets/options-11.png)
 
-######Show text and font information
+###### Text & font information
 
 Reveals a small text header detailing the document size and font information.
 
@@ -45,15 +45,15 @@ Reveals a small text header detailing the document size and font information.
 * _font width_ the pixel width of each text character, all fonts are fixed, mono-spaced.
 * _font height_ the pixel height of each text character.
 
-######Center alignment of text
+###### Center align text
 
 Centres the vertical and horizontal positioning of the text.
 
-######Font shadows
+###### Font shadows
 
 Applies a subtle shadow effect to each character and glyph within the text.
 
-######Display formatting control codes as DOS CP-437 glyphs
+###### Display formatting control codes as DOS CP-437 glyphs
 
 IBM's and MS-DOS's Code Page 437 has a few glyphs values that are normally reserved for document formatting (control characters). Enabling this will display these glyphs on-screen.
 - ◘ _backspace_
@@ -62,7 +62,7 @@ IBM's and MS-DOS's Code Page 437 has a few glyphs values that are normally reser
 - → _EOF_ (end of file)
 - ⌂ _delete_
 
-######Automatic detect & run RetroTxt on text files (experimental)
+###### Automatic detect & run RetroTxt on text files (experimental)
 
 Runs the extension in the background and applies RetroTxt on all text files encountered by Chrome. This offers a better user experience but unfortunately comes with some caveats due to limitations imposed by Chrome.
 
@@ -71,20 +71,20 @@ Runs the extension in the background and applies RetroTxt on all text files enco
 3. `file:///` has no access to any meta-data nor can RetroTxt read the content of the file when it needs to, so instead it relies on a file extension blacklist. This, unfortunately, is less accurate and prone to false-positives.
 4. `file:///` also cannot detect a file's character encoding and so RetroTxt may fail to correctly render newer Unicode texts.
 
-If RetroTxt inaccurately converts a text, you can disable RetroTxt character encoding conversion by right-clicking on the page and select __Text encoding__ from the __RetroTxt__ menu. Or you can also click the RetroTxt toolbar button ![insert capture here](assets/rt_button.png) to switch back to the original text. 
+If RetroTxt inaccurately converts a text, you can disable RetroTxt character encoding conversion by right-clicking on the page and select __Text encoding__ from the __RetroTxt__ menu. Or you can also click the RetroTxt toolbar button ![insert capture here](assets/rt_button.png) to switch back to the original text.
 
 ## Context Menu Help
 
-######Display
+###### Display
 
-- __Text and font information__ runs the Option _Show text and font information_
-- __Text alignment__ runs the Option _Center alignment of text_
+- __Text and font information__ runs the Option _Text & font information_
+- __Text alignment__ runs the Option _Center align text_
 - __Font shadows__ runs the Option _Font shadows_
 
 
-- __MS-DOS__ 
-- __Web__ 
-- __Amiga__ 
+- __MS-DOS__
+- __Web__
+- __Amiga__
 - __Apple II__
 - __Commodore 64__
 
@@ -120,7 +120,6 @@ file:///C:/Users/Ben/Downloads/myfile.txt
 You can also [browse your Windows drive](file:///C:/) or [your Linux and OSX drives](file:///).
 
 Chrome will need [__Allow access to the file URLs__ permission](chrome://extensions/) enabled if you want the __Automatic detect & run RetroTxt on text files__ feature to work with local files.  If it is selected by default, you should reselect it so the permission is actually applied by Chrome.
-
 ![Allow access to the file URLs helper](assets/allow_access_to_file_urls.png)
 
 To make Chrome your default text file viewer in Windows. Right-click on your desktop and choose __text file__ under __New__. This creates the file `New Text Document.txt`. Right-click on the file, select __Choose another app__ (_Choose default program..._ in Windows 7) under __Open with__ item. Then under __Other options__ scroll down and select Chrome.
@@ -161,8 +160,6 @@ You could also disable RetroTxt character encoding conversion by right-clicking 
 
 ## Known issues
 
-* Chrome refuses to open some text files because it treats them as binary files. This is a Chrome trait and can possibly be fixed using the Downloads API in a future update.
-* The __Automatic detect & run RetroTxt on text files__ can force a login session disconnect with websites that only permit a single session (ie some bank web applications).
 * Context and tool bar button menus actions don't always apply changes to existing tabs. Pressing __F5__ will refresh and update the tab.
 * When using Chrome Developer Tools the font selection may not be applied to the text.
 
@@ -174,11 +171,14 @@ You could also disable RetroTxt character encoding conversion by right-clicking 
 - Port to Firefox when its [Web Extensions API](https://wiki.mozilla.org/WebExtensions) is complete.
 - Port to Edge when its Chrome compatible extension support is introduced.
 - Asynchronous text encoding if native [async functions](http://tc39.github.io/ecmascript-asyncawait/) are eventually supported.
-- ~~Overwrite the web server `content-disposition` header that forces the downloads of text files.~~ (discovered this is not possible with the Chrome extension API)
 
-## An important note about the license!
+## License
 
-While RetroTxt is covered under a [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/), the included fonts __are not__. 
+##### GNU LESSER GENERAL PUBLIC LICENSE
+
+###### An important note about the license!
+
+While RetroTxt is covered under a [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/), the included fonts __are not__.
 You should read each individual font license that can be found in the `fonts/` subdirectory before redistribution. As some of the included collections do not permit the sale or modification of their fonts and packages.
 
 ## Code page tables
@@ -194,10 +194,10 @@ You should read each individual font license that can be found in the `fonts/` s
 - PC fonts [_The Ultimate Oldschool PC Font Pack_](http://int10h.org/oldschool-pc-fonts/) by Viler
 - Apple II font [_Print Char 21_](http://www.kreativekorp.com/software/fonts/apple2.shtml) by Kreative Korp
 - Commodore Amiga font [_Amiga 4ever_](http://www.freakyfonts.de/) by ck!
-- Commodore 64 font [_C64 Pro Mono TrueType v1.2_](http://style64.org/c64-truetype) from Style 
+- Commodore 64 font [_C64 Pro Mono TrueType v1.2_](http://style64.org/c64-truetype) from Style
 
 ## Favourite style
-Currently, my favourite font style is the __Amstrad PC1512__ _narrow_ font using shadowing with the __Commodore 64__ colour theme.
+Currently, my favourite font style is the __Amstrad PC1512__ _thin_ font using shadowing with the __Commodore 64__ colour theme.
 
 ## Similar projects
 ##### ansilove

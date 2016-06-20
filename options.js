@@ -31,8 +31,10 @@ function restoreOptions()
 {
   var colorSel = document.getElementById("font-color"),
     fontSel = document.getElementsByName('font'),
+    lhSel = document.getElementById('line-height'),
     coLen = colorSel.length,
-    foLen = fontSel.length;
+    foLen = fontSel.length,
+    lhLen = lhSel.length;
   // Colour
   chrome.storage.local.get("retroColor", function(result) {
     var r = result.retroColor;
@@ -53,6 +55,17 @@ function restoreOptions()
       fi = fontSel[i];
       if (fi.value === r) {
         fi.checked = true;
+        break;
+      }
+    }
+  });
+  // Line Height
+  chrome.storage.local.get("lineHeight", function(result) {
+    var r = result.lineHeight;
+    if (typeof r !== "string") return;
+    for (var i = 0, len = lhLen; i < len; i++) {
+      if (lhSel[i].value === r) {
+        lhSel[i].selected = true;
         break;
       }
     }
@@ -109,6 +122,16 @@ function saveFont()
   });
 }
 
+function saveLineHeight()
+// Saves the user line height adjustments to local browser storage.
+{
+  var select = document.getElementById("line-height"),
+    heights = select.options[select.selectedIndex].value;
+  chrome.storage.local.set({
+    'lineHeight': heights
+  });
+}
+
 function useSavedColors()
 // Gets and applies user's saved font colours to sample text.
 {
@@ -162,9 +185,9 @@ function useSavedEffects()
 
   // font selection events
   for (var i = 0, len = radiosLen; i < len; i++) {
+    var status = document.getElementById('status');
     radios[i].onclick = function() {
-      var fface = this.getElementsByTagName("input")[0].value,
-        status = document.getElementById('status');
+      var fface = this.getElementsByTagName("input")[0].value;
       status.textContent = 'Saved font selection ' + fface;
       saveFont();
     }
@@ -172,9 +195,7 @@ function useSavedEffects()
       var fface = this.getElementsByTagName("input")[0].value,
         sample = document.getElementById('sample-dos-text').style;
       fontAdjust(fface, sample);
-    }
-    radios[i].onmouseout = function() {
-      useSavedFont();
+      status.textContent = 'Font ' + fface;
     }
   }
 
@@ -206,6 +227,12 @@ function useSavedEffects()
     useSavedFont();
     saveColors();
     useSavedEffects();
+  });
+
+  // line height selection events
+  document.getElementById("line-height").addEventListener("change", function() {
+    status.textContent = 'Saved ' + this.value + ' line height selection';
+    saveLineHeight();
   });
 
   // check-boxes

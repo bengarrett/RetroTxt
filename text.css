@@ -30,11 +30,6 @@
 }
 
 @font-face {
-    font-family: bios-2y;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_BIOS-2y.ttf');
-}
-
-@font-face {
     font-family: c64;
     src: url('chrome-extension://__MSG_@@extension_id__/fonts/Commodore64/fonts/C64_Pro_Mono-STYLE.ttf');
 }
