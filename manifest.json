@@ -3,8 +3,8 @@
 
   "name": "RetroTxt",
   "description": "RetroTxt stylises ASCII and MS-DOS text-art files with authentic fonts and colours from the 8 and 16-bit home computing eras.",
-  "version": "1.0.1",
-  "version_name": "1.0",
+  "version": "1.1.0",
+  "version_name": "1.1",
   "minimum_chrome_version": "41",
   "default_locale": "en_US",
   "author": "Ben Garrett",
