@@ -1,140 +1,140 @@
-// fonts
+/* fonts */
 @font-face {
-    // for some reason this place-holder is needed otherwise the first font in this collection doesn't load.
+    /* for some reason this place-holder is needed otherwise the first font in this collection doesn't load. */
     font-family: dummy-font;
 }
 
 @font-face {
     font-family: amiga;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/Amiga/amiga4ever.ttf');
+    src: url('fonts/Amiga/amiga4ever.ttf');
 }
 
 @font-face {
     font-family: appleii;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/AppleII/PrintChar21.ttf');
+    src: url('fonts/AppleII/PrintChar21.ttf');
 }
 
 @font-face {
     font-family: bios;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_BIOS.ttf');
+    src: url('fonts/PC/PxPlus_IBM_BIOS.ttf');
 }
 
 @font-face {
     font-family: bios-2x;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_BIOS-2x.ttf');
+    src: url('fonts/PC/PxPlus_IBM_BIOS-2x.ttf');
 }
 
 @font-face {
     font-family: bios-2y;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_BIOS-2y.ttf');
+    src: url('fonts/PC/PxPlus_IBM_BIOS-2y.ttf');
 }
 
 @font-face {
     font-family: c64;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/Commodore64/fonts/C64_Pro_Mono-STYLE.ttf');
+    src: url('fonts/Commodore64/fonts/C64_Pro_Mono-STYLE.ttf');
 }
 
 @font-face {
     font-family: cga;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_CGA.ttf');
+    src: url('fonts/PC/PxPlus_IBM_CGA.ttf');
 }
 
 @font-face {
     font-family: cga-2y;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_CGA-2y.ttf');
+    src: url('fonts/PC/PxPlus_IBM_CGA-2y.ttf');
 }
 
 @font-face {
     font-family: cgathin;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_CGAthin.ttf');
+    src: url('fonts/PC/PxPlus_IBM_CGAthin.ttf');
 }
 
 @font-face {
     font-family: cgathin-2y;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_CGAthin-2y.ttf');
+    src: url('fonts/PC/PxPlus_IBM_CGAthin-2y.ttf');
 }
 
 @font-face {
     font-family: pc1512;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_AmstradPC1512.ttf');
+    src: url('fonts/PC/PxPlus_AmstradPC1512.ttf');
 }
 
 @font-face {
     font-family: pc1512-2y;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_AmstradPC1512-2y.ttf');
+    src: url('fonts/PC/PxPlus_AmstradPC1512-2y.ttf');
 }
 
 @font-face {
     font-family: ega8;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_EGA8.ttf');
+    src: url('fonts/PC/PxPlus_IBM_EGA8.ttf');
 }
 
 @font-face {
     font-family: ega8-2x;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_EGA8-2x.ttf');
+    src: url('fonts/PC/PxPlus_IBM_EGA8-2x.ttf');
 }
 
 @font-face {
     font-family: ega9;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_EGA9.ttf');
+    src: url('fonts/PC/PxPlus_IBM_EGA9.ttf');
 }
 
 @font-face {
     font-family: ega9-2x;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_EGA9-2x.ttf');
+    src: url('fonts/PC/PxPlus_IBM_EGA9-2x.ttf');
 }
 
 @font-face {
     font-family: mda;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_MDA.ttf');
+    src: url('fonts/PC/PxPlus_IBM_MDA.ttf');
 }
 
 @font-face {
     font-family: tandynewtv;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_TandyNew_TV.ttf');
+    src: url('fonts/PC/PxPlus_TandyNew_TV.ttf');
 }
 
 @font-face {
     font-family: tandynewtv-2y;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_TandyNew_TV-2y.ttf');
+    src: url('fonts/PC/PxPlus_TandyNew_TV-2y.ttf');
 }
 
 @font-face {
     font-family: tandynew225;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_TandyNew_225.ttf');
+    src: url('fonts/PC/PxPlus_TandyNew_225.ttf');
 }
 
 @font-face {
     font-family: tandynew225-2y;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_TandyNew_225-2y.ttf');
+    src: url('fonts/PC/PxPlus_TandyNew_225-2y.ttf');
 }
 
 @font-face {
     font-family: vga8;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_VGA8.ttf');
+    src: url('fonts/PC/PxPlus_IBM_VGA8.ttf');
 }
 
 @font-face {
     font-family: vga8-2x;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_VGA8-2x.ttf');
+    src: url('fonts/PC/PxPlus_IBM_VGA8-2x.ttf');
 }
 
 @font-face {
     font-family: vga9;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_VGA9.ttf');
+    src: url('fonts/PC/PxPlus_IBM_VGA9.ttf');
 }
 
 @font-face {
     font-family: vga9-2x;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_IBM_VGA9-2x.ttf');
+    src: url('fonts/PC/PxPlus_IBM_VGA9-2x.ttf');
 }
 
 @font-face {
     font-family: vgalcd;
-    src: url('chrome-extension://__MSG_@@extension_id__/fonts/PC/PxPlus_VGA_SquarePx.ttf');
+    src: url('fonts/PC/PxPlus_VGA_SquarePx.ttf');
 }
 
-// Classes
+/* Classes */
 .bios {
     font-family: bios;
 }

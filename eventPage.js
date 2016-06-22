@@ -34,7 +34,6 @@ function clickRetroTxt(tab)
         });
     }
   }
-
 }
 
 function tabRetroTxt(encoding)
@@ -160,7 +159,7 @@ function handleURL(url, tabid)
 
   function extMatch(url, exts)
   // Returns a boolean on whether the file name extension matches the supplied array
-  // @url  URI containing the file name 
+  // @url  URI containing the file name
   // @exts Array of file name extensions to compare
   {
     var split, ext;
@@ -190,7 +189,7 @@ function handleURL(url, tabid)
       var e = url.length,
         s = (parseInt(e) - 1);
       lastChr = url.slice(s, e);
-      // if last character is forward slash / then assume it's a local 
+      // if last character is forward slash / then assume it's a local
       // directory and not a file, so don't run retroTxt().
       if (lastChr !== "/") {
         // detect file extension from ignore list.
@@ -223,7 +222,7 @@ function handleURL(url, tabid)
           }
           // If response is a client error but not 404 file not found
           else if (xhttp.status != 404 && xstatus.slice(0, 1) == 4) {
-            // some servers block http head requests so we fall back 
+            // some servers block http head requests so we fall back
             // and review the file name extension, though this method is unreliable
             var whiteListExt = ["asc", "ascii", "diz", "faq", "nfo", "text", "txt"];
             textFile = extMatch(url, whiteListExt);
@@ -249,8 +248,8 @@ function handleURL(url, tabid)
           if (content.subtype !== "plain") r = false;
           if (content.subtype === "x-nfo") r = true; // unofficial mime type for nfos
         }
-        // xhttp.open("HEAD", url, false) returns an empty responseText value 
-        // (but saves bandwidth). So to enable this 'is first character a <tag>?' check, 
+        // xhttp.open("HEAD", url, false) returns an empty responseText value
+        // (but saves bandwidth). So to enable this 'is first character a <tag>?' check,
         // replace the xhttp method with xhttp.open("GET", url, false)
         else if (firstChr !== "<") {
           // if no content-type given by server & first character is not the start of a tag <
@@ -333,99 +332,177 @@ function buildMenus(evt, contexts)
     console.error("buildMenus(evt, contexts) parameter " + err);
     return;
   }
-  var docMatches = ["*://*/*", "file:///*"]; // matches HTTP, HTTPS, FILE
-  chrome.contextMenus.create({
-    "title": "Options",
-    "contexts": ["page"],
-    "documentUrlPatterns": docMatches,
-    "id": "options"
-  });
-  chrome.contextMenus.create({
-    "title": "Help",
-    "contexts": ["browser_action"],
-    "documentUrlPatterns": docMatches,
-    "id": "helpbrowser"
-  });
-  chrome.contextMenus.create({
-    "title": "Display",
-    "contexts": contexts,
-    "documentUrlPatterns": docMatches,
-    "id": "displaysub"
-  });
-  chrome.contextMenus.create({
-    "type": "separator",
-    "documentUrlPatterns": docMatches,
-    "id": "sep1"
-  });
-  chrome.contextMenus.create({
-    "title": "Text and font information",
-    "contexts": contexts,
-    "id": "infotext",
-    "parentId": "displaysub",
-    "documentUrlPatterns": docMatches
-  });
-  chrome.contextMenus.create({
-    "title": "Text alignment",
-    "contexts": contexts,
-    "id": "centertext",
-    "parentId": "displaysub",
-    "documentUrlPatterns": docMatches
-  });
-  chrome.contextMenus.create({
-    "title": "Font shadows",
-    "contexts": contexts,
-    "id": "shadowtext",
-    "parentId": "displaysub",
-    "documentUrlPatterns": docMatches
-  });
-  chrome.contextMenus.create({
-    "title": "MS-DOS",
-    "contexts": contexts,
-    "id": "msdos",
-    "documentUrlPatterns": docMatches
-  });
-  chrome.contextMenus.create({
-    "title": "Web",
-    "contexts": contexts,
-    "id": "web",
-    "documentUrlPatterns": docMatches
-  });
-  chrome.contextMenus.create({
-    "title": "Amiga",
-    "contexts": contexts,
-    "documentUrlPatterns": docMatches,
-    "id": "amiga"
-  });
-  chrome.contextMenus.create({
-    "title": "Apple II",
-    "contexts": contexts,
-    "documentUrlPatterns": docMatches,
-    "id": "appleii"
-  });
-  chrome.contextMenus.create({
-    "title": "Commodore 64",
-    "contexts": contexts,
-    "documentUrlPatterns": docMatches,
-    "id": "c64"
-  });
-  chrome.contextMenus.create({
-    "type": "separator",
-    "contexts": ["page"],
-    "documentUrlPatterns": docMatches,
-    "id": "sep2"
-  });
-  chrome.contextMenus.create({
-    "title": "Text encoding",
-    "contexts": contexts,
-    "documentUrlPatterns": docMatches,
-    "id": "abortEncoding"
-  });
-  chrome.contextMenus.create({
-    "title": "Help",
-    "contexts": ["page"],
-    "documentUrlPatterns": docMatches,
-    "id": "helppage"
-  });
+  if (evt === "Gecko48") {
+    // Legacy Gecko 48 context menus as it doesn't support either
+    // "contexts": ["browser_action"],
+    // "documentUrlPatterns": docMatches,
+    chrome.contextMenus.create({
+      "title": "Options",
+      "contexts": contexts,
+      "id": "options"
+    });
+    chrome.contextMenus.create({
+      "title": "Display",
+      "contexts": contexts,
+      "id": "displaysub"
+    });
+    chrome.contextMenus.create({
+      "type": "separator",
+      "id": "sep1"
+    });
+    chrome.contextMenus.create({
+      "title": "Text and font information",
+      "contexts": contexts,
+      "id": "infotext",
+      "parentId": "displaysub"
+    });
+    chrome.contextMenus.create({
+      "title": "Text alignment",
+      "contexts": contexts,
+      "id": "centertext",
+      "parentId": "displaysub"
+    });
+    chrome.contextMenus.create({
+      "title": "Font shadows",
+      "contexts": contexts,
+      "id": "shadowtext",
+      "parentId": "displaysub"
+    });
+    chrome.contextMenus.create({
+      "title": "MS-DOS",
+      "contexts": contexts,
+      "id": "msdos"
+    });
+    chrome.contextMenus.create({
+      "title": "Web",
+      "contexts": contexts,
+      "id": "web"
+    });
+    chrome.contextMenus.create({
+      "title": "Amiga",
+      "contexts": contexts,
+      "id": "amiga"
+    });
+    chrome.contextMenus.create({
+      "title": "Apple II",
+      "contexts": contexts,
+      "id": "appleii"
+    });
+    chrome.contextMenus.create({
+      "title": "Commodore 64",
+      "contexts": contexts,
+      "id": "c64"
+    });
+    chrome.contextMenus.create({
+      "type": "separator",
+      "contexts": ["page"],
+      "id": "sep2"
+    });
+    chrome.contextMenus.create({
+      "title": "Text encoding",
+      "contexts": contexts,
+      "id": "abortEncoding"
+    });
+    chrome.contextMenus.create({
+      "title": "Help",
+      "contexts": ["page"],
+      "id": "helppage"
+    });
+  } else {
+    var docMatches = ["*://*/*", "file:///*"]; // matches HTTP, HTTPS, FILE
+    chrome.contextMenus.create({
+      "title": "Options",
+      "contexts": ["page"],
+      "documentUrlPatterns": docMatches,
+      "id": "options"
+    });
+    chrome.contextMenus.create({
+      "title": "Help",
+      "contexts": ["browser_action"],
+      "documentUrlPatterns": docMatches,
+      "id": "helpbrowser"
+    });
+    chrome.contextMenus.create({
+      "title": "Display",
+      "contexts": contexts,
+      "documentUrlPatterns": docMatches,
+      "id": "displaysub"
+    });
+    chrome.contextMenus.create({
+      "type": "separator",
+      "documentUrlPatterns": docMatches,
+      "id": "sep1"
+    });
+    chrome.contextMenus.create({
+      "title": "Text and font information",
+      "contexts": contexts,
+      "id": "infotext",
+      "parentId": "displaysub",
+      "documentUrlPatterns": docMatches
+    });
+    chrome.contextMenus.create({
+      "title": "Text alignment",
+      "contexts": contexts,
+      "id": "centertext",
+      "parentId": "displaysub",
+      "documentUrlPatterns": docMatches
+    });
+    chrome.contextMenus.create({
+      "title": "Font shadows",
+      "contexts": contexts,
+      "id": "shadowtext",
+      "parentId": "displaysub",
+      "documentUrlPatterns": docMatches
+    });
+    chrome.contextMenus.create({
+      "title": "MS-DOS",
+      "contexts": contexts,
+      "id": "msdos",
+      "documentUrlPatterns": docMatches
+    });
+    chrome.contextMenus.create({
+      "title": "Web",
+      "contexts": contexts,
+      "id": "web",
+      "documentUrlPatterns": docMatches
+    });
+    chrome.contextMenus.create({
+      "title": "Amiga",
+      "contexts": contexts,
+      "documentUrlPatterns": docMatches,
+      "id": "amiga"
+    });
+    chrome.contextMenus.create({
+      "title": "Apple II",
+      "contexts": contexts,
+      "documentUrlPatterns": docMatches,
+      "id": "appleii"
+    });
+    chrome.contextMenus.create({
+      "title": "Commodore 64",
+      "contexts": contexts,
+      "documentUrlPatterns": docMatches,
+      "id": "c64"
+    });
+    chrome.contextMenus.create({
+      "type": "separator",
+      "contexts": ["page"],
+      "documentUrlPatterns": docMatches,
+      "id": "sep2"
+    });
+    chrome.contextMenus.create({
+      "title": "Text encoding",
+      "contexts": contexts,
+      "documentUrlPatterns": docMatches,
+      "id": "abortEncoding"
+    });
+    chrome.contextMenus.create({
+      "title": "Help",
+      "contexts": ["page"],
+      "documentUrlPatterns": docMatches,
+      "id": "helppage"
+    });
+  }
 }
 
 (function() {
@@ -469,14 +546,19 @@ function buildMenus(evt, contexts)
 
       // check optional permissions for access to 'file://*/'
       if (scheme === "file") {
-        chrome.permissions.contains({
-          permissions: ['tabs'],
-          origins: ['file:///*']
-        }, function(result) {
-          if (result) {
-            tabRetroTxt();
-          }
-        });
+        if (chrome.permissions !== undefined) {
+          chrome.permissions.contains({
+            permissions: ['tabs'],
+            origins: ['file:///*']
+          }, function(result) {
+            if (result) {
+              tabRetroTxt();
+            }
+          });
+        } else {
+          // legacy Gecko 48 support
+          tabRetroTxt();
+        }
       }
       // other schemes do not need permission for access
       else {
@@ -488,7 +570,16 @@ function buildMenus(evt, contexts)
 
   // Set default options for first-time users
   // see options.js for other similar listeners
-  chrome.runtime.onInstalled.addListener(function() {
+  if (chrome.runtime.onInstalled === undefined) {
+    // legacy support for Gecko 48
+    firstTimeOptions();
+  } else {
+    chrome.runtime.onInstalled.addListener(function() {
+      firstTimeOptions();
+    });
+  }
+
+  function firstTimeOptions() {
     chrome.storage.local.get("retroColor", function(result) {
       var r = result.retroColor;
       if (typeof r !== "string") {
@@ -548,7 +639,7 @@ function buildMenus(evt, contexts)
       // Also set session storage
       localStorage.setItem("autoDetectRun", r);
     });
-  });
+  }
 
   // on Chrome tab activated listener
   chrome.tabs.onActivated.addListener(function(activeInfo) {
@@ -627,9 +718,14 @@ function buildMenus(evt, contexts)
   });
 
   // Build context menu on Chrome launch and extension load
-  chrome.runtime.onInstalled.addListener(function() {
-    buildMenus("onInstalled", contexts);
-  });
+  if (chrome.runtime.onInstalled === undefined) {
+    // Gecko doesn't support ["browser_action"] nor is there a way to test for support atm
+    buildMenus("Gecko48", ["page"]);
+  } else {
+    chrome.runtime.onInstalled.addListener(function() {
+      buildMenus("onInstalled", contexts);
+    });
+  }
 
   // Browser action (tool bar button) onClick event
   chrome.browserAction.onClicked.addListener(function(tab) {

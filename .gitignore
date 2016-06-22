@@ -1,0 +1,6 @@
+# Packages #
+############
+
+# Firefox packages
+web-ext-artifacts
+*.xpi

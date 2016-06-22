@@ -26,6 +26,20 @@ function getColorsRGB(v)
   return style;
 }
 
+function isGecko()
+// Gecko 48 doesn't support options_ui.chrome_style in the manifest so use this
+// to decide if to apply additional CSS declarations to options.html.
+{
+  if (chrome.runtime.getManifest().options_ui !== undefined && chrome.runtime.getManifest().options_ui.page !== undefined) {
+    var gecko,
+      page = chrome.runtime.getManifest().options_ui.page;
+    gecko = page.indexOf("moz-extension");
+    if (gecko >= 0) return true;
+    else if (gecko == -1) return false;
+    else return null;
+  }
+}
+
 function restoreOptions()
 // Sets the options form to match the user's saved options
 {
@@ -172,6 +186,31 @@ function useSavedEffects()
   var cssLink,
     radios = document.forms["fonts"].getElementsByTagName("label"),
     radiosLen = radios.length;
+
+  // make adjustments to Options.html for Gecko 48 browsers
+  if (isGecko()) {
+    // additional CSS formatting
+    var sheet = (function() {
+      var style = document.createElement("style");
+      document.head.appendChild(style);
+      return style.sheet;
+    })();
+    sheet.insertRule("body { background-color: rgb(255, 255, 255); \
+      border: 1px solid; font-family: Arial, Helvetica, sans-serif; \
+      font-size: 75%; max-width: 400px; margin-left: auto; \
+      margin-right: auto; padding: 1em; }", 0);
+    sheet.insertRule("h1, h2, h3 { font-weight: normal; }", 1);
+    sheet.insertRule("a:link { color: rgb(100, 149, 237); text-decoration: none; }", 2);
+    sheet.insertRule("a:visited { color: rgb(100, 149, 237); text-decoration: none; }", 3);
+    sheet.insertRule("a:hover { color: rgb(100, 149, 237); text-decoration: underline; }", 4);
+    sheet.insertRule("a:active { color: rgb(255, 165, 0); text-decoration: none; }", 5);
+    // add new tab targets for all links
+    document.addEventListener("click", function(e) {
+      if (e.target.href !== undefined && !e.target.hasAttribute("target")) {
+        e.target.setAttribute("target", "_blank");
+      }
+    });
+  }
 
   // restore user saved options
   document.addEventListener('DOMContentLoaded', restoreOptions);
