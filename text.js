@@ -1,19 +1,16 @@
 "use strict";
 
-function calcColumns(text)
+function countColumns(text)
 // Calculate the number of columns in use by the innerHTML text
 // Regular expression sourced from
 // http://stackoverflow.com/questions/8802145/replace-html-entities-with-regular-expression
 // @text A required string of text
 {
-  try {
-    if (typeof text !== "string") throw "'text' must be a string of text not a " + (typeof text);
-  } catch (err) {
-    console.error("calcColumns(text) the required parameter " + err);
-  }
+  if (typeof text !== "string") throw "'text' must be a string of text not a " + (typeof text);
+
   var cleanedText, cols, i, splitTxt, len = 0,
     patt = /&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/img; // find HTML entities
-  cols = new textDefaults().columns; // default 80 columns
+  cols = new newTextDefaults().columns; // default 80 columns
   splitTxt = text.split(/\r\n|\r|\n/); // split original text into lines
   for (i in splitTxt) {
     cleanedText = splitTxt[i].replace(patt, " ").trim(); // replace HTML entities with spaces
@@ -36,7 +33,7 @@ function changeColors(ff)
   var body = document.body,
     pre = document.getElementsByTagName("pre")[0],
     colors = ff.split("-"),
-    rgbs = new rgbColors(),
+    rgbs = new newRgbColors(),
     foreground = rgbs[colors[0]],
     background = rgbs[colors[1]];
   body.style.backgroundColor = background;
@@ -53,16 +50,16 @@ function changeLineHeight(lh)
 // Applies line height modifications to the <PRE> tag containing the text document.
 // @lh Number that will be multiplied with the font size to set the line height.
 {
-  var pre = document.getElementsByTagName("pre")[0];
-  pre.style.lineHeight = lh;
+  let pre = document.getElementsByTagName("pre")[0];
+  pre.style.lineHeight = lh; //pre.style.lineHeight = lh;
 }
 
 function changeFont(ff)
 // Applies the font family to the <PRE> tag containing the text document.
 // @ff  Font family to apply
 {
-  var defaults = new textDefaults(),
-    font = new fontSettings(ff),
+  var defaults = new newTextDefaults(),
+    font = new newFontSettings(ff),
     header = document.getElementById("h-doc-font"),
     pre = document.getElementsByTagName("pre")[0],
     spanCols = document.getElementById("h-doc-width").innerHTML,
@@ -93,42 +90,22 @@ function changeHeader(colors, elm)
 // Depending on the background colour, selects the text colour containing the font/doc information.
 // @bgc Background colour name
 {
-  if (typeof elm !== "object") return;
-  if (typeof colors === "undefined") return;
+  if (typeof elm !== "object") throw "`elm` must be an object";
+  if (typeof colors === "undefined" || colors.length === 0) throw "`colors` must be a list of colors";
   var bgc = colors.split("-")[1],
     c = "white",
-    def = new textDefaults();
+    def = new newTextDefaults();
   if (bgc === "white") c = "black";
   elm.style.color = c;
   elm.style.fontFamily = def.family;
   elm.style.width = def.width;
 }
 
-function dspOriginalText(elm)
-// Display the original, unmodified text document
-{
-  if (typeof elm !== "object" || typeof elm.body !== "object") {
-    elm = new pageElements();
-  }
-  //console.log("Showing original document.");
-  // delete link to CSS
-  elm.head.removeChild(elm.head.childNodes[0]);
-  // delete page customisations
-  elm.body.removeAttribute('style');
-  if (elm.preCount >= 2) {
-    elm.header.style.display = "none";
-    elm.pre0.style.display = "none";
-    elm.pre1.style.display = null;
-  } else {
-    elm.pre0.style.display = null;
-  }
-}
-
-function dspRetroTxt(elm)
+function displayRetroTxt(elm)
 // Display the text document processed by RetroTxt
 {
   if (typeof elm !== "object" || typeof elm.body !== "object") {
-    elm = new pageElements();
+    elm = new newPageElements();
   }
   //console.log("Showing stylised document.");
   chrome.storage.local.get("textFontInformation", function(result) {
@@ -140,15 +117,13 @@ function dspRetroTxt(elm)
   elm.pre1.style.display = "none";
 }
 
-function exeRetroTxt(evt)
+function executeRetroTxt(evt)
 // Execute RetroTxt
 {
-  if (typeof evt !== "string") evt = "";
-  var elm = new pageElements();
+  var elm = new newPageElements();
 
   // end the function if the browser tab already had RetroTxt applied
-  if (evt.split("-")[0] === "tab" && elm.cssLink !== null) return;
-
+  if (typeof evt === "string" && evt.split("-")[0] === "tab" && elm.cssLink !== null) return;
   // get and apply user's saved color choices
   chrome.storage.local.get("retroColor", function(result) {
     var r = result.retroColor;
@@ -199,7 +174,7 @@ function exeRetroTxt(evt)
         var r = result.fontShadows,
           pre = document.getElementsByTagName("pre")[0];
         if (typeof r === "boolean" && r === true && typeof pre === "object") {
-          textShadow(true, pre, changedC);
+          changeTextShadow(true, pre, changedC);
         }
       });
     }
@@ -230,7 +205,7 @@ function exeRetroTxt(evt)
     else if (changes.fontShadows) {
       var pre = document.getElementsByTagName("pre")[0];
       if (typeof pre === "object") {
-        textShadow(changes.fontShadows.newValue, pre);
+        changeTextShadow(changes.fontShadows.newValue, pre);
       }
     }
   });
@@ -238,16 +213,16 @@ function exeRetroTxt(evt)
   /* Switch between the original and our stylised copy of the text document */
   // Original text document
   if (elm.cssLink !== null) {
-    dspOriginalText(elm);
-  }
-  // Stylised text document
-  else {
+    returnOriginalText(elm);
+  } else {
+    // Stylised text document
     // make a <link> to point to the custom CSS
-    var cssLink = linkCSS("text.css", "retrotxt-styles");
+    var cssLink = createLinkToCSS("text.css", "retrotxt-styles");
     elm.cssLink = document.getElementsByTagName("head")[0].appendChild(cssLink);
     elm.cssLink.disabled = false;
     elm.body.style.display = "flex"; // use css3 flexbox
     elm.body.style.flexDirection = "column"; // stack items
+    elm.body.style.textShadow = "0 0 0"; // fix for Chrome's vertical line artifacts
     // centre alignment of text
     chrome.storage.local.get("centerAlignment", function(result) {
       var r = result.centerAlignment;
@@ -258,7 +233,7 @@ function exeRetroTxt(evt)
     });
     // Restore stylised text, hide original unconverted text
     if (elm.preCount >= 2) {
-      dspRetroTxt(elm);
+      displayRetroTxt(elm);
     }
     // Create a copy of the text document for applying styles.
     else {
@@ -267,12 +242,12 @@ function exeRetroTxt(evt)
         newPre = document.createElement("pre"),
         newHeader = document.createElement("header"),
         txtCols,
-        txtDef = new textDefaults(),
+        txtDef = new newTextDefaults(),
         txtFormat, txtLength,
         txtStr = elm.pre0.innerHTML;
 
       // count the number of text columns
-      txtCols = calcColumns(txtStr);
+      txtCols = countColumns(txtStr);
 
       // Abort CP437 to Unicode encoding?
       var utf8abort = false,
@@ -314,7 +289,7 @@ function exeRetroTxt(evt)
           //tasks = 1;
           // synchronous processing
           if (tasks <= 1) {
-            txtFormat = txtConvert(txtStr);
+            txtFormat = convertCP1252String(txtStr);
           }
           // asynchronous processing
           else {
@@ -332,11 +307,11 @@ function exeRetroTxt(evt)
               part3 = txtStr.slice(p2eol++, p3eol);
               part4 = txtStr.slice(p3eol++, p4eol);
             }
-            part1 = txtConvert(part1);
-            part2 = txtConvert(part2);
+            part1 = convertCP1252String(part1);
+            part2 = convertCP1252String(part2);
             if (tasks === 4) {
-              part3 = txtConvert(part3);
-              part4 = txtConvert(part4);
+              part3 = convertCP1252String(part3);
+              part4 = convertCP1252String(part4);
             }
             if (tasks === 2) {
               txtFormat = part1.concat(part2);
@@ -345,7 +320,7 @@ function exeRetroTxt(evt)
             }
           }
          */
-          txtFormat = txtConvert(txtStr);
+          txtFormat = convertCP1252String(txtStr);
           d1 = new Date().getTime();
           // count number of lines
           txtLength = txtFormat.split(/\r\n|\r|\n/).length;
@@ -387,7 +362,7 @@ function exeRetroTxt(evt)
       // font shadow
       chrome.storage.local.get("fontShadows", function(result) {
         var r = result.fontShadows;
-        if (typeof r === "boolean" && r === true) textShadow(r, newPre);
+        if (typeof r === "boolean" && r === true) changeTextShadow(r, newPre);
       });
       // invert header font colour when using a white background
       chrome.storage.local.get("retroColor", function(result) {
@@ -408,7 +383,9 @@ function exeRetroTxt(evt)
   }
 }
 
-function pageElements() {
+function newPageElements()
+// Page elements
+{
   this.body = document.body;
   this.head = document.getElementsByTagName("head")[0];
   this.header = document.getElementById("h-doc-container");
@@ -418,10 +395,46 @@ function pageElements() {
   this.pre1 = document.getElementsByTagName("pre")[1];
 }
 
-function textDefaults()
+function newTextDefaults()
 // Default font for text information header
 {
   this.family = "vga9";
   this.columns = 80;
   this.width = "640px";
+}
+
+function returnOriginalText(elm)
+// Display the original, unmodified text document
+{
+  const badSchemes = ["chrome-extension", "moz-extension"],
+    urlScheme = window.location.protocol.split(":")[0];
+  let i = 0,
+    removeCSSChildren = true;
+  // Skip URL schemems that match `badSchemes`
+  for (; i < badSchemes.length; i++) {
+    if (urlScheme.includes(badSchemes[i])) {
+      removeCSSChildren = false;
+    }
+  }
+
+  if (typeof elm !== "object" || typeof elm.body !== "object") {
+    elm = new newPageElements();
+  }
+  // delete link to CSS. Gecko inserts extra CSS links that conflict with the extension
+  // so we need loop to make sure all are missing.
+  if (removeCSSChildren !== false) {
+    while (elm.head.hasChildNodes()) {
+      elm.head.removeChild(elm.head.firstChild);
+    }
+  }
+
+  // delete page customisations
+  elm.body.removeAttribute("style");
+  if (elm.preCount >= 2) {
+    if (elm.header !== null) elm.header.style.display = "none";
+    elm.pre0.style.display = "none";
+    elm.pre1.style.display = null;
+  } else if (typeof elm.pre0 !== "undefined") {
+    elm.pre0.style.display = null;
+  }
 }

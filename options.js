@@ -1,15 +1,29 @@
 "use strict";
 
-function fontAdjust(ff, elm)
+function changeFont(ff, elm)
 // Adjusts the font family and font height styles
 // @ff  Font family to apply
 // @elm HTML element to apply the font styles too
 {
   if (typeof ff === "undefined" || typeof elm === "undefined") return;
-  var font = new fontSettings(ff);
+  var font = new newFontSettings(ff);
   elm.fontFamily = ff;
   elm.fontSize = font.cssFontSize;
   elm.lineHeight = font.cssLineHeight;
+}
+
+function getBrowserEngine()
+// Gecko 48 doesn't support options_ui.chrome_style in the manifest so use this
+// to decide if to apply additional CSS declarations to options.html.
+{
+  if (chrome.runtime.getManifest().options_ui !== undefined && chrome.runtime.getManifest().options_ui.page !== undefined) {
+    var gecko,
+      page = chrome.runtime.getManifest().options_ui.page;
+    gecko = page.indexOf("moz-extension");
+    if (gecko >= 0) return "gecko";
+    else if (gecko == -1) return "blink";
+    else return null;
+  }
 }
 
 function getColorsRGB(v)
@@ -21,23 +35,42 @@ function getColorsRGB(v)
     style,
     fg = colors[0],
     bg = colors[1],
-    rgbs = new rgbColors();
+    rgbs = new newRgbColors();
   style = "background-color: " + rgbs[bg] + "; color: " + rgbs[fg] + ";";
   return style;
 }
 
-function isGecko()
-// Gecko 48 doesn't support options_ui.chrome_style in the manifest so use this
-// to decide if to apply additional CSS declarations to options.html.
+function restoreColors()
+// Gets and applies user's saved font colours to sample text.
 {
-  if (chrome.runtime.getManifest().options_ui !== undefined && chrome.runtime.getManifest().options_ui.page !== undefined) {
-    var gecko,
-      page = chrome.runtime.getManifest().options_ui.page;
-    gecko = page.indexOf("moz-extension");
-    if (gecko >= 0) return true;
-    else if (gecko == -1) return false;
-    else return null;
-  }
+  chrome.storage.local.get("retroColor", function(result) {
+    var sample = document.getElementById('sample-dos-text').style,
+      r = result.retroColor;
+    if (typeof r !== "string") return;
+    document.getElementById('sample-dos-text').style = getColorsRGB(r);
+  });
+}
+
+function restoreEffects()
+// Gets and applies user's saved font family to sample text.
+{
+  chrome.storage.local.get("fontShadows", function(result) {
+    var sample = document.getElementById('sample-dos-text'),
+      r = result.fontShadows;
+    if (typeof r !== "boolean") return;
+    changeTextShadow(r, sample);
+  });
+}
+
+function restoreFont()
+// Gets and applies user's saved font family to sample text.
+{
+  chrome.storage.local.get("retroFont", function(result) {
+    var sample = document.getElementById('sample-dos-text').style,
+      r = result.retroFont;
+    if (typeof r !== "string") return;
+    changeFont(r, sample);
+  });
 }
 
 function restoreOptions()
@@ -146,41 +179,10 @@ function saveLineHeight()
   });
 }
 
-function useSavedColors()
-// Gets and applies user's saved font colours to sample text.
-{
-  chrome.storage.local.get("retroColor", function(result) {
-    var sample = document.getElementById('sample-dos-text').style,
-      r = result.retroColor;
-    if (typeof r !== "string") return;
-    document.getElementById('sample-dos-text').style = getColorsRGB(r);
-  });
-}
-
-function useSavedFont()
-// Gets and applies user's saved font family to sample text.
-{
-  chrome.storage.local.get("retroFont", function(result) {
-    var sample = document.getElementById('sample-dos-text').style,
-      r = result.retroFont;
-    if (typeof r !== "string") return;
-    fontAdjust(r, sample);
-  });
-}
-
-function useSavedEffects()
-// Gets and applies user's saved font family to sample text.
-{
-  chrome.storage.local.get("fontShadows", function(result) {
-    var sample = document.getElementById('sample-dos-text'),
-      r = result.fontShadows;
-    if (typeof r !== "boolean") return;
-    textShadow(r, sample);
-  });
-}
-
 // Run when options menu is launched.
 (function() {
+  // exit if running a qunit tests
+  if (typeof qunit !== "undefined") return;
 
   // default font and colour combination
   var cssLink,
@@ -188,7 +190,7 @@ function useSavedEffects()
     radiosLen = radios.length;
 
   // make adjustments to Options.html for Gecko 48 browsers
-  if (isGecko()) {
+  if (getBrowserEngine() === "gecko") {
     // additional CSS formatting
     var sheet = (function() {
       var style = document.createElement("style");
@@ -214,12 +216,12 @@ function useSavedEffects()
 
   // restore user saved options
   document.addEventListener('DOMContentLoaded', restoreOptions);
-  useSavedColors();
-  useSavedFont();
-  useSavedEffects();
+  restoreColors();
+  restoreFont();
+  restoreEffects();
 
   // insert a LINK into the options.html
-  cssLink = linkCSS("text.css");
+  cssLink = createLinkToCSS("text.css");
   document.getElementsByTagName("head")[0].appendChild(cssLink);
 
   // font selection events
@@ -233,7 +235,7 @@ function useSavedEffects()
     radios[i].onmouseover = function() {
       var fface = this.getElementsByTagName("input")[0].value,
         sample = document.getElementById('sample-dos-text').style;
-      fontAdjust(fface, sample);
+      changeFont(fface, sample);
       status.textContent = 'Font ' + fface;
     }
   }
@@ -263,9 +265,9 @@ function useSavedEffects()
     }
     status.textContent = 'Saved ' + chrome.i18n.getMessage("color") + ' selection ' + colorName(this.value);
     sample.style = getColorsRGB(this.value);
-    useSavedFont();
+    restoreFont();
     saveColors();
-    useSavedEffects();
+    restoreEffects();
   });
 
   // line height selection events
@@ -289,7 +291,7 @@ function useSavedEffects()
     chrome.storage.local.set({
       'fontShadows': this.checked
     });
-    useSavedEffects();
+    restoreEffects();
   });
   document.getElementById("cp437-ctrl-codes").addEventListener("change", function() {
     chrome.storage.local.set({
@@ -303,9 +305,20 @@ function useSavedEffects()
     localStorage.setItem("autoDetectRun", this.checked); // set localStorage for active Chrome tabs
   });
 
+  // reveal developer links
+  if (typeof chrome.management !== undefined) {
+    chrome.management.getSelf(function(ExtensionInfo) {
+      console.log(ExtensionInfo.installType);
+      if (ExtensionInfo.installType == "development") {
+        let testLink = document.getElementById("test-id");
+        testLink.style.display = "inline";
+      }
+    });
+  }
+
   // internationalisations
-  i18nWord("color", "msg-color"); // color vs colour
-  i18nWord("center", "msg-center"); // center vs centre
+  changeI18nWord("color", "msg-color"); // color vs colour
+  changeI18nWord("center", "msg-center"); // center vs centre
   // gray vs grey
   document.getElementById("gray-white-option").innerHTML = chrome.i18n.getMessage("gray_white_option");
   // help link

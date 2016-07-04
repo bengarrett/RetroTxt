@@ -94,10 +94,15 @@
       overflow: hidden;
       padding: 0;
       text-indent: 5px;
+      text-shadow: 0 0 0;
     }
 
     #status {
       order: 2;
+    }
+
+    #test-id {
+      display: none;
     }
 
     .var-option {
@@ -212,7 +217,7 @@
       <h3>Line height</h3>
       <select id="line-height">
         <optgroup label="Default">
-          <option value="normal">Normal</option>
+          <option value="100%">Normal</option>
         </optgroup>
         <optgroup label="Increases">
           <option value="1.1">+10%</option>
@@ -243,13 +248,14 @@
       <input type="checkbox" id="cp437-ctrl-codes"> Display formatting control codes as DOS CP-437 glyphs</label>
     <br>
     <label>
-      <input type="checkbox" id="auto-detect-run"> Automatic detect &amp; run RetroTxt on text files <small>(experimental)</small></label>
+      <input type="checkbox" id="auto-detect-run"> Automatic detect &amp; run RetroTxt on text files</label>
     <br>
   </div>
   <footer>
     <hr>
     <b><a href="" id="help-id">Help</a></b>
-    <a href="https://github.com/bengarrett/RetroTxt" class="var-option">GitHub</a>
+    <b><a href="https://github.com/bengarrett/RetroTxt" class="var-option">GitHub</a></b>
+    <a href="test/index.html" id="test-id" class="var-option" target="_blank">Tests</a>
     <small style="float:right;">Created by <a href="http://bens.zone">Ben Garrett</a> © 2016</small>
     <br>
     <small style="float:right;"> <em>Fonts</em>

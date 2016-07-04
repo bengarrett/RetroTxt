@@ -31,7 +31,7 @@ There are also thousands of text files hosted at [textfiles.com](http://textfile
 
 ## Requirements
 __Chrome 41__ or __Firefox 48__, newer or compatible browsers.
-
+<a id="options_help"></a>
 ## Options help
 
 ![Options screen capture](assets/options-11.png)
@@ -66,7 +66,7 @@ IBM's and MS-DOS's Code Page 437 has a few glyphs values that are normally reser
 - → _EOF_ (end of file)
 - ⌂ _delete_
 
-###### Automatic detect & run RetroTxt on text files (experimental)
+###### Automatic detect & run RetroTxt on text files
 
 Runs the extension in the background and applies RetroTxt on all text files encountered by the browser. This offers a better user experience but unfortunately comes with some caveats due to limitations imposed by the web extensions API.
 
@@ -175,11 +175,7 @@ You could also disable RetroTxt character encoding conversion by right-clicking 
 
 ## Known issues
 
-* Context and tool bar button menus actions don't always apply changes to existing tabs. Pressing __F5__ will refresh and update the tab.
-* When using Chrome Developer Tools the font selection may not be applied to the text.
-* Most browsers render multiple block characters ███ with vertical artifacts in between. Firefox on Windows doesn't suffer this problem.
-
-![Vertical artifacts example](assets/vertical_artifacts.png)
+* Some foreground/background color combinations introduce vertical artifacts when rendering blocks ███. Firefox on Windows doesn't suffer this problem.
 
 ## Possible future enhancements
 
