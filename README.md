@@ -14,7 +14,7 @@ In developing this extension I had a few goals in mind.
 
 ---
 
-[![RetroTxt running example](http://img.youtube.com/vi/VR9jpLaVO20/0.jpg)](http://www.youtube.com/watch?v=VR9jpLaVO20)
+[![RetroTxt running example](https://img.youtube.com/vi/VR9jpLaVO20/0.jpg)](http://www.youtube.com/watch?v=VR9jpLaVO20)
 
 ## Install
 __Chrome__, __Chromium__, __Opera__, __Vivaldi__ can install the extension using the Chrome Store. <br><small><small>__Opera__ will probably need an add-on such as the [Download Chrome Extension](https://addons.opera.com/en-gb/extensions/details/download-chrome-extension-9/) in use beforehand.</small></small>
