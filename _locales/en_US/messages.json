@@ -8,6 +8,12 @@
   "gray_white_option": {
     "message": "DOS gray"
   },
+  "pcboard": {
+    "message": "PCBoard"
+  },
+  "wildcat": {
+    "message": "Wildcat!"
+  },
   "url_help": {
     "message": "https://github.com/bengarrett/RetroTxt/blob/master/README.md"
   }

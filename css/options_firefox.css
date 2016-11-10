@@ -1,0 +1,78 @@
+/*
+  filename: options_firefox.css
+
+  Colour modifications for Firefox browsers based on the Firefox and Mozilla style guides.
+  Firefox: https://www.mozilla.org/en-US/styleguide/identity/firefox/color/
+  Mozilla: https://www.mozilla.org/en-US/styleguide/identity/mozilla/color/
+*/
+
+:root {
+  --firefox-link: rgb(100, 149, 237);
+}
+
+#run-web-urls-permitted {
+  width: 96%;
+}
+
+#options-container {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(215, 211, 200);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 75%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em;
+}
+
+.material-credits {
+  vertical-align: bottom !important;
+}
+
+.material-radio {
+  font-size: 1.5em;
+}
+
+.var-option {
+  margin-left: 0;
+}
+
+a:link {
+  color: var(--firefox-link);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--firefox-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--firefox-link);
+  text-decoration: underline;
+}
+
+a:active {
+  color: rgb(255, 165, 0);
+  text-decoration: none;
+}
+
+body {
+  color: rgb(77, 78, 83);
+}
+
+input[type=checkbox] {
+  vertical-align: middle !important;
+}
+
+input[type=radio] {
+  vertical-align: middle !important;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+}
+
+strong {
+  font-weight: bolder;
+}

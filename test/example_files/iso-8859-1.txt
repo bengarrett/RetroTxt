@@ -1,0 +1,9 @@
+To display correctly this file needs be saved with ISO 8859-1 encoding.
+
+RetroTxt ISO 8859-1 Test Page
+
+¤	Currency sign
+
+¾	3/4 symbol
+
+½	1/2 symbol

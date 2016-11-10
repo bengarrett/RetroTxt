@@ -1,0 +1,169 @@
+/*
+ filename: text_ecma_48.css
+
+ ECMA-48 presentation control function, SGR (Select Graphic Rendition) codes as CSS
+ 8.3.117 http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf
+
+note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
+// it scales better in CSS
+*/
+
+.ED {
+  /* erase display */
+  display: none;
+}
+
+.SGR0 {
+  /* reset to defaults */
+  background-color: initial;
+  border: 0;
+  color: initial;
+  font-family: inherit;
+  font-style: normal;
+  text-decoration: none;
+  text-shadow: 0 0 0;
+  opacity: 1;
+  -moz-animation: none;
+  -webkit-animation: none;
+  filter: none;
+  -webkit-filter: none;
+}
+
+.SGR2 {
+  /* italic */
+  font-style: italic;
+}
+
+.SGR3 {
+  /* faint */
+  opacity: 0.5;
+}
+
+.SGR4 {
+  /* underline */
+  text-decoration: underline;
+}
+
+.SGR5 {
+  /* blink slow */
+  -moz-animation: 300ms blink step-end infinite;
+  -webkit-animation: 300ms blink step-end infinite;
+}
+
+.SGR6 {
+  /* blink fast */
+  -moz-animation: 100ms blink step-end infinite;
+  -webkit-animation: 100ms blink step-end infinite;
+}
+
+.SGR7 {
+  /* inverse */
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+  mix-blend-mode: difference;
+}
+
+.SGR8 {
+  /* conceal */
+  color: transparent;
+  text-shadow: 0 0 0;
+}
+
+.SGR9 {
+  /* crossed out */
+  text-decoration: line-through;
+}
+
+.SGR10 {
+  /* primary font */
+  font-family: inherit;
+}
+
+.SGR11 {
+  font-family: bios;
+  font-size: inherit;
+}
+
+.SGR12 {
+  font-family: cga;
+  font-size: inherit;
+}
+
+.SGR13 {
+  font-family: amiga;
+  font-size: inherit;
+}
+
+.SGR14 {
+  font-family: appleii;
+  font-size: inherit;
+}
+
+.SGR15 {
+  font-family: ega8;
+  font-size: inherit;
+}
+
+.SGR16 {
+  font-family: ega9;
+  font-size: inherit;
+}
+
+.SGR17 {
+  font-family: vga8;
+  font-size: inherit;
+}
+
+.SGR18 {
+  font-family: vga9;
+  font-size: inherit;
+}
+
+.SGR19 {
+  font-family: mda;
+  font-size: inherit;
+}
+
+.SGR20 {
+  /* gothic font [ignored, until a suitable font can be fount] */
+  font-family: inherit;
+}
+
+.SGR21 {
+  /* double underlined */
+  border-bottom: 0.189em;
+  border-bottom-style: double;
+  margin-bottom: -0.189em;
+}
+
+.SGR39 .SGR49 {
+  color: initial;
+}
+
+.SGR40 {
+  /* inherit background will use RetroTxt themes */
+  background-color: inherit;
+}
+
+.SGR51 {
+  /* framed */
+  border-bottom: 0.063em;
+  border-bottom-style: solid;
+  border-top: 0.063em;
+  border-top-style: solid;
+  margin-bottom: -0.063em;
+  margin-top: -0.063em;
+}
+
+.SGR52 {
+  /* encircled */
+  border: 0.063em solid;
+  margin: -0.063em;
+}
+
+.SGR53 {
+  /* over lined */
+  border-top: 0.063em;
+  border-top-style: solid;
+  margin-top: -0.063em;
+}

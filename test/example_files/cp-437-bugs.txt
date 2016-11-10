@@ -1,0 +1,7 @@
+Buggy CP-437 characters.
+
+ú	FA period
+·	B7 Single left horizontal, double vertical line-drawing character
+
+£	Unicode FA	= CP437 FA
+ú	Unicode B7	= CP437 FA

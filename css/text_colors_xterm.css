@@ -1,0 +1,100 @@
+/*
+  filename: text_colors_xterm.css
+
+  ECMA-48 presentation control function colour codes in XTERM 4-bit colour mode
+  RGB values taken from Wikipeda https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+
+  SGR39 SGR40 SGR49 are in text_ecma_48.css
+*/
+
+.SGR30 {
+  color: rgb(0, 0, 0);
+}
+
+.SGR31 {
+  color: rgb(205, 0, 0);
+}
+
+.SGR32 {
+  color: rgb(0, 205, 0);
+}
+
+.SGR33 {
+  color: rgb(205, 205, 0);
+}
+
+.SGR34 {
+  color: rgb(0, 0, 205);
+}
+
+.SGR35 {
+  color: rgb(205, 0, 205);
+}
+
+.SGR36 {
+  color: rgb(0, 205, 205);
+}
+
+.SGR37 {
+  color: rgb(229, 229, 229);
+}
+
+.SGR41 {
+  background-color: rgb(205, 0, 0);
+}
+
+.SGR42 {
+  background-color: rgb(0, 205, 0);
+}
+
+.SGR43 {
+  background-color: rgb(205, 205, 0);
+}
+
+.SGR44 {
+  background-color: rgb(0, 0, 238);
+}
+
+.SGR45 {
+  background-color: rgb(205, 0, 205);
+}
+
+.SGR46 {
+  background-color: rgb(0, 205, 205);
+}
+
+.SGR47 {
+  background-color: rgb(229, 229, 229);
+}
+
+.SGR130 {
+  color: rgb(127, 127, 127);
+}
+
+.SGR131 {
+  color: rgb(255, 0, 0);
+}
+
+.SGR132 {
+  color: rgb(0, 255, 0);
+}
+
+.SGR133 {
+  color: rgb(255, 255, 0);
+}
+
+.SGR134 {
+  color: rgb(92, 92, 255);
+}
+
+.SGR135 {
+  color: rgb(255, 0, 255);
+}
+
+.SGR136 {
+  color: rgb(0, 255, 255);
+}
+
+.SGR137 {
+  color: rgb(255, 255, 255);
+}

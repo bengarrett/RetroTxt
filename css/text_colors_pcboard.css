@@ -1,0 +1,144 @@
+/*
+  filename: text_colors_pcboard.css
+
+  PCBoard and WildCat! BBS, 4-bit colour codes
+*/
+
+i {
+  font-style: normal;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+  width: 40rem;
+}
+
+.PF0 {
+  color: rgb(0, 0, 0);
+}
+
+.PF1 {
+  color: rgb(0, 0, 128);
+}
+
+.PF2 {
+  color: rgb(0, 128, 0);
+}
+
+.PF3 {
+  color: rgb(0, 170, 170);
+}
+
+.PF4 {
+  color: rgb(128, 0, 0);
+}
+
+.PF5 {
+  color: rgb(170, 0, 170);
+}
+
+.PF6 {
+  color: rgb(170, 85, 0);
+}
+
+.PF7 {
+  color: rgb(170, 170, 170);
+}
+
+.PF8 {
+  color: rgb(85, 85, 85);
+}
+
+.PF9 {
+  color: rgb(0, 0, 255);
+}
+
+.PFA {
+  color: rgb(0, 255, 0);
+}
+
+.PFB {
+  color: rgb(0, 170, 170);
+}
+
+.PFC {
+  color: rgb(255, 0, 0);
+}
+
+.PFD {
+  color: rgb(0, 255, 255);
+}
+
+.PFE {
+  color: rgb(255, 255, 85);
+}
+
+.PFF {
+  color: rgb(255, 255, 255);
+}
+
+.PB0 {
+  /*  background-color: rgb(0, 0, 0); */
+  background-color: transparent;
+}
+
+.PB1 {
+  background-color: rgb(0, 0, 128);
+}
+
+.PB2 {
+  background-color: rgb(0, 128, 0);
+}
+
+.PB3 {
+  background-color: rgb(0, 170, 170);
+}
+
+.PB4 {
+  background-color: rgb(128, 0, 0);
+}
+
+.PB5 {
+  background-color: rgb(170, 0, 170);
+}
+
+.PB6 {
+  background-color: rgb(170, 85, 0);
+}
+
+.PB7 {
+  background-color: rgb(170, 170, 170);
+}
+
+.PB8 {
+  background-color: rgb(85, 85, 85);
+}
+
+.PB9 {
+  background-color: rgb(0, 0, 255);
+}
+
+.PBA {
+  background-color: rgb(0, 255, 0);
+}
+
+.PBB {
+  background-color: rgb(0, 170, 170);
+}
+
+.PBC {
+  background-color: rgb(255, 0, 0);
+}
+
+.PBD {
+  background-color: rgb(0, 255, 255);
+}
+
+.PBE {
+  background-color: rgb(255, 255, 85);
+}
+
+.PBF {
+  background-color: rgb(255, 255, 255);
+}

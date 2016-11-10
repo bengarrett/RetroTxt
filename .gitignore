@@ -4,3 +4,6 @@
 # Firefox packages
 web-ext-artifacts
 *.xpi
+
+# Notes
+style.txt

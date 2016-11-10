@@ -1,0 +1,11 @@
+To display correctly this file needs be saved with UTF-8 with no BOM encoding.
+
+RetroTxt UTF-8 Test Page
+
+This is a test of UTF-8.
+
+☠	Skull and crossbones
+
+☮	Peace symbol
+
+♺	Recycling

@@ -1,0 +1,9 @@
+{
+    "maxerr": 250,
+    "esversion": 6,
+    "strict": "global",
+    "browser": true,
+    "undef": true,
+    "unused": true,
+    "predef": ["chrome", "console", "ListDefaults", "ListRGBThemes", "BuildFontStyles", "BuildCP1252", "BuildCPDos", "BuildCP88591", "BuildCP885915", "BuildCPUtf8", "BuildCPUtf16", "BuildEcma48", "BuildBBS", "ListCharacterSets", "FindTranscode", "BuildEcma48"]
+}

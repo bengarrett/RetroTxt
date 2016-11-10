@@ -1,0 +1,11 @@
+@X07To display correctly this file should be saved with CP-437 (OEM-US) encoding.
+The start of the text MUST start with a PCBoard @X code.
+
+This is a test of the PCBoard BBS @ colour codes.
+"@X<Background><Foreground>"
+
+@X04Red @X02Green @X01Blue@X07 on black
+
+@X74Red@X04 @X72Green@X02 @X71Blue@X07 on white
+
+@X24Red@X04 @X22Green@X02 @X21Blue@X07 on green

@@ -1,0 +1,11 @@
+To display correctly this file needs be saved with CP-1252 (Windows-1252) encoding.
+
+RetroTxt CP-1252 Test Page
+
+‘ single curved quotes ’
+
+“ double curved quotes ”
+
+…	Ellipsis
+
+™	Trademark

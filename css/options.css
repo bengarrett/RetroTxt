@@ -1,0 +1,205 @@
+/*
+  filename: options.css
+
+Stylises the Retrotxt Options dialogue
+See options_filefox.css for adjustments for the Firefox/Gecko browsers
+*/
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+code {
+  font-size: 125%;
+}
+
+footer {
+  order: 6;
+}
+
+hr {
+  background: rgb(215, 211, 200);
+  border: 0;
+  height: 0.063em;
+}
+
+h2 {
+  margin-bottom: 0.75em;
+  margin-top: 0;
+}
+
+h3 {
+  margin: 0;
+  margin-bottom: 0.25em;
+  font-size: 1.1em;
+}
+
+input[type=checkbox] {
+  padding: 0;
+  margin: 0;
+}
+
+input[type=radio] {
+  padding: 0;
+  margin: 0;
+  margin-left: 0.33em;
+}
+
+pre {
+  border: 0;
+}
+
+#run-web-urls-permitted {
+  border: 0.063em solid rgb(215, 211, 200);
+  margin: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.5em;
+  width: 100%;
+}
+
+#authored-fonts {
+  font-size: 1em;
+}
+
+#advanced-options {
+  order: 5;
+}
+
+#credits {
+  float: right;
+  text-align: right;
+}
+
+#option-buttons {
+  float: left;
+}
+
+#option-buttons i {
+  color: rgb(77, 78, 83);
+}
+
+#option-buttons i:hover {
+  color: inherit;
+}
+
+#options-container {
+  /* fall back for non-styled browsers such as Opera */
+  max-width: 32em;
+}
+
+#font-form {
+  display: flex;
+  order: 3;
+}
+
+#font-styles {
+  order: 4;
+  display: flex;
+  justify-content: space-around;
+}
+
+#font-selects {
+  flex-direction: column;
+  width: 50%;
+  padding: 0;
+  margin-left: 0.4em;
+}
+
+#font-styles-colors {
+  order: 1;
+  margin-bottom: 0.5em;
+}
+
+#font-styles-colors h2 {
+  margin: 0;
+}
+
+#font-styles-effects {
+  order: 3;
+  width: 50%;
+}
+
+#font-styles-line-heights {
+  order: 2;
+}
+
+#font-styles-line-heights h2 {
+  margin: 0;
+}
+
+#fonts-ibm {
+  order: 1;
+}
+
+#fonts-computer {
+  order: 2;
+}
+
+.material-link {
+  color: rgb(77, 78, 83);
+}
+
+.material-link:hover {
+  color: inherit;
+}
+
+#sample-dos-ctrls {
+  display: none;
+}
+
+#sample-dos-text {
+  /* anything placed in here will override any classes introduced by JavaScript */
+  align-items: center;
+  display: flex;
+  height: 30px;
+  margin: 0;
+  order: 1;
+  overflow: hidden;
+  padding: 0;
+  text-indent: 5px;
+  text-rendering: geometricPrecision;
+}
+
+#status {
+  order: 2;
+}
+
+#unittest {
+  display: none;
+}
+
+.ascii-recommend {
+  color: rgb(77, 78, 83);
+  text-decoration: underline;
+}
+
+.flexed-cols {
+  width: 50%;
+}
+
+.material-check {
+  font-size: 1.5em;
+  margin-left: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: middle !important;
+}
+
+.material-credits {
+  font-size: 1.5em;
+  margin-left: 0.33em;
+  vertical-align: top !important;
+}
+
+.material-h3 {
+  font-size: 1em;
+  margin-right: 0.25em;
+  vertical-align: text-bottom !important;
+}
+
+.material-radio {
+  font-size: 1.5em;
+  vertical-align: middle !important;
+}

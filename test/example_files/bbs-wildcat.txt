@@ -1,0 +1,11 @@
+@07@To display correctly this file should be saved with CP-437 (OEM-US) encoding.
+The start of the text MUST start with a Wildcat @??@ code.
+
+This is a test of the Wildcat BBS @ colour codes.
+"@<Background><Foreground>@"
+
+@04@Red @02@Green @01@Blue@07@ on black
+
+@74@Red@04@ @72@Green@02@ @71@Blue@07@ on white
+
+@24@Red@04@ @22@Green@02@ @21@Blue@07@ on green
