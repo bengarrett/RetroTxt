@@ -13,7 +13,7 @@ Regardless of the source, JavaScript converts all the text it handles into UTF-1
 UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatible with ISO-8859-1 and US-ASCII. But otherwise, all other loaded text needs to be transcoded to accurately display all characters.
 
 | Character set | Support | About |
-| ------------ | ------- | - |
+| ------------- | ------- | ----- |
 | [US-ASCII](https://en.wikipedia.org/wiki/ISO/IEC_646) | Native | The original text encoding of the Internet, also known as ANSI X3.4 or ISO 646 |
 | [CP-437](https://en.wikipedia.org/wiki/Code_page_437) | Yes | The most common encoding for ASCII, ANSI art and MS-DOS text |
 | [CP-865](https://en.wikipedia.org/wiki/Code_page_865) | Yes | An alternative MS-DOS encoding occasionally found in ASCII and ANSI art |
@@ -28,7 +28,7 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 BBS colour codes were most frequently used in the early 1990s as an easy means of applying colour to text served by bulletin board system user interfaces.
 
 | Format | Support | Notes |
-| ------------ | ------- | - |
+| ------ | ------- | ----- |
 | Celerity pipe codes | No | |
 | [PCBoard @-codes](https://defacto2.net/file/detail/af240c4) | Yes | |
 | Renegade pipe codes | No | |
@@ -43,7 +43,7 @@ BBS colour codes were most frequently used in the early 1990s as an easy means o
 Control sequences are strings of characters that are embedded into the text to be used as cursor, display and presentation functions. ANSI art uses control sequences for both its colourisation and cursor positioning. As do remote terminals used by many Linux and Unix systems such as [_xterm_](http://invisible-island.net/xterm/).
 
 | Standard | Support | Notes |
-| - | ------- | - |
+| -------- | ------- | ----- |
 | [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) | Partial | MS-DOS command prompt driver commonly used with ANSI art |
 | [ECMA-6](http://www.ecma-international.org/publications/standards/Ecma-006.htm) | Partial | Also known as US-ASCII or ANSI X3.4 C0 controls |
 | [ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) | Partial | Also known as _ANSI escape codes_, ANSI X3.64, VT-100, ISO 6429 |
@@ -77,7 +77,7 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 
 | Control | Acronym | Value | Support | Notes |
-| - | - | - | - | - |
+| ------- | ------- | ----- | ------- | ----- |
 | Cursor Down | CUD | | Yes | |
 | Cursor Forward | CUF | | Yes | |
 | Cursor Position | CUP | | Partial | Supports forward and down only |
@@ -129,7 +129,7 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 Other common non-standard sequences agreed to by the ANSI art community
 
 | Control | Acronym | Value | Support | Notes |
-| - | - | - | - | - |
+| ------- | ------- | ----- | ------- | ----- |
 | background RGB colours | - | 0;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
 | foreground RGB colours | - | 1;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
 | Blink to Bright Intensity Background | - | ?33h | No | [ SyncTERM ](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |

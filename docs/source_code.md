@@ -2,7 +2,7 @@
 
 ## Source code
 
-RetroTxt is released under an [open sourced license](https://github.com/bengarrett/RetroTxt/blob/master/LICENSE.md) with the complete code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs on how to use the source code in both Chrome and Firefox web browsers.
+RetroTxt is released under an [open sourced license](https://choosealicense.com/licenses/lgpl-3.0/) with the complete code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs on how to use the source code in both Chrome and Firefox web browsers.
 
 ### Download
 

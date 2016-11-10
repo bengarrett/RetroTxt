@@ -4,7 +4,7 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 
 Available for installation from both the [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
-[**Documentation**](https://bengarrett.github.io/RetroTxt/)
+[**Documentation**](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
 
 ![RetroTxt showcase](/docs/assets/readme_showcase.png)
 
@@ -23,11 +23,9 @@ After install you can run RetroTxt on any text or ANSI art file viewed in the br
 <figure><small>Chrome and Firefox buttons</small></figure>
 ![RetroTxt toolbar button in Chrome](/docs/assets/retrotxt_toolbar_button_chrome.png) ![RetroTxt toolbar button in Firefox](/docs/assets/retrotxt_toolbar_button_firefox.png)
 
-You can test the RetroTxt install using a number of [test text files hosted on the GitHub repository](https://github.com/bengarrett/RetroTxt/tree/master/test/example_files/).
+You can test the RetroTxt install using one of the thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or [Project Gutenberg's](https://www.gutenberg.org/catalog/) _plain text_ books.
 
 Or download one of the amazing text art packs created by [Blocktronics](http://blocktronics.org/artpacks/) and use the <file:///> protocol to browse and view the text art files saved onto your hard drive.
-
-There are also thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or [Project Gutenberg's](https://www.gutenberg.org/catalog/) _plain text_ books that you can use RetroTxt with.
 
 ### Permissions
 
