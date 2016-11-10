@@ -29,8 +29,6 @@ Or download one of the amazing text art packs created by [Blocktronics](http://b
 
 There are also thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or [Project Gutenberg's](https://www.gutenberg.org/catalog/) _plain text_ books that you can use RetroTxt with.
 
-**_insert screen shot of Blocktronics_**
-
 ### Permissions
 
 Chrome requires **Allow access to file URLs** selected if you wish to use RetroTxt with text files stored on your local computer.
