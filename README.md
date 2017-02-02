@@ -4,15 +4,15 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 
 Available for installation from both the [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
-#### [Documentation](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
+### [Documentation](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
 
 ![RetroTxt showcase](/docs/assets/readme_showcase.png)
 
 ## Install
 
-#### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
+### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
 
-##### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
+#### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
 
 ### Requirements
 
