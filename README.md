@@ -4,13 +4,15 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 
 Available for installation from both the [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
-[**Documentation**](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
+#### [Documentation](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
 
 ![RetroTxt showcase](/docs/assets/readme_showcase.png)
 
 ## Install
 
-[**Chrome**](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) [**Firefox**](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
+#### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
+
+##### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
 
 ### Requirements
 
@@ -35,7 +37,7 @@ Chrome requires **Allow access to file URLs** selected if you wish to use RetroT
 
 ### GNU LESSER GENERAL PUBLIC LICENSE
 
-#### An important note about the license!
+#### An important note about the license
 
 While RetroTxt is covered under a [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/), the included fonts **are not**. You should read each individual font license that can be found in the `fonts/` subdirectory before redistribution. As some of the included collections do not permit the sale or modification of their fonts and packages.
 
