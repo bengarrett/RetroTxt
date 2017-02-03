@@ -1,10 +1,10 @@
 # RetroTxt
 ## Similar projects
 
-RetroTxt is inspired by a number of great programs that offer similar functionality.
+Many great programs that offer similar functionality inspire RetroTxt.
 
 ##### ansilove
-Is a collection of tools for various platforms to convert a massive variety of text art into PNG images.
+Is a collection of tools for various platforms to convert an extensive variety of text art into PNG images.
 - [ansilove.js](http://ansilove.github.io/ansilove.js/) for JavaScript
 - [ansilove](http://www.ansilove.org/) for PHP
 - [AnsiLove/C](https://github.com/ansilove/ansilove) for Linux

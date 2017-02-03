@@ -1,6 +1,6 @@
 # RetroTxt
 
-Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. It is the modern, browser agnostic, web extension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
+Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. It is the new, browser agnostic, web extension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
 
 Available for installation from both the [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
@@ -39,7 +39,7 @@ Chrome requires **Allow access to file URLs** selected if you wish to use RetroT
 
 #### An important note about the license
 
-While RetroTxt is covered under a [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/), the included fonts **are not**. You should read each individual font license that can be found in the `fonts/` subdirectory before redistribution. As some of the included collections do not permit the sale or modification of their fonts and packages.
+While RetroTxt uses a [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/), the included fonts **are not**. You should read each font license that is in the `fonts/` subdirectory before redistribution, as some of the added collections do not permit the sale or modification of their fonts and packages.
 
 ## Credits
 

@@ -13,7 +13,7 @@ The context menu can be found by right-clicking on the active tab (web page) con
 <small><figure>Chrome toolbar context menu</figure></small>
 
 ### Options
-Launches the RetroTxt [Options dialogue](options.md).
+Launch the RetroTxt [Options dialogue](options.md).
 
 #### Display
 
@@ -21,7 +21,7 @@ Launches the RetroTxt [Options dialogue](options.md).
 
 ##### Text and font information
 
-Applies the text and font information header detailing the document metadata and font information.
+Apply the text and font information header detailing the document metadata and font information.
 
 ##### Text alignment
 
@@ -29,11 +29,11 @@ Positions the text document from the left-top margin to the centre the of the di
 
 ##### Font shadows
 
-Applies a subtle shadow effect to each character and glyph within the text document.
+Apply a subtle shadow effect to each character and glyph within the text document.
 
 ##### Scan lines
 
-Applies a subtle scan line effect to the background of the page. The effect is more pronounced on light backgrounds and is not applied to the text.
+Apply a subtle scan line effect to the background of the page. The effect is more pronounced on light backgrounds but is not applied to the text.
 
 #### Transcode text
 
@@ -59,7 +59,7 @@ Force the active tab to display the text using **CP-437**, the most common MS-DO
 
 ##### MS-DOS CP-865
 
-Force the active tab to display the text using **CP-865**, an MS-DOS character set occasionally used in European sourced text.
+Force the active tab to display the text using **CP-865**; an MS-DOS character set occasionally used in European sourced documents.
 
 ##### Windows legacy web
 
@@ -71,7 +71,7 @@ Force the active tab to display the text using **ISO-8859-15** _ISO-8859 Part 15
 
 ##### None
 
-Force the active tab to not to transcode the active tab. This can be used to force documents encoded in **UTF-8** or **ISO-8859-1** to display.
+Force the active tab not to transcode. Aforementioned can be used to make documents encoded in **UTF-8** or **ISO-8859-1** to display.
 
 **UTF-8** is the most common, contemporary code set to encoded Unicode text (including Emojis) and it is nearly always in use with HTML5. **ISO-8859-1** was the original code set used by Linux, the Commodore Amiga and online during the 1990s. It is near identical to _ISO-8859-15_ but lacks a few European-centric characters such as the € sign.
 

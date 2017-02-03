@@ -10,7 +10,7 @@ To ask a question, report a bug or request a feature please feel free to [leave 
 
 #### Can I adjust the size of the font?
 
-You can adjust the _zoom_ of the font by using the <kbd>Ctrl</kbd> <kbd>+</kbd> and <kbd>Ctrl</kbd> <kbd>-</kbd> keys.
+You can change the _zoom_ of the font by using the <kbd>Ctrl</kbd> <kbd>+</kbd> and <kbd>Ctrl</kbd> <kbd>-</kbd> keys.
 
 #### Can I view files stored on my computer?
 
@@ -23,29 +23,28 @@ file:///C:/Users/Ben/Downloads/myfile.txt
 
 You can also [browse your Windows drive](file:///C:/) or [your Linux and macOS drives](file:///).
 
-Chrome will need [__Allow access to the file URLs__ permission](chrome://extensions/) enabled if you want the feature to automatically work with local files.
+Chrome will need to [__Allow access to the file URLs__ permission](chrome://extensions/) enabled if you want the to work with local files automatically.
 
 In Windows to make a web browser your default text file viewer.
-1. Right-click on the desktop and choose __text file__ under __New__
-2. This creates the file `New Text Document.txt`
-3. Right-click on the file, select __Choose another app__ (_Choose default program..._ in Windows 7) under __Open with__ item
-4. Then under __Other options__ scroll down and select your browser
+1. Right-click on the desktop and choose __text file__ under __New__ to create the file `New Text Document.txt`
+2. Right-click on the file, select __Choose another app__ (_Choose default program..._ in Windows 7) under __Open with__ item
+3. Then under __Other options__ scroll down and select your browser
 
 #### Are the fonts and styling historically accurate?
 
 * The extension uses TrueType fonts which are affected by the operating system font smoothing effects; ClearType on Windows, Quartz in macOS and FreeType on Linux.
 
-* A number of fonts were designed for 40 columns (characters per line of text) but the extension doesn't enforce that limitation.
+* Some fonts are for 40 columns (characters per line of text), but the extension doesn't enforce that limitation.
 
 * The web browser and the operating system can make modifications the font width, height, and space for either accessibility or due to user applied themes.
 
-* The Apple II, Commodore Amiga, Commodore 64, VGA LCD fonts were a bit small and have been up-sized by 1.5x. You can return these fonts to their original size by pressing <kbd>Ctrl</kbd> <kbd>-</kbd> in Chrome and reducing the font size to _67%_.
+* The Apple II, Commodore Amiga, Commodore 64, VGA LCD fonts were a bit small and had been up-sized by 1.5x. You can return these fonts to their original size by pressing <kbd>Ctrl</kbd> <kbd>-</kbd> in Chrome and reducing the font size to _67%_.
 
 #### What text encodings are supported?
-Please see [Technical specifications on supported text](technical.md)
+Please see [Technical Specifications on supported text](technical.md)
 
 #### Text is garbled
-There could be a number of causes of this but generally it is related to the web server or browser choosing the incorrect character encoding for the file.
+There could be many causes of this, but generally, it is related to the web server or browser choosing the incorrect character encoding for the file.
 
 You can manually switch this.
 

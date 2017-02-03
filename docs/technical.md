@@ -10,7 +10,7 @@
 ### Input code pages and text encoding
 <a name="input_cp">
 Regardless of the source, JavaScript converts all the text it handles into UTF-16.
-UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatible with ISO-8859-1 and US-ASCII. But otherwise, all other loaded text needs to be transcoded to accurately display all characters.
+UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatible with ISO-8859-1 and US-ASCII. But otherwise, all other loaded text needs to be transcoded to display all characters accurately.
 
 | Character set | Support | About |
 | ------------- | ------- | ----- |
@@ -21,11 +21,11 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 | [CP-1227](https://en.wikipedia.org/wiki/Windows-1252) | Yes | Also called Windows-1252 or Windows ANSI, it's backwards compatible with ISO-8859-1 and was the default encoding for legacy Windows |
 | [ISO-8859-15](https://en.wikipedia.org/wiki/ISO/IEC_8859-15) | Yes | A replacement for ISO-8859-1 that added some missing characters such as the € sign |
 | [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Native | The current standard encoding for HTML4/5 and many documents. It supports over a hundred thousand characters.
-| [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Native | The Unicode implementation used by JavaScript and many documents that are not written in the Latin alphabet.
+| [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Native | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet.
 
 ### BBS colour codes
 <a name="input_bbs">
-BBS colour codes were most frequently used in the early 1990s as an easy means of applying colour to text served by bulletin board system user interfaces.
+BBS colour codes from the early 1990s were a natural means of applying colour to text served in bulletin board system user interfaces.
 
 | Format | Support | Notes |
 | ------ | ------- | ----- |
@@ -40,7 +40,7 @@ BBS colour codes were most frequently used in the early 1990s as an easy means o
 
 ### Input control sequences
 <a name="input_cs">
-Control sequences are strings of characters that are embedded into the text to be used as cursor, display and presentation functions. ANSI art uses control sequences for both its colourisation and cursor positioning. As do remote terminals used by many Linux and Unix systems such as [_xterm_](http://invisible-island.net/xterm/).
+Control sequences are strings of characters embedded into the text as cursor, display and presentation functions. ANSI art uses control sequences for both its colourisation and cursor positioning, as do remote terminals used by many Linux and Unix systems such as [_xterm_](http://invisible-island.net/xterm/).
 
 | Standard | Support | Notes |
 | -------- | ------- | ----- |
@@ -50,7 +50,7 @@ Control sequences are strings of characters that are embedded into the text to b
 
 #### ANSI.SYS support
 <a name="ansi_sys">
-Microsoft's MS-DOS [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) driver supported a limited subset of ANSI X3.64 control sequences and introduced a number of non-standard functions. Most _ANSI art_ is based on sequences that target the ANSI.SYS implementation of text controls.
+Microsoft's MS-DOS [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) driver supported a limited subset of ANSI X3.64 control sequences and introduced some non-standard functions. Most _ANSI art_ uses sequences that target the ANSI.SYS implementation of text controls.
 
 RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn't support.
 
@@ -66,13 +66,13 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 | Erase display | Yes | |
 | Erase line | Yes | |
 | Set Graphics Mode | Yes | All colours and attributes are supported |
-| Set Mode / Reset Mode | Yes | RetroTxt changes the font type and column width but does not attempt to simulate the screen resolution |
+| Set Mode / Reset Mode | Yes | RetroTxt changes the font type and column width but do not attempt to simulate the screen resolution |
 | Set Mode / Reset Mode 7 | Yes | Set and disable line wrapping |
 | Set Keyboard Strings | No | |
 
 #### ECMA-48 support
 <a name="ecma48">
-[ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) forms the basis of ISO 6429, both of which are the current and acceptable standards for text control sequences. ECMA-48 is expanded on ANSI X3.64 [_(withdrawn 1997)_](https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf) which first popularised escape sequences in the late 1970s with the [DEC VT100](https://en.wikipedia.org/wiki/VT100) computer.
+[ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) forms the basis of ISO 6429, both of which are the current and acceptable standards for text control sequences. ECMA-48 expands on ANSI X3.64 [_(withdrawn 1997)_](https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf) which first popularised escape sequences in the late 1970s with the [DEC VT100](https://en.wikipedia.org/wiki/VT100) computer.
 
 The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 
