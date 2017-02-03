@@ -54,6 +54,7 @@ Otherwise if you prefer using Firefox Developer Edition.
 ![Font options selection](assets/sourcecode_firefox.png)
 
 Now in the same tab.
+
 1. Type in the address `about:addons`
 2. Select __Extensions__
 3. RetroTxt should be listed there with some including __Options__
