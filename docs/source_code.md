@@ -29,9 +29,21 @@ RetroTxt should load. The [Options link](options.md) allows you to configure Ret
 
 ### Use on Firefox
 
-Firefox is locked down and doesn't permit the loading of extensions outside of the Mozilla Add-ons page. Instead, it is recommended developers use the [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/developer/) for this task.
+Firefox is locked down and doesn't permit the loading of extensions outside of the Mozilla Add-ons page. 
 
-In Firefox Developer Edition.
+Instead, there are two options to use the source code. Either use Mozilla's terminal tool `web-ext` or use [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/developer/).
+
+The web-ext tool is the preferred method and [has a dedicated web page](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext) but requires node.js. It allows you to lint, run with options or build RetroTxt in Firefox.
+
+1. [Install node.js if needed](https://nodejs.org)
+2. `npm install --global web-ext` to install web-ext
+3. `cd RetroTxt` into the cloned directory
+4. `web-ext run` to run RetroTxt in Firefox
+5. [Read more about web-ext](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext)
+
+![web-ext run example](assets/web-ext_example.png)
+
+Otherwise if you prefer using Firefox Developer Edition.
 
 1. Open a new tab and type in the address `about:debugging`
 2. Select __Add-ons__
