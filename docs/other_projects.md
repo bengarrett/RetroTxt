@@ -24,3 +24,7 @@ _PabloDraw is an Ansi/Ascii text and RIPscrip vector graphic art editor/viewer w
 ##### ACiDView
 The granddaddy of ANSI art viewers that has a pedigree that goes back decades.
 - [ACiDView 6](https://defacto2.net/file/detail/a83d5d) for Windows
+
+##### iNFekt
+A modern ASCII, NFO and ANSI art viewer and terminal converter for Windows.
+- [iNFekt](https://infekt.ws/) for Windows
