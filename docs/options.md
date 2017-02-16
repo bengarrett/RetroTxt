@@ -50,36 +50,47 @@ When styling text RetroTxt injects a text header detailing the document metadata
 
 ![Example text & font information header](assets/options_header_example.png)
 
-`80 x 341`
+`120 x 111`
 
 The highlighted red values are the _columns_ x _lines_ values. Columns are the number of characters per line. Most text documents are formatted to use 80 characters of text per line. Lines are the total number of lines used by the text.
+
+`22.4kb`
+
+Orange is the number of characters contained in the text.
+
+`CP1252`
+
+Yellow is the document character encoding set by the browser.
+
+`CP437`
+
+The dark blue value is the character encoding used to display the document. Character encoding is a complicated subject and the execution not always precise. If you encounter text that is not showing the expected characters, you can transcode the document to apply a different set of characters and its technical name will be displayed here.
+
+- **CP437** IBM/MS-DOS Code Page 437
+- **ISO8859-1** ISO-8859 Part 1: Latin alphabet No. 1 alternatively known as ECMA-94
+- **ISO8859-15** ISO-8859 Part 15: Latin alphabet No. 9
+- **UTF-8** Universal Coded Character Set 8-bit
+- **UTF-8 or ISO8859-1** UTF-8 includes and extends ISO-8859-1
+- **CP1252** Code Page 1252 commonly used in legacy Microsoft Windows systems
+- **US-ASCII** Plain text, alternatively known as ASA X3.4, ANSI X3.4, ECMA-6, ISO/IEC 646
 
 `VGA8`
 
 The purple value is the font name used.
 
-`CP-865`
-
-The white value is the character encoding used to display the document. Character encoding is a complicated subject and the execution not always precise. If you encounter text that is not showing the expected characters, you can transcode the document to apply a different set of characters and its technical name will be displayed here.
-
-- **CP-437** IBM/MS-DOS Code Page 437
-- **CP-865** IBM/MS-DOS Code Page 865
-- **ISO-8859-1** ISO-8859 Part 1: Latin alphabet No. 1 alternatively known as ECMA-94
-- **ISO-8859-15** ISO-8859 Part 15: Latin alphabet No. 9
-- **UTF-8** Universal Coded Character Set 8-bit
-- **UTF-8 or ISO-8859-1** UTF-8 includes and extends ISO-8859-1
-- **Windows-1252** Code Page 1252 commonly used in legacy Microsoft Windows systems
-- **US-ASCII** Plain text, alternatively known as ASA X3.4, ANSI X3.4, ECMA-6, ISO/IEC 646
-
-`ANSI control sequences in use`
+`ANSI`
 
 The green value will show any special controls or functions embedded into the text. ANSI art, for example, uses ANSI control sequences while ASCII art doesn't use any special controls.
 
-- **ANSI control sequences in use** ECMA-48/ANSI X3.64 presentation control and cursor functions
-- **PCBoard codes in use** PCBoard BBS text colourisation
-- **Wildcat codes in use** Wildcat! BBS text colourisation
+- **ANSI** ECMA-48/ANSI X3.64 presentation control and cursor functions
+- **PCBoard colour codes** PCBoard BBS text colourisation
+- **Wildcat colour codes** Wildcat! BBS text colourisation
 
-The yellow text is the result of any [SAUCE metadata](http://www.acid.org/info/sauce/sauce.htm) _Standard Architecture for Universal Comment Extensions_ embedded into the text. SAUCE is often found in ANSI art but can be attached to any document and allows the author to include titles, dates, comments and affiliations.
+`1 unknown control found`
+
+Light blue highlights any errors or warnings encounted when parsing ANSI encoded text.
+
+The white text is the result of any [SAUCE metadata](http://www.acid.org/info/sauce/sauce.htm) _Standard Architecture for Universal Comment Extensions_ embedded into the text. SAUCE is often found in ANSI art but can be attached to any document and allows the author to include titles, dates, comments and affiliations.
 
 ##### Centre align text
 
