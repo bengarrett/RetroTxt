@@ -1,0 +1,24 @@
+engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: false
+  eslint:
+    enabled: true
+    channel: "eslint-3"
+    config:
+      config: .eslintrc.js
+  fixme:
+    enabled: true
+  markdownlint:
+    enabled: true
+ratings:
+  paths:
+  - "**.css"
+  - "**.html"
+  - "**.js"
+  - "**.md"
+exclude_paths:
+- assets/
+- fonts/
+- test/
