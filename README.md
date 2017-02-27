@@ -4,13 +4,16 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 
 Available for installation from both the [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
-### [Documentation](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
-
 ![RetroTxt showcase](/docs/assets/readme_showcase.png)
+
+## Documentation
+
+#### [Read](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
 
 ## Install
 
 ### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
+Recommendation? Overall, Firefox 51+ performs better than Chrome
 
 #### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
 
@@ -27,7 +30,7 @@ After install you can run RetroTxt on any text or ANSI art file viewed in the br
 
 You can test the RetroTxt install using one of the thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or [Project Gutenberg's](https://www.gutenberg.org/catalog/) _plain text_ books.
 
-Or download one of the amazing text art packs created by [Blocktronics](http://blocktronics.org/artpacks/) and use the <file:///> protocol to browse and view the text art files saved onto your hard drive.
+Or download one of the amazing text art packs created by [Blocktronics](http://blocktronics.org/artpacks/) and use the `file:///` protocol to browse and view the text art files saved onto your hard drive.
 
 ### Permissions
 
@@ -47,6 +50,7 @@ RetroTxt by Ben Garrett [@bens.zone](http://bens.zone/) and [GitHub](https://git
 
 - PC fonts [_The Ultimate Oldschool PC Font Pack_](http://int10h.org/oldschool-pc-fonts/) by Viler
 - Apple II font [_Print Char 21_](http://www.kreativekorp.com/software/fonts/apple2.shtml) by Kreative Korp
+- Atari ST font [_8x16 system font_](http://www.dafont.com/atari-st-8x16-system-font.font) by divVerent
 - Commodore Amiga font [_Amiga 4ever_](http://www.freakyfonts.de/) by ck!
 - Commodore 64 font [_C64 Pro Mono TrueType v1.2_](http://style64.org/c64-truetype) from Style
 
