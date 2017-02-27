@@ -15,8 +15,7 @@ module.exports = {
         "no-unused-vars": ["error", { "vars": "local" }],
         "indent": ["error", 2, { "SwitchCase": 1 }],
         "linebreak-style": [
-            "error",
-            "windows"
+            "off"
         ],
         "quotes": [
             "error",
