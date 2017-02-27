@@ -8,116 +8,159 @@
 */
 
 .SGR30 {
-  /* black */
-  color: rgb(0, 0, 0);
+    /* black */
+    color: rgb(0, 0, 0);
 }
 
 .SGR31 {
-  /* red */
-  color: rgb(170, 0, 0);
+    /* red */
+    color: rgb(170, 0, 0);
 }
 
 .SGR32 {
-  /* green */
-  color: rgb(0, 170, 0);
+    /* green */
+    color: rgb(0, 170, 0);
 }
 
 .SGR33 {
-  /* yellow - brown */
-  color: rgb(170, 85, 0);
+    /* yellow - brown */
+    color: rgb(170, 85, 0);
 }
 
 .SGR34 {
-  /* blue */
-  color: rgb(0, 0, 170);
+    /* blue */
+    color: rgb(0, 0, 170);
 }
 
 .SGR35 {
-  /* magenta */
-  color: rgb(170, 0, 170);
+    /* magenta */
+    color: rgb(170, 0, 170);
 }
 
 .SGR36 {
-  /* cyan */
-  color: rgb(0, 170, 170);
+    /* cyan */
+    color: rgb(0, 170, 170);
 }
 
 .SGR37 {
-  /* light grey */
-  color: rgb(170, 170, 170);
+    /* light grey */
+    color: rgb(170, 170, 170);
 }
 
 .SGR41 {
-  /* red */
-  background-color: rgb(170, 0, 0);
+    /* red */
+    background-color: rgb(170, 0, 0);
 }
 
 .SGR42 {
-  /* green */
-  background-color: rgb(0, 170, 0);
+    /* green */
+    background-color: rgb(0, 170, 0);
 }
 
 .SGR43 {
-  /* yellow */
-  background-color: rgb(170, 85, 0);
+    /* yellow */
+    background-color: rgb(170, 85, 0);
 }
 
 .SGR44 {
-  /* blue */
-  background-color: rgb(0, 0, 170);
+    /* blue */
+    background-color: rgb(0, 0, 170);
 }
 
 .SGR45 {
-  /* magenta */
-  background-color: rgb(170, 0, 170);
+    /* magenta */
+    background-color: rgb(170, 0, 170);
 }
 
 .SGR46 {
-  /* cyan */
-  background-color: rgb(0, 170, 170);
+    /* cyan */
+    background-color: rgb(0, 170, 170);
 }
 
 .SGR47 {
-  /* white */
-  background-color: rgb(170, 170, 170);
+    /* white */
+    background-color: rgb(170, 170, 170);
 }
 
 .SGR130 {
-  /* grey */
-  color: rgb(85, 85, 85);
+    /* grey */
+    color: rgb(85, 85, 85);
 }
 
 .SGR131 {
-  /* light red */
-  color: rgb(255, 85, 85);
+    /* light red */
+    color: rgb(255, 85, 85);
 }
 
 .SGR132 {
-  /* light green */
-  color: rgb(85, 255, 85);
+    /* light green */
+    color: rgb(85, 255, 85);
 }
 
 .SGR133 {
-  /* yellow */
-  color: rgb(255, 255, 85);
+    /* yellow */
+    color: rgb(255, 255, 85);
 }
 
 .SGR134 {
-  /* light blue */
-  color: rgb(85, 85, 255);
+    /* light blue */
+    color: rgb(85, 85, 255);
 }
 
 .SGR135 {
-  /* light magenta */
-  color: rgb(255, 85, 255);
+    /* light magenta */
+    color: rgb(255, 85, 255);
 }
 
 .SGR136 {
-  /* light cyan */
-  color: rgb(85, 255, 255);
+    /* light cyan */
+    color: rgb(85, 255, 255);
 }
 
 .SGR137 {
-  /* white high intensity */
-  color: rgb(255, 255, 255);
+    /* white high intensity */
+    color: rgb(255, 255, 255);
+}
+
+
+/* iCE Colors (high intensity backgrounds) */
+
+.SGR140 {
+    /* grey */
+    background-color: rgb(85, 85, 85);
+}
+
+.SGR141 {
+    /* light red */
+    background-color: rgb(255, 85, 85);
+}
+
+.SGR142 {
+    /* light green */
+    background-color: rgb(85, 255, 85);
+}
+
+.SGR143 {
+    /* yellow */
+    background-color: rgb(255, 255, 85);
+}
+
+.SGR144 {
+    /* light blue */
+    background-color: rgb(85, 85, 255);
+}
+
+.SGR145 {
+    /* light magenta */
+    background-color: rgb(255, 85, 255);
+}
+
+.SGR146 {
+    /* light cyan */
+    background-color: rgb(85, 255, 255);
+}
+
+.SGR147 {
+    /* white high intensity */
+    background-color: rgb(255, 255, 255);
 }

@@ -7,72 +7,74 @@
 */
 
 :root {
-  --firefox-link: rgb(100, 149, 237);
+    --firefox-link: rgb(100, 149, 237);
 }
 
 #run-web-urls-permitted {
-  width: 96%;
+    width: 96%;
 }
 
 #options-container {
-  background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(215, 211, 200);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 75%;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#sample-dos-text {
+    /* anything placed in here will override any classes introduced by JavaScript */
+    border: 0.063em solid rgb(215, 211, 200);
+    height: 40px;
+}
+
+#status {
+    font-size: 90%;
 }
 
 .material-credits {
-  vertical-align: bottom !important;
+    vertical-align: bottom !important;
 }
 
 .material-radio {
-  font-size: 1.5em;
+    font-size: 1.5em;
 }
 
 .var-option {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 a:link {
-  color: var(--firefox-link);
-  text-decoration: none;
+    color: var(--firefox-link);
+    text-decoration: none;
 }
 
 a:visited {
-  color: var(--firefox-link);
-  text-decoration: none;
+    color: var(--firefox-link);
+    text-decoration: none;
 }
 
 a:hover {
-  color: var(--firefox-link);
-  text-decoration: underline;
+    color: var(--firefox-link);
+    text-decoration: underline;
 }
 
 a:active {
-  color: rgb(255, 165, 0);
-  text-decoration: none;
+    color: rgb(255, 165, 0);
+    text-decoration: none;
 }
 
 body {
-  color: rgb(77, 78, 83);
+    color: rgb(77, 78, 83);
 }
 
 input[type=checkbox] {
-  vertical-align: middle !important;
+    vertical-align: middle !important;
+    size: 150%;
 }
 
-input[type=radio] {
-  vertical-align: middle !important;
-}
-
-h1, h2, h3 {
-  font-weight: normal;
+h1,
+h2,
+h3 {
+    font-weight: normal;
 }
 
 strong {
-  font-weight: bolder;
+    font-weight: 500;
 }

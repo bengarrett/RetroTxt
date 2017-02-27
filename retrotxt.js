@@ -1,757 +1,953 @@
 // filename: retrotxt.js
 //
 // These functions are used to apply and remove RetroTxt from browser tabs.
+'use strict'
 
-"use strict";
+/*
+global BuildBBS BuildCP1252 BuildCPDos BuildCP88591 BuildCP885915 BuildCPUtf8 BuildCPUtf16
+HumaniseCP BuildEcma48 BuildFontStyles ListCharacterSets ListDefaults ListRGBThemes
+buildLinksToCSS checkArg checkErr changeTextScanlines changeTextShadow
+chrome findControlSequences displayErr runSpinLoader humaniseFS
+*/
 
 function BuildCharSet(s = ``)
-// Converts a string of text to emulate a MS-DOS Code Page using UTF-16 encoded
-// characters.
+// Using pattern matching attempts to guess at the MS-DOS era code page used
+// by the supplied UTF-16 encoded text
 // @s       String of Unicode UTF-16 text
-// @verbose Display to the console each character that is handled
 {
-  const
-    charInfo = new ListCharacterSets(),
-    c0Controls = charInfo.C0common,
-    sets = charInfo.sets;
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
 
-  let cp437 = 0,
-    iso8859 = 0,
-    page = 0,
-    usascii = 0,
-    unsure = 0,
-    t = s,
-    i = t.length;
-
-  guessCodePage();
-
-  this.guess = sets[page];
-  this.setPage = page;
-  this.countCP437 = cp437;
-  this.countIso8859 = iso8859;
-  this.countUnknown = unsure;
-  this.countUsAscii = usascii;
-
-  function buildDecimalSet(set = [])
-  // Converts an array of characters into an array of Unicode decimal values
-  {
-    let decimal = 0,
-      decimals = set;
-    for (let j = 0; j < set.length; j++) {
-      decimal = set[j].codePointAt(0);
-      if (decimal !== undefined) decimals[j] = decimal;
-    }
-    decimals = decimals.filter(checkDecimal);
-    return decimals.sort();
-
-    function checkDecimal(value) {
-      return value !== "";
-    }
+  const limit = 10000
+  const cp1252Set = new BuildCP1252().characterSet
+  const cp1252Decimals = buildDecimalSet(cp1252Set)
+  const charInfo = new ListCharacterSets()
+  const c0Controls = charInfo.C0common
+  const sets = charInfo.sets
+  const sLen = s.length
+  const finds = {
+    char: ``,
+    cp: 0,
+    cp437: 0,
+    hex: ``, // not used
+    iso8859: 0,
+    page: 0,
+    position: 0,
+    usAscii: 0,
+    unsure: 0
   }
 
-  /*
-    function buildHexSet(set = [])
-    // Converts an array of characters into an array of Unicode hex values
-    {
-      let decimal = 0,
-        hexs = set;
-      for (let j = 0; j < set.length; j++) {
-        decimal = set[j];
-        if (decimal !== undefined) hexs[j] = decimal.toString(16);
-      }
-      return hexs;
+  let i = s.length
+  while (i--) {
+    if (i < sLen - limit) break
+    finds.position = sLen - i
+    finds.char = s[finds.position]
+    finds.cp = s.codePointAt(finds.position)
+    if (finds.cp !== undefined) finds.hex = finds.cp.toString(16)
+    // Unsupported Unicode code point?
+    if (finds.cp >= 65535) finds.page = 7
+    // distinctive CP-1252 chars 128,142,158,159,130…140,145…156
+    // these also double-up as C1 controls in UTF-8
+    else if (cp1252Decimals.includes(finds.cp)) finds.page = 3
+    // hack to deal with characters decimals 993…1248 found in some ANSI art
+    else if (finds.cp > 992 && finds.cp < 1249) finds.page = 2
+    // UTF-8 catch-all
+    else if (finds.cp > 255) finds.page = 6
+    // count the guesses of other characters
+    else {
+      // potential block and line characters found in ANSI/ASCII art
+      // if (finds.cp >= 176 && finds.cp <= 223 || [254, 249, 250].includes(finds.cp)) finds.cp437++; // broader catch
+      if (finds.cp >= 176 && finds.cp <= 181 || finds.cp >= 185 && finds.cp <= 188 || finds.cp >= 190 && finds.cp <= 197 || finds.cp >= 200 && finds.cp <= 206 || finds.cp >= 217 && finds.cp <= 223 || [254, 249, 250].includes(finds.cp)) finds.cp437++ // only catches single and double lines but not single/double combination characters
+      // other than common C0 controls like newline if characters 1…31 are found
+      // then assume it is a CP-437 document
+      else if (finds.cp !== 10 && finds.cp !== 27 && finds.cp > 0 && finds.cp < 32 && c0Controls.includes(finds.cp) === false) finds.cp437++
+      // if the character is between these ranges that was not caught by CP-437 then it's assumed ISO-8859-1 or 15
+      else if (finds.cp >= 160 && finds.cp <= 255) finds.iso8859++
+      // anything else below 128 is certainly US-ASCII
+      else if (finds.cp <= 127) finds.usAscii++
+      // otherwise, not sure
+      else finds.unsure++
     }
-  */
-
-  function guessCodePage(limit = 10000)
-  // Guess the encoding of the text
-  {
-    const cp1252Set = new BuildCP1252().characterSet,
-      cp1252Decimals = buildDecimalSet(cp1252Set);
-
-    let char = ``,
-      cp = 0,
-      hex = ``,
-      position = 0;
-
-    while (i--) {
-      if (i < t.length - limit) break; // scan at most, the last 500 characters
-      position = t.length - i;
-      char = t[position];
-      cp = t.codePointAt(position);
-      if (cp !== undefined) hex = cp.toString(16);
-      // Unsupported Unicode code point?
-      if (cp >= 65535) page = 7;
-      // distinctive CP-1252 chars 128,142,158,159,130…140,145…156
-      // these also double-up as C1 controls in UTF-8
-      else if (cp1252Decimals.includes(cp)) page = 3;
-      // hack to deal with characters decimals 993…1248 found in some ANSI art
-      else if (cp > 992 && cp < 1249) page = 2;
-      // UTF-8 catch-all
-      else if (cp > 255) page = 6;
-      // count the guesses of other characters
-      else {
-        // potential block and line characters found in ANSI/ASCII art
-        //if (cp >= 176 && cp <= 223 || [254, 249, 250].includes(cp)) cp437++; // broader catch
-        if (cp >= 176 && cp <= 181 || cp >= 185 && cp <= 188 || cp >= 190 && cp <= 197 || cp >= 200 && cp <= 206 || cp >= 217 && cp <= 223 || [254, 249, 250].includes(cp)) cp437++; // only catches single and double lines but not single/double combination characters
-        // other than common C0 controls like newline if characters 1…31 are found
-        // then assume it is a CP-437 document
-        else if (cp !== 10 && cp !== 27 && cp > 0 && cp < 32 && c0Controls.includes(cp) === false) cp437++;
-        // if the character is between these ranges that was not caught by CP-437 then it's assumed ISO-8859-1 or 15
-        else if (cp >= 160 && cp <= 255) iso8859++;
-        // anything else below 128 is certainly US-ASCII
-        else if (cp <= 127) usascii++;
-        // otherwise, not sure
-        else unsure++;
-      }
-      if (page > 0) break; // exit scan after the encoding has been guessed
-    }
-    //console.log(`guessCodePage() counts: iso8859 ${iso8859} cp437 ${cp437} usascii ${usascii}, total characters ${t.length}`);
-    if (iso8859 > 0) page = 4;
-    if (cp437 > iso8859) page = 1;
-    //if (cp437 > 0 && cp437 > Math.ceil(t.length / 10)) page = 1; // if CP line/block characters account for 10% of the text
-
-    // function displayChr() {
-    //   console.log(`#${i} #${position} char ${char} decimal ${cp} (${hex})`);
-    // }
+    if (finds.page > 0) break // exit scan after the encoding has been guessed
   }
+  // console.log(`guessCodePage() counts: finds.iso8859 ${finds.iso8859} finds.cp437 ${finds.cp437} finds.usAscii ${finds.usAscii}, total characters ${t.length}`);
+  if (finds.iso8859 > 0) finds.page = 4
+  if (finds.cp437 > finds.iso8859) finds.page = 1
+
+  this.guess = sets[finds.page]
+  this.setPage = finds.page
+  this.countCP437 = finds.cp437
+  this.countIso8859 = finds.iso8859
+  this.countUnknown = finds.unsure
+  this.countUsAscii = finds.usAscii
 }
 
 function FindDOM()
-// Page elements
+// Document Object Model (DOM) programming interface for HTML
 {
-  this.body = document.body;
-  this.cssLink = document.getElementById("retrotxt-styles");
-  this.head = document.querySelector("head");
-  this.header = document.querySelector("header");
-  this.main = document.querySelector("main");
-  this.pre0 = document.getElementsByTagName("pre")[0];
-  this.pre1 = document.getElementsByTagName("pre")[1];
-  this.preCount = document.getElementsByTagName("pre").length;
+  this.body = document.body
+  this.cssLink = document.getElementById(`retrotxt-styles`)
+  this.head = document.querySelector(`head`)
+  this.header = document.querySelector(`header`)
+  this.main = document.querySelector(`main`)
+  this.pre0 = document.getElementsByTagName(`pre`)[0]
+  this.pre1 = document.getElementsByTagName(`pre`)[1]
+  this.preCount = document.getElementsByTagName(`pre`).length
+}
+
+function FindSauce00(t = ``)
+// Extracts SAUCE record metadata attached to a text document
+// http://www.acid.org/info/sauce/sauce.htm
+// @t   A slice of text containing the SAUCE metadata
+{
+  if (typeof t !== `string`) checkArg(`t`, `string`, t)
+
+  this.id = t.slice(0, 7)
+  this.version = ``
+  this.title = ``
+  this.author = ``
+  this.group = ``
+  this.date = ``
+  this.fileSize = ``
+  this.dataType = ``
+  this.fileType = ``
+  this.TInfo1 = ``
+  this.TInfo2 = ``
+  this.TInfo3 = ``
+  this.TInfo4 = ``
+  this.comments = ``
+  this.TFlags = ``
+  this.TInfoS = ``
+  if (this.id === `SAUCE00`) {
+    // string values
+    this.version = t.slice(5, 7) // 2 bytes
+    this.title = t.slice(7, 42).trim() // 35 bytes
+    this.author = t.slice(42, 62).trim() // 20 bytes
+    this.group = t.slice(62, 82).trim() // 20 bytes
+    this.date = t.slice(82, 90).trim() // 8 bytes
+    this.TInfoS = t.slice(106, 128) // 22 bytes
+    this.cType = t.slice(90, 106) // 16 bytes
+    // binary values
+    this.fileSize = t.slice(90, 94)
+    this.dataType = t.slice(94, 95)
+    this.fileType = t.slice(95, 96)
+    this.TInfo1 = t.slice(96, 98)
+    this.TInfo2 = t.slice(98, 100)
+    this.TInfo3 = t.slice(100, 102)
+    this.TInfo4 = t.slice(102, 104)
+    this.comments = t.slice(104, 105)
+    this.TFlags = t.slice(105, 106)
+  }
+}
+
+function buildDecimalSet(set = [])
+// Converts an array of character strings into an array of Unicode decimal values
+{
+  if (typeof set !== `object`) checkArg(`set`, `array`, set)
+
+  let decimals = set
+  for (const d in set) {
+    decimals[d] = set[d].codePointAt(0)
+  }
+  decimals = decimals.filter(decimals => typeof decimals !== `undefined`) // filter out undefined decimals values
+  return decimals
 }
 
 function buildStyles(dom = new FindDOM())
-// Constructs the HTML DOM that will be needed to display RetroTxt's styles
-// @dom A HTML DOM Object that will be modified
+// Constructs the Document Object Model (DOM) needed to display RetroTxt
+// @dom A DOM Object that will be modified
 {
-  const theme = new ListRGBThemes();
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  // Build link tags
+  const theme = new ListRGBThemes()
 
   // make a <link> to point to the CSS for use with 1-bit colour themes (ASCII, NFO)
-  const link0 = buildLinksToCSS(`css/retrotxt.css`, `retrotxt-styles`);
-  dom.head.appendChild(link0); // child 0
+  dom.head.appendChild(buildLinksToCSS(`css/retrotxt.css`, `retrotxt-styles`)) // child 0
   // make a <link> to point to the CSS for use with 1-bit colour themes (ASCII, NFO)
-  const link1 = buildLinksToCSS(`css/text_colors.css`, `retrotxt-theme`);
-  dom.head.appendChild(link1); // child 1
+  dom.head.appendChild(buildLinksToCSS(`css/text_colors.css`, `retrotxt-theme`)) // child 1
 
   // load any CSS that are used to mimic colours by the text file
-  let txtStr;
-  if (typeof dom.pre1 === "undefined") {
-    txtStr = dom.pre0.innerHTML;
+  let innerHTML = ``
+  if (typeof dom.pre1 === `undefined`) {
+    innerHTML = dom.pre0.innerHTML
   } else {
-    txtStr = dom.pre1.innerHTML;
+    innerHTML = dom.pre1.innerHTML
   }
-  const txtStrTrim = txtStr.trim(),
-    txtType = findControlSequences(txtStrTrim.slice(0, 4));
+  const format = findControlSequences(innerHTML)
   // make <link> tags to point to CSS files for use with 4-bit colour text
-  if (["pcboard", "wildcat"].includes(txtType) === true) {
-    const link2 = buildLinksToCSS(`css/text_colors_pcboard.css`, `retrotxt-4bit`);
-    dom.head.appendChild(link2); // child 2
-  } else if (txtType === "ecma48") {
-    const link2 = buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}.css`, `retrotxt-4bit`);
-    dom.head.appendChild(link2); // child 2
-    const link3 = buildLinksToCSS(`css/text_colors_8bit.css`, `retrotxt-8bit`);
-    dom.head.appendChild(link3); // child 3
-    const link4 = buildLinksToCSS(`css/text_ecma_48.css`, `ecma-48`);
-    dom.head.appendChild(link4); // child 4
+  switch (format) {
+    case `ecma48`:
+      dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}.css`, `retrotxt-4bit`)) // child 2
+      dom.head.appendChild(buildLinksToCSS(`css/text_colors_8bit.css`, `retrotxt-8bit`)) // child 3
+      dom.head.appendChild(buildLinksToCSS(`css/text_ecma_48.css`, `ecma-48`)) // child 4
+      break
+    case `pcboard`:
+    case `wildcat`:
+      dom.head.appendChild(buildLinksToCSS(`css/text_colors_pcboard.css`, `retrotxt-4bit`)) // child 2
+      break
+    default:
   }
   // disable links
-  let i = dom.head.children.length;
+  let i = dom.head.children.length
   while (i--) {
-    dom.head.children[i].disabled = false;
+    dom.head.children[i].disabled = false
   }
 }
 
 function changeColors(colorName = ``, dom = new FindDOM())
-// Applies background colour to the body and colour to the <PRE> tag containing
-// the text document.
+// Applies background colour to the DOM <body> and colour to the <PRE> tag containing
+// the stylised text document.
 // @colorName   Colour name
 // @dom         A HTML DOM Object that will be modified
 {
-  let color = colorName;
+  if (typeof colorName !== `string`) checkArg(`colorName`, `string`, colorName)
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  let color = colorName
 
   try {
-    dom.body.className = ``;
-    dom.main.className = ``;
-  } catch (err) {
-    // Firefox currently throws a security error when handling file:///
-    //return;
-  }
-
+    dom.body.className = ``
+    dom.main.className = ``
+  } catch (err) { /* Some Firefox versions throw a security error when handling file:/// */ }
   // refresh scan lines and font shadows as they are effected by colour changes
-  chrome.storage.local.get(["textBgScanlines", "textFontShadows"], function(result) {
-    const tsl = result.textBgScanlines,
-      tfs = result.textFontShadows;
+  chrome.storage.local.get([`textBgScanlines`, `textFontShadows`], function (r) {
+    if (r.textBgScanlines === undefined) checkErr(`Could not obtain the required textBgScanlines setting to apply the scanlines effect`, true)
+    if (r.textFontShadows === undefined) checkErr(`Could not obtain the required textFontShadows setting to apply the font shadow effect`, true)
+    const tsl = r.textBgScanlines
+    const tfs = r.textFontShadows
     // scan lines on the page body
-    if (typeof tsl === "boolean" && tsl === true) changeTextScanlines(true, dom.body);
+    if (typeof tsl === `boolean` && tsl === true) changeTextScanlines(true, dom.body)
     // font shadowing applied to text in the page main tag
-    if (typeof tfs === "boolean" && tfs === true) changeTextShadow(true, dom.main);
-  });
+    if (typeof tfs === `boolean` && tfs === true) changeTextShadow(true, dom.main)
+  })
   // apply new colours
-  if (color.startsWith("theme-") === false) color = `theme-${color}`;
-  dom.body.classList.add(`${color}-bg`);
-  dom.main.classList.add(`${color}-fg`);
+  if (color.startsWith(`theme-`) === false) color = `theme-${color}`
+  if (dom.body.classList !== null) dom.body.classList.add(`${color}-bg`)
+  else return // error
+  if (dom.main.classList !== null) dom.main.classList.add(`${color}-fg`)
+  else return // error
 }
 
 function changeFont(ff = ``, dom = new FindDOM())
-// Applies the font family to the <PRE> tag containing the text document.
+// Applies the font family to the <PRE> tag containing the stylised text document.
 // @ff  Font family to apply
 // @dom A HTML DOM Object that will be modified
 {
-  if (typeof dom.style !== "object" && typeof dom.style.fontFamily !== "string") throw `'dom' is a required object that needs a HTML DOM`;
+  if (typeof ff !== `string`) checkArg(`ff`, `string`, ff)
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
   // Ignore changeFont request if sessionStorage fontOverride is true
-  const fO = sessionStorage.getItem('fontOverride', 'true');
-  if (typeof fO === "string" && fO === "true") {
-    return;
-  }
+  const fO = sessionStorage.getItem(`fontOverride`, `true`)
+  if (typeof fO === `string` && fO === `true`) return
   // Change the font
-  let element = dom;
-  const classAsArray = element.className.split(" "),
-    font = new BuildFontStyles(ff);
-  console.info(`Using font ${font.string}`);
+  let element = dom
+  if (element.className === null) return // error
+  if (element.classList === null) return // error
+  const classAsArray = element.className.split(` `)
+  const font = new BuildFontStyles(ff)
+  console.info(`Using font ${font.string}`)
   // loop through and remove any font-* classes
-  let i = classAsArray.length;
+  let i = classAsArray.length
   while (i--) {
-    if (classAsArray[i].startsWith("font-")) element.classList.remove(classAsArray[i]);
+    if (classAsArray[i].startsWith(`font-`)) element.classList.remove(classAsArray[i])
   }
   // inject replacement font
-  element.classList.add(`font-${ff}`);
+  element.classList.add(`font-${ff}`)
   // Update the header with new font information
-  let headerItem = window.document.getElementById("h-doc-font-family");
-  headerItem.innerHTML = ff.toUpperCase();
+  let headerItem = window.document.getElementById(`h-doc-font-family`)
+  if (headerItem !== null) headerItem.innerHTML = ff.toUpperCase()
 }
 
 function changeLineHeight(lh = `normal`, dom = new FindDOM())
-// Applies line height modifications to the <PRE> tag containing the text document.
+// Applies line height modifications to the DOM <PRE> tag containing the stylised
+// text document.
 // @lh  Number that will be multiplied with the font size to set the line height
 // @dom A HTML DOM Object that will be modified
 {
-  if (typeof dom.pre0.style.lineHeight !== "string") throw `'dom' is a required object that needs a HTML DOM`;
-  dom.pre0.style.lineHeight = lh;
+  if (typeof lh !== `string`) checkArg(`lh`, `string`, lh)
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  dom.pre0.style.lineHeight = lh
 }
 
-function changeOffTheme(dom = new FindDOM())
-// Display the original, unmodified text document
-{
-  const ignoredSchemes = ["chrome-extension", "moz-extension"],
-    urlScheme = window.location.protocol.split(":")[0];
-  // Skip URL schemes that match `ignoredSchemes`
-  let i = 0,
-    removeCSSChildren = true;
-  for (; i < ignoredSchemes.length; i++) {
-    if (urlScheme.includes(ignoredSchemes[i])) removeCSSChildren = false;
-  }
-  // delete links to CSS files
-  if (removeCSSChildren !== false) {
-    while (dom.head.hasChildNodes()) {
-      dom.head.removeChild(dom.head.firstChild);
-    }
-  }
-  // delete classes
-  changeTextScanlines(false, dom.body);
-  // delete page style customisations
-  dom.body.removeAttribute("style");
-  if (dom.preCount >= 2) {
-    if (dom.header !== null) dom.header.style.display = `none`;
-    dom.pre0.style.display = `none`;
-    dom.pre1.style.display = null;
-  } else if (typeof dom.pre0 !== "undefined") {
-    dom.pre0.style.display = null;
-  }
-}
-
-function changeOnTheme(dom = new FindDOM())
-// Display the text document processed by RetroTxt
+function charSetFind(c = ``, dom = {})
+// determine character set
+// @c   Code page cases used by the context menus
 // @dom A HTML DOM Object that will be modified
 {
-  if (typeof dom.pre0.style.display !== "string") throw `'dom' is a required object that needs a HTML DOM`;
-  chrome.storage.local.get("textFontInformation", function(result) {
-    const r = result.textFontInformation;
-    if (typeof r === "boolean" && r === false) dom.header.style.display = `none`;
-    else dom.header.style.display = `block`;
-  });
-  dom.pre0.style.display = `block`;
-  dom.pre1.style.display = `none`;
+  if (typeof c !== `string` && c !== null) checkArg(`c`, `string`, c)
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  switch (c) {
+    case `codeMsDos0`: return `CP437`
+    case `codeMsDos1`: return `8859_5`
+    case `codeWindows`: return `CP1252`
+    case `codeLatin9`: return `8859_15`
+    case `codeNone`: return `US_ASCII`
+    default: return new BuildCharSet(dom.preProcess).guess
+  }
+}
+
+function charSetRebuild(c = ``, dom = {})
+// rebuild text with new character encoding
+// @c   Code page case names
+// @dom A HTML DOM Object that will be modified
+{
+  if (typeof c !== `string`) checkArg(`c`, `string`, c)
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  switch (c) {
+    case `CP437`:
+    case `8859_5`: return new BuildCPDos(dom.preProcess, c).text
+    case `CP1252`: return new BuildCP1252(dom.preProcess).text
+    case `8859_1`: return new BuildCP88591(dom.preProcess).text
+    case `8859_15`: return new BuildCP885915(dom.preProcess).text
+    case `UTF8`: return new BuildCPUtf8(dom.preProcess).text
+    case `US_ASCII`:
+    case `UTF_ERR`: return new BuildCPUtf16(dom.preProcess).text
+  }
 }
 
 function findPageColumns(text = ``)
-// Calculate the number of columns in use by the innerHTML text
+// Calculate the number of columns (characters per line) in use by the text
 // Regular expression sourced from
 // http://stackoverflow.com/questions/8802145/replace-html-entities-with-regular-expression
 // @text A required string of text
 {
-  if (typeof text !== "string" || text.length === 0) throw `'text' is a needed string that should be a sample of text used to determine the number of columns`;
-  let cols, len = 0;
-  const patt = /&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/img; // find HTML entities
-  cols = new ListDefaults().columns; // default 80 columns
-  const splitTxt = text.split(/\r\n|\r|\n/); // split original text into lines
+  if (typeof text !== `string`) checkArg(`text`, `string`, text)
+
+  const cols = new ListDefaults().columns // default 80 columns
+  const rFindEnt = new RegExp(/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/igm) // find HTML entities
+  const splitTxt = text.split(/\r\n|\r|\n/) // split original text into lines
+  let spacedTxt = ``
+  let len = 0
   for (let i in splitTxt) {
-    let cleanedText = splitTxt[i].replace(patt, " ").trim(); // replace HTML entities with spaces
-    if (len < cleanedText.length) len = cleanedText.length;
+    spacedTxt = splitTxt[i].replace(rFindEnt, ` `).trim() // replace HTML entities with spaces
+    if (len < spacedTxt.length) len = spacedTxt.length
   }
-  //console.log("Columns actual count: " + len);
-  if (len <= 40) cols = 40;
-  else if (len <= cols); // do nothing & keep cols as default
-  else cols = len;
-  return cols;
+  // console.log("Columns actual count: " + len);
+  if (len <= 40) return 40
+  else if (len <= cols) return cols // do nothing & keep cols as default
+  else return len
+}
+
+function findSAUCE(text = { original: `` }, length = 0)
+// Looks for and parses a SAUCE (metadata) record from the text
+// more information, http://www.acid.org/info/sauce/sauce.htm
+{
+  if (typeof text !== `object`) checkArg(`text`, `object`, text)
+  if (typeof text.original !== `string`) checkArg(`text.original`, `string`, text.original)
+  if (typeof length !== `number`) checkArg(`length`, `number`, length)
+
+  // To reduce the memory footprint when handling large text files, we pass an object to `text`
+  // pointing to the original text instead of duplicating the text using a (primitive) string.
+
+  // scan the last 500 characters of the text for a SAUCE identifier
+  const search = text.original.slice(length - 500, length)
+  const start = search.indexOf(`SAUCE00`) - 500
+  const comntStart = search.lastIndexOf(`COMNT`)
+  // data containers
+  const texts = { sauce: text.original.slice(start, length) }
+  const configs = {
+    flags: `00000000`,
+    iceColors: `0`,
+    letterSpacing: `00`,
+    aspectRatio: `00`,
+    fontName: ``,
+    length: 0,
+    width: 0,
+  }
+  const dates = {
+    ccyymmdd: `00000000`,
+    year: 0,
+    month: 0,
+    day: 0,
+  }
+  const positions = {
+    length: length,
+    sauceIndex: length + start,
+    comntIndex: length - comntStart,
+  }
+  // binary zero is represented as unicode code point 65533 (�), named as 'replacement character'
+  const rBin0 = new RegExp(String.fromCharCode(65533), `g`) // a pattern to find all binary zeros
+
+  // parse the 500 characters for a SAUCE record
+  const data = new FindSauce00(texts.sauce)
+  const results = {
+    version: data.version,
+    title: data.title,
+    author: data.author,
+    group: data.group,
+    date: dates,
+    comment: ``,
+    config: configs,
+    position: positions,
+  }
+  let len = 0
+
+  // when no SAUCE identifier is found
+  if (data.id !== `SAUCE00`) {
+    positions.length = 0
+    positions.sauceIndex = 0
+    positions.comntIndex = 0
+    return results
+  }
+
+  // handle the date
+  dates.ccyymmdd = data.date
+  dates.year = parseInt(data.date.slice(0, 4))
+  dates.month = parseInt(data.date.slice(4, 6))
+  dates.day = parseInt(data.date.slice(6, 8))
+  // handle ANSiFlags
+  // see http://www.acid.org/info/sauce/sauce.htm#ANSiFlags
+  configs.flags = data.TFlags.charCodeAt(0).toString(2)  // get binary representation of character
+  len = configs.flags.length
+  if (len < 8) { // pad with leading 0s to make an 8-bit binary string
+    configs.flags = `0`.repeat(8 - len) + configs.flags
+  }
+  configs.iceColors = configs.flags.slice(-1)
+  configs.letterSpacing = configs.flags.slice(-3, -1)
+  configs.aspectRatio = configs.flags.slice(-5, -3)
+  // handle font name
+  configs.fontName = data.TInfoS.replace(rBin0, ``)
+  // document length (ignored) & width
+  if (typeof TextEncoder === `function`) {
+    // see http://ourcodeworld.com/articles/read/164/how-to-convert-an-uint8array-to-string-in-javascript
+    let uea = new TextEncoder(`ascii`).encode(data.TInfo1.replace(rBin0, ``)[0])
+    configs.width = parseInt(uea, 10)
+  }
+  // comments
+  if (comntStart > -1 && (comntStart - start) < (255 * 64)) {
+    // TODO maybe a better sanity check?
+    results.comment = search.slice(comntStart + `COMNT`.length, start)
+  }
+
+  return results
+}
+
+function formatSAUCE(s = {})
+// Humanises and converts the SAUCE record into HTML
+{
+  if (typeof s !== `object`) checkArg(`s`, `object`, s)
+
+  const now = new Date()
+  const d = {
+    months: [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`],
+    curYear: now.getFullYear(),
+    year: s.date.year,
+    month: s.date.month,
+    day: s.date.day,
+    string: ``,
+    joiner: `by `,
+  }
+  let str = ``
+
+  if (s.version !== `00`) return ``
+  if (s.title.trim() !== ``) str = `${str} '${s.title}' `
+  if (s.author.trim() !== ``) {
+    str = `${str} by '${s.author}' `
+    d.joiner = `of `
+  }
+  if (s.group.trim() !== ``) str = `${str} ${d.joiner} ${s.group} `
+  if (s.date.ccyymmdd.trim() !== ``) {
+    if (d.year > 1980 && d.year <= d.curYear) {
+      if (d.day > 0 && d.day <= 31 && d.month > 0 && d.month <= 12) {
+        d.string = ` ${d.months[d.month - 1]} ${d.day} `
+      }
+      if (str.length > 0) str = `${str} dated ${d.year} ${d.string} `
+      else str = `Dated ${d.year} ${d.string} `
+    }
+  }
+  if (str.length > 0) str = `<div id="SAUCE00-metadata"> ${str}</div> `
+  if (s.comment.trim() !== ``) str = `${str}\n<div id="SAUCE00-comment"><em>${s.comment.trim()}</em></div> `
+  return str
+}
+
+function findUnicode(s = ``)
+// Look for any Unicode Byte Order Marks (identifiers) prefixing the string, though
+// this is not reliable as the browser can strip them out.
+// Using Byte Order Marks https://msdn.microsoft.com/en-us/library/windows/desktop/dd374101%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
+// @s String of text
+{
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
+
+  // get the first 4 characters of the string and convert them into hexadecimal values
+  const mark = s.slice(0, 4),
+    chr1 = mark.charCodeAt(0).toString(16).toLowerCase(),
+    chr2 = mark.charCodeAt(1).toString(16).toLowerCase(),
+    chr3 = mark.charCodeAt(2).toString(16).toLowerCase(),
+    chr4 = mark.charCodeAt(3).toString(16).toLowerCase()
+  let description = ``
+  if (chr1 === `ef` && chr2 === `bb` && chr3 === `bf`) description = `UTF-8`
+  else if (chr1 === `ff` && chr2 === `fe`) description = `UTF-16, little endian`
+  else if (chr1 === `fe` && chr2 === `ff`) description = `UTF-16, big endian`
+  else if (chr1 === `ff` && chr2 === `fe` && chr3 === `00` && chr4 === `00`) description = `UTF-32, little endian`
+  else if (chr1 === `00` && chr2 === `00` && chr3 === `fe` && chr4 === `ff`) description = `UTF-32, little endian`
+  return description
+}
+
+function handleChanges(change)
+// This is triggered by an event handler when changes are made to the
+// chrome.storage, such as a different selection in the Options menu
+// @change An object to parse that is created by chrome.storage.onChanged
+{
+  if (typeof change !== `object`) checkArg(`change`, `array`, change)
+  const changes = {
+    font: change.retroFont,
+    color: change.retroColor,
+    lineHeight: change.lineHeight,
+    info: change.textFontInformation,
+    alignment: change.textCenterAlignment,
+    shadows: change.textFontShadows,
+    scanlines: change.textBgScanlines,
+  }
+
+  let dom = new FindDOM()
+
+  // font
+  if (changes.font) {
+    changeFont(changes.font.newValue, dom.pre0)
+    chrome.storage.local.get(`lineHeight`, function (r) {
+      if (r.lineHeight === undefined) checkErr(`Could not obtain the required lineHeight setting to adjust the layout`, true)
+      else { changeLineHeight(r.lineHeight, dom) }
+    })
+    return
+  }
+  // colors
+  if (changes.color) {
+    const c = changes.color.newValue
+    changeColors(c, dom)
+    // update font shadow and scan lines
+    chrome.storage.local.get([`textFontShadows`, `textBgScanlines`], function (r) {
+      const body = document.body
+      const main = document.getElementsByTagName(`main`)[0]
+      // need to update font shadow colour
+      if (typeof r.textFontShadows !== `boolean`) checkErr(`Could not obtain the required textFontShadows setting to handle changes`, true)
+      else if (typeof r === `boolean` && r === true && typeof main === `object`) { changeTextShadow(true, main, c) }
+      // need to update scan lines if background colour changes
+      if (typeof r.textBgScanlines !== `boolean`) checkErr(`Could not obtain the required textBgScanlines setting to handle changes`, true)
+      else if (r === true && typeof body === `object`) { changeTextScanlines(true, body, c) }
+    })
+    return
+  }
+  // line height
+  if (changes.lineHeight) {
+    changeLineHeight(changes.lineHeight.newValue, dom)
+    return
+  }
+  // information text
+  if (changes.info) {
+    const h = document.getElementsByTagName(`header`)[0]
+    if (typeof h === `object`) {
+      if (!changes.info.newValue) h.style.display = `none`
+      else h.style.display = `block`
+    }
+    return
+  }
+  // centre, vertical & horizontal alignment
+  if (changes.alignment) {
+    if (typeof dom.main === `object` && changes.alignment.newValue) {
+      dom.main.style.margin = `auto`
+    } else {
+      dom.main.style.margin = `initial`
+    }
+    return
+  }
+  // shadows
+  if (changes.shadows) {
+    const main = document.getElementsByTagName(`main`)[0]
+    if (typeof main === `object`) {
+      changeTextShadow(changes.shadows.newValue, main)
+    }
+    return
+  }
+  // scan lines
+  if (changes.scanlines) {
+    const body = document.getElementsByTagName(`body`)[0]
+    if (typeof body === `object`) {
+      changeTextScanlines(changes.scanlines.newValue, body)
+    }
+    return
+  }
+}
+
+function handleMessages(message)
+// Handle messages passed on by functions in eventpage.js
+// @message An object created by chrome.runtime.onMessage
+{
+  if (message.id === undefined) { other(); return }
+  switch (message.id) {
+    case `transcode`:
+      sessionStorage.setItem(`transcode`, message.action)
+      window.location.reload() // reload the active tab
+      break
+    case `checkErr`:
+      displayErr() // display error alert box on active tab
+      break
+    default:
+      other()
+      break
+  }
+  function other() {
+    console.warn(`This unexpected message was received by handleMessages()`)
+    console.warn(message)
+  }
+}
+
+function restoreDocument(dom = new FindDOM())
+// Display the original, unmodified text document
+// @dom A HTML DOM Object that will be modified
+{
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  const ignoredSchemes = [`chrome-extension`, `moz-extension`]
+  const urlScheme = window.location.protocol.split(`:`)[0]
+  // Skip URL schemes that match `ignoredSchemes`
+  let removeCSSChildren = true
+  for (const i of ignoredSchemes) {
+    if (urlScheme.includes(i)) removeCSSChildren = false
+  }
+  // delete classes
+
+  changeTextScanlines(false, dom.body)
+  // delete page style customisations
+  dom.body.removeAttribute(`style`)
+  if (dom.preCount >= 2) {
+    if (dom.header !== null) dom.header.style.display = `none`
+    dom.pre0.style.display = `none`
+    dom.pre1.style.display = null
+  } else if (typeof dom.pre0 !== `undefined`) {
+    dom.pre0.style.display = null
+  }
+
+  // delete links to CSS files
+  // (18/2/2017: Keep this action last to improve performance on Chrome)
+  if (removeCSSChildren !== false) {
+    while (dom.head.hasChildNodes()) {
+      dom.head.removeChild(dom.head.firstChild)
+    }
+  }
+  // hide red alert messages
+  displayErr(false)
+}
+
+function restoreRetroTxt(dom = new FindDOM())
+// Display the RetroTxt processed and themed text document
+// @dom A HTML DOM Object that will be modified
+{
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  chrome.storage.local.get(`textFontInformation`, function (result) {
+    const r = result.textFontInformation
+    if (r === undefined) checkErr(`Could not obtain the required textFontInformation setting to apply text font information feature`, true)
+    else if (typeof r === `boolean`) {
+      if (r === false) dom.header.style.display = `none`
+      else dom.header.style.display = `block`
+    }
+  })
+  dom.pre0.style.display = `block`
+  dom.pre1.style.display = `none`
 }
 
 function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
-// Execute RetroTxt
-// This is the main purpose of retrotxt.js, functions outside of here are mostly
-// there to allow unit testing.
+// Execute RetroTxt, this is the main function of retrotxt.js.
+// @tabId         Browser tab ID to apply RetroTxt too
+// @pageEncoding  Page encoding used by the tab
 {
-  let dom = new FindDOM();
+  if (typeof tabId !== `number`) checkArg(`tabId`, `number`, tabId)
+  if (typeof pageEncoding !== `string`) checkArg(`pageEncoding`, `string`, pageEncoding)
+
+  let dom = new FindDOM()
   // context menu onclick listener
-  chrome.runtime.onMessage.addListener(handleMessages);
+  chrome.runtime.onMessage.addListener(handleMessages)
   // monitor for any changed Options set by the user
-  chrome.storage.onChanged.addListener(handleChanges);
+  chrome.storage.onChanged.addListener(handleChanges)
 
   /* Switch between the original and our stylised copy of the text document */
-  // Display original text document
+  /* Display original text document */
   if (dom.cssLink !== null) {
-    changeOffTheme(dom);
+    restoreDocument(dom)
     // tell a listener in eventpage.js that this tab's body has been modified
-    chrome.runtime.sendMessage({
-      retroTxtified: false
-    });
-  }
-  // Display RetroTxtified text
-  else {
-    // get and apply saved Options
-    chrome.storage.local.get(["retroColor", "retroFont", "lineHeight", "textFontShadows", "textBgScanlines", "textCenterAlignment"], function(result) {
-      let dom = new FindDOM();
-      // colour choices
-      let r = result.retroColor;
-      if (typeof r === "string") changeColors(r, dom);
-      // font selection
-      r = result.retroFont;
-      if (typeof r === "string") changeFont(r, dom.pre0);
-      // line height choice
-      r = result.lineHeight;
-      if (typeof r === "string") changeLineHeight(r, dom);
-      // font shadow
-      r = result.textFontShadows;
-      if (typeof r === "boolean" && r === true) changeTextShadow(r, dom.main);
-      // scan lines
-      r = result.textBgScanlines;
-      if (typeof r === "boolean" && r === true) changeTextScanlines(r, dom.body);
-      // centre alignment of text
-      r = result.textCenterAlignment;
-      if (typeof r === "boolean" && r === true) {
-        dom.main.style.margin = `auto`; // vertical & horizontal alignment
-      }
-    });
-
-    // Stylise text document
-    buildStyles(dom);
-
-    // tell a listener in eventpage.js that this tab's body has been modified
-    chrome.runtime.sendMessage({
-      retroTxtified: true
-    });
-
-    // Restore stylised text, hide original unconverted text
-    if (dom.preCount >= 2) {
-      changeOnTheme(dom);
-    }
-    // Create a copy of the text document for applying styles.
-    else {
-      const
-        txtDef = new ListDefaults(),
-        txtOriginal = dom.pre0.innerHTML,
-        txtStrTrim = txtOriginal.trim(),
-        textBOM = findUnicode(txtOriginal),
-        txtType = findControlSequences(txtStrTrim.slice(0, 4));
-      let
-        newHeader = document.createElement("header"),
-        newMain = document.createElement("main"),
-        txtModified = txtOriginal,
-        newPre = document.createElement("pre"),
-        txtCols, txtFormat, txtLength;
-      // Transcode the content of the document so it will display correctly with
-      // UTF-16 encoding.
-      //
-      // the web server page encoding states it is Unicode
-      if (["UTF-8", "UTF-16"].includes(pageEncoding) === true) {
-        newPre.innerHTML = dom.pre0.innerHTML;
-        console.log(`'Content-Type' header sent by the server was ${pageEncoding}, transcoding has been skipped`);
-      }
-      // the content of the document has been detected as Unicode
-      else if (textBOM.length > 0) {
-        txtFormat = dom.pre0.innerHTML;
-        txtLength = txtFormat.split(/\r\n|\r|\n/).length;
-        newPre.innerHTML = txtFormat;
-        console.log(`${textBOM} encoding was found, transcoding has been skipped`);
-      }
-      // otherwise transcode the content into UTF-16
-      else {
-        // browser storage is asynchronous so fetch the user's saved
-        // options and store them as synchronous sessionStorage
-        chrome.storage.local.get(["textDosCtrlCodes"], function(result) {
-          // display DOS CP-437 characters that normally function as C0 control functions
-          const r = result.textDosCtrlCodes;
-          if (typeof r === "boolean") {
-            localStorage.setItem("textDosCtrlCodes", r);
-          }
-        });
-
-        // handle any attached SAUCE meta data
-        // 'Standard Architecture for Universal Comment Extensions'
-        // http://www.acid.org/info/sauce/sauce.htm
-        const saucePosition = txtOriginal.length - 128,
-          sauceText = txtOriginal.slice(saucePosition, txtOriginal.length),
-          sauceId = sauceText.slice(0, 7),
-          sauce00 = new FindSauce00(sauceText);
-        if (sauceId === "SAUCE00") {
-          // search for comments
-          let commentId = ``,
-            commentPosition = 0,
-            commentText = ``,
-            i = 5;
-          while (i--) {
-            commentPosition = saucePosition - (i * 64) - 5;
-            commentText = txtOriginal.slice(commentPosition, txtOriginal.length - 128);
-            commentId = commentText.slice(0, 5);
-            if (commentId === "COMNT") break;
-          }
-          if (commentId === "COMNT") {
-            sauce00.comment = commentText.slice(5); // remove COMNT string
-            // remove SAUCE comment from text
-            txtModified = txtModified.slice(0, commentPosition);
-          }
-          // remove other SAUCE meta data from text
-          txtModified = txtModified.slice(0, saucePosition);
-        }
-
-        // handle character sets and transcoding
-        let userTranscode = ``,
-          txtLen = txtModified.length,
-          buildText = {},
-          charSet = ``,
-          columnsUsed = 80,
-          otherCodesCount = 0,
-          unknownCount = 0;
-        // guess character set
-        userTranscode = sessionStorage.getItem("transcode");
-        if (typeof userTranscode !== "string" || userTranscode === "codeAutomatic") {
-          const charData = new BuildCharSet(txtModified);
-          charSet = charData.guess;
-        }
-        // user overrides using the `Transcode text` context menu
-        else {
-          if (userTranscode === "codeMsdos0") charSet = "CP437";
-          if (userTranscode === "codeMsdos1") charSet = "CP865";
-          if (userTranscode === "codeWindows") charSet = "CP1252";
-          if (userTranscode === "codeLatin9") charSet = "ISO885915";
-          if (userTranscode === "codeNone") charSet = "USASCII";
-        }
-        // rebuild text with new character encoding
-        switch (charSet) {
-          case "CP437":
-          case "CP865":
-            buildText = new BuildCPDos(txtModified, charSet);
-            break;
-          case "CP1252":
-            buildText = new BuildCP1252(txtModified);
-            break;
-          case "ISO88591":
-            buildText = new BuildCP88591(txtModified);
-            break;
-          case "ISO885915":
-            buildText = new BuildCP885915(txtModified);
-            break;
-          case "UTF8":
-            buildText = new BuildCPUtf8(txtModified);
-            break;
-          case "USASCII":
-          case "UTFERR":
-            buildText = new BuildCPUtf16(txtModified);
-            break;
-        }
-        // parse rebuilt text
-        txtFormat = buildText.text;
-        // count number of lines
-        txtLength = txtFormat.split(/\r\n|\r|\n/).length;
-        // the converted text should be at least the same size as the original
-        if (txtFormat.length < txtLen) {
-          try {
-            throw `Text did not convert correctly, the new text size of ${txtFormat.length} characters should be the same or larger than the original size of ${txtLen} characters`;
-          } catch (e) {
-            console.error("runRetroTxt()", e);
-          }
-        }
-        // converts PCBoard and WildCat! BBS colour codes into HTML and CSS
-        else if (["pcboard", "wildcat"].includes(txtType) === true) {
-          console.info(`%c%c${chrome.i18n.getMessage(txtType)}%c colour codes in use`, `font-weight: bold`, `font-weight: bold; color: red`, `font-weight: bold; color: initial`);
-          txtFormat = BuildBBS(txtFormat, txtType, false);
-        }
-        // converts ECMA-48 aka ANSI escape codes into HTML and CSS
-        else if (txtType === "ecma48") {
-          console.info(`%c%cECMA-48%c control sequences in use`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`);
-          const parseEcma48 = new BuildEcma48(txtFormat, false, false);
-          columnsUsed = parseEcma48.columns;
-          txtLength = parseEcma48.rows;
-          txtFormat = parseEcma48.textAsHTML;
-          otherCodesCount = parseEcma48.otherCodesCount;
-          unknownCount = parseEcma48.unknownCount;
-          // handle Set/Restore Mode functionality
-          const replacementFont = parseEcma48.font;
-          sessionStorage.removeItem('fontOverride');
-          if (replacementFont !== null) {
-            console.log(`Set mode font override to ${replacementFont}`);
-            changeFont(replacementFont, newPre); // this needs to run before setting the sessionStorage
-            sessionStorage.setItem('fontOverride', 'true');
-          }
-          const colorDepth = parseEcma48.colorDepth;
-          if (colorDepth !== null) {
-            if (colorDepth === 1) {
-              console.log(`Set mode 1-bit color depth override`);
-              document.getElementById("retrotxt-4bit").remove();
-              document.getElementById("retrotxt-8bit").remove();
-            } else if (colorDepth === 0) {
-              console.log(`Set mode grayscale override`);
-              let colorLink = document.getElementById("retrotxt-4bit");
-              colorLink.href = colorLink.href.replace(/text_colors_vga/, 'text_colors_gray'); // TODO change this regex replace to a condition?
-            }
-          }
-        }
-        // plain and ASCII text
-        else {}
-        // append a blinking cursor to the text
-        txtFormat = `${txtFormat}<span class="dos-cursor">_</span>`;
-        // inject text into the browser tab
-        newPre.innerHTML = txtFormat;
-
-        // statistics for information header
-        if (["ecma48", "pcboard", "wildcat"].includes(txtType) === true) {
-          txtCols = columnsUsed;
-        } else {
-          txtCols = findPageColumns(txtModified); // count the number of text columns
-          newPre.style.width = txtDef.width; // lock centring alignment to 640px columns
-        }
-        // create the information header
-        newHeader.innerHTML = `<span title="Columns of text">${txtCols}</span> x\
-                      <span title="Lines of text">${txtLength}</span> \
-                      <span title="Number of characters contained in the text"></span> \
-                      <span title="Font family used for display" id="h-doc-font-family" class="capitalize">font?</span>`;
-        // append page transcode details to information header
-        const dspTranscode = new FindTranscode(charSet);
-        newHeader.innerHTML = `${newHeader.innerHTML} <span title="${dspTranscode.title}">${dspTranscode.text}</span>`;
-        // append BBS codes notification to header
-        if (["pcboard", "wildcat"].includes(txtType) === true) {
-          newHeader.innerHTML = `${newHeader.innerHTML} \
-          <span id="h-doc-fmt" title="Special bulletin board system, text formatting">- \
-          '${chrome.i18n.getMessage(txtType)}' ${chrome.i18n.getMessage("color")} codes in use</span>`;
-        }
-        // append ECMA-48 control sequence details to the information header
-        else if (txtType === "ecma48") {
-          newHeader.innerHTML = `${newHeader.innerHTML} <span id="h-doc-fmt" title="ECMA-48/ANSI X3.64 presentation control and cursor functions">- ANSI control sequences in use</span>`;
-          if (otherCodesCount > 0) {
-            let otherAsText = ``;
-            if (otherCodesCount === 1) otherAsText = `1 unsupported function`;
-            else if (otherCodesCount > 1 && otherCodesCount < 5) otherAsText = `${otherCodesCount} unsupported functions`;
-            else if (otherCodesCount >= 5) otherAsText = `${otherCodesCount} unsupported functions, this display is probably inaccurate`;
-            if (otherAsText.length > 0) newHeader.innerHTML = `${newHeader.innerHTML} with <span id="h-doc-fmt">${otherAsText}</span>`;
-          }
-          if (unknownCount > 0) {
-            let errorAsText = `${unknownCount} unknown ECMA-48 sequence`;
-            if (unknownCount > 1) errorAsText = `${errorAsText}s`;
-            let conjunction = `with`;
-            if (otherCodesCount > 0) conjunction = `and`;
-            newHeader.innerHTML = `${newHeader.innerHTML} ${conjunction} <span id="h-doc-fmt">${errorAsText}</span>`;
-          }
-        }
-        // append SAUCE00 meta data to the information header
-        if (sauce00.version === "00") {
-          let sauceStr = ``;
-          if (sauce00.title.trim() !== "") sauceStr = `${sauceStr}'${sauce00.title}' `;
-          let joiner = `by `;
-          if (sauce00.author.trim() !== "") {
-            sauceStr = `${sauceStr}by ${sauce00.author} `;
-            joiner = `of `;
-          }
-          if (sauce00.group.trim() !== "") sauceStr = `${sauceStr}${joiner}${sauce00.group} `;
-          if (sauce00.date.trim() !== "") {
-            let dateAsString = ``;
-            const d = new Date(),
-              currentYear = d.getFullYear(),
-              months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-              sauceDate = sauce00.date.trim(),
-              sauceYear = parseInt(sauceDate.slice(0, 4)),
-              sauceMonth = parseInt(sauceDate.slice(4, 6)),
-              sauceDay = parseInt(sauceDate.slice(6, 8));
-            if (sauceYear > 1980 && sauceYear <= currentYear) {
-              if (sauceDay > 0 && sauceDay <= 31 && sauceMonth > 0 && sauceMonth <= 12) {
-                dateAsString = ` ${months[sauceMonth]} ${sauceDay}`;
-              }
-              sauceStr = `${sauceStr} from ${sauceYear}${dateAsString}`;
-            }
-          }
-          if (sauceStr.length > 0) newHeader.innerHTML = `${newHeader.innerHTML}<div id="SAUCE00-metadata">${sauceStr}</div>`;
-          if (sauce00.comment.trim() !== "") newHeader.innerHTML = `${newHeader.innerHTML}<div id="SAUCE00-comment"><em>${sauce00.comment.trim()}</em></div>`;
-        }
-        // update header using saved details
-        chrome.storage.local.get(["retroFont"], function(result) {
-          if (typeof result.retroFont === "undefined" || result.retroFont.length === 0) return;
-          let element = window.document.getElementById("h-doc-font-family");
-          element.innerHTML = result.retroFont.toUpperCase();
-        });
-
-        // hide original unconverted text
-        dom.pre0.style.display = `none`;
-        // insert new tags into HTML DOM
-        newMain.appendChild(newPre);
-        dom.body.insertBefore(newHeader, dom.pre0);
-        dom.body.insertBefore(newMain, dom.pre0);
-
-        // hide spin loader
-        let spinner = window.document.getElementById("spin-loader");
-        if (spinner !== null) spinner.setAttribute("style", "display:none");
-      }
-    }
+    chrome.runtime.sendMessage({ retroTxtified: false })
+    return // end function
   }
 
-  function FindSauce00(sauceText = ``)
-  // Extracts SAUCE meta data appended to any text document
-  // http://www.acid.org/info/sauce/sauce.htm
-  {
-    this.id = sauceText.slice(0, 7);
-    this.version = ``;
-    this.title = ``;
-    this.author = ``;
-    this.group = ``;
-    this.date = ``;
-    this.fileSize = ``;
-    this.dataType = ``;
-    this.fileType = ``;
-    this.TInfo1 = ``;
-    this.TInfo2 = ``;
-    this.TInfo3 = ``;
-    this.TInfo4 = ``;
-    this.comments = ``;
-    this.TFlags = ``;
-    this.TInfoS = ``;
-    this.comment = ``;
-    if (this.id === "SAUCE00") {
-      this.version = sauceText.slice(5, 7); // 2 bytes
-      this.title = sauceText.slice(7, 42).trim(); // 35 bytes
-      this.author = sauceText.slice(42, 62).trim(); // 20 bytes
-      this.group = sauceText.slice(62, 82).trim(); // 20 bytes
-      this.date = sauceText.slice(82, 90).trim(); // 8 bytes
-      this.TInfoS = sauceText.slice(106, 128); // 22 bytes
-      this.cType = sauceText.slice(90, 106); // 16 bytes
-      this.fileSize = sauceText.slice(90, 94);
-      this.dataType = sauceText.slice(94, 95);
-      this.fileType = sauceText.slice(95, 96);
-      this.TInfo1 = sauceText.slice(96, 98);
-      this.TInfo2 = sauceText.slice(98, 100);
-      this.TInfo3 = sauceText.slice(100, 102);
-      this.TInfo4 = sauceText.slice(102, 104);
-      this.comments = sauceText.slice(104, 105);
-      this.TFlags = sauceText.slice(105, 106);
+  /* Display RetroTxt-fied text */
+  // get and apply saved Options
+  chrome.storage.local.get([`retroColor`, `retroFont`, `lineHeight`, `textFontShadows`, `textBgScanlines`, `textCenterAlignment`], function (result) {
+    function err(id) {
+      checkErr(`Could not obtain the required ${id} setting to apply execute RetroTxt`, true)
     }
-  }
-
-  function findUnicode(s = ``)
-  // Look for any Unicode Byte Order Marks (identifiers) though this is not
-  // reliable as the browser can strip them out.
-  // Using Byte Order Marks https://msdn.microsoft.com/en-us/library/windows/desktop/dd374101%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
-  {
-    // get the first 4 characters of the string and convert them into hexadecimal values
-    const mark = s.slice(0, 4),
-      chr1 = mark.charCodeAt(0).toString(16).toLowerCase(),
-      chr2 = mark.charCodeAt(1).toString(16).toLowerCase(),
-      chr3 = mark.charCodeAt(2).toString(16).toLowerCase(),
-      chr4 = mark.charCodeAt(3).toString(16).toLowerCase();
-    let description = "";
-    if (chr1 === "ef" && chr2 === "bb" && chr3 === "bf") description = "UTF-8";
-    else if (chr1 === "ff" && chr2 === "fe") description = "UTF-16, little endian";
-    else if (chr1 === "fe" && chr2 === "ff") description = "UTF-16, big endian";
-    else if (chr1 === "ff" && chr2 === "fe" && chr3 === "00" && chr4 === "00") description = "UTF-32, little endian";
-    else if (chr1 === "00" && chr2 === "00" && chr3 === "fe" && chr4 === "ff") description = "UTF-32, little endian";
-    return description;
-  }
-
-  function handleChanges(changes)
-  // Handles all changes made to storage the chrome.storage
-  {
-    let dom = new FindDOM();
-    // font
-    if (changes.retroFont) {
-      changeFont(changes.retroFont.newValue, dom.pre0);
-      chrome.storage.local.get("lineHeight", function(result) {
-        changeLineHeight(result.lineHeight, dom);
-      });
-    }
-    // colours
-    else if (changes.retroColor) {
-      const changedC = changes.retroColor.newValue;
-      changeColors(changedC, dom);
-      // update font shadow and scan lines
-      chrome.storage.local.get(["textFontShadows", "textBgScanlines"], function(r) {
-        const body = document.body,
-          main = document.getElementsByTagName("main")[0];
-        if (typeof r === "boolean" && r === true && typeof pre === "object") {
-          // need to update font shadow colour
-          changeTextShadow(true, main, changedC);
-        }
-        if (typeof r === "boolean" && r === true && typeof body === "object") {
-          // need to update scan lines if background colour changes
-          changeTextScanlines(true, body, changedC);
-        }
-      });
-    }
-    // line height
-    else if (changes.lineHeight) {
-      changeLineHeight(changes.lineHeight.newValue, dom);
-    }
-    // information text
-    else if (changes.textFontInformation) {
-      const h = document.getElementsByTagName("header")[0];
-      if (typeof h === "object") {
-        if (!changes.textFontInformation.newValue) h.style.display = `none`;
-        else h.style.display = `block`;
-      }
-    }
-    // centre, vertical & horizontal alignment
-    else if (changes.textCenterAlignment) {
-      if (typeof dom.main === "object" && changes.textCenterAlignment.newValue) {
-        dom.main.style.margin = `auto`;
-      } else {
-        dom.main.style.margin = `initial`;
-      }
-    }
-    // shadows
-    else if (changes.textFontShadows) {
-      const main = document.getElementsByTagName("main")[0];
-      if (typeof main === "object") {
-        changeTextShadow(changes.textFontShadows.newValue, main);
-      }
-    }
+    let dom = new FindDOM(), r
+    // colour choices
+    r = result.retroColor
+    if (typeof r === `string`) changeColors(r, dom)
+    else err(`retroColor`)
+    // font selection
+    r = result.retroFont
+    if (typeof r === `string`) changeFont(r, dom.pre0)
+    else err(`retroFont`)
+    // line height choice
+    r = result.lineHeight
+    if (typeof r === `string`) changeLineHeight(r, dom)
+    else err(`lineHeight`)
+    // font shadow
+    r = result.textFontShadows
+    if (typeof r === `boolean` && r === true) changeTextShadow(r, dom.main)
+    else if (typeof r !== `boolean`) err(`textFontShadows`)
     // scan lines
-    else if (changes.textBgScanlines) {
-      const body = document.getElementsByTagName("body")[0];
-      if (typeof body === "object") {
-        changeTextScanlines(changes.textBgScanlines.newValue, body);
+    r = result.textBgScanlines
+    if (typeof r === `boolean` && r === true) changeTextScanlines(r, dom.body)
+    else if (typeof r !== `boolean`) err(`textBgScanlines`)
+    // centre alignment of text
+    r = result.textCenterAlignment
+    if (typeof r === `boolean` && r === true) {
+      dom.main.style.margin = `auto` // vertical & horizontal alignment
+    } else if (typeof r !== `boolean`) err(`textCenterAlignment`)
+  })
+
+  // Stylise text document
+  buildStyles(dom)
+
+  // tell a listener in eventpage.js that the body of this tab has been modified
+  chrome.runtime.sendMessage({ retroTxtified: true })
+
+  if (dom.preCount > 1) {
+    // Restore the stylised text and hide original raw text
+    restoreRetroTxt(dom)
+    return // end function
+  }
+  // Create a copy of the text documentfor applying styles.
+  const reset = new ListDefaults()
+  const srcText = { original: dom.pre0.innerHTML } // use an object instead of a string type to reduce `srcText` memory footprint
+  const srcMeta = {
+    BOM: findUnicode(srcText.original),
+    chrSet: document.characterSet,
+    encoding: pageEncoding,
+    format: findControlSequences(srcText.original),
+    length: srcText.original.length
+  }
+  const newDOM = {
+    header: document.createElement(`header`),
+    main: document.createElement(`main`),
+    pre: document.createElement(`pre`),
+    preProcess: srcText.original,
+    innerHTML: ``,
+    columns: 80, // assume 80 for all text formats
+    rows: 0,
+  }
+  const rev1Text = {
+    charSet: ``,
+    codePage: {},
+    innerHTML: ``,
+    length: 0,
+    sessCharSet: ``,
+  }
+  const tfi = {//${newDOM.columns} ${newDOM.rows} ${humaniseFS(srcMeta.length)}
+    template: `<span title="Columns of text">♥</span> x <span title="Lines of text">♦</span> \
+<span title="Number of characters contained in the text">♣</span> -`,
+    ansi: `<span id="h-doc-fmt" title="ECMA-48/ANSI X3.64 presentation control and cursor functions">ANSi</span>`,
+    body: ``,
+    colors: ``,
+    fontName: `<span title="Font family used for display" id="h-doc-font-family" class="capitalize">♠</span>`,
+    sauce: ``,
+    tail: ``,
+    errs: 0, // unknown csi
+    oths: 0, // other, ignored csi
+  }
+  let colorLink
+  let ecma48Data = {}
+
+  // options and store them as synchronous sessionStorage
+  chrome.storage.local.get([`textDosCtrlCodes`], function (result) {
+    // display DOS CP-437 characters that normally function as C0 control functions
+    const r = result.textDosCtrlCodes
+    if (typeof r !== `boolean`) {
+      checkErr(`Could not obtain the required textDosCtrlCodes setting to apply the display of DOS control code symbols`, true)
+    } else localStorage.setItem(`textDosCtrlCodes`, r)
+  })
+
+  /* SAUCE - Standard Architecture for Universal Comment Extensions */
+  // http://www.acid.org/info/sauce/sauce.htm
+  const sauce00 = findSAUCE(srcText, srcMeta.length)
+  switch (sauce00.version) {
+    case `00`:
+      tfi.sauce = formatSAUCE(sauce00) // creates HTML
+      // remove sauce record from text
+      if (sauce00.position.comntIndex > 0 && sauce00.position.comntIndex < sauce00.position.sauceIndex) {
+        newDOM.preProcess = srcText.original.slice(0, sauce00.position.comntIndex)
       }
-    }
+      else newDOM.preProcess = srcText.original.slice(0, sauce00.position.sauceIndex)
+      break
+    default:
+      newDOM.preProcess = srcText.original
+  }
+  //console.log(sauce00)
+
+  // document and page encoding
+  if (srcMeta.BOM.length > 0) srcMeta.encoding = srcMeta.BOM
+  // determine character set
+  rev1Text.charSet = charSetFind(sessionStorage.getItem(`transcode`), newDOM)
+  rev1Text.codePage = new HumaniseCP(rev1Text.charSet)
+  // rebuild text with new character encoding
+  rev1Text.innerHTML = charSetRebuild(rev1Text.charSet, newDOM)
+  // count number of rows (lines)
+  newDOM.rows = rev1Text.innerHTML.trim().split(/\r\n|\r|\n/).length
+  if (rev1Text.innerHTML.length < newDOM.preProcess.length) {
+    // the converted text should be at least the same size as the original
+    checkErr(`Text did not convert correctly, the size of parsed text is ${rev1Text.innerHTML.length} characters, it is smaller than original text of ${newDOM.preProcess.length} characters`, true)
   }
 
-  function handleMessages(message) {
-    if (message.id === "transcode") {
-      sessionStorage.setItem("transcode", message.action);
-      // reload the active tab
-      window.location.reload();
-    }
+  // handle non-ASCII text formatting
+  switch (srcMeta.format) {
+    case `ecma48`: // ECMA-48 aka ANSI encoded text
+      console.info(`%c%cECMA-48%c control sequences in use`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
+      //console.time(`BuildEcma48()`)
+      // These variables are isolated to the RetroTxt content scripts
+      ecma48Data = new BuildEcma48(rev1Text.innerHTML, sauce00, false, false)
+      //console.timeEnd(`BuildEcma48()`)
+      newDOM.columns = ecma48Data.columns
+      newDOM.rows = ecma48Data.rows
+      rev1Text.innerHTML = ecma48Data.innerHTML
+      tfi.oths = ecma48Data.otherCodesCount
+      tfi.errs = ecma48Data.unknownCount
+      // handle Set/Restore Mode functionality
+      // font override
+      sessionStorage.removeItem(`fontOverride`)
+      if (ecma48Data.font === undefined) {
+        checkErr(`'ecma48Data.font' should have returned a font value or 'null' but instead returned ${ecma48Data.font}`)
+      } else if (ecma48Data.font !== null) {
+        //console.log(`Set mode font override to ${ecma48Data.font.toUpperCase()}`)
+        changeFont(ecma48Data.font, newDOM.pre) // this needs to run before setting the sessionStorage
+        sessionStorage.setItem(`fontOverride`, `true`)
+      }
+      // color depth
+      if (ecma48Data.iceColors === true) tfi.colors = `with 'iCE colors' `
+      //ecma48Data.colorDepth = 4 // uncomment to test
+      switch (ecma48Data.colorDepth) {
+        case 4:
+          document.getElementById(`retrotxt-8bit`).remove()
+          break
+        case 1:
+          document.getElementById(`retrotxt-4bit`).remove()
+          document.getElementById(`retrotxt-8bit`).remove()
+          tfi.colors = `${tfi.colors}in ASCII like, 2 ${chrome.i18n.getMessage(`color`)}s`
+          break
+        case 0:
+          document.getElementById(`retrotxt-8bit`).remove()
+          colorLink = document.getElementById(`retrotxt-4bit`)
+          colorLink.href = colorLink.href.replace(/text_colors_vga/, `text_colors_gray`) // TODO change this regex replace to a condition?
+          tfi.colors = `${tfi.colors}in monochrome, 16 ${chrome.i18n.getMessage(`color`)}`
+          break
+        default:
+      }
+      break
+    case `pcboard`: // converts PCBoard and WildCat! BBS colour codes into HTML and CSS
+    case `wildcat`:
+      console.info(`%c%c${chrome.i18n.getMessage(srcMeta.format)}%c ${chrome.i18n.getMessage(`color`)} codes`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
+      rev1Text.innerHTML = BuildBBS(rev1Text.innerHTML, srcMeta.format, false)
+    // break omitted
+    default: // plain and ASCII text
+      // append a blinking cursor to the text
+      // do not trim text or the layouts of ASCII files may break
+      rev1Text.innerHTML = `${rev1Text.innerHTML}<span class="dos-cursor">_</span>`
   }
+
+  // inject text into the browser tab
+  newDOM.pre.innerHTML = rev1Text.innerHTML
+
+  // reveal the text font information header
+  chrome.storage.local.get(`textFontInformation`, function (result) {
+    // reveal or hide header?
+    switch (result.textFontInformation) {
+      case false: newDOM.header.style.display = `none`
+        break
+      case true: newDOM.header.style.display = `block`
+        break
+      default:
+        checkErr(`Could not obtain the required textFontInformation setting to reveal text font information`, true)
+    }
+  })
+  // code page details for text font info.
+  if (srcMeta.chrSet !== null) {
+    let dcp = srcMeta.chrSet.replace(`-`, ``).toUpperCase()
+    rev1Text.codePage.text = rev1Text.codePage.text.replace(`CP-`, `CP`)
+    dcp = dcp.replace(`WINDOWS`, `CP`) // abbreviate WINDOWS1252 to CP1252 etc.
+    tfi.body = `${tfi.body} <span title="Document encoding set by the browser">${dcp}</span> → \
+<span title="Unicode ≈ ${rev1Text.codePage.title}">${rev1Text.codePage.text}</span>`
+  }
+  // font name
+  tfi.tail = `- ${tfi.fontName}`
+  // content format
+  switch (srcMeta.format) {
+    case `ecma48`:
+      tfi.tail = `${tfi.tail} ${tfi.ansi}`
+      if (tfi.colors.length > 0) tfi.tail = `${tfi.tail} ${tfi.colors}`
+      // ecma48 errors
+      if (tfi.oths > 0 || tfi.errs > 0) {
+        let cnt = tfi.oths + tfi.errs
+        let ic = ``
+        if (cnt > 4) ic = `${ic}<u>`
+        if (tfi.oths > 0) {
+          ic = `${ic}${tfi.oths} unsupported function`
+          if (tfi.oths > 1) ic = `${ic}s`
+        }
+        if (tfi.oths > 0 && tfi.errs > 0) ic = `${ic} and `
+        if (tfi.errs > 0) {
+          ic = `${ic}${tfi.errs} unknown control`
+          if (tfi.errs > 1) ic = `${ic}s`
+        }
+        ic = `${ic} found`
+        if (cnt > 4) ic = `${ic}, this display is inaccurate</u>`
+        tfi.tail = `${tfi.tail}</div><div id="h-doc-fmt">${ic}</div><div>`
+      }
+      break
+    case `pcboard`:
+    case `wildcat`:
+      tfi.tail = `- ${tfi.fontName} <span id="h-doc-fmt" title="Special bulletin board system, text formatting"> \
+          '${chrome.i18n.getMessage(srcMeta.format)}' ${chrome.i18n.getMessage(`color`)} codes</span>`
+      break
+    default: // ASCII & NFO
+      newDOM.columns = findPageColumns(newDOM.preProcess) // count the number of text columns
+      newDOM.pre.style.width = reset.width // lock centring alignment to 640px columns
+  }
+  // append to for text font info.
+  if (tfi.tail.length > 0) tfi.body = `${tfi.body} ${tfi.tail}`
+  // append SAUCE records for text font info.
+  if (tfi.sauce.length > 0) tfi.body = `${tfi.body}${tfi.sauce} `
+
+  // refresh header data before displaying
+  let ti = tfi.template
+  ti = ti.replace(`♥`, `${newDOM.columns}`)
+  ti = ti.replace(`♦`, `${newDOM.rows}`)
+  ti = ti.replace(`♣`, `${humaniseFS(srcMeta.length)}`)
+  if (typeof ecma48Data.font !== `undefined` && ecma48Data.font !== null) {
+    tfi.body = tfi.body.replace(`♠`, `${ecma48Data.font.toUpperCase()}`)
+  } else {
+    chrome.storage.local.get([`retroFont`], function (r) {
+      if (r.retroFont === undefined) checkErr(`Could not obtain the required retroFont setting to apply the header`, true)
+      else {
+        let element = window.document.getElementById(`h-doc-font-family`)
+        element.innerHTML = r.retroFont.toUpperCase()
+      }
+    })
+  }
+  // update text font information header using new HTML
+  tfi.body = `${ti}${tfi.body}`
+  newDOM.header.innerHTML = tfi.body
+
+  // create red alert message at the top of the page
+  if (window.checkedErr !== undefined && window.checkedErr === true) displayErr(true)
+  else displayErr(false) // hide from view
+
+  // hide original unconverted text
+  dom.pre0.style.display = `none`
+
+  // insert new tags into HTML DOM
+  newDOM.main.appendChild(newDOM.pre)
+  dom.body.insertBefore(newDOM.header, dom.pre0)
+  dom.body.insertBefore(newDOM.main, dom.pre0)
+
+  // hide spin loader
+  runSpinLoader(false)
 }

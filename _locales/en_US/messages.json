@@ -15,6 +15,9 @@
     "message": "Wildcat!"
   },
   "url_help": {
-    "message": "https://github.com/bengarrett/RetroTxt/blob/master/README.md"
+    "message": "https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md"
+  },
+  "url_issues": {
+    "message": "https://github.com/bengarrett/RetroTxt/issues"
   }
 }

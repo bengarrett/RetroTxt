@@ -38,7 +38,7 @@ In Windows to make a web browser your default text file viewer.
 
 * The web browser and the operating system can make modifications the font width, height, and space for either accessibility or due to user applied themes.
 
-* The Apple II, Commodore Amiga, Commodore 64, VGA LCD fonts were a bit small and had been up-sized by 1.5x. You can return these fonts to their original size by pressing <kbd>Ctrl</kbd> <kbd>-</kbd> in Chrome and reducing the font size to _67%_.
+* The VGA LCD font is a bit small and had been up-sized by 1.5x. You can return these fonts to their original size by pressing <kbd>Ctrl</kbd> <kbd>-</kbd> in Chrome and reducing the font size to _67%_.
 
 #### What text encodings are supported?
 Please see [Technical Specifications on supported text](technical.md)
@@ -46,9 +46,9 @@ Please see [Technical Specifications on supported text](technical.md)
 #### Text is garbled
 There could be many causes of this, but generally, it is related to the web server or browser choosing the incorrect character encoding for the file.
 
-You can manually switch this.
+You can manually switch this [except in Chrome 55 or newer](https://productforums.google.com/forum/#!topic/chrome/1sC3JN0qDkg).
 
-In __Chrome__ click the menu icon ![Old menu icon](assets/browser_menu.png) or ![Newer menu icon](assets/browser_menu_new.png) and select __Encoding__ from the __More tools__ menu.
+In __Chrome 49-54__ click the menu icon ![Old menu icon](assets/browser_menu.png) or ![Newer menu icon](assets/browser_menu_new.png) and select __Encoding__ from the __More tools__ menu.
 
 In __Firefox__ press <kbd>ALT</kbd> <kbd>v</kbd> and select __Text Encoding__.
 

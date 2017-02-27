@@ -30,6 +30,7 @@ The choices ordered into three categories. Systems are recreations of ancient co
 - **Windows** is themed on its `notepad.exe` program and uses black text on white.
 - **Apple II** based on the Apple home computer.
 - **Amiga** based on the Commodore Amiga Workbench with white text on grey.
+- **Atari ST** based on the Atari TOS with black text on white.
 - **C-64** based on the Commodore 64 boot screen with a light on a dark blue colour pair.
 
 <div style="text-align:center">![Font options selection](assets/theme_ms-dos.png) ![Font options selection](assets/theme_windows.png) ![Font options selection](assets/theme_amiga.png) ![Font options selection](assets/theme_appleii.png) ![Font options selection](assets/theme_c64.png)</div>

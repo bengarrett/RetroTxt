@@ -12,56 +12,64 @@
 //
 // 8-Bit Single Byte Coded Graphic Character Sets - Latin Alphabets No. 1 to No. 4
 // http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-094.pdf
-"use strict";
+'use strict'
+
+/*global chrome checkArg */
 
 function BuildCP1252(s = ``, verbose = false)
 // Builds text using Windows-1252 source text, often wrongly called Windows-ANSI
 // @s       String of Unicode UTF-16 text
+// @verbose Display to the console each character that is handled
 {
-  const
-    cp1252_8 = ["€", "", "‚", "ƒ", "„", "…", "†", "‡", "ˆ", "‰", "Š", "‹", "Œ", "", "Ž", ""],
-    cp1252_9 = ["", "‘", "’", "“", "”", "•", "–", "—", "\u02dc", "™", "š", "›", "œ", "", "ž", "Ÿ"],
-    cp1252 = cp1252_8.concat(cp1252_9);
-  let code = 0,
-    t = s;
-  // handle characters 80…FF
-  let i = cp1252.length;
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
+  if (typeof verbose !== `boolean`) checkArg(`verbose`, `boolean`, verbose)
+
+  const cp1252_8 = [`€`, ``, `‚`, `ƒ`, `„`, `…`, `†`, `‡`, `ˆ`, `‰`, `Š`, `‹`, `Œ`, ``, `Ž`, ``]
+  const cp1252_9 = [``, `‘`, `’`, `“`, `”`, `•`, `–`, `—`, `\u02dc`, `™`, `š`, `›`, `œ`, ``, `ž`, `Ÿ`]
+  const cp1252 = cp1252_8.concat(cp1252_9)
+  let code = 0
+  let t = s
+  let i = cp1252.length  // handle characters 80…FF
   while (i--) {
-    code = i + 128;
-    if (verbose) console.log(`${i} ${String.fromCharCode(code)} ↣ ${cp1252[i]}`);
-    t = t.replace(RegExp(String.fromCharCode(code), "g"), cp1252[i]);
+    code = i + 128
+    if (verbose) console.log(`${i} ${String.fromCharCode(code)} ↣ ${cp1252[i]}`)
+    t = t.replace(RegExp(String.fromCharCode(code), `g`), cp1252[i])
   }
   // handle character 1B (to inject EMCA-48 control function support)
-  t = t.replace(RegExp(String.fromCharCode(27), "g"), "←");
-  this.text = t;
-  this.characterSet = cp1252;
+  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  this.text = t
+  this.characterSet = cp1252
 }
 
 function BuildCP88591(s = ``)
 // Builds text using ISO-8859-1 source text, commonly called Latin 1.
 // @s       String of Unicode UTF-16 text
 {
-  let t = s;
-  t = t.replace(RegExp(String.fromCharCode(27), "g"), "←");
-  this.text = t;
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
+
+  let t = s
+  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  this.text = t
 }
 
 function BuildCP885915(s = ``)
 // Builds text using ISO-8859-15 source text, alternatively called Latin 9.
 // @s       String of Unicode UTF-16 text
 {
-  let t = s;
-  t = t.replace(RegExp(String.fromCharCode(164), "g"), "€");
-  t = t.replace(RegExp(String.fromCharCode(166), "g"), "Š");
-  t = t.replace(RegExp(String.fromCharCode(168), "g"), "š");
-  t = t.replace(RegExp(String.fromCharCode(180), "g"), "Ž");
-  t = t.replace(RegExp(String.fromCharCode(184), "g"), "ž");
-  t = t.replace(RegExp(String.fromCharCode(188), "g"), "Œ");
-  t = t.replace(RegExp(String.fromCharCode(189), "g"), "œ");
-  t = t.replace(RegExp(String.fromCharCode(190), "g"), "Ÿ");
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
+
+  let t = s
+  t = t.replace(RegExp(String.fromCharCode(164), `g`), `€`)
+  t = t.replace(RegExp(String.fromCharCode(166), `g`), `Š`)
+  t = t.replace(RegExp(String.fromCharCode(168), `g`), `š`)
+  t = t.replace(RegExp(String.fromCharCode(180), `g`), `Ž`)
+  t = t.replace(RegExp(String.fromCharCode(184), `g`), `ž`)
+  t = t.replace(RegExp(String.fromCharCode(188), `g`), `Œ`)
+  t = t.replace(RegExp(String.fromCharCode(189), `g`), `œ`)
+  t = t.replace(RegExp(String.fromCharCode(190), `g`), `Ÿ`)
   // handle character 1B (to inject EMCA-48 control function support)
-  t = t.replace(RegExp(String.fromCharCode(27), "g"), "←");
-  this.text = t;
+  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  this.text = t
 }
 
 function BuildCPUtf8(s = ``)
@@ -70,9 +78,11 @@ function BuildCPUtf8(s = ``)
 // https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder
 // @s       String of Unicode UTF-16 text
 {
-  let t = s;
-  t = t.replace(RegExp(String.fromCharCode(27), "g"), "←");
-  this.text = t;
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
+
+  let t = s
+  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  this.text = t
 }
 
 function BuildCPUtf16(s = ``)
@@ -80,8 +90,10 @@ function BuildCPUtf16(s = ``)
 // JavaScript uses UTF-16 internally for the handling of all strings
 // @s       String of Unicode UTF-16 text
 {
-  let t = s;
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
+
+  let t = s
   // handle character 1B (to inject EMCA-48 control function support)
-  t = t.replace(RegExp(String.fromCharCode(27), "g"), "←");
-  this.text = t;
+  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  this.text = t
 }

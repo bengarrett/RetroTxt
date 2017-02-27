@@ -16,9 +16,9 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 | ------------- | ------- | ----- |
 | [US-ASCII](https://en.wikipedia.org/wiki/ISO/IEC_646) | Native | The original text encoding of the Internet, also known as ANSI X3.4 or ISO 646 |
 | [CP-437](https://en.wikipedia.org/wiki/Code_page_437) | Yes | The most common encoding for ASCII, ANSI art and MS-DOS text |
-| [CP-865](https://en.wikipedia.org/wiki/Code_page_865) | Yes | An alternative MS-DOS encoding occasionally found in ASCII and ANSI art |
-| [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) | Native | The replacement for US-ASCII that supported twice as many characters and was the default encoding for the Commodore Amiga and legacy Linux |
 | [CP-1227](https://en.wikipedia.org/wiki/Windows-1252) | Yes | Also called Windows-1252 or Windows ANSI, it's backwards compatible with ISO-8859-1 and was the default encoding for legacy Windows |
+| [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) | Native | The replacement for US-ASCII that supported twice as many characters and was the default encoding for the Commodore Amiga and legacy Linux |
+| [ISO-8859-5](https://en.wikipedia.org/wiki/ISO/IEC_8859-5) | Yes | A replacement for US-ASCII intended for Latin/Cyrillic languages, but are often mistakingly used by Chrome when viewing ANSI text |
 | [ISO-8859-15](https://en.wikipedia.org/wiki/ISO/IEC_8859-15) | Yes | A replacement for ISO-8859-1 that added some missing characters such as the € sign |
 | [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Native | The current standard encoding for HTML4/5 and many documents. It supports over a hundred thousand characters.
 | [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Native | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet.
@@ -132,5 +132,5 @@ Other common non-standard sequences agreed to by the ANSI art community
 | ------- | ------- | ----- | ------- | ----- |
 | background RGB colours | - | 0;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
 | foreground RGB colours | - | 1;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
-| Blink to Bright Intensity Background | - | ?33h | No | [ SyncTERM ](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |
-| Blink normal | - | ?33l | No | [ SyncTERM ](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |
+| Blink to Bright Intensity Background | - | ?33h | Yes | [ SyncTERM ](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |
+| Blink normal | - | ?33l | Yes | [ SyncTERM ](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |

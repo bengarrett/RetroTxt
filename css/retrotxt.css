@@ -13,246 +13,255 @@ options*.css for the styling of the Options dialogue.
 /* fonts */
 
 @font-face {
-  font-family: amiga;
-  src: url('../fonts/amiga/amiga4ever.ttf') format('truetype');
+    font-family: amiga;
+    src: url('../fonts/amiga/amiga4ever.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: appleii;
-  src: url('../fonts/appleii/PrintChar21.ttf') format('truetype');
+    font-family: appleii;
+    src: url('../fonts/appleii/PrintChar21.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: bios;
-  src: url('../fonts/ms_dos/PxPlus_IBM_BIOS.ttf') format('truetype');
+    font-family: atarist;
+    src: url('../fonts/atari_st/AtariST8x16SystemFont.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: bios-2x;
-  src: url('../fonts/ms_dos/PxPlus_IBM_BIOS-2x.ttf') format('truetype');
+    font-family: bios;
+    src: url('../fonts/ms_dos/PxPlus_IBM_BIOS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: bios-2y;
-  src: url('../fonts/ms_dos/PxPlus_IBM_BIOS-2y.ttf') format('truetype');
+    font-family: bios-2x;
+    src: url('../fonts/ms_dos/PxPlus_IBM_BIOS-2x.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: c64;
-  src: url('../fonts/commodore64/fonts/C64_Pro_Mono-STYLE.woff2') format('woff2'), url('../fonts/commodore64/fonts/C64_Pro_Mono-STYLE.ttf') format('truetype');
+    font-family: bios-2y;
+    src: url('../fonts/ms_dos/PxPlus_IBM_BIOS-2y.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: cga;
-  src: url('../fonts/ms_dos/PxPlus_IBM_CGA.ttf') format('truetype');
+    font-family: c64;
+    src: url('../fonts/commodore64/fonts/C64_Pro_Mono-STYLE.woff2') format('woff2'), url('../fonts/commodore64/fonts/C64_Pro_Mono-STYLE.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: cga-2y;
-  src: url('../fonts/ms_dos/PxPlus_IBM_CGA-2y.ttf') format('truetype');
+    font-family: cga;
+    src: url('../fonts/ms_dos/PxPlus_IBM_CGA.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: cgathin;
-  src: url('../fonts/ms_dos/PxPlus_IBM_CGAthin.ttf') format('truetype');
+    font-family: cga-2y;
+    src: url('../fonts/ms_dos/PxPlus_IBM_CGA-2y.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: cgathin-2y;
-  src: url('../fonts/ms_dos/PxPlus_IBM_CGAthin-2y.ttf') format('truetype');
+    font-family: cgathin;
+    src: url('../fonts/ms_dos/PxPlus_IBM_CGAthin.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: pc1512;
-  src: url('../fonts/ms_dos/PxPlus_AmstradPC1512.ttf') format('truetype');
+    font-family: cgathin-2y;
+    src: url('../fonts/ms_dos/PxPlus_IBM_CGAthin-2y.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: pc1512-2y;
-  src: url('../fonts/ms_dos/PxPlus_AmstradPC1512-2y.ttf') format('truetype');
+    font-family: pc1512;
+    src: url('../fonts/ms_dos/PxPlus_AmstradPC1512.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: ega8;
-  src: url('../fonts/ms_dos/PxPlus_IBM_EGA8.ttf') format('truetype');
+    font-family: pc1512-2y;
+    src: url('../fonts/ms_dos/PxPlus_AmstradPC1512-2y.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: ega8-2x;
-  src: url('../fonts/ms_dos/PxPlus_IBM_EGA8-2x.ttf') format('truetype');
+    font-family: ega8;
+    src: url('../fonts/ms_dos/PxPlus_IBM_EGA8.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: ega9;
-  src: url('../fonts/ms_dos/PxPlus_IBM_EGA9.ttf') format('truetype');
+    font-family: ega8-2x;
+    src: url('../fonts/ms_dos/PxPlus_IBM_EGA8-2x.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: ega9-2x;
-  src: url('../fonts/ms_dos/PxPlus_IBM_EGA9-2x.ttf') format('truetype');
+    font-family: ega9;
+    src: url('../fonts/ms_dos/PxPlus_IBM_EGA9.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: mda;
-  src: url('../fonts/ms_dos/PxPlus_IBM_MDA.ttf') format('truetype');
+    font-family: ega9-2x;
+    src: url('../fonts/ms_dos/PxPlus_IBM_EGA9-2x.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: tandynewtv;
-  src: url('../fonts/ms_dos/PxPlus_TandyNew_TV.ttf') format('truetype');
+    font-family: mda;
+    src: url('../fonts/ms_dos/PxPlus_IBM_MDA.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: tandynewtv-2y;
-  src: url('../fonts/ms_dos/PxPlus_TandyNew_TV-2y.ttf') format('truetype');
+    font-family: tandynewtv;
+    src: url('../fonts/ms_dos/PxPlus_TandyNew_TV.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: tandynew225;
-  src: url('../fonts/ms_dos/PxPlus_TandyNew_225.ttf') format('truetype');
+    font-family: tandynewtv-2y;
+    src: url('../fonts/ms_dos/PxPlus_TandyNew_TV-2y.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: tandynew225-2y;
-  src: url('../fonts/ms_dos/PxPlus_TandyNew_225-2y.ttf') format('truetype');
+    font-family: tandynew225;
+    src: url('../fonts/ms_dos/PxPlus_TandyNew_225.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: vga8;
-  src: url('../fonts/ms_dos/PxPlus_IBM_VGA8.ttf') format('truetype');
+    font-family: tandynew225-2y;
+    src: url('../fonts/ms_dos/PxPlus_TandyNew_225-2y.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: vga8-2x;
-  src: url('../fonts/ms_dos/PxPlus_IBM_VGA8-2x.ttf') format('truetype');
+    font-family: vga8;
+    src: url('../fonts/ms_dos/PxPlus_IBM_VGA8.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: vga9;
-  src: url('../fonts/ms_dos/PxPlus_IBM_VGA9.ttf') format('truetype');
+    font-family: vga8-2x;
+    src: url('../fonts/ms_dos/PxPlus_IBM_VGA8-2x.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: vga9-2x;
-  src: url('../fonts/ms_dos/PxPlus_IBM_VGA9-2x.ttf') format('truetype');
+    font-family: vga9;
+    src: url('../fonts/ms_dos/PxPlus_IBM_VGA9.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: vgalcd;
-  src: url('../fonts/ms_dos/PxPlus_VGA_SquarePx.ttf') format('truetype');
+    font-family: vga9-2x;
+    src: url('../fonts/ms_dos/PxPlus_IBM_VGA9-2x.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: vgalcd;
+    src: url('../fonts/ms_dos/PxPlus_VGA_SquarePx.ttf') format('truetype');
 }
 
 
 /* Classes to apply fonts */
 
 .font-amiga {
-  font-family: amiga;
+    font-family: amiga;
 }
 
 .font-appleii {
-  font-family: appleii;
+    font-family: appleii;
+}
+
+.font-atarist {
+    font-family: atarist;
 }
 
 .font-bios {
-  font-family: bios;
+    font-family: bios;
 }
 
 .font-bios-2x {
-  font-family: bios-2x;
-  font-size: 0.75em;
+    font-family: bios-2x;
+    font-size: 0.75em;
 }
 
 .font-bios-2y {
-  font-family: bios-2y;
+    font-family: bios-2y;
 }
 
 .font-c64 {
-  font-family: c64;
+    font-family: c64;
 }
 
 .font-cga {
-  font-family: cga;
+    font-family: cga;
 }
 
 .font-cga-2y {
-  font-family: cga-2y;
+    font-family: cga-2y;
 }
 
 .font-cgathin {
-  font-family: cgathin;
+    font-family: cgathin;
 }
 
 .font-cgathin-2y {
-  font-family: cgathin-2y;
+    font-family: cgathin-2y;
 }
 
 .font-ega8 {
-  font-family: ega8;
+    font-family: ega8;
 }
 
 .font-ega8-2x {
-  font-family: ega8-2x;
+    font-family: ega8-2x;
 }
 
 .font-ega9 {
-  font-family: ega9;
+    font-family: ega9;
 }
 
 .font-ega9-2x {
-  font-family: ega9-2x;
+    font-family: ega9-2x;
 }
 
 .font-mda {
-  font-family: mda;
+    font-family: mda;
 }
 
 .font-pc1512 {
-  font-family: pc1512;
+    font-family: pc1512;
 }
 
 .font-pc1512-2x {
-  font-family: pc1512-2x;
+    font-family: pc1512-2x;
 }
 
 .font-pc1512-2y {
-  font-family: pc1512-2y;
+    font-family: pc1512-2y;
 }
 
 .font-tandynewtv {
-  font-family: tandynewtv;
+    font-family: tandynewtv;
 }
 
 .font-tandynewtv-2y {
-  font-family: tandynewtv-2y;
+    font-family: tandynewtv-2y;
 }
 
 .font-tandynew225 {
-  font-family: tandynew225;
+    font-family: tandynew225;
 }
 
 .font-tandynew225-2y {
-  font-family: tandynew225-2y;
+    font-family: tandynew225-2y;
 }
 
 .font-vga9 {
-  font-family: vga9;
+    font-family: vga9;
 }
 
 .font-vga9-2x {
-  font-family: vga9-2x;
+    font-family: vga9-2x;
 }
 
 .font-vga8 {
-  font-family: vga8;
+    font-family: vga8;
 }
 
 .font-vga8-2x {
-  font-family: vga8-2x;
+    font-family: vga8-2x;
 }
 
 .font-vgalcd {
-  font-family: vgalcd;
-  font-size: 1.5em;
+    font-family: vgalcd;
+    font-size: 1.5em;
 }
 
 
@@ -262,13 +271,15 @@ options*.css for the styling of the Options dialogue.
  */
 
 .scanlines-dark {
-  background: -webkit-repeating-linear-gradient( top, transparent 0, transparent 1px, rgba(255, 255, 255, 0.075) 1px, rgba(255, 255, 255, 0.075) 2px);
-  -webkit-background-size: 100% 4px;
+    background: -webkit-repeating-linear-gradient( top, transparent 0, transparent 1px, rgba(255, 255, 255, 0.075) 1px, rgba(255, 255, 255, 0.075) 2px);
+    background-size: 100% 4px;
+    -webkit-background-size: 100% 4px;
 }
 
 .scanlines-light {
-  background: -webkit-repeating-linear-gradient( top, transparent 0, transparent 1px, rgba(0, 0, 0, 0.075) 1px, rgba(0, 0, 0, 0.075) 2px);
-  -webkit-background-size: 100% 4px;
+    background: -webkit-repeating-linear-gradient( top, transparent 0, transparent 1px, rgba(0, 0, 0, 0.075) 1px, rgba(0, 0, 0, 0.075) 2px);
+    background-size: 100% 4px;
+    -webkit-background-size: 100% 4px;
 }
 
 
@@ -277,21 +288,28 @@ Blinking terminal prompt that works with any colour
 */
 
 .dos-cursor {
-  text-shadow: 0 0 0;
-  -moz-animation: 300ms blink step-end infinite;
-  -webkit-animation: 300ms blink step-end infinite;
+    text-shadow: 0 0 0;
+    animation: 300ms blink step-end infinite;
+    -moz-animation: 300ms blink step-end infinite;
+    -webkit-animation: 300ms blink step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
 }
 
 @-moz-keyframes blink {
-  50% {
-    opacity: 0.5;
-  }
+    50% {
+        opacity: 0.5;
+    }
 }
 
-@-webkit-keyframes "blink" {
-  50% {
-    opacity: 0.5;
-  }
+@-webkit-keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
 }
 
 
@@ -301,9 +319,9 @@ Blinking terminal prompt that works with any colour
 */
 
 body {
-  display: flex;
-  flex-direction: column;
-  text-shadow: 0 0 0;
+    display: flex;
+    flex-direction: column;
+    text-shadow: 0 0 0;
 }
 
 
@@ -314,29 +332,60 @@ font color value is the invert of the background colour
 */
 
 header {
-  order: 1;
-  font-family: vgalcd;
-  font-size: 1.5em;
-  line-height: 1.6em;
-  text-align: left;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
-  mix-blend-mode: difference;
-  width: 100%;
-  text-indent: 1em;
+    order: 1;
+    font-family: vgalcd;
+    font-size: 1.5em;
+    line-height: 1.6em;
+    text-align: left;
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+    mix-blend-mode: difference;
+    position: sticky;
+    width: 100%;
+    text-indent: 1em;
+    top: 1em;
 }
 
 main {
-  order: 2;
-  display: inline-block;
+    order: 2;
+    display: inline-block;
 }
 
 main i {
-  font-style: normal;
-  font-weight: normal;
+    font-style: normal;
+    font-weight: normal;
 }
 
 pre {
-  border: 0em dotted green;
-  padding: 0em;
+    border: 0em dotted green;
+    padding: 0em;
+}
+
+#checkErr {
+    display: none;
+    background-color: rgb(255, 0, 0);
+    border: 0.1em solid rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-family: "Lucida Console", Monaco, monospace;
+    padding: 1em;
+}
+
+#checkErr kbd {
+    /* Source: https://github.com/auth0/kbd */
+    display: inline-block;
+    border-radius: 3px;
+    padding: 0px 4px;
+    box-shadow: 1px 1px 1px #777;
+    margin: 2px;
+    font-size: small;
+    vertical-align: text-bottom;
+    background: #eee;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    font-variant: small-caps;
+    font-weight: 600;
+    /* This two work */
+    /* letter-spacing: 0.5px; */
+    letter-spacing: 1px;
 }

@@ -12,8 +12,10 @@
 
 <body>
   <div id="options-container">
-    <pre id="sample-dos-text">Sample ▄█╔═╝▒▒<span id="sample-dos-ctrls">♪→⌂</span></pre>
+    <pre id="sample-dos-text">Sample ▄█╔═╝▒▒<span id="sample-dos-ctrls">♪→⌂</span><span id="sample-cursor">_</span></pre>
     <div id="status">&nbsp;</div>
+    <div id="error">Sorry, an error has occurred, please reload RetroTxt. For more information <em>right-click</em> on this Options form
+      and select <strong>Inspect</strong> to view its <strong>Console</strong> log</div>
     <form name="fonts" id="font-form">
       <div class="flexed-cols" id="fonts-ibm">
         <hr />
@@ -83,6 +85,10 @@
         <input type="radio" name="font" value="amiga" id="rsf13"> <strong>Commodore Amiga</strong></label>
         </div>
         <div>
+          <label for="rsf15">
+        <input type="radio" name="font" value="atarist" id="rsf15"> <strong>Atari ST</strong></label>
+        </div>
+        <div>
           <label for="rsf14">
         <input type="radio" name="font" value="c64" id="rsf14"> <strong>Commodore 64</strong></label>
         </div>
@@ -117,6 +123,7 @@
           <option value="theme-windows">Windows</option>
           <option value="theme-appleii">Apple II</option>
           <option value="theme-amiga">Amiga</option>
+          <option value="theme-atarist">Atari ST</option>
           <option value="theme-c64">C-64</option>
         </optgroup>
         <optgroup label="Dark">
@@ -201,12 +208,14 @@
         </div>
         <div id="credits">
           <div id="authored">
-            Created by <a href="http://bens.zone">Ben Garrett</a> 2016<a href="https://github.com/bengarrett/RetroTxt/blob/master/LICENSE.md" target="_blank" title="Legalese"><i class="material-credits material-icons material-link md-18">copyright</i></a>
+            Created by <a href="http://bens.zone">Ben Garrett</a> 2017
+            <a href="https://github.com/bengarrett/RetroTxt/blob/master/LICENSE.md" target="_blank" title="Legalese"><i class="material-credits material-icons material-link md-18">copyright</i></a>
           </div>
           <div id="authored-fonts">
-            <span title="IBM PC, MS-DOS and cloned fonts">PC <a href="http://int10h.org/oldschool-pc-fonts/">Viler</a></span> ⸱
-            <span title="Commodore Amiga 500 font (amiga4ever.tff)">Amiga <a href="http://www.freakyfonts.de/">ck!</a></span> ⸱
-            <span title="Apple II 'Ultimate' font (PrintChar21.tff)">Apple II <a href="http://www.kreativekorp.com/software/fonts/apple2.shtml">Kreative Korp</a></span> ⸱
+            <span title="IBM PC, MS-DOS and cloned fonts">PC <a href="http://int10h.org/oldschool-pc-fonts/">Viler</a></span>            ⸱
+            <span title="Commodore Amiga 500 font (amiga4ever.tff)">Amiga <a href="http://www.freakyfonts.de/">ck!</a></span>            ⸱
+            <span title="Apple II 'Ultimate' font (PrintChar21.tff)">Apple <a href="http://www.kreativekorp.com/software/fonts/apple2.shtml">Kreative Korp</a></span>            ⸱
+            <span title="Atari ST (AtariST8x16SystemFont.ttf)">Atari <a href="http://www.dafont.com/atari-st-8x16-system-font.font">divVerent</a></span>            ⸱
             <span title="Commodore 64 (C64_Pro_Mono-STYLE.ttf)">C64 <a href="http://style64.org/c64-truetype">Style</a></span>
             <a href="http://google.github.io/material-design-icons/" target="_blank" title="Material icons in use"><i class="material-credits material-icons material-link md-18">font_download</i></a>
           </div>

@@ -8,18 +8,19 @@
     },
     "name": "RetroTxt",
     "description": "Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 text.",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "version_name": "2",
     "minimum_chrome_version": "49",
     "default_locale": "en_US",
     "author": "Ben Garrett",
     "homepage_url": "https://github.com/bengarrett/RetroTxt",
-
     "background": {
-        "scripts": ["functions.js", "eventpage.js"],
+        "scripts": [
+            "functions.js",
+            "eventpage.js"
+        ],
         "persistent": false
     },
-
     "browser_action": {
         "browser_style": false,
         "default_title": "RetroTxtify text",
@@ -32,7 +33,6 @@
             "128": "assets/retrotxt_128.png"
         }
     },
-
     "icons": {
         "16": "assets/retrotxt_16.png",
         "19": "assets/retrotxt_19.png",
@@ -41,7 +41,6 @@
         "48": "assets/retrotxt_48.png",
         "128": "assets/retrotxt_128.png"
     },
-
     "commands": {
         "_execute_browser_action": {
             "suggested_key": {
@@ -52,7 +51,6 @@
             }
         }
     },
-
     "permissions": [
         "activeTab",
         "contextMenus",
@@ -69,11 +67,11 @@
         "page": "options.html",
         "chrome_style": true
     },
-
     "web_accessible_resources": [
         "css/*.css",
         "fonts/amiga/*.ttf",
         "fonts/appleii/*.ttf",
+        "fonts/atari_st/*.ttf",
         "fonts/commodore64/fonts/*.woff2",
         "fonts/commodore64/fonts/*.ttf",
         "fonts/ms_dos/*.ttf",

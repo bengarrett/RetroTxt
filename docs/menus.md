@@ -53,23 +53,23 @@ Character encoding is complicated and the execution not always precise. If you e
 
 The default behaviour, this lets RetroTxt try to determine the base character encoding of the text and when needed, apply any transcoding.
 
-##### MS-DOS CP-437
+##### + Windows 1252
 
-Force the active tab to display the text using **CP-437**, the most common MS-DOS character set.
+Force the active tab to parse the text using **CP-1252** encoding as the browser source.
 
-##### MS-DOS CP-865
+##### + ISO 8895-5
 
-Force the active tab to display the text using **CP-865**; an MS-DOS character set occasionally used in European sourced documents.
+Force the active tab to parse the text using **ISO 8895-5** encoding as the browser source.
 
-##### Windows legacy web
+##### > Windows legacy web
 
 Force the active tab to display the text using **Windows-1252** _Code Page 1252_ which was commonly used by legacy Microsoft Windows systems_
 
-##### Linux legacy web
+##### > Linux legacy web
 
 Force the active tab to display the text using **ISO-8859-15** _ISO-8859 Part 15_ which was the recommended encoding for Linux and the web during the 2000s.
 
-##### None
+##### > None
 
 Force the active tab not to transcode. Aforementioned can be used to make documents encoded in **UTF-8** or **ISO-8859-1** to display.
 
@@ -98,6 +98,10 @@ Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the C
 Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the Apple II DOS screen black text on a green background.
 
 ![Font options selection](assets/theme_appleii.png)
+
+### Atari ST
+
+Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the ATARI ST TOS screen black text on a white background.
 
 ### Commodore 64
 
