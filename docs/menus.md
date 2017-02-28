@@ -1,18 +1,20 @@
 # RetroTxt
-##  Toolbar button and context menus
+
+## Toolbar button and context menus
 
 The context menu can be found by right-clicking on the active tab (web page) content, and also in Chrome by right-clicking the RetroTxt toolbar button.
 
 ![Font options selection](assets/menu_base.png)
 ![Font options selection](assets/menu.png)
 
-<small><figure>Active tab context menu</figure></small>
+Active tab context menu
 
 ![Font options selection](assets/retrotxt_toolbar_menu.png)
 
-<small><figure>Chrome toolbar context menu</figure></small>
+Chrome toolbar context menu
 
 ### Options
+
 Launch the RetroTxt [Options dialogue](options.md).
 
 #### Display
@@ -43,11 +45,11 @@ Character encoding is complicated and the execution not always precise. If you e
 
 ![Font options selection](assets/text_transcode_ok.png)
 
-<small><figure>A text document with the correct character encoding</figure></small>
+A text document with the correct character encoding
 
 ![Font options selection](assets/text_transcode_x.png)
 
-<small><figure>The same document with the incorrect transcoding</figure></small>
+The same document with the incorrect transcoding
 
 ##### Guess (default)
 

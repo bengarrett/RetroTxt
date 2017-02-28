@@ -24,7 +24,7 @@ The Colour pair menu allows you to apply a colour to text and background theme t
 
 The choices ordered into three categories. Systems are recreations of ancient computer operating systems. Dark and Light correspond to colours used on either a black (Dark) or white (Light) background.
 
-<small>The RGB values of these colour pairs are in the source code `\css\text-colors.css`</small>
+The RGB values of these colour pairs are in the source code `\css\text-colors.css`
 
 - **MS-DOS** uses VGA grey text on black.
 - **Windows** is themed on its `notepad.exe` program and uses black text on white.
@@ -33,7 +33,7 @@ The choices ordered into three categories. Systems are recreations of ancient co
 - **Atari ST** based on the Atari TOS with black text on white.
 - **C-64** based on the Commodore 64 boot screen with a light on a dark blue colour pair.
 
-<div style="text-align:center">![Font options selection](assets/theme_ms-dos.png) ![Font options selection](assets/theme_windows.png) ![Font options selection](assets/theme_amiga.png) ![Font options selection](assets/theme_appleii.png) ![Font options selection](assets/theme_c64.png)</div>
+![Font options selection](assets/theme_ms-dos.png) ![Font options selection](assets/theme_windows.png) ![Font options selection](assets/theme_amiga.png) ![Font options selection](assets/theme_appleii.png) ![Font options selection](assets/theme_c64.png)
 
 ### Line height
 
@@ -119,7 +119,7 @@ Apply a subtle scan line effect to the backdrop of the page. The effect is more 
 
 ![Execution behaviour checks](assets/options_execution_behavior.png)
 
-##### Apply RetroTxt to any text files hosted on these websites
+#### Apply RetroTxt to any text files hosted on these websites
 
 When check the web extension runs in the background and applies RetroTxt to all text files served by websites listed in the textbox. You can add additional sites to this list by including their domain name appended by a semicolon, for example
 

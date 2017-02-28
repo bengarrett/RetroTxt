@@ -28,7 +28,7 @@
 - Detects and converts many [ANSI Control Sequence Introduces](https://en.wikipedia.org/wiki/ANSI.SYS) used by MS-DOS's ANSI.SYS to display ANSI art.
 - Detects and converts legacy BBS colour codes for [PCBoard and Wildcat!](http://wiki.synchro.net/custom:colors#pcboard_wildcat_format).
 - **_Apply RetroTxt to any text files hosted on these websites_** will only run on a user supplied whitelist of website domains. This will stop it from conflicting with secure login sessions used by some websites.
-- Options have been reworked with a refresh to its look including the use of Google's [Material Icons](https://design.google.com/icons/).
+- Options have been reworked with a refresh to its look including the use of the [Google Material Icons](https://design.google.com/icons/).
 - Introduced a new, charcoal coloured icon that should clash less with most browser themes.
 - Context menu now allows you to control the page transcoding, currently CP-487, CP-865, ISO-8959-15, CP-1252 character sets are supported.
 - The about encoding content menu has been removed and replaced by the Transcode None option, that works with UTF-8, UTF-16 and ISO-8959-1 text.
@@ -43,9 +43,10 @@
 - Context menus code in `eventpages.js` has been redesigned so it is now easier to add new themes and Display options.
 - The toolbar button should now be more intuitive by more accurately changing its enabled state and refreshing its tip where appropriate.
 
-  ###### Firefox specific fixes
+#### Firefox specific fixes
+
 - Requires Firefox 50+.
-- Options dialogue is better themed to Firefox's style guides. <small>(Unfortunately Firefox on Linux still has some strange <code>input</code> style quirks)</small>
+- Options dialogue is better themed to Firefox's style guides. (Unfortunately Firefox on Linux still has some strange `input` style quirks)
 - Fixed Options not supporting UK locales.
 - Fixed first time run bugs that required RetroTxt to reload for it to work correctly.
 - Fixed RetroTxt trying to run on about: URIs.
@@ -71,7 +72,7 @@
 - **Now works in Firefox** but requires at least Firefox (Gecko) 48.
 - Tested in Opera (Blink) and works great.
 
-#### Differences between using Firefox and Chrome?
+#### Differences between using Firefox and Chrome
 
 - Chrome uses event pages while Firefox uses the less desirable persistent background pages. Event pages only load when needed so in theory they should be less resource intensive.
 - Firefox and the Gecko engine renders multiple block characters better than the Blink engine used in Chrome. The Blink engine adds light but distracting vertical lines.

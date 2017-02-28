@@ -1,5 +1,6 @@
 # RetroTxt
-##  Technical specifications on supported text
+
+## Technical specifications on supported text
 
 - [Input code pages and text encoding](#input_cp)
 - [BBS colour codes](#input_bbs)
@@ -8,6 +9,7 @@
 - [ECMA-48 support](#ecma48)
 
 ### Input code pages and text encoding
+
 <a name="input_cp">
 Regardless of the source, JavaScript converts all the text it handles into UTF-16.
 UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatible with ISO-8859-1 and US-ASCII. But otherwise, all other loaded text needs to be transcoded to display all characters accurately.
@@ -18,12 +20,13 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 | [CP-437](https://en.wikipedia.org/wiki/Code_page_437) | Yes | The most common encoding for ASCII, ANSI art and MS-DOS text |
 | [CP-1227](https://en.wikipedia.org/wiki/Windows-1252) | Yes | Also called Windows-1252 or Windows ANSI, it's backwards compatible with ISO-8859-1 and was the default encoding for legacy Windows |
 | [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) | Native | The replacement for US-ASCII that supported twice as many characters and was the default encoding for the Commodore Amiga and legacy Linux |
-| [ISO-8859-5](https://en.wikipedia.org/wiki/ISO/IEC_8859-5) | Yes | A replacement for US-ASCII intended for Latin/Cyrillic languages, but are often mistakingly used by Chrome when viewing ANSI text |
+| [ISO-8859-5](https://en.wikipedia.org/wiki/ISO/IEC_8859-5) | Yes | A replacement for US-ASCII intended for Latin/Cyrillic languages, but are often mistakenly used by Chrome when viewing ANSI text |
 | [ISO-8859-15](https://en.wikipedia.org/wiki/ISO/IEC_8859-15) | Yes | A replacement for ISO-8859-1 that added some missing characters such as the € sign |
 | [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Native | The current standard encoding for HTML4/5 and many documents. It supports over a hundred thousand characters.
 | [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Native | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet.
 
 ### BBS colour codes
+
 <a name="input_bbs">
 BBS colour codes from the early 1990s were a natural means of applying colour to text served in bulletin board system user interfaces.
 
@@ -39,6 +42,7 @@ BBS colour codes from the early 1990s were a natural means of applying colour to
 | [WWIV pipe codes](http://docs.wwivbbs.org/en/latest/displaying_text/) | No | |
 
 ### Input control sequences
+
 <a name="input_cs">
 Control sequences are strings of characters embedded into the text as cursor, display and presentation functions. ANSI art uses control sequences for both its colourisation and cursor positioning, as do remote terminals used by many Linux and Unix systems such as [_xterm_](http://invisible-island.net/xterm/).
 
@@ -49,6 +53,7 @@ Control sequences are strings of characters embedded into the text as cursor, di
 | [ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) | Partial | Also known as _ANSI escape codes_, ANSI X3.64, VT-100, ISO 6429 |
 
 #### ANSI.SYS support
+
 <a name="ansi_sys">
 Microsoft's MS-DOS [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) driver supported a limited subset of ANSI X3.64 control sequences and introduced some non-standard functions. Most _ANSI art_ uses sequences that target the ANSI.SYS implementation of text controls.
 
@@ -71,6 +76,7 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 | Set Keyboard Strings | No | |
 
 #### ECMA-48 support
+
 <a name="ecma48">
 [ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) forms the basis of ISO 6429, both of which are the current and acceptable standards for text control sequences. ECMA-48 expands on ANSI X3.64 [_(withdrawn 1997)_](https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf) which first popularised escape sequences in the late 1970s with the [DEC VT100](https://en.wikipedia.org/wiki/VT100) computer.
 
@@ -126,11 +132,12 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 | not overlined | SGR | 55 | Yes |  |
 
 #### Miscellaneous support
+
 Other common non-standard sequences agreed to by the ANSI art community
 
 | Control | Acronym | Value | Support | Notes |
 | ------- | ------- | ----- | ------- | ----- |
 | background RGB colours | - | 0;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
 | foreground RGB colours | - | 1;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
-| Blink to Bright Intensity Background | - | ?33h | Yes | [ SyncTERM ](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |
-| Blink normal | - | ?33l | Yes | [ SyncTERM ](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |
+| Blink to Bright Intensity Background | - | ?33h | Yes | [SyncTERM](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |
+| Blink normal | - | ?33l | Yes | [SyncTERM](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |

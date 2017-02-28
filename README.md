@@ -1,5 +1,7 @@
 # RetroTxt
 
+![Code Climate](https://codeclimate.com/github/bengarrett/RetroTxt/badges/gpa.svg)
+
 Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. It is the new, browser agnostic, web extension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
 
 Available for installation from both the [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
@@ -8,11 +10,12 @@ Available for installation from both the [Chrome store](https://chrome.google.co
 
 ## Documentation
 
-#### [Read](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
+### [Read](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
 
 ## Install
 
 ### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
+
 Recommendation? Overall, Firefox 51+ performs better than Chrome
 
 #### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
@@ -25,7 +28,8 @@ Recommendation? Overall, Firefox 51+ performs better than Chrome
 
 After install you can run RetroTxt on any text or ANSI art file viewed in the browser by clicking the toolbar button.
 
-<figure><small>Chrome and Firefox buttons</small></figure>
+Chrome and Firefox buttons
+
 ![RetroTxt toolbar button in Chrome](/docs/assets/retrotxt_toolbar_button_chrome.png) ![RetroTxt toolbar button in Firefox](/docs/assets/retrotxt_toolbar_button_firefox.png)
 
 You can test the RetroTxt install using one of the thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or [Project Gutenberg's](https://www.gutenberg.org/catalog/) _plain text_ books.
