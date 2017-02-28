@@ -15,20 +15,20 @@ note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
 
 .SGR0 {
     /* reset to defaults */
-    background-color: initial;
-    border: 0;
-    color: initial;
-    font-family: inherit;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: none;
-    text-shadow: 0 0 0;
-    opacity: 1;
     animation: none;
     -moz-animation: none;
     -webkit-animation: none;
+    background-color: initial;
+    border: 0;
+    color: initial;
     filter: none;
     -webkit-filter: none;
+    font-family: inherit;
+    font-style: normal;
+    font-weight: normal;
+    opacity: 1;
+    text-decoration: none;
+    text-shadow: 0 0 0;
 }
 
 .SGR2 {
@@ -64,7 +64,9 @@ note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
     /* inverse */
     filter: invert(100%);
     -webkit-filter: invert(100%);
+    /* csslint ignore:start */
     mix-blend-mode: difference;
+    /* csslint ignore:end */
 }
 
 .SGR8 {

@@ -29,7 +29,7 @@
 }
 
 .material-credits {
-    vertical-align: bottom !important;
+    vertical-align: bottom;
 }
 
 .material-radio {
@@ -65,7 +65,7 @@ body {
 }
 
 input[type=checkbox] {
-    vertical-align: middle !important;
+    vertical-align: middle;
     size: 150%;
 }
 

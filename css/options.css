@@ -25,11 +25,6 @@ hr {
     height: 0.063em;
 }
 
-h2 {
-    margin-bottom: 0.75em;
-    margin-top: 0;
-}
-
 h3 {
     margin: 0;
     margin-bottom: 0.25em;
@@ -118,10 +113,6 @@ pre {
     margin-bottom: 0.5em;
 }
 
-#font-styles-colors h2 {
-    margin: 0;
-}
-
 #font-styles-effects {
     order: 3;
     width: 50%;
@@ -129,10 +120,6 @@ pre {
 
 #font-styles-line-heights {
     order: 2;
-}
-
-#font-styles-line-heights h2 {
-    margin: 0;
 }
 
 #fonts-ibm {
@@ -219,22 +206,22 @@ Blinking terminal prompt that works with any colour
     font-size: 1.5em;
     margin-left: 0.1em;
     margin-right: 0.25em;
-    vertical-align: middle !important;
+    vertical-align: middle;
 }
 
 .material-credits {
     font-size: 1.5em;
     margin-left: 0.33em;
-    vertical-align: top !important;
+    vertical-align: top;
 }
 
 .material-h3 {
     font-size: 1em;
     margin-right: 0.25em;
-    vertical-align: text-bottom !important;
+    vertical-align: text-bottom;
 }
 
 .material-radio {
     font-size: 1.5em;
-    vertical-align: middle !important;
+    vertical-align: middle;
 }

@@ -2,27 +2,33 @@
 
 ## Options
 
-The Options dialogue lets you select a wide variety of font, colour and size combinations. That RetroTxt will use when theming text in the browser, as well as a number behaviour configurations to automate the execution of RetroTxt when it encounters text files.
+The Options dialogue lets you select a wide variety of font, colour and size combinations.
+That RetroTxt will use when theming text in the browser, as well as a number behaviour configurations to automate the execution of RetroTxt when it encounters text files.
 
 In Chrome, you can launch the Options dialogue by right-clicking the RetroTxt toolbar button and selecting __Options__.
 
 ![Line height selection](assets/retrotxt_toolbar_button_chrome.png)
 
-In Firefox the Options dialogue can be accessed from the Extensions tab. To do this, in a new tab enter the address `about:addons` and select **Extensions**. Then click the Options button under the RetroTxt listing.
+In Firefox the Options dialogue can be accessed from the Extensions tab.
+To do this, in a new tab enter the address `about:addons` and select **Extensions**.
+Then click the Options button under the RetroTxt listing.
 
 ### Font selection
 
 ![Font options selection](assets/options_fonts.png)
 
-RetroTxt has 15 different monospaced font choices to apply to text. Some fonts have wide and tall variants. Those listed in the left pane are IBM PC system fonts while the ones on the right belong to MS-DOS clones or alternative home computer systems.
+RetroTxt has 15 different monospaced font choices to apply to text. Some fonts have wide and tall variants.
+Those listed in the left pane are IBM PC system fonts while the ones on the right belong to MS-DOS clones or alternative home computer systems.
 
 ### Colour pair
 
 ![Colour pair](assets/options_colour_pair.png)
 
-The Colour pair menu allows you to apply a colour to text and background theme to all text handled by RetroTxt. These pairs are also base colours for colourize ANSI text.
+The Colour pair menu allows you to apply a colour to text and background theme to all text handled by RetroTxt.
+These pairs are also base colours for colourize ANSI text.
 
-The choices ordered into three categories. Systems are recreations of ancient computer operating systems. Dark and Light correspond to colours used on either a black (Dark) or white (Light) background.
+The choices ordered into three categories. Systems are recreations of ancient computer operating systems.
+Dark and Light correspond to colours used on either a black (Dark) or white (Light) background.
 
 The RGB values of these colour pairs are in the source code `\css\text-colors.css`
 
@@ -39,7 +45,9 @@ The RGB values of these colour pairs are in the source code `\css\text-colors.cs
 
 ![Line height selection](assets/options_line_height.png)
 
-Line height lets you add padding between each line of text. The amount of padding used is dependent on the size of the font. A **25%** line height would introduce padding 1/4 of the height of the font. A **1x** (100%) value would pad the same height as the font in use.
+Line height lets you add padding between each line of text. The amount of padding used is dependent on the size of the font.
+A **25%** line height would introduce padding 1/4 of the height of the font.
+A **1x** (100%) value would pad the same height as the font in use.
 
 ### Display behaviour
 
@@ -47,13 +55,17 @@ Line height lets you add padding between each line of text. The amount of paddin
 
 #### Text & font information
 
-When styling text RetroTxt injects a text header detailing the document metadata and font information. You can hover the mouse over its text for a brief description of each value.
+When styling text RetroTxt injects a text header detailing the document metadata and font information.
+You can hover the mouse over its text for a brief description of each value.
 
 ![Example text & font information header](assets/options_header_example.png)
 
 `120 x 111`
 
-The highlighted red values are the _columns_ x _lines_ values. Columns are the number of characters per line. Most text documents are formatted to use 80 characters of text per line. Lines are the total number of lines used by the text.
+The highlighted red values are the _columns_ x _lines_ values.
+Columns are the number of characters per line.
+Most text documents are formatted to use 80 characters of text per line.
+Lines are the total number of lines used by the text.
 
 `22.4kb`
 
@@ -65,7 +77,9 @@ Yellow is the document character encoding set by the browser.
 
 `CP437`
 
-The dark blue value is the character encoding used to display the document. Character encoding is a complicated subject and the execution not always precise. If you encounter text that is not showing the expected characters, you can transcode the document to apply a different set of characters and its technical name will be displayed here.
+The dark blue value is the character encoding used to display the document.
+Character encoding is a complicated subject and the execution not always precise.
+If you encounter text that is not showing the expected characters, you can transcode the document to apply a different set of characters and its technical name will be displayed here.
 
 - **CP437** IBM/MS-DOS Code Page 437
 - **ISO8859-1** ISO-8859 Part 1: Latin alphabet No. 1 alternatively known as ECMA-94
@@ -91,7 +105,8 @@ The green value will show any special controls or functions embedded into the te
 
 Light blue highlights any errors or warnings encounted when parsing ANSI encoded text.
 
-The white text is the result of any [SAUCE metadata](http://www.acid.org/info/sauce/sauce.htm) _Standard Architecture for Universal Comment Extensions_ embedded into the text. SAUCE is often found in ANSI art but can be attached to any document and allows the author to include titles, dates, comments and affiliations.
+The white text is the result of any [SAUCE metadata](http://www.acid.org/info/sauce/sauce.htm) _Standard Architecture for Universal Comment Extensions_ embedded into the text.
+SAUCE is often found in ANSI art but can be attached to any document and allows the author to include titles, dates, comments and affiliations.
 
 ##### Centre align text
 
@@ -103,7 +118,8 @@ Apply a subtle shadow effect to each character and glyph within the text documen
 
 ##### DOS control glyphs
 
-The PC/MS-DOS _Code Page 437_ is not completely standards compliant as it uses C0 characters normally reserved for common formatting controls to display character glyphs. As such these characters are never displayed but enabling this option will reveal these glyphs in the text document.
+The PC/MS-DOS _Code Page 437_ is not completely standards compliant as it uses C0 characters normally reserved for common formatting controls to display character glyphs.
+As such these characters are never displayed but enabling this option will reveal these glyphs in the text document.
 
 ◘ <small>_= backspace_</small>
 ○ <small>_= tab_</small>
@@ -121,7 +137,8 @@ Apply a subtle scan line effect to the backdrop of the page. The effect is more 
 
 #### Apply RetroTxt to any text files hosted on these websites
 
-When check the web extension runs in the background and applies RetroTxt to all text files served by websites listed in the textbox. You can add additional sites to this list by including their domain name appended by a semicolon, for example
+When check the web extension runs in the background and applies RetroTxt to all text files served by websites listed in the textbox.
+You can add additional sites to this list by including their domain name appended by a semicolon, for example
 
 - [Defacto2](https://defacto2.net) `defacto2.net;`
 - [Gutenberg.org](https://www.gutenberg.org) `gutenberg.org;`
@@ -133,10 +150,13 @@ Erasing the textbox content will reset the website list to the RetroTxt defaults
 
 ##### Apply RetroTxt to any local text files
 
-Web browsers can load and display documents stored in a computer file system using the [`file:///`](file:///) protocol. With this option checked the web extension runs in the background. It applies RetroTxt to all text files that are served using the [`file:///`](file:///) protocol, allowing you to use RetroTxt as an offline NFO, ANSI and ASCII viewer.
+Web browsers can load and display documents stored in a computer file system using the [`file:///`](file:///) protocol.
+With this option checked the web extension runs in the background.
+It applies RetroTxt to all text files that are served using the [`file:///`](file:///) protocol, allowing you to use RetroTxt as an offline NFO, ANSI and ASCII viewer.
 
 ##### Apply RetroTxt to any downloaded text files
 
-With this option, the web extension will monitor all your file downloads to attempt to apply RetroTxt to all saved text. It is the browser that determines which files are binary or text so the results could be wrong.
+With this option, the web extension will monitor all your file downloads to attempt to apply RetroTxt to all saved text.
+It is the browser that determines which files are binary or text so the results could be wrong.
 
 Firefox does not support the feature.

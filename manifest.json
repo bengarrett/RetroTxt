@@ -8,7 +8,7 @@
     },
     "name": "RetroTxt",
     "description": "Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 text.",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "version_name": "2",
     "minimum_chrome_version": "49",
     "default_locale": "en_US",
