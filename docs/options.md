@@ -39,7 +39,7 @@ The RGB values of these colour pairs are in the source code `\css\text-colors.cs
 - **Atari ST** based on the Atari TOS with black text on white.
 - **C-64** based on the Commodore 64 boot screen with a light on a dark blue colour pair.
 
-![Font options selection](assets/theme_ms-dos.png) ![Font options selection](assets/theme_windows.png) ![Font options selection](assets/theme_amiga.png) ![Font options selection](assets/theme_appleii.png) ![Font options selection](assets/theme_c64.png)
+![Font options selection](assets/theme_ms-dos.png) ![Font options selection](assets/theme_windows.png) ![Font options selection](assets/theme_amiga.png) ![Font options selection](assets/theme_appleii.png) ![Font options selection](assets/theme_c64.png) ![Font options selection](assets/theme_atari-st.png)
 
 ### Line height
 

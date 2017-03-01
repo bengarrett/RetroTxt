@@ -105,6 +105,8 @@ Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the A
 
 Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the ATARI ST TOS screen black text on a white background.
 
+![Font options selection](assets/theme_atari-st.png)
+
 ### Commodore 64
 
 Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the Commodore 64 load screen blue text on a dark blue background.

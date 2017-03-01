@@ -129,7 +129,7 @@ QUnit.module(`functions.js`)
 
 QUnit.test(`ListCharacterSets`, function (assert) {
   const content = new ListCharacterSets()
-  assert.equal(content.sets[0], `out_US_ASCII`, `Should be \`US_ASCII\``)
+  assert.equal(content.sets[0], `out_8859_1`, `Should be \`out_8859_1\``)
 })
 
 QUnit.test(`ListDefaults`, function (assert) {
@@ -200,11 +200,11 @@ QUnit.test(`BuildCharSet`, function (assert) {
   let content = new BuildCharSet(`Hello ♕ world`)
   assert.equal(content.countUsAscii, 5, `Should be \`5\``)
   assert.equal(content.setPage, 6, `Should be \`6\``)
-  assert.equal(content.guess, `out_UTF8`, `Should be \`UTF8\``)
+  assert.equal(content.guess, `src_CP1252`, `Should be \`src_CP1252\``)
   content = new BuildCharSet(`Hello world`)
   assert.equal(content.countUsAscii, 10, `Should be \`5\``)
   assert.equal(content.setPage, 0, `Should be \`0\``)
-  assert.equal(content.guess, `out_US_ASCII`, `Should be \`US_ASCII\``)
+  assert.equal(content.guess, `out_8859_1`, `Should be \`out_8859_1\``)
 })
 
 QUnit.test(`restoreDocument`, function (assert) {
