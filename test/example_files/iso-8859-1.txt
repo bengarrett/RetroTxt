@@ -1,4 +1,5 @@
 To display correctly this file needs be saved with ISO 8859-1 encoding.
+And RetroTxt, Transcode text > None
 
 RetroTxt ISO 8859-1 Test Page
 

@@ -138,7 +138,7 @@ function BuildEcma48(text = ``, sauce = { version: null }, verbose = false, rule
   const phs = `0`.repeat(phl - 1)
   // regex for HTML modifications
   const emptyTags = new RegExp(/<i class="SGR37 SGR40"><\/i><i id=/ig)
-  const insSpace = new RegExp(/<div id="row-(\d+)"><i class="SGR37 SGR40"><\/i><\/div>/ig)
+  const insSpace = new RegExp(/<div id="row-(\d+)"><i class="SGR(\d+) SGR(\d+)"><\/i><\/div>/ig)
   let edLine = {}
   let S = text
   // Clean up string before converting it to decimal values
@@ -181,7 +181,7 @@ function BuildEcma48(text = ``, sauce = { version: null }, verbose = false, rule
   // clean any empty tags
   ecma48DOM.html = ecma48DOM.html.replace(emptyTags, `<i id=`)
   // force the browsers to show the empty rows by injecting a single space character
-  ecma48DOM.html = ecma48DOM.html.replace(insSpace, `<div id="row-$1"><i class="SGR37 SGR40"> </i></div>`) // intentional empty space
+  ecma48DOM.html = ecma48DOM.html.replace(insSpace, `<div id="row-$1"><i class="SGR$2 SGR$3"> </i></div>`) // intentional empty space
   // apply erase lines
   for (let line of cursor.eraseLines) {
     line++ // account for arrays starting at 0 but lines starting at 1
@@ -676,6 +676,7 @@ function findBackground(v)
 {
   let valid = false
   if (v >= 40 && v <= 49 || v >= 480 && v <= 489 || v >= 4810 && v <= 4899 || v >= 48100 && v <= 48255) valid = true
+  if (valid === true && v >= 480 && typeof ecma48.colorDepth === `number`) ecma48.colorDepth = 8 // x-term 256 color found
   return valid
 }
 
@@ -845,6 +846,7 @@ function findForeground(v)
 {
   let valid = false
   if (v >= 30 && v <= 39 || v >= 380 && v <= 389 || v >= 3810 && v <= 3899 || v >= 38100 && v <= 38255) valid = true
+  if (valid === true && v >= 380 && typeof ecma48.colorDepth === `number`) ecma48.colorDepth = 8 // x-term 256 color found
   return valid
 }
 

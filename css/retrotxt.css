@@ -354,6 +354,11 @@ header {
     width: 100%;
 }
 
+header .unknown {
+    /* note: header filter: invert(100%); */
+    color: rgb(0, 170, 170);
+}
+
 main {
     display: inline-block;
     order: 2;

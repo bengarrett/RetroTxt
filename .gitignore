@@ -10,3 +10,6 @@ style.txt
 
 # Visual Studio Code
 .vscode
+
+# Windows
+.xcopyignore

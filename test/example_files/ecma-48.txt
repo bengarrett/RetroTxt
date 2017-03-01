@@ -16,11 +16,9 @@ The start of the file MUST begin with an ECMA-48 escape sequence.[1B
 [0;51mFramed[31m[15CRed text[39m[3C[34;47mBlue on grey[49;35m[3Cmagenta[3C[37;54mnot Framed[B
 [0;52mEncircled[31m[12CRed text[39m[3C[34;47mBlue on grey[49;35m[3Cmagenta[3C[37;54mnot Encircled[B
 [0;53mOverlined[31m[12CRed text[39m[3C[34;47mBlue on grey[49;35m[3Cmagenta[3C[37;55mnot Overlined[B
-
-[C[0;1;32;21;53m M[3multiple[3m [3;7meffects [5mthat [6mwe [0mabort here[1B
-
-[0m[38;5;18mT[38;5;19mh[38;5;20mi[38;5;21ms[39m [38;5;22ml[38;5;23mi[38;5;24mn[38;5;25me[39m [38;5;26mu[38;5;27ms[38;5;28me[38;5;29ms[39m [38;5;30mx[38;5;31mt[38;5;32me[38;5;33mr[38;5;34mm[38;5;35m-[38;5;36m2[38;5;37m5[38;5;38m6[39m [38;5;38mc[38;5;40mo[38;5;41ml[38;5;42mo[38;5;43mu[38;5;44mr[38;5;45me[38;5;46md[39m [38;5;47mt[38;5;48me[38;5;49mx[38;5;50mt[0m[B
-[0m[38;5;232mA[38;5;233mn[38;5;234md [38;5;235mg[38;5;236mr[38;5;237me[38;5;238my[38;5;239ms[38;5;240mc[38;5;241ma[38;5;242ml[38;5;243me [38;5;244mc[38;5;245mo[38;5;246ml[38;5;246mo[38;5;247mu[38;5;248mr[38;5;249ms[B
+[C[B[0;1;32;21;53m M[3multiple[3m [3;7meffects [5mthat [6mwe [0mabort here[1B
+[?33h[30;47m Standard background [5m iCE color background! [?33l
+[0m[38;5;18mT[38;5;19mh[38;5;20mi[38;5;21ms[39m [38;5;22ml[38;5;23mi[38;5;24mn[38;5;25me[39m [38;5;26mu[38;5;27ms[38;5;28me[38;5;29ms[39m [38;5;30mx[38;5;31mt[38;5;32me[38;5;33mr[38;5;34mm[38;5;35m-[38;5;36m2[38;5;37m5[38;5;38m6[39m [38;5;38mc[38;5;40mo[38;5;41ml[38;5;42mo[38;5;43mu[38;5;44mr[38;5;45me[38;5;46md[39m [38;5;47mt[38;5;48me[38;5;49mx[38;5;50mt[0m[B[0m[38;5;232mA[38;5;233mn[38;5;234md [38;5;235mg[38;5;236mr[38;5;237me[38;5;238my[38;5;239ms[38;5;240mc[38;5;241ma[38;5;242ml[38;5;243me [38;5;244mc[38;5;245mo[38;5;246ml[38;5;246mo[38;5;247mu[38;5;248mr[38;5;249ms[3B
 [11m+ 1st alternative font[B[12m+ 2nd alternative font
 [13m+ 3rd alternative font[B[14m+ 4th alternative font
 [15m+ 5th alternative font[B[16m+ 6th alternative font
@@ -29,7 +27,7 @@ The start of the file MUST begin with an ECMA-48 escape sequence.[1B
 [14mCurrently[10m inline font switching breaks the monospace page layout[B
 [B[0;3mECMA-48[3m cursor positional control sequences[B
 ษออออออออออออออออออออออออออออออออออป
-บ  [0][10C[10] places right[2Cบ 
+บ  [0][10C[10] places right[2Cบ
 ศออออออออออออออออออออออออออออออออออผ
 [3B[10C3 places down and 10 right[B
 This control should erase to the end of the line[0K

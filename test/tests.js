@@ -129,7 +129,7 @@ QUnit.module(`functions.js`)
 
 QUnit.test(`ListCharacterSets`, function (assert) {
   const content = new ListCharacterSets()
-  assert.equal(content.sets[0], `US_ASCII`, `Should be \`US_ASCII\``)
+  assert.equal(content.sets[0], `out_US_ASCII`, `Should be \`US_ASCII\``)
 })
 
 QUnit.test(`ListDefaults`, function (assert) {
@@ -186,7 +186,7 @@ QUnit.test(`findEngine`, function (assert) {
 })
 
 QUnit.test(`HumaniseCP`, function (assert) {
-  const content = new HumaniseCP(`CP437`)
+  const content = new HumaniseCP(`src_CP1252`)
   assert.equal(content.text, `CP-437`, `Should be \`CP-437\``)
   assert.equal(content.title, `IBM/MS-DOS Code Page 437`, `Should be \`IBM/MS-DOS Code Page 437\``)
 })
@@ -200,11 +200,11 @@ QUnit.test(`BuildCharSet`, function (assert) {
   let content = new BuildCharSet(`Hello ♕ world`)
   assert.equal(content.countUsAscii, 5, `Should be \`5\``)
   assert.equal(content.setPage, 6, `Should be \`6\``)
-  assert.equal(content.guess, `UTF8`, `Should be \`UTF8\``)
+  assert.equal(content.guess, `out_UTF8`, `Should be \`UTF8\``)
   content = new BuildCharSet(`Hello world`)
   assert.equal(content.countUsAscii, 10, `Should be \`5\``)
   assert.equal(content.setPage, 0, `Should be \`0\``)
-  assert.equal(content.guess, `US_ASCII`, `Should be \`US_ASCII\``)
+  assert.equal(content.guess, `out_US_ASCII`, `Should be \`US_ASCII\``)
 })
 
 QUnit.test(`restoreDocument`, function (assert) {
@@ -893,7 +893,7 @@ QUnit.test(`BuildEcma48()`, function (assert) {
 
   sample = `←[?33h←[47;5m←[B${inputText}` // start with iCE on
   test = new BuildEcma48(sample).innerHTML
-  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR147\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR147\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
+  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR147\"> </i></div><div id=\"row-2\"><i class=\"SGR37 SGR147\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
 
   sample = `←[?33l←[47;5m←[B${inputText}` // start with iCE off
   test = new BuildEcma48(sample).innerHTML

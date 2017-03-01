@@ -48,11 +48,11 @@ function List8859_5()
   this.set_a[parseInt(`F`, 16)] = `\u00A4`
 }
 
-function BuildCPDos(s = ``, mapTo = `CP437`, verbose = false)
+function BuildCPDos(s = ``, mapTo = `src_CP1252`, verbose = false)
 // Converts a string of text to emulate a MS-DOS Code Page using UTF-16 encoded
 // characters.
 // @s       String of Unicode UTF-16 text
-// @mapTo   The character encoding map to use, either CP437, 8859_5 or US_ASCII
+// @mapTo   The character encoding map to use, either src_CP1252, src_8859_5 or out_US_ASCII
 // @verbose Display to the console each character that is handled
 {
   if (typeof s !== `string`) checkArg(`s`, `string`, s)
@@ -68,12 +68,12 @@ function BuildCPDos(s = ``, mapTo = `CP437`, verbose = false)
   let i = t.length
   let map0_127, map128_255 // build character maps
   switch (mapTo) {
-    case `CP437`:
-    case `US_ASCII`:
+    case `src_CP1252`:
+    case `out_US_ASCII`:
       map0_127 = mapCP437.set_0.concat(mapCP437.set_1)
       map128_255 = mapCP437.set_8.concat(mapCP437.set_9, mapCP437.set_a, mapCP437.set_b, mapCP437.set_c, mapCP437.set_d, mapCP437.set_e, mapCP437.set_f)
       break
-    case `8859_5`:
+    case `src_8859_5`:
       map0_127 = mapCP437.set_0.concat(mapCP437.set_1)
       map128_255 = mapCP437.set_8.concat(map8859_5.set_9, map8859_5.set_a, mapCP437.set_b, mapCP437.set_c, mapCP437.set_d, mapCP437.set_e, mapCP437.set_f)
       break
@@ -97,7 +97,6 @@ function BuildCPDos(s = ``, mapTo = `CP437`, verbose = false)
 
   // handle characters 129…255 [80…FF]
   let cpa = 128 // character position adjustment
-  if (mapTo === `8859_5`) cpa = cpa + 864 // ISO-8859-5
   i = map128_255.length
   while (i--) {
     if (verbose) console.log(`${i} ${String.fromCharCode(i + cpa)} => ${map128_255[i]}`)

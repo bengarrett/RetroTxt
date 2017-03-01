@@ -271,20 +271,29 @@ function changeLineHeight(lh = `normal`, dom = new FindDOM())
 }
 
 function charSetFind(c = ``, dom = {})
-// determine character set
+// Return the source text character set
 // @c   Code page cases used by the context menus
 // @dom A HTML DOM Object that will be modified
 {
   if (typeof c !== `string` && c !== null) checkArg(`c`, `string`, c)
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
-
-  switch (c) {
-    case `codeMsDos0`: return `CP437`
-    case `codeMsDos1`: return `8859_5`
-    case `codeWindows`: return `CP1252`
-    case `codeLatin9`: return `8859_15`
-    case `codeNone`: return `US_ASCII`
-    default: return new BuildCharSet(dom.preProcess).guess
+  switch (c) { // user overrides
+    case `codeMsDos0`: return `src_CP1252`
+    case `codeMsDos1`: return `src_8859_5`
+    case `codeWindows`: return `out_CP1252`
+    case `codeLatin9`: return `out_8859_15`
+    case `codeNone`: return `out_US_ASCII`
+    default: { // force returns based on browser tab character set
+      //console.log(`document.characterSet ${document.characterSet.toUpperCase()}`)
+      switch (document.characterSet.toUpperCase()) {
+        case `WINDOWS-1252`:
+        case `UTF-8`: return `src_CP1252`
+        case `ISO-8859-5`: return `src_8859_5`
+        default: { // unknown/unsupported encodings, we so guess but the output is most-likely to be incorrect
+          return new BuildCharSet(dom.preProcess).guess
+        }
+      }
+    }
   }
 }
 
@@ -297,14 +306,15 @@ function charSetRebuild(c = ``, dom = {})
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
   switch (c) {
-    case `CP437`:
-    case `8859_5`: return new BuildCPDos(dom.preProcess, c).text
-    case `CP1252`: return new BuildCP1252(dom.preProcess).text
-    case `8859_1`: return new BuildCP88591(dom.preProcess).text
-    case `8859_15`: return new BuildCP885915(dom.preProcess).text
-    case `UTF8`: return new BuildCPUtf8(dom.preProcess).text
-    case `US_ASCII`:
-    case `UTF_ERR`: return new BuildCPUtf16(dom.preProcess).text
+    case `src_CP1252`:
+    case `src_8859_5`: return new BuildCPDos(dom.preProcess, c).text
+    case `out_CP1252`: return new BuildCP1252(dom.preProcess).text
+    case `out_8859_1`: return new BuildCP88591(dom.preProcess).text
+    case `out_8859_15`: return new BuildCP885915(dom.preProcess).text
+    case `out_UTF8`: return new BuildCPUtf8(dom.preProcess).text
+    case `out_US_ASCII`: return new BuildCPUtf16(dom.preProcess).text
+    default:
+      checkErr(`'${c}' is not a valid charSetRebuild() identifier`, true)
   }
 }
 
@@ -871,9 +881,11 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   // code page details for text font info.
   if (srcMeta.chrSet !== null) {
     let dcp = srcMeta.chrSet.replace(`-`, ``).toUpperCase()
+    let dcpAttr = ``
     rev1Text.codePage.text = rev1Text.codePage.text.replace(`CP-`, `CP`)
     dcp = dcp.replace(`WINDOWS`, `CP`) // abbreviate WINDOWS1252 to CP1252 etc.
-    tfi.body = `${tfi.body} <span title="Document encoding set by the browser">${dcp}</span> → \
+    if ([`CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(dcp) === false) dcpAttr = `class="unknown"` // note: header has CSS filter: invert(100%); applied
+    tfi.body = `${tfi.body} <span title="Document encoding set by the browser"${dcpAttr}>${dcp}</span> → \
 <span title="Unicode ≈ ${rev1Text.codePage.title}">${rev1Text.codePage.text}</span>`
   }
   // font name

@@ -122,7 +122,7 @@ function ListCharacterSets()
   // 8 Backspace, 9 Horizontal tab, 10 Line feed (line break), 12 Form feed (page break)
   // 13 Carriage return, 26 End of file (not a C0 standard but used in MS-DOS)
   this.C0common = [8, 9, 10, 12, 13, 26]
-  this.sets = [`US_ASCII`, `CP437`, `8859_5`, `CP1252`, `8859_1`, `8859_15`, `UTF8`, `UTF_ERR`]
+  this.sets = [`out_8859_1`, `out_8859_15`, `out_CP1252`, `out_US_ASCII`, `out_UTF8`, `src_8859_5`, `src_CP1252`]
 }
 
 function ListDefaults()
@@ -279,7 +279,7 @@ function findControlSequences(s = ``)
   const t = s.slice(0, 5).toUpperCase() // only need the first 5 characters
   let a, b, c
   // ECMA-48 control sequences (4/Feb/2017: despite the performance hit, need to run this first to avoid false detections)
-  if (t.trim().charCodeAt(0) === 27 && t.trim().charCodeAt(1) === 91) return `ecma48` // (16/Feb/2017: trim is needed for some ANSIs)
+  if (s.trim().charCodeAt(0) === 27 && s.trim().charCodeAt(1) === 91) return `ecma48` // (16/Feb/2017: trim is needed for some ANSIs)
   c = s.indexOf(`${String.fromCharCode(27)} ${String.fromCharCode(91)} `) // indexOf is the fastest form of string search
   if (c > 0) return `ecma48`
   // make sure first char is an @-code
@@ -322,32 +322,28 @@ function HumaniseCP(code = ``)
 {
   let text = ``, title = ``
   switch (code) {
-    case `CP437`:
-    case `8859_5`:
+    case `src_CP1252`:
+    case `src_8859_5`:
       text = `CP-437`
       title = `IBM/MS-DOS Code Page 437`
       break
-    case `CP1252`:
+    case `out_CP1252`:
       text = `Windows-1252`
       title = `Code Page 1252 commonly used in legacy Microsoft Windows systems`
       break
-    case `8859_1`:
+    case `out_8859_1`:
       text = `ISO-8859-1`
       title = `ISO-8859 Part 1: Latin alphabet No. 1 alternatively known as ECMA-94`
       break
-    case `8859_15`:
+    case `out_8859_15`:
       text = `ISO-8859-15`
       title = `ISO-8859 Part 15: Latin alphabet No. 9`
       break
-    case `UTF_ERR`:
-      text = `Unsupported UTF-8 4-bit encoding`
-      title = `Currently RetroTxt only supports Unicode characters between 0-65535(0000-FFFF) `
-      break
-    case `UTF8`:
+    case `out_UTF8`:
       text = `UTF-8`
       title = `Universal Coded Character Set 8-bit`
       break
-    case `US_ASCII`:
+    case `out_US_ASCII`:
       text = `US-ASCII`
       title = `Plain text, alternatively known as ASA X3.4, ANSI X3.4, ECMA-6, ISO/IEC 646`
       break
