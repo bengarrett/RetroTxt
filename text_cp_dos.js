@@ -97,6 +97,7 @@ function BuildCPDos(s = ``, mapTo = `src_CP1252`, verbose = false)
 
   // handle characters 129…255 [80…FF]
   let cpa = 128 // character position adjustment
+  if (mapTo === `src_8859_5`) cpa = cpa + 864 // ISO-8859-5
   i = map128_255.length
   while (i--) {
     if (verbose) console.log(`${i} ${String.fromCharCode(i + cpa)} => ${map128_255[i]}`)
