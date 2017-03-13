@@ -280,7 +280,7 @@ function findControlSequences(s = ``)
   let a, b, c
   // ECMA-48 control sequences (4/Feb/2017: despite the performance hit, need to run this first to avoid false detections)
   if (s.trim().charCodeAt(0) === 27 && s.trim().charCodeAt(1) === 91) return `ecma48` // (16/Feb/2017: trim is needed for some ANSIs)
-  c = s.indexOf(`${String.fromCharCode(27)} ${String.fromCharCode(91)} `) // indexOf is the fastest form of string search
+  c = s.indexOf(`${String.fromCharCode(27)}${String.fromCharCode(91)}`) // indexOf is the fastest form of string search
   if (c > 0) return `ecma48`
   // make sure first char is an @-code
   else if (t.charAt(0) === `@`) {

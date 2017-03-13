@@ -1,5 +1,4 @@
-[0mIf the erase[Bdisplay function[Bis working this[Btext should not be[Bdisplayed.[2J[BTo display correctly this file needs be saved with CP-437 (US-OEM) encoding.
-The start of the file MUST begin with an ECMA-48 escape sequence.[1B
+If the erase[Bdisplay function[Bis working this[Btext should not be[Bdisplayed.[2J[BTo display correctly this file needs be saved with CP-437 (US-OEM) encoding.[2B
 [30C[1m______________________[0m[B[30C[0;1m RetroTxt[1m Proof Sheet[B[30C[1mออออออออออออออออออออออ[0m[2B[3mECMA-48[3m presentation control sequences[B
 [0mNormal text[31m[10CRed text[39m[3C[34;47mBlue on grey[49;35m[3Cmagenta[B
 [0;42;34mBlue on green[31m[8CRed text[39m[3C[34;47mBlue on grey[49;35m[3C[42mmagenta[3C[39;49mdefault colours[B
