@@ -207,21 +207,21 @@ QUnit.test(`BuildCharSet`, function (assert) {
   assert.equal(content.guess, `out_8859_1`, `Should be \`out_8859_1\``)
 })
 
-QUnit.test(`restoreDocument`, function (assert) {
-  assert.equal(restoreDocument(), undefined, `Should return no value`)
+QUnit.test(`switch2PlainText`, function (assert) {
+  assert.equal(switch2PlainText(), undefined, `Should return no value`)
   const test = new FindDOM()
   test.pre0 = {}
   test.pre0.style = {}
   test.pre0.style.display = `block`
-  restoreDocument(test)
-  assert.equal(test.pre0.style.display, null, `pre0 display should be set to \`null\``)
+  switch2PlainText(test)
+  assert.equal(test.pre0.style.display, `block`, `pre0 display should be set to \`block\``)
   test.pre1 = {}
   test.pre1.style = {}
   test.pre1.style.display = ``
   test.preCount = 2
-  restoreDocument(test)
-  assert.equal(test.pre0.style.display, `none`, `pre0 display should be set to \`none\``)
-  assert.equal(test.pre1.style.display, null, `pre1 display should be set to \`null\``)
+  switch2PlainText(test)
+  assert.equal(test.pre0.style.display, `block`, `pre0 display should be set to \`block\``)
+  assert.equal(test.pre1.style.display, ``, `pre1 display should be set to \`\``)
 })
 
 QUnit.test(`findPageColumns`, function (assert) {
@@ -893,7 +893,7 @@ QUnit.test(`BuildEcma48()`, function (assert) {
 
   sample = `←[?33h←[47;5m←[B${inputText}` // start with iCE on
   test = new BuildEcma48(sample).innerHTML
-  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR147\"> </i></div><div id=\"row-2\"><i class=\"SGR37 SGR147\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
+  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR47 SGR5\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR47 SGR5\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
 
   sample = `←[?33l←[47;5m←[B${inputText}` // start with iCE off
   test = new BuildEcma48(sample).innerHTML
@@ -901,11 +901,11 @@ QUnit.test(`BuildEcma48()`, function (assert) {
 
   sample = `←[?33h←[5;47m${inputText}`
   test = new BuildEcma48(sample).innerHTML
-  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR147\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
+  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR47 SGR5\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
 
   sample = `←[?33h←[6;47miCE iCE Baby←[?33l${inputText}`
   test = new BuildEcma48(sample).innerHTML
-  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR147\">iCE iCE Baby</i><i class=\"SGR37 SGR47 SGR6\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
+  assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR47 SGR6\">iCE iCE Baby</i><i class=\"SGR37 SGR47 SGR6\">Hello world.</i><span class=\"dos-cursor\">_</span></div>`, `'${sample}' ${reply}`)
 
   /*
    * text_ecma94.js

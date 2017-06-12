@@ -6,7 +6,7 @@
 /*
 global BuildBBS BuildCP1252 BuildCPDos BuildCP88591 BuildCP885915 BuildCPUtf8 BuildCPUtf16
 HumaniseCP BuildEcma48 BuildFontStyles ListCharacterSets ListDefaults ListRGBThemes
-buildLinksToCSS checkArg checkErr changeTextScanlines changeTextShadow
+buildLinksToCSS checkArg checkErr changeTextScanlines changeTextEffect
 chrome findControlSequences displayErr runSpinLoader humaniseFS
 */
 
@@ -203,22 +203,24 @@ function changeColors(colorName = ``, dom = new FindDOM())
   if (typeof colorName !== `string`) checkArg(`colorName`, `string`, colorName)
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
-  let color = colorName
+  const h = document.getElementsByTagName(`header`)
+  const engine = findEngine()
+  let color = colorName, filterVal = ``
 
   try {
     dom.body.className = ``
     dom.main.className = ``
   } catch (err) { /* Some Firefox versions throw a security error when handling file:/// */ }
   // refresh scan lines and font shadows as they are effected by colour changes
-  chrome.storage.local.get([`textBgScanlines`, `textFontShadows`], function (r) {
+  chrome.storage.local.get([`textBgScanlines`, `textEffect`], function (r) {
     if (r.textBgScanlines === undefined) checkErr(`Could not obtain the required textBgScanlines setting to apply the scanlines effect`, true)
-    if (r.textFontShadows === undefined) checkErr(`Could not obtain the required textFontShadows setting to apply the font shadow effect`, true)
+    if (r.textEffect === undefined) checkErr(`Could not obtain the required textEffect setting to apply text effects`, true)
     const tsl = r.textBgScanlines
-    const tfs = r.textFontShadows
+    const tfs = r.textEffect
     // scan lines on the page body
     if (typeof tsl === `boolean` && tsl === true) changeTextScanlines(true, dom.body)
     // font shadowing applied to text in the page main tag
-    if (typeof tfs === `boolean` && tfs === true) changeTextShadow(true, dom.main)
+    if (typeof tfs === `string` && tfs === `shadowed`) changeTextEffect(`shadowed`, dom.main)
   })
   // apply new colours
   if (color.startsWith(`theme-`) === false) color = `theme-${color}`
@@ -226,6 +228,28 @@ function changeColors(colorName = ``, dom = new FindDOM())
   else return // error
   if (dom.main.classList !== null) dom.main.classList.add(`${color}-fg`)
   else return // error
+  // invert header
+  // white backgrounds need to be handled separately
+  if (h[0] !== null) {
+    filterVal = `invert(100%)`
+    if (engine === `blink`) { // work around for Chrome
+      switch (color) {
+        case `theme-windows`:
+        case `theme-atarist`: filterVal = `invert(0%)`; break
+        default:
+          if (color.includes(`-on-white`)) filterVal = `invert(0%)`
+      }
+    }
+    // deal with varying browser support (http://caniuse.com/#feat=css-filters)
+    if (h[0].style.filter !== undefined) { // Modern browsers
+      h[0].style.filter = filterVal
+    } else if (h[0].style.webkitFilter !== undefined) { // Chrome 49-55
+      h[0].style.webkitFilter = filterVal
+    } else { // Firefox 50, 51
+      h[0].style.backgroundColor = `black`
+      h[0].style.color = `white`
+    }
+  }
 }
 
 function changeFont(ff = ``, dom = new FindDOM())
@@ -286,9 +310,11 @@ function charSetFind(c = ``, dom = {})
     default: { // force returns based on browser tab character set
       //console.log(`document.characterSet ${document.characterSet.toUpperCase()}`)
       switch (document.characterSet.toUpperCase()) {
+        case `ISO-8859-5`: return `src_8859_5`
+        case `WINDOWS-1250`: return `src_CP1250`
+        case `WINDOWS-1251`: return `src_CP1251`
         case `WINDOWS-1252`:
         case `UTF-8`: return `src_CP1252`
-        case `ISO-8859-5`: return `src_8859_5`
         default: { // unknown/unsupported encodings, we so guess but the output is most-likely to be incorrect
           return new BuildCharSet(dom.preProcess).guess
         }
@@ -306,6 +332,8 @@ function charSetRebuild(c = ``, dom = {})
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
   switch (c) {
+    case `src_CP1250`:
+    case `src_CP1251`:
     case `src_CP1252`:
     case `src_8859_5`: return new BuildCPDos(dom.preProcess, c).text
     case `out_CP1252`: return new BuildCP1252(dom.preProcess).text
@@ -428,7 +456,6 @@ function findSAUCE(text = { original: `` }, length = 0)
   }
   // comments
   if (comntStart > -1 && (comntStart - start) < (255 * 64)) {
-    // TODO maybe a better sanity check?
     results.comment = search.slice(comntStart + `COMNT`.length, start)
   }
 
@@ -503,12 +530,12 @@ function handleChanges(change)
 {
   if (typeof change !== `object`) checkArg(`change`, `array`, change)
   const changes = {
-    font: change.retroFont,
-    color: change.retroColor,
-    lineHeight: change.lineHeight,
-    info: change.textFontInformation,
     alignment: change.textCenterAlignment,
-    shadows: change.textFontShadows,
+    color: change.retroColor,
+    effect: change.textEffect,
+    font: change.retroFont,
+    info: change.textFontInformation,
+    lineHeight: change.lineHeight,
     scanlines: change.textBgScanlines,
   }
 
@@ -528,16 +555,21 @@ function handleChanges(change)
     const c = changes.color.newValue
     changeColors(c, dom)
     // update font shadow and scan lines
-    chrome.storage.local.get([`textFontShadows`, `textBgScanlines`], function (r) {
+    chrome.storage.local.get([`textBgScanlines`, `textEffect`], function (r) {
       const body = document.body
       const main = document.getElementsByTagName(`main`)[0]
-      // need to update font shadow colour
-      if (typeof r.textFontShadows !== `boolean`) checkErr(`Could not obtain the required textFontShadows setting to handle changes`, true)
-      else if (typeof r === `boolean` && r === true && typeof main === `object`) { changeTextShadow(true, main, c) }
       // need to update scan lines if background colour changes
       if (typeof r.textBgScanlines !== `boolean`) checkErr(`Could not obtain the required textBgScanlines setting to handle changes`, true)
-      else if (r === true && typeof body === `object`) { changeTextScanlines(true, body, c) }
+      else if (r.textBgScanlines === true && typeof body === `object`) { changeTextScanlines(true, body, c) }
+      // need to update text effect colours
+      if (typeof r.textEffect !== `string`) checkErr(`Could not obtain the required textEffect setting to handle changes`, true)
+      else if (typeof main === `object`) { changeTextEffect(r.textEffect, main, c) }
     })
+    return
+  }
+  // text effect
+  if (changes.effect && typeof dom.main === `object`) {
+    changeTextEffect(changes.effect.newValue, dom.main)
     return
   }
   // line height
@@ -560,14 +592,6 @@ function handleChanges(change)
       dom.main.style.margin = `auto`
     } else {
       dom.main.style.margin = `initial`
-    }
-    return
-  }
-  // shadows
-  if (changes.shadows) {
-    const main = document.getElementsByTagName(`main`)[0]
-    if (typeof main === `object`) {
-      changeTextShadow(changes.shadows.newValue, main)
     }
     return
   }
@@ -604,49 +628,11 @@ function handleMessages(message)
   }
 }
 
-function restoreDocument(dom = new FindDOM())
-// Display the original, unmodified text document
-// @dom A HTML DOM Object that will be modified
-{
-  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
-
-  const ignoredSchemes = [`chrome-extension`, `moz-extension`]
-  const urlScheme = window.location.protocol.split(`:`)[0]
-  // Skip URL schemes that match `ignoredSchemes`
-  let removeCSSChildren = true
-  for (const i of ignoredSchemes) {
-    if (urlScheme.includes(i)) removeCSSChildren = false
-  }
-  // delete classes
-
-  changeTextScanlines(false, dom.body)
-  // delete page style customisations
-  dom.body.removeAttribute(`style`)
-  if (dom.preCount >= 2) {
-    if (dom.header !== null) dom.header.style.display = `none`
-    dom.pre0.style.display = `none`
-    dom.pre1.style.display = null
-  } else if (typeof dom.pre0 !== `undefined`) {
-    dom.pre0.style.display = null
-  }
-
-  // delete links to CSS files
-  // (18/2/2017: Keep this action last to improve performance on Chrome)
-  if (removeCSSChildren !== false) {
-    while (dom.head.hasChildNodes()) {
-      dom.head.removeChild(dom.head.firstChild)
-    }
-  }
-  // hide red alert messages
-  displayErr(false)
-}
-
-function restoreRetroTxt(dom = new FindDOM())
+function switch2HTML(dom = new FindDOM())
 // Display the RetroTxt processed and themed text document
 // @dom A HTML DOM Object that will be modified
 {
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
-
   chrome.storage.local.get(`textFontInformation`, function (result) {
     const r = result.textFontInformation
     if (r === undefined) checkErr(`Could not obtain the required textFontInformation setting to apply text font information feature`, true)
@@ -655,8 +641,43 @@ function restoreRetroTxt(dom = new FindDOM())
       else dom.header.style.display = `block`
     }
   })
-  dom.pre0.style.display = `block`
   dom.pre1.style.display = `none`
+  dom.pre0.style.display = `block`
+  const links = Array.from(dom.head.childNodes)
+  links.forEach(link => link.disabled = false)
+  // hide spin loader
+  runSpinLoader(false)
+}
+
+function switch2PlainText(dom = new FindDOM())
+// Display the original, unmodified text document
+// @dom A HTML DOM Object that will be modified
+{
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  const ignoredSchemes = [`chrome-extension`, `moz-extension`]
+  const urlScheme = window.location.protocol.split(`:`)[0]
+  // skip URLs that match `ignoredSchemes`
+  let removeCSSChildren = true
+  for (const i of ignoredSchemes) {
+    if (urlScheme.includes(i)) removeCSSChildren = false
+  }
+  if (removeCSSChildren === false) return
+  // hide classes
+  changeTextScanlines(false, dom.body)
+  // hide page style customisations
+  if (dom.preCount >= 2) {
+    if (dom.header !== null) dom.header.style.display = `none`
+    dom.pre0.style.display = `none`
+    dom.pre1.style.display = `block`
+  } else if (typeof dom.pre0 !== `undefined`) {
+    dom.pre0.style.display = `block`
+  }
+  // hide links
+  const links = Array.from(dom.head.childNodes)
+  links.forEach(link => link.disabled = true)
+  // hide red alert messages
+  displayErr(false)
 }
 
 function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
@@ -667,28 +688,32 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   if (typeof tabId !== `number`) checkArg(`tabId`, `number`, tabId)
   if (typeof pageEncoding !== `string`) checkArg(`pageEncoding`, `string`, pageEncoding)
 
-  let dom = new FindDOM()
+  const dom = new FindDOM()
   // context menu onclick listener
   chrome.runtime.onMessage.addListener(handleMessages)
   // monitor for any changed Options set by the user
   chrome.storage.onChanged.addListener(handleChanges)
 
-  /* Switch between the original and our stylised copy of the text document */
-  /* Display original text document */
+  /* If the tab has already been RetroTxt-fied, switch between the original plain text and the HTML conversion */
   if (dom.cssLink !== null) {
-    restoreDocument(dom)
+    if (dom.cssLink.disabled === true) switch2HTML(dom)
+    else if (dom.cssLink.disabled === false) switch2PlainText(dom)
     // tell a listener in eventpage.js that this tab's body has been modified
     chrome.runtime.sendMessage({ retroTxtified: false })
-    return // end function
+    return // end runRetroTxt() function
   }
 
-  /* Display RetroTxt-fied text */
+  /* Build HTML */
   // get and apply saved Options
-  chrome.storage.local.get([`retroColor`, `retroFont`, `lineHeight`, `textFontShadows`, `textBgScanlines`, `textCenterAlignment`], function (result) {
+  chrome.storage.local.get([`lineHeight`, `retroColor`, `retroFont`, `textBgScanlines`, `textCenterAlignment`, `textEffect`], function (result) {
     function err(id) {
       checkErr(`Could not obtain the required ${id} setting to apply execute RetroTxt`, true)
     }
     let dom = new FindDOM(), r
+    // line height choice
+    r = result.lineHeight
+    if (typeof r === `string`) changeLineHeight(r, dom)
+    else err(`lineHeight`)
     // colour choices
     r = result.retroColor
     if (typeof r === `string`) changeColors(r, dom)
@@ -697,14 +722,6 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     r = result.retroFont
     if (typeof r === `string`) changeFont(r, dom.pre0)
     else err(`retroFont`)
-    // line height choice
-    r = result.lineHeight
-    if (typeof r === `string`) changeLineHeight(r, dom)
-    else err(`lineHeight`)
-    // font shadow
-    r = result.textFontShadows
-    if (typeof r === `boolean` && r === true) changeTextShadow(r, dom.main)
-    else if (typeof r !== `boolean`) err(`textFontShadows`)
     // scan lines
     r = result.textBgScanlines
     if (typeof r === `boolean` && r === true) changeTextScanlines(r, dom.body)
@@ -714,6 +731,10 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     if (typeof r === `boolean` && r === true) {
       dom.main.style.margin = `auto` // vertical & horizontal alignment
     } else if (typeof r !== `boolean`) err(`textCenterAlignment`)
+    // text effect
+    r = result.textEffect
+    if (typeof r === `string`) changeTextEffect(r, dom.main)
+    else if (typeof r !== `string`) err(`textEffect`)
   })
 
   // Stylise text document
@@ -722,11 +743,6 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   // tell a listener in eventpage.js that the body of this tab has been modified
   chrome.runtime.sendMessage({ retroTxtified: true })
 
-  if (dom.preCount > 1) {
-    // Restore the stylised text and hide original raw text
-    restoreRetroTxt(dom)
-    return // end function
-  }
   // Create a copy of the text documentfor applying styles.
   const reset = new ListDefaults()
   const srcText = { original: dom.pre0.innerHTML } // use an object instead of a string type to reduce `srcText` memory footprint
@@ -756,10 +772,12 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   const tfi = {//${newDOM.columns} ${newDOM.rows} ${humaniseFS(srcMeta.length)}
     template: `<span title="Columns of text">♥</span> x <span title="Lines of text">♦</span> \
 <span title="Number of characters contained in the text">♣</span> -`,
-    ansi: `<span id="h-doc-fmt" title="ECMA-48/ANSI X3.64 presentation control and cursor functions">ANSi</span>`,
+    ansi: `<span id="h-doc-fmt" title="ECMA-48/ANSI X3.64 presentation control and cursor functions">ANSI</span>`,
     body: ``,
     colors: ``,
     fontName: `<span title="Font family used for display" id="h-doc-font-family" class="capitalize">♠</span>`,
+    palette: `<strong id="h-palette" title="Switch ANSI ${chrome.i18n.getMessage(`color`)} palettes">IBM</strong> palette,`,
+    render: `<strong id="h-text-rend" title="Switch between text render methods">??</strong>`,
     sauce: ``,
     tail: ``,
     errs: 0, // unknown csi
@@ -809,6 +827,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   }
 
   // handle non-ASCII text formatting
+  const theme = new ListRGBThemes()
   switch (srcMeta.format) {
     case `ecma48`: // ECMA-48 aka ANSI encoded text
       console.info(`%c%cECMA-48%c control sequences in use`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
@@ -832,9 +851,13 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
         sessionStorage.setItem(`fontOverride`, `true`)
       }
       // color depth
-      if (ecma48Data.iceColors === true) tfi.colors = `with 'iCE colors' `
-      //ecma48Data.colorDepth = 4 // uncomment to test
+      //ecma48Data.colorDepth = 8 // uncomment to test
       switch (ecma48Data.colorDepth) {
+        case 8: // force the use of the xterm palette
+          theme.color = 2
+          document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}.css`)
+          tfi.palette = `<span id="h-palette">xterm</span> 8-bit palette,`
+          break
         case 4:
           document.getElementById(`retrotxt-8bit`).remove()
           break
@@ -846,10 +869,15 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
         case 0:
           document.getElementById(`retrotxt-8bit`).remove()
           colorLink = document.getElementById(`retrotxt-4bit`)
-          colorLink.href = colorLink.href.replace(/text_colors_vga/, `text_colors_gray`) // TODO change this regex replace to a condition?
+          colorLink.href = chrome.extension.getURL(`css/text_colors_gray.css`)
           tfi.colors = `${tfi.colors}in monochrome, 16 ${chrome.i18n.getMessage(`color`)}`
           break
         default:
+      }
+      // iCE colors
+      tfi.colors = `- ${tfi.palette} <span id="ice-colors-toggle" title="Toggle">iCE colors <strong>??</strong></span> `
+      if (ecma48Data.iceColors === true) {
+        dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
       }
       break
     case `pcboard`: // converts PCBoard and WildCat! BBS colour codes into HTML and CSS
@@ -870,13 +898,91 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   chrome.storage.local.get(`textFontInformation`, function (result) {
     // reveal or hide header?
     switch (result.textFontInformation) {
-      case false: newDOM.header.style.display = `none`
-        break
-      case true: newDOM.header.style.display = `block`
-        break
-      default:
-        checkErr(`Could not obtain the required textFontInformation setting to reveal text font information`, true)
+      case false: newDOM.header.style.display = `none`; break
+      case true: newDOM.header.style.display = `block`; break
+      default: checkErr(`Could not obtain the required textFontInformation setting to reveal text font information`, true)
     }
+    // text render
+    const textRender = document.getElementById(`h-text-rend`)
+    if (textRender !== null) {
+      textRender.onclick = function () {
+        switch (this.innerHTML) {
+          case `Normal`: changeTextEffect(`smeared`, dom.body.childNodes[2]); break
+          case `Smeared`: changeTextEffect(`shadowed`, dom.body.childNodes[2]); break
+          default: changeTextEffect(`normal`, dom.body.childNodes[2])
+        }
+      }
+    }
+    // palette
+    const palette = document.getElementById(`h-palette`)
+    let link = ``
+    if (palette !== null && ecma48Data.colorDepth === 4) {
+      palette.onclick = function () {
+        const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
+        let theme = new ListRGBThemes()
+        switch (this.innerHTML) {
+          case `IBM`:
+            palette.innerHTML = `xterm`
+            theme.color = 2
+            break
+          case `xterm`:
+            palette.innerHTML = `${chrome.i18n.getMessage(`Gray`)}`
+            theme.color = 0
+            break
+          default:
+            palette.innerHTML = `IBM`
+            theme.color = 1
+        }
+        // update palette link
+        link = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}.css`)
+        document.getElementById(`retrotxt-4bit`).href = link
+        // update ice colors link
+        if (iceCSS !== null) {
+          link = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}-ice.css`)
+          iceCSS.href = link
+        }
+      }
+    }
+    // ice colors toggle in the information header (only shows with EMCA48/ANSI documents)
+    const iceColors = document.getElementById(`ice-colors-toggle`)
+    if (iceColors !== null) {
+      switch (ecma48Data.iceColors) {
+        case true:
+          iceColors.childNodes[1].innerHTML = `On`
+          iceColors.onclick = iceToggle
+          break
+        default:
+          iceColors.childNodes[1].innerHTML = `Off`
+          iceColors.onclick = iceToggle
+      }
+    }
+    // ice color toggle functions
+    function iceToggle() {
+      ecma48Data.iceColors = !ecma48Data.iceColors
+      switch (ecma48Data.iceColors) {
+        case true: iceColorsOn(); break
+        default: iceColorsOff()
+      }
+    }
+    function iceColorsOn() {
+      const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
+      const palette = document.getElementById(`h-palette`)
+      if (iceCSS !== null) return
+      let theme = new ListRGBThemes()
+      switch (palette.innerHTML) {
+        case `IBM`: theme.color = 1; break
+        case `xterm`: theme.color = 2; break
+        default: theme.color = 0
+      }
+      dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
+      iceColors.childNodes[1].innerHTML = `On`
+    }
+    function iceColorsOff() {
+      let iceCSS = document.getElementById(`retrotxt-4bit-ice`)
+      if (iceCSS !== null) iceCSS.remove()
+      iceColors.childNodes[1].innerHTML = `Off`
+    }
+
   })
   // code page details for text font info.
   if (srcMeta.chrSet !== null) {
@@ -884,16 +990,16 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     let dcpAttr = ``
     rev1Text.codePage.text = rev1Text.codePage.text.replace(`CP-`, `CP`)
     dcp = dcp.replace(`WINDOWS`, `CP`) // abbreviate WINDOWS1252 to CP1252 etc.
-    if ([`CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(dcp) === false) dcpAttr = `class="unknown"` // note: header has CSS filter: invert(100%); applied
+    if ([`CP1250`, `CP1251`, `CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(dcp) === false) dcpAttr = `class="unknown"` // note: header has CSS filter: invert(100%); applied
     tfi.body = `${tfi.body} <span title="Document encoding set by the browser"${dcpAttr}>${dcp}</span> → \
 <span title="Unicode ≈ ${rev1Text.codePage.title}">${rev1Text.codePage.text}</span>`
   }
-  // font name
-  tfi.tail = `- ${tfi.fontName}`
+  // text render & font name
+  tfi.tail = `- ${tfi.render} ${tfi.fontName}`
   // content format
   switch (srcMeta.format) {
     case `ecma48`:
-      tfi.tail = `${tfi.tail} ${tfi.ansi}`
+      tfi.tail = `${tfi.ansi} ${tfi.tail}`
       if (tfi.colors.length > 0) tfi.tail = `${tfi.tail} ${tfi.colors}`
       // ecma48 errors
       if (tfi.oths > 0 || tfi.errs > 0) {
@@ -916,8 +1022,8 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       break
     case `pcboard`:
     case `wildcat`:
-      tfi.tail = `- ${tfi.fontName} <span id="h-doc-fmt" title="Special bulletin board system, text formatting"> \
-          '${chrome.i18n.getMessage(srcMeta.format)}' ${chrome.i18n.getMessage(`color`)} codes</span>`
+      tfi.tail = `<span id="h-doc-fmt" title="Special bulletin board system, text formatting"> \
+          ${chrome.i18n.getMessage(srcMeta.format)}</span> ${tfi.tail}`
       break
     default: // ASCII & NFO
       newDOM.columns = findPageColumns(newDOM.preProcess) // count the number of text columns

@@ -3,7 +3,7 @@
 // These functions are used exclusively by the Options dialogue.
 'use strict'
 
-/*global chrome checkRange changeTextShadow changeTextScanlines findEngine ListDefaults */
+/*global chrome checkRange changeTextEffect changeTextScanlines findEngine ListDefaults */
 
 function checkArg(name = ``, e = ``, a)
 // Function argument checker for options.js
@@ -95,6 +95,46 @@ function checkErr(err)
   }
   listenForFonts()
 
+  function listenForEffects()
+  // text effect listeners for the radio buttons
+  {
+    const effects = document.forms.texteffects.getElementsByTagName(`label`)
+    let status = document.getElementById(`status`)
+    for (const effect of effects) {
+      // radio click listener
+      effect.onclick = function () {
+        const texteffect = this.getElementsByTagName(`input`)[0].value
+        status.textContent = `Saved ${texteffect} text effect`
+        changeStorageEffect()
+      }
+      // radio mouseover listener
+      effect.onmouseover = function () {
+        let effect = this.getElementsByTagName(`input`)
+        if (effect.length <= 0) return // ignore labels with no radio inputs
+        else effect = this.getElementsByTagName(`input`)[0].value
+        const sample = document.getElementById(`sample-dos-text`)
+        status.textContent = `Preview ${effect} text effect`
+        switch (effect) {
+          case `normal`: changeTextEffect(`normal`, sample); break
+          case `shadowed`: changeTextEffect(`shadowed`, sample); break
+          case `smeared`: changeTextEffect(`smeared`, sample); break
+          default: checkErr(`textEffect`)
+        }
+      }
+      // reset sample text when user's mouse leaves the effect selection form
+      const radioInput = document.getElementById(effect.htmlFor)
+      if (radioInput === null) continue
+      document.getElementById(`effects-form`).addEventListener(`mouseleave`, function () {
+        if (radioInput.checked === true) {
+          const sample = document.getElementById(`sample-dos-text`)
+          status.textContent = `Using ${radioInput.value} text effect`
+          changeTextEffect(radioInput.value, sample)
+        }
+      })
+    }
+  }
+  listenForEffects()
+
   // colour selection listeners
   document.getElementById(`font-color`).addEventListener(`change`, function () {
     let status = document.getElementById(`status`)
@@ -144,11 +184,6 @@ function checkErr(err)
   document.getElementById(`center-alignment`).addEventListener(`change`, function () {
     localStorage.setItem(`textCenterAlignment`, this.checked)
     chrome.storage.local.set({ 'textCenterAlignment': this.checked })
-  })
-  document.getElementById(`font-shadows`).addEventListener(`change`, function () {
-    localStorage.setItem(`textFontShadows`, this.checked)
-    chrome.storage.local.set({ 'textFontShadows': this.checked })
-    changeOnEffects()
   })
   document.getElementById(`dos-ctrl-codes`).addEventListener(`change`, function () {
     localStorage.setItem(`textDosCtrlCodes`, this.checked)
@@ -348,15 +383,21 @@ function changeOnColors()
 function changeOnEffects()
 // Gets and applies user's saved font family to sample text.
 {
-  const r1 = localStorage.getItem(`textFontShadows`)
   const r2 = localStorage.getItem(`textBgScanlines`)
+  const r3 = localStorage.getItem(`textEffect`)
   const sample = document.getElementById(`sample-dos-text`)
-  if (r1 === `true`) changeTextShadow(true, sample)
-  else if (r1 === `false`) changeTextShadow(false, sample)
-  else checkErr(`textFontShadows`)
-  if (r2 === `true`) changeTextScanlines(true, sample)
-  else if (r2 === `false`) changeTextScanlines(false, sample)
-  else checkErr(`textBgScanlines`)
+
+  switch (r2) {
+    case `true`: changeTextScanlines(true, sample); break
+    case `false`: changeTextScanlines(false, sample); break
+    default: checkErr(`textBgScanlines`)
+  }
+  switch (r3) {
+    case `normal`: changeTextEffect(`normal`, sample); break
+    case `shadowed`: changeTextEffect(`shadowed`, sample); break
+    case `smeared`: changeTextEffect(`smeared`, sample); break
+    default: checkErr(`textEffect`)
+  }
 }
 
 function changeOnFont()
@@ -381,6 +422,7 @@ function changeOnOptions()
     let n
     switch (s) {
       case `color`: n = document.getElementById(`font-color`); break
+      case `effect`: n = document.getElementsByName(`effect`); break
       case `font`: n = document.getElementsByName(`font`); break
       case `lh`: n = document.getElementById(`line-height`); break
     }
@@ -390,6 +432,7 @@ function changeOnOptions()
           case `color`:
           case `lh`: opt.selected = true
             break
+          case `effect`:
           case `font`: opt.checked = true
             break
         }
@@ -430,9 +473,6 @@ function changeOnOptions()
   // Centre alignment
   const r5 = localStorage.getItem(`textCenterAlignment`)
   checker(`center-alignment`, r5)
-  // Font Shadows
-  const r6 = localStorage.getItem(`textFontShadows`)
-  checker(`font-shadows`, r6)
   // Scan lines
   const r7 = localStorage.getItem(`textBgScanlines`)
   checker(`background-scanlines`, r7)
@@ -460,6 +500,10 @@ function changeOnOptions()
     const r12 = localStorage.getItem(`runFileDownloads`)
     checker(`run-file-downloads`, r12)
   }
+  // Text effects
+  const r13 = localStorage.getItem(`textEffect`)
+  if (typeof r13 !== `string` || r13.length < 1) checkErr(`textEffect`)
+  else selector(`effect`, r13)
 }
 
 function changeStorageColors()
@@ -469,6 +513,14 @@ function changeStorageColors()
   const c = s.options[s.selectedIndex].value
   localStorage.setItem(`retroColor`, c)
   chrome.storage.local.set({ 'retroColor': c })
+}
+
+function changeStorageEffect()
+// Saves the user text effect selection to local browser storage.
+{
+  const f = document.texteffects.effect.value
+  localStorage.setItem(`textEffect`, f)
+  chrome.storage.local.set({ 'textEffect': f })
 }
 
 function changeStorageFont()

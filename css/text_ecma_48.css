@@ -28,17 +28,16 @@ note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
     font-weight: normal;
     opacity: 1;
     text-decoration: none;
-    text-shadow: 0 0 0;
 }
 
 .SGR2 {
-    /* italic */
-    font-style: italic;
+    /* faint */
+    opacity: 0.5;
 }
 
 .SGR3 {
-    /* faint */
-    opacity: 0.5;
+    /* italic */
+    font-style: italic;
 }
 
 .SGR4 {
@@ -72,7 +71,6 @@ note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
 .SGR8 {
     /* conceal */
     color: transparent;
-    text-shadow: 0 0 0;
 }
 
 .SGR9 {

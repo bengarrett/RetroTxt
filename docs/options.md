@@ -112,10 +112,6 @@ SAUCE is often found in ANSI art but can be attached to any document and allows 
 
 Positions the text document from the left-top margin to the centre the of the display.
 
-##### Font shadows
-
-Apply a subtle shadow effect to each character and glyph within the text document.
-
 ##### DOS control glyphs
 
 The PC/MS-DOS _Code Page 437_ is not completely standards compliant as it uses C0 characters normally reserved for common formatting controls to display character glyphs.
@@ -130,6 +126,26 @@ As such these characters are never displayed but enabling this option will revea
 ##### Background scanlines
 
 Apply a subtle scan line effect to the backdrop of the page. The effect is more pronounced on light backgrounds but is not applied to the text.
+
+### Text render
+
+##### Normal
+
+Does nothing but the host operating system or browser will most likely apply some font smoothing to the text characters.
+
+![Normal text render](assets/text_render_normal.png)
+
+##### Smeared
+
+Most browsers (other than FireFox on Windows) display vertical line artefacts when showing block characters. This option implements a `text-shadow` property in an attempt to correct this. It unfortunately also blurs alphanumeric characters that make them less readable.
+
+![Smeared text render](assets/text_render_smeared.png)
+
+##### Shadowed
+
+Apply a subtle shadow effect to each character.
+
+![Shadowed text render](assets/text_render_shadowed.png)
 
 ### Execution behaviour
 

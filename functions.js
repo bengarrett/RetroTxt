@@ -197,7 +197,7 @@ function buildLinksToCSS(f = ``, i = ``)
 function changeTextScanlines(s = true, elm, color)
 // Applies CSS3 mock scan line effects to an element
 // @s     required boolean to enable or disable text show
-// @elm   required HTML DOM element object to apply shadow effect to
+// @elm   required HTML DOM element object to apply the scanline effect
 // @color optional CSS colour class when we already know the new colour values
 {
   if (typeof s !== `boolean`) checkArg(`s`, `boolean`, s)
@@ -237,36 +237,49 @@ function changeTextScanlines(s = true, elm, color)
   }
 }
 
-function changeTextShadow(s = true, elm, color)
-// Applies CSS3 text shadowing effects to an element
-// @s     required boolean to enable or disable text show
+function changeTextEffect(s = `normal`, elm, color)
+// Applies CSS3 text effects to an element
+// @s     required string used to switch and disable effects
 // @elm   required HTML DOM element object to apply shadow effect to
-// @color required CSS colour class when we already know the new colour values
+// @color optional CSS colour class when we already know the new colour values
 {
-  if (typeof s !== `boolean`) checkArg(`s`, `boolean`, s)
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
   if (typeof elm !== `object`) checkArg(`elm`, `object`, elm)
   if (elm.classList === null) return // error
 
-  // This removes any class names that use '-shadow' as their suffix
+  let r
+  // This removes any preexisting text effect class names from the element
   for (const item of elm.classList) {
     if (item.endsWith(`-shadowed`) === true) elm.classList.remove(item)
+    if (item === `text-smeared`) elm.classList.remove(item)
   }
-  // do nothing as all shadow classes have already been removed
-  if (s === false) return
-  // use colours provided by the colour parameter
-  else if (typeof color === `string`) {
-    // apply shadow class
-    elm.classList.add(`${color}-shadowed`)
+  switch (s) {
+    case `shadowed`:
+      // use colours provided by the colour parameter
+      if (typeof color === `string`) {
+        // apply shadow class
+        elm.classList.add(`${color}-shadowed`)
+      }
+      // use colours fetched from chrome's storage (default)
+      else {
+        r = localStorage.getItem(`retroColor`)
+        if (typeof r !== `string`) {
+          chrome.storage.local.get([`retroColor`], function (r) {
+            if (r.retroColor === undefined) checkErr(`Could not obtain the required retroColor setting to apply the text shadow effect`, true)
+            else elm.classList.add(`${r.retroColor}-shadowed`)
+          })
+        } else elm.classList.add(`${r}-shadowed`)
+      }
+      break
+    case `smeared`:
+      elm.classList.add(`text-smeared`)
+      break
+    default: // 'normal' do nothing as the text effects have already been removed
+    // return
   }
-  // use colours fetched from chrome's storage (default)
-  else {
-    const r = localStorage.getItem(`retroColor`)
-    if (typeof r !== `string`) {
-      chrome.storage.local.get([`retroColor`], function (r) {
-        if (r.retroColor === undefined) checkErr(`Could not obtain the required retroColor setting to apply the text shadow effect`, true)
-        else elm.classList.add(`${r.retroColor}-shadowed`)
-      })
-    } else elm.classList.add(`${r}-shadowed`)
+  const textRender = document.getElementById(`h-text-rend`)
+  if (textRender !== null) {
+    textRender.innerHTML = `${s.charAt(0).toUpperCase()}${s.slice(1)}`
   }
 }
 
@@ -322,6 +335,11 @@ function HumaniseCP(code = ``)
 {
   let text = ``, title = ``
   switch (code) {
+    // text = `Windows-1251`
+    // title = `Code Page 1252, Cyrillic script in legacy Microsoft Windows systems`
+    // break
+    case `src_CP1250`:
+    case `src_CP1251`:
     case `src_CP1252`:
     case `src_8859_5`:
       text = `CP-437`

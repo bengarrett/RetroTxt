@@ -1,0 +1,44 @@
+/*
+  filename: text_colors_xterm-ice.css
+
+  ECMA-48 presentation control function colour codes in XTERM 4-bit colour mode
+  RGB values taken from Wikipeda https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+*/
+
+.SGR5 {
+    animation-name: none;
+    -moz-animation-name: none;
+    -webkit-animation-name: none;
+}
+
+.SGR40.SGR5 {
+    background-color: rgb(127, 127, 127);
+}
+
+.SGR41.SGR5 {
+    background-color: rgb(255, 0, 0);
+}
+
+.SGR42.SGR5 {
+    background-color: rgb(0, 255, 0);
+}
+
+.SGR43.SGR5 {
+    background-color: rgb(255, 255, 0);
+}
+
+.SGR44.SGR5 {
+    background-color: rgb(92, 92, 255);
+}
+
+.SGR45.SGR5 {
+    background-color: rgb(255, 0, 255);
+}
+
+.SGR46.SGR5 {
+    background-color: rgb(0, 255, 255);
+}
+
+.SGR47.SGR5 {
+    background-color: rgb(255, 255, 255);
+}

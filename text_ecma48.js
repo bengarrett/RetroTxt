@@ -67,7 +67,7 @@ function ResetEcma48() {
   this.unknown = 0 // number of unsupported ECMA-48 control sequences found
   this.colorDepth = 4 // Colour depth override if a set/reset mode CSI has requested it.
   this.font = 10 // CSS class values SGR10…20, see text_ecma_48.css for the different font-family values
-  this.iceColors = false // iCE color mode which replaces SGR5/6 blink CSS classes with SGR140…SGR147 backgrounds
+  this.iceColors = false // iCE color mode which replaces SGR5/6 CSS blink methods with alt. background colours
 }
 
 function ResetCursor()
@@ -589,7 +589,7 @@ function buildNewRows(count = 1, columns = 0)
     cursor.row++
     handleColumn(0) // reset columns
     if (ecma48DOM.html.length < 1) ecma48DOM.html = ` ` // intentional space
-    if (ecma48DOM.html.slice(-Math.abs(empty)) === empty) ecma48DOM.html = ` ` // intentional space TODO: ???? working
+    if (ecma48DOM.html.slice(-Math.abs(empty)) === empty) ecma48DOM.html = ` ` // intentional space
     if (cursor.row < 2) ecma48DOM.html = `${ecma48DOM.html}</i><i class="${classes}">`
     if (cursor.row > 1) ecma48DOM.html = `${ecma48DOM.html}</i></div><div id="row-${cursor.row}"><i class="${classes}">` // PASS
   }
@@ -1159,18 +1159,14 @@ function renditionParse(vals = ``)
   // bold/intense foreground
   if (toggleSGR.bold === true && toggleSGR.colorF !== 38 && toggleSGR.colorF >= 30 && toggleSGR.colorF <= 39) classes = `${classes} SGR1${toggleSGR.colorF}`
   else classes = `${classes} SGR${toggleSGR.colorF}` // normal
-  // iCE color backgrounds when blink is enabled
-  if (ecma48.iceColors === true && (toggleSGR.blinkSlow === true || toggleSGR.blinkFast === true) && toggleSGR.colorB !== 48 && toggleSGR.colorB >= 40 && toggleSGR.colorB <= 49) classes = `${classes} SGR1${toggleSGR.colorB}`
-  else classes = `${classes} SGR${toggleSGR.colorB}` // normal
+  // backgrounds when blink is enabled
+  classes = `${classes} SGR${toggleSGR.colorB}`
   // presentation options classes
   if (toggleSGR.faint === true) classes = `${classes} SGR2`
   if (toggleSGR.italic === true) classes = `${classes} SGR3`
   if (toggleSGR.underline === true) classes = `${classes} SGR4`
-  if (ecma48.iceColors !== true) {
-    // disable blinking when iCE colors are in use
-    if (toggleSGR.blinkSlow === true) classes = `${classes} SGR5`
-    if (toggleSGR.blinkFast === true) classes = `${classes} SGR6`
-  }
+  if (toggleSGR.blinkSlow === true) classes = `${classes} SGR5`
+  if (toggleSGR.blinkFast === true) classes = `${classes} SGR6`
   if (toggleSGR.inverse === true) classes = `${classes} SGR7`
   if (toggleSGR.conceal === true) classes = `${classes} SGR8`
   if (toggleSGR.crossedOut === true) classes = `${classes} SGR9`

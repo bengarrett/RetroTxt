@@ -38,11 +38,10 @@ function ListMenuTitles()
   this.c64 = `Commodore 64`
   this.msdos = `MS-DOS`
   this.windows = `Windows`
-  this.textOrder = [`textFontInformation`, `textCenterAlignment`, `textFontShadows`, `textBgScanlines`]
+  this.textOrder = [`textFontInformation`, `textCenterAlignment`, `textBgScanlines`]
   this.textBgScanlines = `Scanlines`
   this.textCenterAlignment = `Text alignment`
   this.textFontInformation = `Text and font information`
-  this.textFontShadows = `Font shadows`
   this.codeOrder = [`codeAutomatic`, `codeMsDos0`, `codeMsDos1`, `codeWindows`, `codeLatin9`, `codeNone`]
   this.codeLatin1 = `> Linux web & Amiga`
   this.codeLatin9 = `> Linux legacy web`
@@ -60,9 +59,9 @@ function ListSettings()
   // boolean
   this.textBgScanlines = false
   this.textDosCtrlCodes = false
+  this.textEffect = `normal`
   this.textCenterAlignment = true
   this.textFontInformation = true
-  this.textFontShadows = false
   this.runFileDownloads = true
   this.runFileUrls = true
   this.runWebUrls = true
@@ -123,7 +122,7 @@ function ListThemes()
     checkErr(`RetroTxt failed to run because the browser's WebExtension API did not load! Please close this browser and try again`)
   }
 
-  // Uncomment this for testing, to clear all stored items
+  // Uncomment this to clear all stored items when testing
   // runStorageClear();
 
   // Set default options for first-time users
@@ -225,7 +224,6 @@ function ListThemes()
       switch (item) {
         case `textFontInformation`:
         case `textCenterAlignment`:
-        case `textFontShadows`:
         case `textBgScanlines`:
           changeMenuState(item, newValue)
           break
@@ -245,7 +243,6 @@ function ListThemes()
           break
         case `textFontInformation`:
         case `textCenterAlignment`:
-        case `textFontShadows`:
         case `textBgScanlines`:
           changeMenuCheckmark(info.menuItemId)
           break
@@ -1105,7 +1102,6 @@ function runWebRequest(menuId = 0, url = ``, tabid = 0)
       // compare local file name extension to the file name ignore list
       fileRequest.retroTxtify = !runParseUrlExtensions(url, cfg.avoidFileExtensions)
       console.info(`Loading local file ${url}`)
-      // TODO: Inject page encoding here?
       if (fileRequest.retroTxtify === true) runWebRequestFinalise(fileRequest, menuId, url, tabid)
       break
     case `ftp`:

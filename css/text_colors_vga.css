@@ -47,6 +47,11 @@
     color: rgb(170, 170, 170);
 }
 
+.SGR40 {
+    /* black */
+    background-color: rgb(0, 0, 0);
+}
+
 .SGR41 {
     /* red */
     background-color: rgb(170, 0, 0);
@@ -120,47 +125,4 @@
 .SGR137 {
     /* white high intensity */
     color: rgb(255, 255, 255);
-}
-
-
-/* iCE Colors (high intensity backgrounds) */
-
-.SGR140 {
-    /* grey */
-    background-color: rgb(85, 85, 85);
-}
-
-.SGR141 {
-    /* light red */
-    background-color: rgb(255, 85, 85);
-}
-
-.SGR142 {
-    /* light green */
-    background-color: rgb(85, 255, 85);
-}
-
-.SGR143 {
-    /* yellow */
-    background-color: rgb(255, 255, 85);
-}
-
-.SGR144 {
-    /* light blue */
-    background-color: rgb(85, 85, 255);
-}
-
-.SGR145 {
-    /* light magenta */
-    background-color: rgb(255, 85, 255);
-}
-
-.SGR146 {
-    /* light cyan */
-    background-color: rgb(85, 255, 255);
-}
-
-.SGR147 {
-    /* white high intensity */
-    background-color: rgb(255, 255, 255);
 }

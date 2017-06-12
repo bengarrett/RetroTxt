@@ -29,10 +29,6 @@ Apply the text and font information header detailing the document metadata and f
 
 Positions the text document from the left-top margin to the centre the of the display.
 
-##### Font shadows
-
-Apply a subtle shadow effect to each character and glyph within the text document.
-
 ##### Scan lines
 
 Apply a subtle scan line effect to the background of the page. The effect is more pronounced on light backgrounds but is not applied to the text.

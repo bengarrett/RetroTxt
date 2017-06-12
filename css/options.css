@@ -165,7 +165,7 @@ Blinking terminal prompt that works with any colour
 */
 
 #sample-cursor {
-    text-shadow: 0 0 0;
+    text-shadow: none;
     animation: 300ms blink step-end infinite;
     -moz-animation: 300ms blink step-end infinite;
     -webkit-animation: 300ms blink step-end infinite;

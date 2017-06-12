@@ -22,5 +22,3 @@ exclude_paths:
 - assets/
 - fonts/
 - test/
-- "docs/options.md"
-- "docs/changes.md"

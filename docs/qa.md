@@ -6,8 +6,7 @@ To ask a question, report a bug or request a feature please feel free to [leave 
 
 ### Known issues
 
-* Some foreground/background colour combinations introduce vertical artefacts when rendering blocks ███. Only [Firefox on Windows](https://www.mozilla.org/en-US/firefox/desktop/) doesn't suffer from this problem.
-* Browsers are fussy over which files they allow web extensions to autorun on, more so when displaying local texts with the `file:///` protocol.
+* Browsers are fussy over which files they allow web extensions to autorun with, more so when displaying local texts with the `file:///` protocol.
 
 #### Can I adjust the size of the font
 
@@ -49,9 +48,7 @@ Please see [Technical Specifications on supported text](technical.md)
 
 There could be many causes of this, but generally, it is related to the web server or browser choosing the incorrect character encoding for the file.
 
-You can manually switch this [except in Chrome 55 or newer](https://productforums.google.com/forum/#!topic/chrome/1sC3JN0qDkg).
-
-In __Chrome 49-54__ click the menu icon ![Old menu icon](assets/browser_menu.png) or ![Newer menu icon](assets/browser_menu_new.png) and select __Encoding__ from the __More tools__ menu.
+In [Chrome 54 or earlier](https://productforums.google.com/forum/#!topic/chrome/1sC3JN0qDkg) you can manually switch this. Click the menu icon ![Old menu icon](assets/browser_menu.png) or ![Newer menu icon](assets/browser_menu_new.png) and select __Encoding__ from the __More tools__ menu.
 
 In __Firefox__ press <kbd>ALT</kbd> <kbd>v</kbd> and select __Text Encoding__.
 

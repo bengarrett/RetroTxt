@@ -1,10 +1,28 @@
 # RetroTxt Changes
 
+## 2.2
+
+### June 2017
+
+- There are new clickable toggles in the information header for ANSI art.
+- - ![ANSI header](assets/changes-22-header.png)
+- - __Normal__ switches the active tab text rendering between _Normal_, _Smeared_ and _Shadowed_.
+- - __IBM__ switches the ANSI 16 color palette between _IBM_ VGA, Unix _xterm_ and _gray_ scale.
+- - __On__ toggles between iCE background colors and blinking text.
+
+- Added a new [Option, Text render](options.md), choices are _Normal_, _Smeared_, _Shadowed_.
+- Increased minimum version requirements for both Chrome and Firefox to 51.
+- Added support for CP-1250 and CP-1251 text encodings that are occasionally used by Chrome over the expected CP-1252.
+- Fixed header not displaying when using white background themes.
+- To improve performance `<links>` to CSS files are disabled instead of removed when toggling between plain text and HTML displays.
+- The shortcut key combination has been switched from ALT+T to ALT+R to stop Firefox conflicts.
+- Fixed ECMA48 SGR2 and SGR3 controls using the wrong CSS properties.
+
 ## 2.1
 
 ### March 2017
 
-- Performance optimisations to reduce the memory footprint and improve rendering speed.
+- Performance optimizations to reduce the memory footprint and improve rendering speed.
 - ECMA48/ANSI iCE colors support.
 - Automatic parsing and execution of [SAUCE ANSiFlags](http://www.acid.org/info/sauce/sauce.htm#ANSiFlags).
 - Added Atari ST TOS font and theme.
@@ -18,7 +36,7 @@
 - Fixed ECMA48/ANSI bug that dropped the first row of text.
 - Fixed mixed ANSI/ASCII documents issue that didn't parse the ECMA48 control characters.
 - Fixed `<` `>` and `&` characters breaking ANSI display thanks to browser HTML entity conversions.
-- Fixed `@CLS@`bug in PCBoard detection.
+- Fixed `@CLS@` bug in PCBoard detection.
 - Fixed `HVP` and `CUP` execution.
 
 ## 2.0

@@ -16,13 +16,11 @@ Available for installation from both the [Chrome store](https://chrome.google.co
 
 ### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
 
-Recommendation? Overall, Firefox 51+ performs better than Chrome
-
 #### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
 
 ### Requirements
 
-**Chrome 49** or **Firefox 50**, newer or compatible browsers.
+**Chrome 51** or **Firefox 51**, newer or compatible browsers.
 
 ## Run RetroTxt
 
@@ -50,7 +48,7 @@ While RetroTxt uses a [GNU Lesser General Public License v3.0](http://choosealic
 
 ## Credits
 
-RetroTxt by Ben Garrett [@bens.zone](http://bens.zone/) and [GitHub](https://github.com/bengarrett/)
+RetroTxt by [Ben Garrett](http://bens.zone/) who can be reached at [Twiiter @bens_zone](https://twitter.com/bens_zone) or [GitHub](https://github.com/bengarrett/)
 
 - PC fonts [_The Ultimate Oldschool PC Font Pack_](http://int10h.org/oldschool-pc-fonts/) by Viler
 - Apple II font [_Print Char 21_](http://www.kreativekorp.com/software/fonts/apple2.shtml) by Kreative Korp
@@ -59,3 +57,7 @@ RetroTxt by Ben Garrett [@bens.zone](http://bens.zone/) and [GitHub](https://git
 - Commodore 64 font [_C64 Pro Mono TrueType v1.2_](http://style64.org/c64-truetype) from Style
 
 Options icons by [Google Material Design](https://material.google.com/)
+
+ANSI art used in promotional material
+- [GOO](http://blocktronics.org/tag/goo/) of Blocktronics
+- [Ungenannt](http://blocktronics.org/tag/ungennant/) of Blocktronics

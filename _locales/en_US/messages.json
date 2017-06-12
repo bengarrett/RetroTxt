@@ -5,6 +5,9 @@
   "center": {
     "message": "center"
   },
+  "Gray": {
+    "message": "Gray"
+  },
   "gray_white_option": {
     "message": "DOS gray"
   },

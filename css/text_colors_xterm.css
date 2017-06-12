@@ -39,6 +39,10 @@
     color: rgb(229, 229, 229);
 }
 
+.SGR40 {
+    background-color: rgb(0, 0, 0);
+}
+
 .SGR41 {
     background-color: rgb(205, 0, 0);
 }
@@ -97,39 +101,4 @@
 
 .SGR137 {
     color: rgb(255, 255, 255);
-}
-
-
-/* iCE Colors (high intensity backgrounds) */
-
-.SGR140 {
-    background-color: rgb(127, 127, 127);
-}
-
-.SGR141 {
-    background-color: rgb(255, 0, 0);
-}
-
-.SGR142 {
-    background-color: rgb(0, 255, 0);
-}
-
-.SGR143 {
-    background-color: rgb(255, 255, 0);
-}
-
-.SGR144 {
-    background-color: rgb(92, 92, 255);
-}
-
-.SGR145 {
-    background-color: rgb(255, 0, 255);
-}
-
-.SGR146 {
-    background-color: rgb(0, 255, 255);
-}
-
-.SGR147 {
-    background-color: rgb(255, 255, 255);
 }

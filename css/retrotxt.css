@@ -270,6 +270,10 @@ options*.css for the styling of the Options dialogue.
     font-size: 1.5em;
 }
 
+.text-smeared {
+    text-shadow: 1px 0 0;
+}
+
 
 /*
  Primitive scanline effects only works on background, not over text.
@@ -297,7 +301,7 @@ Blinking terminal prompt that works with any colour
     animation: 300ms blink step-end infinite;
     -moz-animation: 300ms blink step-end infinite;
     -webkit-animation: 300ms blink step-end infinite;
-    text-shadow: 0 0 0;
+    text-shadow: none;
 }
 
 @keyframes blink {
@@ -327,7 +331,7 @@ Blinking terminal prompt that works with any colour
 body {
     display: flex;
     flex-direction: column;
-    text-shadow: 0 0 0;
+    text-shadow: none;
 }
 
 
@@ -338,8 +342,7 @@ font color value is the invert of the background colour
 */
 
 header {
-    filter: invert(100%);
-    -webkit-filter: invert(100%);
+    /* ver 2.2: the filter styles has been moved to changeColors() */
     font-family: vgalcd;
     font-size: 1.5em;
     line-height: 1.6em;
@@ -352,6 +355,12 @@ header {
     text-indent: 1em;
     top: 1em;
     width: 100%;
+}
+
+header #h-palette,
+header #h-text-rend,
+header #ice-colors-toggle {
+    cursor: pointer;
 }
 
 header .unknown {

@@ -166,10 +166,6 @@
       <input type="checkbox" id="center-alignment"><i class="material-icons material-check">format_align_center</i><span class="msg-center">Center</span> align text</label>
         </div>
         <div>
-          <label>
-      <input type="checkbox" id="font-shadows"><i class="material-icons material-check">font_download</i>Font shadows</label>
-        </div>
-        <div>
           <label title="* Existing browser tabs will require a refresh for this to be applied">
       <input type="checkbox" id="dos-ctrl-codes"><i class="material-icons material-check">format_textdirection_l_to_r</i>DOS control glyphs</label>
         </div>
@@ -179,6 +175,13 @@
         </div>
       </div>
     </div>
+    <!--TODO-->
+    <form name="texteffects" id="effects-form"><br>
+      <label><i class="material-icons material-check">font_download</i>Text render</label>
+      <label for="trclear" title="Suggested for small fonts and line art"><input type="radio" name="effect" value="normal" id="trclear"> Normal</label>
+      <label for="trart" title="Suggested for ANSI and ASCII block art"><input type="radio" name="effect" value="smeared" id="trart"> Smeared</label>
+      <label for="trds" title="Suggested for large fonts and line art"><input type="radio" name="effect" value="shadowed" id="trds"> Shadowed</label>
+    </form>
     <div id="advanced-options">
       <hr>
       <div>
@@ -212,11 +215,12 @@
             <a href="https://github.com/bengarrett/RetroTxt/blob/master/LICENSE.md" target="_blank" title="Legalese"><i class="material-credits material-icons material-link md-18">copyright</i></a>
           </div>
           <div id="authored-fonts">
-            <span title="IBM PC, MS-DOS and cloned fonts">PC <a href="http://int10h.org/oldschool-pc-fonts/">Viler</a></span>            ⸱
-            <span title="Commodore Amiga 500 font (amiga4ever.tff)">Amiga <a href="http://www.freakyfonts.de/">ck!</a></span>            ⸱
-            <span title="Apple II 'Ultimate' font (PrintChar21.tff)">Apple <a href="http://www.kreativekorp.com/software/fonts/apple2.shtml">Kreative Korp</a></span>            ⸱
-            <span title="Atari ST (AtariST8x16SystemFont.ttf)">Atari <a href="http://www.dafont.com/atari-st-8x16-system-font.font">divVerent</a></span>            ⸱
-            <span title="Commodore 64 (C64_Pro_Mono-STYLE.ttf)">C64 <a href="http://style64.org/c64-truetype">Style</a></span>
+            Fonts
+            <span title="IBM PC, MS-DOS and cloned fonts"><a href="http://int10h.org/oldschool-pc-fonts/">Viler</a></span>            ⸱
+            <span title="Commodore Amiga 500 font (amiga4ever.tff)"><a href="http://www.freakyfonts.de/">ck!</a></span> ⸱
+            <span title="Atari ST (AtariST8x16SystemFont.ttf)"><a href="http://www.dafont.com/atari-st-8x16-system-font.font">divVerent</a></span>            ⸱
+            <span title="Apple II 'Ultimate' font (PrintChar21.tff)"><a href="http://www.kreativekorp.com/software/fonts/apple2.shtml">Kreative Korp</a></span>            ⸱
+            <span title="Commodore 64 (C64_Pro_Mono-STYLE.ttf)"><a href="http://style64.org/c64-truetype">Style</a></span>
             <a href="http://google.github.io/material-design-icons/" target="_blank" title="Material icons in use"><i class="material-credits material-icons material-link md-18">font_download</i></a>
           </div>
         </div>
