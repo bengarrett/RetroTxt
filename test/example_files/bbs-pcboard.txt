@@ -1,7 +1,10 @@
-@X07To display correctly this file should be saved with CP-437 (OEM-US) encoding.
-The start of the text MUST start with a PCBoard @X code.
+@X07Document encoding: Windows-1252
+RetroTxt 'Transcode text' setting: Guess (Default)
+File name: bbs-pcboard.txt
 
-This is a test of the PCBoard BBS @ colour codes.
+The start of the text MUST start with a PCBoard @X code
+
+This is a test of the PCBoard BBS @ colour codes
 "@X<Background><Foreground>"
 
 @X04Red @X02Green @X01Blue@X07 on black

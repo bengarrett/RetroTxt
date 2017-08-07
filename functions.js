@@ -18,17 +18,13 @@ function checkArg(name = ``, e = ``, a)
   let err = ``
   switch (e) {
     case `boolean`:
-      err = `argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof a}'`
-      break
+      err = `argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof a}'`; break
     case `number`:
-      err = `argument '${name}' should be a 'number' (unsigned) instead of a '${typeof a}'`
-      break
+      err = `argument '${name}' should be a 'number' (unsigned) instead of a '${typeof a}'`; break
     case `string`:
-      err = `argument '${name}' should be a 'string' of text instead of a '${typeof a}'`
-      break
+      err = `argument '${name}' should be a 'string' of text instead of a '${typeof a}'`; break
     default:
-      err = `argument '${name}' needs to be a '${e}' instead of a '${typeof a}'`
-      break
+      err = `argument '${name}' needs to be a '${e}' instead of a '${typeof a}'`; break
   }
   checkErr(err)
 }
@@ -54,7 +50,6 @@ function checkRange(name = ``, issue = ``, e, a)
       err = `the value '${a}' for the argument '${name}' is too large, it needs to be at most '${e}' or less`
       break
     default:
-      break
   }
   checkErr(err)
 }
@@ -88,13 +83,10 @@ function displayErr(s = true)
     // build URI to browser's extensions
     switch (findEngine()) {
       case `blink`:
-        ext = `${ext} Extensions page (chrome://extensions)`
-        break
+        ext = `${ext} Extensions page (chrome://extensions)`; break
       case `gecko`:
-        ext = `${ext} Add-ons manager page (about:addons)`
-        break
+        ext = `${ext} Add-ons manager page (about:addons)`; break
       default:
-        break
     }
     // build error alert
     let dom = new FindDOM()
@@ -122,7 +114,7 @@ function ListCharacterSets()
   // 8 Backspace, 9 Horizontal tab, 10 Line feed (line break), 12 Form feed (page break)
   // 13 Carriage return, 26 End of file (not a C0 standard but used in MS-DOS)
   this.C0common = [8, 9, 10, 12, 13, 26]
-  this.sets = [`out_8859_1`, `out_8859_15`, `out_CP1252`, `out_US_ASCII`, `out_UTF8`, `src_8859_5`, `src_CP1252`]
+  this.sets = [`out_8859_1`, `out_8859_15`, `out_CP1252`, `out_US_ASCII`, `out_UTF8`, `src_8859_5`, `src_CP1252`, `out_CP437`]
 }
 
 function ListDefaults()
@@ -139,7 +131,7 @@ function ListDefaults()
   const html = [`css`, `htm`, `html`, `js`, `json`, `md`, `xml`, `yml`],
     images = [`apng`, `bmp`, `dib`, `gif`, `jpeg`, `jpg`, `ico`, `svg`, `svgz`, `png`, `tiff`, `webp`, `xbm`],
     other = [`ini`, `pdf`]
-  this.avoidFileExtensions = html.concat(images, other)
+  this.avoidFileExtensions = [...html, ...images, ...other] // join arrays
   // Text options
   this.columns = 80
   this.width = `640px`
@@ -156,8 +148,8 @@ function ListRGBThemes()
   this.atarist = `theme-atarist`
   this.c64 = `theme-c64`
   // list of 4-bit themes (ECMA-48, PCBoard, WildCat!)
-  this.colors = [`gray`, `vga`, `xterm`]
-  this.color = 1 // default coloured theme 0 = grey-scale, 1 = IBM-PC VGA, 2 = xterm
+  this.colors = [`gray`, `vga`, `xterm`, `cga`]
+  this.color = 1 // default coloured theme 0 = grey-scale, 1 = IBM-PC VGA, 2 = xterm, 3 = IBM-PC CGA magenta
 }
 
 function BuildFontStyles(ff = `vga8`)
@@ -168,15 +160,37 @@ function BuildFontStyles(ff = `vga8`)
   if (ff.length < 1) checkRange(`ff`, `length`, `1`, ff.length)
 
   // most of the styling is located in /css/retotxt.css
-  // Humanise font family name
-  let str = ff.toUpperCase()
-  str = str.replace(`-2X`, ` (wide)`)
-  str = str.replace(`-2Y`, ` (narrow)`)
-  str = str.replace(`CGATHIN`, `CGA Thin`)
-  str = str.replace(`TANDYNEW`, `Tandy`)
+  let str = handleFontName(ff)
   // properties
   this.family = ff
   this.string = str
+}
+
+function handleFontName(font)
+// Humanise font family name
+{
+  let f = font.toUpperCase()
+  switch (f) {
+    case `APPLEII`: return `Apple II`
+    case `ATARIST`: return `Atari ST`
+    case `C64`: return `PETSCII`
+    case `TOPAZA500`: return `Topaz`
+    case `TOPAZPLUSA500`: return `Topaz+`
+    case `TOPAZA1200`: return `Topaz 2`
+    case `TOPAZPLUSA1200`: return `Topaz+ 2`
+    case `MICROKNIGHT`: return `MicroKnight`
+    case `MICROKNIGHTPLUS`: return `MicroKnight+`
+    case `P0TNOODLE`: return `P0T-NOoDLE`
+    case `PS24`: return `PS/2 (thin 4)`
+    case `MOSOUL`: return `mOsOul`
+    default: {
+      f = f.replace(`-2X`, ` (wide)`)
+      f = f.replace(`-2Y`, ` (narrow)`)
+      f = f.replace(`CGATHIN`, `CGA Thin`)
+      f = f.replace(`TANDYNEW`, `Tandy `)
+      return f
+    }
+  }
 }
 
 function buildLinksToCSS(f = ``, i = ``)
@@ -229,7 +243,7 @@ function changeTextScanlines(s = true, elm, color)
   else {
     const r = localStorage.getItem(`retroColor`)
     if (typeof r !== `string`) {
-      chrome.storage.local.get([`retroColor`], function (r) {
+      chrome.storage.local.get([`retroColor`], r => {
         if (r.retroColor === undefined) checkErr(`Could not obtain the required retroColor setting to apply the scanlines effect`, true)
         else applyStyle(r.retroColor)
       })
@@ -264,7 +278,7 @@ function changeTextEffect(s = `normal`, elm, color)
       else {
         r = localStorage.getItem(`retroColor`)
         if (typeof r !== `string`) {
-          chrome.storage.local.get([`retroColor`], function (r) {
+          chrome.storage.local.get([`retroColor`], r => {
             if (r.retroColor === undefined) checkErr(`Could not obtain the required retroColor setting to apply the text shadow effect`, true)
             else elm.classList.add(`${r.retroColor}-shadowed`)
           })
@@ -279,7 +293,7 @@ function changeTextEffect(s = `normal`, elm, color)
   }
   const textRender = document.getElementById(`h-text-rend`)
   if (textRender !== null) {
-    textRender.innerHTML = `${s.charAt(0).toUpperCase()}${s.slice(1)}`
+    textRender.textContent = `${s.charAt(0).toUpperCase()}${s.slice(1)}`
   }
 }
 
@@ -342,6 +356,7 @@ function HumaniseCP(code = ``)
     case `src_CP1251`:
     case `src_CP1252`:
     case `src_8859_5`:
+    case `out_CP437`:
       text = `CP-437`
       title = `IBM/MS-DOS Code Page 437`
       break
@@ -383,9 +398,7 @@ function humaniseFS(bytes = 0, si = 1024)
   if (typeof si !== `number`) checkArg(`si`, `number`, si)
 
   const thresh = si ? 1000 : 1024
-  const units = si
-    ? [`kB`, `MB`]
-    : [`KiB`, `MiB`]
+  const units = si ? [`kB`, `MB`] : [`KiB`, `MiB`]
   if (Math.abs(bytes) < thresh) return `${bytes}B`
   let u = -1
   do {

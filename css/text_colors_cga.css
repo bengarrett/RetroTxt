@@ -1,0 +1,79 @@
+/*
+ filename: text_colors_cga.css
+
+ ECMA-48 presentation control function colour codes in CGA Palette 1, 2-bit
+
+ SGR39 SGR40 SGR49 are in text_ecma_48.css
+*/
+
+.SGR30,
+.SGR34 {
+    /* black */
+    color: rgb(0, 0, 0);
+}
+
+.SGR35,
+.SGR31 {
+    /* magenta */
+    color: rgb(170, 0, 170);
+}
+
+.SGR36,
+.SGR32 {
+    /* cyan */
+    color: rgb(0, 170, 170);
+}
+
+.SGR37,
+.SGR33 {
+    /* light grey */
+    color: rgb(170, 170, 170);
+}
+
+.SGR40,
+.SGR44 {
+    /* black */
+    background-color: rgb(0, 0, 0);
+}
+
+.SGR45,
+.SGR41 {
+    /* magenta */
+    background-color: rgb(170, 0, 170);
+}
+
+.SGR46,
+.SGR42 {
+    /* cyan */
+    background-color: rgb(0, 170, 170);
+}
+
+.SGR47,
+.SGR43 {
+    /* white */
+    background-color: rgb(170, 170, 170);
+}
+
+.SGR130,
+.SGR134 {
+    /* grey */
+    color: rgb(85, 85, 85);
+}
+
+.SGR135,
+.SGR131 {
+    /* light magenta */
+    color: rgb(255, 85, 255);
+}
+
+.SGR136,
+.SGR132 {
+    /* light cyan */
+    color: rgb(85, 255, 255);
+}
+
+.SGR137,
+.SGR133 {
+    /* white high intensity */
+    color: rgb(255, 255, 255);
+}

@@ -1,6 +1,6 @@
 {
-    "version": "2.2.10",
-    "version_name": "2.2",
+    "version": "2.3.17",
+    "version_name": "2.3",
     "minimum_chrome_version": "51",
     "applications": {
         "gecko": {
@@ -12,7 +12,7 @@
     "description": "Turn pieces of ANSI based text art and ASCII, NFO plain text into HTML.",
     "default_locale": "en_US",
     "author": "Ben Garrett",
-    "homepage_url": "https://github.com/bengarrett/RetroTxt",
+    "homepage_url": "http://retrotxt.com",
     "background": {
         "scripts": [
             "functions.js",
@@ -66,13 +66,16 @@
     },
     "web_accessible_resources": [
         "css/*.css",
-        "fonts/amiga/*.ttf",
+        "fonts/amiga/ttf/*.ttf",
         "fonts/appleii/*.ttf",
         "fonts/atari_st/*.ttf",
+        "fonts/atascii/*.ttf",
         "fonts/commodore64/fonts/*.woff2",
         "fonts/commodore64/fonts/*.ttf",
         "fonts/ms_dos/*.ttf",
-        "test/tests.js"
+        "test/tests.js",
+        "welcome.js",
+        "welcome.html"
     ],
     "manifest_version": 2
 }

@@ -1,11 +1,10 @@
-To display correctly this file needs be saved with ISO 8859-15 encoding.
+Document encoding: ISO 8859-15
+RetroTxt 'Transcode text' setting: Linux legacy web
+File name: iso-8859-15.txt
 
-> With RetroTxt loaded, right-click on this page 
-> select RetroTxt
-> select Transcode Text
-> select Linux legacy web
+RetroTxt ISO 8859-15 test
 
-RetroTxt ISO 8859-15 Test Page
+Chrome fails
 
 ¤	Euro sign (ISO 8859-15)
 

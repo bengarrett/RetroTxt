@@ -26,10 +26,8 @@ function BuildCP1252(s = ``, verbose = false)
 
   const cp1252_8 = [`€`, ``, `‚`, `ƒ`, `„`, `…`, `†`, `‡`, `ˆ`, `‰`, `Š`, `‹`, `Œ`, ``, `Ž`, ``]
   const cp1252_9 = [``, `‘`, `’`, `“`, `”`, `•`, `–`, `—`, `\u02dc`, `™`, `š`, `›`, `œ`, ``, `ž`, `Ÿ`]
-  const cp1252 = cp1252_8.concat(cp1252_9)
-  let code = 0
-  let t = s
-  let i = cp1252.length  // handle characters 80…FF
+  const cp1252 = [...cp1252_8, ...cp1252_9]
+  let code = 0, t = s, i = cp1252.length  // handle characters 80…FF
   while (i--) {
     code = i + 128
     if (verbose) console.log(`${i} ${String.fromCharCode(code)} ↣ ${cp1252[i]}`)

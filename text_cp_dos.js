@@ -21,18 +21,18 @@ function ListCP437()
 // Code Page 437 IBM ftp.software.ibm.com/software/globalization/gcoc/attachments/CP00437.pdf
 //               Microsoft msdn.microsoft.com/en-us/library/cc195060.aspx?f=255&MSPPError=-2147217396
 // Code Page comparisons www.aivosto.com/vbtips/charsets-codepages-dos.html
-// NOTE the chess pieces are place holders ♔ ♕
+// NOTE Unicode code points \u26.. are place holders
 {
   this.set_0 = [`␀`, `☺`, `☻`, `♥`, `♦`, `♣`, `♠`, `•`, `◘`, `○`, `◙`, `♂`, `♀`, `♪`, `♫`, `☼`]
   this.set_1 = [`►`, `◄`, `↕`, `‼`, `¶`, `§`, `▬`, `↨`, `↑`, `↓`, `→`, `←`, `∟`, `↔`, `▲`, `▼`]
   this.set_8 = [`Ç`, `ü`, `é`, `â`, `ä`, `à`, `å`, `ç`, `ê`, `ë`, `è`, `ï`, `î`, `ì`, `Ä`, `Å`]
   this.set_9 = [`É`, `æ`, `Æ`, `ô`, `ö`, `ò`, `û`, `ù`, `ÿ`, `Ö`, `Ü`, `¢`, `£`, `¥`, `₧`, `ƒ`]
-  this.set_a = [`á`, `í`, `ó`, `ú`, `ñ`, `Ñ`, `ª`, `º`, `¿`, `⌐`, `¬`, `½`, `¼`, `¡`, `«`, `»`]
-  this.set_b = [`░`, `▒`, `▓`, `│`, `┤`, `╡`, `╢`, `♔`, `╕`, `╣`, `║`, `╗`, `╝`, `╜`, `╛`, `┐`]
+  this.set_a = [`\u260A`, `í`, `ó`, `ú`, `ñ`, `Ñ`, `ª`, `º`, `¿`, `⌐`, `¬`, `½`, `¼`, `\u26DA`, `\u26DB`, `»`]
+  this.set_b = [`░`, `▒`, `▓`, `│`, `┤`, `╡`, `╢`, `\u267B`, `╕`, `╣`, `║`, `╗`, `╝`, `╜`, `╛`, `┐`]
   this.set_c = [`└`, `┴`, `┬`, `├`, `─`, `┼`, `╞`, `╟`, `╚`, `╔`, `╩`, `╦`, `╠`, `═`, `╬`, `╧`]
   this.set_d = [`╨`, `╤`, `╥`, `╙`, `╘`, `╒`, `╓`, `╫`, `╪`, `┘`, `┌`, `█`, `▄`, `▌`, `▐`, `▀`]
-  this.set_e = [`α`, `ß`, `Γ`, `π`, `Σ`, `σ`, `µ`, `τ`, `Φ`, `Θ`, `Ω`, `δ`, `∞`, `\u03C6`, `ε`, `∩`]
-  this.set_f = [`≡`, `±`, `≥`, `≤`, `⌠`, `⌡`, `÷`, `≈`, `°`, `\u2219`, `♕`, `√`, `ⁿ`, `²`, `\u25A0`, `\u00A0`]
+  this.set_e = [`α`, `\u261E`, `Γ`, `π`, `Σ`, `σ`, `\u266E`, `τ`, `Φ`, `Θ`, `Ω`, `δ`, `∞`, `\u03C6`, `ε`, `∩`]
+  this.set_f = [`≡`, `\u1F031`, `≥`, `≤`, `⌠`, `⌡`, `÷`, `≈`, `\u1F030`, `\u2219`, `\u26AF`, `√`, `ⁿ`, `\u1F032`, `\u25A0`, `\u26FF`]
 }
 
 function ListCP1250()
@@ -149,22 +149,21 @@ function BuildCPDos(s = ``, mapTo = `src_CP1252`, verbose = false)
   const mapCP1251 = new ListCP1251()
   const map8859_5 = new List8859_5()
   const showCtrlCodes = localStorage.getItem(`textDosCtrlCodes`)
-  let t = s
-  let i = t.length
-
+  let t = s, i = t.length
   // build character maps
   let map0_127, map128_255, map_src
   // map0_127 and map128_255
   switch (mapTo) {
+    case `out_CP437`:
+    case `out_US_ASCII`:
     case `src_CP1250`:
     case `src_CP1251`:
     case `src_CP1252`:
-    case `out_US_ASCII`:
-      map0_127 = mapCP437.set_0.concat(mapCP437.set_1)
+      map0_127 = [...mapCP437.set_0, ...mapCP437.set_1]
       map128_255 = mapCP437.set_8.concat(mapCP437.set_9, mapCP437.set_a, mapCP437.set_b, mapCP437.set_c, mapCP437.set_d, mapCP437.set_e, mapCP437.set_f)
       break
     case `src_8859_5`:
-      map0_127 = mapCP437.set_0.concat(mapCP437.set_1)
+      map0_127 = [...mapCP437.set_0, ...mapCP437.set_1]
       map128_255 = mapCP437.set_8.concat(map8859_5.set_9, map8859_5.set_a, mapCP437.set_b, mapCP437.set_c, mapCP437.set_d, mapCP437.set_e, mapCP437.set_f)
   }
   // map_src
@@ -179,8 +178,8 @@ function BuildCPDos(s = ``, mapTo = `src_CP1252`, verbose = false)
   // handle characters 0…128 [00…F1]
   i = map0_127.length
   while (i--) {
-    // character 10 is nearly always a line feed (to begin a new line)
-    if (i === 10) continue
+    // JS treats both characters 10 (CR), 13 (LF) as newlines regardless of placement or order
+    if (i === 10 || i === 13) continue
     // ignore common C0 control characters that are normally used for page formatting
     if (typeof showCtrlCodes !== `string` || showCtrlCodes !== `true`) {
       if (c0Controls.includes(i) === true) {
@@ -195,10 +194,8 @@ function BuildCPDos(s = ``, mapTo = `src_CP1252`, verbose = false)
   // handle characters 129…255 [80…FF]
   let cpa = 128 // character position adjustment
   switch (mapTo) {
-    case `src_8859_5`: cpa = 992 // ISO-8859-5
-      break
-    case `src_CP1251`: cpa = 976 // CP-1251
-      break
+    case `src_8859_5`: cpa = 992; break // ISO-8859-5
+    case `src_CP1251`: cpa = 976; break // CP-1251
   }
 
   i = map128_255.length
@@ -222,14 +219,70 @@ function BuildCPDos(s = ``, mapTo = `src_CP1252`, verbose = false)
   }
 
   // handle character exceptions
+  // JavaScript or UTF-16 automatically parses the following code points
+  /*
+  /u0000 -> �
+  /u0010 -> /n
+  /u0013 -> /n
+  /u0026 -> &amp;
+  /u003C -> &lt;
+  /u003E -> &gt;
+  */
+
   // 127 [7F]
   if (typeof showCtrlCodes === `string` && showCtrlCodes === `true`) {
     t = t.replace(RegExp(String.fromCharCode(127), `g`), `⌂`)
   }
-  // replace place holders with the actual characters
-  // these otherwise can conflict if both are in the same document
-  t = t.replace(RegExp(`♔`, `g`), `╖`) // ╖ CP437 00B7, Unicode 2556
-  t = t.replace(RegExp(`♕`, `g`), `\u00B7`) // · CP436 00FA, Unicode 00B7
+  // replace place holders with the intended characters
+  // otherwise these conflict together if in the same document
+  t = t.replace(RegExp(`\u267B`, `g`), `╖`) // ╖ CP437 00B7, Unicode 2556
+  t = t.replace(RegExp(`\u26AF`, `g`), `\u00B7`) // · CP436 00FA, Unicode 00B7
+
+  t = t.replace(RegExp(`\u26DA`, `g`), `\u00A1`) // -> ¡
+  t = t.replace(RegExp(`\u26DB`, `g`), `\u00AB`) // -> «
+  t = t.replace(RegExp(`\u261E`, `g`), `\u00DF`) // -> ß
+  t = t.replace(RegExp(`\u266E`, `g`), `\u00B5`) // -> µ
+
+  t = t.replace(RegExp(`\u1F030`, `g`), `\u00B0`) // -> °
+  t = t.replace(RegExp(`\u1F031`, `g`), `\u00B1`) // -> ±
+  t = t.replace(RegExp(`\u1F032`, `g`), `\u00B2`) // -> ²
+
+
+  t = t.replace(RegExp(`\u26FF`, `g`), `&nbsp;`) // -> XXX
+
+  // Manual CP1252 replacements
+  t = t.replace(RegExp(`&nbsp;`, `g`), `\u00E1`) // -> á
+  t = t.replace(RegExp(`\u00FF`, `g`), `&nbsp;`) // ÿ ->
+
+  t = t.replace(RegExp(`\u20AC`, `g`), `\u00C7`) // -> Ç
+  t = t.replace(RegExp(`\u201A`, `g`), `\u00E9`) // -> é
+  t = t.replace(RegExp(`\u0192`, `g`), `\u00E2`) // -> â
+  t = t.replace(RegExp(`\u201E`, `g`), `\u00E4`) // -> ä
+  t = t.replace(RegExp(`\u2026`, `g`), `\u00E0`) // -> à
+  t = t.replace(RegExp(`\u2020`, `g`), `\u00E5`) // -> å
+  t = t.replace(RegExp(`\u2021`, `g`), `\u00E7`) // -> ç
+  t = t.replace(RegExp(`\u02C6`, `g`), `\u00EA`) // -> ê
+  t = t.replace(RegExp(`\u2030`, `g`), `\u00EB`) // -> ë
+  t = t.replace(RegExp(`\u0160`, `g`), `\u00E8`) // -> è
+  t = t.replace(RegExp(`\u2039`, `g`), `\u00EF`) // -> ï
+  t = t.replace(RegExp(`\u0152`, `g`), `\u00EE`) // -> î
+  t = t.replace(RegExp(`\u017D`, `g`), `\u00C4`) // -> Ä
+
+  t = t.replace(RegExp(`\u2018`, `g`), `\u00E6`) // -> É
+  t = t.replace(RegExp(`\u2019`, `g`), `\u00C6`) // -> æ
+  t = t.replace(RegExp(`\u201C`, `g`), `\u00F4`) // -> Æ
+  t = t.replace(RegExp(`\u201D`, `g`), `\u00F6`) // -> ô
+  t = t.replace(RegExp(`\u2022`, `g`), `\u00F2`) // -> ö
+  t = t.replace(RegExp(`\u2013`, `g`), `\u00FB`) // -> ò
+  t = t.replace(RegExp(`\u2014`, `g`), `\u00F9`) // -> û
+  t = t.replace(RegExp(`\u02DC`, `g`), `\u00FF`) // -> ÿ
+  t = t.replace(RegExp(`\u2122`, `g`), `\u00D6`) // -> Ö
+  t = t.replace(RegExp(`\u0161`, `g`), `\u00DC`) // -> Ü
+  t = t.replace(RegExp(`\u203A`, `g`), `\u00A2`) // -> ¢
+  t = t.replace(RegExp(`\u0153`, `g`), `\u00A3`) // -> ¢
+  t = t.replace(RegExp(`\u017E`, `g`), `\u20A7`) // -> ₧
+  t = t.replace(RegExp(`\u0178`, `g`), `\u0192`) // -> ƒ
+
   // return as object
   this.text = t
 
@@ -248,6 +301,7 @@ function BuildCPDos(s = ``, mapTo = `src_CP1252`, verbose = false)
     while (i--) {
       if (verbose) console.log(`${i} ${String.fromCharCode(i + cpa)} => ${map128_255[i]} `)
       t = t.replace(RegExp(String.fromCharCode(i + cpa), `g`), map128_255[i])
+      //      if (i <= 33) break
       if (i <= e) break
     }
   }

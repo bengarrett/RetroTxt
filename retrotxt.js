@@ -6,8 +6,8 @@
 /*
 global BuildBBS BuildCP1252 BuildCPDos BuildCP88591 BuildCP885915 BuildCPUtf8 BuildCPUtf16
 HumaniseCP BuildEcma48 BuildFontStyles ListCharacterSets ListDefaults ListRGBThemes
-buildLinksToCSS checkArg checkErr changeTextScanlines changeTextEffect
-chrome findControlSequences displayErr runSpinLoader humaniseFS
+buildLinksToCSS checkArg checkErr changeTextScanlines changeTextEffect handleFontName
+chrome findControlSequences displayErr runSpinLoader humaniseFS findEngine
 */
 
 function BuildCharSet(s = ``)
@@ -24,17 +24,7 @@ function BuildCharSet(s = ``)
   const c0Controls = charInfo.C0common
   const sets = charInfo.sets
   const sLen = s.length
-  const finds = {
-    char: ``,
-    cp: 0,
-    cp437: 0,
-    hex: ``, // not used
-    iso8859: 0,
-    page: 0,
-    position: 0,
-    usAscii: 0,
-    unsure: 0
-  }
+  const finds = { char: ``, cp: 0, cp437: 0, hex: ``, iso8859: 0, page: 0, position: 0, usAscii: 0, unsure: 0 }
 
   let i = s.length
   while (i--) {
@@ -42,7 +32,7 @@ function BuildCharSet(s = ``)
     finds.position = sLen - i
     finds.char = s[finds.position]
     finds.cp = s.codePointAt(finds.position)
-    if (finds.cp !== undefined) finds.hex = finds.cp.toString(16)
+    if (finds.cp !== undefined) finds.hex = finds.cp.toString(16) // not used
     // Unsupported Unicode code point?
     if (finds.cp >= 65535) finds.page = 7
     // distinctive CP-1252 chars 128,142,158,159,130…140,145…156
@@ -100,6 +90,9 @@ function FindSauce00(t = ``)
 // @t   A slice of text containing the SAUCE metadata
 {
   if (typeof t !== `string`) checkArg(`t`, `string`, t)
+
+  // file:///C:/Users/Ben/Desktop/ansilove.js/example/index.html
+  // https://github.com/ansilove/ansilove.js/blob/7658a48f5febc73e89b2d110d0cc34800a9e7c54/ansilove.js
 
   this.id = t.slice(0, 7)
   this.version = ``
@@ -203,8 +196,7 @@ function changeColors(colorName = ``, dom = new FindDOM())
   if (typeof colorName !== `string`) checkArg(`colorName`, `string`, colorName)
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
-  const h = document.getElementsByTagName(`header`)
-  const engine = findEngine()
+  const engine = findEngine(), h = document.getElementsByTagName(`header`)
   let color = colorName, filterVal = ``
 
   try {
@@ -279,7 +271,7 @@ function changeFont(ff = ``, dom = new FindDOM())
   element.classList.add(`font-${ff}`)
   // Update the header with new font information
   let headerItem = window.document.getElementById(`h-doc-font-family`)
-  if (headerItem !== null) headerItem.innerHTML = ff.toUpperCase()
+  if (headerItem !== null) headerItem.textContent = handleFontName(ff)
 }
 
 function changeLineHeight(lh = `normal`, dom = new FindDOM())
@@ -294,13 +286,28 @@ function changeLineHeight(lh = `normal`, dom = new FindDOM())
   dom.pre0.style.lineHeight = lh
 }
 
-function charSetFind(c = ``, dom = {})
+function charSetFind(c = ``, sauce = {}, dom = {})
 // Return the source text character set
 // @c   Code page cases used by the context menus
 // @dom A HTML DOM Object that will be modified
 {
   if (typeof c !== `string` && c !== null) checkArg(`c`, `string`, c)
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+
+  if (sauce.version === `00`) {
+    const cfn = sauce.config.fontName.replace(/[^A-Za-z0-9 ]/g, ``) // clean-up malformed data
+    const fn = cfn.split(` `)
+    switch (fn[0]) {
+      case `Amiga`: return `out_8859_1`
+      case `Atari`: return `src_CP1252`
+      case `IBM`: {
+        switch (fn[2]) {
+          case `819`: return `out_8859_1` // Latin-1 Supplemental. Also known as ‘Windows-28591’ and ‘ISO/IEC 8859-1’
+          default: return `out_CP437`
+        }
+      }
+    }
+  }
   switch (c) { // user overrides
     case `codeMsDos0`: return `src_CP1252`
     case `codeMsDos1`: return `src_8859_5`
@@ -315,9 +322,8 @@ function charSetFind(c = ``, dom = {})
         case `WINDOWS-1251`: return `src_CP1251`
         case `WINDOWS-1252`:
         case `UTF-8`: return `src_CP1252`
-        default: { // unknown/unsupported encodings, we so guess but the output is most-likely to be incorrect
+        default:  // unknown/unsupported encodings, we so guess but the output is most-likely to be incorrect
           return new BuildCharSet(dom.preProcess).guess
-        }
       }
     }
   }
@@ -332,6 +338,7 @@ function charSetRebuild(c = ``, dom = {})
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
   switch (c) {
+    case `out_CP437`:
     case `src_CP1250`:
     case `src_CP1251`:
     case `src_CP1252`:
@@ -357,8 +364,7 @@ function findPageColumns(text = ``)
   const cols = new ListDefaults().columns // default 80 columns
   const rFindEnt = new RegExp(/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/igm) // find HTML entities
   const splitTxt = text.split(/\r\n|\r|\n/) // split original text into lines
-  let spacedTxt = ``
-  let len = 0
+  let len = 0, spacedTxt = ``
   for (let i in splitTxt) {
     spacedTxt = splitTxt[i].replace(rFindEnt, ` `).trim() // replace HTML entities with spaces
     if (len < spacedTxt.length) len = spacedTxt.length
@@ -386,21 +392,8 @@ function findSAUCE(text = { original: `` }, length = 0)
   const comntStart = search.lastIndexOf(`COMNT`)
   // data containers
   const texts = { sauce: text.original.slice(start, length) }
-  const configs = {
-    flags: `00000000`,
-    iceColors: `0`,
-    letterSpacing: `00`,
-    aspectRatio: `00`,
-    fontName: ``,
-    length: 0,
-    width: 0,
-  }
-  const dates = {
-    ccyymmdd: `00000000`,
-    year: 0,
-    month: 0,
-    day: 0,
-  }
+  const configs = { flags: `00000000`, iceColors: `0`, letterSpacing: `00`, aspectRatio: `00`, fontName: ``, length: 0, width: 0 }
+  const dates = { ccyymmdd: `00000000`, year: 0, month: 0, day: 0 }
   const positions = {
     length: length,
     sauceIndex: length + start,
@@ -408,7 +401,6 @@ function findSAUCE(text = { original: `` }, length = 0)
   }
   // binary zero is represented as unicode code point 65533 (�), named as 'replacement character'
   const rBin0 = new RegExp(String.fromCharCode(65533), `g`) // a pattern to find all binary zeros
-
   // parse the 500 characters for a SAUCE record
   const data = new FindSauce00(texts.sauce)
   const results = {
@@ -438,7 +430,7 @@ function findSAUCE(text = { original: `` }, length = 0)
   dates.day = parseInt(data.date.slice(6, 8))
   // handle ANSiFlags
   // see http://www.acid.org/info/sauce/sauce.htm#ANSiFlags
-  configs.flags = data.TFlags.charCodeAt(0).toString(2)  // get binary representation of character
+  configs.flags = data.TFlags.charCodeAt(0).toString(2) // get binary representation of character
   len = configs.flags.length
   if (len < 8) { // pad with leading 0s to make an 8-bit binary string
     configs.flags = `0`.repeat(8 - len) + configs.flags
@@ -537,14 +529,23 @@ function handleChanges(change)
     info: change.textFontInformation,
     lineHeight: change.lineHeight,
     scanlines: change.textBgScanlines,
+    dosCtrls: change.textDosCtrlCodes,
+    iceColors: change.textAnsiIceColors,
   }
-
   let dom = new FindDOM()
+
+  // handle objects that only need to set local storage
+  if (changes.iceColors) {
+    localStorage.setItem(`textAnsiIceColors`, changes.iceColors.newValue)
+  }
+  if (changes.dosCtrls) {
+    localStorage.setItem(`textDosCtrlCodes`, changes.dosCtrls.newValue)
+  }
 
   // font
   if (changes.font) {
     changeFont(changes.font.newValue, dom.pre0)
-    chrome.storage.local.get(`lineHeight`, function (r) {
+    chrome.storage.local.get(`lineHeight`, r => {
       if (r.lineHeight === undefined) checkErr(`Could not obtain the required lineHeight setting to adjust the layout`, true)
       else { changeLineHeight(r.lineHeight, dom) }
     })
@@ -555,7 +556,7 @@ function handleChanges(change)
     const c = changes.color.newValue
     changeColors(c, dom)
     // update font shadow and scan lines
-    chrome.storage.local.get([`textBgScanlines`, `textEffect`], function (r) {
+    chrome.storage.local.get([`textBgScanlines`, `textEffect`], r => {
       const body = document.body
       const main = document.getElementsByTagName(`main`)[0]
       // need to update scan lines if background colour changes
@@ -615,12 +616,8 @@ function handleMessages(message)
       sessionStorage.setItem(`transcode`, message.action)
       window.location.reload() // reload the active tab
       break
-    case `checkErr`:
-      displayErr() // display error alert box on active tab
-      break
-    default:
-      other()
-      break
+    case `checkErr`: displayErr(); break // display error alert box on active tab
+    default: other(); break
   }
   function other() {
     console.warn(`This unexpected message was received by handleMessages()`)
@@ -633,7 +630,7 @@ function switch2HTML(dom = new FindDOM())
 // @dom A HTML DOM Object that will be modified
 {
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
-  chrome.storage.local.get(`textFontInformation`, function (result) {
+  chrome.storage.local.get(`textFontInformation`, result => {
     const r = result.textFontInformation
     if (r === undefined) checkErr(`Could not obtain the required textFontInformation setting to apply text font information feature`, true)
     else if (typeof r === `boolean`) {
@@ -688,6 +685,22 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   if (typeof tabId !== `number`) checkArg(`tabId`, `number`, tabId)
   if (typeof pageEncoding !== `string`) checkArg(`pageEncoding`, `string`, pageEncoding)
 
+  // Monitor saved changes to Options for document rendering options,
+  // as localStorage set in eventpage.js is inaccessible from retrotxt.js.
+  // chrome.storage.onChanged.addListener((changes) => {
+  //   const changedItems = Object.keys(changes)
+  //   let newValue = ``
+  //   for (let item of changedItems) {
+  //     newValue = changes[item].newValue
+  //     switch (item) {
+  //       case `textAnsiIceColors`:
+  //       case `textDosCtrlCodes`:
+  //         localStorage.setItem(item, newValue)
+  //         break
+  //     }
+  //   }
+  // })
+
   const dom = new FindDOM()
   // context menu onclick listener
   chrome.runtime.onMessage.addListener(handleMessages)
@@ -705,7 +718,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
 
   /* Build HTML */
   // get and apply saved Options
-  chrome.storage.local.get([`lineHeight`, `retroColor`, `retroFont`, `textBgScanlines`, `textCenterAlignment`, `textEffect`], function (result) {
+  chrome.storage.local.get([`lineHeight`, `retroColor`, `retroFont`, `textBgScanlines`, `textCenterAlignment`, `textEffect`], result => {
     function err(id) {
       checkErr(`Could not obtain the required ${id} setting to apply execute RetroTxt`, true)
     }
@@ -762,20 +775,14 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     columns: 80, // assume 80 for all text formats
     rows: 0,
   }
-  const rev1Text = {
-    charSet: ``,
-    codePage: {},
-    innerHTML: ``,
-    length: 0,
-    sessCharSet: ``,
-  }
+  const rev1Text = { charSet: ``, codePage: {}, innerHTML: ``, length: 0, sessCharSet: ``, }
   const tfi = {//${newDOM.columns} ${newDOM.rows} ${humaniseFS(srcMeta.length)}
     template: `<span title="Columns of text">♥</span> x <span title="Lines of text">♦</span> \
 <span title="Number of characters contained in the text">♣</span> -`,
     ansi: `<span id="h-doc-fmt" title="ECMA-48/ANSI X3.64 presentation control and cursor functions">ANSI</span>`,
     body: ``,
     colors: ``,
-    fontName: `<span title="Font family used for display" id="h-doc-font-family" class="capitalize">♠</span>`,
+    fontName: `<span title="Font family used for display" id="h-doc-font-family">♠</span>`,
     palette: `<strong id="h-palette" title="Switch ANSI ${chrome.i18n.getMessage(`color`)} palettes">IBM</strong> palette,`,
     render: `<strong id="h-text-rend" title="Switch between text render methods">??</strong>`,
     sauce: ``,
@@ -783,16 +790,21 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     errs: 0, // unknown csi
     oths: 0, // other, ignored csi
   }
-  let colorLink
-  let ecma48Data = {}
+  let colorLink, ecma48Data = {}
 
   // options and store them as synchronous sessionStorage
-  chrome.storage.local.get([`textDosCtrlCodes`], function (result) {
+  chrome.storage.local.get([`textDosCtrlCodes`], result => {
     // display DOS CP-437 characters that normally function as C0 control functions
     const r = result.textDosCtrlCodes
     if (typeof r !== `boolean`) {
       checkErr(`Could not obtain the required textDosCtrlCodes setting to apply the display of DOS control code symbols`, true)
     } else localStorage.setItem(`textDosCtrlCodes`, r)
+  })
+  chrome.storage.local.get([`textAnsiIceColors`], result => {
+    const r = result.textAnsiIceColors
+    if (typeof r !== `boolean`) {
+      checkErr(`Could not obtain the required textAnsiIceColors setting to apply ANSI iCE colors`, true)
+    } else localStorage.setItem(`textAnsiIceColors`, r)
   })
 
   /* SAUCE - Standard Architecture for Universal Comment Extensions */
@@ -806,6 +818,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
         newDOM.preProcess = srcText.original.slice(0, sauce00.position.comntIndex)
       }
       else newDOM.preProcess = srcText.original.slice(0, sauce00.position.sauceIndex)
+      // determine character set
       break
     default:
       newDOM.preProcess = srcText.original
@@ -815,16 +828,17 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   // document and page encoding
   if (srcMeta.BOM.length > 0) srcMeta.encoding = srcMeta.BOM
   // determine character set
-  rev1Text.charSet = charSetFind(sessionStorage.getItem(`transcode`), newDOM)
+  rev1Text.charSet = charSetFind(sessionStorage.getItem(`transcode`), sauce00, newDOM)
   rev1Text.codePage = new HumaniseCP(rev1Text.charSet)
   // rebuild text with new character encoding
   rev1Text.innerHTML = charSetRebuild(rev1Text.charSet, newDOM)
   // count number of rows (lines)
   newDOM.rows = rev1Text.innerHTML.trim().split(/\r\n|\r|\n/).length
-  if (rev1Text.innerHTML.length < newDOM.preProcess.length) {
-    // the converted text should be at least the same size as the original
-    checkErr(`Text did not convert correctly, the size of parsed text is ${rev1Text.innerHTML.length} characters, it is smaller than original text of ${newDOM.preProcess.length} characters`, true)
-  }
+  // 2.3: Disabled due to JS generated character entities causing false positives
+  // if (rev1Text.innerHTML.length < newDOM.preProcess.length) {
+  //   // the converted text should be at least the same size as the original
+  //   checkErr(`Text did not convert correctly, the size of parsed text is ${rev1Text.innerHTML.length} characters, it is smaller than original text of ${newDOM.preProcess.length} characters`, true)
+  // }
 
   // handle non-ASCII text formatting
   const theme = new ListRGBThemes()
@@ -853,29 +867,39 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       // color depth
       //ecma48Data.colorDepth = 8 // uncomment to test
       switch (ecma48Data.colorDepth) {
-        case 8: // force the use of the xterm palette
-          theme.color = 2
+        case 24:
+        case 8:
+          theme.color = 2 // enforce the use of the xterm palette instead of ibm vga
           document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}.css`)
-          tfi.palette = `<span id="h-palette">xterm</span> 8-bit palette,`
+          if (ecma48Data.colorDepth === 8) {
+            tfi.palette = `<span title="A range of 256 ${chrome.i18n.getMessage(`color`)}s using the xterm palette">xterm 8-bit</span>,`
+          } else {
+            tfi.palette = `<span title="A range of 16.7 million ${chrome.i18n.getMessage(`color`)}s using the RGB true ${chrome.i18n.getMessage(`color`)} palette">RGB 24-bit</span>,`
+          }
           break
         case 4:
+          document.getElementById(`retrotxt-8bit`).remove(); break
+        case 2:
           document.getElementById(`retrotxt-8bit`).remove()
+          colorLink = document.getElementById(`retrotxt-4bit`)
+          colorLink.href = chrome.extension.getURL(`css/text_colors_cga.css`)
+          tfi.colors += `4 ${chrome.i18n.getMessage(`color`)} magenta,`
           break
         case 1:
           document.getElementById(`retrotxt-4bit`).remove()
           document.getElementById(`retrotxt-8bit`).remove()
-          tfi.colors = `${tfi.colors}in ASCII like, 2 ${chrome.i18n.getMessage(`color`)}s`
+          tfi.colors += `2 ${chrome.i18n.getMessage(`color`)} ASCII,`
           break
         case 0:
           document.getElementById(`retrotxt-8bit`).remove()
           colorLink = document.getElementById(`retrotxt-4bit`)
           colorLink.href = chrome.extension.getURL(`css/text_colors_gray.css`)
-          tfi.colors = `${tfi.colors}in monochrome, 16 ${chrome.i18n.getMessage(`color`)}`
+          tfi.colors += `monochrome,`
           break
         default:
       }
       // iCE colors
-      tfi.colors = `- ${tfi.palette} <span id="ice-colors-toggle" title="Toggle">iCE colors <strong>??</strong></span> `
+      tfi.colors = `- ${tfi.palette} ${tfi.colors} <span id="ice-colors-toggle" title="Toggle between blinking mode or static background ${chrome.i18n.getMessage(`color`)}">iCE colors <strong>??</strong></span> `
       if (ecma48Data.iceColors === true) {
         dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
       }
@@ -895,7 +919,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   newDOM.pre.innerHTML = rev1Text.innerHTML
 
   // reveal the text font information header
-  chrome.storage.local.get(`textFontInformation`, function (result) {
+  chrome.storage.local.get(`textFontInformation`, result => {
     // reveal or hide header?
     switch (result.textFontInformation) {
       case false: newDOM.header.style.display = `none`; break
@@ -921,16 +945,20 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
         const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
         let theme = new ListRGBThemes()
         switch (this.innerHTML) {
-          case `IBM`:
-            palette.innerHTML = `xterm`
+          case `IBM`: // 1
+            palette.textContent = `xterm`
             theme.color = 2
             break
-          case `xterm`:
-            palette.innerHTML = `${chrome.i18n.getMessage(`Gray`)}`
+          case `xterm`: // 2
+            palette.textContent = `IBM CGA`
+            theme.color = 3
+            break
+          case `IBM CGA`: // 3
+            palette.textContent = `${chrome.i18n.getMessage(`Gray`)}`
             theme.color = 0
             break
-          default:
-            palette.innerHTML = `IBM`
+          default: // 0
+            palette.textContent = `IBM`
             theme.color = 1
         }
         // update palette link
@@ -969,10 +997,13 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       const palette = document.getElementById(`h-palette`)
       if (iceCSS !== null) return
       let theme = new ListRGBThemes()
-      switch (palette.innerHTML) {
-        case `IBM`: theme.color = 1; break
-        case `xterm`: theme.color = 2; break
-        default: theme.color = 0
+      if (palette !== null) {
+        switch (palette.innerHTML) {
+          case `IBM`: theme.color = 1; break
+          case `xterm`: theme.color = 2; break
+          case `IBM CGA`: theme.color = 3; break
+          default: theme.color = 0
+        }
       }
       dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
       iceColors.childNodes[1].innerHTML = `On`
@@ -990,7 +1021,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     let dcpAttr = ``
     rev1Text.codePage.text = rev1Text.codePage.text.replace(`CP-`, `CP`)
     dcp = dcp.replace(`WINDOWS`, `CP`) // abbreviate WINDOWS1252 to CP1252 etc.
-    if ([`CP1250`, `CP1251`, `CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(dcp) === false) dcpAttr = `class="unknown"` // note: header has CSS filter: invert(100%); applied
+    if ([`CP437`, `CP1250`, `CP1251`, `CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(dcp) === false) dcpAttr = `class="unknown"` // note: header has CSS filter: invert(100%); applied
     tfi.body = `${tfi.body} <span title="Document encoding set by the browser"${dcpAttr}>${dcp}</span> → \
 <span title="Unicode ≈ ${rev1Text.codePage.title}">${rev1Text.codePage.text}</span>`
   }
@@ -1040,13 +1071,13 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   ti = ti.replace(`♦`, `${newDOM.rows}`)
   ti = ti.replace(`♣`, `${humaniseFS(srcMeta.length)}`)
   if (typeof ecma48Data.font !== `undefined` && ecma48Data.font !== null) {
-    tfi.body = tfi.body.replace(`♠`, `${ecma48Data.font.toUpperCase()}`)
+    tfi.body = tfi.body.replace(`♠`, `${handleFontName(ecma48Data.font)}`)
   } else {
-    chrome.storage.local.get([`retroFont`], function (r) {
+    chrome.storage.local.get([`retroFont`], r => {
       if (r.retroFont === undefined) checkErr(`Could not obtain the required retroFont setting to apply the header`, true)
       else {
         let element = window.document.getElementById(`h-doc-font-family`)
-        element.innerHTML = r.retroFont.toUpperCase()
+        element.textContent = handleFontName(r.retroFont)
       }
     })
   }
@@ -1061,7 +1092,17 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   // hide original unconverted text
   dom.pre0.style.display = `none`
 
+  // mark tab's title with the RetroTxt ascii logo
+  let title = document.createElement(`title`)
+  if (window.location.protocol === `file:`) {
+    title.textContent = `[··] ` + window.location.pathname.split(`/`).filter(function (el) { return !!el }).pop()
+  } else { title.textContent = `[··] ${window.location.host}${window.location.pathname}` }
+
+  // set document language
+  document.documentElement.lang = `en`
+
   // insert new tags into HTML DOM
+  dom.head.appendChild(title)
   newDOM.main.appendChild(newDOM.pre)
   dom.body.insertBefore(newDOM.header, dom.pre0)
   dom.body.insertBefore(newDOM.main, dom.pre0)

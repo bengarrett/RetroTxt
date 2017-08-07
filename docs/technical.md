@@ -108,21 +108,6 @@ _ANSiFlags allow an author of ANSi and similar files to provide a clue to a view
 | LS | Letter-spacing | Yes | A `10` value will force the usage of the VGA9 font |
 | AR | Aspect Ratio | No | |
 
-##### FontName
-
-_The FontName field allows an author of ANSi and similar files to provide a clue to the viewer / editor which font to use to render the image._
-
-| FontName | RetroTxt match | Notes |
-| ---- | ------- | ----- |
-| IBM VGA | VGA8 | |
-| | VGA9 | When _ANSIFlag_ `LS` is set to `10` |
-| IBM VGA50 | VGALCD | |
-| IBM EGA | EGA8 | |
-| Amiga Topaz | Amiga | |
-| C64 PETSCII | C64 | |
-
-All other FontName values are ignored and result in the use of the VGA8 font.
-
 #### ECMA-48 support
 
 <a name="ecma48"></a>
@@ -167,11 +152,11 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 | not crossed out | SGR | 29 | Yes |  |
 | foreground colours | SGR | 30…37 | Yes |  |
 | foreground 256 colours | SGR | 38;5;0…255 | Yes | Known as [xterm 256](http://web.archive.org/web/20130125000058/http://www.frexx.de/xterm-256-notes/) but not an ECMA-48 standard |
-| foreground RGB colours | SGR | 38;2;R;G;B; | No | ISO-8613-3 24-bit colour support, not an ECMA-48 standard |
+| foreground RGB colours | SGR | 38;2;R;G;B; | Yes | ISO-8613-3 24-bit colour support, not an ECMA-48 standard |
 | revert to default foreground | SGR | 39 | Yes |  |
 | background colours | SGR | 40…47 | Yes |  |
 | background 256 colours | SGR | 48;5;0…255 | Yes | Known as [xterm 256](http://web.archive.org/web/20130125000058/http://www.frexx.de/xterm-256-notes/) but not an ECMA-48 standard  |
-| background RGB colours | SGR | 48;2;R;G;B; | No | ISO-8613-3 24-bit colour support, not an ECMA-48 standard |
+| background RGB colours | SGR | 48;2;R;G;B; | Yes | ISO-8613-3 24-bit colour support, not an ECMA-48 standard |
 | revert to default background | SGR | 49 | Yes |  |
 | framed | SGR | 51 | Yes |  |
 | encircled | SGR | 52 | Yes |  |
@@ -185,7 +170,7 @@ Other common non-standard sequences agreed to by the ANSI art community
 
 | Control | Acronym | Value | Support | Notes |
 | ------- | ------- | ----- | ------- | ----- |
-| background RGB colours | - | 0;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
-| foreground RGB colours | - | 1;R;G;Bt | No | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
+| background RGB colours | - | 0;R;G;Bt | Yes | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
+| foreground RGB colours | - | 1;R;G;Bt | Yes | [PabloDraw 2014 24-bit ANSI implementation](http://picoe.ca/2014/03/07/24-bit-ansi/) |
 | Blink to Bright Intensity Background | - | ?33h | Yes | [SyncTERM](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |
 | Blink normal | - | ?33l | Yes | [SyncTERM](http://cvs.synchro.net/cgi-bin/viewcvs.cgi/*checkout*/src/conio/cterm.txt?content-type=text%2Fplain&revision=HEAD) |

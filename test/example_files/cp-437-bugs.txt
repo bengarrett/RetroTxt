@@ -1,4 +1,8 @@
-Buggy CP-437 characters.
+Document encoding: CP437 (OEM-US)
+RetroTxt 'Transcode text' setting: Guess (Default)
+File name: cp-437-bugs.txt
+
+Buggy CP-437 characters test
 
 ú	FA period
 ·	B7 Single left horizontal, double vertical line-drawing character

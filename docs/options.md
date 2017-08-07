@@ -17,7 +17,7 @@ Then click the Options button under the RetroTxt listing.
 
 ![Font options selection](assets/options_fonts.png)
 
-RetroTxt has 15 different monospaced font choices to apply to text. Some fonts have wide and tall variants.
+RetroTxt has 24 different monospaced font choices to apply to text. Some fonts have wide and tall variants.
 Those listed in the left pane are IBM PC system fonts while the ones on the right belong to MS-DOS clones or alternative home computer systems.
 
 ### Colour pair

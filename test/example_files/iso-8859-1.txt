@@ -1,7 +1,8 @@
-To display correctly this file needs be saved with ISO 8859-1 encoding.
-And RetroTxt, Transcode text > None
+Document encoding: ISO 8859-1
+RetroTxt 'Transcode text' setting: None
+File name: iso-8859-1.txt
 
-RetroTxt ISO 8859-1 Test Page
+RetroTxt ISO 8859-1 test
 
 ¤	Currency sign
 

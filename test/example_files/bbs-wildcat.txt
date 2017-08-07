@@ -1,7 +1,10 @@
-@07@To display correctly this file should be saved with CP-437 (OEM-US) encoding.
-The start of the text MUST start with a Wildcat @??@ code.
+@07@Document encoding: Windows-1252
+RetroTxt 'Transcode text' setting: Guess (Default)
+File name: bbs-wildcat.txt
 
-This is a test of the Wildcat BBS @ colour codes.
+The start of the text MUST start with a Wildcat @??@ code
+
+This is a test of the Wildcat BBS @ colour codes
 "@<Background><Foreground>@"
 
 @04@Red @02@Green @01@Blue@07@ on black

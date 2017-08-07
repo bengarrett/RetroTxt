@@ -22,10 +22,14 @@
     /* anything placed in here will override any classes introduced by JavaScript */
     border: 0.063em solid rgb(215, 211, 200);
     height: 40px;
+    width: auto;
 }
 
 #status {
-    font-size: 90%;
+    font-size: 0.5em;
+    height: 1em;
+    padding: 0;
+    padding-bottom: 1em;
 }
 
 .material-credits {
@@ -75,6 +79,33 @@ h3 {
     font-weight: normal;
 }
 
+header hr {
+    display: none;
+}
+
 strong {
     font-weight: 500;
+}
+
+nav.tab {
+    background: none;
+    overflow: hidden;
+    height: 2em;
+    margin-top: 1em;
+}
+
+nav.tab button {
+    float: left;
+    font-size: 1em;
+    border: 1px solid rgb(193, 193, 193);
+    border-radius: 2px;
+    padding: 0.1em 1em 0.1em 1em;
+    outline: none;
+    transition: 0s;
+    margin: 0.25em;
+}
+
+nav.tab button:hover {
+    background-color: rgb(235, 235, 235);
+    text-decoration: none;
 }

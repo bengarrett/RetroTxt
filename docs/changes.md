@@ -1,5 +1,19 @@
 # RetroTxt Changes
 
+## 2.3
+
+### August 2017
+
+- Added 24-bit RGB colour support for ANSI/ECMA-48 text. That gives a choice of over 16 million colours to play with.
+- New fonts, a complete set for Amiga and ATASCII (Atari 8-bit).
+- Complete SAUCE FontName support.
+- Added 2-bit IBM CGA magenta palette.
+- Added Option checkbox, 'ANSI iCE colors'.
+- Fixed a number of CP437 characters not displaying as intended.
+- Fixed issue where 'DOS control glyphs' changes required 2 tab refreshes to apply.
+- Any discovered SAUCE configurations are sent to the browser console.
+- Browser tab titles running RetroTxt are marked with `[··]`.
+
 ## 2.2
 
 ### June 2017

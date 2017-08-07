@@ -5,30 +5,29 @@ Stylises the Retrotxt Options dialogue
 See options_filefox.css for adjustments for the Firefox/Gecko browsers
 */
 
-body {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
+body {}
 
 code {
     font-size: 125%;
 }
 
-footer {
-    order: 6;
+footer {}
+
+h1 {
+    margin: 0;
+    margin-bottom: 0.25em;
+    font-size: 1.1em;
+}
+
+header {
+    margin: 0;
+    padding: 0;
 }
 
 hr {
     background: rgb(215, 211, 200);
     border: 0;
     height: 0.063em;
-}
-
-h3 {
-    margin: 0;
-    margin-bottom: 0.25em;
-    font-size: 1.1em;
 }
 
 input[type=checkbox] {
@@ -42,39 +41,113 @@ input[type=radio] {
     margin-left: 0.33em;
 }
 
+main {
+    min-height: 30em;
+    width: 100%;
+}
+
+nav.tab {
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+nav.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+}
+
+nav.tab button:hover {
+    text-decoration: underline;
+}
+
+nav.tab button.active {
+    text-decoration: underline;
+}
+
 pre {
     border: 0;
 }
 
-#run-web-urls-permitted {
-    border: 0.063em solid rgb(215, 211, 200);
-    margin: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0.5em;
-    width: 100%;
+.ascii-recommend {
+    color: rgb(77, 78, 83);
+    text-decoration: underline;
 }
 
-#authored-fonts {
+.flexed {
+    display: flex;
+}
+
+.flexed-cols {
+    width: 50%;
+}
+
+.material-check {
+    font-size: 1.5em;
+    margin-left: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: middle;
+}
+
+.material-credits {
+    font-size: 1.5em;
+    margin-left: 0.33em;
+    vertical-align: top;
+}
+
+.material-h1 {
     font-size: 1em;
+    margin-right: 0.25em;
+    vertical-align: text-bottom;
 }
 
-#advanced-options {
-    order: 5;
+.material-link {
+    color: rgb(77, 78, 83);
 }
 
-#credits {
-    float: right;
-    text-align: right;
+.material-link:hover {
+    color: inherit;
 }
+
+.material-radio {
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+#advanced-options {}
 
 #error {
     color: rgb(255, 0, 0);
     display: none;
 }
 
+#font-selects {
+    flex-direction: column;
+    width: 50%;
+    padding: 0;
+    margin-left: 0.4em;
+}
+
+#font-styles-colors {
+    margin-bottom: 0.5em;
+}
+
+#font-styles-effects {}
+
+#font-styles-line-heights {}
+
 #option-buttons {
     float: left;
+}
+
+#option-buttons .link-button:hover {
+    cursor: default;
+}
+
+#option-buttons .help-button:hover {
+    cursor: help;
 }
 
 #option-buttons i {
@@ -90,52 +163,13 @@ pre {
     max-width: 32em;
 }
 
-#font-form {
-    display: flex;
-    order: 3;
-}
-
-#font-styles {
-    order: 4;
-    display: flex;
-    justify-content: space-around;
-}
-
-#font-selects {
-    flex-direction: column;
-    width: 50%;
-    padding: 0;
-    margin-left: 0.4em;
-}
-
-#font-styles-colors {
-    order: 1;
-    margin-bottom: 0.5em;
-}
-
-#font-styles-effects {
-    order: 3;
-    width: 50%;
-}
-
-#font-styles-line-heights {
-    order: 2;
-}
-
-#fonts-ibm {
-    order: 1;
-}
-
-#fonts-computer {
-    order: 2;
-}
-
-.material-link {
-    color: rgb(77, 78, 83);
-}
-
-.material-link:hover {
-    color: inherit;
+#run-web-urls-permitted {
+    border: 0.063em solid rgb(215, 211, 200);
+    margin: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5em;
+    width: 100%;
 }
 
 #sample-dos-ctrls {
@@ -153,10 +187,42 @@ pre {
     padding: 0;
     text-indent: 5px;
     text-rendering: geometricPrecision;
+    /* width: is required for overflow to work correctly */
+    width: 370px;
 }
 
 #status {
+    font-family: arial;
+    font-size: 0.6em;
+    height: 1em;
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+}
+
+#tab-pane-left {
+    order: 1;
+}
+
+#tab-pane-right {
     order: 2;
+}
+
+#tab4 p {
+    margin: 0;
+    margin-top: 1em;
+    padding: 0;
+}
+
+#tab4 ul {
+    list-style-type: none;
+    margin: 0;
+    text-indent: 1em;
+    padding: 0;
+}
+
+#unittest {
+    display: none;
 }
 
 
@@ -187,41 +253,4 @@ Blinking terminal prompt that works with any colour
     50% {
         opacity: 0.5;
     }
-}
-
-#unittest {
-    display: none;
-}
-
-.ascii-recommend {
-    color: rgb(77, 78, 83);
-    text-decoration: underline;
-}
-
-.flexed-cols {
-    width: 50%;
-}
-
-.material-check {
-    font-size: 1.5em;
-    margin-left: 0.1em;
-    margin-right: 0.25em;
-    vertical-align: middle;
-}
-
-.material-credits {
-    font-size: 1.5em;
-    margin-left: 0.33em;
-    vertical-align: top;
-}
-
-.material-h3 {
-    font-size: 1em;
-    margin-right: 0.25em;
-    vertical-align: text-bottom;
-}
-
-.material-radio {
-    font-size: 1.5em;
-    vertical-align: middle;
 }

@@ -1,6 +1,8 @@
-To display correctly this file needs be saved with CP-1252 (Windows-1252) encoding.
+Document encoding: Windows-1252
+RetroTxt 'Transcode text' setting: None
+File name: cp-1252.txt
 
-RetroTxt CP-1252 Test Page
+RetroTxt CP-1252 test
 
 ‘ single curved quotes ’
 

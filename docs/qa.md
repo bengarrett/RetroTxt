@@ -32,7 +32,7 @@ In Windows to make a web browser your default text file viewer.
 
 #### Are the fonts and styling historically accurate
 
-* The extension uses TrueType fonts which are affected by the operating system font smoothing effects; ClearType on Windows, Quartz in macOS and FreeType on Linux.
+* The extension uses TrueType fonts which are affected by the operating system font smoothing effects; ClearType on Windows, Quartz in macOS and FreeType on Linux. [Oliver Schmidhauser has a useful summary on the issue](https://oliverse.ch/technology/2016/07/16/using-pixel-fonts-in-a-browser-without-font-smoothing.html).
 
 * Some fonts are for 40 columns (characters per line of text), but the extension doesn't enforce that limitation.
 

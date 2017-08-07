@@ -1,1 +1,5 @@
+Document encoding: Windows-1252
+RetroTxt 'Transcode text' setting: Guess (Default)
+File name: _hello-world.txt
+
 Hello world.

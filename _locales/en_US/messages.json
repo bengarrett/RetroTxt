@@ -17,10 +17,52 @@
   "wildcat": {
     "message": "Wildcat!"
   },
+  "font_pc": {
+    "message": "http://int10h.org/oldschool-pc-fonts/"
+  },
+  "font_pc_a": {
+    "message": "Viler"
+  },
+  "font_amiga": {
+    "message": "https://github.com/rewtnull/amigafonts"
+  },
+  "font_amiga_a": {
+    "message": "tRUEsCHOOL"
+  },
+  "font_atascii": {
+    "message": "http://members.bitstream.net/marksim/atarimac/fonts.html"
+  },
+  "font_atascii_a": {
+    "message": "Mark L. Simonson"
+  },
+  "font_atari": {
+    "message": "http://www.dafont.com/atari-st-8x16-system-font.font"
+  },
+  "font_atari_a": {
+    "message": "divVerent"
+  },
+  "font_appleii": {
+    "message": "http://www.kreativekorp.com/software/fonts/apple2.shtml"
+  },
+  "font_appleii_a": {
+    "message": "Kreative Korp"
+  },
+  "font_petscii": {
+    "message": "http://style64.org/c64-truetype"
+  },
+  "font_petscii_a": {
+    "message": "Style"
+  },
+  "url": {
+    "message": "http://retrotxt.com"
+  },
   "url_help": {
     "message": "https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md"
   },
   "url_issues": {
     "message": "https://github.com/bengarrett/RetroTxt/issues"
+  },
+  "url_qa": {
+    "message": "https://github.com/bengarrett/RetroTxt/blob/master/docs/qa.md"
   }
 }

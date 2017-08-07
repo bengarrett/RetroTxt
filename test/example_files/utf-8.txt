@@ -1,8 +1,10 @@
-To display correctly this file needs be saved with UTF-8 with no BOM encoding.
+Document encoding: UTF-8
+RetroTxt 'Transcode text' setting: Guess (Default)
+File name: utf-8.txt
 
-RetroTxt UTF-8 Test Page
+RetroTxt UTF-8 test with no Byte Order Mark
 
-This is a test of UTF-8.
+Firefox fails this test
 
 ☠	Skull and crossbones
 

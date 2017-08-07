@@ -14,17 +14,13 @@ function checkArg(name = ``, e = ``, a)
   let err = ``
   switch (e) {
     case `boolean`:
-      err = `argument '${name}' should be a 'boolean' (true|false) instead of '${typeof a}'`
-      break
+      err = `argument '${name}' should be a 'boolean' (true|false) instead of '${typeof a}'`; break
     case `number`:
-      err = `argument '${name}' should be a 'number' (unsigned) '${typeof a}'`
-      break
+      err = `argument '${name}' should be a 'number' (unsigned) '${typeof a}'`; break
     case `string`:
-      err = `argument '${name}' should be a 'string' of text instead of '${typeof a}'`
-      break
+      err = `argument '${name}' should be a 'string' of text instead of '${typeof a}'`; break
     default:
-      err = `argument '${name}' needs to be a '${e}' instead of '${typeof a}'`
-      break
+      err = `argument '${name}' needs to be a '${e}' instead of '${typeof a}'`; break
   }
   checkErr(err)
 }
@@ -41,6 +37,23 @@ function checkErr(err)
   }
 }
 
+function switchTab(num) {
+  var i, tabcontent
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName(`tabcontent`)
+  for (i = 0; i < tabcontent.length; i++) {
+    if (typeof tabcontent[i].style.display !== `undefined`) {
+      tabcontent[i].style.display = `none`
+    }
+  }
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  tabcontent = document.getElementById(`tab${num}`)
+  if (typeof tabcontent.style.display !== `undefined`) {
+    tabcontent.style.display = `block`
+  }
+}
+
+
 // This runs whenever the Options dialogue is opened,
 // or in Firefox when the options tab is refreshed.
 (function () {
@@ -50,6 +63,8 @@ function checkErr(err)
   if (typeof qunit !== `undefined`) return
 
   const engine = findEngine()
+
+  runtimeInfo()
 
   // defaults and font, colour combinations
   const radios = document.forms.fonts.getElementsByTagName(`label`)
@@ -63,7 +78,22 @@ function checkErr(err)
   // apply regional English modifications
   changeI18nWord(`color`, `msg-color`) // color vs colour
   changeI18nWord(`center`, `msg-center`) // center vs centre
-  document.getElementById(`gray-white-option`).innerHTML = chrome.i18n.getMessage(`gray_white_option`) // gray vs grey
+  document.getElementById(`gray-white-option`).textContent = chrome.i18n.getMessage(`gray_white_option`) // gray vs grey
+
+  // font tabs
+  document.getElementById(`btnTab1`).addEventListener(`click`, () => {
+    switchTab(`1`)
+  })
+  document.getElementById(`btnTab2`).addEventListener(`click`, () => {
+    switchTab(`2`)
+  })
+  document.getElementById(`btnTab3`).addEventListener(`click`, () => {
+    switchTab(`3`)
+  })
+  document.getElementById(`btnTab4`).addEventListener(`click`, () => {
+    switchTab(`4`)
+  })
+  switchTab(`1`) // default
 
   function listenForFonts()
   // font selection listeners for the radio buttons
@@ -72,21 +102,25 @@ function checkErr(err)
 
     for (const radio of radios) {
       // radio click listener
-      radio.onclick = function () {
-        const fface = this.getElementsByTagName(`input`)[0].value
-        status.textContent = `Saved font selection ${fface}`
-        changeStorageFont()
+      radio.onclick = function () { /* Arrow functions do not work with `this` vars */
+        const fface = this.getElementsByTagName(`input`)[0]
+        if (fface !== undefined) {
+          status.textContent = `Saved font selection ${fface.value}`
+          changeStorageFont()
+        }
       }
       // radio mouseover listener
       radio.onmouseover = function () {
-        const fface = this.getElementsByTagName(`input`)[0].value
-        status.textContent = `Font ${fface}`
-        changeFont(fface)
+        const fface = this.getElementsByTagName(`input`)[0]
+        if (fface !== undefined) {
+          status.textContent = `Font ${fface.value}`
+          changeFont(fface.value)
+        }
       }
       // reset sample text when user's mouse leaves the font selection form
       const radioInput = document.getElementById(radio.htmlFor)
       document.getElementById(`font-form`).addEventListener(`mouseleave`, function () {
-        if (radioInput.checked === true) {
+        if (radioInput !== null && radioInput.checked === true) {
           status.textContent = `Font ${radioInput.value}`
           changeFont(radioInput.value)
         }
@@ -124,7 +158,7 @@ function checkErr(err)
       // reset sample text when user's mouse leaves the effect selection form
       const radioInput = document.getElementById(effect.htmlFor)
       if (radioInput === null) continue
-      document.getElementById(`effects-form`).addEventListener(`mouseleave`, function () {
+      document.getElementById(`effects-form`).addEventListener(`mouseleave`, () => {
         if (radioInput.checked === true) {
           const sample = document.getElementById(`sample-dos-text`)
           status.textContent = `Using ${radioInput.value} text effect`
@@ -197,6 +231,10 @@ function checkErr(err)
     chrome.storage.local.set({ 'textBgScanlines': this.checked })
     changeOnEffects()
   })
+  document.getElementById(`ansi-ice-colors`).addEventListener(`change`, function () {
+    localStorage.setItem(`textAnsiIceColors`, this.checked)
+    chrome.storage.local.set({ 'textAnsiIceColors': this.checked })
+  })
   document.getElementById(`run-web-urls`).addEventListener(`change`, function () {
     localStorage.setItem(`runWebUrls`, this.checked)
     chrome.storage.local.set({ 'runWebUrls': this.checked })
@@ -231,20 +269,18 @@ function checkErr(err)
 
   // filter by extension installation type
   if (typeof chrome.management !== `undefined`) {
-    chrome.management.getSelf(function (info) {
+    chrome.management.getSelf(info => {
       let testLink = document.getElementById(`unittest`)
       switch (info.installType) {
-        case `development`:
-          // reveal developer links
-          testLink.style.display = `inline`
-          break
+        case `development`: testLink.style.display = `inline`; break // reveal developer links
       }
     })
   }
 
   // filter by support for isAllowedFileSchemeAccess
   // chrome.extension has no Edge, limited Firefox support
-  chrome.extension.isAllowedFileSchemeAccess(function (result) {
+  chrome.extension.isAllowedFileSchemeAccess(result => {
+
     function disableOption(checkbox = ``)
     // disable Options where the extension has not be granted permission
     // @checkbox Id of the checkbox to disable
@@ -287,12 +323,12 @@ function checkErr(err)
       // file:///c: href doesn't work in Firefox
       localFileAccess.removeAttribute(`href`)
       localFileAccess.removeAttribute(`target`)
-      // Firefox 48 doesn't support options_ui.chrome_style so load options_firefox.css
+      // Firefox doesn't support options_ui.chrome_style so load options_firefox.css
       link.rel = `stylesheet`
       link.href = `css/options_firefox.css`
       document.head.appendChild(link)
       // add new tab targets for all links
-      document.addEventListener(`click`, function (e) {
+      document.addEventListener(`click`, e => {
         if (e.target.href !== undefined && !e.target.hasAttribute(`target`)) {
           e.target.setAttribute(`target`, `_blank`)
         }
@@ -300,12 +336,10 @@ function checkErr(err)
       break
   }
   // filter by web browser's host operating system
-  chrome.runtime.getPlatformInfo(function (info) {
+  chrome.runtime.getPlatformInfo(info => {
     switch (info.os) {
-      case `win`:
-        // Windows requires a drive letter for file links
-        localFileAccess.setAttribute(`href`, `file:///C:/`)
-        break
+      // Windows requires a drive letter for file links
+      case `win`: localFileAccess.setAttribute(`href`, `file:///C:/`); break
     }
   })
 })()
@@ -358,8 +392,7 @@ function changeI18nWord(name = ``, cls = ``)
   if (cls.length < 1) checkRange(`cls`, `length`, `1`, cls.length)
 
   let newWord = chrome.i18n.getMessage(name)
-  let word = ``
-  let words = document.getElementsByClassName(cls)
+  let word = ``, words = document.getElementsByClassName(cls)
 
   for (const w of words) {
     word = w.innerHTML
@@ -367,7 +400,7 @@ function changeI18nWord(name = ``, cls = ``)
       // if original word is capitalised, apply to new word
       newWord = `${newWord[0].toUpperCase()}${newWord.slice(1)}`
     }
-    w.innerHTML = newWord
+    w.textContent = newWord
   }
 }
 
@@ -430,11 +463,9 @@ function changeOnOptions()
       if (opt.value === r) {
         switch (s) {
           case `color`:
-          case `lh`: opt.selected = true
-            break
+          case `lh`: opt.selected = true; break
           case `effect`:
-          case `font`: opt.checked = true
-            break
+          case `font`: opt.checked = true; break
         }
         opt.selected = true
         break
@@ -482,6 +513,9 @@ function changeOnOptions()
   checker(`dos-ctrl-codes`, r8)
   if (r8 !== `true`) r8text.style.display = `none`
   else r8text.style.display = `inline`
+  // ANSI iCE Colors
+  const r14 = localStorage.getItem(`textAnsiIceColors`)
+  checker(`ansi-ice-colors`, r14)
   // URLs for auto-run
   const r9 = localStorage.getItem(`runWebUrls`)
   let r9text = document.getElementById(`run-web-urls-permitted`)
@@ -551,4 +585,10 @@ function changeStorageURLs()
   }
   localStorage.setItem(`runWebUrlsPermitted`, ul)
   chrome.storage.local.set({ 'runWebUrlsPermitted': ul })
+}
+
+function runtimeInfo() {
+  let m = chrome.runtime.getManifest()
+  let str = document.getElementById(`manifest`)
+  str.textContent = `RetroTxt v${m.version}`
 }

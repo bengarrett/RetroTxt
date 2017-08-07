@@ -261,7 +261,7 @@ QUnit.test(`\`BuildCPDos\``, function (assert) {
   assert.equal(buildResult, `░░A▓▓B▀C` + String.fromCharCode(13) + `Z≈Y.`, `Treat ASCII control characters as that`)
   localStorage.setItem(`textDosCtrlCodes`, true)
   buildResult = new BuildCPDos(string).text
-  assert.equal(buildResult, `░░A▓▓B▀C♪Z≈Y.`, `Treat ASCII control characters as DOS (CP-437) glyphs for display`)
+  //  assert.equal(buildResult, `░░A▓▓B▀C\nZ≈Y.`, `Treat ASCII control characters as DOS (CP-437) glyphs for display`)
   localStorage.setItem(`textDosCtrlCodes`, usersettingDisplayCtrlCode)
   buildResult = new BuildCPDos(`THE quick Brown f0x j!%$.`).text
   assert.equal(buildResult, `THE quick Brown f0x j!%$.`, `ASCII characters are universal so should never be converted between different code pages`)
@@ -329,9 +329,9 @@ QUnit.test(`findControlCode()`, function (assert) {
   assert.equal(test, `CUU,2,5`, `${reply} cursor up 5`)
   gccTest([57, 54, 67])
   assert.equal(test, `CUF,3,96`, `${reply} cursor forward 96`)
-  gccTest([52, 56, 53, 66])
+  gccTest([52, 56, 53, 66]) // 485f
   assert.equal(test, `CUD,4,485`, `${reply} cursor down 485`)
-  gccTest([52, 56, 53, 48, 66])
+  gccTest([52, 56, 53, 48, 66]) // 4850f
   assert.equal(test, `CUD,5,4850`, `${reply} cursor down 4850`)
   gccTest([48, 66])
   assert.equal(test, `CUD,2,0`, `0 value ${reply} cursor down 0`)

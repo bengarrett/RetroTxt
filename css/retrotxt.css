@@ -16,11 +16,6 @@ options*.css for the styling of the Options dialogue.
 /* csslint ignore:start */
 
 @font-face {
-    font-family: 'amiga';
-    src: url('../fonts/amiga/amiga4ever.ttf') format('truetype');
-}
-
-@font-face {
     font-family: 'appleii';
     src: url('../fonts/appleii/PrintChar21.ttf') format('truetype');
 }
@@ -28,6 +23,11 @@ options*.css for the styling of the Options dialogue.
 @font-face {
     font-family: 'atarist';
     src: url('../fonts/atari_st/AtariST8x16SystemFont.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'atascii';
+    src: url('../fonts/atascii/ATARCC__.ttf') format('truetype');
 }
 
 @font-face {
@@ -101,8 +101,23 @@ options*.css for the styling of the Options dialogue.
 }
 
 @font-face {
+    font-family: 'iso9';
+    src: url('../fonts/ms_dos/Px437_IBM_ISO9.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'iso8';
+    src: url('../fonts/ms_dos/Px437_IBM_ISO8.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'mda';
     src: url('../fonts/ms_dos/PxPlus_IBM_MDA.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'ps24';
+    src: url('../fonts/ms_dos/Px437_IBM_PS2thin4.ttf') format('truetype');
 }
 
 @font-face {
@@ -123,6 +138,11 @@ options*.css for the styling of the Options dialogue.
 @font-face {
     font-family: 'tandynew225-2y';
     src: url('../fonts/ms_dos/PxPlus_TandyNew_225-2y.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'vga50';
+    src: url('../fonts/ms_dos/Px437_CompaqThin_8x8.ttf') format('truetype')
 }
 
 @font-face {
@@ -151,6 +171,49 @@ options*.css for the styling of the Options dialogue.
 }
 
 
+/* Amiga fonts */
+
+@font-face {
+    font-family: 'topazA500';
+    src: url('../fonts/amiga/ttf/Topaz_a500_v1.0.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'topazplusA500';
+    src: url('../fonts/amiga/ttf/TopazPlus_a500_v1.0.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'topazA1200';
+    src: url('../fonts/amiga/ttf/Topaz_a1200_v1.0.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'topazplusA1200';
+    src: url('../fonts/amiga/ttf/TopazPlus_a1200_v1.0.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'p0tnoodle';
+    src: url('../fonts/amiga/ttf/P0T-NOoDLE_v1.0.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'microknight';
+    src: url('../fonts/amiga/ttf/MicroKnight_v1.0.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'microknightplus';
+    src: url('../fonts/amiga/ttf/MicroKnightPlus_v1.0.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'mosoul';
+    src: url('../fonts/amiga/ttf/mO\'sOul_v1.0.ttf') format('truetype')
+}
+
+
 /* csslint ignore:end */
 
 
@@ -160,8 +223,44 @@ options*.css for the styling of the Options dialogue.
     font-family: amiga;
 }
 
+.font-topazA500 {
+    font-family: topazA500;
+}
+
+.font-topazplusA500 {
+    font-family: topazplusA500;
+}
+
+.font-topazA1200 {
+    font-family: topazA1200;
+}
+
+.font-topazplusA1200 {
+    font-family: topazplusA1200;
+}
+
+.font-p0tnoodle {
+    font-family: p0tnoodle;
+}
+
+.font-microknight {
+    font-family: microknight;
+}
+
+.font-microknightplus {
+    font-family: microknightplus;
+}
+
+.font-mosoul {
+    font-family: mosoul;
+}
+
 .font-appleii {
     font-family: appleii;
+}
+
+.font-atascii {
+    font-family: atascii;
 }
 
 .font-atarist {
@@ -174,7 +273,6 @@ options*.css for the styling of the Options dialogue.
 
 .font-bios-2x {
     font-family: bios-2x;
-    font-size: 0.75em;
 }
 
 .font-bios-2y {
@@ -183,6 +281,7 @@ options*.css for the styling of the Options dialogue.
 
 .font-c64 {
     font-family: c64;
+    font-size: 24pt/32px;
 }
 
 .font-cga {
@@ -217,6 +316,14 @@ options*.css for the styling of the Options dialogue.
     font-family: ega9-2x;
 }
 
+.font-iso9 {
+    font-family: iso9;
+}
+
+.font-iso8 {
+    font-family: iso8;
+}
+
 .font-mda {
     font-family: mda;
 }
@@ -231,6 +338,10 @@ options*.css for the styling of the Options dialogue.
 
 .font-pc1512-2y {
     font-family: pc1512-2y;
+}
+
+.font-ps24 {
+    font-family: ps24;
 }
 
 .font-tandynewtv {
@@ -249,12 +360,8 @@ options*.css for the styling of the Options dialogue.
     font-family: tandynew225-2y;
 }
 
-.font-vga9 {
-    font-family: vga9;
-}
-
-.font-vga9-2x {
-    font-family: vga9-2x;
+.font-vga50 {
+    font-family: vga50;
 }
 
 .font-vga8 {
@@ -263,6 +370,14 @@ options*.css for the styling of the Options dialogue.
 
 .font-vga8-2x {
     font-family: vga8-2x;
+}
+
+.font-vga9 {
+    font-family: vga9;
+}
+
+.font-vga9-2x {
+    font-family: vga9-2x;
 }
 
 .font-vgalcd {
@@ -360,7 +475,7 @@ header {
 header #h-palette,
 header #h-text-rend,
 header #ice-colors-toggle {
-    cursor: pointer;
+    cursor: default;
 }
 
 header .unknown {
@@ -370,6 +485,7 @@ header .unknown {
 
 main {
     display: inline-block;
+    letter-spacing: 0px;
     order: 2;
 }
 

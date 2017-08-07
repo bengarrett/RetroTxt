@@ -11,11 +11,12 @@ function checkErr(err, log = false)
 // @log   When true, err are logged to the browser Console
 //        Otherwise checkErr throws a JS exception and aborts
 {
+  const debug = false
   if (err !== undefined) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0] !== undefined) {
-        chrome.tabs.sendMessage(tabs[0].id, { error: err, id: `checkErr` }, function (/*r*/) {
-          //if (r !== undefined) console.log(response) // debug message passing
+        chrome.tabs.sendMessage(tabs[0].id, { error: err, id: `checkErr` }, (r) => {
+          if (debug && r !== undefined) console.log(r) // debug message passing
         })
       }
     })
@@ -59,6 +60,7 @@ function ListSettings()
   // boolean
   this.textBgScanlines = false
   this.textDosCtrlCodes = false
+  this.textAnsiIceColors = true
   this.textEffect = `normal`
   this.textCenterAlignment = true
   this.textFontInformation = true
@@ -78,30 +80,12 @@ function ListThemes()
 // font and colour themes to use with the context menus
 {
   this.order = [`msdos`, `windows`, `amiga`, `appleii`, `atarist`, `c64`] // order of display
-  this.amiga = {
-    retroFont: `amiga`,
-    retroColor: `theme-amiga`
-  }
-  this.appleii = {
-    retroFont: `appleii`,
-    retroColor: `theme-appleii`
-  }
-  this.atarist = {
-    retroFont: `atarist`,
-    retroColor: `theme-atarist`
-  }
-  this.c64 = {
-    retroFont: `c64`,
-    retroColor: `theme-c64`
-  }
-  this.msdos = {
-    retroFont: `vga8`,
-    retroColor: `theme-msdos`
-  }
-  this.windows = {
-    retroFont: `vga9`,
-    retroColor: `theme-windows`
-  }
+  this.amiga = { retroFont: `topazA500`, retroColor: `theme-amiga` }
+  this.appleii = { retroFont: `appleii`, retroColor: `theme-appleii` }
+  this.atarist = { retroFont: `atarist`, retroColor: `theme-atarist` }
+  this.c64 = { retroFont: `c64`, retroColor: `theme-c64` }
+  this.msdos = { retroFont: `vga8`, retroColor: `theme-msdos` }
+  this.windows = { retroFont: `vga9`, retroColor: `theme-windows` }
 }
 
 // This is always run when the eventpage.js is loaded
@@ -109,8 +93,7 @@ function ListThemes()
   // exit if running a qunit test
   if (typeof qunit !== `undefined`) return
 
-  const browserEngine = findEngine()
-  const configurations = new ListSettings()
+  const browserEngine = findEngine(), configurations = new ListSettings()
 
   // Contexts types for RetroTxt's context menus
   // browser_action, tool bar button
@@ -129,16 +112,17 @@ function ListThemes()
   // see options.js for other similar listeners
 
   const menuSupport = (chrome.contextMenus.onClicked !== undefined)
-  // Firefox 50+ has no support for onInstalled
+  // Firefox upto version 51 has no support for onInstalled
   if (chrome.runtime.onInstalled === undefined) {
     if (menuSupport === true) buildMenus(contexts)
     runStorageInitialise()
-  }
-  // standard behaviour
-  else {
-    chrome.runtime.onInstalled.addListener(function () {
+  } else { // standard behaviour
+    chrome.runtime.onInstalled.addListener(() => {
       if (menuSupport === true) buildMenus(contexts)
       runStorageInitialise()
+      chrome.tabs.create({
+        url: chrome.extension.getURL(`welcome.html`)
+      })
     })
   }
 
@@ -171,8 +155,7 @@ function ListThemes()
   // this refreshes the context menu for the active tab
   function handleActiveTab(activeInfo) {
     // console.log("Activated tab id " + activeInfo.tabId);
-    const tabId = activeInfo.tabId
-    const tabText = sessionStorage.getItem(`tab${tabId}textfile`)
+    const tabId = activeInfo.tabId, tabText = sessionStorage.getItem(`tab${tabId}textfile`)
     let menuState = false
     if (typeof tabText === `string` && tabText.length > 0) {
       switch (tabText) {
@@ -201,7 +184,7 @@ function ListThemes()
   listenForDownloads()
 
   // Browser action (tool bar button) onClick event
-  chrome.browserAction.onClicked.addListener(function (tab) {
+  chrome.browserAction.onClicked.addListener((tab) => {
     const scheme = tab.url.split(`:`)[0].toLowerCase()
     const valid = configurations.schemesPermitted.includes(scheme)
     if (valid === true) {
@@ -215,45 +198,35 @@ function ListThemes()
   })
 
   // Monitor saved changes to Options, so the context menu can be updated
-  chrome.storage.onChanged.addListener(function (changes) {
+  chrome.storage.onChanged.addListener((changes) => {
     const changedItems = Object.keys(changes)
     let newValue = ``
-
     for (let item of changedItems) {
       newValue = changes[item].newValue
       switch (item) {
         case `textFontInformation`:
         case `textCenterAlignment`:
-        case `textBgScanlines`:
-          changeMenuState(item, newValue)
-          break
+        case `textBgScanlines`: changeMenuState(item, newValue); break
         default:
-          break
       }
     }
   })
 
   // Context menus on-clicked events
   if (chrome.contextMenus.onClicked !== undefined) {
-    chrome.contextMenus.onClicked.addListener(function (info, tab) {
+    chrome.contextMenus.onClicked.addListener((info, tab) => {
       const autorun = localStorage.getItem(`runWebUrls`)
       switch (info.menuItemId) {
-        case `options`:
-          chrome.runtime.openOptionsPage()
-          break
+        case `options`: chrome.runtime.openOptionsPage(); break
         case `textFontInformation`:
         case `textCenterAlignment`:
-        case `textBgScanlines`:
-          changeMenuCheckmark(info.menuItemId)
-          break
+        case `textBgScanlines`: changeMenuCheckmark(info.menuItemId); break
         case `amiga`:
         case `appleii`:
         case `atarist`:
         case `c64`:
         case `msdos`:
-        case `windows`:
-          changeTheme(info.menuItemId)
-          break
+        case `windows`: changeTheme(info.menuItemId); break
         case `codeAutomatic`:
         case `codeMsDos0`:
         case `codeMsDos1`:
@@ -263,14 +236,11 @@ function ListThemes()
         case `codeUnicode`:
         case `codeWindows`:
           // see handleMessages() in retrotxt.js for the event handler
-          chrome.tabs.query({
-            active: true,
-            currentWindow: true
-          }, function (tabs) {
+          chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
             chrome.tabs.sendMessage(tabs[0].id, {
               action: info.menuItemId,
               id: `transcode`
-            }, function () {
+            }, () => {
               // save a session item to tell RetroTxt how to render the text on
               // this tab. session storage is isolated to the one active tab.
               sessionStorage.setItem(`transcode`, info.menuItemId)
@@ -278,11 +248,7 @@ function ListThemes()
           })
           break
         case `helpbrowser`:
-        case `helppage`:
-          chrome.tabs.create({
-            'url': chrome.i18n.getMessage(`url_help`)
-          })
-          break
+        case `helppage`: chrome.tabs.create({ 'url': chrome.i18n.getMessage(`url_help`) }); break
       }
       // If a theme option is clicked while viewing the browser default text
       // then we should also apply the new theme.
@@ -293,9 +259,7 @@ function ListThemes()
           case `amiga`:
           case `appleii`:
           case `atarist`:
-          case `c64`:
-            runCallback(null, tab)
-            break
+          case `c64`: runCallback(null, tab); break
         }
       }
     })
@@ -312,8 +276,7 @@ function buildMenus(contexts)
   if (typeof contexts !== `object`) checkArg(`contexts`, `object`, contexts)
 
   const docMatches = [`http://*/*`, `https://*/*`, `file:///*`]
-  const styles = new ListThemes()
-  const titles = new ListMenuTitles()
+  const styles = new ListThemes(), titles = new ListMenuTitles()
 
   // Remove any existing menus to avoid, undetected errors within callbacks
   chrome.contextMenus.removeAll()
@@ -410,7 +373,7 @@ function changeMenuCheckmark(key = ``)
   if (typeof key !== `string`) checkArg(`key`, `string`, key)
   else if (key.length < 1) checkRange(`key`, `length`, `1`, key.length)
   const def = new ListSettings()
-  const nv = function () {
+  const nv = () => {
     switch (localStorage.getItem(key)) {
       case `true`: return false
       case `false`: return true
@@ -460,8 +423,7 @@ function changeTheme(theme = ``)
   if (typeof theme !== `string`) checkArg(`theme`, `string`, theme)
   else if (theme.length < 1) checkRange(`theme`, `length`, `1`, theme.length)
 
-  const collection = new ListThemes()
-  const style = collection[theme]
+  const collection = new ListThemes(), style = collection[theme]
   if (typeof style !== `object`) checkErr(`theme name "${theme}" could not be found in themes()`)
   else {
     localStorage.setItem(`retroFont`, style.retroFont)
@@ -491,10 +453,7 @@ function changeToolbar(tabId = 0, isRetroTxtified = null)
   else if (isRetroTxtified === true) title = `Revert to the original text`
   else checkErr(`A non-boolean type was passed into the isRetroTxtified argument in changeToolbar()`)
   chrome.browserAction.enable(tabId)
-  chrome.browserAction.setTitle({
-    title: title,
-    tabId: tabId
-  })
+  chrome.browserAction.setTitle({ title: title, tabId: tabId })
 }
 
 function listenForDownloads(state = true)
@@ -510,15 +469,13 @@ function listenForDownloads(state = true)
   {
     checkErr(chrome.runtime.lastError, true)
 
-    const cfg = new ListDefaults()
-    const run = localStorage.getItem(`runFileDownloads`)
+    const cfg = new ListDefaults(), run = localStorage.getItem(`runFileDownloads`)
 
     if (typeof run !== `string` || run !== `true`) return // if Option is disabled, exit
 
     // we only want to monitor web downloads aka HTTP://, HTTPS://
     if (downloadItem.url !== undefined && downloadItem.url.length > 0) {
-      const schemes = [`http`, `https`]
-      const urlScheme = downloadItem.url.split(`:`)[0]
+      const schemes = [`http`, `https`], urlScheme = downloadItem.url.split(`:`)[0]
       if (schemes.includes(urlScheme) === false) return
     }
     // The supplied meta-data varies between host web servers and user browsers
@@ -544,8 +501,7 @@ function listenForDownloads(state = true)
     checkErr(chrome.runtime.lastError, true)
 
     if (downloadDelta.id === undefined) return
-    const cfg = new ListDefaults()
-    const downloadItem = sessionStorage.getItem(`download${downloadDelta.id}`)
+    const cfg = new ListDefaults(), downloadItem = sessionStorage.getItem(`download${downloadDelta.id}`)
     // only handle downloads with ids that we have saved for monitoring
     if (downloadItem === null || `${downloadDelta.id}` !== downloadItem) return
     // handle different changed states
@@ -616,9 +572,7 @@ function listenForTabs(state = true, test = false)
   function handleCreated(tab)
   // New browser tab (on-created) listener
   {
-    chrome.tabs.query({
-      'status': `complete`
-    }, function () {
+    chrome.tabs.query({ 'status': `complete` }, () => {
       if (typeof tab.status === `string`) {
         const url = tab.url
         if (url.length === 0) { /* do nothing */ }
@@ -655,7 +609,7 @@ function listenForTabs(state = true, test = false)
       'active': true,
       'lastFocusedWindow': true,
       'status': `complete`
-    }, function () {
+    }, () => {
       // console.log(tab);
       // Gecko and Firefox browsers
       if (findEngine() === `gecko`) {
@@ -709,15 +663,13 @@ function runCallback(tabid = 0, pageEncoding = ``)
   chrome.tabs.executeScript(tabid, {
     file: `functions.js`,
     runAt: `document_start`
-  },
-    // automatic execute
-    function () {
-      // to be run after this js is loaded and at the start of the document
-      chrome.tabs.executeScript(tabid, {
-        code: `runSpinLoader()`,
-        runAt: `document_start`
-      })
+  }, () => /* automatic execute */ {
+    // to be run after this js is loaded and at the start of the document
+    chrome.tabs.executeScript(tabid, {
+      code: `runSpinLoader()`,
+      runAt: `document_start`
     })
+  })
   chrome.tabs.executeScript(tabid, {
     file: `text_ecma48.js`,
     runAt: `document_start`
@@ -733,15 +685,13 @@ function runCallback(tabid = 0, pageEncoding = ``)
   chrome.tabs.executeScript(tabid, {
     file: `retrotxt.js`,
     runAt: `document_start`
-  },
-    // automatic execute
-    function () {
-      // has to be run after retrotxt.js is loaded
-      chrome.tabs.executeScript(tabid, {
-        code: `runRetroTxt(${tabid},"${pageEncoding.toUpperCase()}")`,
-        runAt: `document_end`
-      })
+  }, () => /* automatic execute */ {
+    // has to be run after retrotxt.js is loaded
+    chrome.tabs.executeScript(tabid, {
+      code: `runRetroTxt(${tabid},"${pageEncoding.toUpperCase()}")`,
+      runAt: `document_end`
     })
+  })
 }
 
 function runOnClick(tab, verbose = false)
@@ -795,18 +745,18 @@ function runParseEventUrls(menuId = ``, url = ``, tabid = 0)
   else if (url.length < 1) checkRange(`url`, `length`, `1`, url.length)
 
   // make sure that we don't attempt to process browser tabs with ftp or about/config pages
-  if (url.startsWith(`ftp://`) === true || url.startsWith(`chrome`) === true || url.includes(`://`) === false) {
-    console.info(`Aborted RetroTxt as the URI scheme of the active tab \n${url} is not based on HTTP`)
-    return
+  if (url !== chrome.extension.getURL(`welcome.ans`)) {
+    if (url.startsWith(`ftp://`) === true || url.startsWith(`chrome`) === true || url.includes(`://`) === false) {
+      console.info(`Aborted RetroTxt as the URI scheme of the active tab \n${url} is not based on HTTP`)
+      return
+    }
   }
   // get and parse the tab's url
-  const cfg = new ListDefaults()
-  const urlDomain = runParseUrlDomain(url)
-  const urlScheme = url.split(`:`)[0]
+  const cfg = new ListDefaults(), urlDomain = runParseUrlDomain(url), urlScheme = url.split(`:`)[0]
   // Option `Apply RetroTxt to any text files hosted on these websites`
   let approvedDomains = localStorage.getItem(`runWebUrlsPermitted`), approvedDomain = false
   if (typeof approvedDomains !== `string` || approvedDomains.length === 0) {
-    chrome.storage.local.get(`runWebUrlsPermitted`, function (result) {
+    chrome.storage.local.get(`runWebUrlsPermitted`, result => {
       let r = result.runWebUrlsPermitted
       if (r === undefined || r.length < 1) checkErr(`Could not obtain the required runWebUrlsPermitted setting requested by runParseEventUrls()`, true)
       else localStorage.setItem(`runWebUrlsPermitted`, r)
@@ -825,7 +775,8 @@ function runParseEventUrls(menuId = ``, url = ``, tabid = 0)
   // As the runWebRequest() function silently breaks functionality with some
   // secured website logins such as online banks. It must NEVER be run passively
   // in the eventpage.js except for preselected web domains.
-  if (urlScheme !== `file` && approvedDomain !== true) return
+  if (url === chrome.extension.getURL(`welcome.ans`)) runWebRequest(menuId, url, tabid)
+  else if (urlScheme !== `file` && approvedDomain !== true) return
   else runWebRequest(menuId, url, tabid)
 }
 
@@ -838,15 +789,8 @@ function RunParseWebHeader(xhttp, verbose = false)
   if (typeof xhttp !== `object` && typeof xhttp !== `string`) checkArg(`xhttp`, `object`, xhttp)
   if (typeof verbose !== `boolean`) checkArg(`verbose`, `boolean`, verbose)
 
-  let contentLength = 0,
-    contentType,
-    charset = null,
-    encoding,
-    responseLength,
-    responseType,
-    subtype = null,
-    splitType = null,
-    type = null
+  let contentLength = 0, contentType, charset = null, encoding, responseLength,
+    responseType, subtype = null, splitType = null, type = null
 
   if (xhttp.responseURL !== undefined) {
     responseLength = xhttp.getResponseHeader(`Content-Length`)
@@ -911,10 +855,8 @@ function RunParseWebRequest(xhttp)
   }
   // detect known markdown documents
   switch (content.subtype) {
-    case `html`: case `xml`: s.markDown = true
-      break
-    case `json`: s.dataObj = true
-      break
+    case `html`: case `xml`: s.markDown = true; break
+    case `json`: s.dataObj = true; break
     default:
       if (content.encoding === null && content.length > 1) {
         // documents starting with <! or <? are almost certainly HTML, XML, etc.
@@ -930,8 +872,7 @@ function RunParseWebRequest(xhttp)
     }
     if (content.subtype === `x-nfo`) s.plainTxt = true // an unofficial mime type for nfos
   } else {
-    // if no content type is provided then assume text/plain
-    s.plainTxt = true
+    s.plainTxt = true // if no content type is provided then assume text/plain
   }
   // These values are not parsed and are included for debugging
   this.pageSizeInBytes = content.length
@@ -951,8 +892,7 @@ function runParseUrlDomain(url = ``)
   if (typeof url !== `string`) checkArg(`url`, `string`, url)
   if (url.length < 1) checkRange(`url`, `length`, `1`, url.length)
 
-  const host = url.split(`/`)[2]
-  const parts = host.split(`.`) // convert hostname into an array
+  const host = url.split(`/`)[2], parts = host.split(`.`) // convert hostname into an array
   let domain = host
   if (parts.length > 2) {
     parts.shift() // drop the sub-domain
@@ -971,8 +911,7 @@ function runParseUrlExtensions(uri = ``, exts = [])
   if (typeof exts !== `object`) checkArg(`exts`, `array`, exts)
   else if (exts.length === 0) checkErr(`'ext' containing a collection of file name extensions is required`)
 
-  const split = uri.split(`.`)
-  const ext = split[split.length - 1]
+  const split = uri.split(`.`), ext = split[split.length - 1]
   if (exts.indexOf(ext.toLowerCase()) >= 0) return true
   return false
 }
@@ -982,7 +921,7 @@ function runStorageClear()
 {
   localStorage.clear()
   sessionStorage.clear()
-  chrome.storage.local.clear(function () {
+  chrome.storage.local.clear(() => {
     console.log(`Deleting RetroTxt saved settings`)
     checkErr(chrome.runtime.lastError)
   })
@@ -994,11 +933,10 @@ function runStorageInitialise()
   localStorage.clear()
   sessionStorage.clear()
 
-  const initialisations = new ListSettings()
-  const titles = new ListMenuTitles()
+  const initialisations = new ListSettings(), titles = new ListMenuTitles()
 
-  // Get all of RetroTxt's stored items
-  chrome.storage.local.get(null, function (result) {
+  // Get all of RetroTxt stored items
+  chrome.storage.local.get(null, result => {
     // console.log(result); // uncomment to debug
     let savedValue = ``
     // Set defaults for the text theme
@@ -1071,17 +1009,10 @@ function runWebRequest(menuId = 0, url = ``, tabid = 0)
   else if (url.length < 1) checkRange(`url`, `length`, `1`, url.length)
   if (url.includes(`://`) === false) checkErr(`url argument '${url}' is invalid as it requires a scheme, ie https://example.com`)
 
-  const fileRequest = {
-    'pageEncoding': null,
-    'retroTxtify': null
-  }
-  const urlParts = {
-    domain: runParseUrlDomain(url),
-    scheme: url.split(`:`)[0],
-  }
+  const fileRequest = { 'pageEncoding': null, 'retroTxtify': null }
+  const urlParts = { domain: runParseUrlDomain(url), scheme: url.split(`:`)[0], }
   const cfg = new ListDefaults()
-  let promise
-  let xhttp = {}
+  let promise, xhttp = {}
 
   // A hard coded black list of domains & schemes to ignore that trigger false positives or conflicts
   if (cfg.avoidDomains.includes(urlParts.domain) === true) {
@@ -1112,50 +1043,51 @@ function runWebRequest(menuId = 0, url = ``, tabid = 0)
     case `https`:
       // XMLHttpRequest() to obtain web pages including header information such
       // as page encoding and file type
-      promise = new Promise(function (resolve, reject) {
+      promise = new Promise((resolve, reject) => {
         // asynchronous handling
         xhttp = new XMLHttpRequest()
         xhttp.open(`GET`, url)
-        xhttp.onload = function () {
+        xhttp.onload = () => {
           // handle server response using HTTP status codes
           if (xhttp.status === 200) resolve(xhttp.response)
           else reject(Error(xhttp.statusText))
         }
-        xhttp.onerror = function () {
-          reject(Error(`Error fetching ${url}`))
-        }
+        xhttp.onerror = () => reject(Error(`Error fetching ${url}`))
         xhttp.send()
       })
       // Make an asynchronous request
-      promise.then(function () {
+      promise.then(() => {
         // process HTTP 200 codes (success)
         // console.log(data); // dump the website raw text to console, need to add data parameter function(data) {}
         const wrp = new RunParseWebRequest(xhttp)
         runWebRequestFinalise(wrp, menuId, url, tabid)
-      }).catch(function (e) {
-        // error
-        console.warn(e)
-      }).then(function () {
-        // post catch handling
-      }, function (error) {
-        // process all other HTTP codes replies
-        const xStatus = xhttp.status.toString()
-        // URL not found, do nothing
-        if (xhttp.status === `404`) { } // NOTE the toString conversion
-        // 4xx client error
-        else if (xStatus.startsWith(`4`)) {
-          // some servers block HTTP HEAD requests, so attempt this is unreliable fall back.
-          // we review the file name extension and determine if it is a text file.
-          const wrpErr = new RunParseWebRequest(xhttp)
-          // make sure the URL doesn't point to known text and binary files that the
-          // browser may display or play in a tab.
-          wrpErr.retroTxtify = !runParseUrlExtensions(url, cfg.avoidFileExtensions)
-          if (wrpErr.retroTxtify === true) runWebRequestFinalise(wrpErr, menuId, url, tabid)
-        }
-        // all other HTTP errors including 5xx server errors
-        else console.warn(`Unexpected server response ${xhttp.status} - ${error.message}`)
-      })
+      }).catch(e => /* error */ console.warn(e)
+        ).then(() => { /* post catch handling */ },
+        error => {
+          // process all other HTTP codes replies
+          const xStatus = xhttp.status.toString()
+          // URL not found, do nothing
+          if (xhttp.status === `404`) { } // NOTE the toString conversion
+          // 4xx client error
+          else if (xStatus.startsWith(`4`)) {
+            // some servers block HTTP HEAD requests, so attempt this is unreliable fall back.
+            // we review the file name extension and determine if it is a text file.
+            const wrpErr = new RunParseWebRequest(xhttp)
+            // make sure the URL doesn't point to known text and binary files that the
+            // browser may display or play in a tab.
+            wrpErr.retroTxtify = !runParseUrlExtensions(url, cfg.avoidFileExtensions)
+            if (wrpErr.retroTxtify === true) runWebRequestFinalise(wrpErr, menuId, url, tabid)
+          }
+          // all other HTTP errors including 5xx server errors
+          else console.warn(`Unexpected server response ${xhttp.status} - ${error.message}`)
+        })
       break
+    default:
+      if (url === chrome.extension.getURL(`welcome.ans`)) {
+        console.log(`hit`)
+        fileRequest.retroTxtify = true
+        runWebRequestFinalise(fileRequest, menuId, url, tabid)
+      }
   }
 }
 
@@ -1163,8 +1095,7 @@ function runWebRequestFinalise(r = { 'retroTxtify': false, 'pageEncoding': null 
 // This decides whether to apply RetroTxt to the active browser tab
 // using the data received from the asynchronous runWebRequest().
 {
-  const retroTxtify = r.retroTxtify
-  const urlScheme = url.split(`:`)[0]
+  const retroTxtify = r.retroTxtify, urlScheme = url.split(`:`)[0]
   let pageEncoding = r.pageEncoding
   // set the default encoding if none is provided
   if (r.pageEncoding === null && retroTxtify === true) pageEncoding = `US-ASCII`
@@ -1187,8 +1118,7 @@ function runWebRequestFinalise(r = { 'retroTxtify': false, 'pageEncoding': null 
   else {
     // if tab is holding a text file
     changeToolbar(tabid, false)
-    const fileRun = localStorage.getItem(`runFileUrls`)
-    const webRun = localStorage.getItem(`runWebUrls`)
+    const fileRun = localStorage.getItem(`runFileUrls`), webRun = localStorage.getItem(`runWebUrls`)
     switch (urlScheme) {
       // Option `Apply RetroTxt to any local text files file://`
       case `file`:
@@ -1197,21 +1127,16 @@ function runWebRequestFinalise(r = { 'retroTxtify': false, 'pageEncoding': null 
           chrome.permissions.contains({
             permissions: [`tabs`],
             origins: [`file:///*`]
-          }, function (result) {
+          }, result => {
             if (result) runCallback(tabid)
             else { /* denied permission by user settings */ }
           })
-        }
-        // Gecko support
-        else {
-          runCallback(tabid)
-        }
+        } else { runCallback(tabid) /* Gecko support */ }
         break
       // Option `Apply RetroTxt to any text files ...`
       default:
         if (typeof webRun !== `string` || webRun === `false`) return // if unchecked
         runCallback(tabid, pageEncoding)
-        break
     }
   }
 }
