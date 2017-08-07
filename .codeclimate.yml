@@ -17,7 +17,6 @@ ratings:
   - "**.css"
   - "**.html"
   - "**.js"
-  - "**.md"
 exclude_paths:
 - assets/
 - fonts/
