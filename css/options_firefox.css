@@ -1,9 +1,10 @@
 /*
   filename: options_firefox.css
 
-  Colour modifications for Firefox browsers based on the Firefox and Mozilla style guides.
+  Colour modifications for Firefox/Gecko browsers based on the Firefox and Mozilla style guides.
   Firefox: https://www.mozilla.org/en-US/styleguide/identity/firefox/color/
   Mozilla: https://www.mozilla.org/en-US/styleguide/identity/mozilla/color/
+  Photon: http://design.firefox.com/photon/visual/typography.html
 */
 
 :root {
@@ -15,7 +16,8 @@
 }
 
 #options-container {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Segoe UI, -apple-system, ubuntu;
+    font-size: 15px;
 }
 
 #sample-dos-text {
@@ -26,10 +28,8 @@
 }
 
 #status {
-    font-size: 0.5em;
-    height: 1em;
-    padding: 0;
-    padding-bottom: 1em;
+    font-size: 13px;
+    height: 2em;
 }
 
 .material-credits {
@@ -70,7 +70,7 @@ body {
 
 input[type=checkbox] {
     vertical-align: middle;
-    size: 150%;
+    size: 15px;
 }
 
 h1,
@@ -79,8 +79,8 @@ h3 {
     font-weight: normal;
 }
 
-header hr {
-    display: none;
+select {
+    font-size: 15px;
 }
 
 strong {
@@ -90,16 +90,17 @@ strong {
 nav.tab {
     background: none;
     overflow: hidden;
-    height: 2em;
-    margin-top: 1em;
+    height: 2.5em;
+    margin-top: 2em;
 }
 
 nav.tab button {
     float: left;
+    font-family: Segoe UI, -apple-system, ubuntu;
     font-size: 1em;
     border: 1px solid rgb(193, 193, 193);
     border-radius: 2px;
-    padding: 0.1em 1em 0.1em 1em;
+    padding: 0.1em 1em 0.2em 1em;
     outline: none;
     transition: 0s;
     margin: 0.25em;

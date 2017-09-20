@@ -1,5 +1,5 @@
 Document encoding: UTF-8
-RetroTxt 'Transcode text' setting: Guess (Default)
+RetroTxt 'Transcode text' setting: System guess
 File name: utf-8.txt
 
 RetroTxt UTF-8 test with no Byte Order Mark

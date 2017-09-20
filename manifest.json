@@ -1,18 +1,19 @@
 {
-    "version": "2.3.17",
-    "version_name": "2.3",
-    "minimum_chrome_version": "51",
+    "version": "2.4.20",
+    "version_name": "2.4",
+    "minimum_chrome_version": "55",
     "applications": {
         "gecko": {
             "id": "retrotxt@defacto2.net",
-            "strict_min_version": "51.0"
+            "strict_min_version": "55.0"
         }
     },
     "name": "RetroTxt",
+    "short_name": "RetroTxt",
     "description": "Turn pieces of ANSI based text art and ASCII, NFO plain text into HTML.",
     "default_locale": "en_US",
     "author": "Ben Garrett",
-    "homepage_url": "http://retrotxt.com",
+    "homepage_url": "https://retrotxt.com",
     "background": {
         "scripts": [
             "functions.js",

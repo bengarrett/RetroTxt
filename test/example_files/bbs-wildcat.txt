@@ -1,5 +1,5 @@
 @07@Document encoding: Windows-1252
-RetroTxt 'Transcode text' setting: Guess (Default)
+RetroTxt 'Transcode text' setting: System guess
 File name: bbs-wildcat.txt
 
 The start of the text MUST start with a Wildcat @??@ code

@@ -1,5 +1,5 @@
 Document encoding: Windows-1252
-RetroTxt 'Transcode text' setting: None
+RetroTxt 'Transcode text' setting: US-ASCII
 File name: cp-1252.txt
 
 RetroTxt CP-1252 test

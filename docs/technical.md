@@ -16,13 +16,13 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 
 | Character set | Support | About |
 | ------------- | ------- | ----- |
-| [US-ASCII](https://en.wikipedia.org/wiki/ISO/IEC_646) | Native | The original text encoding of the Internet, also known as ANSI X3.4 or ISO 646 |
+| [US-ASCII](https://en.wikipedia.org/wiki/ISO/IEC_646) | Browser | The original text encoding of the Internet, also known as ANSI X3.4 or ISO 646 |
 | [CP-437](https://en.wikipedia.org/wiki/Code_page_437) | Yes | The most common encoding for ASCII, ANSI art and MS-DOS text |
 | [CP-1252](https://en.wikipedia.org/wiki/Windows-1252) | Yes | Also called Windows-1252 or Windows ANSI, it's backwards compatible with ISO-8859-1 and was the default encoding for legacy Windows |
-| [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) | Native | The replacement for US-ASCII that supported twice as many characters and was the default encoding for the Commodore Amiga and legacy Linux |
-| [ISO-8859-15](https://en.wikipedia.org/wiki/ISO/IEC_8859-15) | Yes | A replacement for ISO-8859-1 that added some missing characters such as the € sign |
-| [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Native | The current standard encoding for HTML4/5 and many documents. It supports over a hundred thousand characters.
-| [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Native | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet.
+| [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) | Browser | The replacement for US-ASCII that supported twice as many characters and was the default encoding for the Commodore Amiga and legacy Linux |
+| [ISO-8859-15](https://en.wikipedia.org/wiki/ISO/IEC_8859-15) | Yes | A replacement for ISO-8859-1 that added some missing characters such as the `€` sign |
+| [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Browser | The current standard encoding for HTML4/5 and many documents. It supports over a hundred thousand characters.
+| [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Browser | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet.
 | CP-1250, CP-1251, ISO-8859-5 | Yes | Encodings that are mistakenly used by Chrome when viewing ANSI and ASCII art |
 
 ### BBS colour codes
@@ -79,8 +79,8 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 
 [SAUCE](http://www.acid.org/info/sauce/sauce.htm) created by Olivier "Tasmaniac" Reubens of ACiD is a metadata protocol for scene artworks. These are parsed by RetroTxt to determine text formatting and also authorship results shown in the _Text & font information_ header.
 
-| Name | Support | Displayed | Notes |
-| ---- | ------- | --------- | ----- |
+| Name | Used | Displayed | Notes |
+| ---- | ---- | --------- | ----- |
 | ID | Yes | No | |
 | Version | Yes | No | |
 | Title | Yes | Yes | |
@@ -102,8 +102,8 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 
 _ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer / editor how to render the image_.
 
-| Flag | Name | Support | Notes |
-| ---- | ---- | ------- | ----- |
+| Flag | Name | Used | Notes |
+| ---- | ---- | ---- | ----- |
 | B | Non-blink mode (iCE colors) | Yes | |
 | LS | Letter-spacing | Yes | A `10` value will force the usage of the VGA9 font |
 | AR | Aspect Ratio | No | |

@@ -9,11 +9,12 @@ Available for installation from both the [Chrome store](https://chrome.google.co
 - View ANSI, ASCII, NFO, PCBoard, Wildcat text art as HTML
 - RGB 16.7 million, xterm 256 and IBM VGA 16 colour support
 - Swappable ANSI palettes, xterm, VGA, cyan/magenta CGA, monochrome and toggable iCE Colors
-- Swappable ASCII & NFO font and colour themes, DOS, Windows, Amiga, C-64, Apple II, Atari ST
+- Swappable ASCII & NFO colour themes, DOS, Windows, Amiga, C-64, Apple II, Atari ST
 - SAUCE metadata parsing
 - Multiple text encodings support including CP437, ISO-8959-1, Windows-1252
 - Text rendering toggles, smeared, shadow and normal
 - Multiple IBM PC font support such as VGA, EGA, CGA, MDA plus variants and more
+- Multiple Amiga fonts plus Commodore PETSCII, Atari ATASCII, ST and Apple II
 
 ![RetroTxt showcase](/docs/assets/zii-rtxt-ad.png)
 
@@ -29,7 +30,7 @@ Available for installation from both the [Chrome store](https://chrome.google.co
 
 ### Requirements
 
-**Chrome 51** or **Firefox 51**, newer or compatible browsers.
+**Chrome 55** or **Firefox 55**, newer or compatible browsers.
 
 ## Run RetroTxt
 
@@ -62,9 +63,10 @@ RetroTxt by [Ben Garrett](http://bens.zone/) who can be reached at [Twitter @ben
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 
 - PC fonts [_The Ultimate Oldschool PC Font Pack_](http://int10h.org/oldschool-pc-fonts/) by Viler
+- Commodore Amiga fonts [_Multi Platform Fonts In Amiga Aspect v1.0_](http://www.trueschool.se/) by TrueSchool Ascii
 - Apple II font [_Print Char 21_](http://www.kreativekorp.com/software/fonts/apple2.shtml) by Kreative Korp
+- Atari ATASCI font [_Atari Classic TrueType Fonts_](http://members.bitstream.net/marksim/atarimac/fonts.html) by Mark L. Simonson
 - Atari ST font [_8x16 system font_](http://www.dafont.com/atari-st-8x16-system-font.font) by divVerent
-- Commodore Amiga font [_Amiga 4ever_](http://www.freakyfonts.de/) by ck!
 - Commodore 64 font [_C64 Pro Mono TrueType v1.2_](http://style64.org/c64-truetype) from Style
 
 Options icons by [Google Material Design](https://material.google.com/)

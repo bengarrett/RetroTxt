@@ -1,5 +1,5 @@
 Document encoding: ISO 8859-1
-RetroTxt 'Transcode text' setting: None
+RetroTxt 'Transcode text' setting: US-ASCII
 File name: iso-8859-1.txt
 
 RetroTxt ISO 8859-1 test

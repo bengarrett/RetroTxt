@@ -1,5 +1,33 @@
 # RetroTxt Changes
 
+## 2.4
+
+### September 2017
+
+- Added _Linux_ and _IBM PS/2_ context menu themes.
+- Added _Browser monospace_ font (called fixed-width in Chrome).
+- ASCII documents now obey SAUCE fontName value.
+- Redesigned some of the context menus.
+- Added a ▲ hide ▼ show toggle for the header.
+- Added 1x and 2x font size adjust toggle in the header.
+- Welcome page displays an RetroTxt updated banner that can also be turned off.
+- Requires Firefox 55.
+- Links in the header are not selectedable to stop accidental selection when clicked.
+- Replaced columns/lines statistics in header with total pixel width/length.
+- Fixed Blink engine handling of ANSI when it mistakenly sees it as ISO-8859-5 instead of Windows-1252.
+- Fixed broken preview images in `welcome.html`.
+- Fixed SAUCE font issue where it requests Amiga _Plus_ fonts but uses standard.
+- Fixed _Some wider fonts break the ASCII text document layout_.
+- Fixed SAUCE font _P0T-NOoDLE_ value not registering.
+- ANSI maximum columns are now uncapped when SAUCE `TInfo1` data is corrupted by the browser.
+- Internal optimisations.
+- - Replaced `XMLHttpRequest()` with _FetchAPI_.
+- - Dropped the generation of elements using `dom.innerHTML` = text (except in `text_ecma48.js`).
+- - Removed all remaining `var` usage.
+- - Replaced many `let` variables with `const` objects.
+- - Renamed some variables so they are clearer in their purpose.
+- - Removed some unused functions and objects.
+
 ## 2.3
 
 ### August 2017

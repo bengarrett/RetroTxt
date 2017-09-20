@@ -13,11 +13,18 @@ Installation on your browser in the [**Chrome store**](https://chrome.google.com
 ## Documentation
 
 - [Readme with installation instructions](../README.md)
+- [Common questions and trouble fixes](qa.md)
 - [Toolbar button and context menus](menus.md)
 - [Options](options.md)
-- [Common questions and trouble fixes](qa.md)
-- [Technical specifications on supported text](technical.md)
 - [Similar tools and projects](other_projects.md)
 - [Source code and how to use it](source_code.md)
+
+## Server configuration
+
+- [Configure NGINX to serve ASCII & ASCII art](nginx.md)
+
+## Information
+
+- [Technical specifications on supported text](technical.md)
 - [Version changes](changes.md)
 - [License](https://choosealicense.com/licenses/lgpl-3.0/)

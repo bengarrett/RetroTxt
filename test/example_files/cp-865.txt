@@ -1,5 +1,5 @@
 Document encoding: CP865 or CP860 or CP437 (OEM-US)
-RetroTxt 'Transcode text' setting: Guess (Default)
+RetroTxt 'Transcode text' setting: System guess
 File name: cp-865.txt
 
 RetroTxt CP-865/CP860 test

@@ -20,7 +20,7 @@ Or run the following command in a terminal.
 
 I suggest that you create a new user profile in Chrome and use that to load and edit this web extension.
 
-1. Open a new tab and type in the address `chrome://extensions/`
+1. Open a new tab and type in the address `chrome://extensions`
 1. In the Extensions, tab check to enable  __Developer Mode__
 1. Click the __Load unpacked extension...__ button
 1. Navigate to the local directory containing the RetroTxt source code and select OK
@@ -48,10 +48,8 @@ The web-ext tool is the preferred method and [has a dedicated web page](https://
 Otherwise if you prefer using Firefox Developer Edition.
 
 1. Open a new tab and type in the address `about:debugging`
-1. Select __Add-ons__
-1. Check the __Enable add-on debugging__ checkbox
 1. Click the __Load Temporary Add-on__ button and navigate to the local directory containing the RetroTxt source code
-1. Open the `manifest.json` file to finish
+1. Open the `manifest.json` file to load RetroTxt
 
 ![Font options selection](assets/sourcecode_firefox.png)
 

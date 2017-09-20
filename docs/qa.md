@@ -4,15 +4,29 @@
 
 To ask a question, report a bug or request a feature please feel free to [leave a new issue](https://github.com/bengarrett/RetroTxt/issues) on the GitHub repository or get in contact with [@bens_zone](https://twitter.com/bens_zone) on Twitter.
 
+* [Can I adjust the size of the font ?](#font-size)
+* [Can I view files stored on my computer ?](#view-files)
+* [Are the fonts and styling historically accurate ?](#font-accurate)
+* [What text encodings are supported ?](#text-encodings)
+* [Garbled text ?](#garbled)
+* [Code page tables](#cp-tables)
+
 ### Known issues
 
-* Browsers are fussy over which files they allow web extensions to autorun with, more so when displaying local texts with the `file:///` protocol.
+* A browser's [MIME sniffing](https://en.wikipedia.org/wiki/Content_sniffing) will often override RetroTxt, forcing text files to download rather than display in a tab.
+* Firefox (Gecko) will often produce incorrect MIME sniffing results with the `http(s)://` protocol.
+* Chrome (Blink) can produce incorrect MIME sniffing results with the `file:///` protocol.
+* Atari ATASCII and Commodore PETSCII art are not supported.
 
-#### Can I adjust the size of the font
+<a id="font-size"></a>
+
+### Can I adjust the size of the font ?
 
 You can change the _zoom_ of the font by using the <kbd>Ctrl</kbd> <kbd>+</kbd> and <kbd>Ctrl</kbd> <kbd>-</kbd> keys.
 
-#### Can I view files stored on my computer
+<a id="view-files"></a>
+
+### Can I view files stored on my computer ?
 
 By typing a path into the address bar, many browsers are quite happy to read files and directories stored locally on your computer.
 
@@ -30,7 +44,9 @@ In Windows to make a web browser your default text file viewer.
 1. Right-click on the file, select __Choose another app__ (_Choose default program..._ in Windows 7) under __Open with__ item
 1. Then under __Other options__ scroll down and select your browser
 
-#### Are the fonts and styling historically accurate
+<a id="font-accurate"></a>
+
+### Are the fonts and styling historically accurate ?
 
 * The extension uses TrueType fonts which are affected by the operating system font smoothing effects; ClearType on Windows, Quartz in macOS and FreeType on Linux. [Oliver Schmidhauser has a useful summary on the issue](https://oliverse.ch/technology/2016/07/16/using-pixel-fonts-in-a-browser-without-font-smoothing.html).
 
@@ -38,27 +54,31 @@ In Windows to make a web browser your default text file viewer.
 
 * The web browser and the operating system can make modifications the font width, height, and space for either accessibility or due to user applied themes.
 
-* The VGA LCD font is a bit small and had been up-sized by 1.5x. You can return these fonts to their original size by pressing <kbd>Ctrl</kbd> <kbd>-</kbd> in Chrome and reducing the font size to _67%_.
+<a id="text-encodings"></a>
 
-#### What text encodings are supported
+### What text encodings are supported ?
 
 Please see [Technical Specifications on supported text](technical.md)
 
-#### Text is garbled
+<a id="garbled"></a>
+
+### Garbled text ?
 
 There could be many causes of this, but generally, it is related to the web server or browser choosing the incorrect character encoding for the file.
-
-In [Chrome 54 or earlier](https://productforums.google.com/forum/#!topic/chrome/1sC3JN0qDkg) you can manually switch this. Click the menu icon ![Old menu icon](assets/browser_menu.png) or ![Newer menu icon](assets/browser_menu_new.png) and select __Encoding__ from the __More tools__ menu.
 
 In __Firefox__ press <kbd>ALT</kbd> <kbd>v</kbd> and select __Text Encoding__.
 
 Choose a more suitable character encoding but if you are not quite sure which one to use but the document is in English. First, try the __Unicode (UTF-8)__ then each of the other __Western__ options.
 
+Without using a 3rd-party web extension, **Chrome** has no ability to switch the character encoding.
+
 You could also try to manually switch the transcoding RetroTxt applies by right-clicking on the page and select __Transcode text__ from the __RetroTxt__ context menu.
 
 ![Context menu transcode text](assets/context_menu_transcode_text.png)
 
-#### Code page tables
+<a id="cp-tables"></a>
+
+### Code page tables
 
 * [ASCII codes](http://www.ascii-codes.com/)
 * [ASCII-1967/US-ASCII](http://0x6a.org/ASCII)

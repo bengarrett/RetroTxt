@@ -7,7 +7,7 @@
 global BuildBBS BuildCP1252 BuildCPDos BuildCP88591 BuildCP885915 BuildCPUtf8 BuildCPUtf16
 HumaniseCP BuildEcma48 BuildFontStyles ListCharacterSets ListDefaults ListRGBThemes
 buildLinksToCSS checkArg checkErr changeTextScanlines changeTextEffect handleFontName
-chrome findControlSequences displayErr runSpinLoader humaniseFS findEngine
+chrome findControlSequences displayErr runSpinLoader humaniseFS findEngine handleFontSauce
 */
 
 function BuildCharSet(s = ``)
@@ -77,7 +77,7 @@ function FindDOM()
   this.body = document.body
   this.cssLink = document.getElementById(`retrotxt-styles`)
   this.head = document.querySelector(`head`)
-  this.header = document.querySelector(`header`)
+  this.headers = document.getElementsByTagName(`header`)
   this.main = document.querySelector(`main`)
   this.pre0 = document.getElementsByTagName(`pre`)[0]
   this.pre1 = document.getElementsByTagName(`pre`)[1]
@@ -119,7 +119,7 @@ function FindSauce00(t = ``)
     this.date = t.slice(82, 90).trim() // 8 bytes
     this.TInfoS = t.slice(106, 128) // 22 bytes
     this.cType = t.slice(90, 106) // 16 bytes
-    // binary values
+    // binary values (NOTE: these values are not always accurate due to files being loaded as text)
     this.fileSize = t.slice(90, 94)
     this.dataType = t.slice(94, 95)
     this.fileType = t.slice(95, 96)
@@ -137,36 +137,32 @@ function buildDecimalSet(set = [])
 {
   if (typeof set !== `object`) checkArg(`set`, `array`, set)
 
-  let decimals = set
+  const decimals = set
   for (const d in set) {
     decimals[d] = set[d].codePointAt(0)
   }
-  decimals = decimals.filter(decimals => typeof decimals !== `undefined`) // filter out undefined decimals values
-  return decimals
+  return decimals.filter(decimals => typeof decimals !== `undefined`) // filter out undefined decimals values
 }
 
-function buildStyles(dom = new FindDOM())
+async function buildStyles(dom = new FindDOM())
 // Constructs the Document Object Model (DOM) needed to display RetroTxt
 // @dom A DOM Object that will be modified
 {
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
+  function html() {
+    if (typeof dom.pre1 === `undefined`) return dom.pre0.innerHTML
+    dom.pre1.innerHTML
+  }
+
   // Build link tags
   const theme = new ListRGBThemes()
-
   // make a <link> to point to the CSS for use with 1-bit colour themes (ASCII, NFO)
   dom.head.appendChild(buildLinksToCSS(`css/retrotxt.css`, `retrotxt-styles`)) // child 0
   // make a <link> to point to the CSS for use with 1-bit colour themes (ASCII, NFO)
   dom.head.appendChild(buildLinksToCSS(`css/text_colors.css`, `retrotxt-theme`)) // child 1
-
   // load any CSS that are used to mimic colours by the text file
-  let innerHTML = ``
-  if (typeof dom.pre1 === `undefined`) {
-    innerHTML = dom.pre0.innerHTML
-  } else {
-    innerHTML = dom.pre1.innerHTML
-  }
-  const format = findControlSequences(innerHTML)
+  const format = findControlSequences(html())
   // make <link> tags to point to CSS files for use with 4-bit colour text
   switch (format) {
     case `ecma48`:
@@ -187,7 +183,7 @@ function buildStyles(dom = new FindDOM())
   }
 }
 
-function changeColors(colorName = ``, dom = new FindDOM())
+async function changeColors(colorName = ``, dom = new FindDOM())
 // Applies background colour to the DOM <body> and colour to the <PRE> tag containing
 // the stylised text document.
 // @colorName   Colour name
@@ -196,13 +192,29 @@ function changeColors(colorName = ``, dom = new FindDOM())
   if (typeof colorName !== `string`) checkArg(`colorName`, `string`, colorName)
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
-  const engine = findEngine(), h = document.getElementsByTagName(`header`)
-  let color = colorName, filterVal = ``
+  function filter() {
+    if (engine !== `blink`) return `invert(100%)`
+    else { // work around for Chrome
+      switch (color) {
+        case `theme-windows`:
+        case `theme-atarist`: return `invert(0%)`
+        default:
+          if (color.includes(`-on-white`)) return `invert(0%)`
+          return `invert(100%)`
+      }
+    }
+  }
 
+  function theme() {
+    if (colorName.startsWith(`theme-`) === false) return `theme-${color}`
+    return colorName
+  }
+
+  const engine = findEngine()
   try {
     dom.body.className = ``
     dom.main.className = ``
-  } catch (err) { /* Some Firefox versions throw a security error when handling file:/// */ }
+  } catch (err) { /* Some Firefox/Gecko versions throw a security error when handling file:/// */ }
   // refresh scan lines and font shadows as they are effected by colour changes
   chrome.storage.local.get([`textBgScanlines`, `textEffect`], function (r) {
     if (r.textBgScanlines === undefined) checkErr(`Could not obtain the required textBgScanlines setting to apply the scanlines effect`, true)
@@ -215,36 +227,25 @@ function changeColors(colorName = ``, dom = new FindDOM())
     if (typeof tfs === `string` && tfs === `shadowed`) changeTextEffect(`shadowed`, dom.main)
   })
   // apply new colours
-  if (color.startsWith(`theme-`) === false) color = `theme-${color}`
+  const color = theme()
   if (dom.body.classList !== null) dom.body.classList.add(`${color}-bg`)
   else return // error
   if (dom.main.classList !== null) dom.main.classList.add(`${color}-fg`)
   else return // error
-  // invert header
+  // invert headers
   // white backgrounds need to be handled separately
-  if (h[0] !== null) {
-    filterVal = `invert(100%)`
-    if (engine === `blink`) { // work around for Chrome
-      switch (color) {
-        case `theme-windows`:
-        case `theme-atarist`: filterVal = `invert(0%)`; break
-        default:
-          if (color.includes(`-on-white`)) filterVal = `invert(0%)`
-      }
-    }
+  for (let h of dom.headers) {
     // deal with varying browser support (http://caniuse.com/#feat=css-filters)
-    if (h[0].style.filter !== undefined) { // Modern browsers
-      h[0].style.filter = filterVal
-    } else if (h[0].style.webkitFilter !== undefined) { // Chrome 49-55
-      h[0].style.webkitFilter = filterVal
-    } else { // Firefox 50, 51
-      h[0].style.backgroundColor = `black`
-      h[0].style.color = `white`
+    if (h === null) continue
+    if (h.style.filter !== undefined) { // Modern browsers
+      h.style.filter = filter()
+    } else if (h.style.webkitFilter !== undefined) { // Chrome <=57
+      h.style.webkitFilter = filter()
     }
   }
 }
 
-function changeFont(ff = ``, dom = new FindDOM())
+async function changeFont(ff = ``, dom = new FindDOM())
 // Applies the font family to the <PRE> tag containing the stylised text document.
 // @ff  Font family to apply
 // @dom A HTML DOM Object that will be modified
@@ -256,12 +257,12 @@ function changeFont(ff = ``, dom = new FindDOM())
   const fO = sessionStorage.getItem(`fontOverride`, `true`)
   if (typeof fO === `string` && fO === `true`) return
   // Change the font
-  let element = dom
+  const element = dom
   if (element.className === null) return // error
   if (element.classList === null) return // error
   const classAsArray = element.className.split(` `)
   const font = new BuildFontStyles(ff)
-  console.info(`Using font ${font.string}`)
+  console.info(`Using font ${font.string}.`)
   // loop through and remove any font-* classes
   let i = classAsArray.length
   while (i--) {
@@ -270,11 +271,34 @@ function changeFont(ff = ``, dom = new FindDOM())
   // inject replacement font
   element.classList.add(`font-${ff}`)
   // Update the header with new font information
-  let headerItem = window.document.getElementById(`h-doc-font-family`)
+  const headerItem = window.document.getElementById(`h-doc-font-family`)
   if (headerItem !== null) headerItem.textContent = handleFontName(ff)
 }
 
-function changeLineHeight(lh = `normal`, dom = new FindDOM())
+async function changeHeader(show = true, dom = new FindDOM())
+// Toggles between the information header and the hidden header.
+// @show  Display the information header
+// @dom A HTML DOM Object that will be modified
+{
+  if (typeof show !== `boolean`) checkArg(`show`, `boolean`, show)
+  if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
+  const h = dom.headers
+  if (typeof h[0] === `object`) {
+    switch (show) {
+      case false:
+        h[0].style.display = `none` // header-show
+        h[1].style.display = `block` // header-hide
+        break
+      case true:
+        h[0].style.display = `block`
+        h[1].style.display = `none`
+        break
+    }
+  }
+  return
+}
+
+async function changeLineHeight(lh = `normal`, dom = new FindDOM())
 // Applies line height modifications to the DOM <PRE> tag containing the stylised
 // text document.
 // @lh  Number that will be multiplied with the font size to set the line height
@@ -301,6 +325,9 @@ function charSetFind(c = ``, sauce = {}, dom = {})
       case `Amiga`: return `out_8859_1`
       case `Atari`: return `src_CP1252`
       case `IBM`: {
+        // Chrome/Blink special case when it confuses CP437 ANSI as ISO-8859-5
+        if (findEngine() === `blink` && document.characterSet === `ISO-8859-5`) return `src_8859_5`
+        // standard cases
         switch (fn[2]) {
           case `819`: return `out_8859_1` // Latin-1 Supplemental. Also known as ‘Windows-28591’ and ‘ISO/IEC 8859-1’
           default: return `out_CP437`
@@ -323,7 +350,7 @@ function charSetFind(c = ``, sauce = {}, dom = {})
         case `WINDOWS-1252`:
         case `UTF-8`: return `src_CP1252`
         default:  // unknown/unsupported encodings, we so guess but the output is most-likely to be incorrect
-          return new BuildCharSet(dom.preProcess).guess
+          return new BuildCharSet(dom.slice).guess
       }
     }
   }
@@ -342,62 +369,40 @@ function charSetRebuild(c = ``, dom = {})
     case `src_CP1250`:
     case `src_CP1251`:
     case `src_CP1252`:
-    case `src_8859_5`: return new BuildCPDos(dom.preProcess, c).text
-    case `out_CP1252`: return new BuildCP1252(dom.preProcess).text
-    case `out_8859_1`: return new BuildCP88591(dom.preProcess).text
-    case `out_8859_15`: return new BuildCP885915(dom.preProcess).text
-    case `out_UTF8`: return new BuildCPUtf8(dom.preProcess).text
-    case `out_US_ASCII`: return new BuildCPUtf16(dom.preProcess).text
+    case `src_8859_5`: return new BuildCPDos(dom.slice, c).text
+    case `out_CP1252`: return new BuildCP1252(dom.slice).text
+    case `out_8859_1`: return new BuildCP88591(dom.slice).text
+    case `out_8859_15`: return new BuildCP885915(dom.slice).text
+    case `out_UTF8`: return new BuildCPUtf8(dom.slice).text
+    case `out_US_ASCII`: return new BuildCPUtf16(dom.slice).text
     default:
       checkErr(`'${c}' is not a valid charSetRebuild() identifier`, true)
   }
 }
 
-function findPageColumns(text = ``)
-// Calculate the number of columns (characters per line) in use by the text
-// Regular expression sourced from
-// http://stackoverflow.com/questions/8802145/replace-html-entities-with-regular-expression
-// @text A required string of text
-{
-  if (typeof text !== `string`) checkArg(`text`, `string`, text)
-
-  const cols = new ListDefaults().columns // default 80 columns
-  const rFindEnt = new RegExp(/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/igm) // find HTML entities
-  const splitTxt = text.split(/\r\n|\r|\n/) // split original text into lines
-  let len = 0, spacedTxt = ``
-  for (let i in splitTxt) {
-    spacedTxt = splitTxt[i].replace(rFindEnt, ` `).trim() // replace HTML entities with spaces
-    if (len < spacedTxt.length) len = spacedTxt.length
-  }
-  // console.log("Columns actual count: " + len);
-  if (len <= 40) return 40
-  else if (len <= cols) return cols // do nothing & keep cols as default
-  else return len
-}
-
-function findSAUCE(text = { original: `` }, length = 0)
+function findSAUCE(src = { text: ``, length: 0 })
 // Looks for and parses a SAUCE (metadata) record from the text
 // more information, http://www.acid.org/info/sauce/sauce.htm
 {
-  if (typeof text !== `object`) checkArg(`text`, `object`, text)
-  if (typeof text.original !== `string`) checkArg(`text.original`, `string`, text.original)
-  if (typeof length !== `number`) checkArg(`length`, `number`, length)
+  if (typeof src !== `object`) checkArg(`text`, `object`, src)
+  if (typeof src.text !== `string`) checkArg(`text.original`, `string`, src.original)
+  if (typeof src.length !== `number`) checkArg(`length`, `number`, src.length)
 
   // To reduce the memory footprint when handling large text files, we pass an object to `text`
   // pointing to the original text instead of duplicating the text using a (primitive) string.
 
   // scan the last 500 characters of the text for a SAUCE identifier
-  const search = text.original.slice(length - 500, length)
+  const search = src.text.slice(src.length - 500, src.length)
   const start = search.indexOf(`SAUCE00`) - 500
   const comntStart = search.lastIndexOf(`COMNT`)
   // data containers
-  const texts = { sauce: text.original.slice(start, length) }
+  const texts = { sauce: src.text.slice(start, src.length) }
   const configs = { flags: `00000000`, iceColors: `0`, letterSpacing: `00`, aspectRatio: `00`, fontName: ``, length: 0, width: 0 }
   const dates = { ccyymmdd: `00000000`, year: 0, month: 0, day: 0 }
   const positions = {
-    length: length,
-    sauceIndex: length + start,
-    comntIndex: length - comntStart,
+    length: src.length,
+    sauceIndex: src.length + start,
+    comntIndex: src.length - comntStart,
   }
   // binary zero is represented as unicode code point 65533 (�), named as 'replacement character'
   const rBin0 = new RegExp(String.fromCharCode(65533), `g`) // a pattern to find all binary zeros
@@ -413,8 +418,6 @@ function findSAUCE(text = { original: `` }, length = 0)
     config: configs,
     position: positions,
   }
-  let len = 0
-
   // when no SAUCE identifier is found
   if (data.id !== `SAUCE00`) {
     positions.length = 0
@@ -422,7 +425,6 @@ function findSAUCE(text = { original: `` }, length = 0)
     positions.comntIndex = 0
     return results
   }
-
   // handle the date
   dates.ccyymmdd = data.date
   dates.year = parseInt(data.date.slice(0, 4))
@@ -431,7 +433,7 @@ function findSAUCE(text = { original: `` }, length = 0)
   // handle ANSiFlags
   // see http://www.acid.org/info/sauce/sauce.htm#ANSiFlags
   configs.flags = data.TFlags.charCodeAt(0).toString(2) // get binary representation of character
-  len = configs.flags.length
+  const len = configs.flags.length
   if (len < 8) { // pad with leading 0s to make an 8-bit binary string
     configs.flags = `0`.repeat(8 - len) + configs.flags
   }
@@ -443,14 +445,13 @@ function findSAUCE(text = { original: `` }, length = 0)
   // document length (ignored) & width
   if (typeof TextEncoder === `function`) {
     // see http://ourcodeworld.com/articles/read/164/how-to-convert-an-uint8array-to-string-in-javascript
-    let uea = new TextEncoder(`ascii`).encode(data.TInfo1.replace(rBin0, ``)[0])
+    const uea = new TextEncoder(`ascii`).encode(data.TInfo1.replace(rBin0, ``)[0])
     configs.width = parseInt(uea, 10)
   }
   // comments
   if (comntStart > -1 && (comntStart - start) < (255 * 64)) {
     results.comment = search.slice(comntStart + `COMNT`.length, start)
   }
-
   return results
 }
 
@@ -470,7 +471,7 @@ function formatSAUCE(s = {})
     joiner: `by `,
   }
   let str = ``
-
+  // parse data
   if (s.version !== `00`) return ``
   if (s.title.trim() !== ``) str = `${str} '${s.title}' `
   if (s.author.trim() !== ``) {
@@ -487,9 +488,23 @@ function formatSAUCE(s = {})
       else str = `Dated ${d.year} ${d.string} `
     }
   }
-  if (str.length > 0) str = `<div id="SAUCE00-metadata"> ${str}</div> `
-  if (s.comment.trim() !== ``) str = `${str}\n<div id="SAUCE00-comment"><em>${s.comment.trim()}</em></div> `
-  return str
+  // create elements
+  const div = document.createElement(`div`)
+  const sauce = document.createElement(`span`)
+  sauce.id = `SAUCE00-metadata`
+  sauce.textContent = str.trim()
+  const commt = document.createElement(`span`)
+  commt.id = `SAUCE00-comment`
+  const em = document.createElement(`em`)
+  em.textContent = s.comment.trim()
+  commt.appendChild(em)
+  if (str.length <= 0) return null
+  div.appendChild(sauce)
+  if (s.comment.trim() !== ``) {
+    commt.style = `display:block;`
+    div.appendChild(commt)
+  }
+  return div
 }
 
 function findUnicode(s = ``)
@@ -506,13 +521,12 @@ function findUnicode(s = ``)
     chr2 = mark.charCodeAt(1).toString(16).toLowerCase(),
     chr3 = mark.charCodeAt(2).toString(16).toLowerCase(),
     chr4 = mark.charCodeAt(3).toString(16).toLowerCase()
-  let description = ``
-  if (chr1 === `ef` && chr2 === `bb` && chr3 === `bf`) description = `UTF-8`
-  else if (chr1 === `ff` && chr2 === `fe`) description = `UTF-16, little endian`
-  else if (chr1 === `fe` && chr2 === `ff`) description = `UTF-16, big endian`
-  else if (chr1 === `ff` && chr2 === `fe` && chr3 === `00` && chr4 === `00`) description = `UTF-32, little endian`
-  else if (chr1 === `00` && chr2 === `00` && chr3 === `fe` && chr4 === `ff`) description = `UTF-32, little endian`
-  return description
+  if (chr1 === `ef` && chr2 === `bb` && chr3 === `bf`) return `UTF-8`
+  else if (chr1 === `ff` && chr2 === `fe`) return `UTF-16, little endian`
+  else if (chr1 === `fe` && chr2 === `ff`) return `UTF-16, big endian`
+  else if (chr1 === `ff` && chr2 === `fe` && chr3 === `00` && chr4 === `00`) return `UTF-32, little endian`
+  else if (chr1 === `00` && chr2 === `00` && chr3 === `fe` && chr4 === `ff`) return `UTF-32, little endian`
+  return ``
 }
 
 function handleChanges(change)
@@ -532,7 +546,7 @@ function handleChanges(change)
     dosCtrls: change.textDosCtrlCodes,
     iceColors: change.textAnsiIceColors,
   }
-  let dom = new FindDOM()
+  const dom = new FindDOM()
 
   // handle objects that only need to set local storage
   if (changes.iceColors) {
@@ -541,7 +555,6 @@ function handleChanges(change)
   if (changes.dosCtrls) {
     localStorage.setItem(`textDosCtrlCodes`, changes.dosCtrls.newValue)
   }
-
   // font
   if (changes.font) {
     changeFont(changes.font.newValue, dom.pre0)
@@ -570,22 +583,15 @@ function handleChanges(change)
   }
   // text effect
   if (changes.effect && typeof dom.main === `object`) {
-    changeTextEffect(changes.effect.newValue, dom.main)
-    return
+    return changeTextEffect(changes.effect.newValue, dom.main)
   }
   // line height
   if (changes.lineHeight) {
-    changeLineHeight(changes.lineHeight.newValue, dom)
-    return
+    return changeLineHeight(changes.lineHeight.newValue, dom)
   }
   // information text
   if (changes.info) {
-    const h = document.getElementsByTagName(`header`)[0]
-    if (typeof h === `object`) {
-      if (!changes.info.newValue) h.style.display = `none`
-      else h.style.display = `block`
-    }
-    return
+    return changeHeader(changes.info.newValue, dom)
   }
   // centre, vertical & horizontal alignment
   if (changes.alignment) {
@@ -610,7 +616,14 @@ function handleMessages(message)
 // Handle messages passed on by functions in eventpage.js
 // @message An object created by chrome.runtime.onMessage
 {
-  if (message.id === undefined) { other(); return }
+  function other() {
+    console.warn(`This unexpected message was received by handleMessages()`)
+    console.warn(message)
+  }
+  if (message.id === undefined) {
+    other()
+    return
+  }
   switch (message.id) {
     case `transcode`:
       sessionStorage.setItem(`transcode`, message.action)
@@ -619,9 +632,22 @@ function handleMessages(message)
     case `checkErr`: displayErr(); break // display error alert box on active tab
     default: other(); break
   }
-  function other() {
-    console.warn(`This unexpected message was received by handleMessages()`)
-    console.warn(message)
+}
+
+function humaniseTC(code = ``)
+// Humanise transcode values for display with the <header>
+// @code Session storage `transcode` value
+{
+  switch (code) {
+    // src
+    case `codeMsDos0`: return `CP1252`
+    case `codeMsDos1`: return `ISO8859-5`
+    // out
+    case `codeLatin9`: return `ISO8859-15`
+    case `codeNone`: return `US-ASCII`
+    case `codeWindows`: return `CP1252`
+    case `codeAutomatic`:
+    default: return ``
   }
 }
 
@@ -633,10 +659,7 @@ function switch2HTML(dom = new FindDOM())
   chrome.storage.local.get(`textFontInformation`, result => {
     const r = result.textFontInformation
     if (r === undefined) checkErr(`Could not obtain the required textFontInformation setting to apply text font information feature`, true)
-    else if (typeof r === `boolean`) {
-      if (r === false) dom.header.style.display = `none`
-      else dom.header.style.display = `block`
-    }
+    else if (typeof r === `boolean`) changeHeader(r, dom)
   })
   dom.pre1.style.display = `none`
   dom.pre0.style.display = `block`
@@ -652,19 +675,21 @@ function switch2PlainText(dom = new FindDOM())
 {
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
-  const ignoredSchemes = [`chrome-extension`, `moz-extension`]
+  const ignored = [`chrome-extension`, `moz-extension`]
   const urlScheme = window.location.protocol.split(`:`)[0]
-  // skip URLs that match `ignoredSchemes`
-  let removeCSSChildren = true
-  for (const i of ignoredSchemes) {
-    if (urlScheme.includes(i)) removeCSSChildren = false
+  // skip URL schemes that match `ignored`
+  for (const i of ignored) {
+    if (urlScheme.includes(i)) return
   }
-  if (removeCSSChildren === false) return
   // hide classes
   changeTextScanlines(false, dom.body)
   // hide page style customisations
   if (dom.preCount >= 2) {
-    if (dom.header !== null) dom.header.style.display = `none`
+    if (dom.headers !== null) {
+      for (const h of dom.headers) {
+        h.style.display = `none`
+      }
+    }
     dom.pre0.style.display = `none`
     dom.pre1.style.display = `block`
   } else if (typeof dom.pre0 !== `undefined`) {
@@ -685,22 +710,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   if (typeof tabId !== `number`) checkArg(`tabId`, `number`, tabId)
   if (typeof pageEncoding !== `string`) checkArg(`pageEncoding`, `string`, pageEncoding)
 
-  // Monitor saved changes to Options for document rendering options,
-  // as localStorage set in eventpage.js is inaccessible from retrotxt.js.
-  // chrome.storage.onChanged.addListener((changes) => {
-  //   const changedItems = Object.keys(changes)
-  //   let newValue = ``
-  //   for (let item of changedItems) {
-  //     newValue = changes[item].newValue
-  //     switch (item) {
-  //       case `textAnsiIceColors`:
-  //       case `textDosCtrlCodes`:
-  //         localStorage.setItem(item, newValue)
-  //         break
-  //     }
-  //   }
-  // })
-
+  //console.log(`runRetroTxt(${tabId}, ${pageEncoding})`)
   const dom = new FindDOM()
   // context menu onclick listener
   chrome.runtime.onMessage.addListener(handleMessages)
@@ -722,32 +732,27 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     function err(id) {
       checkErr(`Could not obtain the required ${id} setting to apply execute RetroTxt`, true)
     }
-    let dom = new FindDOM(), r
+    const dom = new FindDOM()
+    const r = result
     // line height choice
-    r = result.lineHeight
-    if (typeof r === `string`) changeLineHeight(r, dom)
+    if (typeof r.lineHeight === `string`) changeLineHeight(r.lineHeight, dom)
     else err(`lineHeight`)
     // colour choices
-    r = result.retroColor
-    if (typeof r === `string`) changeColors(r, dom)
+    if (typeof r.retroColor === `string`) changeColors(r.retroColor, dom)
     else err(`retroColor`)
     // font selection
-    r = result.retroFont
-    if (typeof r === `string`) changeFont(r, dom.pre0)
+    if (typeof r.retroFont === `string`) changeFont(r.retroFont, dom.pre0)
     else err(`retroFont`)
     // scan lines
-    r = result.textBgScanlines
-    if (typeof r === `boolean` && r === true) changeTextScanlines(r, dom.body)
-    else if (typeof r !== `boolean`) err(`textBgScanlines`)
+    if (typeof r.textBgScanlines === `boolean` && r.textBgScanlines === true) changeTextScanlines(r.textBgScanlines, dom.body)
+    else if (typeof r.textBgScanlines !== `boolean`) err(`textBgScanlines`)
     // centre alignment of text
-    r = result.textCenterAlignment
-    if (typeof r === `boolean` && r === true) {
+    if (typeof r.textCenterAlignment === `boolean` && r.textCenterAlignment === true) {
       dom.main.style.margin = `auto` // vertical & horizontal alignment
-    } else if (typeof r !== `boolean`) err(`textCenterAlignment`)
+    } else if (typeof r.textCenterAlignment !== `boolean`) err(`textCenterAlignment`)
     // text effect
-    r = result.textEffect
-    if (typeof r === `string`) changeTextEffect(r, dom.main)
-    else if (typeof r !== `string`) err(`textEffect`)
+    if (typeof r.textEffect === `string`) changeTextEffect(r.textEffect, dom.main)
+    else if (typeof r.textEffect !== `string`) err(`textEffect`)
   })
 
   // Stylise text document
@@ -756,41 +761,53 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   // tell a listener in eventpage.js that the body of this tab has been modified
   chrome.runtime.sendMessage({ retroTxtified: true })
 
-  // Create a copy of the text documentfor applying styles.
+  // Default configurations
   const reset = new ListDefaults()
-  const srcText = { original: dom.pre0.innerHTML } // use an object instead of a string type to reduce `srcText` memory footprint
-  const srcMeta = {
-    BOM: findUnicode(srcText.original),
-    chrSet: document.characterSet,
-    encoding: pageEncoding,
-    format: findControlSequences(srcText.original),
-    length: srcText.original.length
+  // Data object
+  const dataObj = { cs: ``, cp: {}, errs: null, html: ``, oths: null, sauce: null }
+  dataObj.errs = 0 // ecma48 unknown csi count
+  dataObj.oths = 0 // ecma48 other and ignored csi count
+  // ECMA48 (ansi) data object
+  let ecma48Data = {}
+  // Input source text
+  const inputSrc = { BOM: ``, chrSet: ``, encoding: ``, format: null, length: null, text: ``, }
+  inputSrc.chrSet = document.characterSet
+  inputSrc.encoding = pageEncoding
+  inputSrc.text = dom.pre0.innerHTML
+  inputSrc.BOM = findUnicode(inputSrc.text)
+  inputSrc.format = findControlSequences(inputSrc.text)
+  inputSrc.length = inputSrc.text.length
+  // Browser elements
+  const outputDOM = { header: null, main: null, pre: null, slice: ``, innerHTML: ``, columns: null, rows: null, }
+  outputDOM.headerShow = document.createElement(`header`)
+  outputDOM.headerShow.id = `header-show`
+  outputDOM.headerHide = document.createElement(`header`)
+  outputDOM.headerHide.id = `header-hide`
+  outputDOM.main = document.createElement(`main`)
+  outputDOM.pre = document.createElement(`pre`)
+  outputDOM.slice = inputSrc.text
+  outputDOM.columns = 80 // assume 80 for all text formats
+  outputDOM.rows = 0
+  // <header> element object
+  const hd = {
+    sep: ` - `, pad: ` `, // separator, padding
+    area: document.createElement(`span`),
+    cursor: document.createElement(`span`),
+    encode: document.createElement(`span`),
+    errors: document.createElement(`div`),
+    font: document.createElement(`span`),
+    ice: document.createElement(`span`),
+    ice_btn: document.createElement(`strong`),
+    palette: document.createElement(`strong`),
+    render: document.createElement(`strong`),
+    size: document.createElement(`span`),
+    txt_adj: document.createElement(`strong`),
+    ui: document.createElement(`strong`),
   }
-  const newDOM = {
-    header: document.createElement(`header`),
-    main: document.createElement(`main`),
-    pre: document.createElement(`pre`),
-    preProcess: srcText.original,
-    innerHTML: ``,
-    columns: 80, // assume 80 for all text formats
-    rows: 0,
+  // hidden <header> element object
+  const hdh = {
+    ui: document.createElement(`strong`),
   }
-  const rev1Text = { charSet: ``, codePage: {}, innerHTML: ``, length: 0, sessCharSet: ``, }
-  const tfi = {//${newDOM.columns} ${newDOM.rows} ${humaniseFS(srcMeta.length)}
-    template: `<span title="Columns of text">♥</span> x <span title="Lines of text">♦</span> \
-<span title="Number of characters contained in the text">♣</span> -`,
-    ansi: `<span id="h-doc-fmt" title="ECMA-48/ANSI X3.64 presentation control and cursor functions">ANSI</span>`,
-    body: ``,
-    colors: ``,
-    fontName: `<span title="Font family used for display" id="h-doc-font-family">♠</span>`,
-    palette: `<strong id="h-palette" title="Switch ANSI ${chrome.i18n.getMessage(`color`)} palettes">IBM</strong> palette,`,
-    render: `<strong id="h-text-rend" title="Switch between text render methods">??</strong>`,
-    sauce: ``,
-    tail: ``,
-    errs: 0, // unknown csi
-    oths: 0, // other, ignored csi
-  }
-  let colorLink, ecma48Data = {}
 
   // options and store them as synchronous sessionStorage
   chrome.storage.local.get([`textDosCtrlCodes`], result => {
@@ -809,51 +826,55 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
 
   /* SAUCE - Standard Architecture for Universal Comment Extensions */
   // http://www.acid.org/info/sauce/sauce.htm
-  const sauce00 = findSAUCE(srcText, srcMeta.length)
+
+  const sauce00 = findSAUCE(inputSrc)
   switch (sauce00.version) {
     case `00`:
-      tfi.sauce = formatSAUCE(sauce00) // creates HTML
+      dataObj.sauce = formatSAUCE(sauce00) // creates HTML
       // remove sauce record from text
       if (sauce00.position.comntIndex > 0 && sauce00.position.comntIndex < sauce00.position.sauceIndex) {
-        newDOM.preProcess = srcText.original.slice(0, sauce00.position.comntIndex)
+        // re-evaluate location of COMNT and remove it from text
+        const cmnt = inputSrc.text.lastIndexOf(`COMNT`)
+        outputDOM.slice = inputSrc.text.slice(0, cmnt)
       }
-      else newDOM.preProcess = srcText.original.slice(0, sauce00.position.sauceIndex)
-      // determine character set
+      else {
+        // re-evaluate location of SAUCE and remove it from text
+        const sauce = inputSrc.text.lastIndexOf(`SAUCE00`)
+        outputDOM.slice = inputSrc.text.slice(0, sauce)
+      }
       break
     default:
-      newDOM.preProcess = srcText.original
+      outputDOM.slice = inputSrc.text
   }
-  //console.log(sauce00)
 
   // document and page encoding
-  if (srcMeta.BOM.length > 0) srcMeta.encoding = srcMeta.BOM
+  if (inputSrc.BOM.length > 0) inputSrc.encoding = inputSrc.BOM
   // determine character set
-  rev1Text.charSet = charSetFind(sessionStorage.getItem(`transcode`), sauce00, newDOM)
-  rev1Text.codePage = new HumaniseCP(rev1Text.charSet)
+  dataObj.cs = charSetFind(sessionStorage.getItem(`transcode`), sauce00, outputDOM)
+  dataObj.cp = new HumaniseCP(dataObj.cs)
   // rebuild text with new character encoding
-  rev1Text.innerHTML = charSetRebuild(rev1Text.charSet, newDOM)
+  dataObj.html = charSetRebuild(dataObj.cs, outputDOM)
   // count number of rows (lines)
-  newDOM.rows = rev1Text.innerHTML.trim().split(/\r\n|\r|\n/).length
-  // 2.3: Disabled due to JS generated character entities causing false positives
-  // if (rev1Text.innerHTML.length < newDOM.preProcess.length) {
-  //   // the converted text should be at least the same size as the original
-  //   checkErr(`Text did not convert correctly, the size of parsed text is ${rev1Text.innerHTML.length} characters, it is smaller than original text of ${newDOM.preProcess.length} characters`, true)
-  // }
+  outputDOM.rows = dataObj.html.trim().split(/\r\n|\r|\n/).length
 
   // handle non-ASCII text formatting
   const theme = new ListRGBThemes()
-  switch (srcMeta.format) {
+  const rgt = new RegExp(`&gt;`, `gi`)
+  const rlt = new RegExp(`&lt;`, `gi`)
+  const ramp = new RegExp(`&amp;`, `gi`)
+  switch (inputSrc.format) {
     case `ecma48`: // ECMA-48 aka ANSI encoded text
       console.info(`%c%cECMA-48%c control sequences in use`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
       //console.time(`BuildEcma48()`)
-      // These variables are isolated to the RetroTxt content scripts
-      ecma48Data = new BuildEcma48(rev1Text.innerHTML, sauce00, false, false)
+      // These objects are isolated to the RetroTxt content scripts
+      ecma48Data = new BuildEcma48(dataObj.html, sauce00, false, false)
       //console.timeEnd(`BuildEcma48()`)
-      newDOM.columns = ecma48Data.columns
-      newDOM.rows = ecma48Data.rows
-      rev1Text.innerHTML = ecma48Data.innerHTML
-      tfi.oths = ecma48Data.otherCodesCount
-      tfi.errs = ecma48Data.unknownCount
+      if (ecma48Data.columns === 999 && sauce00.config.width >= 180) outputDOM.columns = null
+      else outputDOM.columns = ecma48Data.columns
+      outputDOM.rows = ecma48Data.rows
+      dataObj.html = ecma48Data.innerHTML
+      dataObj.oths = ecma48Data.otherCodesCount
+      dataObj.errs = ecma48Data.unknownCount
       // handle Set/Restore Mode functionality
       // font override
       sessionStorage.removeItem(`fontOverride`)
@@ -861,69 +882,122 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
         checkErr(`'ecma48Data.font' should have returned a font value or 'null' but instead returned ${ecma48Data.font}`)
       } else if (ecma48Data.font !== null) {
         //console.log(`Set mode font override to ${ecma48Data.font.toUpperCase()}`)
-        changeFont(ecma48Data.font, newDOM.pre) // this needs to run before setting the sessionStorage
+        changeFont(ecma48Data.font, outputDOM.pre) // this needs to run before setting the sessionStorage
         sessionStorage.setItem(`fontOverride`, `true`)
       }
       // color depth
       //ecma48Data.colorDepth = 8 // uncomment to test
+      // handle 4-bit stylesheet
       switch (ecma48Data.colorDepth) {
-        case 24:
-        case 8:
+        case 24: case 8:
           theme.color = 2 // enforce the use of the xterm palette instead of ibm vga
           document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}.css`)
+          break
+        case 1: document.getElementById(`retrotxt-4bit`).remove(); break
+        case 2: document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_cga.css`); break
+        case 0: document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_gray.css`); break
+      }
+      // handle 8-bit stylesheet
+      switch (ecma48Data.colorDepth) {
+        case 24: case 8: break
+        default: document.getElementById(`retrotxt-8bit`).remove()
+      }
+      // build palette html element
+      hd.palette.id = `h-palette`
+      if (ecma48Data.colorDepth !== 4) hd.palette.style = `font-weight:normal;`
+      switch (ecma48Data.colorDepth) {
+        case 24: case 8:
           if (ecma48Data.colorDepth === 8) {
-            tfi.palette = `<span title="A range of 256 ${chrome.i18n.getMessage(`color`)}s using the xterm palette">xterm 8-bit</span>,`
+            hd.palette.title = `A range of 256 ${chrome.i18n.getMessage(`color`)}s using the xterm palette`
+            hd.palette.textContent = `xterm 8-bit`
           } else {
-            tfi.palette = `<span title="A range of 16.7 million ${chrome.i18n.getMessage(`color`)}s using the RGB true ${chrome.i18n.getMessage(`color`)} palette">RGB 24-bit</span>,`
+            hd.palette.title = `A range of 16.7 million ${chrome.i18n.getMessage(`color`)}s using the RGB true ${chrome.i18n.getMessage(`color`)} palette`
+            hd.palette.textContent = `RGB`
           }
           break
         case 4:
-          document.getElementById(`retrotxt-8bit`).remove(); break
-        case 2:
-          document.getElementById(`retrotxt-8bit`).remove()
-          colorLink = document.getElementById(`retrotxt-4bit`)
-          colorLink.href = chrome.extension.getURL(`css/text_colors_cga.css`)
-          tfi.colors += `4 ${chrome.i18n.getMessage(`color`)} magenta,`
+          hd.palette.title = `Switch ANSI ${chrome.i18n.getMessage(`color`)} palettes`
+          hd.palette.textContent = `IBM`
           break
-        case 1:
-          document.getElementById(`retrotxt-4bit`).remove()
-          document.getElementById(`retrotxt-8bit`).remove()
-          tfi.colors += `2 ${chrome.i18n.getMessage(`color`)} ASCII,`
-          break
-        case 0:
-          document.getElementById(`retrotxt-8bit`).remove()
-          colorLink = document.getElementById(`retrotxt-4bit`)
-          colorLink.href = chrome.extension.getURL(`css/text_colors_gray.css`)
-          tfi.colors += `monochrome,`
-          break
-        default:
+        case 2: hd.palette.textContent = `4 ${chrome.i18n.getMessage(`color`)} magenta`; break
+        case 1: hd.palette.textContent = `2 ${chrome.i18n.getMessage(`color`)} ASCII`; break
+        case 0: hd.palette.textContent = `monochrome`; break
       }
       // iCE colors
-      tfi.colors = `- ${tfi.palette} ${tfi.colors} <span id="ice-colors-toggle" title="Toggle between blinking mode or static background ${chrome.i18n.getMessage(`color`)}">iCE colors <strong>??</strong></span> `
+      hd.ice_btn.textContent = `??`
+      hd.ice.id = `ice-colors-toggle`
+      hd.ice.title = `Toggle between blinking mode or static background ${chrome.i18n.getMessage(`color`)}`
+      hd.ice.textContent = `iCE colors `
+      hd.ice.appendChild(hd.ice_btn)
       if (ecma48Data.iceColors === true) {
         dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
       }
+      // inject text into the browser tab
+      outputDOM.pre.innerHTML = dataObj.html
       break
     case `pcboard`: // converts PCBoard and WildCat! BBS colour codes into HTML and CSS
     case `wildcat`:
-      console.info(`%c%c${chrome.i18n.getMessage(srcMeta.format)}%c ${chrome.i18n.getMessage(`color`)} codes`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
-      rev1Text.innerHTML = BuildBBS(rev1Text.innerHTML, srcMeta.format, false)
-    // break omitted
-    default: // plain and ASCII text
-      // append a blinking cursor to the text
-      // do not trim text or the layouts of ASCII files may break
-      rev1Text.innerHTML = `${rev1Text.innerHTML}<span class="dos-cursor">_</span>`
+      console.info(`%c%c${chrome.i18n.getMessage(inputSrc.format)}%c ${chrome.i18n.getMessage(`color`)} codes`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
+      outputDOM.pre = BuildBBS(dataObj.html, inputSrc.format, false)
+      break
+    default:
+      // replace escaped chars because we're using <pre>
+      dataObj.html = dataObj.html.replace(rgt, `>`)
+      dataObj.html = dataObj.html.replace(rlt, `<`)
+      dataObj.html = dataObj.html.replace(ramp, `&`)
+      // inject text into the browser tab
+      // TODO outputDOM.pre = dataObj.html
+      outputDOM.pre.textContent = dataObj.html
   }
-
-  // inject text into the browser tab
-  newDOM.pre.innerHTML = rev1Text.innerHTML
-
+  // apply a blinking cursor
+  hd.cursor.classList.add(`dos-cursor`)
+  hd.cursor.textContent = `_`
+  outputDOM.pre.appendChild(hd.cursor)
   // reveal the text font information header
   chrome.storage.local.get(`textFontInformation`, result => {
-    // reveal or hide header?
+    // ice color toggle functions
+    function iceToggle() {
+      ecma48Data.iceColors = !ecma48Data.iceColors
+      switch (ecma48Data.iceColors) {
+        case true: iceColorsOn(); break
+        default: iceColorsOff()
+      }
+    }
+    function iceColorsOn() {
+      const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
+      const palette = document.getElementById(`h-palette`)
+      if (iceCSS !== null) return
+      const theme = new ListRGBThemes()
+      if (palette !== null) {
+        switch (palette.innerHTML) {
+          case `IBM`: theme.color = 1; break
+          case `xterm`: theme.color = 2; break
+          case `IBM CGA`: theme.color = 3; break
+          default: theme.color = 0
+        }
+      }
+      dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
+      iceColors.childNodes[1].innerHTML = `On`
+    }
+    function iceColorsOff() {
+      const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
+      if (iceCSS !== null) iceCSS.remove()
+      iceColors.childNodes[1].innerHTML = `Off`
+    }
+    // reveal or hide header
+    const tHide = document.getElementById(`h-ui-toggle-hide`)
+    const tShow = document.getElementById(`h-ui-toggle-show`)
+    if (tHide !== null) {
+      tHide.onclick = () => changeHeader(true, dom)
+    }
+    if (tShow !== null) {
+      tShow.onclick = () => changeHeader(false, dom)
+    }
     switch (result.textFontInformation) {
-      case false: newDOM.header.style.display = `none`; break
-      case true: newDOM.header.style.display = `block`; break
+      case false:
+      case true: {
+        changeHeader(result.textFontInformation); break
+      }
       default: checkErr(`Could not obtain the required textFontInformation setting to reveal text font information`, true)
     }
     // text render
@@ -931,19 +1005,18 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     if (textRender !== null) {
       textRender.onclick = function () {
         switch (this.innerHTML) {
-          case `Normal`: changeTextEffect(`smeared`, dom.body.childNodes[2]); break
-          case `Smeared`: changeTextEffect(`shadowed`, dom.body.childNodes[2]); break
-          default: changeTextEffect(`normal`, dom.body.childNodes[2])
+          case `Normal`: changeTextEffect(`smeared`, dom.body.childNodes[3]); break
+          case `Smeared`: changeTextEffect(`shadowed`, dom.body.childNodes[3]); break
+          default: changeTextEffect(`normal`, dom.body.childNodes[3])
         }
       }
     }
     // palette
     const palette = document.getElementById(`h-palette`)
-    let link = ``
     if (palette !== null && ecma48Data.colorDepth === 4) {
       palette.onclick = function () {
         const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
-        let theme = new ListRGBThemes()
+        const theme = new ListRGBThemes()
         switch (this.innerHTML) {
           case `IBM`: // 1
             palette.textContent = `xterm`
@@ -962,12 +1035,11 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
             theme.color = 1
         }
         // update palette link
-        link = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}.css`)
+        const link = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}.css`)
         document.getElementById(`retrotxt-4bit`).href = link
         // update ice colors link
         if (iceCSS !== null) {
-          link = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}-ice.css`)
-          iceCSS.href = link
+          iceCSS.href = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}-ice.css`)
         }
       }
     }
@@ -984,116 +1056,236 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
           iceColors.onclick = iceToggle
       }
     }
-    // ice color toggle functions
-    function iceToggle() {
-      ecma48Data.iceColors = !ecma48Data.iceColors
-      switch (ecma48Data.iceColors) {
-        case true: iceColorsOn(); break
-        default: iceColorsOff()
-      }
-    }
-    function iceColorsOn() {
-      const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
-      const palette = document.getElementById(`h-palette`)
-      if (iceCSS !== null) return
-      let theme = new ListRGBThemes()
-      if (palette !== null) {
-        switch (palette.innerHTML) {
-          case `IBM`: theme.color = 1; break
-          case `xterm`: theme.color = 2; break
-          case `IBM CGA`: theme.color = 3; break
-          default: theme.color = 0
-        }
-      }
-      dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
-      iceColors.childNodes[1].innerHTML = `On`
-    }
-    function iceColorsOff() {
-      let iceCSS = document.getElementById(`retrotxt-4bit-ice`)
-      if (iceCSS !== null) iceCSS.remove()
-      iceColors.childNodes[1].innerHTML = `Off`
-    }
-
   })
   // code page details for text font info.
-  if (srcMeta.chrSet !== null) {
-    let dcp = srcMeta.chrSet.replace(`-`, ``).toUpperCase()
-    let dcpAttr = ``
-    rev1Text.codePage.text = rev1Text.codePage.text.replace(`CP-`, `CP`)
-    dcp = dcp.replace(`WINDOWS`, `CP`) // abbreviate WINDOWS1252 to CP1252 etc.
-    if ([`CP437`, `CP1250`, `CP1251`, `CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(dcp) === false) dcpAttr = `class="unknown"` // note: header has CSS filter: invert(100%); applied
-    tfi.body = `${tfi.body} <span title="Document encoding set by the browser"${dcpAttr}>${dcp}</span> → \
-<span title="Unicode ≈ ${rev1Text.codePage.title}">${rev1Text.codePage.text}</span>`
-  }
-  // text render & font name
-  tfi.tail = `- ${tfi.render} ${tfi.fontName}`
-  // content format
-  switch (srcMeta.format) {
-    case `ecma48`:
-      tfi.tail = `${tfi.ansi} ${tfi.tail}`
-      if (tfi.colors.length > 0) tfi.tail = `${tfi.tail} ${tfi.colors}`
-      // ecma48 errors
-      if (tfi.oths > 0 || tfi.errs > 0) {
-        let cnt = tfi.oths + tfi.errs
-        let ic = ``
-        if (cnt > 4) ic = `${ic}<u>`
-        if (tfi.oths > 0) {
-          ic = `${ic}${tfi.oths} unsupported function`
-          if (tfi.oths > 1) ic = `${ic}s`
-        }
-        if (tfi.oths > 0 && tfi.errs > 0) ic = `${ic} and `
-        if (tfi.errs > 0) {
-          ic = `${ic}${tfi.errs} unknown control`
-          if (tfi.errs > 1) ic = `${ic}s`
-        }
-        ic = `${ic} found`
-        if (cnt > 4) ic = `${ic}, this display is inaccurate</u>`
-        tfi.tail = `${tfi.tail}</div><div id="h-doc-fmt">${ic}</div><div>`
-      }
-      break
+  hd.encode.id = `h-doc-fmt`
+  switch (inputSrc.format) {
     case `pcboard`:
     case `wildcat`:
-      tfi.tail = `<span id="h-doc-fmt" title="Special bulletin board system, text formatting"> \
-          ${chrome.i18n.getMessage(srcMeta.format)}</span> ${tfi.tail}`
+      hd.encode.title = `Special bulletin board system, text formatting`
+      hd.encode.textContent = `${chrome.i18n.getMessage(inputSrc.format)}`
       break
-    default: // ASCII & NFO
-      newDOM.columns = findPageColumns(newDOM.preProcess) // count the number of text columns
-      newDOM.pre.style.width = reset.width // lock centring alignment to 640px columns
-  }
-  // append to for text font info.
-  if (tfi.tail.length > 0) tfi.body = `${tfi.body} ${tfi.tail}`
-  // append SAUCE records for text font info.
-  if (tfi.sauce.length > 0) tfi.body = `${tfi.body}${tfi.sauce} `
-
-  // refresh header data before displaying
-  let ti = tfi.template
-  ti = ti.replace(`♥`, `${newDOM.columns}`)
-  ti = ti.replace(`♦`, `${newDOM.rows}`)
-  ti = ti.replace(`♣`, `${humaniseFS(srcMeta.length)}`)
-  if (typeof ecma48Data.font !== `undefined` && ecma48Data.font !== null) {
-    tfi.body = tfi.body.replace(`♠`, `${handleFontName(ecma48Data.font)}`)
-  } else {
-    chrome.storage.local.get([`retroFont`], r => {
-      if (r.retroFont === undefined) checkErr(`Could not obtain the required retroFont setting to apply the header`, true)
-      else {
-        let element = window.document.getElementById(`h-doc-font-family`)
-        element.textContent = handleFontName(r.retroFont)
+    case `ecma48`:
+      // ecma48 errors
+      if (dataObj.oths > 0 || dataObj.errs > 0) {
+        const cnt = dataObj.oths + dataObj.errs
+        let ic = ``
+        if (dataObj.oths > 0) {
+          ic += `${dataObj.oths} unsupported function`
+          if (dataObj.oths > 1) ic += `s`
+        }
+        if (dataObj.oths > 0 && dataObj.errs > 0) ic += ` and `
+        if (dataObj.errs > 0) {
+          ic += `${dataObj.errs} unknown control`
+          if (dataObj.errs > 1) ic += `s`
+        }
+        ic += ` found`
+        if (cnt > 4) {
+          ic += `, this display is inaccurate`
+          const u = document.createElement(`u`)
+          u.textContent = ic
+          hd.errors.appendChild(u)
+        } else {
+          hd.errors.textContent = ic
+        }
       }
-    })
+    // break omitted
+    default:
+      outputDOM.pre.style.width = reset.width // lock centring alignment to 640px columns
+      outputDOM.pre.classList.add(`text-1x`)
+      if (inputSrc.chrSet !== null) {
+        const vs = document.createTextNode(` → `)
+        const input = document.createElement(`span`)
+        const output = document.createElement(`span`)
+        const ansi = document.createElement(`span`)
+        const inp = { text: ``, }
+        const out = { text: ``, }
+        const stored = { item: null, text: `` }
+        // obtain transcode setting
+        stored.item = sessionStorage.getItem(`transcode`)
+        stored.text = humaniseTC(stored.item)
+        // serialise the result from document.characterSet
+        inp.text = inputSrc.chrSet.replace(`-`, ``).toUpperCase()
+        inp.text = inp.text.replace(`WINDOWS`, `CP`)
+        // check that document.characterSet is usable by RetroTxt
+        if ([`CP437`, `CP1250`, `CP1251`, `CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(inp.text) === false) {
+          input.classList.add(`unknown`) // this class hightlights the characterSet string
+        }
+        // serialise the result of sessionStorage.getItem(`transcode`)
+        out.text = dataObj.cp.text
+        out.text = out.text.replace(`-`, ``).toUpperCase()
+        out.text = out.text.replace(`WINDOWS`, `CP`)
+        // create html elements
+        input.textContent = inp.text
+        output.textContent = out.text
+        input.title = `Document encoding set by the browser`
+        output.title = `Unicode ≈ `
+        switch (stored.item) {
+          case `codeMsDos0`: case `codeMsDos1`:
+            if (inp.text === stored.text) {
+              input.style = `text-decoration: underline`
+              input.textContent = inp.text
+            } else {
+              const old = document.createElement(`span`)
+              old.style = `text-decoration: line-through`
+              old.textContent = inp.text
+              input.appendChild(old)
+              input.textContent = stored.text
+            }
+            break
+          default:
+            if (stored.text === out.text) {
+              output.style = `text-decoration: underline`
+              output.textContent = out.text
+            } else if (stored.text !== ``) {
+              const old = document.createElement(`span`)
+              old.style = `text-decoration: line-through`
+              old.textContent = out.text
+              output.appendChild(old)
+              output.textContent = stored.text
+            }
+        }
+        output.title += dataObj.cp.title
+        hd.encode.appendChild(input)
+        hd.encode.appendChild(vs)
+        hd.encode.appendChild(output)
+        if (inputSrc.format === `ecma48`) {
+          ansi.title = `ECMA-48/ANSI X3.64 presentation control and cursor functions`
+          ansi.textContent = `ANSI`
+          hd.encode.appendChild(document.createTextNode(` `))
+          hd.encode.appendChild(ansi)
+        }
+      }
   }
-  // update text font information header using new HTML
-  tfi.body = `${ti}${tfi.body}`
-  newDOM.header.innerHTML = tfi.body
+  {
+    // show and hide header toggles
+    hd.ui.id = `h-ui-toggle-show`
+    hd.ui.title = `Hide this information header`
+    hd.ui.textContent = `▲`
+    hdh.ui.id = `h-ui-toggle-hide`
+    hdh.ui.title = `Reveal the information header`
+    hdh.ui.textContent = `▼`
+    outputDOM.headerHide.appendChild(hdh.ui)
+  }
+  {
+    // document measurements
+    const vs = document.createTextNode(`x`)
+    const columns = document.createElement(`span`)
+    const lines = document.createElement(`span`)
+    columns.title = `Pixel width of text`
+    columns.id = `width-of-text`
+    lines.title = `Pixel length of text`
+    lines.id = `length-of-text`
+    columns.textContent = `?`
+    lines.textContent = `?`
+    hd.area.appendChild(columns)
+    hd.area.appendChild(vs)
+    hd.area.appendChild(lines)
+  }
+  {
+    // document size
+    hd.size.title = `Number of characters contained in the text`
+    hd.size.textContent = humaniseFS(inputSrc.length)
+  }
+  {
+    // font size adjustment
+    hd.txt_adj.id = `h-doc-text-adjust`
+    hd.txt_adj.title = `Font size adjustment`
+    hd.txt_adj.textContent = `1x`
+    hd.txt_adj.onclick = function () {
+      switch (this.textContent) {
+        case `1x`:
+          hd.txt_adj.textContent = `2x`
+          outputDOM.pre.classList.add(`text-2x`)
+          outputDOM.pre.classList.remove(`text-1x`)
+          break
+        case `2x`:
+          hd.txt_adj.textContent = `1x`
+          outputDOM.pre.classList.add(`text-1x`)
+          outputDOM.pre.classList.remove(`text-2x`)
+          break
+      }
+    }
+  }
+  {
+    // page font family
+    hd.font.id = `h-doc-font-family`
+    hd.font.title = `Font family used for display`
+    if (typeof ecma48Data.font !== `undefined` && ecma48Data.font !== null) {
+      // ecma48 encode text
+      hd.font.textContent = handleFontName(ecma48Data.font)
+    } else {
+      // ascii encoded text
+      let sfn = ``
+      switch (sauce00.version) {
+        case `00`: // use font name contained in SAUCE metadata
+          sessionStorage.removeItem(`fontOverride`)
+          sfn = handleFontSauce(sauce00)
+          if (sfn === ``) console.warn(`Could not obtain a font name from the SAUCE metadata`)
+          else {
+            changeFont(sfn, outputDOM.pre)
+            sessionStorage.setItem(`fontOverride`, `true`)
+            hd.font.textContent = handleFontName(sfn)
+          }
+          break
+        default: // use the font selected in Options
+          chrome.storage.local.get([`retroFont`], r => {
+            if (r.retroFont === undefined) checkErr(`Could not obtain the required retroFont setting to apply the header`, true)
+            else {
+              const elm = window.document.getElementById(`h-doc-font-family`)
+              elm.textContent = handleFontName(r.retroFont)
+            }
+          })
+      }
+    }
+  }
+  {
+    // page render method
+    hd.render.id = `h-text-rend`
+    hd.render.title = `Switch between text render methods`
+  }
+  // build header
+  outputDOM.headerShow.appendChild(hd.ui)
+  outputDOM.headerShow.appendChild(document.createTextNode(hd.pad))
+  outputDOM.headerShow.appendChild(hd.area)
+  outputDOM.headerShow.appendChild(document.createTextNode(hd.pad))
+  outputDOM.headerShow.appendChild(hd.size)
+  outputDOM.headerShow.appendChild(document.createTextNode(hd.sep))
+  outputDOM.headerShow.appendChild(hd.encode)
+  outputDOM.headerShow.appendChild(document.createTextNode(hd.sep))
+  outputDOM.headerShow.appendChild(hd.render)
+  outputDOM.headerShow.appendChild(document.createTextNode(hd.pad))
+  outputDOM.headerShow.appendChild(hd.txt_adj)
+  outputDOM.headerShow.appendChild(document.createTextNode(hd.pad))
+  outputDOM.headerShow.appendChild(hd.font)
+  if (inputSrc.format === `ecma48`) {
+    outputDOM.headerShow.appendChild(document.createTextNode(hd.sep))
+    outputDOM.headerShow.appendChild(hd.palette)
+    switch (ecma48Data.colorDepth) {
+      case 8: break//case 24:
+      default: outputDOM.headerShow.appendChild(document.createTextNode(` palette`))
+    }
+    if (ecma48Data.iceColors === true) {
+      outputDOM.headerShow.appendChild(document.createTextNode(`, `))
+      outputDOM.headerShow.appendChild(hd.ice)
+    }
+    // append any ecma-48 errors
+    if (dataObj.oths > 0 || dataObj.errs > 0) {
+      outputDOM.headerShow.appendChild(hd.errors)
+    }
+  }
+  // SAUCE records for text font info
+  if (dataObj.sauce !== null) outputDOM.headerShow.appendChild(dataObj.sauce)
 
   // create red alert message at the top of the page
   if (window.checkedErr !== undefined && window.checkedErr === true) displayErr(true)
   else displayErr(false) // hide from view
 
-  // hide original unconverted text
+  // hide original source text
   dom.pre0.style.display = `none`
 
   // mark tab's title with the RetroTxt ascii logo
-  let title = document.createElement(`title`)
+  const title = document.createElement(`title`)
   if (window.location.protocol === `file:`) {
     title.textContent = `[··] ` + window.location.pathname.split(`/`).filter(function (el) { return !!el }).pop()
   } else { title.textContent = `[··] ${window.location.host}${window.location.pathname}` }
@@ -1103,10 +1295,20 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
 
   // insert new tags into HTML DOM
   dom.head.appendChild(title)
-  newDOM.main.appendChild(newDOM.pre)
-  dom.body.insertBefore(newDOM.header, dom.pre0)
-  dom.body.insertBefore(newDOM.main, dom.pre0)
+  outputDOM.main.appendChild(outputDOM.pre)
+  dom.body.insertBefore(outputDOM.headerShow, dom.pre0)
+  dom.body.insertBefore(outputDOM.headerHide, dom.pre0)
+  dom.body.insertBefore(outputDOM.main, dom.pre0)
 
   // hide spin loader
   runSpinLoader(false)
+
+  // need to delay getting calculated element size, otherwise the received client values are incorrect
+  setTimeout(() => {
+    const m = document.getElementsByTagName(`main`)[0]
+    const w = document.getElementById(`width-of-text`)
+    const h = document.getElementById(`length-of-text`)
+    h.innerHTML = m.clientHeight
+    w.innerHTML = m.clientWidth
+  }, 500)
 }

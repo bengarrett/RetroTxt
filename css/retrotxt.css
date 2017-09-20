@@ -219,6 +219,10 @@ options*.css for the styling of the Options dialogue.
 
 /* Classes to apply fonts */
 
+.font-monospace {
+    font-family: monospace;
+}
+
 .font-amiga {
     font-family: amiga;
 }
@@ -385,6 +389,14 @@ options*.css for the styling of the Options dialogue.
     font-size: 1.5em;
 }
 
+.text-1x {
+    font-size: 100%;
+}
+
+.text-2x {
+    font-size: 200%;
+}
+
 .text-smeared {
     text-shadow: 1px 0 0;
 }
@@ -472,10 +484,9 @@ header {
     width: 100%;
 }
 
-header #h-palette,
-header #h-text-rend,
-header #ice-colors-toggle {
+header strong {
     cursor: default;
+    user-select: none;
 }
 
 header .unknown {

@@ -47,68 +47,74 @@ A text document with the correct character encoding
 
 The same document with the incorrect transcoding
 
-##### Guess (default)
+##### System guess
 
-The default behaviour, this lets RetroTxt try to determine the base character encoding of the text and when needed, apply any transcoding.
+**The default behaviour**, this lets RetroTxt try to determine the base character encoding of the text and when needed, apply any transcoding.
 
-##### + Windows 1252
+##### ↺ CP-1252
 
-Force the active tab to parse the text using **CP-1252** encoding as the browser source.
+Force the active tab to parse the source text using [**CP-1252**](https://en.wikipedia.org/wiki/Windows-1252) encoding.
 
-##### + ISO 8895-5
+##### ↻ CP-1252
 
-Force the active tab to parse the text using **ISO 8895-5** encoding as the browser source.
+Force the active tab to display the text using **CP-1252**, the common legacy Microsoft Windows encoding instead of the default MS-DOS [*CP-437*](https://en.wikipedia.org/wiki/Code_page_437).
 
-##### > Windows legacy web
+##### ↺ ISO 8859-5
 
-Force the active tab to display the text using **Windows-1252** _Code Page 1252_ which was commonly used by legacy Microsoft Windows systems_
+Force the active tab to parse the source text using [**ISO 8895-5**](https://en.wikipedia.org/wiki/ISO/IEC_8859-5) encoding.
 
-##### > Linux legacy web
+##### ↻ ISO 8859-15
 
-Force the active tab to display the text using **ISO-8859-15** _ISO-8859 Part 15_ which was the recommended encoding for Linux and the web during the 2000s.
+Force the active tab to display the text using [**ISO-8859-15**](https://en.wikipedia.org/wiki/ISO/IEC_8859-15), the recommended encoding for Linux and the web in the 2000s.
 
-##### > None
+##### ↻ US-ASCII
 
-Force the active tab not to transcode. Aforementioned can be used to make documents encoded in **UTF-8** or **ISO-8859-1** to display.
+Force the active tab not to transcode. Aforementioned can be used to make documents encoded in [**UTF-8**](https://en.wikipedia.org/wiki/UTF-8) or [**ISO-8859-1**](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) to display.
 
-**UTF-8** is the most common, contemporary code set to encoded Unicode text (including Emojis) and it is nearly always in use with HTML5. **ISO-8859-1** was the original code set used by Linux, the Commodore Amiga and online during the 1990s. It is near identical to _ISO-8859-15_ but lacks a few European-centric characters such as the € sign.
+**UTF-8** is the most common, contemporary code set to encoded Unicode text (including Emojis) and it is nearly always in use with HTML5. **ISO-8859-1** was the original code set used by Linux, the Commodore Amiga and online during the 1990s. It is near identical to _ISO-8859-15_ but lacks a few European-centric characters such as the `€` sign.
 
-### MS-DOS
+### Terminal Black / Terminal White
 
-Applies a 1-bit (2 colours) theme and VGA 8px font to all browser tabs that mimics the IBM-PC/MS-DOS grey text on a black background.
+Applies the Chrome *Fixed-width font* or the Firefox *Monospace* font. To either MS-DOS grey text on a **black** background or black text on a **white** background.
+
+![Font options selection](assets/theme_terminal-black.png)
+
+### IBM PS/2
+
+Applies a 1-bit (2 colours) theme and ISO 8px font to all browser tabs that mimics the [IBM PS/2](https://en.wikipedia.org/wiki/IBM_Personal_System/2) grey text on a black background.
+
+![Font options selection](assets/theme_ps2.png)
+
+### IBM PC
+
+Applies a 1-bit (2 colours) theme and VGA 8px font to all browser tabs that mimics the [IBM-PC](http://oldcomputers.net/ibm5150.html)/MS-DOS grey text on a black background.
 
 ![Font options selection](assets/theme_ms-dos.png)
 
-### Windows
-
-Applies a 1-bit (2 colours) theme and VGA 9px font to all browser tabs that mimics the Windows 9x era notepad.exe black text on a white background.
-
-![Font options selection](assets/theme_windows.png)
-
 ### Amiga
 
-Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the Commodore Amiga Workbench white text on a grey background.
+Applies a 1-bit (2 colours) theme and Topaz font to all browser tabs that mimics the [Commodore Amiga 500](http://oldcomputers.net/amiga500.html) Workbench white text on a grey background.
 
 ![Font options selection](assets/theme_amiga.png)
 
 ### Apple II
 
-Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the Apple II DOS screen black text on a green background.
+Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the [Apple II](http://oldcomputers.net/appleii.html) DOS screen black text on a green background.
 
 ![Font options selection](assets/theme_appleii.png)
 
 ### Atari ST
 
-Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the ATARI ST TOS screen black text on a white background.
+Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the [ATARI ST](http://oldcomputers.net/atari520st.html) TOS screen black text on a white background.
 
 ![Font options selection](assets/theme_atari-st.png)
 
 ### Commodore 64
 
-Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the Commodore 64 load screen blue text on a dark blue background.
+Applies a 1-bit (2 colours) theme and font to all browser tabs that mimics the [Commodore 64](http://oldcomputers.net/c64.html) load screen blue text on a dark blue background.
 
 ![Font options selection](assets/theme_c64.png)
 
 ### Help
 
-Opens a new browser tab and loads the [README hosted on GitHub](https://github.com/bengarrett/RetroTxt/blob/master/README.md).
+Opens a new browser tab and loads the [documentation](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md) hosted on GitHub.

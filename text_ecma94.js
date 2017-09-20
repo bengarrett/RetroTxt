@@ -27,15 +27,15 @@ function BuildCP1252(s = ``, verbose = false)
   const cp1252_8 = [`€`, ``, `‚`, `ƒ`, `„`, `…`, `†`, `‡`, `ˆ`, `‰`, `Š`, `‹`, `Œ`, ``, `Ž`, ``]
   const cp1252_9 = [``, `‘`, `’`, `“`, `”`, `•`, `–`, `—`, `\u02dc`, `™`, `š`, `›`, `œ`, ``, `ž`, `Ÿ`]
   const cp1252 = [...cp1252_8, ...cp1252_9]
-  let code = 0, t = s, i = cp1252.length  // handle characters 80…FF
+  let i = cp1252.length  // handle characters 80…FF
   while (i--) {
-    code = i + 128
+    const code = i + 128
     if (verbose) console.log(`${i} ${String.fromCharCode(code)} ↣ ${cp1252[i]}`)
-    t = t.replace(RegExp(String.fromCharCode(code), `g`), cp1252[i])
+    s = s.replace(RegExp(String.fromCharCode(code), `g`), cp1252[i])
   }
   // handle character 1B (to inject EMCA-48 control function support)
-  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
-  this.text = t
+  s = s.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  this.text = s
   this.characterSet = cp1252
 }
 
@@ -45,9 +45,7 @@ function BuildCP88591(s = ``)
 {
   if (typeof s !== `string`) checkArg(`s`, `string`, s)
 
-  let t = s
-  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
-  this.text = t
+  this.text = s.replace(RegExp(String.fromCharCode(27), `g`), `←`)
 }
 
 function BuildCP885915(s = ``)
@@ -56,18 +54,17 @@ function BuildCP885915(s = ``)
 {
   if (typeof s !== `string`) checkArg(`s`, `string`, s)
 
-  let t = s
-  t = t.replace(RegExp(String.fromCharCode(164), `g`), `€`)
-  t = t.replace(RegExp(String.fromCharCode(166), `g`), `Š`)
-  t = t.replace(RegExp(String.fromCharCode(168), `g`), `š`)
-  t = t.replace(RegExp(String.fromCharCode(180), `g`), `Ž`)
-  t = t.replace(RegExp(String.fromCharCode(184), `g`), `ž`)
-  t = t.replace(RegExp(String.fromCharCode(188), `g`), `Œ`)
-  t = t.replace(RegExp(String.fromCharCode(189), `g`), `œ`)
-  t = t.replace(RegExp(String.fromCharCode(190), `g`), `Ÿ`)
+  s = s.replace(RegExp(String.fromCharCode(164), `g`), `€`)
+  s = s.replace(RegExp(String.fromCharCode(166), `g`), `Š`)
+  s = s.replace(RegExp(String.fromCharCode(168), `g`), `š`)
+  s = s.replace(RegExp(String.fromCharCode(180), `g`), `Ž`)
+  s = s.replace(RegExp(String.fromCharCode(184), `g`), `ž`)
+  s = s.replace(RegExp(String.fromCharCode(188), `g`), `Œ`)
+  s = s.replace(RegExp(String.fromCharCode(189), `g`), `œ`)
+  s = s.replace(RegExp(String.fromCharCode(190), `g`), `Ÿ`)
   // handle character 1B (to inject EMCA-48 control function support)
-  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
-  this.text = t
+  s = s.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  this.text = s
 }
 
 function BuildCPUtf8(s = ``)
@@ -78,8 +75,7 @@ function BuildCPUtf8(s = ``)
 {
   if (typeof s !== `string`) checkArg(`s`, `string`, s)
 
-  let t = s
-  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
+  const t = s.replace(RegExp(String.fromCharCode(27), `g`), `←`)
   this.text = t
 }
 
@@ -90,8 +86,6 @@ function BuildCPUtf16(s = ``)
 {
   if (typeof s !== `string`) checkArg(`s`, `string`, s)
 
-  let t = s
   // handle character 1B (to inject EMCA-48 control function support)
-  t = t.replace(RegExp(String.fromCharCode(27), `g`), `←`)
-  this.text = t
+  this.text = s.replace(RegExp(String.fromCharCode(27), `g`), `←`)
 }

@@ -15,18 +15,12 @@ function checkArg(name = ``, e = ``, a)
 // @e     The expected argument type or value
 // @a     The actually argument used
 {
-  let err = ``
   switch (e) {
-    case `boolean`:
-      err = `argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof a}'`; break
-    case `number`:
-      err = `argument '${name}' should be a 'number' (unsigned) instead of a '${typeof a}'`; break
-    case `string`:
-      err = `argument '${name}' should be a 'string' of text instead of a '${typeof a}'`; break
-    default:
-      err = `argument '${name}' needs to be a '${e}' instead of a '${typeof a}'`; break
+    case `boolean`: return checkErr(`argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof a}'`)
+    case `number`: return checkErr(`argument '${name}' should be a 'number' (unsigned) instead of a '${typeof a}'`)
+    case `string`: return checkErr(`argument '${name}' should be a 'string' of text instead of a '${typeof a}'`)
+    default: return checkErr(`argument '${name}' needs to be a '${e}' instead of a '${typeof a}'`)
   }
-  checkErr(err)
 }
 
 function checkRange(name = ``, issue = ``, e, a)
@@ -38,7 +32,7 @@ function checkRange(name = ``, issue = ``, e, a)
   switch (issue) {
     case `length`:
       err = `the number of characters '${a}' used for the argument '${name}' is too short, it needs to be at least '${e}' character`
-      if (e !== `1` && e !== 1) err = `${err}s`
+      if (e !== `1` && e !== 1) err += `s`
       break
     case `range`:
       err = `the value '${a}' for the argument '${name}' is out of range, it needs to be either '${e.join(`, `)}'`
@@ -82,20 +76,42 @@ function displayErr(s = true)
     let ext = `reloading the RetroTxt extension on the `
     // build URI to browser's extensions
     switch (findEngine()) {
-      case `blink`:
-        ext = `${ext} Extensions page (chrome://extensions)`; break
-      case `gecko`:
-        ext = `${ext} Add-ons manager page (about:addons)`; break
-      default:
+      case `blink`: ext += ` Extensions page (chrome://extensions)`; break
+      case `gecko`: ext += ` Add-ons manager page (about:addons)`; break
     }
-    // build error alert
-    let dom = new FindDOM()
-    div = document.createElement(`div`)
-    div.innerHTML = `Sorry, RetroTxt has run into a problem. \
-Please refresh <kbd>F5</kbd> this tab to attempt to fix the problem. \
-For more information press <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>i</kbd> to open the <strong>Console</strong>.<br>\
-If the problem continues, try ${ext} or <a href="${chrome.i18n.getMessage(`url_issues`)}" title="On the RetroTxt GitHub repository">see if it has an issue report</a>.`
+    // build error as a html node
+    const err = document.createElement(`div`)
+    const f5 = document.createElement(`kbd`)
+    f5.appendChild(document.createTextNode(`F5`))
+    const ctrl = document.createElement(`kbd`)
+    ctrl.appendChild(document.createTextNode(`Control`))
+    const shift = document.createElement(`kbd`)
+    shift.appendChild(document.createTextNode(`Shift`))
+    const ikey = document.createElement(`kbd`)
+    ikey.appendChild(document.createTextNode(`i`))
+    const cons = document.createElement(`strong`)
+    cons.appendChild(document.createTextNode(`Console`))
+    const br = document.createElement(`br`)
+    const issue = document.createElement(`a`)
+    issue.href = chrome.i18n.getMessage(`url_issues`)
+    issue.title = `On the RetroTxt GitHub repository`
+    issue.appendChild(document.createTextNode(`see if it has an issue report`))
+    err.appendChild(document.createTextNode(`Sorry, RetroTxt has run into a problem. Please refresh `))
+    err.appendChild(f5)
+    err.appendChild(document.createTextNode(` this tab to attempt to fix the problem. For more information press `))
+    err.appendChild(ctrl)
+    err.appendChild(shift)
+    err.appendChild(ikey)
+    err.appendChild(document.createTextNode(` to open the `))
+    err.appendChild(cons)
+    err.appendChild(document.createTextNode(`.`))
+    err.appendChild(br)
+    err.appendChild(document.createTextNode(`If the problem continues, try ${ext} or `))
+    err.appendChild(issue)
+    err.appendChild(document.createTextNode(`.`))
+    div = err
     div.id = `checkErr`
+    const dom = new FindDOM()
     // inject CSS link into the page
     if (link === null) dom.head.appendChild(buildLinksToCSS(`css/retrotxt.css`, `retrotxt-styles`))
     // inject div
@@ -134,7 +150,7 @@ function ListDefaults()
   this.avoidFileExtensions = [...html, ...images, ...other] // join arrays
   // Text options
   this.columns = 80
-  this.width = `640px`
+  this.width = `100%` //this.width = `640px`
 }
 
 function ListRGBThemes()
@@ -160,16 +176,15 @@ function BuildFontStyles(ff = `vga8`)
   if (ff.length < 1) checkRange(`ff`, `length`, `1`, ff.length)
 
   // most of the styling is located in /css/retotxt.css
-  let str = handleFontName(ff)
   // properties
   this.family = ff
-  this.string = str
+  this.string = handleFontName(ff)
 }
 
 function handleFontName(font)
 // Humanise font family name
 {
-  let f = font.toUpperCase()
+  const f = font.toUpperCase()
   switch (f) {
     case `APPLEII`: return `Apple II`
     case `ATARIST`: return `Atari ST`
@@ -183,14 +198,67 @@ function handleFontName(font)
     case `P0TNOODLE`: return `P0T-NOoDLE`
     case `PS24`: return `PS/2 (thin 4)`
     case `MOSOUL`: return `mOsOul`
+    case `MONOSPACE`: {
+      if (findEngine() === `blink`) return `Fixed-width`
+      else return `Monospace`
+    }
     default: {
-      f = f.replace(`-2X`, ` (wide)`)
-      f = f.replace(`-2Y`, ` (narrow)`)
-      f = f.replace(`CGATHIN`, `CGA Thin`)
-      f = f.replace(`TANDYNEW`, `Tandy `)
-      return f
+      let s = f
+      s = s.replace(`-2X`, ` (wide)`)
+      s = s.replace(`-2Y`, ` (narrow)`)
+      s = s.replace(`CGATHIN`, `CGA Thin`)
+      s = s.replace(`TANDYNEW`, `Tandy `)
+      return s
     }
   }
+}
+
+function handleFontSauce(sauce = {}) {
+  if (typeof sauce !== `object`) checkArg(`sauce`, `object`, sauce)
+  const cfn = sauce.config.fontName.replace(/[^A-Za-z0-9 +/-]/g, ``) // clean-up malformed data
+  const fn = cfn.split(` `)
+  switch (sauce.version) {
+    case `00`:
+      switch (fn[0]) {
+        case `IBM`:
+          switch (fn[1]) {
+            case `VGA`:
+              if (sauce.config.letterSpacing === `10`) return `vga9` // 9 pixel font
+              return `vga8` // 8 pixel font
+            case `VGA50`: return `vgal50` // 8x8 (as no 9×8 font found)
+            case `VGA25G`: return `vgalcd` // 8x19
+            case `EGA`: return `ega8` // 8×14
+            case `EGA43`: return `bios` // 'For the 8x8 font present in EGA/MCGA/VGA hardware, see the IBM PC BIOS'
+          }
+          break
+        case `Amiga`:
+          switch (fn[1]) {
+            case `Topaz`: {
+              switch (fn[2]) {
+                case `1`: return `topazA500`
+                case `1+`: return `topazplusA500`
+                case `2`: return `topazA1200`
+                case `2+`: return `topazplusA1200`
+              }
+              break
+            }
+            case `PoT-NOoDLE`:
+            case `P0T-NOoDLE`: return `p0tnoodle`
+            case `MicroKnight`: return `microknight`
+            case `MicroKnight+`: return `microknightplus`
+            case `mOsOul`: return `mosoul`
+          }
+          break
+        case `C64`:
+          switch (fn[2]) {
+            case `unshifted`: case `shifted`:
+              return `c64`
+          }
+          break
+        case `Atari`: return `atascii` // Original ATASCII font (Atari 400, 800, XL, XE)
+      }
+  }
+  return ``
 }
 
 function buildLinksToCSS(f = ``, i = ``)
@@ -199,8 +267,11 @@ function buildLinksToCSS(f = ``, i = ``)
 // @i   ID name to apply to link tag
 {
   if (typeof f !== `string`) checkArg(`f`, `string`, f)
+  if (typeof chrome.extension === `undefined`) {
+    return console.error(`RetroTxt cannot continue as the WebExtension API is inaccessible.`)
+  }
 
-  let l = document.createElement(`link`)
+  const l = document.createElement(`link`)
   if (i.length > 0) l.id = i
   l.href = chrome.extension.getURL(f)
   l.type = `text/css`
@@ -208,7 +279,7 @@ function buildLinksToCSS(f = ``, i = ``)
   return l
 }
 
-function changeTextScanlines(s = true, elm, color)
+async function changeTextScanlines(s = true, elm, color)
 // Applies CSS3 mock scan line effects to an element
 // @s     required boolean to enable or disable text show
 // @elm   required HTML DOM element object to apply the scanline effect
@@ -251,7 +322,7 @@ function changeTextScanlines(s = true, elm, color)
   }
 }
 
-function changeTextEffect(s = `normal`, elm, color)
+async function changeTextEffect(s = `normal`, elm, color)
 // Applies CSS3 text effects to an element
 // @s     required string used to switch and disable effects
 // @elm   required HTML DOM element object to apply shadow effect to
@@ -261,7 +332,6 @@ function changeTextEffect(s = `normal`, elm, color)
   if (typeof elm !== `object`) checkArg(`elm`, `object`, elm)
   if (elm.classList === null) return // error
 
-  let r
   // This removes any preexisting text effect class names from the element
   for (const item of elm.classList) {
     if (item.endsWith(`-shadowed`) === true) elm.classList.remove(item)
@@ -276,7 +346,7 @@ function changeTextEffect(s = `normal`, elm, color)
       }
       // use colours fetched from chrome's storage (default)
       else {
-        r = localStorage.getItem(`retroColor`)
+        const r = localStorage.getItem(`retroColor`)
         if (typeof r !== `string`) {
           chrome.storage.local.get([`retroColor`], r => {
             if (r.retroColor === undefined) checkErr(`Could not obtain the required retroColor setting to apply the text shadow effect`, true)
@@ -289,7 +359,6 @@ function changeTextEffect(s = `normal`, elm, color)
       elm.classList.add(`text-smeared`)
       break
     default: // 'normal' do nothing as the text effects have already been removed
-    // return
   }
   const textRender = document.getElementById(`h-text-rend`)
   if (textRender !== null) {
@@ -302,28 +371,27 @@ function findControlSequences(s = ``)
 // @s   String of text to scan
 {
   if (typeof s !== `string`) checkArg(`s`, `string`, s)
-
-  const t = s.slice(0, 5).toUpperCase() // only need the first 5 characters
-  let a, b, c
+  const t = s.trim().slice(0, 5).toUpperCase() // only need the first 5 characters
   // ECMA-48 control sequences (4/Feb/2017: despite the performance hit, need to run this first to avoid false detections)
   if (s.trim().charCodeAt(0) === 27 && s.trim().charCodeAt(1) === 91) return `ecma48` // (16/Feb/2017: trim is needed for some ANSIs)
-  c = s.indexOf(`${String.fromCharCode(27)}${String.fromCharCode(91)}`) // indexOf is the fastest form of string search
-  if (c > 0) return `ecma48`
+  const c = s.indexOf(`${String.fromCharCode(27)}${String.fromCharCode(91)}`) // indexOf is the fastest form of string search
+  if (c > 0) {
+    return `ecma48`
+  }
   // make sure first char is an @-code
   else if (t.charAt(0) === `@`) {
     // match pcboard `@Xxx` codes
     if (t.charAt(1) === `X`) {
-      a = t.charCodeAt(2) // get Unicode indexes of 2nd + 3rd chars
-      b = t.charCodeAt(3)
+      const a = t.charCodeAt(2) // get Unicode indexes of 2nd + 3rd chars
+      const b = t.charCodeAt(3)
       // index range 48-70 eq 0-9 A-F
       if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return `pcboard`
-    } else if (s.startsWith(`@CLS@`)) {
+    } else if (t.startsWith(`@CLS@`)) {
       return `pcboard`
-    }
-    // match wildcat `@xx @` codes
-    else if (t.charAt(3) === `@`) {
-      a = t.charCodeAt(1) // get Unicode indexes of 1st + 2nd chars
-      b = t.charCodeAt(2)
+    } else if (t.charAt(3) === `@`) {
+      // match wildcat `@xx @` codes
+      const a = t.charCodeAt(1) // get Unicode indexes of 1st + 2nd chars
+      const b = t.charCodeAt(2)
       if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return `wildcat`
     }
   }
@@ -337,17 +405,15 @@ function findEngine()
   if (chrome.runtime.getManifest().options_ui !== undefined && chrome.runtime.getManifest().options_ui.page !== undefined) {
     const manifest = chrome.runtime.getManifest().options_ui.page,
       gecko = manifest.startsWith(`moz-extension`, 0)
-    let browser = `blink` // Chrome compatible
-    if (gecko === true) browser = `gecko` // Firefox compatible
-    return browser
+    if (gecko === true) return `gecko` // Firefox compatible
+    return `blink` // Chrome compatible
   }
 }
 
 function HumaniseCP(code = ``)
-// Humanises transcode ids into a short and longer title
-// @code Key name for text transcode
+// Humanises codepage ids into a short and longer title
+// @code Key name for text codepage
 {
-  let text = ``, title = ``
   switch (code) {
     // text = `Windows-1251`
     // title = `Code Page 1252, Cyrillic script in legacy Microsoft Windows systems`
@@ -357,35 +423,33 @@ function HumaniseCP(code = ``)
     case `src_CP1252`:
     case `src_8859_5`:
     case `out_CP437`:
-      text = `CP-437`
-      title = `IBM/MS-DOS Code Page 437`
+      this.text = `CP-437`
+      this.title = `IBM/MS-DOS Code Page 437`
       break
     case `out_CP1252`:
-      text = `Windows-1252`
-      title = `Code Page 1252 commonly used in legacy Microsoft Windows systems`
+      this.text = `Windows-1252`
+      this.title = `Code Page 1252 commonly used in legacy Microsoft Windows systems`
       break
     case `out_8859_1`:
-      text = `ISO-8859-1`
-      title = `ISO-8859 Part 1: Latin alphabet No. 1 alternatively known as ECMA-94`
+      this.text = `ISO-8859-1`
+      this.title = `ISO-8859 Part 1: Latin alphabet No. 1 alternatively known as ECMA-94`
       break
     case `out_8859_15`:
-      text = `ISO-8859-15`
-      title = `ISO-8859 Part 15: Latin alphabet No. 9`
+      this.text = `ISO-8859-15`
+      this.title = `ISO-8859 Part 15: Latin alphabet No. 9`
       break
     case `out_UTF8`:
-      text = `UTF-8`
-      title = `Universal Coded Character Set 8-bit`
+      this.text = `UTF-8`
+      this.title = `Universal Coded Character Set 8-bit`
       break
     case `out_US_ASCII`:
-      text = `US-ASCII`
-      title = `Plain text, alternatively known as ASA X3.4, ANSI X3.4, ECMA-6, ISO/IEC 646`
+      this.text = `US-ASCII`
+      this.title = `Plain text, alternatively known as ASA X3.4, ANSI X3.4, ECMA-6, ISO/IEC 646`
       break
     default:
       checkErr(`'${code}' is not a valid transcode identifier`, true)
       return
   }
-  this.text = text
-  this.title = title
 }
 
 function humaniseFS(bytes = 0, si = 1024)
@@ -408,7 +472,7 @@ function humaniseFS(bytes = 0, si = 1024)
   return `${Math.round(bytes * 10) / 10}${units[u]}`
 }
 
-function runSpinLoader(s = true)
+async function runSpinLoader(s = true)
 // Injects a loading spinner to the tab
 // It's not really useful due to the way browsers handle the DOM rendering,
 // but may pop-up if the browser temporarily freezes
@@ -416,18 +480,18 @@ function runSpinLoader(s = true)
 {
   if (typeof s !== `boolean`) checkArg(`s`, `boolean`, s)
 
-  let spinner = window.document.getElementById(`spin-loader`)
+  const spinner = window.document.getElementById(`spin-loader`)
   switch (s) {
     case true:
       if (spinner === null) {
-        let headTag = document.querySelector(`head`)
-        spinner = document.createElement(`div`)
+        const headTag = document.querySelector(`head`)
+        const spinner = document.createElement(`div`)
         spinner.setAttribute(`id`, `spin-loader`)
         spinner.setAttribute(`class`, `loader`)
         spinner.setAttribute(`style`, `border:100px solid red`)
         spinner.setAttribute(`style`, `display:block`)
         document.body.appendChild(spinner)
-        let stylesheet = buildLinksToCSS(`css/retrotxt_loader.css`, `retrotxt-loader`)
+        const stylesheet = buildLinksToCSS(`css/retrotxt_loader.css`, `retrotxt-loader`)
         headTag.appendChild(stylesheet)
       } else {
         spinner.setAttribute(`style`, `display:block`)

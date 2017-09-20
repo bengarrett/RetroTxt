@@ -8,8 +8,8 @@ Many great programs that offer similar functionality inspire RetroTxt.
 
 Is a collection of tools for various platforms to convert an extensive variety of text art into PNG images.
 
-* [ansilove.js](http://ansilove.github.io/ansilove.js/) for JavaScript
-* [ansilove](http://www.ansilove.org/) for PHP
+* [ansilove.js](https://ansilove.github.io/ansilove.js) for JavaScript
+* [ansilove](https://www.ansilove.org) for PHP
 * [AnsiLove/C](https://github.com/ansilove/ansilove) for Linux
 
 ### ansi_up
@@ -25,7 +25,7 @@ Converts ANSI into PNG images.
 ### PabloDraw
 
 _PabloDraw is an Ansi/Ascii text and RIPscrip vector graphic art editor/viewer with multi-user capabilities._
-[PabloDraw](http://picoe.ca/products/pablodraw/) for Windows, macOS and Linux
+[PabloDraw](http://picoe.ca/products/pablodraw) for Windows, macOS and Linux
 
 ### ACiDView
 

@@ -1,5 +1,5 @@
 Document encoding: ISO 8859-15
-RetroTxt 'Transcode text' setting: Linux legacy web
+RetroTxt 'Transcode text' setting: ISO 8859-15
 File name: iso-8859-15.txt
 
 RetroTxt ISO 8859-15 test
