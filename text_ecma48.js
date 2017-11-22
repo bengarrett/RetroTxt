@@ -48,15 +48,6 @@ JavaScript Performance Notes:
     ecma48DOM.html = ``
   }
 
-  /* TODO
-  function DOMCreate() {
-    this.html = document.createElement(`pre`)
-  }
-  function DOMReset() {
-    ecma48DOM.html = document.createElement(`pre`)
-  }
-  */
-
   function SGRCreate()
   // ECMA48 Select Graphic Rendition toggles
   {
@@ -158,7 +149,7 @@ JavaScript Performance Notes:
     this.iceColors = null
     this.rows = 0
     this.lineWrap = toggleSGR.lineWrap
-    this.innerHTML = ``
+    this.htmlString = ``
     this.otherCodesCount = 0
     this.unknownCount = 0
     // SAUCE configurations
@@ -224,7 +215,7 @@ Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}
     this.columns = cursor.maxColumns
     if (this.font.length === 0) this.font = parseFont(ecma48.font)
     this.iceColors = ecma48.iceColors
-    this.innerHTML = ecma48DOM.html
+    this.htmlString = ecma48DOM.html
     this.otherCodesCount = ecma48.other
     this.rows = cursor.row
     this.unknownCount = ecma48.unknown

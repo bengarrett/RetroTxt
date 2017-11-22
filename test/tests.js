@@ -19,7 +19,23 @@ sessionStorage.clear()
 /*
   eventpage.js
 */
-QUnit.module(`eventpage.js`)
+try {
+  QUnit.module(`eventpage.js`)
+} catch (e) {
+  if (e instanceof ReferenceError) {
+    const div = document.getElementById(`qunit`)
+    const h = document.createElement(`p`)
+    const t = document.createElement(`p`)
+    const b = document.createElement(`strong`)
+    b.style.color = `red`
+    b.textContent = `Unit testing has been disabled in this copy of RetroTxt.`
+    t.textContent = `It depends on the QUnit testing framework which is incompatible with the WebExtension submission process used by addons.mozilla.org.`
+    h.appendChild(b)
+    div.appendChild(h)
+    div.appendChild(t)
+  }
+}
+
 chrome.storage.local.clear(function () {
   const error = chrome.runtime.lastError
   if (error) {
@@ -444,206 +460,206 @@ QUnit.test(`BuildEcma48()`, function (assert) {
   let test
   // no controls
   sample = `Hello world.`
-  test = new BuildEcma48(sample).innerHTML
-  //test.innerHTML
+  test = new BuildEcma48(sample).htmlString
+  //test.htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
   // C0 only
   sample = `Hello\nworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello</i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // ANSI.SYS controls (https://msdn.microsoft.com/en-us/library/cc722862.aspx)
   // CUP (cursor position)
   sample = `←[H${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[;H${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[2H${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\"> </i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[;18H${inputText}` // 1 row, 18 column
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-18\" class=\"SGR0\">${` `.repeat(18)}</i><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // HVP (horizontal vertical position)
   sample = `←[f${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[1;18f${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-18\" class=\"SGR0\">${` `.repeat(18)}</i><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[1;40f${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-40\" class=\"SGR0\">${` `.repeat(40)}</i><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[1;80f${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-80\" class=\"SGR0\">${` `.repeat(80)}</i><i class=\"SGR37 SGR40\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // CUP (cursor up)
   sample = `←[A${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[5A${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[60A${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[555A${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[1523A${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
   // CUD (cursor down)
   sample = `←[B${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\"> </i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[3B${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\"> </i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\"> </i></div><div id=\"row-3\"><i class=\"SGR37 SGR40\"> </i></div><div id=\"row-4\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `Hello←[BNew←[Blines`
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello</i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">New</i></div><div id=\"row-3\"><i class=\"SGR37 SGR40\">lines</i></div>`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // CUF (cursor forward)
   sample = `←[C${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1\" class=\"SGR0\"> </i><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[1C${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1\" class=\"SGR0\"> </i><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `Hello←[Cworld`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello</i><i id=\"column-6\" class=\"SGR0\"> </i><i class=\"SGR37 SGR40\">world</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[5C${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-5\" class=\"SGR0\">     </i><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // CUB (cursor back)
   sample = `${inputText}←[5D`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
   // SCP (save cursor position) and RCP (restore cursor position)
   sample = `hello←[s\n←[u world`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">hello world</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // ED2 Erase display
   sample = `←[2J${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // EL0 Erase line
   sample = `←[K${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-80\" class=\"SGR0\">                                                                                </i><i class=\"SGR37 SGR40\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // SGM Set Graphics Mode
   // All attributes off
   sample = `←[0mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, outputText, `'${sample}' ${reply}`)
 
   sample = `←[0mHello\nworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello</i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // 1 bold
   sample = `←[1mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR137 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `Hello ←[0;1;31mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello </i><i class=\"SGR131 SGR40\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // 4 underscore
   sample = `←[4mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR4\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `Hello ←[4mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello </i><i class=\"SGR37 SGR40 SGR4\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // 5 blink
   sample = `←[5mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR5\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // 7 reverse
   sample = `←[7mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR7\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // 8 conceal
   sample = `←[8mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR8\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `←[8mHello ←[8mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR8\">Hello </i><i class=\"SGR37 SGR40\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // foreground colours
   sample = `←[35mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR35 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `Hello ←[31mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello </i><i class=\"SGR31 SGR40\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `←[0mHello ←[36mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello </i><i class=\"SGR36 SGR40\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // background colours
   sample = `←[45mHello world.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR45\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `Hello ←[41mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello </i><i class=\"SGR37 SGR41\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // both foreground and background colours
   sample = `←[0;31;45m${inputText}←[1A`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR31 SGR45\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `←[31;45m${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR31 SGR45\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   sample = `Hello ←[31;41mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello </i><i class=\"SGR31 SGR41\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // SM set mode
@@ -672,49 +688,49 @@ QUnit.test(`BuildEcma48()`, function (assert) {
   // ED Erase in Page
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-80\" class=\"SGR0\">                                                                                </i><i class=\"SGR37 SGR40\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   sample = `←[J${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[0J${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   sample = `←[1J${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[2J${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // NOTE: 16/9/17 - switched RT to ignore \n values when rendering ANSI
   // [2J erases display
   sample = `${inputText}\n${inputText}\n${inputText}←[2J`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\" class=\"ED\"><i class=\"SGR37 SGR40\">Hello world.Hello world.Hello world.</i></div>`
   //uniqueResult = `<div id=\"row-1\" class=\"ED\"><i class=\"SGR37 SGR40\">Hello world.</i></div><div id=\"row-2\" class=\"ED\"><i class=\"SGR37 SGR40\">Hello world.</i></div><div id=\"row-3\" class=\"ED\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // EL Erase in Line
   sample = `←[K${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i id=\"column-1-to-80\" class=\"SGR0\">                                                                                </i><i class=\"SGR37 SGR40\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[0K${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   // ←[1K is not supported
   //
   sample = `←[2K${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\" class="ED"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // SGR Select Graphic Rendition
   // effects
   for (let sgr = 0; sgr < 22; sgr++) {
     sample = `←[${sgr}m${inputText}`
-    test = new BuildEcma48(sample).innerHTML
+    test = new BuildEcma48(sample).htmlString
     if ([0, 10].includes(sgr)) uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">Hello world.</i></div>`
     else if (sgr === 1) uniqueResult = `<div id=\"row-1\"><i class=\"SGR137 SGR40\">Hello world.</i></div>`
     else uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR${sgr}\">Hello world.</i></div>`
@@ -722,13 +738,13 @@ QUnit.test(`BuildEcma48()`, function (assert) {
   }
   // cancelled effects
   sample = `←[1mHello ←[22mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR137 SGR40\">Hello </i><i class=\"SGR37 SGR40\">world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   for (let sgr = 23; sgr < 29; sgr++) {
     if ([26, 28].includes(sgr)) continue
     sample = `←[${sgr - 20}mHello ←[${sgr}mworld.`
-    test = new BuildEcma48(sample).innerHTML
+    test = new BuildEcma48(sample).htmlString
     uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR${sgr - 20}\">Hello </i><i class=\"SGR37 SGR40\">world.</i></div>`
     assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   }
@@ -736,7 +752,7 @@ QUnit.test(`BuildEcma48()`, function (assert) {
   for (let sgr = 30; sgr < 40; sgr++) {
     if (sgr === 38) continue
     sample = `←[${sgr}m${inputText}`
-    test = new BuildEcma48(sample).innerHTML
+    test = new BuildEcma48(sample).htmlString
     uniqueResult = `<div id=\"row-1\"><i class=\"SGR${sgr} SGR40\">Hello world.</i></div>`
     assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   }
@@ -744,105 +760,105 @@ QUnit.test(`BuildEcma48()`, function (assert) {
   for (let sgr = 40; sgr < 50; sgr++) {
     if (sgr === 48) continue
     sample = `←[${sgr}m${inputText}`
-    test = new BuildEcma48(sample).innerHTML
+    test = new BuildEcma48(sample).htmlString
     uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR${sgr}\">Hello world.</i></div>`
     assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   }
   // border effects
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR51\">Hello </i><i class="SGR37 SGR40">world.</i></div>`
   sample = `←[51mHello ←[54mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR52\">Hello </i><i class="SGR37 SGR40">world.</i></div>`
   sample = `←[52mHello ←[54mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40 SGR53\">Hello </i><i class="SGR37 SGR40">world.</i></div>`
   sample = `←[53mHello ←[55mworld.`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // xterm 256 colours
   sample = `←[38;5;0m${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR380 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[38;5;10m${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR3810 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[38;5;100m${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR38100 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[38;5;255m${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR38255 SGR40\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
 
   sample = `←[48;5;255m${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR48255\">Hello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // unknown control functions
   sample = `←[6n${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   uniqueResult = `<div id=\"row-1\"><i class=\"SGR37 SGR40\">␛[6nHello world.</i></div>`
   assert.equal(test, uniqueResult, `'${sample}' ${reply}`)
   // Alternative Control Sequence Introducer
   // Set Mode =4h
   sample = `←[4h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM4, `'${sample}' ${reply}`)
 
   sample = `←[?4h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM4, `'${sample}' ${reply}`)
 
   sample = `←[=4h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM4, `'${sample}' ${reply}`)
 
   sample = `←[>4h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM4, `'${sample}' ${reply}`)
 
   sample = `←[18h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM18, `'${sample}' ${reply}`)
 
   sample = `←[?18h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM18, `'${sample}' ${reply}`)
 
   sample = `←[=18h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM18, `'${sample}' ${reply}`)
 
   sample = `←[>18h${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, t.oTSM18, `'${sample}' ${reply}`)
 
   // iCE colors ←[?33h (on) and ←[?33l (off)
 
   sample = `←[?33h←[47;5m←[B${inputText}` // start with iCE on
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR47 SGR5\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR47 SGR5\">Hello world.</i></div>`, `'${sample}' ${reply}`)
 
   sample = `←[?33l←[47;5m←[B${inputText}` // start with iCE off
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR47 SGR5\"></i></div><div id=\"row-2\"><i class=\"SGR37 SGR47 SGR5\">Hello world.</i></div>`, `'${sample}' ${reply}`)
 
   sample = `←[?33h←[5;47m${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR47 SGR5\">Hello world.</i></div>`, `'${sample}' ${reply}`)
 
   sample = `←[?33h←[6;47miCE iCE Baby←[?33l${inputText}`
-  test = new BuildEcma48(sample).innerHTML
+  test = new BuildEcma48(sample).htmlString
   assert.equal(test, `<div id=\"row-1\"><i class=\"SGR37 SGR47 SGR6\">iCE iCE Baby</i><i class=\"SGR37 SGR47 SGR6\">Hello world.</i></div>`, `'${sample}' ${reply}`)
 
   /*

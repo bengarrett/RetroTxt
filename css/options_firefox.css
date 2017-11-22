@@ -22,7 +22,7 @@
 
 #sample-dos-text {
     /* anything placed in here will override any classes introduced by JavaScript */
-    border: 0.063em solid rgb(215, 211, 200);
+    border: none;
     height: 40px;
     width: auto;
 }
@@ -30,6 +30,7 @@
 #status {
     font-size: 13px;
     height: 2em;
+    text-align: center;
 }
 
 .material-credits {
@@ -77,6 +78,16 @@ h1,
 h2,
 h3 {
     font-weight: normal;
+}
+
+header hr {
+    display: none;
+}
+
+header {
+    border: 0.063em solid rgb(215, 211, 200);
+    border-radius: 2px;
+    padding: 0.2em;
 }
 
 select {

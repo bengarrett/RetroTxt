@@ -5,7 +5,7 @@
 
 /*
 global BuildBBS BuildCP1252 BuildCPDos BuildCP88591 BuildCP885915 BuildCPUtf8 BuildCPUtf16
-HumaniseCP BuildEcma48 BuildFontStyles ListCharacterSets ListDefaults ListRGBThemes
+HumaniseCP BuildEcma48 BuildFontStyles ListCharacterSets ListDefaults ListRGBThemes ParseToChildren
 buildLinksToCSS checkArg checkErr changeTextScanlines changeTextEffect handleFontName
 chrome findControlSequences displayErr runSpinLoader humaniseFS findEngine handleFontSauce
 */
@@ -864,7 +864,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   const ramp = new RegExp(`&amp;`, `gi`)
   switch (inputSrc.format) {
     case `ecma48`: // ECMA-48 aka ANSI encoded text
-      console.info(`%c%cECMA-48%c control sequences in use`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
+      console.info(`%c%cECMA-48%ccontrol sequences in use.`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
       //console.time(`BuildEcma48()`)
       // These objects are isolated to the RetroTxt content scripts
       ecma48Data = new BuildEcma48(dataObj.html, sauce00, false, false)
@@ -872,7 +872,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       if (ecma48Data.columns === 999 && sauce00.config.width >= 180) outputDOM.columns = null
       else outputDOM.columns = ecma48Data.columns
       outputDOM.rows = ecma48Data.rows
-      dataObj.html = ecma48Data.innerHTML
+      dataObj.html = ecma48Data.htmlString
       dataObj.oths = ecma48Data.otherCodesCount
       dataObj.errs = ecma48Data.unknownCount
       // handle Set/Restore Mode functionality
@@ -932,12 +932,15 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       if (ecma48Data.iceColors === true) {
         dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
       }
-      // inject text into the browser tab
-      outputDOM.pre.innerHTML = dataObj.html
+      // parse text to a DOM object and insert it into the browser tab
+      if (typeof dataObj.html === `string`) {
+        const html = ParseToChildren(dataObj.html)
+        outputDOM.pre.appendChild(html)
+      } else checkErr(`Expecting a string type for dataObj.html but instead it is ${typeof dataObj.html}`)
       break
     case `pcboard`: // converts PCBoard and WildCat! BBS colour codes into HTML and CSS
     case `wildcat`:
-      console.info(`%c%c${chrome.i18n.getMessage(inputSrc.format)}%c ${chrome.i18n.getMessage(`color`)} codes`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
+      console.info(`%c%c${chrome.i18n.getMessage(inputSrc.format)} %c${chrome.i18n.getMessage(`color`)} codes.`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
       outputDOM.pre = BuildBBS(dataObj.html, inputSrc.format, false)
       break
     default:
@@ -945,8 +948,6 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       dataObj.html = dataObj.html.replace(rgt, `>`)
       dataObj.html = dataObj.html.replace(rlt, `<`)
       dataObj.html = dataObj.html.replace(ramp, `&`)
-      // inject text into the browser tab
-      // TODO outputDOM.pre = dataObj.html
       outputDOM.pre.textContent = dataObj.html
   }
   // apply a blinking cursor
@@ -1308,7 +1309,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     const m = document.getElementsByTagName(`main`)[0]
     const w = document.getElementById(`width-of-text`)
     const h = document.getElementById(`length-of-text`)
-    h.innerHTML = m.clientHeight
-    w.innerHTML = m.clientWidth
+    h.textContent = m.clientHeight
+    w.textContent = m.clientWidth
   }, 500)
 }

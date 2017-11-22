@@ -472,6 +472,18 @@ function humaniseFS(bytes = 0, si = 1024)
   return `${Math.round(bytes * 10) / 10}${units[u]}`
 }
 
+function ParseToChildren(s = ``)
+// Parses a string to a DOM node object that can be used with the appendChild() method.
+// This function is to avoid `UNSAFE_VAR_ASSIGNMENT` "Unsafe assignment to innerHTML" lint errors
+{
+  if (typeof s !== `string`) checkArg(`s`, `string`, s)
+  const parser = new DOMParser()
+  const parsed = parser.parseFromString(s, `text/html`)
+  const tag = parsed.getElementsByTagName(`body`)
+  if (tag.length === 0) return checkErr(`DOMParser.parseFromString('${s}','text/html') did not build a HTML object containing a <body> tag`)
+  return tag[0]
+}
+
 async function runSpinLoader(s = true)
 // Injects a loading spinner to the tab
 // It's not really useful due to the way browsers handle the DOM rendering,
