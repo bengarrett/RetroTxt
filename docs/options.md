@@ -2,14 +2,13 @@
 
 ## Options
 
-The Options dialogue lets you select a wide variety of font, colour and size combinations.
-That RetroTxt will use when theming text in the browser, as well as a number behaviour configurations to automate the execution of RetroTxt when it encounters text files.
+The Options dialogue lets you select a wide variety of font, colour and size combinations that RetroTxt will use when theming text in the browser. As well as a number behaviour configurations, to automate the execution of RetroTxt when it encounters text files.
 
-In Chrome, you can launch the Options dialogue by right-clicking the RetroTxt toolbar button and selecting __Options__.
+In Chrome, you launch the Options dialogue by right-clicking the RetroTxt toolbar button and selecting __Options__.
 
 ![Line height selection](assets/retrotxt_toolbar_button_chrome.png)
 
-In Firefox the Options dialogue can be accessed from the Extensions tab.
+With Firefox the Options dialogue is accessed from the Extensions tab.
 To do this, in a new tab enter the address `about:addons` and select **Extensions**.
 Then click the Options button under the RetroTxt listing.
 
@@ -17,8 +16,12 @@ Then click the Options button under the RetroTxt listing.
 
 ![Font options selection](assets/options_fonts.png)
 
-RetroTxt has 25 different monospaced font choices to apply to text. Some fonts have wide and tall variants.
-Those listed in the left pane are IBM PC, PS/2 and MS-DOS clone system fonts while the ones on the right belong to other home computer systems.
+RetroTxt has 25 different monospaced font choices to apply to text. Some fonts have `⇆` wide and `⇅` tall variants.
+Those listed in the left pane are IBM PC, IBM PS/2 and Microsoft DOS system fonts while the ones on the right belong to other home computer systems.
+
+The _Browser_ __Monospace__ _fixed-width_ selection uses a monospace font configured by the browser. This font selection is selectable within the browser under the _font_ settings.
+
+![Chrome browser fixed-width font selection](assets/chrome_fixed-width_font.png)
 
 ### Display
 
@@ -28,16 +31,16 @@ Those listed in the left pane are IBM PC, PS/2 and MS-DOS clone system fonts whi
 
 ![Colour pair](assets/options_colour_pair.png)
 
-The Colour pair menu allows you to apply a colour to text and background theme to all text handled by RetroTxt.
-These pairs are also base colours for colourize ANSI text.
+The Colour pair menu allows you to apply colour to text and a background theme to all characters handled by RetroTxt.
+These pairs are also base colours for colourising ANSI text.
 
-The choices ordered into three categories. Systems are recreations of ancient computer operating systems.
-Dark and Light correspond to colours used on either a black (Dark) or white (Light) background.
+The ordered choices are in three categories. __Systems__ are recreations of ancient computer operating systems.
+__Dark__ and __Light__ correspond to colours used on either a black (Dark) or white (Light) background.
 
 The RGB values of these colour pairs are in the source code `\css\text-colors.css`
 
 - **MS-DOS** uses VGA grey text on black.
-- **Windows** is themed on its `notepad.exe` program and uses black text on white.
+- **Windows** is themed on the `notepad.exe` program and uses black text on white.
 - **Apple II** based on the Apple home computer.
 - **Amiga** based on the Commodore Amiga Workbench with white text on grey.
 - **Atari ST** based on the Atari TOS with black text on white.
@@ -49,7 +52,7 @@ The RGB values of these colour pairs are in the source code `\css\text-colors.cs
 
 ![Line height selection](assets/options_line_height.png)
 
-Line height lets you add padding between each line of text. The amount of padding used is dependent on the size of the font.
+Line height lets you add padding to each line of text. The amount of padding used is dependent on the size of the font.
 A **25%** line height would introduce padding 1/4 of the height of the font.
 A **1x** (100%) value would pad the same height as the font in use.
 
@@ -100,7 +103,7 @@ Is the font name used.
 
 `ANSI`
 
-Any special controls or functions embedded into the text. ANSI art, for example, uses ANSI control sequences while ASCII art doesn't use any special controls.
+Unique controls or functions embedded into the text. ANSI art, for example, uses ANSI control sequences while ASCII art doesn't use any extra controls.
 
 - **ANSI** ECMA-48/ANSI X3.64 presentation control and cursor functions
 - **PCBoard** PCBoard BBS text colourisation
@@ -110,7 +113,7 @@ Any special controls or functions embedded into the text. ANSI art, for example,
 
 Highlights any errors or warnings encountered when parsing ANSI encoded text.
 
-[SAUCE metadata](http://www.acid.org/info/sauce/sauce.htm) may also be inserted into the header.
+[SAUCE metadata](http://www.acid.org/info/sauce/sauce.htm) may also be in the header.
 _Standard Architecture for Universal Comment Extensions_ is often found in ANSI art but can be attached to any document and allows the author to include titles, dates, comments and affiliations.
 
 ### Centre align text
@@ -119,7 +122,7 @@ Positions the text document from the left-top margin to the centre the of the di
 
 ### DOS control glyphs
 
-The PC/MS-DOS _Code Page 437_ is not completely standards compliant as it uses C0 characters normally reserved for common formatting controls to display character glyphs.
+The PC/MS-DOS _Code Page 437_ is not entirely standards compliant as it uses C0 characters usually reserved for common formatting controls to display character glyphs.
 As such these characters are never displayed but enabling this option will reveal these glyphs in the text document.
 
 ◘ <small>_= backspace_</small>
@@ -130,19 +133,19 @@ As such these characters are never displayed but enabling this option will revea
 
 ### Background scanlines
 
-Apply a subtle scan line effect to the backdrop of the page. The effect is more pronounced on light backgrounds but is not applied to the text.
+Apply a subtle scan line effect to the backdrop of the page. The result is more pronounced on light backgrounds and ignores the text.
 
 ### Text render
 
 #### Normal
 
-Does nothing but the host operating system or browser will most likely apply some font smoothing to the text characters.
+Lets the host operating system or browser handle the font smoothing.
 
 ![Normal text render](assets/text_render_normal.png)
 
 ##### Smeared
 
-Most browsers (other than FireFox on Windows) display vertical line artefacts when showing block characters. This option implements a `text-shadow` property in an attempt to correct this. It unfortunately also blurs alphanumeric characters that make them less readable.
+Due to font smoothing, many browsers display vertical line artefacts when showing block characters together. This option implements a `text-shadow` property in an attempt to correct this but it also blurs alphanumeric characters to make them less readable.
 
 ![Smeared text render](assets/text_render_smeared.png)
 
@@ -158,8 +161,8 @@ Apply a subtle shadow effect to each character.
 
 ### Apply RetroTxt to any text files hosted on these websites
 
-When check the web extension runs in the background and applies RetroTxt to all text files served by websites listed in the textbox.
-You can add additional sites to this list by including their domain name appended by a semicolon, for example
+If check the web extension runs in the background and applies RetroTxt to all text files served by websites listed in the textbox.
+You can add additional sites to this list by including their domain name appended by a semicolon, for example.
 
 - [Defacto2](https://defacto2.net) `defacto2.net;`
 - [Gutenberg.org](https://www.gutenberg.org) `gutenberg.org;`

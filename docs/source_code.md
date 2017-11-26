@@ -45,7 +45,7 @@ The web-ext tool is the preferred method and [has a dedicated web page](https://
 
 ![web-ext run example](assets/web-ext_example.png)
 
-Otherwise if you prefer using Firefox Developer Edition.
+Otherwise, if you prefer using Firefox Developer Edition.
 
 1. Open a new tab and type in the address `about:debugging`
 1. Click the __Load Temporary Add-on__ button and navigate to the local directory containing the RetroTxt source code

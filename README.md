@@ -8,13 +8,13 @@ Available for installation from both the [Chrome store](https://chrome.google.co
 
 - View ANSI, ASCII, NFO, PCBoard, Wildcat text art as HTML
 - RGB 16.7 million, xterm 256 and IBM VGA 16 colour support
-- Swappable ANSI palettes, xterm, VGA, cyan/magenta CGA, monochrome and toggable iCE Colors
+- Swappable ANSI palettes, xterm, VGA, cyan/magenta CGA, monochrome and switchable iCE Colors
 - Swappable ASCII & NFO colour themes, DOS, Windows, Amiga, C-64, Apple II, Atari ST
 - SAUCE metadata parsing
 - Multiple text encodings support including CP437, ISO-8959-1, Windows-1252
 - Text rendering toggles, smeared, shadow and normal
-- Multiple IBM PC font support such as VGA, EGA, CGA, MDA plus variants and more
-- Multiple Amiga fonts plus Commodore PETSCII, Atari ATASCII, ST and Apple II
+- Multiple IBM PC font support such as VGA, PS/2, EGA, CGA, MDA plus variants and more
+- Various Amiga fonts plus Commodore PETSCII, Atari ATASCII, ST and Apple II
 
 ![RetroTxt showcase](/docs/assets/zii-rtxt-ad.png)
 
@@ -30,19 +30,21 @@ Available for installation from both the [Chrome store](https://chrome.google.co
 
 ### Requirements
 
-**Chrome 55** or **Firefox 55**, newer or compatible browsers.
+**Chrome 55** or **Firefox 55** or newer browsers.
 
 ## Run RetroTxt
 
 After install you can run RetroTxt on any text or ANSI art file viewed in the browser by clicking the toolbar button.
 
-Chrome and Firefox buttons
+Selected toolbar button
 
-![RetroTxt toolbar button in Chrome](/docs/assets/retrotxt_toolbar_button_chrome.png) ![RetroTxt toolbar button in Firefox](/docs/assets/retrotxt_toolbar_button_firefox.png)
+![RetroTxt toolbar button in Chrome](/docs/assets/retrotxt_toolbar_button_chrome.png)
 
-You can test the RetroTxt install using one of the thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or [Project Gutenberg's](https://www.gutenberg.org/catalog/) _plain text_ books.
+You can test the RetroTxt install by clicking on one of the 10 Sample artworks found on the `welcome.html` tab that launches after installation.
 
-Or download one of the amazing text art packs created by [Blocktronics](http://blocktronics.org/artpacks/) or found at [textmod.es](http://pc.textmod.es/) and use the `file:///` protocol to browse and view the text art files saved onto your hard drive.
+![RetroTxt samples](/docs/assets/rtxt-samples.png)
+
+Elsewhere there are thousands of text files hosted at [textfiles.com](https://textfiles.com/directory.html) or [Project Gutenberg's](https://www.gutenberg.org/catalog/) _plain text_ books. Or download one of the amazing text art packs created by [Blocktronics](http://blocktronics.org/artpacks/) or found at [textmod.es](https://pc.textmod.es/) and use the `file:///` protocol to browse and view the text art files saved onto your hard drive.
 
 ### Permissions
 
@@ -54,19 +56,19 @@ Chrome requires **Allow access to file URLs** selected if you wish to use RetroT
 
 #### An important note about the license
 
-While RetroTxt uses a [GNU Lesser General Public License v3.0](http://choosealicense.com/licenses/lgpl-3.0/), the included fonts **are not**. You should read each font license that is in the `fonts/` subdirectory before redistribution, as some of the added collections do not permit the sale or modification of their fonts and packages.
+While RetroTxt uses a [GNU Lesser General Public License v3.0](https://choosealicense.com/licenses/lgpl-3.0/), the included fonts **are not**. You should read each font license that is in the `fonts/` subdirectory before redistribution, as some of the added collections do not permit the sale or modification of their fonts and packages.
 
 ## Credits
 
-RetroTxt by [Ben Garrett](http://bens.zone/) who can be reached at [Twitter @bens_zone](https://twitter.com/bens_zone) or [GitHub](https://github.com/bengarrett/)
+RetroTxt by [Ben Garrett](https://bens.zone/) on [Twitter @bens_zone](https://twitter.com/bens_zone) and [GitHub](https://github.com/bengarrett/)
 
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 
-- PC fonts [_The Ultimate Oldschool PC Font Pack_](http://int10h.org/oldschool-pc-fonts/) by Viler
-- Commodore Amiga fonts [_Multi Platform Fonts In Amiga Aspect v1.0_](http://www.trueschool.se/) by TrueSchool Ascii
+- PC fonts [_The Ultimate Oldschool PC Font Pack_](https://int10h.org/oldschool-pc-fonts/) by Viler
+- Commodore Amiga fonts [_Multi Platform Fonts In Amiga Aspect v1.0_](https://www.trueschool.se/) by TrueSchool Ascii
 - Apple II font [_Print Char 21_](http://www.kreativekorp.com/software/fonts/apple2.shtml) by Kreative Korp
 - Atari ATASCI font [_Atari Classic TrueType Fonts_](http://members.bitstream.net/marksim/atarimac/fonts.html) by Mark L. Simonson
-- Atari ST font [_8x16 system font_](http://www.dafont.com/atari-st-8x16-system-font.font) by divVerent
+- Atari ST font [_8x16 system font_](https://www.dafont.com/atari-st-8x16-system-font.font) by divVerent
 - Commodore 64 font [_C64 Pro Mono TrueType v1.2_](http://style64.org/c64-truetype) from Style
 
 Options icons by [Google Material Design](https://material.google.com/)

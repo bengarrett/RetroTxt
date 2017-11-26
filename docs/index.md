@@ -2,7 +2,7 @@
 
 ## About
 
-Despite the web built on text, the modern web is incapable of accurately displaying text written in legacy formats that have been in common use for decades.
+Despite the web built on text, the modern web is incapable of accurately displaying text written in legacy formats that have been in everyday use for decades.
 
 Here is where RetroTxt comes in. It converts legacy text into modern HTML for your web browser including `nfo` `txt` ASCII and ANSI art, either hosted online or stored on your computer. RetroTxt then injects an accurate retro monospace font and applies optional styling to improve the display and readability.
 

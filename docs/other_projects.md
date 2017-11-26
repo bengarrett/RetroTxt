@@ -2,11 +2,11 @@
 
 ## Similar projects
 
-Many great programs that offer similar functionality inspire RetroTxt.
+Many excellent programs that offer similar functionality inspire RetroTxt.
 
 ### ansilove
 
-Is a collection of tools for various platforms to convert an extensive variety of text art into PNG images.
+Is a collection of tools on various platforms, to convert an extensive variety of text art into PNG images.
 
 * [ansilove.js](https://ansilove.github.io/ansilove.js) for JavaScript
 * [ansilove](https://www.ansilove.org) for PHP
@@ -24,7 +24,7 @@ Converts ANSI into PNG images.
 
 ### PabloDraw
 
-_PabloDraw is an Ansi/Ascii text and RIPscrip vector graphic art editor/viewer with multi-user capabilities._
+_PabloDraw is an ANSI/Ascii text and RIPscrip vector graphic art editor/viewer with multi-user capabilities._
 [PabloDraw](http://picoe.ca/products/pablodraw) for Windows, macOS and Linux
 
 ### ACiDView
@@ -34,5 +34,5 @@ The granddaddy of ANSI art viewers that has a pedigree that goes back decades.
 
 ### iNFekt
 
-A modern ASCII, NFO and ANSI art viewer and terminal converter for Windows.
+An ASCII, NFO and ANSI art viewer and terminal converter for Windows.
 [iNFekt](https://infekt.ws/) for Windows

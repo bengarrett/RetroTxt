@@ -31,11 +31,11 @@ Positions the text document from the left-top margin to the centre the of the di
 
 ##### Scan lines
 
-Apply a subtle scan line effect to the background of the page. The effect is more pronounced on light backgrounds but is not applied to the text.
+Apply a subtle scan line effect to the background of the page. The result is more pronounced on light backgrounds and is not applied to the text.
 
 #### Transcode text
 
-Character encoding is complicated and the execution not always precise. If you encounter text that is not displaying as expected, you can transcode the text to display a different set of characters. Transcode text selections only apply to the active browser tab.
+Character encoding is complicated and the execution not always precise. If you encounter text that is not displaying as expected, you can transcode the text to show a different set of characters. Transcode text selections only apply to the active browser tab.
 
 ![Font options selection](assets/menu_transcode_text.png)
 
@@ -57,7 +57,7 @@ Force the active tab to parse the source text using [**CP-1252**](https://en.wik
 
 ##### ↻ CP-1252
 
-Force the active tab to display the text using **CP-1252**, the common legacy Microsoft Windows encoding instead of the default MS-DOS [*CP-437*](https://en.wikipedia.org/wiki/Code_page_437).
+Force the active tab to display the text using **CP-1252**, a familiar legacy Microsoft Windows encoding instead of the default MS-DOS [*CP-437*](https://en.wikipedia.org/wiki/Code_page_437).
 
 ##### ↺ ISO 8859-5
 

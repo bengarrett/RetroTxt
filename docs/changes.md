@@ -10,10 +10,10 @@
 - Redesigned some of the context menus.
 - Added a ▲ hide ▼ show toggle for the header.
 - Added 1x and 2x font size adjust toggle in the header.
-- Welcome page displays an RetroTxt updated banner that can also be turned off.
+- Welcome page displays a RetroTxt updated banner that can also be turned off.
 - Requires Firefox 55.
-- Links in the header are not selectedable to stop accidental selection when clicked.
-- Replaced columns/lines statistics in header with total pixel width/length.
+- Links in the header are not selectable to stop accidental selection when clicked.
+- Replaced columns/lines statistics in the header with total pixel width/length.
 - Fixed Blink engine handling of ANSI when it mistakenly sees it as ISO-8859-5 instead of Windows-1252.
 - Fixed broken preview images in `welcome.html`.
 - Fixed SAUCE font issue where it requests Amiga _Plus_ fonts but uses standard.
@@ -25,7 +25,7 @@
 - - Dropped the generation of elements using `dom.innerHTML` = text (except in `text_ecma48.js`).
 - - Removed all remaining `var` usage.
 - - Replaced many `let` variables with `const` objects.
-- - Renamed some variables so they are clearer in their purpose.
+- - Renamed some variables, so they are clearer in their purpose.
 - - Removed some unused functions and objects.
 
 ## 2.3
@@ -33,12 +33,12 @@
 ### August 2017
 
 - Added 24-bit RGB colour support for ANSI/ECMA-48 text. That gives a choice of over 16 million colours to play with.
-- New fonts, a complete set for Amiga and ATASCII (Atari 8-bit).
+- New fonts, a complete set of Amiga and ATASCII (Atari 8-bit).
 - Complete SAUCE FontName support.
 - Added 2-bit IBM CGA magenta palette.
 - Added Option checkbox, 'ANSI iCE colors'.
-- Fixed a number of CP437 characters not displaying as intended.
-- Fixed issue where 'DOS control glyphs' changes required 2 tab refreshes to apply.
+- Fixed some CP437 characters not displaying as intended.
+- Fixed issue where 'DOS control glyphs' changes required two tab refreshes to apply.
 - Any discovered SAUCE configurations are sent to the browser console.
 - Browser tab titles running RetroTxt are marked with `[··]`.
 
@@ -64,7 +64,7 @@
 
 ### March 2017
 
-- Performance optimizations to reduce the memory footprint and improve rendering speed.
+- Performance optimisations to reduce the memory footprint and improve rendering speed.
 - ECMA48/ANSI iCE colors support.
 - Automatic parsing and execution of [SAUCE ANSiFlags](http://www.acid.org/info/sauce/sauce.htm#ANSiFlags).
 - Added Atari ST TOS font and theme.

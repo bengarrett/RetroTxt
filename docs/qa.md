@@ -14,9 +14,9 @@ To ask a question, report a bug or request a feature please feel free to [leave 
 ### Known issues
 
 * A browser's [MIME sniffing](https://en.wikipedia.org/wiki/Content_sniffing) will often override RetroTxt, forcing text files to download rather than display in a tab.
-* Firefox (Gecko) will often produce incorrect MIME sniffing results with the `http(s)://` protocol.
+* Firefox (Gecko) will usually produce incorrect MIME sniffing results with the `http(s)://` protocol.
 * Chrome (Blink) can produce incorrect MIME sniffing results with the `file:///` protocol.
-* Atari ATASCII and Commodore PETSCII art are not supported.
+* Unsupported formats include Atari ATASCII and Commodore PETSCII.
 
 <a id="font-size"></a>
 
@@ -36,7 +36,7 @@ On Windows, for example, pasting `C:\Users\Ben\Downloads\myfile.txt` into Chrome
 
 You can also [browse your Windows drive](file:///C:/) or [your Linux and macOS drives](file:///).
 
-Chrome will need to [__Allow access to the file URLs__ permission](chrome://extensions/) enabled if you want the to work with local files automatically.
+Chrome will need to [__Allow access to the file URLs__ permission](chrome://extensions/) enabled if you want them to work with local files automatically.
 
 In Windows to make a web browser your default text file viewer.
 
@@ -70,7 +70,7 @@ In __Firefox__ press <kbd>ALT</kbd> <kbd>v</kbd> and select __Text Encoding__.
 
 Choose a more suitable character encoding but if you are not quite sure which one to use but the document is in English. First, try the __Unicode (UTF-8)__ then each of the other __Western__ options.
 
-Without using a 3rd-party web extension, **Chrome** has no ability to switch the character encoding.
+Without using a 3rd-party web extension, **Chrome** cannot switch the character encoding.
 
 You could also try to manually switch the transcoding RetroTxt applies by right-clicking on the page and select __Transcode text__ from the __RetroTxt__ context menu.
 
