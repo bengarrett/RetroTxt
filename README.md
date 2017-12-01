@@ -1,7 +1,5 @@
 # RetroTxt
 
-![Code Climate](https://codeclimate.com/github/bengarrett/RetroTxt/badges/gpa.svg)
-
 Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. The browser agnostic web extension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
 
 Available for installation from both the [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
