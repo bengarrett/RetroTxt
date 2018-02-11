@@ -2,8 +2,6 @@
 
 ## Source code
 
-![Code Climate](https://codeclimate.com/github/bengarrett/RetroTxt/badges/gpa.svg)
-
 RetroTxt employs an [open sourced license](https://choosealicense.com/licenses/lgpl-3.0/) with the complete code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs on how to use the source in both Chrome and Firefox web browsers.
 
 ### Download
