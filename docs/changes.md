@@ -1,5 +1,24 @@
 # RetroTxt Changes
 
+## 2.5
+
+### March 2018
+
+- Added Shift JIS support that will toggle the use of the Mona font when encountered.
+- Added an _ANSI 80 column wrap_ checkbox option that lets you disable this feature.
+- Added 2-bit IBM CGA palette 0 (brown/yellow).
+- `Welcome.html` has been reworked and uses tooltips on links.
+- Improved CSS font-stack for system fonts that should look better on all operating systems.
+- Context menu now uses radio buttons instead of tick glyphs.
+- Console output is now grouped and collapsed by default to reduce message spam.
+- Improved rendering of PCBoard art with alternative fonts.
+- Regenerated internal fonts to the `woff2` format to reduce the download and install size of the WebExtension.
+- Fixed context menu issues.
+- Fixed unsupported ECMA-48 controls reported as unknown.
+- Fixed blinking cursor not positioning correctly on small ANSI documents.
+- Fixed _text render_ methods not applied to ANSI documents.
+- Fixed white background themes that were not showing ECMA-48 bold text due to foreground and backgrounds colours being the same.
+
 ## 2.4
 
 ### September 2017
@@ -72,7 +91,7 @@
 - JavaScript refactor to be [ESlint compliant](http://eslint.org/).
 - Uses more [ES6 features](http://es6-features.org) such as arrow functions and for-of loops.
 
-- Improved error handling and user feedback when the addon or Web Extension API fails.
+- Improved error handling and user feedback when the addon or WebExtension API fails.
 - Improved embedded [SAUCE detection](http://www.acid.org/info/sauce/sauce.htm).
 
 - Fixed ECMA48/ANSI bug that dropped the first row of text.

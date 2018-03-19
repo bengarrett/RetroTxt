@@ -16,13 +16,10 @@ note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
 .SGR0 {
     /* reset to defaults */
     animation: none;
-    -moz-animation: none;
-    -webkit-animation: none;
     background-color: initial;
     border: 0;
     color: initial;
     filter: none;
-    -webkit-filter: none;
     font-family: inherit;
     font-style: normal;
     font-weight: normal;
@@ -48,21 +45,16 @@ note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
 .SGR5 {
     /* blink slow */
     animation: 300ms blink step-end infinite;
-    -moz-animation: 300ms blink step-end infinite;
-    -webkit-animation: 300ms blink step-end infinite;
 }
 
 .SGR6 {
     /* blink fast */
     animation: 100ms blink step-end infinite;
-    -moz-animation: 100ms blink step-end infinite;
-    -webkit-animation: 100ms blink step-end infinite;
 }
 
 .SGR7 {
     /* inverse */
     filter: invert(100%);
-    -webkit-filter: invert(100%);
     /* csslint ignore:start */
     mix-blend-mode: difference;
     /* csslint ignore:end */

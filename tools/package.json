@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "retrotxt-toolkit",
+  "version": "1.0.1",
+  "description": "Toolkit to package and run the WebExtension RetroTxt on different platforms",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bengarrett/RetroTxt.git"
+  },
+  "author": "Ben Garrett",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/bengarrett/RetroTxt/issues"
+  },
+  "homepage": "https://github.com/bengarrett/RetroTxt#readme",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "node": true
+    }
+  },
+  "dependencies": {
+    "ajv": "^6.2.1",
+    "chalk": "^2.3.2",
+    "file-size": "^1.0.0",
+    "fs-extra": "^5.0.0",
+    "web-ext": "^2.4.0"
+  }
+}

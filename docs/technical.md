@@ -21,8 +21,9 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 | [CP-1252](https://en.wikipedia.org/wiki/Windows-1252) | Yes | Also called Windows-1252 or Windows ANSI, it's backwards compatible with ISO-8859-1 and was the default encoding for legacy Windows |
 | [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) | Browser | The replacement for US-ASCII that supported twice as many characters and was the default encoding for the Commodore Amiga and legacy Linux |
 | [ISO-8859-15](https://en.wikipedia.org/wiki/ISO/IEC_8859-15) | Yes | A replacement for ISO-8859-1 that added some missing characters such as the `€` sign |
-| [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Browser | The current standard encoding for HTML4/5 and many documents. It supports over a hundred thousand characters.
-| [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Browser | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet.
+| [SHIFT JIS](https://en.wikipedia.org/wiki/Shift_JIS) | Browser | A legacy Japanese encoding used by Shift JIS art
+| [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Browser | The current standard encoding for HTML4/5 and many documents, it supports over a hundred thousand characters
+| [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Browser | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet
 | CP-1250, CP-1251, ISO-8859-5 | Yes | Encodings that are mistakenly used by Chrome when viewing ANSI and ASCII art |
 
 ### BBS colour codes

@@ -13,10 +13,11 @@ To ask a question, report a bug or request a feature please feel free to [leave 
 
 ### Known issues
 
+* Microsoft Windows applies font hinting that causes line artefacts with sequences of block elements `████`.
 * A browser's [MIME sniffing](https://en.wikipedia.org/wiki/Content_sniffing) will often override RetroTxt, forcing text files to download rather than display in a tab.
 * Firefox (Gecko) will usually produce incorrect MIME sniffing results with the `http(s)://` protocol.
 * Chrome (Blink) can produce incorrect MIME sniffing results with the `file:///` protocol.
-* Unsupported formats include Atari ATASCII and Commodore PETSCII.
+* Unsupported text formats include Atari ATASCII and Commodore PETSCII.
 
 <a id="font-size"></a>
 
@@ -48,7 +49,7 @@ In Windows to make a web browser your default text file viewer.
 
 ### Are the fonts and styling historically accurate ?
 
-* The extension uses TrueType fonts which are affected by the operating system font smoothing effects; ClearType on Windows, Quartz in macOS and FreeType on Linux. [Oliver Schmidhauser has a useful summary on the issue](https://oliverse.ch/technology/2016/07/16/using-pixel-fonts-in-a-browser-without-font-smoothing.html).
+* The extension uses TrueType fonts which are affected by the operating system font hinting; ClearType on Windows, Quartz in macOS and FreeType on Linux. [Oliver Schmidhauser has a useful summary on the issue](https://oliverse.ch/technology/2016/07/16/using-pixel-fonts-in-a-browser-without-font-smoothing.html).
 
 * Some fonts are for 40 columns (characters per line of text), but the extension doesn't enforce that limitation.
 
@@ -70,7 +71,7 @@ In __Firefox__ press <kbd>ALT</kbd> <kbd>v</kbd> and select __Text Encoding__.
 
 Choose a more suitable character encoding but if you are not quite sure which one to use but the document is in English. First, try the __Unicode (UTF-8)__ then each of the other __Western__ options.
 
-Without using a 3rd-party web extension, **Chrome** cannot switch the character encoding.
+Without using a 3rd-party WebExtension, **Chrome** cannot switch the character encoding.
 
 You could also try to manually switch the transcoding RetroTxt applies by right-clicking on the page and select __Transcode text__ from the __RetroTxt__ context menu.
 

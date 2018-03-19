@@ -5,140 +5,260 @@
 */
 
 i {
-  font-style: normal;
+    font-style: normal;
 }
+
+
+/* PCBoard rendering is indended for IBM 8px fonts */
 
 pre {
-  white-space: pre-wrap;
-  word-break: break-all;
-  width: 40rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    width: 40rem;
 }
 
+.text-2x {
+    width: 80rem;
+}
+
+
+/* but these fonts also render */
+
+.font-tandynew225-2y {
+    width: 27rem;
+}
+
+.font-tandynew225-2y.text-2x {
+    width: 54rem;
+}
+
+.font-ega9,
+.font-iso9,
+.font-vga9 {
+    width: 45rem;
+}
+
+.font-ega9.text-2x,
+.font-iso9.text-2x,
+.font-vga9.text-2x {
+    width: 90rem;
+}
+
+.font-tandynew225 {
+    width: 54rem;
+}
+
+.font-tandynew225.text-2x {
+    width: 108rem;
+}
+
+.font-mda {
+    width: 55rem;
+}
+
+.font-mda.text-2x {
+    width: 110rem;
+}
+
+.font-appleii {
+    width: 70rem;
+}
+
+.font-appleii.text-2x {
+    width: 140rem;
+}
+
+.font-bios,
+.font-cga,
+.font-cgathin,
+.font-ega8-2x,
+.font-tandynewtv,
+.font-pc1512,
+.font-vga8-2x {
+    width: 80rem;
+}
+
+.font-bios.text-2x,
+.font-cga.text-2x,
+.font-cgathin.text-2x,
+.font-ega8-2x.text-2x,
+.font-tandynewtv.text-2x,
+.font-pc1512.text-2x,
+.font-vga8-2x.text-2x {
+    width: 160rem;
+}
+
+.font-ega9-2x,
+.font-vga9-2x {
+    width: 90rem;
+}
+
+.font-ega9-2x.text-2x,
+.font-vga9-2x.text-2x {
+    width: 180rem;
+}
+
+.font-bios-2x {
+    width: 160rem;
+}
+
+.font-bios-2x.text-2x {
+    width: 320rem;
+}
+
+
+/* these fonts fail to render properly but these adjustments slightly improve their display */
+
+.font-atascii {
+    width: 60em;
+}
+
+.font-atarist {
+    width: 55em;
+}
+
+.font-c64 {
+    width: 77rem;
+}
+
+.font-microknight,
+.font-microknightplus,
+.font-p0tnoodle,
+.font-topazA500,
+.font-topazplusA500,
+.font-topazA1200,
+.font-topazplusA1200 {
+    width: 58rem;
+}
+
+
+/* PCBoard and WildCat! BBS colours */
+
 .PF0 {
-  color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
 }
 
 .PF1 {
-  color: rgb(0, 0, 128);
+    color: rgb(0, 0, 128);
 }
 
 .PF2 {
-  color: rgb(0, 128, 0);
+    color: rgb(0, 128, 0);
 }
 
 .PF3 {
-  color: rgb(0, 170, 170);
+    color: rgb(0, 170, 170);
 }
 
 .PF4 {
-  color: rgb(128, 0, 0);
+    color: rgb(128, 0, 0);
 }
 
 .PF5 {
-  color: rgb(170, 0, 170);
+    color: rgb(170, 0, 170);
 }
 
 .PF6 {
-  color: rgb(170, 85, 0);
+    color: rgb(170, 85, 0);
 }
 
 .PF7 {
-  color: rgb(170, 170, 170);
+    color: rgb(170, 170, 170);
 }
 
 .PF8 {
-  color: rgb(85, 85, 85);
+    color: rgb(85, 85, 85);
 }
 
 .PF9 {
-  color: rgb(0, 0, 255);
+    color: rgb(0, 0, 255);
 }
 
 .PFA {
-  color: rgb(0, 255, 0);
+    color: rgb(0, 255, 0);
 }
 
 .PFB {
-  color: rgb(0, 170, 170);
+    color: rgb(0, 170, 170);
 }
 
 .PFC {
-  color: rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
 }
 
 .PFD {
-  color: rgb(0, 255, 255);
+    color: rgb(0, 255, 255);
 }
 
 .PFE {
-  color: rgb(255, 255, 85);
+    color: rgb(255, 255, 85);
 }
 
 .PFF {
-  color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .PB0 {
-  /*  background-color: rgb(0, 0, 0); */
-  background-color: transparent;
+    /*  background-color: rgb(0, 0, 0); */
+    background-color: transparent;
 }
 
 .PB1 {
-  background-color: rgb(0, 0, 128);
+    background-color: rgb(0, 0, 128);
 }
 
 .PB2 {
-  background-color: rgb(0, 128, 0);
+    background-color: rgb(0, 128, 0);
 }
 
 .PB3 {
-  background-color: rgb(0, 170, 170);
+    background-color: rgb(0, 170, 170);
 }
 
 .PB4 {
-  background-color: rgb(128, 0, 0);
+    background-color: rgb(128, 0, 0);
 }
 
 .PB5 {
-  background-color: rgb(170, 0, 170);
+    background-color: rgb(170, 0, 170);
 }
 
 .PB6 {
-  background-color: rgb(170, 85, 0);
+    background-color: rgb(170, 85, 0);
 }
 
 .PB7 {
-  background-color: rgb(170, 170, 170);
+    background-color: rgb(170, 170, 170);
 }
 
 .PB8 {
-  background-color: rgb(85, 85, 85);
+    background-color: rgb(85, 85, 85);
 }
 
 .PB9 {
-  background-color: rgb(0, 0, 255);
+    background-color: rgb(0, 0, 255);
 }
 
 .PBA {
-  background-color: rgb(0, 255, 0);
+    background-color: rgb(0, 255, 0);
 }
 
 .PBB {
-  background-color: rgb(0, 170, 170);
+    background-color: rgb(0, 170, 170);
 }
 
 .PBC {
-  background-color: rgb(255, 0, 0);
+    background-color: rgb(255, 0, 0);
 }
 
 .PBD {
-  background-color: rgb(0, 255, 255);
+    background-color: rgb(0, 255, 255);
 }
 
 .PBE {
-  background-color: rgb(255, 255, 85);
+    background-color: rgb(255, 255, 85);
 }
 
 .PBF {
-  background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
 }

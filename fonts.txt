@@ -1,0 +1,3 @@
+DejaVu Sans Mono for Powerline
+https://dejavu-fonts.github.io/
+http://dejavu.sourceforge.net/samples/DejaVuSansMono.pdf - arrows - dingbats

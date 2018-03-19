@@ -77,13 +77,15 @@ function switchTab(num) {
         }
       }
       // reset sample text when user's mouse leaves the font selection form
-      const radioInput = document.getElementById(radio.htmlFor)
-      document.getElementById(`font-form`).addEventListener(`mouseleave`, function () {
-        if (radioInput !== null && radioInput.checked === true) {
-          status.textContent = `Font ${radioInput.value}`
-          changeFont(radioInput.value)
-        }
-      })
+      if (radio.htmlFor.length > 0) {
+        const radioInput = document.getElementById(radio.htmlFor)
+        document.getElementById(`font-form`).addEventListener(`mouseleave`, function () {
+          if (radioInput !== null && radioInput.checked === true) {
+            status.textContent = `Font ${radioInput.value}`
+            changeFont(radioInput.value)
+          }
+        })
+      }
     }
   }
 
@@ -113,19 +115,18 @@ function switchTab(num) {
         }
       }
       // reset sample text when user's mouse leaves the effect selection form
-      const radioInput = document.getElementById(effect.htmlFor)
-      if (radioInput === null) continue
-      document.getElementById(`effects-form`).addEventListener(`mouseleave`, () => {
-        if (radioInput.checked === true) {
-          const sample = document.getElementById(`sample-dos-text`)
-          status.textContent = `Using ${radioInput.value} text effect`
-          changeTextEffect(radioInput.value, sample)
-        }
-      })
+      if (effect.htmlFor.length > 0) {
+        const radioInput = document.getElementById(effect.htmlFor)
+        document.getElementById(`effects-form`).addEventListener(`mouseleave`, () => {
+          if (radioInput.checked === true) {
+            const sample = document.getElementById(`sample-dos-text`)
+            status.textContent = `Using ${radioInput.value} text effect`
+            changeTextEffect(radioInput.value, sample)
+          }
+        })
+      }
     }
   }
-
-  //checkErr(`Testing 1, 2, 3.`)
 
   // exit if running qunit tests
   if (typeof qunit !== `undefined`) return
@@ -218,6 +219,10 @@ function switchTab(num) {
     chrome.storage.local.set({ 'textBgScanlines': this.checked })
     changeOnEffects()
   })
+  document.getElementById(`ansi-wrap-80c`).addEventListener(`change`, function () {
+    localStorage.setItem(`textAnsiWrap80c`, this.checked)
+    chrome.storage.local.set({ 'textAnsiWrap80c': this.checked })
+  })
   document.getElementById(`ansi-ice-colors`).addEventListener(`change`, function () {
     localStorage.setItem(`textAnsiIceColors`, this.checked)
     chrome.storage.local.set({ 'textAnsiIceColors': this.checked })
@@ -287,7 +292,7 @@ function switchTab(num) {
     {
       if (typeof checkbox !== `string`) checkArg(`checkbox`, `string`, checkbox)
       const d = document.getElementById(`${checkbox}-div`)
-      d.style = `display: none;`
+      d.style.display = `none`
     }
     if (result === false && engine !== `gecko`) {
       disableOption(`run-file-urls`)
@@ -381,7 +386,7 @@ async function changeI18nWord(name = ``, cls = ``)
   const msg = chrome.i18n.getMessage(name)
   const words = document.getElementsByClassName(cls)
   for (const w of words) {
-    const word = w.innerHTML
+    const word = w.textContent
     if (word.slice(0, 1).toUpperCase()) {
       // if original word is capitalised, apply to new word
       w.textContent = `${msg[0].toUpperCase()}${msg.slice(1)}`
@@ -527,9 +532,12 @@ async function changeOnOptions()
   const r13 = localStorage.getItem(`textEffect`)
   if (typeof r13 !== `string` || r13.length < 1) checkErr(`textEffect`)
   else selector(`effect`, r13)
-  // ANSI iCE Colors
+  // Hide RetroTxt update notices
   const r15 = localStorage.getItem(`updatedNotice`)
   checker(`updated-notice`, r15)
+  // 80 column line wrap
+  const r16 = localStorage.getItem(`textAnsiWrap80c`)
+  checker(`ansi-wrap-80c`, r16)
 }
 
 async function changeStorageColors()

@@ -61,6 +61,7 @@ function ListSettings()
   // boolean
   this.textBgScanlines = false
   this.textDosCtrlCodes = false
+  this.textAnsiWrap80c = true
   this.textAnsiIceColors = true
   this.textEffect = `normal`
   this.textCenterAlignment = true
@@ -81,7 +82,7 @@ function ListSettings()
 function ListThemes()
 // font and colour themes to use with the context menus
 {
-  this.order = [`linux`, `windows`, `-`, `ibmps2`, `msdos`, `amiga`, `appleii`, `atarist`, `c64`] // order of display
+  this.order = [`linux`, `windows`, `ibmps2`, `msdos`, `amiga`, `appleii`, `atarist`, `c64`] // order of display
   this.amiga = { retroFont: `topazA500`, retroColor: `theme-amiga` }
   this.appleii = { retroFont: `appleii`, retroColor: `theme-appleii` }
   this.atarist = { retroFont: `atarist`, retroColor: `theme-atarist` }
@@ -152,8 +153,9 @@ function ListThemes()
       sendResponse({ response: listSettings })
     } else {
       // unknown
-      console.warn(`This unexpected message was received by handleMessage().`)
+      console.group(`This unexpected message was received by handleMessage().`)
       console.warn(request)
+      console.groupEnd()
     }
   })
 
@@ -275,11 +277,6 @@ function ListThemes()
 
   // Initialisation of storage and generate context menu on browser launch and extension load
   console.info(`RetroTxt is being initialised for the ${browserEngine.charAt(0).toUpperCase()}${browserEngine.slice(1)} engine.`)
-
-
-  window.addEventListener(`loadend`, function () {
-    console.log(`Hi?`)
-  })
 })()
 
 async function buildMenus(contexts)
@@ -293,6 +290,10 @@ async function buildMenus(contexts)
   // Remove any existing menus to avoid, undetected errors within callbacks
   chrome.contextMenus.removeAll()
   // Only show the context menu with page schemes that match docMatches
+  /*
+     NOTE 6/Mar/2018: Firefox imposes a 6 item limit for `browser_action` and `page_action` contexts
+     See: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/menus/ContextType
+  */
   chrome.contextMenus.create({
     'title': `Options`,
     'contexts': [`page`],
@@ -346,12 +347,22 @@ async function buildMenus(contexts)
       'documentUrlPatterns': docMatches
     })
   }
-  chrome.contextMenus.create({
-    'type': `separator`,
-    'contexts': contexts,
-    'documentUrlPatterns': docMatches,
-    'id': `sep2`
-  })
+  if (findEngine() === `blink`) {
+    // this creates an unintentional double separator in Firefox
+    chrome.contextMenus.create({
+      'type': `separator`,
+      'contexts': contexts,
+      'documentUrlPatterns': docMatches,
+      'id': `sep2`
+    })
+  } else {
+    chrome.contextMenus.create({
+      'type': `separator`,
+      'contexts': [`page`],
+      'documentUrlPatterns': docMatches,
+      'id': `sep2`
+    })
+  }
   // generate Theme items
   for (const id of styles.order) {
     if (id === `-`) {
@@ -363,7 +374,7 @@ async function buildMenus(contexts)
       })
     } else {
       chrome.contextMenus.create({
-        'type': `checkbox`,
+        'type': `radio`,
         'contexts': [`page`],
         'checked': false,
         'title': titles[id],
@@ -455,7 +466,7 @@ function changeMenuCheckmark(key = ``)
   // create and save setting object to local storage
   const setting = { [key]: newValue }
   localStorage.setItem(key, newValue)
-  chrome.storage.local.set(setting, checkErr)
+  chrome.storage.local.set(setting)
   // update any context menus to apply
   changeMenuState(key, newValue)
 }
@@ -785,8 +796,6 @@ async function listenForTabs(state = true, test = false)
           // when tab is not active, tab.status "complete" is not returned by Chrome
           eventUrl(`onCreated`, url, tab.id)
         } else if (tab.status === `complete`) {
-          console.log(`Help ${url}`)
-          console.log(tab)
           eventUrl(`onCreated`, url, tab.id)
         }
       }

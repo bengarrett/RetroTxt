@@ -1,0 +1,38 @@
+/*
+ filename: text_colors_cga-ice.css
+
+ ECMA-48 presentation control function colour codes in CGA Palette 0, 2-bit
+
+ SGR39 SGR40 SGR49 are in text_ecma_48.css
+*/
+
+
+/* iCE Colors (low intensity backgrounds) */
+
+.SGR5 {
+    animation-name: none;
+}
+
+.SGR40.SGR5,
+.SGR44.SGR5 {
+    /* black */
+    background-color: rgb(0, 0, 0);
+}
+
+.SGR45.SGR5,
+.SGR41.SGR5 {
+    /* green */
+    background-color: rgb(0, 170, 0);
+}
+
+.SGR46.SGR5,
+.SGR42.SGR5 {
+    /* right */
+    background-color: rgb(170, 0, 0);
+}
+
+.SGR47.SGR5,
+.SGR43.SGR5 {
+    /* brown */
+    background-color: rgb(170, 85, 0);
+}

@@ -38,7 +38,7 @@ JavaScript Performance Notes:
   /*global chrome checkArg checkErr checkRange BuildEcma48 handleFontSauce*/
   const cursor = new CursorCreate() // Initialise cursor position
   const ecma48 = new Ecma48Create() // Initialise ECMA48 configurations
-  const ecma48DOM = new DOMCreate() // DOM innerHTML text container (see JavaScript Performance Notes)
+  const ecma48DOM = new DOMCreate() // DOM text container (see JavaScript Performance Notes)
   const toggleSGR = new SGRCreate()  // SGR toggles
 
   function DOMCreate() {
@@ -102,10 +102,12 @@ JavaScript Performance Notes:
   {
     this.column = 1 // track x axis
     this.row = 1 // track y axis
-    this.maxColumns = 80 // maximum columns per line, set to 0 to disable
+    this.maxColumns = 80 // maximum columns per line
     this.previousRow = 0 // previous column, used to decide when to inject line breaks
     this.eraseLines = []  // used by the Erase in page and Erase in line
-    // to apply CSS `display: none` to functions to track which lines
+    try {
+      if (localStorage.getItem(`textAnsiWrap80c`) === `false`) this.maxColumns = 0 // set to 0 to disable
+    } catch (e) { /* if localStorage fails the maxColumns has already been set to 80 */ }
   }
   async function CursorReset()
   // Resets const objects created with CursorCreate()
@@ -166,9 +168,14 @@ JavaScript Performance Notes:
         }
         if (sauce.config.iceColors === `1`) ecma48.iceColors = true
         else ecma48.iceColors = false
-        console.info(`SAUCE Configuration\nWidth: ${sauce.config.width} columns\nFont: ${sauce.config.fontName}\n\
-iCE Colors: ${Boolean(parseInt(sauce.config.iceColors, 10))}\nAspect Ratio: ${sauce.config.aspectRatio}\n\
-Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}`)
+        console.groupCollapsed(`SAUCE Configuration`)
+        console.log(`Width: ${sauce.config.width} columns`)
+        console.log(`Font: ${sauce.config.fontName}`)
+        console.log(`iCE Colors: ${Boolean(parseInt(sauce.config.iceColors, 10))}`)
+        console.log(`Aspect Ratio: ${sauce.config.aspectRatio}`)
+        console.log(`Letter Spacing: ${sauce.config.letterSpacing}`)
+        console.log(`ANSI Flags: ${sauce.config.flags}`)
+        console.groupEnd()
         break
       default:
         if (localStorage.getItem(`textAnsiIceColors`) === `true`) ecma48.iceColors = true
@@ -247,12 +254,13 @@ Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}
     const ctrl = { code: ``, codes: [], delLen: 0, element: ``, sequence: `` }
     const texts = [] // array container to return
     let i = decimals.length
+    console.groupCollapsed(`EMCA-48 parse feedback`)
     while (i--) {
       const decimalChar = decimals[i] // current character as a Unicode decimal value
       counts.loop++
       switch (decimalChar) {
         case null: continue
-        case 26: // if the last character is `→` then assume this is a MS-DOS 'end of file' mark
+        case 26: // if the last character is `→` then assume this is a MS-DOS 'end of file' mark
           if (i === decimals.length - 1) continue // to display the EOF mark, comment this
         // break omitted
         case 155: // handle character value 155 which is our place holder for the Control Sequence Introducer `←[`
@@ -261,11 +269,11 @@ Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}
           // discover if the control sequence is supported
           // *********************************************
           ctrl.sequence = findControlCode(decimals, i, verbose)
-          // *********************************************
           if (ctrl.sequence === null) {
             // handle unknown sequences
-            if (verbose) console.info(`Unsupported control function for array item ${i}, character #${counts.control}`)
-            // we display all unknown controls sequences in the text
+            console.info(`Unsupported control function for array item ${i}, character #${counts.control}`)
+            // display all unknown controls sequences in the text that could belong to the much larger ECMA-48 standard
+            // or proprietary sequences introduced by terminal or drawing programs
             texts[i] = `\u241b` // `esc` control picture
             texts[i + 1] = `[`
             counts.unknown++
@@ -274,23 +282,32 @@ Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}
           ctrl.codes = ctrl.sequence.split(`,`)
           ctrl.code = ctrl.codes[0]
           ctrl.delLen = parseInt(ctrl.codes[1], 10) // number of characters to delete when erasing control sequences from the text
-          // strip out known control sequences from the text including those that will be converted into HTML
           switch (ctrl.code) {
-            case `ICE`: texts.fill(null, i + 2, ctrl.delLen + i + 6) // value, start, end
+            case `CUD`: case `CUF`: case `CUP`: case `ED`: case `EL`: case `HVP`: case `NULL`: case `RCP`: case `RGB`: case `SCP`: case `SGR`:
+              // strip out supported control sequences from the text
+              texts.fill(null, i + 2, ctrl.delLen + i + 2) // value, start, end
+              // EL (erase line) is supported except when used as an erase in-line sequence
+              if (ctrl.code === `EL` && ctrl.codes[2] === `1`) counts.other++
               break
-            case `CUB`: case `CUD`: case `CUF`: case `CUP`: case `CUU`:
-            case `ED`: case `EL`: case `HVP`: case `NULL`: case `RCP`:
-            case `RGB`: case `RM`: case `SCP`: case `SGR`: case `SM`: case `/x`:
-              //verbose = true
+            case `ICE`:
+              // strip out iCE colors control sequences
+              texts.fill(null, i + 2, ctrl.delLen + i + 6) // value, start, end
+              break
+            case `CUB`: // cursor back
+            case `CUU`: // cursor up
+            case `RM`: // restore cursor position
+            case `SM`: // save cursor position
+            case `/x`: // ansi.sys device driver to remap extended keys
+              // strip out unsupported control sequences from the text
+              counts.other++
               if (ctrl.delLen > 0) texts.fill(null, i + 2, ctrl.delLen + i + 2) // value, start, end
-              if ([`CUU`, `CUB`, `/x`].includes(ctrl.code)) counts.unknown++ // ignored sequences
-              else if (ctrl.code === `EL` && ctrl.codes[2] === `1`) counts.other++ // other sequences
-              else if (ctrl.code === `SM` && verbose === true) {
-                // debug output
+              if (verbose === true && ctrl.code === `SM`) {
                 console.groupCollapsed(`Control function '${ctrl.sequence}'`)
                 console.log(`At position ${i}, item #${counts.control}, length ${ctrl.codes[1]}\nNullify item ${counts.loop} fill ${i + 2} to ${ctrl.delLen + i + 1}`)
                 console.groupEnd()
               }
+              break
+            // default should not be needed as all unknown sequences should have previously been handled
           }
           // humanise control sequence introducer
           ctrl.element = buildCSI(ctrl.codes, verbose)
@@ -309,6 +326,7 @@ Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}
       }
       // end of while-loop
     }
+    console.groupEnd()
     ecma48.other = counts.other
     ecma48.unknown = counts.unknown
     return texts
@@ -746,10 +764,10 @@ Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}
       }
       rgb.arr = rgb.join.split(`;`)
       if (rgb.arr.length !== 4) rgb.valid = false
-      if ([`0`, `1`].includes(rgb.arr[0]) !== true) rgb.valid = false
-      if (rgb.arr[1] < 0 || rgb.arr[1] > 255) rgb.valid = false
-      if (rgb.arr[2] < 0 || rgb.arr[2] > 255) rgb.valid = false
-      if (rgb.arr[3] < 0 || rgb.arr[3] > 255) rgb.valid = false
+      else if ([`0`, `1`].includes(rgb.arr[0]) !== true) rgb.valid = false
+      else if (rgb.arr[1] < 0 || rgb.arr[1] > 255) rgb.valid = false
+      else if (rgb.arr[2] < 0 || rgb.arr[2] > 255) rgb.valid = false
+      else if (rgb.arr[3] < 0 || rgb.arr[3] > 255) rgb.valid = false
       if (rgb.valid === true) {
         rgb.str += rgb.arr.join()
         rgb.str = `RGB,${rgb.str.length + 1},${rgb.str}`
@@ -994,7 +1012,7 @@ Letter Spacing: ${sauce.config.letterSpacing}\nANSI Flags: ${sauce.config.flags}
         }
         break
       default:
-        console.warn(`parseCtrlName() attempted to parse this unknown control '${item}'`)
+        console.warn(`parseCtrlName() tried to parse this unknown control '${item}'`)
     }
   }
 

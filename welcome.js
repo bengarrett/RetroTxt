@@ -3,7 +3,7 @@
 // These functions are used exclusively by welcome.html.
 'use strict'
 
-/*global browser chrome buildLinksToCSS changeTextEffect ListRGBThemes */
+/*global browser chrome buildLinksToCSS changeTextEffect ListRGBThemes tippy */
 
 // duplicated functions for example ANSI interactions
 
@@ -12,16 +12,16 @@ function iceColorsOn(link) {
   if (iceCSS !== null) return
   const theme = new ListRGBThemes()
   document.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
-  link.childNodes[1].innerHTML = `On`
+  link.childNodes[1].textContent = `On`
 }
 function iceColorsOff(link) {
   const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
   if (iceCSS !== null) iceCSS.remove()
-  link.childNodes[1].innerHTML = `Off`
+  link.childNodes[1].textContent = `Off`
 }
 // ice color toggle functions
 function iceToggle(link) {
-  switch (link.childNodes[1].innerHTML) {
+  switch (link.childNodes[1].textContent) {
     case `On`: iceColorsOff(link); break
     default: iceColorsOn(link)
   }
@@ -30,7 +30,7 @@ function iceToggle(link) {
 // text render
 function renderToggle(link) {
   const doc = document.getElementsByTagName(`main`)[0]
-  switch (link.innerHTML) {
+  switch (link.textContent) {
     case `Normal`: changeTextEffect(`smeared`, doc); break
     case `Smeared`: changeTextEffect(`shadowed`, doc); break
     default: changeTextEffect(`normal`, doc)
@@ -178,6 +178,14 @@ async function runtimeInfo() {
   }
 }
 
+async function toolTips() {
+  tippy(`.tooltip`, {
+    arrow: true,
+    duration: [30, 20],
+    theme: `light`
+  })
+}
+
 (function () {
   optionHref()
   reloadHref()
@@ -192,4 +200,5 @@ async function runtimeInfo() {
   shuffleUL()
   runtimeInfo()
   showBrowser()
+  toolTips()
 })()

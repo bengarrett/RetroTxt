@@ -18,7 +18,7 @@ Or run the following command in a terminal.
 
 ### Use on Chrome
 
-I suggest that you create a new user profile in Chrome and use that to load and edit this web extension.
+I suggest that you create a new user profile in Chrome and use that to load and edit this WebExtension.
 
 1. Open a new tab and type in the address `chrome://extensions`
 1. In the Extensions, tab check to enable  __Developer Mode__

@@ -5,13 +5,17 @@ Stylises the Retrotxt Options dialogue
 See options_filefox.css for adjustments for the Firefox/Gecko browsers
 */
 
-body {}
+body {
+    display: default;
+}
 
 code {
     font-size: 125%;
 }
 
-footer {}
+footer {
+    display: default;
+}
 
 h1 {
     margin: 0;
@@ -48,7 +52,7 @@ main {
 
 nav.tab {
     overflow: hidden;
-    background-color: #f1f1f1;
+    background-color: rgb(241, 241, 241);
 }
 
 nav.tab button {
@@ -116,7 +120,9 @@ pre {
     vertical-align: middle;
 }
 
-#advanced-options {}
+#advanced-options {
+    display: default;
+}
 
 #error {
     color: rgb(255, 0, 0);
@@ -134,9 +140,13 @@ pre {
     margin-bottom: 0.5em;
 }
 
-#font-styles-effects {}
+#font-styles-effects {
+    display: default;
+}
 
-#font-styles-line-heights {}
+#font-styles-line-heights {
+    display: default;
+}
 
 #option-buttons {
     float: left;
@@ -192,7 +202,7 @@ pre {
 }
 
 #status {
-    font-family: arial;
+    font-family: var(--font-system);
     font-size: 0.6em;
     height: 1em;
     margin: 0;
@@ -233,23 +243,9 @@ Blinking terminal prompt that works with any colour
 #sample-cursor {
     text-shadow: none;
     animation: 300ms blink step-end infinite;
-    -moz-animation: 300ms blink step-end infinite;
-    -webkit-animation: 300ms blink step-end infinite;
 }
 
 @keyframes blink {
-    50% {
-        opacity: 0.5;
-    }
-}
-
-@-moz-keyframes blink {
-    50% {
-        opacity: 0.5;
-    }
-}
-
-@-webkit-keyframes blink {
     50% {
         opacity: 0.5;
     }

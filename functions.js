@@ -164,8 +164,8 @@ function ListRGBThemes()
   this.atarist = `theme-atarist`
   this.c64 = `theme-c64`
   // list of 4-bit themes (ECMA-48, PCBoard, WildCat!)
-  this.colors = [`gray`, `vga`, `xterm`, `cga`]
-  this.color = 1 // default coloured theme 0 = grey-scale, 1 = IBM-PC VGA, 2 = xterm, 3 = IBM-PC CGA magenta
+  this.colors = [`gray`, `vga`, `xterm`, `cga_0`, `cga_1`] // dynamic partial filenames used by iceColorsOn() `textContent`
+  this.color = 1 // default coloured theme 0 = grey-scale, 1 = IBM-PC VGA, 2 = xterm, 3 = IBM-PC CGA high (yellow), 4 = IBM-PC CGA low (magenta)
 }
 
 function BuildFontStyles(ff = `vga8`)
@@ -197,6 +197,7 @@ function handleFontName(font)
     case `MICROKNIGHTPLUS`: return `MicroKnight+`
     case `P0TNOODLE`: return `P0T-NOoDLE`
     case `PS24`: return `PS/2 (thin 4)`
+    case `MONA`: return `Mona`
     case `MOSOUL`: return `mOsOul`
     case `MONOSPACE`: {
       if (findEngine() === `blink`) return `Fixed-width`
@@ -477,10 +478,13 @@ function ParseToChildren(s = ``)
 // This function is to avoid `UNSAFE_VAR_ASSIGNMENT` "Unsafe assignment to innerHTML" lint errors
 {
   if (typeof s !== `string`) checkArg(`s`, `string`, s)
+  // As parseFromString() creates a <body> element which we don't need.
+  // We create a <div> container and as a work-around return its content
+  s = `<div>${s}</div>`
   const parser = new DOMParser()
   const parsed = parser.parseFromString(s, `text/html`)
-  const tag = parsed.getElementsByTagName(`body`)
-  if (tag.length === 0) return checkErr(`DOMParser.parseFromString('${s}','text/html') did not build a HTML object containing a <body> tag`)
+  const tag = parsed.getElementsByTagName(`div`)
+  if (tag.length === 0) return checkErr(`DOMParser.parseFromString('${s}','text/html') did not build a HTML object containing a <div> tag`)
   return tag[0]
 }
 
@@ -500,18 +504,18 @@ async function runSpinLoader(s = true)
         const spinner = document.createElement(`div`)
         spinner.setAttribute(`id`, `spin-loader`)
         spinner.setAttribute(`class`, `loader`)
-        spinner.setAttribute(`style`, `border:100px solid red`)
-        spinner.setAttribute(`style`, `display:block`)
+        spinner.setAttribute(`style`, `border: 100px solid red;`)
+        spinner.setAttribute(`style`, `display: block;`)
         document.body.appendChild(spinner)
         const stylesheet = buildLinksToCSS(`css/retrotxt_loader.css`, `retrotxt-loader`)
         headTag.appendChild(stylesheet)
       } else {
-        spinner.setAttribute(`style`, `display:block`)
+        spinner.setAttribute(`style`, `display: block;`)
       }
       break
     case false:
       if (spinner !== null) {
-        spinner.setAttribute(`style`, `display:none`)
+        spinner.setAttribute(`style`, `display: none;`)
       }
       break
   }

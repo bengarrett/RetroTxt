@@ -120,6 +120,18 @@ _Standard Architecture for Universal Comment Extensions_ is often found in ANSI 
 
 Positions the text document from the left-top margin to the centre the of the display.
 
+### ANSI 80 column wrap
+
+Enabled by default, this enforces an 80 column (characters) width limit for all ANSI files, unless [SAUCE](http://www.acid.org/info/sauce/sauce.htm) width information exists.
+
+Legacy artworks often expect an 80x25 character terminal screen and don't include proper newline characters or positioning information.
+
+### ANSI iCE colors
+
+Default ANSI offers 16 static foreground colours, eight blinking foreground colours and eight background colours.
+
+The _iCE Color mode_ also called the _non-blink mode_ removes the eight blinking colours and replaces them with an extra eight backgrounds to offer 16 static foreground and 16 background colours.
+
 ### DOS control glyphs
 
 The PC/MS-DOS _Code Page 437_ is not entirely standards compliant as it uses C0 characters usually reserved for common formatting controls to display character glyphs.
@@ -161,7 +173,7 @@ Apply a subtle shadow effect to each character.
 
 ### Apply RetroTxt to any text files hosted on these websites
 
-If check the web extension runs in the background and applies RetroTxt to all text files served by websites listed in the textbox.
+If check the WebExtension runs in the background and applies RetroTxt to all text files served by websites listed in the textbox.
 You can add additional sites to this list by including their domain name appended by a semicolon, for example.
 
 - [Defacto2](https://defacto2.net) `defacto2.net;`
@@ -175,12 +187,12 @@ Erasing the textbox content will reset the website list to the RetroTxt defaults
 ### Apply RetroTxt to any local text files
 
 Web browsers can load and display documents stored in a computer file system using the [`file:///`](file:///) protocol.
-With this option checked the web extension runs in the background.
+With this option checked the WebExtension runs in the background.
 It applies RetroTxt to all text files that are served using the [`file:///`](file:///) protocol, allowing you to use RetroTxt as an offline NFO, ANSI and ASCII viewer.
 
 ### Apply RetroTxt to any downloaded text files
 
-With this option, the web extension will monitor all your file downloads to attempt to apply RetroTxt to all saved text.
+With this option, the WebExtension will monitor all your file downloads to attempt to apply RetroTxt to all saved text.
 It is the browser that determines which files are binary or text so the results could be wrong.
 
 Firefox does not support the feature.

@@ -1,0 +1,10 @@
+/*
+  filename: text_colors_white_bg-fixes.css
+
+  Corrections for white background theme-windows and theme-atarist which hide white text
+*/
+
+.SGR137,
+.PFF {
+    filter: invert(100%);
+}

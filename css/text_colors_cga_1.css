@@ -1,10 +1,14 @@
 /*
- filename: text_colors_cga.css
+ filename: text_colors_cga_1.css
 
  ECMA-48 presentation control function colour codes in CGA Palette 1, 2-bit
+https://lospec.com/palette-list/tag/cga
 
  SGR39 SGR40 SGR49 are in text_ecma_48.css
 */
+
+
+/* low-intensity (used for normal text) */
 
 .SGR30,
 .SGR34 {
@@ -50,9 +54,12 @@
 
 .SGR47,
 .SGR43 {
-    /* white */
+    /* light grey */
     background-color: rgb(170, 170, 170);
 }
+
+
+/* high-intensity (used for bold text) */
 
 .SGR130,
 .SGR134 {

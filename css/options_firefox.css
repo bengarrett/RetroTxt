@@ -9,6 +9,7 @@
 
 :root {
     --firefox-link: rgb(100, 149, 237);
+    --firefox-font-system: -apple-system, Segoe UI, ubuntu;
 }
 
 #run-web-urls-permitted {
@@ -16,7 +17,7 @@
 }
 
 #options-container {
-    font-family: Segoe UI, -apple-system, ubuntu;
+    font-family: var(--firefox-font-system);
     font-size: 15px;
 }
 
@@ -107,7 +108,7 @@ nav.tab {
 
 nav.tab button {
     float: left;
-    font-family: Segoe UI, -apple-system, ubuntu;
+    font-family: var(--firefox-font-system);
     font-size: 1em;
     border: 1px solid rgb(193, 193, 193);
     border-radius: 2px;

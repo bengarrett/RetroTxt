@@ -151,8 +151,8 @@ async function buildStyles(dom = new FindDOM())
   if (typeof dom !== `object`) checkArg(`dom`, `object`, dom)
 
   function html() {
-    if (typeof dom.pre1 === `undefined`) return dom.pre0.innerHTML
-    dom.pre1.innerHTML
+    if (typeof dom.pre1 === `undefined`) return dom.pre0.textContent
+    dom.pre1.textContent
   }
 
   // Build link tags
@@ -197,7 +197,8 @@ async function changeColors(colorName = ``, dom = new FindDOM())
     else { // work around for Chrome
       switch (color) {
         case `theme-windows`:
-        case `theme-atarist`: return `invert(0%)`
+        case `theme-atarist`:
+          return `invert(0%)`
         default:
           if (color.includes(`-on-white`)) return `invert(0%)`
           return `invert(100%)`
@@ -232,6 +233,19 @@ async function changeColors(colorName = ``, dom = new FindDOM())
   else return // error
   if (dom.main.classList !== null) dom.main.classList.add(`${color}-fg`)
   else return // error
+  // handle color fixes
+  const fixes = document.getElementById(`white-bg-fixes`)
+  switch (color) {
+    case `theme-atarist`: case `theme-windows`:
+      if (fixes == null) {
+        dom.head.appendChild(buildLinksToCSS(`css/text_colors_white_bg-fixes.css`, `white-bg-fixes`))
+      } break
+    default:
+      if (fixes != null) {
+        fixes.remove()
+      }
+  }
+
   // invert headers
   // white backgrounds need to be handled separately
   for (let h of dom.headers) {
@@ -328,6 +342,7 @@ function charSetFind(c = ``, sauce = {}, dom = {})
         // Chrome/Blink special case when it confuses CP437 ANSI as ISO-8859-5
         if (findEngine() === `blink` && document.characterSet === `ISO-8859-5`) return `src_8859_5`
         // standard cases
+        if (fn.length <= 2) return `out_CP437`
         switch (fn[2]) {
           case `819`: return `out_8859_1` // Latin-1 Supplemental. Also known as ‘Windows-28591’ and ‘ISO/IEC 8859-1’
           default: return `out_CP437`
@@ -501,7 +516,7 @@ function formatSAUCE(s = {})
   if (str.length <= 0) return null
   div.appendChild(sauce)
   if (s.comment.trim() !== ``) {
-    commt.style = `display:block;`
+    commt.style.display = `block`
     div.appendChild(commt)
   }
   return div
@@ -545,10 +560,14 @@ function handleChanges(change)
     scanlines: change.textBgScanlines,
     dosCtrls: change.textDosCtrlCodes,
     iceColors: change.textAnsiIceColors,
+    wrap80c: change.textAnsiWrap80c,
   }
   const dom = new FindDOM()
 
   // handle objects that only need to set local storage
+  if (changes.wrap80c) {
+    localStorage.setItem(`textAnsiWrap80c`, changes.wrap80c.newValue)
+  }
   if (changes.iceColors) {
     localStorage.setItem(`textAnsiIceColors`, changes.iceColors.newValue)
   }
@@ -616,21 +635,22 @@ function handleMessages(message)
 // Handle messages passed on by functions in eventpage.js
 // @message An object created by chrome.runtime.onMessage
 {
-  function other() {
-    console.warn(`This unexpected message was received by handleMessages()`)
-    console.warn(message)
-  }
-  if (message.id === undefined) {
-    other()
-    return
-  }
+  if (message.id === undefined) return other()
   switch (message.id) {
     case `transcode`:
       sessionStorage.setItem(`transcode`, message.action)
       window.location.reload() // reload the active tab
       break
-    case `checkErr`: displayErr(); break // display error alert box on active tab
-    default: other(); break
+    case `checkErr`:
+      return displayErr() // display error alert box on active tab
+    default:
+      return other()
+  }
+
+  function other() {
+    console.group(`This unexpected message was received by handleMessages()`)
+    console.warn(message)
+    console.groupEnd()
   }
 }
 
@@ -661,6 +681,10 @@ function switch2HTML(dom = new FindDOM())
     if (r === undefined) checkErr(`Could not obtain the required textFontInformation setting to apply text font information feature`, true)
     else if (typeof r === `boolean`) changeHeader(r, dom)
   })
+  if (findEngine() === `blink`) {
+    // temporary workaround for issue where the previous background color of <body> is cached and not removed
+    dom.pre1.style.backgroundColor = ``
+  }
   dom.pre1.style.display = `none`
   dom.pre0.style.display = `block`
   const links = Array.from(dom.head.childNodes)
@@ -692,6 +716,10 @@ function switch2PlainText(dom = new FindDOM())
     }
     dom.pre0.style.display = `none`
     dom.pre1.style.display = `block`
+    if (findEngine() === `blink`) {
+      // temporary workaround for a Blink engine issue where the previous background color of <body> cached and not removed
+      dom.pre1.style.backgroundColor = `white`
+    }
   } else if (typeof dom.pre0 !== `undefined`) {
     dom.pre0.style.display = `block`
   }
@@ -721,9 +749,8 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   if (dom.cssLink !== null) {
     if (dom.cssLink.disabled === true) switch2HTML(dom)
     else if (dom.cssLink.disabled === false) switch2PlainText(dom)
-    // tell a listener in eventpage.js that this tab's body has been modified
-    chrome.runtime.sendMessage({ retroTxtified: false })
-    return // end runRetroTxt() function
+    // end runRetroTxt() function & tell a listener in eventpage.js that this tab's body has been modified
+    return chrome.runtime.sendMessage({ retroTxtified: false })
   }
 
   /* Build HTML */
@@ -741,8 +768,10 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     if (typeof r.retroColor === `string`) changeColors(r.retroColor, dom)
     else err(`retroColor`)
     // font selection
-    if (typeof r.retroFont === `string`) changeFont(r.retroFont, dom.pre0)
-    else err(`retroFont`)
+    if (document.characterSet.toLowerCase() !== `shift_jis`) {
+      if (typeof r.retroFont === `string`) changeFont(r.retroFont, dom.pre0)
+      else err(`retroFont`)
+    }
     // scan lines
     if (typeof r.textBgScanlines === `boolean` && r.textBgScanlines === true) changeTextScanlines(r.textBgScanlines, dom.body)
     else if (typeof r.textBgScanlines !== `boolean`) err(`textBgScanlines`)
@@ -773,12 +802,12 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   const inputSrc = { BOM: ``, chrSet: ``, encoding: ``, format: null, length: null, text: ``, }
   inputSrc.chrSet = document.characterSet
   inputSrc.encoding = pageEncoding
-  inputSrc.text = dom.pre0.innerHTML
+  inputSrc.text = dom.pre0.textContent
   inputSrc.BOM = findUnicode(inputSrc.text)
   inputSrc.format = findControlSequences(inputSrc.text)
   inputSrc.length = inputSrc.text.length
   // Browser elements
-  const outputDOM = { header: null, main: null, pre: null, slice: ``, innerHTML: ``, columns: null, rows: null, }
+  const outputDOM = { header: null, main: null, pre: null, slice: ``, columns: null, rows: null, }
   outputDOM.headerShow = document.createElement(`header`)
   outputDOM.headerShow.id = `header-show`
   outputDOM.headerHide = document.createElement(`header`)
@@ -864,7 +893,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
   const ramp = new RegExp(`&amp;`, `gi`)
   switch (inputSrc.format) {
     case `ecma48`: // ECMA-48 aka ANSI encoded text
-      console.info(`%c%cECMA-48%ccontrol sequences in use.`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
+      console.info(`%c%cECMA-48%c control sequences in use.`, `font-weight: bold`, `font-weight: bold; color: green`, `font-weight: bold; color: initial`)
       //console.time(`BuildEcma48()`)
       // These objects are isolated to the RetroTxt content scripts
       ecma48Data = new BuildEcma48(dataObj.html, sauce00, false, false)
@@ -894,7 +923,8 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
           document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_${theme.colors[theme.color]}.css`)
           break
         case 1: document.getElementById(`retrotxt-4bit`).remove(); break
-        case 2: document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_cga.css`); break
+        case 2: document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_cga_0.css`); break
+        case 3: document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_cga_1.css`); break
         case 0: document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(`css/text_colors_gray.css`); break
       }
       // handle 8-bit stylesheet
@@ -904,7 +934,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       }
       // build palette html element
       hd.palette.id = `h-palette`
-      if (ecma48Data.colorDepth !== 4) hd.palette.style = `font-weight:normal;`
+      if (ecma48Data.colorDepth !== 4) hd.palette.style.fontWeight = `normal`
       switch (ecma48Data.colorDepth) {
         case 24: case 8:
           if (ecma48Data.colorDepth === 8) {
@@ -970,21 +1000,23 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       if (iceCSS !== null) return
       const theme = new ListRGBThemes()
       if (palette !== null) {
-        switch (palette.innerHTML) {
+        switch (palette.textContent) {
           case `IBM`: theme.color = 1; break
           case `xterm`: theme.color = 2; break
-          case `IBM CGA`: theme.color = 3; break
+          case `CGA 0`: theme.color = 3; break
+          case `CGA 1`: theme.color = 4; break
           default: theme.color = 0
         }
       }
       dom.head.appendChild(buildLinksToCSS(`css/text_colors_${theme.colors[theme.color]}-ice.css`, `retrotxt-4bit-ice`)) // child 4
-      iceColors.childNodes[1].innerHTML = `On`
+      iceColors.childNodes[1].textContent = `On`
     }
     function iceColorsOff() {
       const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
       if (iceCSS !== null) iceCSS.remove()
-      iceColors.childNodes[1].innerHTML = `Off`
+      iceColors.childNodes[1].textContent = `Off`
     }
+
     // reveal or hide header
     const tHide = document.getElementById(`h-ui-toggle-hide`)
     const tShow = document.getElementById(`h-ui-toggle-show`)
@@ -1005,7 +1037,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     const textRender = document.getElementById(`h-text-rend`)
     if (textRender !== null) {
       textRender.onclick = function () {
-        switch (this.innerHTML) {
+        switch (this.textContent) {
           case `Normal`: changeTextEffect(`smeared`, dom.body.childNodes[3]); break
           case `Smeared`: changeTextEffect(`shadowed`, dom.body.childNodes[3]); break
           default: changeTextEffect(`normal`, dom.body.childNodes[3])
@@ -1018,16 +1050,20 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       palette.onclick = function () {
         const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
         const theme = new ListRGBThemes()
-        switch (this.innerHTML) {
+        switch (this.textContent) {
           case `IBM`: // 1
             palette.textContent = `xterm`
             theme.color = 2
             break
           case `xterm`: // 2
-            palette.textContent = `IBM CGA`
+            palette.textContent = `CGA 0`
             theme.color = 3
             break
-          case `IBM CGA`: // 3
+          case `CGA 0`: // 3
+            palette.textContent = `CGA 1`
+            theme.color = 4
+            break
+          case `CGA 1`: // 3
             palette.textContent = `${chrome.i18n.getMessage(`Gray`)}`
             theme.color = 0
             break
@@ -1049,15 +1085,30 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     if (iceColors !== null) {
       switch (ecma48Data.iceColors) {
         case true:
-          iceColors.childNodes[1].innerHTML = `On`
+          iceColors.childNodes[1].textContent = `On`
           iceColors.onclick = iceToggle
           break
         default:
-          iceColors.childNodes[1].innerHTML = `Off`
+          iceColors.childNodes[1].textContent = `Off`
           iceColors.onclick = iceToggle
       }
     }
   })
+  // apply any stylesheet fixes
+  {
+    chrome.storage.local.get([`retroColor`], r => {
+      // colour choices
+      if (typeof r.retroColor === `string`) {
+        const fixes = document.getElementById(`white-bg-fixes`)
+        if (fixes == null) {
+          switch (r.retroColor) {
+            case `theme-atarist`: case `theme-windows`:
+              dom.head.appendChild(buildLinksToCSS(`css/text_colors_white_bg-fixes.css`, `white-bg-fixes`)); break
+          }
+        }
+      }
+    })
+  }
   // code page details for text font info.
   hd.encode.id = `h-doc-fmt`
   switch (inputSrc.format) {
@@ -1067,27 +1118,32 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
       hd.encode.textContent = `${chrome.i18n.getMessage(inputSrc.format)}`
       break
     case `ecma48`:
+      // This is probably an amazing piece for a BBS that unfortunately is too complicated to display in HTML.
       // ecma48 errors
       if (dataObj.oths > 0 || dataObj.errs > 0) {
+        // construct error message
         const cnt = dataObj.oths + dataObj.errs
-        let ic = ``
+        let err = ``
         if (dataObj.oths > 0) {
-          ic += `${dataObj.oths} unsupported function`
-          if (dataObj.oths > 1) ic += `s`
+          err += `${dataObj.oths} unsupported function`
+          if (dataObj.oths > 1) err += `s`
         }
-        if (dataObj.oths > 0 && dataObj.errs > 0) ic += ` and `
+        if (dataObj.oths > 0 && dataObj.errs > 0) err += ` and `
         if (dataObj.errs > 0) {
-          ic += `${dataObj.errs} unknown control`
-          if (dataObj.errs > 1) ic += `s`
+          err += `${dataObj.errs} unknown control`
+          if (dataObj.errs > 1) err += `s`
         }
-        ic += ` found`
-        if (cnt > 4) {
-          ic += `, this display is inaccurate`
-          const u = document.createElement(`u`)
-          u.textContent = ic
-          hd.errors.appendChild(u)
-        } else {
-          hd.errors.textContent = ic
+        err += ` found`
+        // display as feedback
+        if (cnt <= 4) console.warn(err)
+        else {
+          // display on page
+          const span = document.createElement(`span`)
+          span.textContent = `:( This fantastic piece of animated BBS artwork is unfortunately too complicated to display as HTML`
+          hd.errors.appendChild(span)
+          // display in console
+          err += `, the display of the ANSI is inaccurate`
+          console.error(err)
         }
       }
     // break omitted
@@ -1109,7 +1165,7 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
         inp.text = inputSrc.chrSet.replace(`-`, ``).toUpperCase()
         inp.text = inp.text.replace(`WINDOWS`, `CP`)
         // check that document.characterSet is usable by RetroTxt
-        if ([`CP437`, `CP1250`, `CP1251`, `CP1252`, `ISO8859-5`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(inp.text) === false) {
+        if ([`CP437`, `CP1250`, `CP1251`, `CP1252`, `ISO8859-5`, `SHIFT_JIS`, `UTF8`, `UTF16LE`, `UTF16BE`].includes(inp.text) === false) {
           input.classList.add(`unknown`) // this class hightlights the characterSet string
         }
         // serialise the result of sessionStorage.getItem(`transcode`)
@@ -1121,35 +1177,53 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
         output.textContent = out.text
         input.title = `Document encoding set by the browser`
         output.title = `Unicode ≈ `
-        switch (stored.item) {
-          case `codeMsDos0`: case `codeMsDos1`:
-            if (inp.text === stored.text) {
-              input.style = `text-decoration: underline`
-              input.textContent = inp.text
-            } else {
-              const old = document.createElement(`span`)
-              old.style = `text-decoration: line-through`
-              old.textContent = inp.text
-              input.appendChild(old)
-              input.textContent = stored.text
-            }
+        switch (inp.text) {
+          // handle codepages that require specific fonts
+          // these will override user font choices for plain text
+          case `SHIFT_JIS`:
+            input.textContent = `Shift JIS`
+            input.title = `Shift JIS Japanese text art`
+            output.textContent = ``
+            output.title = ``
+            changeFont(`mona`, outputDOM.pre)
             break
           default:
-            if (stored.text === out.text) {
-              output.style = `text-decoration: underline`
-              output.textContent = out.text
-            } else if (stored.text !== ``) {
-              const old = document.createElement(`span`)
-              old.style = `text-decoration: line-through`
-              old.textContent = out.text
-              output.appendChild(old)
-              output.textContent = stored.text
+            // handle other codepages
+            switch (stored.item) {
+              case `codeMsDos0`: case `codeMsDos1`:
+                if (inp.text === stored.text) {
+                  input.style.textDecoration = `underline`
+                  input.textContent = inp.text
+                } else {
+                  const old = document.createElement(`span`)
+                  old.style.textDecoration = `line-through`
+                  old.textContent = inp.text
+                  input.appendChild(old)
+                  input.textContent = stored.text
+                }
+                break
+              default:
+                if (stored.text === out.text) {
+                  output.style = `text-decoration: underline`
+                  output.textContent = out.text
+                } else if (stored.text !== ``) {
+                  const old = document.createElement(`span`)
+                  old.style.textDecoration = `line-through`
+                  old.textContent = out.text
+                  output.appendChild(old)
+                  output.textContent = stored.text
+                }
             }
+            output.title += dataObj.cp.title
         }
-        output.title += dataObj.cp.title
         hd.encode.appendChild(input)
-        hd.encode.appendChild(vs)
-        hd.encode.appendChild(output)
+        switch (inp.text) {
+          case `SHIFT_JIS`: //skip appends when both input and output encodings are the same
+            break
+          default:
+            hd.encode.appendChild(vs)
+            hd.encode.appendChild(output)
+        }
         if (inputSrc.format === `ecma48`) {
           ansi.title = `ECMA-48/ANSI X3.64 presentation control and cursor functions`
           ansi.textContent = `ANSI`
@@ -1212,7 +1286,9 @@ function runRetroTxt(tabId = 0, pageEncoding = `unknown`)
     // page font family
     hd.font.id = `h-doc-font-family`
     hd.font.title = `Font family used for display`
-    if (typeof ecma48Data.font !== `undefined` && ecma48Data.font !== null) {
+    if (inputSrc.chrSet.toLowerCase() === `shift_jis`) {
+      hd.font.textContent = handleFontName(`MONA`)
+    } else if (typeof ecma48Data.font !== `undefined` && ecma48Data.font !== null) {
       // ecma48 encode text
       hd.font.textContent = handleFontName(ecma48Data.font)
     } else {

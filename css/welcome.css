@@ -1,0 +1,150 @@
+/*
+  filename: welcome.css
+
+Stylises the Retrotxt welcome page
+*/
+
+body {
+    font-family: var(--font-system);
+    font-size: 110%;
+    letter-spacing: 0.075em;
+    max-width: 1412px;
+    margin: auto;
+}
+
+h1 {
+    font-size: 1.1em;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0;
+}
+
+h2 {
+    color: var(--amber);
+    font-family: pc1512;
+    font-size: 1.15em;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0;
+    margin-top: 1em;
+}
+
+menu {
+    color: var(--white);
+    padding: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 1em;
+}
+
+ul li {
+    display: inline;
+    margin: 0.5em;
+}
+
+a:link {
+    color: var(--vgagray);
+}
+
+a:visited {
+    color: var(--vgagray);
+}
+
+a:hover {
+    color: var(--amber);
+}
+
+a:active {
+    color: var(--vgagray);
+}
+
+.card {
+    background: var(--white);
+    color: var(--black);
+    transition: 0.25s;
+    width: 256px;
+    height: 300px;
+    font-size: 1em;
+}
+
+.card:hover {
+    color: var(--green);
+    background-color: var(--black);
+}
+
+.card:image {
+    width: 256px;
+}
+
+.card img:hover {
+    filter: sepia(100%);
+}
+
+.card h4 {
+    margin: 0;
+}
+
+.container {
+    padding: 2px 16px;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flex-item {
+    width: 256px;
+    margin: 10px;
+    margin-left: 0;
+}
+
+#mark {
+    font-size: 1.25em;
+    letter-spacing: -0.19em;
+}
+
+#rtu {
+    background-color: rgb(30, 144, 255);
+    color: var(--white);
+    display: none;
+    margin: 0;
+    padding-bottom: 0.2em;
+    text-align: center;
+}
+
+#rtu-ui {
+    display: none;
+}
+
+#rtu-ui small {
+    float: right;
+    padding-right: 1em;
+}
+
+#rtu-ui a:link,
+#rtu-ui a:visited,
+#rtu a:link,
+#rtu a:visited {
+    color: var(--white);
+    text-decoration: none;
+}
+
+#rtu-ui a:hover,
+#rtu a:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+#rtu-ui a:active,
+#rtu a:active {
+    color: var(--white);
+}
+
+#technobabble {
+    padding: 2em;
+}

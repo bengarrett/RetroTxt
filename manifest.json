@@ -1,6 +1,6 @@
 {
-    "version": "2.4.23",
-    "version_name": "2.4",
+    "version": "2.5.16",
+    "version_name": "2.5",
     "minimum_chrome_version": "55",
     "applications": {
         "gecko": {
@@ -67,13 +67,9 @@
     },
     "web_accessible_resources": [
         "css/*.css",
-        "fonts/amiga/ttf/*.ttf",
-        "fonts/appleii/*.ttf",
-        "fonts/atari_st/*.ttf",
-        "fonts/atascii/*.ttf",
-        "fonts/commodore64/fonts/*.woff2",
-        "fonts/commodore64/fonts/*.ttf",
-        "fonts/ms_dos/*.ttf",
+        "fonts/woff2/*.woff2",
+        "libs/tippyjs/*.css",
+        "libs/tippyjs/*.js",
         "test/tests.js",
         "welcome.js",
         "welcome.html"

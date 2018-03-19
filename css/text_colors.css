@@ -4,6 +4,11 @@
   Colours used for ASCII and plain text themes
 */
 
+
+/*
+Global variables for all text_colors_*.css
+*/
+
 :root {
     --amber: rgb(185, 128, 0);
     --black: rgb(0, 0, 0);
@@ -135,7 +140,7 @@ Generic on black backgrounds
 .theme-white-on-black-bg,
 .theme-amber-on-black-bg,
 .theme-green-on-black-bg {
-    background-color: rgb(0, 0, 0);
+    background-color: var(--black);
 }
 
 .theme-white-on-black-shadowed,
