@@ -1,5 +1,5 @@
 Document encoding: CP437 (OEM-US)
-RetroTxt 'Transcode text' setting: System guess
+'Transcode text' setting: Automatic
 File name: us-ascii.txt
 
 RetroTxt US-ASCII test

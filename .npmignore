@@ -1,0 +1,28 @@
+# WebExtension specific files
+/eventpage.js
+options.*
+/retrotxt.js
+/parse_input.js
+welcome.*
+css/options_*
+css/modern-*
+css/retrotxt_*
+
+# WebExtension specific folders
+_locales/
+assets/
+docs/
+fonts/amiga/
+fonts/appleii/
+fonts/atascii/
+fonts/commodore64/
+fonts/material/
+fonts/ms_dos/
+libs/
+
+# Tools and tests
+test/
+tools/
+
+# IDE
+.vscode/

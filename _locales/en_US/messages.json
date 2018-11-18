@@ -26,6 +26,12 @@
   "url_issues": {
     "message": "https://github.com/bengarrett/RetroTxt/issues"
   },
+  "url_new": {
+    "message": "https://retrotxt.com/new/"
+  },
+  "url_privacy": {
+    "message": "https://retrotxt.com/p/"
+  },
   "url_qa": {
     "message": "https://retrotxt.com/qa/"
   }

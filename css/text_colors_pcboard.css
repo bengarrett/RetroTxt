@@ -4,68 +4,87 @@
   PCBoard and WildCat! BBS, 4-bit colour codes
 */
 
-i {
-    font-style: normal;
+:root {
+  /* to disable blinking, set --blinking: none; */
+  --blinking: 300ms blink step-end infinite;
+  --black: rgb(0, 0, 0);
+  --blue: rgb(0, 0, 128);
+  --green: rgb(0, 128, 0);
+  --cyan: rgb(0, 170, 170);
+  --red: rgb(128, 0, 0);
+  --magenta: rgb(170, 0, 170);
+  --brown: rgb(170, 85, 0);
+  --grey: rgb(170, 170, 170);
+  --darkgrey: rgb(85, 85, 85);
+  --lightblue: rgb(0, 0, 255);
+  --lightgreen: rgb(0, 255, 0);
+  --lightcyan: rgb(0, 255, 255);
+  --lightred: rgb(255, 0, 0);
+  --lightmagenta: rgb(255, 0, 255);
+  --yellow: rgb(255, 255, 85);
+  --white: rgb(255, 255, 255);
 }
 
+i {
+  font-style: normal;
+}
 
 /* PCBoard rendering is indended for IBM 8px fonts */
 
 pre {
-    white-space: pre-wrap;
-    word-break: break-all;
-    width: 40rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  width: 40rem;
 }
 
 .text-2x {
-    width: 80rem;
+  width: 80rem;
 }
-
 
 /* but these fonts also render */
 
 .font-tandynew225-2y {
-    width: 27rem;
+  width: 27rem;
 }
 
 .font-tandynew225-2y.text-2x {
-    width: 54rem;
+  width: 54rem;
 }
 
 .font-ega9,
 .font-iso9,
 .font-vga9 {
-    width: 45rem;
+  width: 45rem;
 }
 
 .font-ega9.text-2x,
 .font-iso9.text-2x,
 .font-vga9.text-2x {
-    width: 90rem;
+  width: 90rem;
 }
 
 .font-tandynew225 {
-    width: 54rem;
+  width: 54rem;
 }
 
 .font-tandynew225.text-2x {
-    width: 108rem;
+  width: 108rem;
 }
 
 .font-mda {
-    width: 55rem;
+  width: 55rem;
 }
 
 .font-mda.text-2x {
-    width: 110rem;
+  width: 110rem;
 }
 
 .font-appleii {
-    width: 70rem;
+  width: 70rem;
 }
 
 .font-appleii.text-2x {
-    width: 140rem;
+  width: 140rem;
 }
 
 .font-bios,
@@ -75,7 +94,7 @@ pre {
 .font-tandynewtv,
 .font-pc1512,
 .font-vga8-2x {
-    width: 80rem;
+  width: 80rem;
 }
 
 .font-bios.text-2x,
@@ -85,180 +104,192 @@ pre {
 .font-tandynewtv.text-2x,
 .font-pc1512.text-2x,
 .font-vga8-2x.text-2x {
-    width: 160rem;
+  width: 160rem;
 }
 
 .font-ega9-2x,
 .font-vga9-2x {
-    width: 90rem;
+  width: 90rem;
 }
 
 .font-ega9-2x.text-2x,
 .font-vga9-2x.text-2x {
-    width: 180rem;
+  width: 180rem;
 }
 
 .font-bios-2x {
-    width: 160rem;
+  width: 160rem;
 }
 
 .font-bios-2x.text-2x {
-    width: 320rem;
+  width: 320rem;
 }
-
 
 /* these fonts fail to render properly but these adjustments slightly improve their display */
 
 .font-atascii {
-    width: 60em;
+  width: 60em;
 }
 
 .font-atarist {
-    width: 55em;
+  width: 55em;
 }
 
 .font-c64 {
-    width: 77rem;
+  width: 77rem;
 }
 
 .font-microknight,
 .font-microknightplus,
 .font-p0tnoodle,
-.font-topazA500,
-.font-topazplusA500,
-.font-topazA1200,
-.font-topazplusA1200 {
-    width: 58rem;
+.font-topaza500,
+.font-topazplusa500,
+.font-topaza1200,
+.font-topazplusa1200 {
+  width: 58rem;
 }
-
 
 /* PCBoard and WildCat! BBS colours */
 
-.PF0 {
-    color: rgb(0, 0, 0);
+i.PF0 {
+  color: var(--black);
 }
 
-.PF1 {
-    color: rgb(0, 0, 128);
+i.PF1 {
+  color: var(--blue);
 }
 
-.PF2 {
-    color: rgb(0, 128, 0);
+i.PF2 {
+  color: var(--green);
 }
 
-.PF3 {
-    color: rgb(0, 170, 170);
+i.PF3 {
+  color: var(--cyan);
 }
 
-.PF4 {
-    color: rgb(128, 0, 0);
+i.PF4 {
+  color: var(--red);
 }
 
-.PF5 {
-    color: rgb(170, 0, 170);
+i.PF5 {
+  color: var(--magenta);
 }
 
-.PF6 {
-    color: rgb(170, 85, 0);
+i.PF6 {
+  color: var(--brown);
 }
 
-.PF7 {
-    color: rgb(170, 170, 170);
+i.PF7 {
+  color: var(--grey);
 }
 
-.PF8 {
-    color: rgb(85, 85, 85);
+i.PF8 {
+  color: var(--darkgrey);
 }
 
-.PF9 {
-    color: rgb(0, 0, 255);
+i.PF9 {
+  color: var(--lightblue);
 }
 
-.PFA {
-    color: rgb(0, 255, 0);
+i.PFA {
+  color: var(--lightgreen);
 }
 
-.PFB {
-    color: rgb(0, 170, 170);
+i.PFB {
+  color: var(--lightcyan);
 }
 
-.PFC {
-    color: rgb(255, 0, 0);
+i.PFC {
+  color: var(--lightred);
 }
 
-.PFD {
-    color: rgb(0, 255, 255);
+i.PFD {
+  color: var(--lightmagenta);
 }
 
-.PFE {
-    color: rgb(255, 255, 85);
+i.PFE {
+  color: var(--yellow);
 }
 
-.PFF {
-    color: rgb(255, 255, 255);
+i.PFF {
+  color: var(--white);
 }
 
-.PB0 {
-    /*  background-color: rgb(0, 0, 0); */
-    background-color: transparent;
+i.PB0 {
+  background-color: transparent;
 }
 
-.PB1 {
-    background-color: rgb(0, 0, 128);
+i.PB1 {
+  animation: none;
+  background-color: var(--blue);
 }
 
-.PB2 {
-    background-color: rgb(0, 128, 0);
+i.PB2 {
+  animation: none;
+  background-color: var(--green);
 }
 
-.PB3 {
-    background-color: rgb(0, 170, 170);
+i.PB3 {
+  animation: none;
+  background-color: var(--cyan);
 }
 
-.PB4 {
-    background-color: rgb(128, 0, 0);
+i.PB4 {
+  animation: none;
+  background-color: var(--red);
 }
 
-.PB5 {
-    background-color: rgb(170, 0, 170);
+i.PB5 {
+  animation: none;
+  background-color: var(--magenta);
 }
 
-.PB6 {
-    background-color: rgb(170, 85, 0);
+i.PB6 {
+  animation: none;
+  background-color: var(--brown);
 }
 
-.PB7 {
-    background-color: rgb(170, 170, 170);
+i.PB7 {
+  animation: none;
+  background-color: var(--grey);
 }
 
-.PB8 {
-    background-color: rgb(85, 85, 85);
+i.PB8 {
+  animation: var(--blinking);
+  background-color: var(--black);
 }
 
-.PB9 {
-    background-color: rgb(0, 0, 255);
+i.PB9 {
+  animation: var(--blinking);
+  background-color: var(--blue);
 }
 
-.PBA {
-    background-color: rgb(0, 255, 0);
+i.PBA {
+  animation: var(--blinking);
+  background-color: var(--green);
 }
 
-.PBB {
-    background-color: rgb(0, 170, 170);
+i.PBB {
+  animation: var(--blinking);
+  background-color: var(--cyan);
 }
 
-.PBC {
-    background-color: rgb(255, 0, 0);
+i.PBC {
+  animation: var(--blinking);
+  background-color: var(--red);
 }
 
-.PBD {
-    background-color: rgb(0, 255, 255);
+i.PBD {
+  animation: var(--blinking);
+  background-color: var(--magenta);
 }
 
-.PBE {
-    background-color: rgb(255, 255, 85);
+i.PBE {
+  animation: var(--blinking);
+  background-color: var(--brown);
 }
 
-.PBF {
-    background-color: rgb(255, 255, 255);
+i.PBF {
+  animation: var(--blinking);
+  background-color: var(--grey);
 }

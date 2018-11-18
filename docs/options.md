@@ -4,7 +4,7 @@
 
 The Options dialogue lets you select a wide variety of font, colour and size combinations that RetroTxt will use when theming text in the browser. As well as a number behaviour configurations, to automate the execution of RetroTxt when it encounters text files.
 
-In Chrome, you launch the Options dialogue by right-clicking the RetroTxt toolbar button and selecting __Options__.
+In Chrome, you launch the Options dialogue by right-clicking the RetroTxt toolbar button and selecting **Options**.
 
 ![Line height selection](assets/retrotxt_toolbar_button_chrome.png)
 
@@ -19,7 +19,7 @@ Then click the Options button under the RetroTxt listing.
 RetroTxt has 25 different monospaced font choices to apply to text. Some fonts have `⇆` wide and `⇅` tall variants.
 Those listed in the left pane are IBM PC, IBM PS/2 and Microsoft DOS system fonts while the ones on the right belong to other home computer systems.
 
-The _Browser_ __Monospace__ _fixed-width_ selection uses a monospace font configured by the browser. This font selection is selectable within the browser under the _font_ settings.
+The _Browser_ **Monospace** _fixed-width_ selection uses a monospace font configured by the browser. This font selection is selectable within the browser under the _font_ settings.
 
 ![Chrome browser fixed-width font selection](assets/chrome_fixed-width_font.png)
 
@@ -31,11 +31,10 @@ The _Browser_ __Monospace__ _fixed-width_ selection uses a monospace font config
 
 ![Colour pair](assets/options_colour_pair.png)
 
-The Colour pair menu allows you to apply colour to text and a background theme to all characters handled by RetroTxt.
-These pairs are also base colours for colourising ANSI text.
+The Colour pair menu allows you to apply colour to text and a background theme to all characters handled by RetroTxt. These pairs are also base colours for colourising ANSI text.
 
-The ordered choices are in three categories. __Systems__ are recreations of ancient computer operating systems.
-__Dark__ and __Light__ correspond to colours used on either a black (Dark) or white (Light) background.
+The ordered choices are in three categories. **Systems** are recreations of ancient computer operating systems.
+**Dark** and **Light** correspond to colours used on either a black (Dark) or white (Light) background.
 
 The RGB values of these colour pairs are in the source code `\css\text-colors.css`
 
@@ -47,6 +46,16 @@ The RGB values of these colour pairs are in the source code `\css\text-colors.cs
 - **C-64** based on the Commodore 64 boot screen with a light on a dark blue colour pair.
 
 ![Font options selection](assets/theme_ms-dos.png) ![Font options selection](assets/theme_windows.png) ![Font options selection](assets/theme_amiga.png) ![Font options selection](assets/theme_appleii.png) ![Font options selection](assets/theme_c64.png) ![Font options selection](assets/theme_atari-st.png)
+
+### Custom colour values
+
+Allows you to supply both a foreground and background colour value for the Color pair which must be set to **Other** > **Custom**. The
+values supplied can either be set with a **hex**, **RGB**, **HSL** or **keyword** value.
+
+- **Hex** values must begin with a `#` hashtag, ie `#000000`
+- **RGB** values must be in the `RGB()` notation, ie `rgb(0,0,0)`
+- **HSL** values must be in the `HSL()` notation, ie `hsl(0,0%,0%)`
+- **Keyword** value must be a [valid CSS keyword](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Color_keywords), ie `white`
 
 ### Line height
 
@@ -196,3 +205,9 @@ With this option, the WebExtension will monitor all your file downloads to attem
 It is the browser that determines which files are binary or text so the results could be wrong.
 
 Firefox does not support the feature.
+
+### API permissions granted
+
+A complete list of all the API features that RetroTxt has permission to access. Please read the [privacy policy](privacy.md) for information
+on what is
+accessed and why.

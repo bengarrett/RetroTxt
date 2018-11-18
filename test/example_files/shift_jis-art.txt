@@ -1,5 +1,5 @@
 Document encoding: Shift JIS
-RetroTxt 'Transcode text' setting: System guess
+'Transcode text' setting: Automatic
 File name: shift_jis-art.txt
 
 75 Name: CTRL+C & CTRL+V : 2007-08-25 04:05 ID:P2WQCHe0

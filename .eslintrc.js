@@ -1,29 +1,49 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es6": true,
-        "qunit": true
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": 2017,
-        "impliedStrict": true
-    },
-    "rules": {
-        "no-console": 0,
-        "no-fallthrough": ["error", { "commentPattern": "break[\\s\\w]*omitted" }],
-        "no-unused-vars": ["error", { "vars": "local" }],
-        "indent": ["error", 2, { "SwitchCase": 1 }],
-        "linebreak-style": [
-            "off"
-        ],
-        "quotes": [
-            "error",
-            "backtick"
-        ],
-        "semi": [
-            "error",
-            "never"
-        ]
-    }
-};
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
+    webextensions: true
+  },
+  extends: "eslint:recommended",
+  parserOptions: {
+    ecmaVersion: 2017
+  },
+  rules: {
+    "no-console": ["off"],
+    quotes: ["error", "backtick"]
+  },
+  // set to false to make global vars read-only
+  globals: {
+    BBS: false,
+    BrowserEncodings: false,
+    BuildEcma48: false,
+    BusySpinner: false,
+    CharacterSet: false,
+    Characters: false,
+    CheckArguments: false,
+    CheckError: false,
+    CheckRange: false,
+    Configuration: false,
+    Contrast: false,
+    CreateLink: false,
+    DisplayAlert: false,
+    DOSText: false,
+    FindControlSequences: false,
+    FindEngine: false,
+    FontFamily: false,
+    Guess: false,
+    HumaniseCamelCase: false,
+    HumaniseFS: false,
+    HardwarePalette: false,
+    ParseToChildren: false,
+    QUnit: false,
+    OptionsReset: false,
+    RetroTxt: false,
+    SAUCE: false,
+    StringToBool: false,
+    ToggleScanlines: false,
+    ToggleTextEffect: false,
+    Transcode: false
+  }
+}

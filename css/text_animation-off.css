@@ -1,0 +1,29 @@
+/*
+ filename: text_animation-off.css
+
+ Overrides RetroTxt infinite blink animations
+*/
+
+/* Cursor blink */
+#sample-cursor,
+.dos-cursor {
+  animation: none;
+}
+
+/* PCBoard blinking */
+.PB8,
+.PB9,
+.PBA,
+.PBB,
+.PBC,
+.PBD,
+.PBE,
+.PBF {
+  animation: none;
+}
+
+/* ANSI/ECMA48 blinking */
+div > i.SGR5,
+div > i.SGR6 {
+  animation: none;
+}

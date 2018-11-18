@@ -1,5 +1,61 @@
 # RetroTxt Changes
 
+## 3.0
+
+### Highlights
+
+- User interface improvements and bug fixes.
+- Much improved legacy code page detection and support.
+- New progressive permissions for enhanced security.
+- New redesign of the Options menu.
+- New ASCII text theme for your own custom background/foreground colours.
+
+### November 2018
+
+- Rewrote the Code Page 437 normaliser, the character conversions are more accurate.
+- RetroTxt gracefully recovers after the unintentional deletion of storage items.
+- RetroTxt out of the box is locked down with gradual permission privileges requests when features are enabled.
+  Previously RetroTxt always had access to downloads, http/ftp tabs, etc. regardless of whether they were needed or not. However, these are moving to `optional_permissions` which grant access on an associated Option.
+- Broad `http://*/` and `https://*/` read permissions are gone in favour of domain-specific access such as `https://retrotxt.com/*` and `http://retrotxt.com/*`.
+  RetroTxt never read more than the first two characters of any HTML tab that is active, but it was not a good look for new users
+  seeing _Read and change all your data on the websites that you visit_ in the add-ons menu.
+- Redesigned the Options menu to better match the new user interface introduced in Chrome v69. This required the disabling of the
+  `chrome_style` manifest UI option which hasn't been updated since early 2016.
+- Added a [privacy policy](privacy.md) with API permission requirements.
+- Added Option to use a customised colour set for the text foreground and background.
+- Added IBM's 2017 [Plex Mono font](https://www.ibm.com/plex/).
+- Added Macintosh-Roman, ISO8859-10 code page support.
+- Mouse hovering on the information header font name reveals more descriptive font information.
+- Added Option to toggle blinking text and cursor animations.
+- Added a `textmod.es/crew` link to SAUCE header data for some ANSI groups when their group data are matches in the SAUCE metadata.
+- Added new icons for Firefox dark themes.
+- Firefox uses SVG icons.
+- _Center align text_ now previews in the sample text.
+- RetroTxt browser toolbar button now behaves differently to avoid occasional false positives. Instead of disabling itself when an invalid page is detected, the button now shows a ✔ checkmark whenever a compatible tab is active. The compatibility results vary based on the web-extension permissions grants.
+- Fixed PCBoard & Wildcat BBS colour inaccuracies in the CSS.
+- Remapped CGA palettes so black is less frequent.
+- Text that lack linebreaks now wrap to the browser tab.
+- CSS variables are more frequently in use.
+- Added install type detection that enables a verbose mode when the type is `development`.
+- Sourcecode uses [Prettier](https://github.com/prettier/prettier) for opinionated formatting.
+- Refactored most of the JS to use [ES5 Class expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) so the source code easier to follow.
+  It is still a TODO item for `parse_ansi.js`.
+- Using separate manifest.json and options.html for Firefox and Chrome. Chrome's web-extension API hasn't been updated since early 2016 and is now the legacy implementation.
+- Saves the Options last active tab.
+- Expanded the number of unit tests to cover more of the application.
+- Fixed incorrect keyboard keys displayed on alerts with macOS.
+- Fixed Options icons links with underlined artefacts in Chrome.
+- Fixed Options now gracefully handle the removal of localStorage items.
+- Fixed broken Options links when in `development` install type.
+
+### Known issues
+
+- Currently, you cannot make additions to the _Apply RetroTxt to text files hosted on these websites_ list. The problem is due to
+  new permissions API implementation that requires all sites to be listed in the `manifest.json`.
+- On Firefox 63 the Options fonts menu sprawls across the screen, this is fixed in version 64.
+- On Firefox Linux the Zeus II logo for the welcome screen is broken.
+- For some distributions with Firefox on Linux the select menus have extra large, unreadable fonts.
+
 ## 2.5
 
 ### March 2018
@@ -41,7 +97,7 @@
 - ANSI maximum columns are now uncapped when SAUCE `TInfo1` data is corrupted by the browser.
 - Internal optimisations.
 - - Replaced `XMLHttpRequest()` with _FetchAPI_.
-- - Dropped the generation of elements using `dom.innerHTML` = text (except in `text_ecma48.js`).
+- - Dropped the generation of elements using `dom.innerHTML` = text (except in `parse_ansi.js`).
 - - Removed all remaining `var` usage.
 - - Replaced many `let` variables with `const` objects.
 - - Renamed some variables, so they are clearer in their purpose.
@@ -67,9 +123,9 @@
 
 - There are new clickable toggles in the information header for ANSI art.
 - - ![ANSI header](assets/changes-22-header.png)
-- - __Normal__ switches the active tab text rendering between _Normal_, _Smeared_ and _Shadowed_.
-- - __IBM__ switches the ANSI 16 color palette between _IBM_ VGA, Unix _xterm_ and _gray_ scale.
-- - __On__ toggles between iCE background colors and blinking text.
+- - **Normal** switches the active tab text rendering between _Normal_, _Smeared_ and _Shadowed_.
+- - **IBM** switches the ANSI 16 color palette between _IBM_ VGA, Unix _xterm_ and _gray_ scale.
+- - **On** toggles between iCE background colors and blinking text.
 
 - Added a new [Option, Text render](options.md), choices are _Normal_, _Smeared_, _Shadowed_.
 - Increased minimum version requirements for both Chrome and Firefox to 51.
@@ -104,7 +160,7 @@
 
 ### November 2016
 
-- Detects and converts many [ANSI Control Sequence Introduces](https://en.wikipedia.org/wiki/ANSI.SYS) used by MS-DOS's ANSI.SYS to display ANSI art.
+- Detects and converts many [ANSI Control Sequence Introduces](https://en.wikipedia.org/wiki/ANSI.SYS) used by MS-DOS ANSI.SYS to display ANSI art.
 - Detects and converts legacy BBS colour codes for [PCBoard and Wildcat!](http://wiki.synchro.net/custom:colors#pcboard_wildcat_format).
 - **_Apply RetroTxt to any text files hosted on these websites_** will only run on a user supplied whitelist of website domains. This will stop it from conflicting with secure login sessions used by some websites.
 - Options have been reworked with a refresh to its look including the use of the [Google Material Icons](https://design.google.com/icons/).

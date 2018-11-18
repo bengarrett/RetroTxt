@@ -1,0 +1,25 @@
+Document encoding: ISO 8859-5
+'Transcode text' setting: Automatic
+File name: iso-8859-5-less-C0.txt
+
+ISO 8859-5 (Latin/Cyrillic) all characters test
+This encoding only supports 191 characters, while CP-437 holds 256
+characters
+
+  | 0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F |
+0 | removed ...
+1 | removed ...
+2 |   | ! | " | # | $ | % | & | ' | ( | ) | * | + | , | - | . | / |
+3 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | : | ; | < | = | > | ? |
+4 | @ | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
+5 | P | Q | R | S | T | U | V | W | X | Y | Z | [ | \ | ] | ^ | _ |
+6 | ` | a | b | c | d | e | f | g | h | i | j | k | l | m | n | o |
+7 | p | q | r | s | t | u | v | w | x | y | z | { | | | } | ~ |   |
+8 | removed ...
+9 | removed ...
+A |   | ¡ | ¢ | £ | ¤ | ¥ | ¦ | § | ¨ | © | ª | « | ¬ | ­ | ® | ¯ |
+B | ° | ± | ² | ³ | ´ | µ | ¶ | · | ¸ | ¹ | º | » | ¼ | ½ | ¾ | ¿ |
+C | À | Á | Â | Ã | Ä | Å | Æ | Ç | È | É | Ê | Ë | Ì | Í | Î | Ï |
+D | Ð | Ñ | Ò | Ó | Ô | Õ | Ö | × | Ø | Ù | Ú | Û | Ü | Ý | Þ | ß |
+E | à | á | â | ã | ä | å | æ | ç | è | é | ê | ë | ì | í | î | ï |
+F | ð | ñ | ò | ó | ô | õ | ö | ÷ | ø | ù | ú | û | ü | ý | þ | ÿ |

@@ -1,0 +1,85 @@
+{
+  "applications": {
+    "gecko": {
+      "id": "retrotxt@defacto2.net",
+      "strict_min_version": "63.0"
+    }
+  },
+  "author": "Ben Garrett",
+  "background": {
+    "scripts": ["scripts/functions.js", "scripts/eventpage.js"]
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_area": "navbar",
+    "default_title": "RetroTxt",
+    "theme_icons": [
+      {
+        "light": "assets/retrotxt_16-light.png",
+        "dark": "assets/retrotxt_16.png",
+        "size": 16
+      },
+      {
+        "light": "assets/retrotxt_32-light.png",
+        "dark": "assets/retrotxt_32.png",
+        "size": 32
+      }
+    ]
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+R"
+      },
+      "description": "Switch the active tab between plain text and HTML displays"
+    }
+  },
+  "default_locale": "en_US",
+  "description": "Turn pieces of ANSI based text art and ASCII, NFO plain text into HTML.",
+  "developer": {
+    "name": "Ben Garrett",
+    "url": "https://github.com/bengarrett"
+  },
+  "homepage_url": "https://retrotxt.com",
+  "icons": {
+    "16": "assets/retrotxt_128.svg",
+    "32": "assets/retrotxt_128.svg",
+    "64": "assets/retrotxt_128.svg"
+  },
+  "manifest_version": 2,
+  "name": "RetroTxt for Firefox",
+  "optional_permissions": [
+    "tabs",
+    "file:///*/",
+    "*://*.16colo.rs/*",
+    "*://*.defacto2.net/*",
+    "*://*.gutenberg.org/*",
+    "*://*.scene.org/*",
+    "*://*.textfiles.com/*",
+    "*://*.textmod.es/*",
+    "*://*.uncreativelabs.net/*"
+  ],
+  "options_ui": {
+    "browser_style": true,
+    "open_in_tab": false,
+    "page": "html/options_firefox.html"
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "tabs",
+    "*://*.retrotxt.com/*"
+  ],
+  "short_name": "RetroTxt",
+  "version": "3.0.3",
+  "web_accessible_resources": [
+    "css/*.css",
+    "fonts/woff2/*.woff2",
+    "libs/tippyjs/*.css",
+    "libs/tippyjs/*.js",
+    "test/tests_browser.js",
+    "scripts/welcome.js",
+    "html/welcome.html"
+  ]
+}

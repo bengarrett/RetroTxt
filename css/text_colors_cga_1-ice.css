@@ -6,33 +6,28 @@
  SGR39 SGR40 SGR49 are in text_ecma_48.css
 */
 
-
 /* iCE Colors (high intensity backgrounds) */
 
-.SGR5 {
-    animation-name: none;
+div > i.SGR5 {
+  animation-name: none;
 }
 
-.SGR40.SGR5,
-.SGR44.SGR5 {
-    /* grey */
-    background-color: rgb(85, 85, 85);
+div > i.SGR40.SGR5,
+div > i.SGR44.SGR5 {
+  background-color: var(--darkgrey);
 }
 
-.SGR45.SGR5,
-.SGR41.SGR5 {
-    /* light magenta */
-    background-color: rgb(255, 85, 255);
+div > i.SGR45.SGR5,
+div > i.SGR41.SGR5 {
+  background-color: var(--lightmagenta);
 }
 
-.SGR46.SGR5,
-.SGR42.SGR5 {
-    /* light cyan */
-    background-color: rgb(85, 255, 255);
+div > i.SGR46.SGR5,
+div > i.SGR42.SGR5 {
+  background-color: var(--lightcyan);
 }
 
-.SGR47.SGR5,
-.SGR43.SGR5 {
-    /* white high intensity */
-    background-color: rgb(255, 255, 255);
+div > i.SGR47.SGR5,
+div > i.SGR43.SGR5 {
+  background-color: var(--white);
 }

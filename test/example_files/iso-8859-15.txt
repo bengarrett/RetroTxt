@@ -1,17 +1,11 @@
 Document encoding: ISO 8859-15
-RetroTxt 'Transcode text' setting: ISO 8859-15
+'Transcode text' setting: ISO 8859-15
 File name: iso-8859-15.txt
 
 RetroTxt ISO 8859-15 test
 
-Chrome fails
+¤	Euro sign
 
-¤	Euro sign (ISO 8859-15)
+¾	Capital Y diacritic
 
-±	Plus-minus sign (ISO 8859-1)
-
-û	u-circumflex (ISO 8859-1)
-
-¾	Capital Y diacritic (ISO 8859-15)
-
-½	o and e grapheme (ISO 8859-15)
+½	o and e grapheme

@@ -2,103 +2,131 @@
   filename: text_colors_xterm.css
 
   ECMA-48 presentation control function colour codes in XTERM 4-bit colour mode
-  RGB values taken from Wikipeda https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+  RGB values taken from Wikipedia https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 
   SGR39 SGR40 SGR49 are in text_ecma_48.css
 */
 
-.SGR30 {
-    color: rgb(0, 0, 0);
+/*
+ filename: text_colors_vga.css
+
+ ECMA-48 presentation control function colour codes in CGA, EGA and VGA BIOS modes
+ RGB values taken from Wikipedia https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+
+ SGR39 SGR40 SGR49 are in text_ecma_48.css
+*/
+
+:root {
+  --black: rgb(0, 0, 0);
+  --red: rgb(205, 0, 0);
+  --green: rgb(0, 205, 0);
+  --brown: rgb(205, 205, 0);
+  --blue: rgb(0, 0, 205);
+  --magenta: rgb(205, 0, 205);
+  --cyan: rgb(0, 205, 205);
+  --grey: rgb(229, 229, 229);
+  --darkgrey: rgb(127, 127, 127);
+  --lightred: rgb(255, 0, 0);
+  --lightgreen: rgb(0, 255, 0);
+  --yellow: rgb(255, 255, 0);
+  --lightblue: rgb(92, 92, 255);
+  --lightmagenta: rgb(255, 0, 255);
+  --lightcyan: rgb(0, 255, 255);
+  --white: rgb(255, 255, 255);
 }
 
-.SGR31 {
-    color: rgb(205, 0, 0);
+div > i.SGR30 {
+  color: var(--black);
 }
 
-.SGR32 {
-    color: rgb(0, 205, 0);
+div > i.SGR31 {
+  color: var(--red);
 }
 
-.SGR33 {
-    color: rgb(205, 205, 0);
+div > i.SGR32 {
+  color: var(--green);
 }
 
-.SGR34 {
-    color: rgb(0, 0, 205);
+div > i.SGR33 {
+  color: var(--brown);
 }
 
-.SGR35 {
-    color: rgb(205, 0, 205);
+div > i.SGR34 {
+  color: var(--blue);
 }
 
-.SGR36 {
-    color: rgb(0, 205, 205);
+div > i.SGR35 {
+  color: var(--magenta);
 }
 
-.SGR37 {
-    color: rgb(229, 229, 229);
+div > i.SGR36 {
+  color: var(--cyan);
 }
 
-.SGR40 {
-    background-color: rgb(0, 0, 0);
+div > i.SGR37 {
+  color: var(--grey);
 }
 
-.SGR41 {
-    background-color: rgb(205, 0, 0);
+div > i.SGR40 {
+  background-color: var(--black);
 }
 
-.SGR42 {
-    background-color: rgb(0, 205, 0);
+div > i.SGR41 {
+  background-color: var(--red);
 }
 
-.SGR43 {
-    background-color: rgb(205, 205, 0);
+div > i.SGR42 {
+  background-color: var(--green);
 }
 
-.SGR44 {
-    background-color: rgb(0, 0, 238);
+div > i.SGR43 {
+  background-color: var(--brown);
 }
 
-.SGR45 {
-    background-color: rgb(205, 0, 205);
+div > i.SGR44 {
+  background-color: var(--blue);
 }
 
-.SGR46 {
-    background-color: rgb(0, 205, 205);
+div > i.SGR45 {
+  background-color: var(--magenta);
 }
 
-.SGR47 {
-    background-color: rgb(229, 229, 229);
+div > i.SGR46 {
+  background-color: var(--cyan);
 }
 
-.SGR130 {
-    color: rgb(127, 127, 127);
+div > i.SGR47 {
+  background-color: var(--grey);
 }
 
-.SGR131 {
-    color: rgb(255, 0, 0);
+div > i.SGR130 {
+  color: var(--darkgrey);
 }
 
-.SGR132 {
-    color: rgb(0, 255, 0);
+div > i.SGR131 {
+  color: var(--lightred);
 }
 
-.SGR133 {
-    color: rgb(255, 255, 0);
+div > i.SGR132 {
+  color: var(--lightgreen);
 }
 
-.SGR134 {
-    color: rgb(92, 92, 255);
+div > i.SGR133 {
+  color: var(--yellow);
 }
 
-.SGR135 {
-    color: rgb(255, 0, 255);
+div > i.SGR134 {
+  color: var(--lightblue);
 }
 
-.SGR136 {
-    color: rgb(0, 255, 255);
+div > i.SGR135 {
+  color: var(--lightmagenta);
 }
 
-.SGR137 {
-    color: rgb(255, 255, 255);
+div > i.SGR136 {
+  color: var(--lightcyan);
+}
+
+div > i.SGR137 {
+  color: var(--white);
 }

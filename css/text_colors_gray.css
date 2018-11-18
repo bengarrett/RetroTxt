@@ -8,98 +8,117 @@
   SGR39 SGR40 SGR49 are in text_ecma_48.css
 */
 
-.SGR30 {
-    color: rgb(0, 0, 0);
+:root {
+  --black: rgb(0, 0, 0);
+  --red: rgb(44, 44, 44);
+  --green: rgb(147, 147, 147);
+  --brown: rgb(191, 191, 191);
+  --blue: rgb(26, 26, 26);
+  --magenta: rgb(67, 67, 67);
+  --cyan: rgb(170, 170, 170);
+  --grey: rgb(229, 229, 229);
+  --darkgrey: rgb(127, 127, 127);
+  --lightred: rgb(77, 77, 77);
+  --lightgreen: rgb(150, 150, 150);
+  --yellow: rgb(227, 277, 277);
+  --lightblue: rgb(110, 110, 110);
+  --lightmagenta: rgb(105, 105, 105);
+  --lightcyan: rgb(178, 178, 178);
+  --white: rgb(255, 255, 255);
 }
 
-.SGR31 {
-    color: rgb(44, 44, 44);
+div > i.SGR30 {
+  color: var(--black);
 }
 
-.SGR32 {
-    color: rgb(147, 147, 147);
+div > i.SGR31 {
+  color: var(--red);
 }
 
-.SGR33 {
-    color: rgb(191, 191, 191);
+div > i.SGR32 {
+  color: var(--green);
 }
 
-.SGR34 {
-    color: rgb(23, 23, 23);
+div > i.SGR33 {
+  color: var(--brown);
 }
 
-.SGR35 {
-    color: rgb(67, 67, 67);
+div > i.SGR34 {
+  color: var(--blue);
 }
 
-.SGR36 {
-    color: rgb(170, 170, 170);
+div > i.SGR35 {
+  color: var(--magenta);
 }
 
-.SGR37 .SGR39 {
-    color: rgb(229, 229, 229);
+div > i.SGR36 {
+  color: var(--cyan);
 }
 
-.SGR40 {
-    background-color: rgb(0, 0, 0)
+div > i.SGR37 {
+  color: var(--grey);
 }
 
-.SGR41 {
-    background-color: rgb(44, 44, 44);
+div > i.SGR40 {
+  background-color: var(--black);
 }
 
-.SGR42 {
-    background-color: rgb(147, 147, 147);
+div > i.SGR41 {
+  background-color: var(--red);
 }
 
-.SGR43 {
-    background-color: rgb(191, 191, 191);
+div > i.SGR42 {
+  background-color: var(--green);
 }
 
-.SGR44 {
-    background-color: rgb(26, 26, 26);
+div > i.SGR43 {
+  background-color: var(--brown);
 }
 
-.SGR45 {
-    background-color: rgb(67, 67, 67);
+div > i.SGR44 {
+  background-color: var(--blue);
 }
 
-.SGR46 {
-    background-color: rgb(170, 170, 170);
+div > i.SGR45 {
+  background-color: var(--magenta);
 }
 
-.SGR47 {
-    background-color: rgb(229, 229, 229);
+div > i.SGR46 {
+  background-color: var(--cyan);
 }
 
-.SGR130 {
-    color: rgb(127, 127, 127);
+div > i.SGR47 {
+  background-color: var(--grey);
 }
 
-.SGR131 {
-    color: rgb(77, 77, 77);
+div > i.SGR130 {
+  color: var(--darkgrey);
 }
 
-.SGR132 {
-    color: rgb(150, 150, 150);
+div > i.SGR131 {
+  color: var(--lightred);
 }
 
-.SGR133 {
-    color: rgb(227, 277, 277);
+div > i.SGR132 {
+  color: var(--lightgreen);
 }
 
-.SGR134 {
-    color: rgb(110, 110, 110);
+div > i.SGR133 {
+  color: var(--yellow);
 }
 
-.SGR135 {
-    color: rgb(105, 105, 105);
+div > i.SGR134 {
+  color: var(--lightblue);
 }
 
-.SGR136 {
-    color: rgb(178, 178, 178);
+div > i.SGR135 {
+  color: var(--lightmagenta);
 }
 
-.SGR137 {
-    color: rgb(255, 255, 255);
+div > i.SGR136 {
+  color: var(--lightcyan);
+}
+
+div > i.SGR137 {
+  color: var(--white);
 }

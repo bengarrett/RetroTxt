@@ -1,0 +1,33 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  // web-ext
+  "files.autoSave": "off",
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+  // White space and formatting
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
+  "editor.wordWrapColumn": 132,
+  "editor.wordWrap": "wordWrapColumn",
+  // ESLint (Javascript)
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": ["javascript", "html"],
+  "prettier.eslintIntegration": true,
+  // NPM
+  "npm.enableScriptExplorer": true,
+  // Unused or conflicting features
+  "html.suggest.angular1": false,
+  "html.suggest.ionic": false,
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  // Document This
+  "docthis.includeMemberOfOnClassMembers": false,
+  "docthis.includeMemberOfOnInterfaceMembers": false,
+  "docthis.includeTypes": false,
+  "css.lint.float": "warning",
+  "css.lint.ieHack": "warning",
+  "css.lint.important": "warning",
+  "css.lint.importStatement": "warning",
+  "css.lint.universalSelector": "warning",
+  "css.lint.zeroUnits": "warning"
+}

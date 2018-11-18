@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "eg2.vscode-npm-script",
+    "ionutvmi.path-autocomplete",
+    "joelday.docthis",
+    "streetsidesoftware.code-spell-checker",
+    "zeithaste.cursorcharcode"
+  ]
+}
