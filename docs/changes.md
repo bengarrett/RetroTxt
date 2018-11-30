@@ -1,5 +1,14 @@
 # RetroTxt Changes
 
+## 3.1
+
+### December 2018
+
+- Re-added the ability to make additions to the _Apply RetroTxt to text files hosted on these websites_ list that was disabled in v3.0.
+- Fixed the Zeus II logo for the welcome screen breaking on Linux.
+- Fixed _Homepage URL_ in the Firefox addon tab.
+- Fixed incorrect links in `README.md`.
+
 ## 3.0
 
 ### Highlights

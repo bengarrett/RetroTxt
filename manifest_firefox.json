@@ -37,8 +37,7 @@
   "default_locale": "en_US",
   "description": "Turn pieces of ANSI based text art and ASCII, NFO plain text into HTML.",
   "developer": {
-    "name": "Ben Garrett",
-    "url": "https://github.com/bengarrett"
+    "name": "Ben Garrett"
   },
   "homepage_url": "https://retrotxt.com",
   "icons": {
@@ -51,6 +50,7 @@
   "optional_permissions": [
     "tabs",
     "file:///*/",
+    "*://*/*",
     "*://*.16colo.rs/*",
     "*://*.defacto2.net/*",
     "*://*.gutenberg.org/*",
@@ -72,7 +72,7 @@
     "*://*.retrotxt.com/*"
   ],
   "short_name": "RetroTxt",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "web_accessible_resources": [
     "css/*.css",
     "fonts/woff2/*.woff2",

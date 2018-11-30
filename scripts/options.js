@@ -96,6 +96,7 @@ function localStore(key = ``, value = ``) {
 /**
  * Grants and removes WebExtension access permissions.
  * see: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/permissions
+ * match patterns: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns
  * @class Security
  */
 class Security {
@@ -104,6 +105,8 @@ class Security {
    * @param [type=``] checkbox type, either `downloads`, `files` or `http`
    */
   constructor(type = ``) {
+    const config = new Configuration()
+    this.domains = config.domainsString()
     // IMPORTANT! These Map values must sync to those in the Security class in eventpage.js
     const permissions = new Map()
       .set(`downloads`, [`downloads`, `downloads.open`, `tabs`])
@@ -122,6 +125,18 @@ class Security {
     this.origins = origins.get(`${type}`)
     this.elementId = elements.get(`${type}`)
     this.type = type
+    // special case for user edited textarea
+    const askAllWeb =
+      this.domains !== localStorage.getItem(`runWebUrlsPermitted`) // Bool value
+    if (type === `http` && askAllWeb) {
+      if (!origins.get(`http`).includes(`*://*/*`))
+        origins.get(`http`).push(`*://*/*`)
+    }
+    // permissions needed for user supplied websites, edited in the textarea
+    this.allWebPermissions = {
+      origins: [`*://*/*`],
+      permissions: [`tabs`]
+    }
   }
   /**
    * Creates a collection of origins from a predetermined list of domains.
@@ -131,7 +146,7 @@ class Security {
     const domains = chrome.runtime.getManifest().optional_permissions
     let origins = []
     domains.filter(domain => {
-      if (domain.slice(0, 4) === `*://`) {
+      if (domain.slice(0, 6) === `*://*.`) {
         origins = origins.concat(this.collection(domain))
       }
     })
@@ -147,7 +162,48 @@ class Security {
     const hostname = noScheme.split(`/`, 1)[0]
     return [`*://${hostname}/*`]
   }
-
+  /**
+   * Textarea onChanged event that updates the `this.allWebPermissions` permission.
+   * @param [request=true] request `true` or remove `false` permission
+   */
+  allWeb(request = false) {
+    if (this.type !== `http`) return
+    switch (request) {
+      case true:
+        // do nothing
+        break
+      case false:
+        chrome.permissions.contains(this.allWebPermissions, result => {
+          if (result === true) {
+            chrome.permissions.remove(this.allWebPermissions, result => {
+              if (result === false)
+                console.warn(
+                  `Could not remove the permissions %s %s`,
+                  this.allWebPermissions.origins,
+                  this.allWebPermissions.permissions
+                )
+              this.permissionsCallback()
+            })
+          }
+        })
+        break
+    }
+  }
+  /**
+   * Display a notification "Please " when the textarea onChanged is triggered.
+   * @param [display=false] show `true` or remove `false` the notification
+   */
+  allWebNotice(display = false) {
+    const checkbox = document.getElementById(`run-web-urls`)
+    const div = document.getElementById(`please-apply`)
+    if (display) {
+      checkbox.checked = false
+      div.style.display = `block`
+    } else {
+      div.style.display = `none`
+    }
+    this.permissionsCallback()
+  }
   /**
    * Initialise on-change event listeners for checkboxes and the <textarea>.
    */
@@ -165,13 +221,45 @@ class Security {
     const checkbox = document.getElementById(`${this.elementId}`)
     checkbox.addEventListener(`change`, () => {
       const value = document.getElementById(`${this.elementId}`).checked
+      this.allWeb(false)
       this.checkedEvent(value)
       toggles()
+    })
+    // textarea event listeners
+    const textarea = document.getElementById(`run-web-urls-permitted`)
+    textarea.addEventListener(`change`, () => {
+      if (this.type !== `http`) return
+      const askAllWeb = this.domains === textarea.value
+      if (RetroTxt.developer) console.log(`Textarea has been updated`)
+      if (askAllWeb) {
+        // textarea has been reset
+        this.origins.pop()
+        this.allWeb(false)
+        this.allWebNotice(true)
+      } else {
+        // textarea has been modified
+        chrome.permissions.contains(this.allWebPermissions, result => {
+          if (result === false) {
+            // `*://*/*` permission has not been granted
+            if (!this.origins.includes(`*://*/*`)) {
+              // append `*://*/*` to the permissions origins and then ask the
+              // user to toggle the checkbox input to apply the new permissions.
+              // webextensions can only ask for new permissions using user toggles
+              this.origins.push(`*://*/*`)
+              this.allWebNotice(true)
+            } else {
+              // do nothing
+            }
+          } else {
+            // `*://*/*` permission has been granted
+            this.allWebNotice(false)
+          }
+        })
+      }
     })
     // checkbox toggles
     const toggles = () => {
       const files = document.getElementById(`run-file-urls`)
-      //const downloads = document.getElementById(`run-file-downloads`)
       const value = document.getElementById(`${this.elementId}`).checked
       let monitor = false // for run-file-downloads
       // special cases that have permission dependencies
@@ -188,6 +276,11 @@ class Security {
             files.disabled = false
           }
           break
+        case `run-web-urls`:
+          this.allWebNotice(false)
+          // if value is false, disable textarea
+          textarea.disabled = !value
+          break
       }
     }
   }
@@ -197,10 +290,9 @@ class Security {
    * @param testResult a collection of permissions
    */
   checkedEvent(request = true, testResult = this.test()) {
-    console.trace(this.type, testResult)
     switch (this.type) {
-      case `http`:
       case `downloads`:
+      case `http`:
         this.permissionSet(request, testResult)
         break
       case `files`:
@@ -215,7 +307,6 @@ class Security {
    * @param testResult a collection of permissions
    */
   permissionSet(request = true, testResult) {
-    console.log(`testResult`, request, testResult)
     const items = testResult.permissions.concat(testResult.origins).join(`, `)
     const workaround = { permissions: [`tabs`] }
     switch (request) {
@@ -228,6 +319,7 @@ class Security {
         })
         break
       default:
+        this.allWeb(false)
         chrome.permissions.remove(testResult, result => {
           if (RetroTxt.developer)
             console.log(`%s: request to remove permissions [%s]`, result, items)
@@ -309,6 +401,19 @@ class Security {
         this.elementId
       )
     checkbox.checked = granted
+    if (this.elementId === `run-web-urls`) {
+      this.textareaInitialise(granted)
+    }
+  }
+  /**
+   * Set the textarea checked state.
+   * @param [granted=false] `true` checked or `false` unchecked
+   */
+  textareaInitialise(granted = false) {
+    if (this.type !== `http`) return
+    const textarea = document.getElementById(`run-web-urls-permitted`)
+    if (!(`disabled` in textarea)) return
+    textarea.disabled = !granted
   }
   /**
    * Reveals the checkbox <div> block on the Options dialogue.

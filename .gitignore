@@ -8,3 +8,6 @@ web-ext-artifacts
 # Visual Studio Code
 .vscode/tasks.json
 node_modules
+
+# Other
+notes.md

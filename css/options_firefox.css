@@ -314,6 +314,10 @@ main > section .config-row-basis {
 main > section .config-row.separator-block {
   padding-bottom: 6px;
 }
+main > section #please-apply {
+  color: darkorange;
+  display: none;
+}
 /* About tab selection */
 main > section .about-title {
   flex-basis: 7em;
@@ -333,4 +337,7 @@ footer > .box {
   margin-left: 6px;
   margin-top: 12px;
   width: 30em;
+}
+footer > .box > #unittest {
+  display: none;
 }

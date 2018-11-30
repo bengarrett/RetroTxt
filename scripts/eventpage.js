@@ -866,7 +866,12 @@ class Downloads {
   async listen() {
     if (FindEngine() === `gecko`) return
     // exit when chrome.downloads is inaccessible due Extensions configurations
-    if (`downloads` in chrome === false) return
+    if (`downloads` in chrome === false)
+      return console.warn(`chrome.downloads API is inaccessible`)
+    if (`onCreated` in chrome.downloads === false)
+      return console.warn(
+        `chrome.downloads API onCreated event is inaccessible`
+      )
     const downloads = new Downloads()
     const security = new Security(`downloads`, `downloads`)
     const test = security.test()
@@ -1192,7 +1197,6 @@ class WebExtension {
         runAt: `document_start`
       },
       () => {
-        console.log(chrome.runtime)
         if (persistent && typeof chrome.runtime.lastError !== `undefined`)
           return lastError()
         // automatic invocation that will be run after this eventpage.js page is loaded and at the start of the document

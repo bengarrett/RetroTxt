@@ -83,7 +83,7 @@ While RetroTxt uses a [GNU Lesser General Public License v3.0](https://chooseali
 
 ## Credits
 
-RetroTxt by [Ben Garrett](https://bens.zone/) on [Twitter @bens_zone](https://twitter.com/bens_zone) and [GitHub](https://github.com/bengarrett/)
+RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett/) on [Twitter @bens_zone](https://twitter.com/bens_zone) and [GitHub](https://github.com/bengarrett/)
 
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 
