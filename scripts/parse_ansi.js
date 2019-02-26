@@ -1013,6 +1013,7 @@ function findDigit(
 function findForeground(v) {
   if (
     (v >= 30 && v <= 39) ||
+    (v >= 90 && v <= 97) ||
     (v >= 380 && v <= 389) ||
     (v >= 3810 && v <= 3899) ||
     (v >= 38100 && v <= 38255)
@@ -1047,14 +1048,16 @@ function handleColumn(count = 1) {
 // @s String of text
 function hideEntities(s = ``) {
   if (typeof s !== `string`) CheckArguments(`s`, `string`, s)
-  const rgt = new RegExp(`&gt;`, `gi`)
-  const rlt = new RegExp(`&lt;`, `gi`)
-  const ramp = new RegExp(`&amp;`, `gi`)
+  const regGT = new RegExp(`&gt;`, `gi`) // match &gt;
+  const regLT = new RegExp(`&lt;|<`, `gi`) // match &lt; or <
+  const regAmp = new RegExp(`&amp;`, `gi`)
+  const regRA = new RegExp(`>[?!\x1B\[]`, `gi`) // match > except ␛[>
   // replace matches
-  s = s.replace(rgt, `⮚`)
-  s = s.replace(rlt, `⮘`)
-  s = s.replace(ramp, `⮙`)
-  return s
+  const part1 = s.replace(regGT, `⮚`)
+  const part2 = part1.replace(regRA, `⮚`)
+  const part3 = part2.replace(regLT, `⮘`)
+  const parts = part3.replace(regAmp, `⮙`)
+  return parts
 }
 
 // Decode Unicode decimal values into readable strings
@@ -1317,7 +1320,7 @@ function RenditionParse(vals = ``, verbose = false) {
   // forward loop as multiple codes together have compound effects
   for (const v of values) {
     if (v === null) continue
-    const val = parseInt(v, 10)
+    let val = parseInt(v, 10)
     if (isNaN(val) === true) continue // error
     if (val === 0 && vals !== `ICE+0`) {
       if (verbose) console.info(`SGRInit()`)
@@ -1329,6 +1332,16 @@ function RenditionParse(vals = ``, verbose = false) {
       case 1:
         break // if color depth = 1 bit, then ignore SGR color values
       default:
+        // handle aixterm bright colours
+        // these are standard ANSI SGR colours but with the bold flag
+        if (val >= 90 && val <= 97) {
+          sgrObject.bold = true
+          val = val - 60 // change val to a standard SGR value
+        } else if (val >= 100 && val <= 107) {
+          sgrObject.blinkSlow = true
+          val = val - 60
+        }
+        // handle RBG colours
         if ([38, 48].includes(val) && values[2] === `2`) {
           const r = parseInt(values[3], 10)
           const g = parseInt(values[4], 10)
@@ -1351,11 +1364,15 @@ function RenditionParse(vals = ``, verbose = false) {
             }
             continue
           }
-        } else if (findForeground(val) === true) {
+        }
+        // handle standard foreground
+        else if (findForeground(val) === true) {
           sgrObject.colorF = val
           sgrObject.rgbF = ``
           if (sgrObject.rgbB.length > 0) this.styles = sgrObject.rgbB
-        } else if (findBackground(val) === true) {
+        }
+        // handle standard background
+        else if (findBackground(val) === true) {
           sgrObject.colorB = val
           sgrObject.rgbB = ``
           if (sgrObject.rgbF.length > 0) this.styles = sgrObject.rgbF

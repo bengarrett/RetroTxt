@@ -165,6 +165,8 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 | overlined                    | SGR     | 53          | Yes     |                                                                                                                                  |
 | not framed nor encircled     | SGR     | 54          | Yes     |                                                                                                                                  |
 | not overlined                | SGR     | 55          | Yes     |                                                                                                                                  |
+| bold foreground colours      | SGR     | 90…97       | Yes     | Non-standard IBM AIX terminal                                                                                                    |
+| bright background colours    | SGR     | 100…107     | Yes     | Non-standard IBM AIX terminal (* requires iCE colours to be enabled)                                                             |
 
 ## Miscellaneous support
 

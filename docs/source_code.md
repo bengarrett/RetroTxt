@@ -24,7 +24,7 @@ Or run the following command in a terminal.
 
 `npm install`
 
-`web-ext --version`
+`npm run version`
 
 ## Use on Chrome
 
@@ -51,7 +51,7 @@ The web-ext tool is the preferred method and [has a dedicated web page](https://
 1. `cd RetroTxt` into the cloned directory
 1. `copy manifest_firefox.json manifest.json`
 1. `npm install` to install web-ext
-1. `web-ext run` to load RetroTxt in Firefox
+1. `npm run firefox` to load RetroTxt in Firefox
 1. [Read more about web-ext](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext)
 
 ![web-ext run example](assets/web-ext_example.png)

@@ -24,7 +24,7 @@ module.exports = {
   run: {
     browserConsole: true,
     // Browser to run, either `firefox`, `firefoxdeveloperedition`
-    firefox: `firefoxdeveloperedition`,
+    firefox: `firefox`,
     // start URL
     startUrl: [`test/example_files/ecma-48.txt`]
   }

@@ -2,7 +2,7 @@
 ############
 
 # Firefox packages
-web-ext-artifacts
+#web-ext-artifacts
 *.xpi
 
 # Visual Studio Code

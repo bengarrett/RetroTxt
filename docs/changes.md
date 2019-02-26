@@ -1,5 +1,20 @@
 # RetroTxt Changes
 
+## 3.2
+
+### February 2019
+
+- Added IBM AIX terminal bright and bold colour support.
+- Improved _Allow access to file URLs is disabled_ notification to be more obvious.
+- Added npm run scripts to the package.json.
+- - `npm run build`
+- - `npm run firefox`
+- - `npm run lint`
+- - `npm run version`
+- Fixed `Downloads.listen()` causing an endless download loop (issue #56).
+- Fixed `hideEntities()` not catching `<>` character combinations that broke ANSI rendering (issue #58).
+- Fixed the Options _Apply RetroTxt to any local text files file:///_ link pointing to the `C:` drive on Linux and macOS.
+
 ## 3.1
 
 ### December 2018

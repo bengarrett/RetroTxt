@@ -293,7 +293,6 @@ class Tab {
    * Intended to be run in conjunction with this.checkURL().
    */
   compatibleURL() {
-    //if (RetroTxt.developer)
     console.log(`Tabs.compatibleURL() has been requested.`)
     const config = new Configuration()
     const downloads = new Downloads()
@@ -633,7 +632,7 @@ class Security {
    */
   test() {
     if (RetroTxt.developer)
-      console.log(`⚿ Security test request for '${this.type}'.`)
+      console.trace(`⚿ Security test request for '${this.type}'.`)
     if (this.type === `http`) {
       this.origins = this.httpToOrigins()
     }
@@ -892,37 +891,28 @@ class Downloads {
         })
         chrome.downloads.onChanged.addListener(delta => {
           downloads.delta = delta
-          // security check blocks downloads.update()
-          // otherwise any Options changes will require a web-extension reload
-          chrome.permissions.contains(test, result => {
-            if (result !== true) {
-              if (RetroTxt.developer) security.fail()
-              return // abort
-            } else {
-              // a fix for the Chrome endless loop issue where it incorrectly identifies a text file as a binary
-              // (application/octet-stream) and forces it to download instead of render in a tab
-              if (!(`item` in downloads)) return
-              if (!(`mime` in downloads.item)) return
-              if (downloads.item.mime === `application/octet-stream`) {
-                if (
-                  `state` in downloads.delta &&
-                  downloads.delta.state.current === `complete`
-                ) {
-                  const config = new Configuration()
-                  const textFile = config.validateFileExtension(
-                    downloads.item.finalUrl
-                  )
-                  if (textFile === true)
-                    console.warn(
-                      `Downloaded filename looks to be a text file but the host server says it's a binary file: `,
-                      downloads.item.finalUrl
-                    )
-                }
-                return
-              }
-              downloads.update()
+          // a fix for the Chrome endless loop issue where it incorrectly identifies a text file as a binary
+          // (application/octet-stream) and forces it to download instead of render in a tab
+          if (!(`item` in downloads)) return
+          if (!(`mime` in downloads.item)) return
+          if (downloads.item.mime === `application/octet-stream`) {
+            if (
+              `state` in downloads.delta &&
+              downloads.delta.state.current === `complete`
+            ) {
+              const config = new Configuration()
+              const textFile = config.validateFileExtension(
+                downloads.item.finalUrl
+              )
+              if (textFile === true)
+                console.warn(
+                  `Downloaded filename looks to be a text file but the host server says it's a binary file: `,
+                  downloads.item.finalUrl
+                )
             }
-          })
+            return
+          }
+          downloads.update()
         })
         break
       case false:
@@ -936,6 +926,7 @@ class Downloads {
    * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/onCreated
    */
   initialize() {
+    console.log(`Initialize`)
     const downloads = new Downloads()
     switch (this.monitor) {
       case true:

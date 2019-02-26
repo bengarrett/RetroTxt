@@ -157,6 +157,9 @@ main > section .font.block {
 main > section .config-title {
   flex-basis: 24em;
 }
+main > section .config-title.asterisk {
+  color: var(--error-text);
+}
 main > section .config-title code a,
 main > section .config-content code {
   font-size: 1.1em;

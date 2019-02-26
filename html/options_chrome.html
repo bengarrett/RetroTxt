@@ -433,11 +433,17 @@
         <div class="config block">
           <div class="config-title">
             Apply RetroTxt to any local text files
-            <code><a href="file:///c:/" id="run-file-urls-link" target="_blank">file:///</a></code>
+            <code><a href="file:///" id="run-file-urls-link" target="_blank">file:///</a></code>
           </div>
           <div class="config-content" id="run-file-urls-div">
             <label><i class="material-icons">folder_open</i>
               <input type="checkbox" id="run-file-urls"></label>
+          </div>
+        </div>
+        <!-- chrome.isAllowedFileSchemeAccess() = false -->
+        <div class="config block" id="allow-access-file-urls-div" style="display:none">
+          <div class="config-title asterisk">
+            Allow access to file URLs is disabled
           </div>
         </div>
         <!-- update notices -->
@@ -467,12 +473,6 @@
               <code>•</code>
               <code id="requestedOrigins"></code>
             </div>
-          </div>
-        </div>
-        <!-- chrome.isAllowedFileSchemeAccess() = false -->
-        <div class="config block" id="allow-access-file-urls-div" style="display:none">
-          <div class="config-title">
-            Allow access to file URLs is disabled
           </div>
         </div>
       </section>
