@@ -5,7 +5,7 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 Available for installation from both the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
 - View ANSI, ASCII, NFO, Shift JIS, PCBoard, Wildcat text art as HTML
-- View system and server logs formatted in coloured text with modern fonts
+- View server and devop logs formatted in coloured text with modern fonts
 - RGB 16.7 million, xterm 256 and IBM VGA 16 colour support
 - Swappable ANSI palettes, xterm, VGA, CGA, monochrome and switchable iCE Colors
 - Swappable ASCII & NFO colour themes, DOS, Windows, Amiga, C-64, Apple II, Atari ST
@@ -17,7 +17,7 @@ Available for installation from both the [Chrome web store](https://chrome.googl
 
 Limitations
 
-- A lot of [Bulletin Board System](https://spectrum.ieee.org/tech-history/cyberspace/social-medias-dialup-ancestor-the-bulletin-board-system) era ANSI art that relied on the 80x25 terminal with cursor positioning to create visual text motion and animations do not convert to HTML
+- A lot of [Bulletin Board System](https://spectrum.ieee.org/tech-history/cyberspace/social-medias-dialup-ancestor-the-bulletin-board-system) era ANSI art that relied on an 80x25 fixed terminal with cursor positioning to create motion and animations do not convert
 
 ![RetroTxt showcase](/docs/assets/zii-rtxt-ad.png)
 
@@ -29,23 +29,23 @@ Limitations
 
 ## Install
 
-### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/)
+### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/) · [Brave](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Edge (Chromium)](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
 
 #### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
 
 ### Requirements
 
-**Chrome 55** or **Firefox 63** or newer browsers.
+**Chrome/Chromium 55** or **Firefox 63** or newer browsers.
 
-## Test RetroTxt
+## Tryout RetroTxt
 
-You can test the RetroTxt install by clicking on one of the 10 Sample artworks found on the `welcome.html` tab that launches after installation.
+You can test the RetroTxt install by clicking on one of the 10 sample artworks found on the `welcome.html` tab that launches after installation.
 
 ![RetroTxt samples](/docs/assets/rtxt-samples.png)
 
 ## Configuration
 
-Out of the box, certain useful features of RetroTxt are off. Newer browsers require you to grant permission at prompts before RetroTxt can
+Out of the box, some useful features of RetroTxt are off. Newer browsers require you to grant permission at prompts before RetroTxt can
 [access specific browser data](/docs/privacy.md) it needs. There are a couple of links to the Options dialogue in the `welcome.html` tab, or it is accessible from the browser's Extensions tab.
 
 ![Config tab in Options](/docs/assets/requests_additional_permissions.png)
