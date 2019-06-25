@@ -1,7 +1,6 @@
 // filename: options.js
 //
 // These functions are used exclusively by the Options dialogue (options.html).
-// cSpell:ignore ahref
 "use strict"
 
 /**
@@ -125,14 +124,14 @@ class Security {
     this.origins = origins.get(`${type}`)
     this.elementId = elements.get(`${type}`)
     this.type = type
-    // special case for user edited textarea
+    // special case for user edited text area
     const askAllWeb =
       this.domains !== localStorage.getItem(`runWebUrlsPermitted`) // Bool value
     if (type === `http` && askAllWeb) {
       if (!origins.get(`http`).includes(`*://*/*`))
         origins.get(`http`).push(`*://*/*`)
     }
-    // permissions needed for user supplied websites, edited in the textarea
+    // permissions needed for user supplied websites, edited in the text area
     this.allWebPermissions = {
       origins: [`*://*/*`],
       permissions: [`tabs`]
@@ -154,7 +153,7 @@ class Security {
   }
   collection(url = ``) {
     if (url.length < 1) return ``
-    // parse url to valid host
+    // parse URL to valid host
     let noScheme = url
     if (url.includes(`://`)) {
       noScheme = url.slice(url.indexOf(`://`) + 3)
@@ -225,26 +224,26 @@ class Security {
       this.checkedEvent(value)
       toggles()
     })
-    // textarea event listeners
+    // text area event listeners
     const textarea = document.getElementById(`run-web-urls-permitted`)
     textarea.addEventListener(`change`, () => {
       if (this.type !== `http`) return
       const askAllWeb = this.domains === textarea.value
       if (RetroTxt.developer) console.log(`Textarea has been updated`)
       if (askAllWeb) {
-        // textarea has been reset
+        // text area has been reset
         this.origins.pop()
         this.allWeb(false)
         this.allWebNotice(true)
       } else {
-        // textarea has been modified
+        // text area has been modified
         chrome.permissions.contains(this.allWebPermissions, result => {
           if (result === false) {
             // `*://*/*` permission has not been granted
             if (!this.origins.includes(`*://*/*`)) {
               // append `*://*/*` to the permissions origins and then ask the
               // user to toggle the checkbox input to apply the new permissions.
-              // webextensions can only ask for new permissions using user toggles
+              // web extensions can only ask for new permissions using user toggles
               this.origins.push(`*://*/*`)
               this.allWebNotice(true)
             } else {
@@ -278,7 +277,7 @@ class Security {
           break
         case `run-web-urls`:
           this.allWebNotice(false)
-          // if value is false, disable textarea
+          // if value is false, disable text area
           textarea.disabled = !value
           break
       }
@@ -348,7 +347,7 @@ class Security {
       document.getElementById(
         `requestedPermissions`
       ).textContent = formattedPermissions.join(`, `)
-      // iterate through result.origins and apply link anchors to urls
+      // iterate through result.origins and apply link anchors to URLs
       const formattedOrigins = []
       let count = 0
       const browser = FindEngine()
@@ -561,7 +560,7 @@ class CheckBox {
       files.show()
       const downloads = new Security(`downloads`)
       downloads.show()
-      // in firefox isAllowedFileSchemeAccess() always returns false
+      // in Firefox isAllowedFileSchemeAccess() always returns false
       if (FindEngine() !== `gecko` && result !== true) {
         this.id = `run-file-urls`
         this.disable()
@@ -613,7 +612,7 @@ class Initialise extends CheckBox {
       case `gecko`:
         if (os === `mac`) ctrl.textContent = `⌘`
         return
-      // Chrome, Chromium, Vivaldi, Edge
+      // Chrome, Chromium, Brave, Vivaldi, Edge
       default:
         return
     }
@@ -799,7 +798,7 @@ class ColorPair {
     // selected option value of the color pair select list
     this.value = `${this.pairSelect.value}`
     // colour pair ids and names
-    // the full id prefixes `theme-`, ie `theme-amiga`
+    // the full id prefixes `theme-`, i.e `theme-amiga`
     this.pairs = new Map()
       .set(`amiga`, `Amiga`)
       .set(`appleii`, `Apple II`)

@@ -95,7 +95,7 @@ header > nav.tab > button {
   padding: 1px 6px;
   transition: 0.3s;
   text-rendering: auto;
-  text-shadow: rgb(240, 240, 240) 0px 1px 0px;
+  text-shadow: rgb(240, 240, 240) 0 1px 0;
   user-select: none;
   min-width: 6em;
   min-height: 2em;

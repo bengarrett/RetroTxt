@@ -1,6 +1,6 @@
 # RetroTxt
 
-## Technical specifications on supported text
+# Technical specifications on supported text
 
 - [Input code pages and text encoding](#input_cp)
 - [BBS colour codes](#input_bbs)
@@ -8,7 +8,7 @@
 - [ANSI.SYS support](#ansi_sys)
 - [ECMA-48 support](#ecma48)
 
-## Input code pages and text encoding
+# Input code pages and text encoding
 
 <a name="input_cp"></a>
 Regardless of the source, JavaScript converts all the text it handles into UTF-16.
@@ -24,9 +24,9 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 | [SHIFT JIS](https://en.wikipedia.org/wiki/Shift_JIS)         | Browser | A legacy Japanese encoding used by Shift JIS art                                                                                           |
 | [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1)          | Browser | The current standard encoding for HTML4/5 and many documents, it supports over a hundred thousand characters                               |
 | [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1)        | Browser | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet                                         |
-| CP-1250, CP-1251, ISO-8859-5                                 | Yes     | Encodings that are mistakenly used by Chrome when viewing ANSI and ASCII art                                                               |
+| CP-1250, CP-1251, ISO-8859-5                                 | Yes     | Encodings that are mistakenly used by Chromium when viewing ANSI and ASCII art                                                             |
 
-## BBS colour codes
+# BBS colour codes
 
 <a name="input_bbs"></a>
 BBS colour codes from the early 1990s were a natural means of applying colour to text served in bulletin board system user interfaces.
@@ -42,7 +42,7 @@ BBS colour codes from the early 1990s were a natural means of applying colour to
 | [WWIV heart codes](http://docs.wwivbbs.org/en/latest/displaying_text/) | No      | Uses C0 ␃ |
 | [WWIV pipe codes](http://docs.wwivbbs.org/en/latest/displaying_text/)  | No      |           |
 
-## Input control sequences
+# Input control sequences
 
 <a name="input_cs"></a>
 Control sequences are strings of characters embedded into the text as cursor, display and presentation functions. ANSI art uses control sequences for both its colourisation and cursor positioning, as do remote terminals used by many Linux and Unix systems such as [_xterm_](http://invisible-island.net/xterm/).
@@ -53,7 +53,7 @@ Control sequences are strings of characters embedded into the text as cursor, di
 | [ECMA-6](http://www.ecma-international.org/publications/standards/Ecma-006.htm)  | Partial | Also known as US-ASCII or ANSI X3.4 C0 controls                 |
 | [ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) | Partial | Also known as _ANSI escape codes_, ANSI X3.64, VT-100, ISO 6429 |
 
-## ANSI.SYS support
+# ANSI.SYS support
 
 <a name="ansi_sys"></a>
 Microsoft's MS-DOS [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) driver supported a limited subset of ANSI X3.64 control sequences and introduced some non-standard functions. Most _ANSI art_ uses sequences that target the ANSI.SYS implementation of text controls.
@@ -76,7 +76,7 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 | Set Mode / Reset Mode 7 | Yes     | Set and disable line wrapping                                                                        |
 | Set Keyboard Strings    | No      |                                                                                                      |
 
-## SAUCE support
+# SAUCE support
 
 [SAUCE](http://www.acid.org/info/sauce/sauce.htm) created by Olivier "Tasmaniac" Reubens of ACiD is a metadata protocol for scene artworks. These are parsed by RetroTxt to determine text formatting and also authorship results shown in the _Text & font information_ header.
 
@@ -101,7 +101,7 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 
 ## ANSiFlags
 
-_ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer / editor how to render the image_.
+_ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer/editor how to render the image_.
 
 | Flag | Name                        | Used | Notes                                              |
 | ---- | --------------------------- | ---- | -------------------------------------------------- |
@@ -109,7 +109,7 @@ _ANSiFlags allow an author of ANSi and similar files to provide a clue to a view
 | LS   | Letter-spacing              | Yes  | A `10` value will force the usage of the VGA9 font |
 | AR   | Aspect Ratio                | No   |                                                    |
 
-## ECMA-48 support
+# ECMA-48 support
 
 <a name="ecma48"></a>
 
@@ -119,6 +119,7 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 
 | Control                      | Acronym | Value       | Support | Notes                                                                                                                            |
 | ---------------------------- | ------- | ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Cursor Forward Tabulation    | CHT     |             | Yes     | Acts as 4 forward movements                                                                                                      |
 | Cursor Down                  | CUD     |             | Yes     |                                                                                                                                  |
 | Cursor Forward               | CUF     |             | Yes     |                                                                                                                                  |
 | Cursor Position              | CUP     |             | Partial | Supports forward and down only                                                                                                   |
@@ -166,9 +167,9 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 | not framed nor encircled     | SGR     | 54          | Yes     |                                                                                                                                  |
 | not overlined                | SGR     | 55          | Yes     |                                                                                                                                  |
 | bold foreground colours      | SGR     | 90…97       | Yes     | Non-standard IBM AIX terminal                                                                                                    |
-| bright background colours    | SGR     | 100…107     | Yes     | Non-standard IBM AIX terminal (* requires iCE colours to be enabled)                                                             |
+| bright background colours    | SGR     | 100…107     | Yes     | Non-standard IBM AIX terminal (\* requires iCE colours to be enabled)                                                            |
 
-## Miscellaneous support
+# Miscellaneous support
 
 Other common non-standard sequences agreed to by the ANSI art community
 

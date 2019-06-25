@@ -2,7 +2,6 @@
 {
   // web-ext
   "files.autoSave": "off",
-  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
   // White space and formatting
   "editor.insertSpaces": true,
   "editor.renderWhitespace": "boundary",
@@ -10,14 +9,14 @@
   "editor.wordWrapColumn": 132,
   "editor.wordWrap": "wordWrapColumn",
   // ESLint (Javascript)
+  "eslint.alwaysShowStatus": true,
   "eslint.autoFixOnSave": true,
   "eslint.validate": ["javascript", "html"],
   "prettier.eslintIntegration": true,
   // NPM
+  "npm.autoDetect": "off",
   "npm.enableScriptExplorer": true,
   // Unused or conflicting features
-  "html.suggest.angular1": false,
-  "html.suggest.ionic": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false,
   // Document This
@@ -29,5 +28,19 @@
   "css.lint.important": "warning",
   "css.lint.importStatement": "warning",
   "css.lint.universalSelector": "warning",
-  "css.lint.zeroUnits": "warning"
+  "css.lint.zeroUnits": "warning",
+  // Spell Right
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext",
+    "javascript",
+    "html",
+    "css",
+    "yaml"
+  ],
+  "spellright.notificationClass": "hint"
 }

@@ -5,7 +5,7 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 Available for installation from both the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
 - View ANSI, ASCII, NFO, Shift JIS, PCBoard, Wildcat text art as HTML
-- View server and devop logs formatted in coloured text with modern fonts
+- View server and dev-op logs formatted in coloured text with modern fonts
 - RGB 16.7 million, xterm 256 and IBM VGA 16 colour support
 - Swappable ANSI palettes, xterm, VGA, CGA, monochrome and switchable iCE Colors
 - Swappable ASCII & NFO colour themes, DOS, Windows, Amiga, C-64, Apple II, Atari ST
@@ -15,23 +15,21 @@ Available for installation from both the [Chrome web store](https://chrome.googl
 - Multiple IBM PC font support such as VGA, PS/2, EGA, CGA, MDA plus variants and more
 - Various Amiga fonts plus Mona, Commodore PETSCII, Atari ATASCII, Atari ST and Apple II
 
-Limitations
-
-- A lot of [Bulletin Board System](https://spectrum.ieee.org/tech-history/cyberspace/social-medias-dialup-ancestor-the-bulletin-board-system) era ANSI art that relied on an 80x25 fixed terminal with cursor positioning to create motion and animations do not convert
-
 ![RetroTxt showcase](/docs/assets/zii-rtxt-ad.png)
 
 ## Documentation
 
-### [Read](https://github.com/bengarrett/RetroTxt/blob/master/docs/index.md)
+### [Read](/docs/index.md)
 
-#### [What is new?](https://github.com/bengarrett/RetroTxt/blob/master/docs/changes.md)
+### [What is new?](/docs/changes.md)
+
+### [Limitations](/docs/limitations.md)
 
 ## Install
 
 ### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/) · [Brave](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Edge (Chromium)](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
 
-#### [Or use the source code](https://github.com/bengarrett/RetroTxt/blob/master/docs/source_code.md)
+#### [Or use the source code](/docs/source_code.md)
 
 ### Requirements
 
@@ -57,13 +55,13 @@ Once configured RetroTxt will run on any text or ANSI art file observed in a per
 ![RetroTxt toolbar button in Chrome](/docs/assets/retrotxt_toolbar_button_chrome.png)
 
 Elsewhere there are thousands of text files hosted at [textfiles.com](https://textfiles.com/directory.html) or the [Project
-Gutenberg](https://www.gutenberg.org/catalog/) _plain text_ books. Or download one of the amazing text art packs created by
+Gutenberg](https://www.gutenberg.org/catalog/) _plain text_ books. Or download one of the fantastic text art packs created by
 [Blocktronics](http://blocktronics.org/artpacks/), found at [textmod.es](https://pc.textmod.es/) or [16 colors](https://16colo.rs) and use the `file:///` protocol
 to browse and view the text art files saved onto your hard drive.
 
 ### Permissions
 
-Chrome requires **Allow access to file URLs** selected if you wish to use RetroTxt with text files stored on your local computer.
+Chrome, Brave and Edge require **Allow access to file URLs** selected if you wish to use RetroTxt with text files stored on your local computer.
 
 ## Privacy
 
@@ -95,6 +93,7 @@ RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 - IBM PC fonts [_The Ultimate Oldschool PC Font Pack_](https://int10h.org/oldschool-pc-fonts/) by Viler
 - IBM Plex [_Plex Mono Regular_](https://github.com/IBM/plex) by IBM Corp.
 - Mona Shift JIS [_mona_](http://monafont.sourceforge.net/index-e.html) public domain
+- Unscii [_UNSCII_](hhttp://pelulamu.net/unscii/) by Viznut
 
 Options icons by [Google Material Design](https://material.google.com/)
 

@@ -3,12 +3,12 @@
 // These functions are shared between all pages including eventpage.js options.js and text*.js
 // To make the code in those pages easier to read, functions listed here use the Global naming convention.
 
-/*global DOM Transcode */
+/*global DOM */
 "use strict"
 
 if (typeof module === `undefined`) {
   // error flag used by CheckError()
-  // we need to prefix `window.` to the var name when in strict mode
+  // we need to prefix `window.` to the variable name when in strict mode
   window.checkedErr = false
   // detect developer mode
   if (typeof RetroTxt === `undefined`) {
@@ -203,6 +203,72 @@ function DisplayAlert(show = true) {
   if (show === false) div.style.display = `none`
   else div.style.display = `block`
 }
+/**
+ * Creates an alert for unsupported page character sets.
+ */
+function DisplayEncodingAlert() {
+  let div = window.document.getElementById(`CheckEncoding`)
+  if (div === null) {
+    const alert = {
+      br1: document.createElement(`br`),
+      br2: document.createElement(`br`),
+      div: document.createElement(`div`),
+      code: document.createElement(`strong`),
+      fix1: document.createElement(`code`),
+      fix2: document.createElement(`code`),
+      p1: document.createElement(`p`),
+      p2: document.createElement(`p`)
+    }
+    const endian = () => {
+      switch (document.characterSet) {
+        case `UTF-16LE`:
+          return `LE`
+        default:
+          return `BE`
+      }
+    }
+    alert.div.appendChild(
+      document.createTextNode(`RetroTxt: The page encoding of this document `)
+    )
+    alert.code.appendChild(document.createTextNode(`${document.characterSet}`))
+    alert.div.appendChild(alert.code)
+    alert.div.appendChild(
+      document.createTextNode(` is not supported by the browser.`)
+    )
+    alert.code.style.color = `red`
+    alert.p1.appendChild(
+      document.createTextNode(
+        `To convert the document to UTF-8 in Linux or macOS: `
+      )
+    )
+    // for examples:
+    // https://www.gnu.org/software/libiconv/
+    // todo dynamic --from-code
+    alert.fix1.appendChild(
+      document.createTextNode(
+        `iconv file.txt --from-code=UTF-16${endian()} --to-code=UTF-8 > file-fixed.txt`
+      )
+    )
+    alert.p2.appendChild(document.createTextNode(`In PowerShell or Windows: `))
+    alert.fix2.appendChild(
+      document.createTextNode(
+        `Get-Content file.txt -raw | Set-Content file-fixed.txt -Encoding UTF8`
+      )
+    )
+    alert.p1.insertAdjacentElement(`beforeend`, alert.br1)
+    alert.p1.insertAdjacentElement(`beforeend`, alert.fix1)
+    alert.div.insertAdjacentElement(`beforeend`, alert.p1)
+
+    alert.p2.insertAdjacentElement(`beforeend`, alert.br2)
+    alert.p2.insertAdjacentElement(`beforeend`, alert.fix2)
+    alert.div.insertAdjacentElement(`beforeend`, alert.p2)
+    div = alert.div
+    alert.div = null
+    div.id = `CheckEncoding`
+    const dom = new DOM()
+    dom.body.insertBefore(div, dom.pre0)
+  } else div.style.display = `block`
+}
 
 /**
  * Determines a font colour to contrast against a user chosen background.
@@ -266,7 +332,7 @@ class Contrast {
   parseHex() {
     const hex = this.color.substring(1)
     if (hex.length === 3) {
-      // handle shorthand hex values ie #f4f ≍ #ff44ff
+      // handle shorthand hex values i.e #f4f ≍ #ff44ff
       this.r = parseInt(`${hex.slice(0, 1)}${hex.slice(0, 1)}`, 16)
       this.g = parseInt(`${hex.slice(1, 2)}${hex.slice(1, 2)}`, 16)
       this.b = parseInt(`${hex.slice(2, 3)}${hex.slice(2, 3)}`, 16)
@@ -298,7 +364,7 @@ class Contrast {
       if (l < 2 / 3) return h + (s - h) * (2 / 3 - l) * 6
       return h
     }
-    // iterate through the hsl results and replace their string values with numbers
+    // iterate through the HSL results and replace their string values with numbers
     // the hue value supports different symbols such as °, deg, rad, turn
     for (const [i, value] of symbols.entries()) {
       // handle hue and convert it to a float range between 0 -> 1
@@ -363,7 +429,7 @@ class Contrast {
       if (number >= 0 && number <= 255) return true
       return false
     }
-    // get characters from postion 4 through to the second last character
+    // get characters from position 4 through to the second last character
     const colors = this.color.slice(4, -1)
     const rgb = colors.split(`,`)
     // sanity check
@@ -394,7 +460,7 @@ class Contrast {
 class C0Controls {
   /**
    * Creates an instance of C0Controls.
-   * @param [character] UTF-16 character ie `A` or code unit value ie `65`
+   * @param [character] UTF-16 character i.e `A` or code unit value i.e `65`
    */
   constructor(character) {
     this.character = null
@@ -921,6 +987,7 @@ class Configuration extends OptionsReset {
     this.errors = new Map()
       // file extensions to always ignore when a file:/// URI is used
       .set(`code`, [`css`, `htm`, `html`, `js`, `json`, `md`, `xml`, `yml`])
+      .set(`fonts`, [`otc`, `otf`, `svg`, `ttc`, `ttf`, `woff`, `woff2`])
       .set(`images`, [
         `apng`,
         `bmp`,
@@ -982,6 +1049,7 @@ class Configuration extends OptionsReset {
   fileExtsError() {
     return [
       ...this.errors.get(`code`),
+      ...this.errors.get(`fonts`),
       ...this.errors.get(`images`),
       ...this.errors.get(`others`)
     ]
@@ -996,7 +1064,7 @@ class Configuration extends OptionsReset {
     return domains.includes(uri)
   }
   /**
-   * Check the `filename` to see if RetroTxt download eventhandler should trigger.
+   * Check the `filename` to see if RetroTxt download event handler should trigger.
    * @param [filename=``] filename to check
    * @returns boolean
    */
@@ -1015,7 +1083,7 @@ class Configuration extends OptionsReset {
     const arr = filename.split(`.`)
     if (arr.length < 2) return false
     const ext = arr[arr.length - 1]
-    return this.fileExtsError().includes(ext)
+    return !this.fileExtsError().includes(ext)
   }
   /**
    * Copies a chrome.storage.local item to the browser's localStorage item
@@ -1050,7 +1118,7 @@ class HardwarePalette {
    */
   constructor(key = ``) {
     this.gray = `${chrome.i18n.getMessage(`Gray`)}`
-    // The sort of these palettes effects the order of the onclick events
+    // The sort of these palettes effects the order of the on click events
     this.palettes = [`IBM`, `XTerm`, `CGA 0`, `CGA 1`, this.gray]
     this.filenames = [`vga`, `xterm`, `cga_0`, `cga_1`, `gray`]
     // set initial palette to IBM VGA
@@ -1070,7 +1138,7 @@ class HardwarePalette {
   }
   /**
    * Returns the next sequential palette name.
-   * If the last name is supplied ie `Gray`, then the first name will be returned ie `IBM`.
+   * If the last name is supplied i.e `Gray`, then the first name will be returned i.e `IBM`.
    * @param [palette=``] the initial palette name
    * @returns string
    */
@@ -1136,6 +1204,8 @@ class FontFamily {
       .set(`TOPAZA1200`, `Topaz 2`)
       .set(`TOPAZPLUSA500`, `Topaz+`)
       .set(`TOPAZPLUSA1200`, `Topaz+ 2`)
+      .set(`UNSCII16`, `Unscii 16`)
+      .set(`UNSCII8`, `Unscii 8`)
     if (FindEngine() === `blink`) {
       this.fonts.set(`MONOSPACE`, `Fixed-width`)
     } else {
@@ -1151,7 +1221,7 @@ class FontFamily {
   set() {
     if (this.fonts.has(this.key))
       return (this.family = this.fonts.get(this.key))
-    // Options also passes 'Text render' onmouseover through here
+    // Options also passes 'Text render' on mouseover through here
     if ([`normal`, `smeared`, `shadowed`].includes(this.key.toLowerCase())) {
       this.family = this.key.toLowerCase()
       return `this.key.toLowerCase()`
@@ -1276,7 +1346,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   if (typeof effect !== `string`) CheckArguments(`effect`, `string`, effect)
   if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
   if (dom.classList === null) return // error
-  // this removes any preexisting text effect class names from the element
+  // this removes any pre-existing text effect class names from the element
   for (const item of dom.classList) {
     if (item.endsWith(`-shadowed`) === true) dom.classList.remove(item)
     if (item === `text-smeared`) dom.classList.remove(item)
@@ -1343,11 +1413,11 @@ function FindControlSequences(text = ``) {
   }
   // make sure first char is an @-code
   else if (slice.charAt(0) === `@`) {
-    // match pcboard `@Xxx` codes
+    // match PCBoard `@Xxx` codes
     if (slice.charAt(1) === `X`) {
       const a = slice.charCodeAt(2) // get Unicode indexes of 2nd + 3rd chars
       const b = slice.charCodeAt(3)
-      // index range 48-70 eq 0-9 A-F
+      // index range 48-70 equals 0-9 A-F
       if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return `pcboard`
     } else if (slice.startsWith(`@CLS@`)) {
       return `pcboard`
@@ -1362,8 +1432,23 @@ function FindControlSequences(text = ``) {
   else return `plain`
 }
 /**
+ * Determines if Chrome/Chromium is running in dark mode.
+ * @returns boolean
+ */
+function FindDarkScheme() {
+  if (FindEngine() !== `blink`) return false
+  const match = window.matchMedia(`(prefers-color-scheme: dark)`).matches
+  switch (match) {
+    case true:
+      return true
+    default:
+      return false
+  }
+}
+/**
  * Determines the browser render engine.
- * Returns either `blink` for Chrome or `gecko` for Firefox.
+ * Returns either `blink` for Chrome, Chromium, Brave and Microsoft Edge
+ * or `gecko` for Firefox.
  * @returns string
  */
 function FindEngine() {
@@ -1377,6 +1462,7 @@ function FindEngine() {
     return `blink`
   }
 }
+
 /**
  * Takes a camelCaseString and returns a normalised string.
  *
@@ -1398,7 +1484,7 @@ function HumaniseCamelCase(string = ``, capitalise = false) {
  * Humanises numeric values of bytes into a useful string.
  * Based on http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
  * @param [bytes=0] a numeric value of bytes
- * @param [si=1024] `1000` decimal (filesize) or `1024` binary (RAM) conversion
+ * @param [si=1024] `1000` decimal (file size) or `1024` binary (RAM) conversion
  * @returns string
  */
 function HumaniseFS(bytes = 0, si = 1024) {
@@ -1507,6 +1593,8 @@ if (typeof FontFamily === `undefined`) eslintUndef
 if (typeof Guess === `undefined`) eslintUndef
 if (typeof HardwarePalette === `undefined`) eslintUndef
 if (typeof ParseToChildren === `undefined`) eslintUndef
+if (typeof DisplayEncodingAlert === `undefined`) eslintUndef
+if (typeof FindDarkScheme === `undefined`) eslintUndef
 function eslintUndef() {
   return
 }

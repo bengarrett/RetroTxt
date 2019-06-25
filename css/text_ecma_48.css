@@ -4,8 +4,8 @@
  ECMA-48 presentation control function, SGR (Select Graphic Rendition) codes as CSS
  8.3.117 http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf
 
-note:  0.063em = 1px with a 16px font, em is the preferred measurement to px as
-// it scales better in CSS
+note: 0.063em = 1px with a 16px font
+element is the preferred measurement to pixels as it scales better in CSS
 */
 
 .ED {
@@ -55,9 +55,7 @@ div > i.SGR6 {
 div > i.SGR7 {
   /* inverse */
   filter: invert(100%);
-  /* csslint ignore:start */
   mix-blend-mode: difference;
-  /* csslint ignore:end */
 }
 
 div > i.SGR8 {

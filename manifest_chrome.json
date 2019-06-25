@@ -1,7 +1,10 @@
 {
   "author": "Ben Garrett",
   "background": {
-    "scripts": ["scripts/functions.js", "scripts/eventpage.js"],
+    "scripts": [
+      "scripts/functions.js",
+      "scripts/eventpage.js"
+    ],
     "persistent": false
   },
   "browser_action": {
@@ -63,8 +66,7 @@
     "*://*.retrotxt.com/*"
   ],
   "short_name": "RetroTxt",
-  "version": "3.2.0",
-  "version_name": "3.2",
+  "version": "3.3.0",
   "web_accessible_resources": [
     "css/*.css",
     "fonts/woff2/*.woff2",

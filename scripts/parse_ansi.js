@@ -1,6 +1,6 @@
 // filename: parse_ansi.js
 //
-// These functions are to handle ECMA-48 control functions embedded into the text.
+// These functions are to handle ANSI and ECMA-48 control functions embedded into the text.
 //
 // The common online name is ANSI but it is an ambiguous term.
 // ANSI (American National Standards Institute) is just a standards body who
@@ -13,1152 +13,1013 @@
 // ISO 6429 - "Control functions for 7-bit and 8-bit coded character sets"
 // ECMA 48 - "Control Functions for Coded Character Sets"
 //
-// ISO/IEC 6429 http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
-// ECMA-48 http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf (free)
-// ANSI X3.64 (withdrawn in 1997) (https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf)
-// Microsoft ANSI.SYS (MS-DOS implementation with selective compliance) https://msdn.microsoft.com/en-us/library/cc722862.aspx
-//
-// To avoid ambiguous terminology of names, text in this programming always refers
-// to "ANSI" X3.64 as ECMA 48.
+// ISO/IEC 6429
+//      http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
+// ECMA-48
+//      http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf (free)
+// ANSI X3.64 (withdrawn in 1997)
+//      https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf
+// Microsoft ANSI.SYS (MS-DOS implementation with selective compliance)
+//      https://msdn.microsoft.com/en-us/library/cc722862.aspx
+// XTerm Control Sequences
+//      https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 
 /*
-JavaScript Performance Notes:
-+ prefer Switch() over if-then-else statements as they can be optimised during compile time.
-+ don't initialise ES6 `let` and `const` within loops, see https://github.com/vhf/v8-bailout-reasons/pull/10
-+ To permit compile-time optimisation `const` declarations need to be at the top of the function.
-+ use x = `${x}newtext` instead of x.concat(`newtext`), see http://jsperf.com/concat-vs-plus-vs-join
-+ use reference types (arrays, objects) instead of 'primitive' strings, bool, integers variable for
-  large values. As it can save on browser RAM usage, the use of domObject{html:``} instead of
-  ecma48HTML = `` saw a 5-20%(!) reduction for the BuildEcma48() memory footprint.
-  https://www.linkedin.com/pulse/25-techniques-javascript-performance-optimization-steven-de-salas
+  JavaScript Performance Tips:
+  + Prefer switch() over if-then-else statements as they can be optimised during compile time.
+  + Don't initialise ES6 `let` and `const` within loops, see https://github.com/vhf/v8-bailout-reasons/pull/10
+  + To permit compile-time optimisation `const` declarations need to be at the top of the function.
+  + Use x = `${x}newText` instead of x.concat(`newText`), see http://jsperf.com/concat-vs-plus-vs-join
+  + Use reference types (arrays, objects) instead of 'primitive' strings, bool, integers variable for
+    large values. As it can save on browser RAM usage, the use of domObject{html:``} instead of
+    ecma48HTML = `` saw a 5-20%(!) reduction for the BuildEcma48() memory footprint.
+    https://www.linkedin.com/pulse/25-techniques-javascript-performance-optimization-steven-de-salas
+  + Don't combine different datatypes in large sets such as arrays.
+    If an array contains number elements do not mix-in null or undefined values, instead use -1 or NaN.
+    The same goes for an array of strings, use an empty element `` instead of null or undefined values.
+    https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
 */
 /*eslint no-useless-escape: "warn"*/
-
-// =============================================================
-// Sep 2018: This file is due for a rewrite to ES6 class syntax
-// =============================================================
 
 "use strict"
 
 if (typeof module === `object`) {
-  module.exports.BuildEcma48 = (s, verbose) => {
-    const sauce = { version: null }
-    return new BuildEcma48(s, sauce, verbose)
+  module.exports.Controls = (s, verbose) => {
+    const sauce = { version: `` }
+    return new Controls(s, sauce, verbose)
   }
 }
 
-const cursor = new CursorInit()
-const ecma48 = new Ecma48Init()
-const domObject = { html: `` }
-const sgrObject = new SGRInit()
-
-// ECMA48 Select Graphic Rendition toggles
-function SGRInit() {
-  this.bold = false // value 1
-  this.faint = false // value 2
-  this.italic = false // value 3
-  this.underline = false // value 4
-  this.blinkSlow = false // value 5
-  this.blinkFast = false // value 6
-  this.inverse = false // value 7
-  this.conceal = false // value 8
-  this.crossedOut = false // value 9
-  this.underlineX2 = false // value 21
-  this.framed = false // value 51
-  this.encircled = false // value 52
-  this.overLined = false // value 53
-  // colours
-  this.colorF = 37 // foreground (text colour)
-  this.colorB = 40 // background
-  this.rgbF = `` // rgb foreground css value
-  this.rgbB = `` // rgb background css value
-}
-
-// Resets const objects created with SGRInit()
-async function sgrClear() {
-  const v = new SGRInit()
-  for (const key in v) {
-    sgrObject[key] = v[key]
+/**
+ * The entry point for ANSI and ECMA-48 control sequence interpretation
+ * This receives control sequence embedded Unicode text and outputs it to HTML5 elements
+ * @class ANSI
+ */
+class Controls {
+  /**
+   * Creates an instance of Controls.
+   * @param [text=``] String of Unicode text to parse
+   * @param [sauce={ version: `` }] SAUCE metadata
+   */
+  constructor(text = ``, sauce = { version: `` }, verbose = false) {
+    this.text = text
+    this.sauce = sauce
+    this.verbose = verbose
+    // The priority of configurations
+    // 1. SAUCE, 2. ANSI SGR, 3. hard-coded defaults
+    this.colorDepth = ecma48.colorDepth
+    this.columns = cursor.maxColumns
+    this.font = ``
+    this.iceColors = null
+    this.rows = 0
+    this.lineWrap = sgrObject.lineWrap
+    this.htmlString = ``
+    this.otherCodesCount = 0
+    this.unknownCount = 0
+    // reset data containers
+    reset(`ecma48`)
   }
-}
 
-function Ecma48Init() {
-  this.other = 0 // number of unsupported ANSI.SYS control sequences found
-  this.unknown = 0 // number of unsupported ECMA-48 control sequences found
-  this.colorDepth = 4 // Colour depth override if a set/reset mode CSI has requested it.
-  this.font = 10 // CSS class values SGR10…20, see text_ecma_48.css for the different font-family values
-  this.iceColors = false // iCE color mode which replaces SGR5/6 CSS blink methods with alt. background colours
-}
-
-// Resets const objects created with Ecma48Init()
-async function ecma48Clear() {
-  const v = new Ecma48Init()
-  for (const key in v) {
-    ecma48[key] = v[key]
-  }
-}
-
-// Creates a object that is used for tracking the active cursor position
-function CursorInit() {
-  this.column = 1 // track x axis
-  this.row = 1 // track y axis
-  this.maxColumns = 80 // maximum columns per line
-  this.previousRow = 0 // previous column, used to decide when to inject line breaks
-  this.eraseLines = [] // used by the Erase in page and Erase in line
-  try {
-    if (
-      typeof localStorage !== `undefined` &&
-      localStorage.getItem(`textAnsiWrap80c`) === `false`
-    )
-      this.maxColumns = 0 // set to 0 to disable
-  } catch (e) {
-    /* if localStorage fails the maxColumns has already been set to 80 */
-  }
-}
-
-// Resets const objects created with CursorInit()
-async function cursorClear() {
-  const v = new CursorInit()
-  for (const key in v) {
-    cursor[key] = v[key]
-  }
-}
-
-// Parses a string of Unicode text for control functions that are used for
-// cursor positioning and colouring. The controls are converted into HTML5
-// syntax with CSS dependencies for display in a web browser.
-//
-// The number of supported ECMA-48 control functions are based off Microsoft's
-// limited implementation in their ANSI.SYS driver for MS-DOS. There are also a
-// number of proprietary functions specific to ANSI.SYS.
-//
-// @text        String of Unicode text to parse.
-// @verbose     Spam the console on information about each discovered control function.
-function BuildEcma48(text = ``, sauce = { version: null }, verbose = false) {
-  if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
-  if (typeof verbose !== `boolean`)
-    CheckArguments(`verbose`, `boolean`, verbose)
-  if (typeof qunit !== `undefined`) {
-    // for qunit test/tests_browser.js
-    console.info(
-      `New QUnit test, cursor, domObject and sgrObject have been reset`
-    )
-    cursorClear()
+  /**
+   * Parses a string of Unicode text for control functions that are used for
+   * cursor positioning and colouring. The controls are converted into HTML5
+   * syntax with CSS dependencies for display in a web browser.
+   *
+   * The number of supported ECMA-48 control functions are based off Microsoft's
+   * limited implementation in their ANSI.SYS driver for MS-DOS. There are also a
+   * number of proprietary functions specific to ANSI.SYS.
+   */
+  parse() {
+    // SAUCE metadata
+    const sauce = new Metadata(this.sauce)
+    sauce.parse()
+    // Clean up string before converting it to decimal values
+    let cleaned = this.hideEntities(`${this.text}`)
+    // Strip @CLS@ PCBoard code that's occasionally found in ANSI documents
+    if (cleaned.startsWith(`@CLS@`)) cleaned = cleaned.slice(5, cleaned.length)
+    // Convert text into Unicode decimal encoded numbers
+    const build = new Build(`${cleaned}`)
+    // Parse sequences and insert the generated HTML into the DOM object
+    const html = new HTML()
+    html.sequences = build.arrayOfText()
+    html.lineWrap = this.lineWrap
+    html.build()
+    // Pass-on these ANSI/ECMA48 statistics and toggles
+    this.otherCodesCount = ecma48.other
+    this.rows = cursor.row
+    this.unknownCount = ecma48.unknown
+    // Pass-on these ANSI/ECMA48 toggles
+    this.colorDepth = ecma48.colorDepth
+    this.columns = cursor.maxColumns
+    this.font = sauce.font
+    if (this.font.length === 0) this.font = this.parseFont(ecma48.font)
+    this.iceColors = ecma48.iceColors
+    // Pass-on these HTML elements combined as a string
+    this.htmlString = domObject.html
+    // empty these containers to reduce browser memory usage
+    this.sauce = {}
+    this.text = ``
     domObject.html = ``
-    sgrClear()
+    reset(`cursor`)
+    reset(`ecma48`)
+    reset(`sgr`)
   }
-  ecma48Clear()
 
-  // Priority of configurations
-  // 1. SAUCE
-  // 2. ANSI SGR
-  // 3. hard-coded defaults
-  this.colorDepth = ecma48.colorDepth
-  this.columns = cursor.maxColumns
-  this.font = ``
-  this.iceColors = null
-  this.rows = 0
-  this.lineWrap = sgrObject.lineWrap
-  this.htmlString = ``
-  this.otherCodesCount = 0
-  this.unknownCount = 0
-  // SAUCE configurations
-  let info = ``
-  switch (sauce.version) {
-    case `00`:
-      this.font = `${sauce.configs.fontFamily}`
-      if (sauce.configs.width > 80) {
-        // TODO: SAUCE TInfo binary gets corrupted by the browser
-        // as a temporary fix un-cap the maxColumns
-        if (sauce.configs.width <= 180) cursor.maxColumns = sauce.configs.width
-        else {
-          cursor.maxColumns = 999
-          console.info(`Estimated text columns: ${cursor.maxColumns}`)
-        }
-      }
-      if (sauce.configs.iceColors === `1`) ecma48.iceColors = true
-      else ecma48.iceColors = false
-      info += `\nWidth: ${sauce.configs.width} columns`
-      info += `\nFont: ${sauce.configs.fontName}`
-      info += `\niCE Colors: ${Boolean(parseInt(sauce.configs.iceColors, 10))}`
-      info += `\nAspect Ratio: ${sauce.configs.aspectRatio}`
-      info += `\nLetter Spacing: ${sauce.configs.letterSpacing}`
-      info += `\nANSI Flags: ${sauce.configs.flags}`
-      console.groupCollapsed(`SAUCE Configuration`)
-      console.log(info)
-      console.groupEnd()
-      break
-    default:
+  /**
+   * Hide HTML entities that break the formatting of ANSI documents
+   *
+   * @param [s=``] String of text with entities
+   * @returns String of text with ⮘⮙⮚ placeholders
+   */
+  hideEntities(s = ``) {
+    if (typeof s !== `string`) CheckArguments(`s`, `string`, s)
+    // matches &gt;
+    const regGT = new RegExp(`&gt;`, `gi`)
+    // matches &lt; or <
+    const regLT = new RegExp(`&lt;|<`, `gi`)
+    // matches &amp;
+    const regAmp = new RegExp(`&amp;`, `gi`)
+    // matches > except when proceeded by an escape sequence ␛[>
+    // this is called a this is called a negated lookbehind
+    const regRA = new RegExp(`([^\x1B[=])>`, `gi`)
+    // replace all matches
+    const part1 = s.replace(regGT, `⮚`)
+    const part2 = part1.replace(regRA, `$1⮚`)
+    const part3 = part2.replace(regLT, `⮘`)
+    const parts = part3.replace(regAmp, `⮙`)
+    return parts
+  }
+
+  /**
+   * Translates the SGR numeric ranges (10...20) into CSS font-family values
+   *
+   * @param [font=10] SGR numeric font
+   * @returns CSS font family string
+   */
+  parseFont(font = 10) {
+    const f = parseInt(font, 10)
+    switch (f) {
+      case 10:
+        // use Option selection
+        return null
+      case 20:
+        // gothic font (not implemented due to a lack of a suitable font)
+        return null
+      case 11:
+        return `bios`
+      case 12:
+        return `cga`
+      case 13:
+        return `cgathin`
+      case 14:
+        return `amiga`
+      case 15:
+        return `ega9`
+      case 16:
+        return `ega8`
+      case 17:
+        return `vga8`
+      case 18:
+        return `vga9`
+      case 19:
+        return `mda`
+    }
+  }
+}
+
+/**
+ * Creates a object that is used for tracking the active cursor position
+ * @class Cursor
+ */
+class Cursor {
+  /**
+   * Creates an instance of Cursor.
+   * @column      Track X axis
+   * @row         Track Y axis
+   * @maxColumns  Maximum columns per line
+   * @previousRow Previous column, used to decide when to inject line breaks
+   * @eraseLines  Used by the Erase in page and Erase in line
+   */
+  constructor() {
+    this.column = 1
+    this.row = 1
+    this.maxColumns = 80
+    this.previousRow = 0
+    this.eraseLines = []
+    this.init()
+  }
+
+  /**
+   * Initialise this class
+   */
+  init() {
+    try {
       if (
         typeof localStorage !== `undefined` &&
-        localStorage.getItem(`textAnsiIceColors`) === `true`
+        localStorage.getItem(`textAnsiWrap80c`) === `false`
       )
-        ecma48.iceColors = true
-  }
-  // regex for HTML modifications
-  const emptyTags = new RegExp(/<i class="SGR37 SGR40"><\/i><i id=/gi)
-  const insSpace = new RegExp(
-    /<div id="row-(\d+)"><i class="SGR(\d+) SGR(\d+)"><\/i><\/div>/gi
-  )
-  // Clean up string before converting it to decimal values
-  // 4/Feb/17 - Hack to deal with HTML entities that mess up the ANSI layout
-  //            This hack-fix probably comes with a performance cost.
-  text = hideEntities(text)
-  // Strip @CLS@ PCBoard code occasionally found in ANSI documents
-  if (text.startsWith(`@CLS@`)) {
-    text = text.slice(5, text.length)
+        // set maxColumns to 0 to disable
+        this.maxColumns = 0
+    } catch (e) {
+      // if localStorage fails, the maxColumns has previously been set to 80
+    }
   }
 
-  // Convert text into Unicode decimal encoded numbers
-  const characters = loopBackward(text)
-
-  // Parse special characters
-  // note: This function may apply sgrObject = new SGRInit() // reset to defaults
-  loopForward(characters, this.lineWrap)
-  // close any opened tags
-  if (domObject.html.endsWith(`\u241B\u005B\uFFFD\uFFFD`) === true) {
-    // hack fix for tail `␛[��`
-    if (ecma48.unknown > 0) ecma48.unknown--
-    domObject.html = `${domObject.html.slice(0, -27)}</i></div>`
-  } else if (domObject.html.endsWith(`</i></div>`) === false) {
-    domObject.html = `${domObject.html}</i></div>`
-  } else if (domObject.html.endsWith(`</div>`) === true) {
-    domObject.html = `${domObject.html.slice(0, -6)}</i></div>`
+  /**
+   * Resets the cursor data container using the constructor defaults
+   * @param [old={}] data container object
+   */
+  async reset(old = {}) {
+    for (const key in this) {
+      old[key] = this[key]
+    }
   }
-  // clean any empty tags
-  domObject.html = domObject.html.replace(emptyTags, `<i id=`)
-  // force the browsers to show the empty rows by injecting a single space character
-  domObject.html = domObject.html.replace(
-    insSpace,
-    `<div id="row-$1"><i class="SGR$2 SGR$3"> </i></div>`
-  ) // intentional empty space
-  // apply erase lines
-  for (let line of cursor.eraseLines) {
-    line++ // account for arrays starting at 0 but lines starting at 1
-    const exp = new RegExp(`<div id="row-${line}">`, `i`)
-    domObject.html = domObject.html.replace(
-      exp,
-      `<div id="row-${line}" class="ED">`
+
+  /**
+   * Creates white space to simulate a cursor position forward request
+   * As such the white space should not have any presentation controls applied
+   * to it such as background colours.
+   * @param [places=1] The number of places to move, if 0 then build to the end of the line
+   */
+  async columnElement(places = 1) {
+    const move = parseInt(places, 10)
+    if (isNaN(move)) return null
+    if (move < 0) CheckRange(`places`, `small`, `0`, move)
+    const position = () => {
+      if (move === 0) {
+        if (cursor.column === 1) return cursor.maxColumns
+        if (cursor.maxColumns > 0) return cursor.maxColumns - cursor.column
+      }
+      return move
+    }
+    const count = position()
+    const end = cursor.column + count - 1
+    const element = italicElement()
+    if (cursor.column === end)
+      domObject.html = `${domObject.html}</i><i id="column-${
+        cursor.column
+      }" class="SGR0">${` `.repeat(count)}</i>${element}`
+    else
+      domObject.html = `${domObject.html}</i><i id="column-${
+        cursor.column
+      }-to-${end}" class="SGR0">${` `.repeat(count)}</i>${element}`
+    this.columnParse(count)
+  }
+
+  /**
+   * Automatically resets the column forward position to the beginning of the line
+   * after @count has reached 80 columns.
+   *
+   * @param [count=1] The number of characters or places that have been displayed
+   * If @count is set to 0 then a forced reset will be applied to cursor.column
+   */
+  columnParse(count = 1) {
+    const track = parseInt(count, 10)
+    if (isNaN(track)) return null
+    if (track < 0) CheckRange(`count`, `small`, `0`, track)
+    switch (track) {
+      case 0:
+        cursor.column = 1
+        break
+      default:
+        cursor.column = cursor.column + track
+        if (cursor.maxColumns !== 0 && cursor.column > cursor.maxColumns) {
+          // reached the end of line , so start a new line
+          cursor.previousRow++
+          this.rowElement(1)
+        }
+    }
+  }
+
+  /**
+   * Create line break tag to simulate a cursor position down request
+   *
+   * @param [count=1] The number of places to move
+   * @param [columns=0] If set to 1 or greater then also position the cursor forward by this many places
+   */
+  async rowElement(count = 1, columns = 0) {
+    const move = parseInt(count, 10)
+    const cols = parseInt(columns, 10)
+    if (isNaN(move)) return null
+    if (isNaN(cols)) return null
+    if (move < 1) CheckRange(`count`, `small`, `1`, move)
+    if (cols < 0) CheckRange(`columns`, `small`, `0`, cols)
+    const element = italicElement()
+    cursor.previousRow = cursor.row
+    for (let i = 0; i < move; i++) {
+      cursor.row++
+      // reset columns
+      this.columnParse(0)
+      // display a newline symbol at the end of the row
+      //domObject.html += `↵▌`
+      domObject.html += `</i></div><div id="row-${cursor.row}">${element}`
+    }
+    // always build columns AFTER rows and outside of the loop
+    if (cols > 0) this.columnElement(cols)
+  }
+}
+
+/**
+ * ECMA48/ANSI Select Graphic Rendition toggles
+ * @class SGR
+ */
+class SGR {
+  /**
+   * Creates an instance of SGR.
+   * @bold        Value 1
+   * @faint       Value 2
+   * @italic      Value 3
+   * @underline   Value 4
+   * @blinkSlow   Value 5
+   * @blinkFast   Value 6
+   * @inverse     Value 7
+   * @conceal     Value 8
+   * @crossedOut  Value 9
+   * @underlineX2 Value 21
+   * @framed      Value 51
+   * @encircled   Value 52
+   * @overLined   Value 53
+   * @colorF      Foreground text colour
+   * @colorB      Background colour
+   * @rgbF        RGB foreground css value
+   * @rgbB        RBG background css value
+   */
+  constructor() {
+    this.bold = false
+    this.faint = false
+    this.italic = false
+    this.underline = false
+    this.blinkSlow = false
+    this.blinkFast = false
+    this.inverse = false
+    this.conceal = false
+    this.crossedOut = false
+    this.underlineX2 = false
+    this.framed = false
+    this.encircled = false
+    this.overLined = false
+    // colours
+    this.colorF = 37
+    this.colorB = 40
+    this.rgbF = ``
+    this.rgbB = ``
+  }
+
+  /**
+   * Resets the cursor data container using the constructor defaults
+   * @param [old={}] data container object
+   */
+  async reset(old = {}) {
+    for (const key in this) {
+      old[key] = this[key]
+    }
+  }
+}
+
+/**
+ * ECMA48/ANSI Statistics
+ * @class Statistics
+ */
+class Statistics {
+  /**
+   * Creates an instance of Statistics.
+   * @other       Number of unsupported ANSI.SYS control sequences found
+   * @unknown     Number of unsupported ECMA-48 control sequences found
+   * @colorDepth  Colour depth override if a set/reset mode CSI has requested it
+   * @font        CSS class values SGR10…20, see text_ecma_48.css for the different font-family values
+   * @iceColors   iCE Color mode which replaces SGR5/6 CSS blink methods with alt. background colours
+   */
+  constructor() {
+    this.other = 0
+    this.unknown = 0
+    this.colorDepth = 4
+    this.font = 10
+    this.iceColors = false
+  }
+
+  /**
+   * Resets the cursor data container using the constructor defaults
+   * @param [old={}] data container object
+   */
+  async reset(old = {}) {
+    for (const key in this) {
+      old[key] = this[key]
+    }
+  }
+}
+
+// Shared data containers
+// Note: classes are not hoisted
+const cursor = new Cursor()
+const ecma48 = new Statistics()
+const sgrObject = new SGR()
+const domObject = { html: `` } // TODO move to class?
+
+/**
+ * Constructs an <i> tag based on the current styles and classes in use
+ *
+ * @param [parameters=``] SGR parameter values or ANSI.SYS text attributes
+ * For example `SGR+31` `SGR+0+1+31`
+ * @returns Open italic element as a string
+ */
+function italicElement(parameters = ``) {
+  const sgr = new CharacterAttributes(`${parameters}`)
+  const style = sgr.createStyle()
+  const css = sgr.createCSS()
+  if (style !== `` && css !== ``) return `<i class="${css}" style="${style}">`
+  if (css !== ``) return `<i class="${css}">`
+  if (style !== ``) return `<i style="${style}">`
+  return ``
+}
+
+/**
+ * Reset data container objects
+ *
+ * @param [name=``] Container name to reset, either `cursor`, `ecma48` or `sgr`
+ * @returns Data container
+ */
+async function reset(name = ``) {
+  let data = {}
+  switch (name) {
+    case `cursor`:
+      data = new Cursor()
+      return data.reset(cursor)
+    case `ecma48`:
+      data = new Statistics()
+      return data.reset(ecma48)
+    case `sgr`:
+      data = new SGR()
+      return data.reset(sgrObject)
+  }
+}
+
+/**
+ * ECMA-48, ANSI display attributes that sets the display colours and text typography
+ * http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf
+ *
+ * @class CharacterAttributes
+ */
+class CharacterAttributes {
+  /**
+   * Creates an instance of CharacterAttributes.
+   * @param [parameters=``] ANSI SGR sequences
+   * @param [verbose=false] Verbose console output
+   */
+  constructor(parameters = ``, verbose = false) {
+    this.parameters = parameters
+    this.verbose = verbose
+    this.value = -1
+    this.values = []
+    this.styles = ``
+    this.toggles = sgrObject
+  }
+
+  /**
+   * Creates CSS selectors based on SGR sequences for use with <i> elements
+   *
+   * @returns A collection of CSS selectors
+   */
+  createCSS() {
+    let css = ``
+    // Colours
+    // bold/intense foreground
+    const fg = this.toggles.colorF
+    if (this.toggles.bold && fg !== 38 && fg >= 30 && fg <= 39)
+      css += ` SGR1${fg}`
+    else if (fg !== null) css += ` SGR${fg}` // normal
+    // Presentation
+    // backgrounds when blink is enabled
+    if (this.toggles.colorB !== null) css += ` SGR${this.toggles.colorB}`
+    // presentation options css
+    if (this.toggles.faint) css += ` SGR2`
+    if (this.toggles.italic) css += ` SGR3`
+    if (this.toggles.underline) css += ` SGR4`
+    if (this.toggles.blinkSlow) css += ` SGR5`
+    if (this.toggles.blinkFast) css += ` SGR6`
+    if (this.toggles.inverse) css += ` SGR7`
+    if (this.toggles.conceal) css += ` SGR8`
+    if (this.toggles.crossedOut) css += ` SGR9`
+    if (this.toggles.underlineX2) css += ` SGR21`
+    if (this.toggles.framed) css += ` SGR51`
+    if (this.toggles.encircled) css += ` SGR52`
+    if (this.toggles.overLined) css += ` SGR53`
+    // alternative fonts, values 11…19, 20 is reserved for a Gothic font
+    // value 10 is the primary (default) font
+    if (ecma48.font > 10 && ecma48.font <= 20) css += ` SGR${ecma48.font}` // see `text_ecma_48.css` for fonts
+    //console.log(`>input '${values}' output> css: ${css} bold: ${this.toggles.bold}`) // uncomment to debug SGR
+    return css.trim()
+  }
+
+  /**
+   * Creates CSS style properties based on SGR sequences for use with <i> elements
+   *
+   * @returns A collection of CSS style properties
+   */
+  createStyle() {
+    const vals = this.parameters
+    const values = vals.split(`+`)
+    // forward loop as multiple codes together have compound effects
+    let val = -1
+    for (const v of values) {
+      val = parseInt(v, 10)
+      if (isNaN(val) === true) continue // error
+      if (val === 0 && vals !== `ICE+0`) {
+        if (this.verbose) console.info(`dataSGR()`)
+        reset(`sgr`)
+        //this.toggles = new dataSGR() // reset to defaults
+      }
+      this.value = val
+      this.values = values
+      // handle colour values
+      switch (ecma48.colorDepth) {
+        case 1:
+          break // if color depth = 1 bit, then ignore SGR color values
+        default:
+          // convert aixterm 3-bit colour values to standard 3-bit
+          val = this.aixterm()
+          // handle RBG colours
+          if ([38, 48].includes(val) && values[2] === `2`) {
+            this.styles = this.rgb()
+          }
+          // handle standard 3-bit and xterm 8-bit colours
+          else {
+            this.foreground()
+            this.background()
+          }
+      }
+      // handle presentation options
+      this.presentation()
+      // end of loop
+    }
+    return `${this.styles.trim()}`
+  }
+
+  /**
+   * IBM AIX terminal bright colours (SGR 90-97, SGR 100-107)
+   * This is a lazy implementation that first toggles the bold or blink flag
+   * and then converts the Aixterm SGR value to an ANSI 3-bit colour value
+   *
+   * @returns ANSI 3-bit colour value
+   */
+  aixterm() {
+    let val = parseInt(this.value, 10)
+    if (isNaN(val)) return null
+
+    if (val >= 90 && val <= 97) {
+      this.toggles.bold = true
+      this.value = val - 60 // change value to a standard SGR value
+    } else if (val >= 100 && val <= 107) {
+      this.toggles.blinkSlow = true
+      this.value = val - 60
+    }
+    return this.value
+  }
+
+  /**
+   * Background color (SGR 40-49, Xterm 8-bit)
+   *
+   * @returns Background color detected
+   */
+  background() {
+    const v = parseInt(this.value, 10)
+    const isXterm = this.xtermBG()
+    if ((v >= 40 && v <= 49) || isXterm) {
+      // flag Xterm 256 color
+      if (isXterm && typeof ecma48.colorDepth === `number`)
+        ecma48.colorDepth = 8
+      this.toggles.colorB = v
+      // when 3 or 8-bit colours are detected,
+      // erase any stored 24-bit RGB background colours
+      this.toggles.rgbB = ``
+      // permit the use of 24-bit RGB foregrounds with 3 or 8-bit background colours
+      if (this.toggles.rgbF.length > 0) this.styles = this.toggles.rgbF
+      // return positive result
+      return true
+    }
+    return false
+  }
+
+  /**
+   * Foreground color (SGR 30-39, Xterm 8-bit)
+   *
+   * @returns Foreground color detected
+   */
+  foreground() {
+    const v = parseInt(this.value, 10)
+    const isXterm = this.xtermFG()
+    if ((v >= 30 && v <= 39) || isXterm) {
+      // flag Xterm 256 color
+      if (isXterm && typeof ecma48.colorDepth === `number`)
+        ecma48.colorDepth = 8
+      this.toggles.colorF = v
+      // when 3 or 8-bit colours are detected,
+      // erase any stored 24-bit RGB foreground colours
+      this.toggles.rgbF = ``
+      // permit the use of 24-bit RGB backgrounds with 3 or 8-bit foreground colours
+      if (this.toggles.rgbB.length > 0) this.styles = this.toggles.rgbB
+      // return positive result
+      return true
+    }
+    return false
+  }
+
+  /**
+   * 24-bit RGB colours toggled by the SGR value 2
+   *
+   * @returns CSS RGB color styles
+   */
+  rgb() {
+    const val = parseInt(this.value, 10)
+    const values = this.values
+    const r = parseInt(values[3], 10)
+    const g = parseInt(values[4], 10)
+    const b = parseInt(values[5], 10)
+    if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
+      values[2] = values[3] = values[4] = values[5] = null // reset colours
+      switch (val) {
+        case 38:
+          this.toggles.colorF = null
+          this.toggles.rgbF = `color:rgb(${r},${g},${b});`
+          if (this.toggles.rgbB.length > 0)
+            this.styles += this.toggles.rgbF + this.toggles.rgbB
+          else this.styles += this.toggles.rgbF
+          break
+        case 48:
+          this.toggles.colorB = null
+          this.toggles.rgbB = `background-color:rgb(${r},${g},${b});`
+          if (this.toggles.rgbF.length > 0)
+            this.styles = this.toggles.rgbF + this.toggles.rgbB
+          else this.styles += this.toggles.rgbB
+          break
+      }
+    }
+    return `${this.styles}`
+  }
+
+  /**
+   * Detect Xterm 256 background code
+   *
+   * @returns Result
+   */
+  xtermBG() {
+    const v = parseInt(this.value, 10)
+    if (v >= 480 && v <= 489) return true
+    if (v >= 4810 && v <= 4899) return true
+    if (v >= 48100 && v <= 48255) return true
+    return false
+  }
+
+  /**
+   * Detect Xterm 256 foreground code
+   *
+   * @returns Result
+   */
+  xtermFG() {
+    const v = parseInt(this.value, 10)
+    if (v >= 380 && v <= 389) return true
+    if (v >= 3810 && v <= 3899) return true
+    if (v >= 38100 && v <= 38255) return true
+    return false
+  }
+
+  /**
+   * Toggle presentation flags
+   */
+  presentation() {
+    const val = parseInt(this.value, 10)
+    // '!' switches the existing Boolean value
+    switch (val) {
+      case 1:
+        return (this.toggles.bold = !this.toggles.bold)
+      case 2:
+        return (this.toggles.faint = !this.toggles.faint)
+      case 3:
+        return (this.toggles.italic = !this.toggles.italic)
+      case 4:
+        return (this.toggles.underline = !this.toggles.underline)
+      case 5:
+        return (this.toggles.blinkSlow = !this.toggles.blinkSlow)
+      case 6:
+        return (this.toggles.blinkFast = !this.toggles.blinkFast)
+      case 7:
+        return (this.toggles.inverse = !this.toggles.inverse)
+      case 8:
+        return (this.toggles.conceal = !this.toggles.conceal)
+      case 9:
+        return (this.toggles.crossedOut = !this.toggles.crossedOut)
+      case 21:
+        return (this.toggles.underlineX2 = !this.toggles.underlineX2)
+      case 22:
+        this.toggles.bold = false
+        this.toggles.faint = false
+        break
+      case 23:
+        this.toggles.italic = false
+        // toggle font not Gothic
+        if (ecma48.font === 20) ecma48.font = 10
+        break
+      case 24:
+        this.toggles.underline = false
+        this.toggles.underlineX2 = false
+        break
+      case 25:
+        this.toggles.blinkSlow = false
+        this.toggles.blinkFast = false
+        break
+      // case 26 is reserved
+      case 27:
+        return (this.toggles.inverse = false)
+      case 28:
+        return (this.toggles.conceal = false)
+      case 29:
+        return (this.toggles.crossedOut = false)
+      case 51:
+        return (this.toggles.framed = !this.toggles.framed)
+      case 52:
+        return (this.toggles.encircled = !this.toggles.encircled)
+      case 53:
+        return (this.toggles.overLined = !this.toggles.overLined)
+      case 54:
+        this.toggles.framed = false
+        this.toggles.encircled = false
+        break
+      case 55:
+        return (this.toggles.overLined = false)
+      default:
+        if (val >= 10 && val <= 20) ecma48.font = val
+    }
+  }
+}
+
+/**
+ * Applies presentation classes into small <i> containers. In HTML4 <i> were
+ * simply italic styles but in HTML5 they "represent a range of text that is
+ * set off from the normal text for some reason"
+ *
+ * @class HTML
+ */
+class HTML {
+  /**
+   * Creates an instance of HTML.
+   * @param [sequences=[]] An array of strings containing text and control sequences
+   * for example `['SGR+1', 'h', 'i']`
+   * @param [lineWrap=true] Enforce line wrapping
+   * @param [maxLength=100] Number of characters to display before enforcing line wrapping
+   */
+  constructor(sequences = [], lineWrap = true, maxLength = 100) {
+    this.sequences = sequences
+    this.lineWrap = lineWrap
+    this.maxLength = maxLength
+    this.item = {
+      row1: false,
+      // value will contain either a control code, text character or null
+      value: ``
+    }
+  }
+
+  /**
+   * The entry point to this class, it uses `this.sequences` to build and
+   * return HTML elements.
+   */
+  build() {
+    this.clean()
+    // determine the first row, by looking ahead 100 characters
+    const htmlSlice = domObject.html.slice(0, this.maxLength)
+    const row1 = {
+      start: htmlSlice.startsWith(`<div id="row-1"`),
+      index: htmlSlice.indexOf(`<div id="row-1"`, 0)
+    }
+    const item = this.item
+
+    let row = 0
+    for (item.value of this.sequences) {
+      row += 1
+      // Handle items
+      switch (item.value.length) {
+        case 0:
+          // 0 length is skipped
+          continue
+        case 1:
+          // 1 length is a single character to display
+          if (item.value !== undefined) {
+            this.specialMarker(item.value)
+            break
+          }
+        // fallthrough
+        default:
+          // greater than 1 length is a control function
+          this.parseNamedSequence(row, item.value)
+      }
+      // handle first row HTML
+      if (item.row1 === false && row1.start === false && row1.index === -1) {
+        if ([`ICE+1`, `ICE+0`].includes(this.sequences[0])) {
+          domObject.html = `<div id="row-1">`
+        } else {
+          this.item = item
+          domObject.html = `<div id="row-1">${this.element_i()}${
+            domObject.html
+          }`
+        }
+        item.row1 = true
+        continue
+      }
+      if (row <= 2 && domObject.html.startsWith(`<div id="row-1"></i>`)) {
+        // handle malformed tags due to iCE Color triggers
+        domObject.html = domObject.html.replace(
+          `<div id="row-1"></i>`,
+          `<div id="row-1">`
+        )
+        continue
+      }
+    }
+    // close any opened tags
+    this.closeElements()
+    // apply erase lines
+    this.eraseLines()
+  }
+
+  /**
+   * Filters out newline characters from `this.sequences`
+   */
+  clean() {
+    switch (this.lineWrap) {
+      case false:
+        this.sequences = this.sequences.filter(value => {
+          return value !== `\n`
+        })
+        break
+    }
+  }
+
+  /**
+   * Parses the DOM and closes any opened elements
+   */
+  closeElements() {
+    // regex for HTML modifications
+    const emptyTags = new RegExp(/<i class="SGR37 SGR40"><\/i><i id=/gi)
+    const insSpace = new RegExp(
+      /<div id="row-(\d+)"><i class="SGR(\d+) SGR(\d+)"><\/i><\/div>/gi
+    )
+    const d = domObject
+    switch (d.html.endsWith(`\u241B\u005B\uFFFD\uFFFD`)) {
+      case true:
+        // hack fix for trailing `␛[��`
+        if (ecma48.unknown > 0) ecma48.unknown--
+        d.html = `${d.html.slice(0, -27)}</i></div>`
+        break
+      default:
+        switch (d.html.endsWith(`</i></div>`)) {
+          case false:
+            // close opened elements
+            d.html = `${d.html}</i></div>`
+            break
+          default:
+            switch (d.html.endsWith(`</div>`)) {
+              // TODO THIS FAILS with
+              // <div id="row-1"><i class="SGR37 SGR40"></i></div>
+              case true:
+                // close opened <i> elements
+                d.html = `${d.html.slice(0, -6)}</i></div>`
+            }
+        }
+    }
+    // clean any empty tags
+    d.html = d.html.replace(emptyTags, `<i id=`)
+    // force the browsers to show the empty rows by injecting a single space character
+    // note: there is an intentional empty space between the italic element
+    d.html = d.html.replace(
+      insSpace,
+      `<div id="row-$1"><i class="SGR$2 SGR$3"> </i></div>`
     )
   }
-  // Return HTML5 & unknown control functions count
-  this.colorDepth = ecma48.colorDepth
-  this.columns = cursor.maxColumns
-  if (this.font.length === 0) this.font = parseFont(ecma48.font)
-  this.iceColors = ecma48.iceColors
-  this.htmlString = domObject.html
-  this.otherCodesCount = ecma48.other
-  this.rows = cursor.row
-  this.unknownCount = ecma48.unknown
 
-  // free up memory
-  cursorClear()
-  domObject.html = ``
-  ecma48Clear()
-  sgrClear()
-}
-
-// Convert the @text string into Unicode decimal encoded numbers and store those
-// values in an array. JavaScript's performance for comparison and manipulation
-// is faster using arrays and numeric values than it is using String functions.
-// While loops are generally the faster than other loop types but only work in
-// reverse.
-function loopBackward(text = ``, verbose = false) {
-  if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
-  if (typeof verbose !== `boolean`)
-    CheckArguments(`verbose`, `boolean`, verbose)
-
-  // Convert string to decimal characters
-  const decimals = buildDecimalArray(text, verbose)
-  const counts = {
-    loop: 0, // number of loops passed, used in console.log()
-    control: 0, // number of control functions passed so far
-    other: 0, // number of unsupported ANSI.SYS control sequences found
-    unknown: 0 // number of unsupported ECMA-48 control sequences found
-  }
-  const ctrl = { code: ``, codes: [], delLen: 0, element: ``, sequence: `` }
-  const texts = [] // array container to return
-  let i = decimals.length
-  console.groupCollapsed(`EMCA-48 parse feedback`)
-  while (i--) {
-    const decimalChar = decimals[i] // current character as a Unicode decimal value
-    counts.loop++
-    switch (decimalChar) {
-      case null:
-        continue
-      case 8594:
-      case 26:
-        // if the last character is `→` then assume this is a MS-DOS 'end of file' mark
-        // SGR should be reset otherwise leftover background colours might get displayed
-        texts[i] = `SGR+0`
-        break
-      // fallthrough
-      case 155: // handle character value 155 which is our place holder for the Control Sequence Introducer `←[`
-        counts.control++
-        // *********************************************
-        // discover if the control sequence is supported
-        // *********************************************
-        ctrl.sequence = findControlCode(decimals, i, verbose)
-        if (ctrl.sequence === null) {
-          // handle unknown sequences
-          console.info(
-            `Unsupported control function for array item ${i}, character #${
-              counts.control
-            }`
-          )
-          // display all unknown controls sequences in the text that could belong to the much larger ECMA-48 standard
-          // or proprietary sequences introduced by terminal or drawing programs
-          texts[i] = `\u241b` // `esc` control picture
-          texts[i + 1] = `[`
-          counts.unknown++
-          continue
-        }
-        ctrl.codes = ctrl.sequence.split(`,`)
-        ctrl.code = ctrl.codes[0]
-        ctrl.delLen = parseInt(ctrl.codes[1], 10) // number of characters to delete when erasing control sequences from the text
-        switch (ctrl.code) {
-          case `CUD`:
-          case `CUF`:
-          case `CUP`:
-          case `ED`:
-          case `EL`:
-          case `HVP`:
-          case `NULL`:
-          case `RCP`:
-          case `RGB`:
-          case `SCP`:
-          case `SGR`:
-            // strip out supported control sequences from the text
-            texts.fill(null, i + 2, ctrl.delLen + i + 2) // value, start, end
-            // EL (erase line) is supported except when used as an erase in-line sequence
-            if (ctrl.code === `EL` && ctrl.codes[2] === `1`) counts.other++
-            break
-          case `ICE`:
-            // strip out iCE colors control sequences
-            texts.fill(null, i + 2, ctrl.delLen + i + 6) // value, start, end
-            break
-          case `CUB`: // cursor back
-          case `CUU`: // cursor up
-          case `RM`: // restore cursor position
-          case `SM`: // save cursor position
-          case `/x`: // ansi.sys device driver to remap extended keys
-            // strip out unsupported control sequences from the text
-            counts.other++
-            if (ctrl.delLen > 0) texts.fill(null, i + 2, ctrl.delLen + i + 2) // value, start, end
-            if (verbose === true && ctrl.code === `SM`) {
-              console.groupCollapsed(`Control function '${ctrl.sequence}'`)
-              console.log(
-                `At position ${i}, item #${counts.control}, length ${
-                  ctrl.codes[1]
-                }\nNullify item ${counts.loop} fill ${i + 2} to ${ctrl.delLen +
-                  i +
-                  1}`
-              )
-              console.groupEnd()
-            }
-            break
-          // default should not be needed as all unknown sequences should have previously been handled
-        }
-        // humanise control sequence introducer
-        ctrl.element = buildCSI(ctrl.codes, verbose)
-        // merge results into the array
-        texts[i] = ctrl.element
-        // handle any formatting triggers
-        switch (ctrl.element) {
-          case `ICE+0`:
-            ecma48.iceColors = false
-            break
-          case `ICE+1`:
-            ecma48.iceColors = true
-            break
-          case `LW+0`:
-            sgrObject.lineWrap = false
-            break
-          case `LW+1`:
-            sgrObject.lineWrap = true
-            break
-        }
-        break
-      default:
-        // parse characters for display
-        texts[i] = `${String.fromCharCode(decimalChar)}` // convert the Unicode decimal character value into a UTF-16 text string
-    }
-    // end of while-loop
-  }
-  console.groupEnd()
-  ecma48.other = counts.other
-  ecma48.unknown = counts.unknown
-  return texts
-}
-
-// Inject presentation classes into small <i> containers. In HTML4 <i> were
-// simply italic styles but in HTML5 they "represent a range of text that is
-// set off from the normal text for some reason"
-// @items  An array containing Unicode decimal text
-function loopForward(items = [], lineWrap) {
-  if (typeof items !== `object`) CheckArguments(`items`, `array`, items)
-
-  function itag() {
-    switch (
-      item.value.split(`+`)[0] // get CSI name
-    ) {
+  /**
+   * Create and return an <i> element
+   *
+   * @returns Open italic element
+   */
+  element_i() {
+    // switch the CSI name
+    switch (this.item.value.split(`+`)[0]) {
       case `SGR`:
-        return renditionItalic(item.value)
+        return italicElement(this.item.value)
       default:
-        return renditionItalic()
+        return italicElement()
     }
   }
 
-  // remove empty items in the array and unused control sequences
-  if (lineWrap === false) {
-    // also remove newline characters
-    items = items.filter(item => {
-      return (
-        item !== `\n` && (item !== (undefined || null) && item.length !== 0)
-      )
-    })
-  } else {
-    items = items.filter(item => {
-      return item !== (undefined || null) && item.length !== 0
-    })
-  }
-
-  // determine the first row
-  const findRow1 = domObject.html.slice(0, 100)
-  const row1 = {
-    start: findRow1.startsWith(`<div id="row-1"`),
-    index: findRow1.indexOf(`<div id="row-1"`, 0)
-  }
-  const item = {
-    row1: false,
-    value: `` /* value = a control code, character or null */
-  }
-  let i = 0
-  for (item.value of items) {
-    i += 1
-    // Handle items
-    switch (item.value.length) {
-      case 0:
-        continue // 0 length is skipped
-      case 1: // 1 length is a single character to display
-        if (item.value !== undefined) {
-          parseCharacter(item.value)
-          break
-        }
-      // fallthrough
-      default:
-        // greater than 1 length is a control function
-        parseCtrlName(i, item.value)
-    }
-
-    // handle first row HTML
-    if (item.row1 === false && row1.start === false && row1.index === -1) {
-      if ([`ICE+1`, `ICE+0`].includes(items[0])) {
-        domObject.html = `<div id="row-1">`
-      } else {
-        domObject.html = `<div id="row-1">${itag()}${domObject.html}`
-      }
-      item.row1 = true
-    } else if (i <= 2 && domObject.html.startsWith(`<div id="row-1"></i>`)) {
+  /**
+   * Applies ED classes to <div> elements to simulate erased rows
+   */
+  eraseLines() {
+    for (let line of cursor.eraseLines) {
+      // lines rows start with a value 1 (not 0)
+      line++
+      const exp = new RegExp(`<div id="row-${line}">`, `i`)
       domObject.html = domObject.html.replace(
-        `<div id="row-1"></i>`,
-        `<div id="row-1">`
-      ) // handle malformed tags due to iCE color triggers
+        exp,
+        `<div id="row-${line}" class="ED">`
+      )
     }
   }
-}
 
-// the following functions listed in named, alphabetical order
+  /**
+   * Parse control named sequences
+   *
+   * @param [row=0] Current forwardLoop() row count
+   * @param [item=``] A control code, character or `null`
+   */
+  parseNamedSequence(row = 0, item = ``) {
+    if (typeof item !== `string`) CheckArguments(`item`, `string`, item)
+    if (item.length < 1) CheckRange(`item`, `length`, `1`, item)
+    row = parseInt(row, 10)
 
-// Takes control sequences and returns either their humanised acronyms or
-// HTML tags and entities.
-// @a       Array of text characters represented in Unicode decimal values
-function buildCSI(a = []) {
-  if (typeof a !== `object`) CheckArguments(`a`, `array`, a)
+    function parseItem() {
+      const item = items[2]
+      if (typeof item !== `undefined`) return parseInt(item, 10)
+      return 0
+    }
 
-  if (a.length === 0) return ``
-  const cs = { next1: 0, next2: 0, str: ``, value1: 0, value2: 0 }
-  const element = a[0],
-    values = a.slice(1),
-    valuesLen = values.length
+    const control = item.slice(0, 3) // obtain control name
+    const items = item.split(`+`)
+    const item1 = parseInt(items[1], 10)
+    const item2 = parseItem()
 
-  if (valuesLen > 1) cs.value1 = parseInt(values[1], 10)
-  if (valuesLen > 2) cs.value2 = parseInt(values[2], 10)
-
-  switch (element) {
-    case `RGB`:
-      // make 1 = 38 & - = 48, pass on rgb values
-      cs.str = `SGR+`
-      if (parseInt(cs.value1) === 0) {
-        cs.str += `4`
-      } else {
-        cs.str += `3`
-      }
-      cs.str += `8+2+${a[3]}+${a[4]}+${a[5]}`
-      break
-    case `ICE`:
-      cs.str = `${element}+${cs.value1}` // ICE colors
-      break
-    case `CUD`: // cursor move down
-    case `CUF`: // forward
-    case `ED`: // erase in page
-    case `EL`: // erase in line
-      cs.str = `${element}+${cs.value1}`
-      break
-    case `CUP`: // cursor position
-    case `HVP`: // horizontal vertical positioning
-      // these moves the cursor to a set of row x column coordinates
-      // the cs.value1 is row, cs.value2 is column
-      cs.str = `HVP+${cs.value1}+${cs.value2}`
-      break
-    case `SGR`: // set graphic rendition
-      cs.str = `SGR`
-      // loop over array, i should start from 1 not 0
-      for (let i = 1; i < valuesLen; i++) {
-        const value = parseInt(values[i], 10)
-        // handle 256 colour codes
-        if ([38, 48].includes(value) && valuesLen - i > 1) {
-          cs.next1 = parseInt(values[i + 1], 10)
-          cs.next2 = parseInt(values[i + 2], 10)
-          if (cs.next1 === 5 && cs.next2 >= 0 && cs.next2 <= 255) {
-            cs.str += `+${value}${cs.next2}`
-            i = i + 2
-            continue
+    switch (control) {
+      case `CUD`:
+        // cursor down
+        if (item1 > 0) {
+          //cursor.previousRow = cursor.row
+          cursor.rowElement(item1)
+        }
+        break
+      case `CHT`:
+      case `CUF`:
+        // forward tabulation
+        // cursor forward
+        if (item1 > 0) {
+          let movement = item1
+          // each forward tabulation value is set as 4 spaces
+          if (control === `CHT`) movement = movement * 4
+          const sum = movement + cursor.column
+          switch (cursor.maxColumns) {
+            case 0:
+              // no hard wrap
+              cursor.columnElement(movement)
+              break
+            default:
+              // when columns is less than or equals to the maximum columns
+              if (sum <= cursor.maxColumns) cursor.columnElement(movement)
+              // previously the CUF control was ignored if it went over maximum columns
+              // instead this creates a new row and continues the cursor forward
+              // TODO this may break IRL ANSI art examples and needs thorough test!!
+              else cursor.rowElement(1, sum - cursor.maxColumns - 1)
           }
         }
-        cs.str = `${cs.str}+${value}`
-      }
-      break
-    case `SM`: // set and reset screen mode
-    case `RM`:
-      if (cs.value1 === 7) {
-        // line wrapping
-        if (element === `RM`) cs.str = `LW+0`
-        // disable
-        else if (element === `SM`) cs.str = `LW+1` // enable
-      } else {
-        // all other modes
-        cs.str = `SM+${cs.value1}`
-      }
-      break
-    default:
-      console.warn(
-        `Unsupported element '${element}' passed through to buildCSI()`
-      )
-  }
-  // all other controls are ignored
-  return cs.str
-}
-
-// Stringify Unicode decimal values into a cursor position function
-// @c   mode encoded as Unicode decimal
-// @v   Array of text characters represented in Unicode decimal values
-function buildCU(c = 0, v = [0], verbose = false) {
-  if (typeof c !== `number`) CheckArguments(`c`, `number`, c)
-  if (typeof v !== `object`) CheckArguments(`v`, `array`, v)
-
-  function codes() {
-    switch (c) {
-      case 65:
-        return `CUU`
-      case 66:
-        return `CUD`
-      case 67:
-        return `CUF`
-      case 68:
-        return `CUB`
-    }
-    return ``
-  }
-
-  const code = codes()
-  let value = ``
-  for (const chr of v) {
-    if (chr === 0) {
-      value += `${String.fromCharCode(49)}` // default value of 1 if no value is given
-    } else {
-      value += `${String.fromCharCode(chr)}`
-    }
-  }
-  if (verbose)
-    console.log(`Cursor move ${value} positions ${humanizeCursor(c)}`)
-  const length = v.length + 1
-  if (v.length === 1 && v[0] === 0) {
-    return `${code},1,${value}` // no parameters are given
-  }
-  return `${code},${length},${value}`
-}
-
-// Converts a string of text into Unicode decimal values and splits them into an
-// array which are processed faster.
-// @s       String of text
-function buildDecimalArray(s = ``, verbose = false) {
-  if (typeof s !== `string`) CheckArguments(`s`, `string`, s)
-  if (typeof verbose !== `boolean`)
-    CheckArguments(`verbose`, `boolean`, verbose)
-
-  const d0 = new Date().getTime()
-  let i = s.length
-  const ua = new Array(i)
-  // while loops are faster
-  while (i--) {
-    const cca = s.charCodeAt(i)
-    if (cca === 8592 && s.charCodeAt(i + 1) === 91) {
-      // When the characters ←[ are found in sequence
-      // ←[ = CSI Control Sequence Introducer
-      ua[i] = 155 // we will use this value as an identifier to mark ←[ introducer
-      continue
-    } else if (cca === 91 && s.charCodeAt(i - 1) === 8592) {
-      // if [ is found and the previous character is ← (escape) then we nullify it
-      // as iterating and skipping over null values is much faster than modifying the array
-      ua[i] = null
-      continue
-    } else ua[i] = cca
-  }
-  if (verbose) {
-    const d1 = new Date().getTime()
-    console.log(
-      `Time taken to process buildDecimalArray: ${d1 - d0} milliseconds`
-    )
-  }
-  return ua
-}
-
-// Creates white space to simulate a cursor position forward request
-// As such the white space should not have any presentation controls applied
-// to it such as background colours.
-// @count   The number of places to move, if 0 then build to the end of the line
-async function buildNewColumns(count = 1) {
-  if (typeof count !== `number`) CheckArguments(`count`, `number`, count)
-  else if (count < 0) CheckRange(`count`, `small`, `0`, count)
-
-  function cp() {
-    if (count === 0) {
-      if (cursor.column === 1) return cursor.maxColumns
-      else if (cursor.maxColumns > 0) return cursor.maxColumns - cursor.column
-      return count
-    }
-    return count
-  }
-
-  const places = cp()
-  const endPosition = cursor.column + places - 1
-  const itag = renditionItalic()
-  if (cursor.column === endPosition)
-    domObject.html = `${domObject.html}</i><i id="column-${
-      cursor.column
-    }" class="SGR0">${` `.repeat(places)}</i>${itag}`
-  else
-    domObject.html = `${domObject.html}</i><i id="column-${
-      cursor.column
-    }-to-${endPosition}" class="SGR0">${` `.repeat(places)}</i>${itag}`
-  handleColumn(places)
-}
-
-// Stringify Unicode decimal values into a character and line position function
-// @v   Array of text characters represented in Unicode decimal values
-function buildHVP(v = [], verbose = false) {
-  if (typeof v !== `object`) CheckArguments(`v`, `array`, v)
-  if (typeof verbose !== `boolean`) CheckArguments(`prefix`, `boolean`, verbose)
-
-  const length = v.length + 1
-  const hvp = { row: ``, column: ``, mode: `m` }
-  if (v.length === 0) v = [49, 59, 49]
-  for (const chr of v) {
-    // if character is a semicolon ; then switch modes
-    if (chr === 59) {
-      hvp.mode = `n`
-      continue
-    }
-    if (hvp.mode === `n`)
-      hvp.column = hvp.column.concat(String.fromCharCode(chr))
-    // keep concat to avoid \n injection
-    else if (hvp.mode === `m`) hvp.row = `${hvp.row}${String.fromCharCode(chr)}`
-  }
-  // if no values were provided then use defaults of 1
-  if (hvp.row === `` || hvp.row === `0`) hvp.row = `1`
-  if (hvp.column === `` || hvp.column === `0`) hvp.column = `1`
-  if (verbose)
-    console.log(
-      `Cursor repositioned to row ${hvp.row} and column ${hvp.column}`
-    )
-  return `HVP,${length},${hvp.row},${hvp.column}`
-}
-
-// Create line break tag to simulate a cursor position down request
-// @count   The number of places to move
-// @columns If set to 1 or greater then also position the cursor forward by
-//          this many places.
-async function buildNewRows(count = 1, columns = 0) {
-  if (typeof count !== `number`)
-    CheckError(
-      `'count' argument must be an unsigned number, not a ${typeof count}`,
-      true
-    )
-  else if (count < 1) CheckRange(`count`, `small`, `1`, count)
-  if (typeof columns !== `number`)
-    CheckError(
-      `'columns' argument must be an unsigned number, not a ${typeof columns}`,
-      true
-    )
-  else if (columns < 0) CheckRange(`columns`, `small`, `0`, columns)
-
-  const itag = renditionItalic()
-  for (let i = 0; i < count; i++) {
-    cursor.row++
-    handleColumn(0) // reset columns
-    domObject.html += `</i></div><div id="row-${cursor.row}">${itag}`
-  }
-  //domObject.html += `${itag}`
-  cursor.previousRow = cursor.row
-  // always build columns AFTER rows and outside of the loop
-  if (columns > 0) buildNewColumns(columns)
-}
-
-// Stringify Unicode decimal values into the set mode function.
-// This is not compatible with the ECMA-48 set mode function as it is based
-// on Microsoft's ANSI.SYS driver.
-// @c       mode encoded as Unicode decimal
-// @v       Array of text characters represented in Unicode decimal values
-// @prefix  Was the value in the ANSI element prefixed with a symbol?
-//          ANSI.SYS permits '=' '?' '>' ie ←[=13h and ←[?13h
-function buildSM(c = 0, v = [0, 0], prefix = true) {
-  if (typeof c !== `number`) CheckArguments(`c`, `number`, c)
-  if (typeof v !== `object` && v !== `undefined`)
-    CheckArguments(`v`, `array`, v)
-  if (v.length < 1) CheckRange(`v.length`, `small`, v.length) // set to 1?
-  if (typeof prefix !== `boolean`) CheckArguments(`prefix`, `boolean`, prefix)
-
-  const sm = { code: `SM`, length: v.length + 1, value: `` }
-  if (v.length > 1 && v[1] > 0)
-    sm.value = `${String.fromCharCode(v[0])}${String.fromCharCode(v[1])}`
-  else sm.value = `${String.fromCharCode(v[0])}`
-  if (prefix === true) sm.length++
-  if (c === 108) sm.code = `RM`
-  return `${sm.code},${sm.length},${sm.value}`
-}
-
-// Converts arrays containing Unicode decimal values back into plain text strings.
-// @a       Array containing Unicode decimals
-function buildTextChars(a = [], verbose = false) {
-  if (typeof a !== `object`) CheckArguments(`a`, `array`, a)
-  if (typeof verbose !== `boolean`)
-    CheckArguments(`verbose`, `boolean`, verbose)
-
-  const d0 = new Date().getTime()
-  let i = a.length
-  // while loops are faster
-  while (i--) {
-    switch (a[i]) {
-      case null:
-        continue
-      case 155:
-        a[i] = `\e[`
         break
-      default:
-        a[i] = String.fromCharCode(a[i])
-    }
-  }
-  const str = a.join(``) // convert array to string with no separator
-  if (verbose) {
-    const d1 = new Date().getTime()
-    console.log(`Time taken to process buildTextChars: ${d1 - d0} milliseconds`)
-  }
-  return str
-}
-
-// Used by RenditionParse() to see if `v` matches a valid Select Graphic Rendition, background color
-// @v   Decimal value of a CSI
-function findBackground(v) {
-  if (
-    (v >= 40 && v <= 49) ||
-    (v >= 480 && v <= 489) ||
-    (v >= 4810 && v <= 4899) ||
-    (v >= 48100 && v <= 48255)
-  ) {
-    if (v >= 480 && typeof ecma48.colorDepth === `number`) ecma48.colorDepth = 8 // x-term 256 color found
-    return true
-  }
-  return false
-}
-
-// Scans a slice of text that has previously been converted into Unicode
-// decimals to find any ECMA-48 control sequences.
-// @a       Array of text characters represented in Unicode decimal values.
-//          Usually it will contain a complete text document.
-// @pos     The position within the array to start the search for a control sequence.
-// @verbose Spam the console with information about each discovered control sequence.
-function findControlCode(a = [], pos = 0, verbose = true) {
-  if (typeof a !== `object`) CheckArguments(`a`, `array`, a)
-  if (typeof pos !== `number`) CheckArguments(`pos`, `number`, pos)
-  else if (pos < 0) CheckRange(`pos`, `small`, `0`, pos)
-  if (typeof verbose !== `boolean`)
-    CheckArguments(`verbose`, `boolean`, verbose)
-
-  const i = pos + 2 // skip saved escape and null values
-  // look-ahead character containers as control sequences use multiple characters
-  // of varying length.
-  const lac = {
-    c0: a[i],
-    c1: a[i + 1],
-    c2: a[i + 2],
-    c3: a[i + 3],
-    c4: a[i + 4]
-  }
-  // look-ahead objects that will be used with deeper scan while-loops
-  // slices of text for scanning for control codes
-  const slices = {
-    cap9: a.slice(i, i + 8), // for performance, set a 9 character cap for most scans
-    sgr: a.slice(i, i + 47), // cap SGR scans to 48 characters, a lower value improves performance but RGB values are long
-    rgb: a.slice(i, i + 14) // PabloDraw RGB 't' values are never longer than 15 characters
-  }
-  // discover digits
-  const num = {
-    c0: findDigit(lac.c0),
-    c1: findDigit(lac.c1),
-    c2: findDigit(lac.c2),
-    c3: findDigit(lac.c3)
-  }
-  // look for SGR & HVP codes
-  const find = {
-    f: slices.cap9.indexOf(102), // Horizontal and Vertical Position
-    H: slices.cap9.indexOf(72), // Cursor Position
-    m: slices.sgr.indexOf(109), // Select Graphic Rendition
-    t: slices.rgb.indexOf(116) // PabloDraw RGB code
-  }
-  // Horizontal and vertical position object
-  const hvp = { code: ``, ctrl: true, flag: 0, loop: -1, scan: -1 }
-  // Select Graphic Rendition object
-  const sgr = { loop: -1, code: ``, ctrl: true, str: `` }
-  // PabloDraw RGB object
-  const rgb = { arr: [], join: ``, slice: [], str: ``, valid: true }
-  // handle control functions with either no or fixed numeric parameters first
-  // SGR - Select Graphic Rendition
-  if (lac.c0 === 109) return `SGR,1,0`
-  // ←[m reset to defaults
-  else if (lac.c1 === 109 && num.c0)
-    return `SGR,2,${String.fromCharCode(lac.c0)}`
-  // ←[1m
-  else if (lac.c2 === 109 && num.c0 && num.c1)
-    return `SGR,3,${String.fromCharCode(lac.c0)}${String.fromCharCode(lac.c1)}` // ←[31m
-  // HVP, CUP - Horizontal and vertical position and Cursor Position reset, match ←[H ←[f
-  if (lac.c0 === 72 || lac.c0 === 102) return buildHVP()
-  // CUU, CUD, CUF, CUB - Cursor up, down, forward, back
-  if (findCursor(lac.c0)) return buildCU(lac.c0) // ←[A move 1 place
-  if (num.c0 && findCursor(lac.c1)) return buildCU(lac.c1, [lac.c0]) // ←[5A move multiple places
-  if (num.c0 && num.c1 && findCursor(lac.c2))
-    return buildCU(lac.c2, [lac.c0, lac.c1]) // ←[60A move tens of places
-  if (num.c0 && num.c1 && num.c2 && findCursor(lac.c3))
-    return buildCU(lac.c3, [lac.c0, lac.c1, lac.c2]) // ←[555A move hundreds of places
-  if (num.c0 && num.c1 && num.c2 && num.c3 && findCursor(lac.c4))
-    return buildCU(lac.c4, [lac.c0, lac.c1, lac.c2, lac.c3]) // ←[1523A move thousands of places
-  // SM, RM - Set screen mode and Reset screen mode
-  if (
-    (lac.c3 === 104 || lac.c3 === 108) &&
-    lac.c0 >= 61 &&
-    lac.c0 <= 63 &&
-    lac.c1 === 49 &&
-    lac.c2 >= 51 &&
-    lac.c2 <= 56
-  )
-    return buildSM(lac.c3, [lac.c1, lac.c2]) // ←[=13h 2 digit mode with a character prefix
-  if (
-    (lac.c2 === 104 || lac.c2 === 108) &&
-    lac.c0 >= 61 &&
-    lac.c0 <= 63 &&
-    num.c1
-  )
-    return buildSM(lac.c2, [lac.c1]) // ←[?0h 1 digit mode with a character prefix
-  if (
-    (lac.c2 === 104 || lac.c2 === 108) &&
-    lac.c0 === 49 &&
-    lac.c1 >= 51 &&
-    lac.c1 <= 56
-  )
-    return buildSM(lac.c2, [lac.c0, lac.c1], false) // ←[13h 2 digit mode
-  if ((lac.c1 === 104 || lac.c1 === 108) && num.c0)
-    return buildSM(lac.c1, [lac.c0], false) // ←[13h 1 digit mode
-  // ED - Erase in page, match ←[J, ←[0J, ←[1J, ←[2J
-  if (lac.c0 === 74) return `ED,1,0`
-  else if (lac.c1 === 74 && lac.c0 >= 48 && lac.c0 <= 50)
-    return `ED,2,${String.fromCharCode(lac.c0)}`
-  // EL - Erase in line, match ←[K, ←[0K, ←[1K, ←[2K
-  if (lac.c0 === 75) return `EL,1,0`
-  else if (lac.c1 === 75 && lac.c0 >= 48 && lac.c0 <= 50)
-    return `EL,2,${String.fromCharCode(lac.c0)}`
-  // SCP - Save Cursor Position, match ←[s
-  // it is commonly used for handling newline breaks
-  if (lac.c0 === 115 && lac.c1 === 10) return `NULL,5`
-  else if (lac.c0 === 115) return `SCP,1`
-  // RCP - restore Cursor Position, match ←[u
-  if (lac.c0 === 117) return `RCP,1`
-  // ANSI.SYS extended keyboard support (non-standard), match ←[0q, ←[1q
-  if (lac.c1 === 113 && (lac.c0 === 48 || lac.c0 === 49))
-    return `/x,2,${String.fromCharCode(lac.c0)}`
-  // Non-standard code used by PabloDraw and
-  if (lac.c0 === 63) {
-    // ←[?33h and ←[?33l, ICE colors
-    if (lac.c1 === 51 && lac.c2 === 51) {
-      // see comments http://picoe.ca/forums/topic/need-pablodraw-ansi-escape-codes-descriptionsourcelist/
-      if (lac.c3 === 108) return `ICE,0,0`
-      // l, disable
-      else if (lac.c3 === 104) return `ICE,0,1` // h, enable
-    }
-  }
-  // Look for PabloDraw RGB codes http://picoe.ca/2014/03/07/24-bit-ansi/
-  if (find.t > -1) {
-    rgb.slice = slices.rgb.slice(0, find.t + 1)
-    for (const t of rgb.slice) {
-      if (t === 116) break
-      rgb.join += String.fromCharCode(t)
-    }
-    rgb.arr = rgb.join.split(`;`)
-    if (rgb.arr.length !== 4) rgb.valid = false
-    else if ([`0`, `1`].includes(rgb.arr[0]) !== true) rgb.valid = false
-    else if (rgb.arr[1] < 0 || rgb.arr[1] > 255) rgb.valid = false
-    else if (rgb.arr[2] < 0 || rgb.arr[2] > 255) rgb.valid = false
-    else if (rgb.arr[3] < 0 || rgb.arr[3] > 255) rgb.valid = false
-    if (rgb.valid === true) {
-      rgb.str += rgb.arr.join()
-      rgb.str = `RGB,${rgb.str.length + 1},${rgb.str}`
-      return rgb.str
-    }
-  }
-  // handle control functions with variable parameters
-  // SGR - Select Graphic Rendition
-  // look for SGR
-  // if scan found an SGR then process its values
-  if (find.m > -1) {
-    sgr.loop = find.m
-    while (sgr.loop--) {
-      sgr.code = a[i + sgr.loop]
-      // confirm scanned character (character 59 is a semicolon `;`)
-      if (sgr.code !== 109) {
-        // not m
-        if (findDigit(sgr.code) === false && sgr.code !== 59) {
-          sgr.ctrl = false
+      case `HVP`:
+        // horizontal vertical position (HVP)
+        // RetroTxt doesn't support the upward movement of the cursor
+        if (item1 < cursor.row) {
+          ecma48.other++
           break
-        } else if (sgr.code === 59) sgr.str = `,${sgr.str}`
-        else sgr.str = `${String.fromCharCode(sgr.code)}${sgr.str}`
-      }
-    }
-    if (sgr.ctrl === true) {
-      if (verbose)
-        console.log(
-          `Text rendition attributes found, 'SGR,${sgr.str.length + 1},${
-            sgr.str
-          }'`
-        )
-      return `SGR,${sgr.str.length + 1},${sgr.str}`
-    }
-  }
-  // HVP, CUP - Horizontal & vertical position and Cursor Position
-  if (find.H >= 0 && (find.f === -1 || find.H < find.f)) {
-    // Scan for the letter `H` in chars, identifies CUP
-    hvp.flag = 72
-    hvp.scan = find.H
-  } else if (find.f >= 0 && (find.H === -1 || find.f < find.H)) {
-    // Scan for the letter `f` in chars, identifies HVP
-    hvp.flag = 102
-    hvp.scan = find.f
-  }
-  // if one of the scans found an hvp.flag, then process its values
-  if (hvp.scan > -1) {
-    hvp.loop = hvp.scan
-    while (hvp.loop--) {
-      hvp.code = a[i + hvp.loop]
-      // confirm scanned character is H or ; or 0-9
-      if (
-        hvp.code !== hvp.flag &&
-        hvp.code !== 59 &&
-        findDigit(hvp.code) === false
-      ) {
-        hvp.ctrl = false
-        break
-      }
-    }
-    if (hvp.ctrl === true) {
-      if (verbose)
-        console.log(
-          `Cursor position change command found, '${buildTextChars(
-            slices.cap9.slice(0, hvp.scan)
-          )}'`
-        )
-      return buildHVP(slices.cap9.slice(0, hvp.scan))
-    }
-  }
-  // if no known control sequences are found then return null
-  return null
-  // end of findControlCode() function
-}
-
-function findCursor(
-  c = 0 // Is the character a Final Byte used for cursor positioning? // CCU, CUD, CUF, CUB // @c   character encoded as Unicode decimal
-) {
-  if (typeof c !== `number`) CheckArguments(`c`, `number`, c)
-  if (c >= 65 && c <= 68) return true
-  return false
-}
-
-function findDigit(
-  c = 0 // Is the character a digit (0...9)? // @c   character encoded as Unicode decimal
-) {
-  if (typeof c !== `number` && c !== null) CheckArguments(`c`, `number`, c)
-  if (c >= 48 && c <= 57) return true
-  return false
-}
-
-// Used by RenditionParse() to see if `v` matches a valid Select Graphic Rendition, foreground color
-// @v   Decimal value of a CSI
-function findForeground(v) {
-  if (
-    (v >= 30 && v <= 39) ||
-    (v >= 90 && v <= 97) ||
-    (v >= 380 && v <= 389) ||
-    (v >= 3810 && v <= 3899) ||
-    (v >= 38100 && v <= 38255)
-  ) {
-    if (v >= 380 && typeof ecma48.colorDepth === `number`) ecma48.colorDepth = 8 // x-term 256 color found
-    return true
-  }
-  return false
-}
-
-// Automatically resets the column forward position to the beginning of the line
-// after @count has reached 80 columns.
-// @count The number of characters or places that have been displayed.
-//        If @count is set to 0 then a forced reset will be applied to cursor.column.
-function handleColumn(count = 1) {
-  if (typeof count !== `number`) CheckArguments(`count`, `number`, count)
-  else if (count < 0) CheckRange(`count`, `small`, `0`, count)
-
-  if (count === 0) cursor.column = 1
-  else if (count > 0) {
-    cursor.column = cursor.column + count
-    if (cursor.maxColumns !== 0 && cursor.column > cursor.maxColumns) {
-      // end of line reached so begin a new line
-      //console.info(`EOL for ${cursor.row} @ ${cursor.column}/${cursor.maxColumns}`)
-      cursor.previousRow++
-      buildNewRows(1)
-    }
-  }
-}
-
-// Hide HTML entities that break the formatting of ANSI documents
-// @s String of text
-function hideEntities(s = ``) {
-  if (typeof s !== `string`) CheckArguments(`s`, `string`, s)
-  const regGT = new RegExp(`&gt;`, `gi`) // match &gt;
-  const regLT = new RegExp(`&lt;|<`, `gi`) // match &lt; or <
-  const regAmp = new RegExp(`&amp;`, `gi`)
-  const regRA = new RegExp(`>[?!\x1B\[]`, `gi`) // match > except ␛[>
-  // replace matches
-  const part1 = s.replace(regGT, `⮚`)
-  const part2 = part1.replace(regRA, `⮚`)
-  const part3 = part2.replace(regLT, `⮘`)
-  const parts = part3.replace(regAmp, `⮙`)
-  return parts
-}
-
-// Decode Unicode decimal values into readable strings
-// @c   character encoded as Unicode decimal
-function humanizeCursor(c = 0) {
-  return () => {
-    switch (c) {
-      case 65:
-        return `up`
-      case 66:
-        return `down`
-      case 67:
-        return `right`
-      case 68:
-        return `left`
-      default:
-        return null
-    }
-  }
-}
-
-// Parse markers and special characters in domObject.html
-// @c Character as string
-function parseCharacter(c = ``) {
-  if (typeof c !== `string`) CheckArguments(`c`, `string`, c)
-  switch (c) {
-    case `\n`:
-      buildNewRows()
-      break // we replace newline controls with <br> tags
-    case `⮚`:
-      domObject.html = `${domObject.html}&gt;`
-      break
-    case `⮘`:
-      domObject.html = `${domObject.html}&lt;`
-      break
-    case `⮙`:
-      domObject.html = `${domObject.html}&amp;`
-      break
-    default:
-      domObject.html = `${domObject.html}${c}` // append character to HTML
-      handleColumn()
-  }
-}
-
-// Parse control sequences
-// @i     Current forwardLoop() count
-// @item  A control code, character or null
-function parseCtrlName(i = 0, item = ``) {
-  if (typeof i !== `number`) CheckArguments(`i`, `number`, i)
-  if (typeof item !== `string`) CheckArguments(`item`, `string`, item)
-  if (item.length < 1) CheckRange(`item`, `length`, `1`, item)
-
-  function parseItem() {
-    const i2 = items[2]
-    if (typeof i2 !== `undefined`) return parseInt(i2, 10)
-    return 0
-  }
-
-  const control = item.slice(0, 3) // obtain control name
-  const items = item.split(`+`)
-  const item1 = parseInt(items[1], 10)
-  const item2 = parseItem()
-
-  switch (control) {
-    case `CUD`: // cursor down
-      if (item1 > 0) {
+        }
+        // set the previous row
         cursor.previousRow = cursor.row
-        buildNewRows(item1)
-      }
-      break
-    case `CUF`: // cursor forward
-      if (item1 > 0) {
-        if (cursor.maxColumns === 0) buildNewColumns(item1)
-        else if (
-          cursor.maxColumns !== 0 &&
-          item1 + cursor.column <= cursor.maxColumns
-        )
-          buildNewColumns(item1)
-      }
-      break
-    case `HVP`: // horizontal vertical position (HVP) & cursor position (CUP)
-      //console.log(`HVP is in use @ ${cursor.row}x${cursor.column} to move to ${item1}x${item2}.`);
-      //cursor.maxColumns = 0 // disable maxColumns because HVP is in use.
-      cursor.previousRow = cursor.row
-      if (
-        item1 < cursor.row ||
-        (item1 === cursor.row && item2 < cursor.column)
-      ) {
-        // RetroTxt doesn't support the backwards movement of the cursor
-        ecma48.other++
-      } else if (item1 > cursor.row) {
-        if (item2 === 1) buildNewRows(item1 - cursor.row, 0)
-        // reset columns
-        else buildNewRows(item1 - cursor.row, item2)
-      } else if (item2 > cursor.column) {
-        buildNewColumns(item2)
-      }
-      break
-    case `ICE`: // iCE colors
-    case `SGR`: // select graphic
-      if (control === `ICE`) {
+        // RetroTxt doesn't support the backward movement of the cursor
+        if (item1 === cursor.row && item2 < cursor.column) {
+          ecma48.other++
+          break
+        }
+        // downward cursor position
+        if (item1 > cursor.row) {
+          // HVP values are coordinates while rowElement(columns) parameter
+          // is a forward movement value, so item2 value needs to minus 1
+          // HVP+1+50 means go to row 1 and start a column 1 and move 49 places
+          const moveFwd = item2 - 1
+          const moveDown = item1 - cursor.row
+          cursor.rowElement(moveDown, moveFwd)
+          break
+        }
+        // forward cursor position when exceeding maximum columns
+        // this will create a new row and continue the forward movement
+        if (item2 > cursor.maxColumns) {
+          const moveFwd = item2 - cursor.maxColumns - 1
+          cursor.rowElement(1, moveFwd)
+          break
+        }
+        // forward cursor position
+        if (item2 > cursor.column) {
+          let moveFwd = null
+          if (cursor.column > 1) moveFwd = item2 - cursor.column
+          else moveFwd = item2 - 1
+          cursor.columnElement(moveFwd)
+          break
+        }
+        break
+      case `ICE`:
+        // iCE Colors
+        // note: this position is important due to fallthrough to case `SGR`
         switch (item1) {
           case 0:
             ecma48.iceColors = false
@@ -1167,331 +1028,1155 @@ function parseCtrlName(i = 0, item = ``) {
             ecma48.iceColors = true
             break
         }
+      // fallthrough
+      case `SGR`:
+        // character attributes
+        if (row > 1) {
+          const itag = italicElement(item)
+          domObject.html += `</i>${itag}`
+        }
+        break
+      case `ED+`:
+        // erase in page
+        switch (item1) {
+          case 0:
+            // erase from cursor to end of the screen (-ANSI.SYS)
+            // [incomplete, currently just goes to the end of the line]
+            cursor.columnElement(0)
+            break
+          case 1:
+          case 2:
+            // 3/Feb/17: fix for issue https://github.com/bengarrett/RetroTxt/issues/25
+            if (cursor.row >= 1 && cursor.column > 1) {
+              // erase all lines to current row using ES6 range 1...current row
+              // 8/Mar/19: the Set is used to remove duplicate rows
+              cursor.eraseLines = [...new Set(Array(cursor.row).keys())]
+              // TODO - CHANGE to the use array of strings `1`,`2`, ... ?
+            }
+            break
+        }
+        break
+      case `EL+`:
+        // erase in line
+        switch (item1) {
+          case 0:
+            // go to end of the line
+            cursor.columnElement(0)
+            break
+          case 1:
+            // [not supported] clear from cursor to the beginning of the line (-ANSI.SYS)
+            break
+          case 2:
+            // erase line (-ANSI.SYS)
+            if (cursor.row < 1) break
+            cursor.eraseLines.push(cursor.row - 1)
+            break
+        }
+        break
+      case `SM+`:
+        // set modes (non-standard MS-DOS ANSI.SYS)
+        this.parseNamedSetMode(parseInt(item1))
+        ecma48.colorDepth = this.colorDepth
+        ecma48.font = this.font
+        ecma48.maxColumns = this.maxColumns
+        break
+      default:
+        console.warn(
+          `parseNamedSequence() tried to parse this unknown control '${item}'`
+        )
+    }
+  }
+
+  /**
+   * Parse Set Mode sequence
+   *
+   * @param [parameter=-1] Set Mode number value between `0` and `19`
+   */
+  parseNamedSetMode(parameter = -1) {
+    const sm = parseInt(parameter, 10)
+    if (sm < 0) CheckRange(`parameter`, `small`, `0`, parameter)
+    if (sm > 19) CheckRange(`parameter`, `large`, `19`, parameter)
+
+    this.colorDepth = -1
+    this.font = -1
+    this.maxColumns = 80
+    // default values for invalid set mode values
+    const v = [`4-bit`, `VGA`, `80`]
+    // set colour depth
+    switch (sm) {
+      case 0:
+      case 2:
+      case 15:
+      case 17:
+        // case 5:
+        // case 6:
+        this.colorDepth = 1
+        v[0] = `1-bit`
+        break
+      case 5:
+      case 6:
+        this.colorDepth = 0
+        v[0] = `4-bit monochrome`
+        break
+      case 1:
+      case 3:
+      case 4:
+        this.colorDepth = 2
+        v[0] = `2-bit`
+        break
+      case 13:
+      case 14:
+      case 16:
+      case 18:
+        this.colorDepth = 4
+        v[0] = `4-bit`
+        break
+      case 19:
+        this.colorDepth = 8
+        v[0] = `8-bit [unsupported]`
+        break
+    }
+    // set resolution (in our HTML/CSS output we only switch fonts)
+    switch (sm) {
+      case 2:
+        this.font = 19
+        break
+      case 0:
+      case 1:
+      case 4:
+      case 5:
+      case 13:
+      case 19:
+        // MDA font 80×25
+        this.font = 12
+        break
+      case 6:
+      case 14:
+        // CGA font
+        this.font = 13
+        break
+      case 3:
+      case 15:
+      case 16:
+        //  CGA higher resolution
+        this.font = 15
+        break
+      case 17:
+      case 18:
+        // VGA font
+        this.font = 17
+        break
+    }
+    // number of columns
+    if (sm === 0 || sm === 1) this.maxColumns = 40
+    console.info(`Set mode applied, ${v[0]} ${v[1]} in ${v[2]} columns mode`)
+  }
+
+  /**
+   * Parse and replace any special markers with HTML entities
+   * Otherwise append the text character to domObject.html
+   *
+   * @param [c=``] Character as string
+   * @returns String of HTML elements
+   */
+  specialMarker(c = ``) {
+    if (typeof c !== `string`) CheckArguments(`c`, `string`, c)
+    switch (c) {
+      case `\n`:
+        // replace newline controls with line break elements
+        cursor.rowElement()
+        return `lf`
+      case `⮚`:
+        domObject.html = `${domObject.html}&gt;`
+        return `&gt;`
+      case `⮘`:
+        domObject.html = `${domObject.html}&lt;`
+        return `&lt;`
+      case `⮙`:
+        domObject.html = `${domObject.html}&amp;`
+        return `&amp;`
+      default:
+        // append the text character to HTML as a string
+        domObject.html = `${domObject.html}${c}`
+        cursor.columnParse()
+        return domObject.html
+    }
+  }
+}
+
+/**
+ * SAUCE metadata feedback and ANSI render controls
+ *
+ * @class metadata
+ */
+class Metadata {
+  /**
+   * Creates an instance of Metadata.
+   * @param [data={ version: `` }] SAUCE Metadata object
+   */
+  constructor(data = { version: `` }) {
+    this.data = data
+    this.font = ``
+  }
+
+  /**
+   * Handle SAUCE v00 metadata and output statistics to the console
+   * This may also adjust the page maximum width, font family and iCE Color toggle
+   */
+  parse() {
+    const data = this.data
+    let info = ``
+    let width = -1
+    let iceColors = -1
+    switch (data.version) {
+      case `00`:
+        if (data.configs.fontFamily.length > 0) {
+          // fontFamily returns a lowercase short name
+          // this gets parsed by `getECMA48()` in `retrotxt.js`
+          // it expects a string
+          this.font = `${data.configs.fontFamily}`
+        }
+        // override column width
+        width = parseInt(data.configs.width, 10)
+        if (width > 80) {
+          // TODO: SAUCE TInfo binary gets corrupted by the browser
+          // as a temporary fix un-cap the maxColumns
+          if (width <= 180) cursor.maxColumns = width
+          else {
+            cursor.maxColumns = 999
+            console.info(`Estimated text columns: ${cursor.maxColumns}`)
+          }
+        }
+        // override iCE Colors
+        iceColors = parseInt(data.configs.iceColors, 10)
+        if (iceColors === 1) ecma48.iceColors = true
+        else ecma48.iceColors = false
+        // console feedback
+        info += `\nWidth: ${data.configs.width} columns`
+        info += `\nFont: ${data.configs.fontName}`
+        info += `\niCE Colors: ${Boolean(parseInt(data.configs.iceColors, 10))}`
+        info += `\nAspect Ratio: ${data.configs.aspectRatio}`
+        info += `\nLetter Spacing: ${data.configs.letterSpacing}`
+        info += `\nANSI Flags: ${data.configs.flags}`
+        console.groupCollapsed(`SAUCE Configuration`)
+        console.log(info)
+        console.groupEnd()
+        break
+      default:
+        if (
+          typeof localStorage !== `undefined` &&
+          localStorage.getItem(`textAnsiIceColors`) === `true`
+        )
+          ecma48.iceColors = true
+    }
+  }
+}
+
+/**
+ * An extension for Scan that focuses on the discovery of control codes (CSI)
+ *
+ * @class Scan
+ */
+class Scan {
+  constructor() {
+    // A list of issues for later feedback to the console
+    this.issues = []
+  }
+
+  /**
+   * The entry point to look for and return any CSI controls
+   *
+   * @param [index=0] Search starting index for `codePoints`
+   * @param [codePoints=[]] Array of Unicode decimal values
+   * @returns CSI name and values string or `` if none was found
+   */
+  controlCode(index = 0, codePoints = []) {
+    if (typeof codePoints !== `object`)
+      CheckArguments(`codePoints`, `array`, codePoints)
+
+    // skip saved escape and null values
+    const i = parseInt(index, 10) + 2
+    if (i < 2) CheckRange(`index`, `small`, `0`, index)
+
+    // look-ahead objects that will be used with deeper scan while-loops
+    // these comprise of text slices that are to be scanned for CSI controls
+    const scan = {
+      // for performance, set a 9 character cap for most scans
+      fast: codePoints.slice(i, i + 8),
+      // cap SGR scans to 48 characters, a lower value improves performance but RGB values are long
+      sgr: codePoints.slice(i, i + 47),
+      // PabloDraw RGB 't' values are never longer than 15 characters
+      rgb: codePoints.slice(i, i + 14)
+    }
+
+    // look for specific CSI controls within text slices
+    const find = {
+      // Horizontal and Vertical Position
+      f: scan.fast.indexOf(102),
+      // Cursor Position
+      H: scan.fast.indexOf(72),
+      // Select Graphic Rendition
+      m: scan.sgr.indexOf(109),
+      // PabloDraw RGB code
+      t: scan.rgb.indexOf(116)
+    }
+
+    // Scan for CSI controls
+    const functions = this.functions(i, codePoints)
+    if (functions.length) return functions
+    // Scan for PabloDraw RGB codes
+    if (find.t >= 0) {
+      const rgb = this.pabloDrawRGB(scan.rgb.slice(0, find.t + 1))
+      if (rgb.length) return rgb
+    }
+    // Scan for Character Attributes (SGR) codes
+    if (find.m >= 0) {
+      const sgr = this.characterAttributes(i, codePoints, find.m)
+      if (sgr.length) return sgr
+    }
+    // Scan for Horizontal & Vertical Position and Cursor Position (HVP, CUP)
+    if (find.H >= 0 || find.f >= 0) {
+      const hvp = { code: ``, flag: 0, scan: -1 }
+      if (find.H >= 0 && (find.f === -1 || find.H < find.f)) {
+        // Scan for the letter `H` in chars, identifies CUP
+        hvp.flag = 72
+        hvp.scan = find.H
+      } else if (find.f >= 0 && (find.H === -1 || find.f < find.H)) {
+        // Scan for the letter `f` in chars, identifies HVP
+        hvp.flag = 102
+        hvp.scan = find.f
       }
-      if (i > 1) {
-        const itag = renditionItalic(item)
-        domObject.html += `</i>${itag}`
+      // if one of the scans found an hvp.flag, then process its values
+      let control = true
+      let loop = -1
+      if (hvp.scan > -1) {
+        loop = hvp.scan
+        while (loop--) {
+          hvp.code = codePoints[i + loop]
+          // confirm scanned character is H or ; or 0-9
+          switch (hvp.code) {
+            case hvp.flag:
+            case 59:
+              // don't match these two cases
+              break
+            default:
+              if (!this.digit(hvp.code)) control = false
+          }
+        }
+        if (control) return this.cursorHVP(scan.fast.slice(0, hvp.scan))
       }
-      break
-    case `ED+`: // erase in page
-      switch (item1) {
+    }
+    return ``
+  }
+
+  /**
+   * Look and return any functions using CSI controls
+   *
+   * @param [codePoints=[]] Array of Unicode decimal values
+   * @param [index=-1] Search starting index for `codePoints`
+   * @returns CSI name and values string
+   */
+  functions(index = -1, codePoints = []) {
+    // look-ahead code point containers
+    // control sequences use multiple characters of varying length
+    const peak = {
+      _0: codePoints[index],
+      _1: codePoints[index + 1],
+      _2: codePoints[index + 2],
+      _3: codePoints[index + 3],
+      _4: codePoints[index + 4]
+    }
+    // look for digits in the code points
+    const digit = {
+      _0: this.digit(peak._0),
+      _1: this.digit(peak._1),
+      _2: this.digit(peak._2),
+      _3: this.digit(peak._3)
+    }
+    // handle control functions with either no or fixed numeric parameters first
+    // SGR - Select Graphic Rendition
+    // TODO test out these return values, does `SGR,1,0` really = `←[m` ??
+    switch (109) {
+      case peak._0:
+        // ←[m reset to defaults
+        return `SGR,1,0`
+      case peak._1:
+        // ←[1m
+        if (digit._0) return `SGR,2,${String.fromCharCode(peak._0)}`
+        break
+      case peak._2:
+        // ←[31m
+        if (digit._0 && digit._1)
+          return `SGR,3,${String.fromCharCode(peak._0)}${String.fromCharCode(
+            peak._1
+          )}`
+    }
+    // HVP, CUP - Horizontal and vertical position and Cursor Position reset
+    // This does not handle other HVP commands such as ←[1;1f
+    switch (peak._0) {
+      case 72:
+      case 102:
+        // match ←[H and ←[f
+        return this.cursorHVP()
+    }
+    // CUU, CUD, CUF, CUB - Cursor up, down, forward, back
+    // Limited to 9999 movement places
+    // Uses switch statements as they are optimized by JavaScript
+    switch (digit._0) {
+      case true:
+        switch (digit._1) {
+          case true:
+            switch (digit._2) {
+              case true:
+                switch (digit._3) {
+                  case true:
+                    if (this.cursorCode(peak._4))
+                      // ←[1523A move thousands of places
+                      return this.cursorMove(peak._4, [
+                        peak._0,
+                        peak._1,
+                        peak._2,
+                        peak._3
+                      ])
+                    break
+                  default:
+                    if (this.cursorCode(peak._3))
+                      // ←[555A move hundreds of places
+                      return this.cursorMove(peak._3, [
+                        peak._0,
+                        peak._1,
+                        peak._2
+                      ])
+                }
+                break
+              default:
+                if (this.cursorCode(peak._2))
+                  // ←[60A move tens of places
+                  return this.cursorMove(peak._2, [peak._0, peak._1])
+            }
+            break
+          default:
+            if (this.cursorCode(peak._1))
+              // ←[5A move multiple places
+              return this.cursorMove(peak._1, [peak._0])
+        }
+        break
+      default:
+        if (this.cursorCode(peak._0))
+          // ←[A move 1 place
+          return this.cursorMove(peak._0)
+    }
+    // SM, RM - Set screen mode and Reset screen mode
+    switch (peak._3) {
+      case 104:
+      case 108:
+        if ([61, 62, 63].includes(peak._0))
+          if (peak._1 === 49)
+            if ([51, 52, 53, 54, 55, 56].includes(peak._2))
+              // ←[=13h 2 digit mode with a character prefix
+              return this.setMode(peak._3, [peak._1, peak._2])
+    }
+    switch (peak._2) {
+      case 104:
+      case 108:
+        if ([61, 62, 63].includes(peak._0))
+          if (digit._1)
+            // ←[?0h 1 digit mode with a character prefix
+            return this.setMode(peak._2, [peak._1])
+    }
+    switch (peak._2) {
+      case 104:
+      case 108:
+        if (peak._0 === 49)
+          if ([51, 52, 53, 54, 55, 56].includes(peak._1))
+            // ←[13h 2 digit mode
+            return this.setMode(peak._2, [peak._0, peak._1], false)
+    }
+    switch (peak._1) {
+      case 104:
+      case 108:
+        switch (digit._0) {
+          case true:
+            // ←[13h 1 digit mode
+            return this.setMode(peak._1, [peak._0], false)
+        }
+    }
+    // ED - Erase in page
+    switch (peak._0) {
+      case 74:
+        return `ED,1,0`
+      case 48:
+      case 49:
+      case 50:
+        if (peak._1 === 74)
+          // ←[J, ←[0J, ←[1J, ←[2J
+          return `ED,2,${String.fromCharCode(peak._0)}`
+    }
+    // EL - Erase in line
+    switch (peak._0) {
+      case 75:
+        return `EL,1,0`
+      case 48:
+      case 49:
+      case 50:
+        if (peak._1 === 75)
+          // ←[K, ←[0K, ←[1K, ←[2K
+          return `EL,2,${String.fromCharCode(peak._0)}`
+    }
+    switch (peak._0) {
+      case 115:
+        // SCP - Save Cursor Position
+        // it is commonly used for handling newline breaks
+        switch (peak._1) {
+          case 10:
+            // ←[s
+            return `NULL,5`
+        }
+        return `SCP,1`
+      case 117:
+        // RCP - restore Cursor Position
+        // ←[u
+        return `RCP,1`
+    }
+    // Non-standard controls
+    switch (peak._0) {
+      case 48:
+      case 49:
+        // ANSI.SYS (non-standard) extended keyboard support
+        switch (peak._1) {
+          case 113:
+            // ←[0q, ←[1q
+            return `/x,2,${String.fromCharCode(peak._0)}`
+        }
+        break
+      case 63:
+        // PabloDraw (non-standard) codes
+        if (peak._1 === 51 && peak._2 === 51)
+          // iCE Colors (http://picoe.ca/forums/topic/need-pablodraw-ansi-escape-codes-descriptionsourcelist/)
+          // ←[?33h and ←[?33l
+          switch (peak._3) {
+            case 108:
+              // l, disable
+              return `ICE,0,0`
+            case 104:
+              // h, enable
+              return `ICE,0,1`
+          }
+    }
+    return ``
+  }
+
+  /**
+   * Used by Build.arrayOfText( to look and return specific functions using CSI controls
+   *
+   * @param [sequence=[]] Array of strings containing CSI controls and values,
+   * for example [`SGR`, 5, 1, 30] [`CUD`, 1, 1]
+   * @returns CSI name and values string
+   */
+  functionsForArray(sequence = []) {
+    const seq = sequence
+    if (typeof sequence !== `object`)
+      CheckArguments(`sequence`, `array`, sequence)
+    if (seq.length === 0) return ``
+
+    const element = seq[0]
+    const values = seq.slice(1)
+    const count = values.length
+    const cs = { value1: 0, next1: 0, value2: 0, next2: 0, name: `` }
+
+    if (count > 1) cs.value1 = parseInt(values[1], 10)
+    if (count > 2) cs.value2 = parseInt(values[2], 10)
+    switch (element) {
+      case `RGB`:
+        // make 1 = 38 & - = 48, pass on RGB values
+        cs.name = `SGR+`
+        if (parseInt(cs.value1) === 0) cs.name += `4`
+        else cs.name += `3`
+        return (cs.name += `8+2+${seq[3]}+${seq[4]}+${seq[5]}`)
+      case `ICE`:
+        // iCE Colors
+        return `${element}+${cs.value1}`
+      case `CHT`:
+      case `CUD`:
+      case `CUF`:
+      case `ED`:
+      case `EL`:
+        // forward tabulation
+        // cursor move down, forward
+        // erase in page, in line
+        return `${element}+${cs.value1}`
+      case `CUP`:
+      case `HVP`:
+        // cursor position
+        // horizontal vertical positioning
+        // these moves the cursor to a set of row x column coordinates
+        // the cs.value1 is row, cs.value2 is column
+        return `HVP+${cs.value1}+${cs.value2}`
+      case `SGR`:
+        // set graphic rendition
+        cs.name = `SGR`
+        // loop over array, index should start from 1 not 0
+        for (let i = 1; i < count; i++) {
+          const value = parseInt(values[i], 10)
+          // handle xterm 256 colour codes
+          if ([38, 48].includes(value) && count - i > 1) {
+            cs.next1 = parseInt(values[i + 1], 10)
+            cs.next2 = parseInt(values[i + 2], 10)
+            if (cs.next1 === 5 && cs.next2 >= 0 && cs.next2 <= 255) {
+              cs.name += `+${value}${cs.next2}`
+              i = i + 2
+              continue
+            }
+          }
+          cs.name = `${cs.name}+${value}`
+        }
+        return cs.name
+      case `SM`:
+      case `RM`:
+        // set and reset screen mode
+        if (cs.value1 === 7) {
+          // line wrapping
+          // disable
+          if (element === `RM`) return `LW+0`
+          // enable
+          if (element === `SM`) return `LW+1`
+        }
+        // all other modes
+        return `SM+${cs.value1}`
+      default:
+        if (!this.issues.includes(`${element}`)) this.issues.push(`${element}`)
+    }
+    return cs.name
+  }
+
+  /**
+   * Look and return any Character Attribute (SGR) `m` codes.
+   *
+   * @param [index=-1] Search starting index for `codePoints`
+   * @param [codePoints=[]] Array of Unicode decimal values
+   * @param [loop=-1] Number of loop iterations
+   * @returns CSI name and values string
+   */
+  characterAttributes(index = -1, codePoints = [], loopCount = -1) {
+    let loop = loopCount
+    let value = ``
+    while (loop--) {
+      const code = codePoints[index + loop]
+      switch (code) {
+        case 109:
+          // skip m
+          continue
+        case 59:
+          value = `,${value}`
+          break
+        default:
+          if (!this.digit(code)) return ``
+          value = `${String.fromCharCode(code)}${value}`
+      }
+    }
+    if (this.verbose)
+      console.log(
+        `Text rendition attributes found, 'SGR,${value.length + 1},${value}'`
+      )
+    return `SGR,${value.length + 1},${value}`
+  }
+
+  /**
+   * Is the character a Final Byte used for ANSI cursor positioning?
+   *
+   * @param [codePoint=0] A Unicode decimal value
+   * @returns Result
+   */
+  cursorCode(codePoint = 0) {
+    const c = parseInt(codePoint)
+    switch (c) {
+      case 65:
+      case 66:
+      case 67:
+      case 68:
+        // CCU, CUD, CUF, CUB
+        return true
+      case 73:
+        // CHT
+        return true
+      default:
+        return false
+    }
+  }
+
+  /**
+   * Return a CU cursor movement string sequence
+   *
+   * @param [control=0] A Unicode decimal value,
+   * which should be either `65` (A) `66` (B) `67` (C) `68` (D)
+   * @param [codePoints=[0]] Array of text characters in Unicode code points
+   * @returns CU cursor movement string
+   */
+  cursorMove(control = 0, codePoints = [0]) {
+    if (typeof codePoints !== `object`)
+      CheckArguments(`codePoints`, `array`, codePoints)
+    // test for a valid control name
+    const ctrl = parseInt(control, 10)
+    const name = this.cursorName(ctrl)
+    if (name === ``) return ``
+    let value = ``
+    for (const cp of codePoints) {
+      switch (cp) {
         case 0:
-          buildNewColumns(0)
-          break // [incomplete, currently just goes to the end of the line] erase from cursor to end of the screen (-ANSI.SYS)
-        case 1:
-        case 2:
-          // 3/Feb/17: fix for issue https://github.com/bengarrett/RetroTxt/issues/25
-          if (cursor.row >= 1 && cursor.column > 1) {
-            cursor.eraseLines.push(...Array(cursor.row).keys()) // erase all lines to current row using ES6 range 1...current row
+          // default value of 1 if no value is given
+          value += `1`
+          break
+        default:
+          value += `${String.fromCharCode(cp)}`
+      }
+    }
+    if (this.verbose)
+      console.log(`Cursor move ${value} positions ${this.cursorHuman(ctrl)}`)
+    if (codePoints.length === 1 && codePoints[0] === 0) {
+      // no parameters are given
+      return `${name},1,${value}`
+    }
+    const length = codePoints.length + 1
+    return `${name},${length},${value}`
+  }
+
+  /**
+   * Decode Unicode code units into cursor movement controls
+   *
+   * @param [index=0] Unicode decimal value
+   * @returns Cursor movement
+   */
+  cursorHuman(index = 0) {
+    switch (parseInt(index, 10)) {
+      case 65:
+        return `up`
+      case 66:
+        return `down`
+      case 67:
+        return `right`
+      case 68:
+        return `left`
+      case 73:
+        return `tab`
+      default:
+        return ``
+    }
+  }
+
+  /**
+   * Decode Unicode code units into ANSI cursor movement named controls
+   *
+   * @param [index=0] Unicode decimal value
+   * @returns Named control sequence
+   */
+  cursorName(index = 0) {
+    switch (parseInt(index, 10)) {
+      case 65:
+        return `CUU`
+      case 66:
+        return `CUD`
+      case 67:
+        return `CUF`
+      case 68:
+        return `CUB`
+      case 73:
+        return `CHT`
+      default:
+        return ``
+    }
+  }
+
+  /**
+   * Return a HVP horizontal and vertical position
+   *
+   * @param [codePoints=[]] Array of text characters in Unicode code points
+   * @returns `HVP,row,column` string sequence
+   */
+  cursorHVP(codePoints = []) {
+    if (typeof codePoints !== `object`)
+      CheckArguments(`codePoints`, `array`, codePoints)
+
+    const length = codePoints.length + 1
+    const hvp = { row: ``, column: ``, mode: `m` }
+
+    for (const cp of codePoints) {
+      switch (cp) {
+        case 59:
+          // if character is a semicolon ;
+          // then switch modes from horizontal to vertical
+          hvp.mode = `n`
+          continue
+      }
+      switch (hvp.mode) {
+        case `n`:
+          // keep concat to avoid \n injection
+          hvp.column = hvp.column.concat(String.fromCharCode(cp))
+          break
+        case `m`:
+          hvp.row = `${hvp.row}${String.fromCharCode(cp)}`
+          break
+      }
+    }
+    // if no values were provided then use defaults of 1
+    switch (hvp.row) {
+      case ``:
+      case `0`:
+        hvp.row = `1`
+    }
+    switch (hvp.column) {
+      case ``:
+      case `0`:
+        hvp.column = `1`
+    }
+    if (this.verbose)
+      console.log(
+        `Cursor repositioned to row ${hvp.row} and column ${hvp.column}`
+      )
+    return `HVP,${length},${hvp.row},${hvp.column}`
+  }
+
+  /**
+   * Is the Unicode code point an ASCII digit (0...9)
+   *
+   * @param [codePoint=0] Unicode decimal value
+   * @returns Result
+   */
+  digit(codePoint = 0) {
+    const c = parseInt(codePoint)
+    switch (c) {
+      case 48:
+      case 49:
+      case 50:
+      case 51:
+      case 52:
+      case 53:
+      case 54:
+      case 55:
+      case 56:
+      case 57:
+        return true
+      default:
+        return false
+    }
+  }
+
+  /**
+   * Look and return any PabloDraw RGB CSI `t` codes.
+   * 24-bit ANSI: http://picoe.ca/2014/03/07/24-bit-ansi/
+   *
+   * @param [codePoints=[]] An array of Unicode decimal values
+   * @returns CSI name and values string
+   */
+  pabloDrawRGB(codePoints = []) {
+    // Is `value` a valid Red Green Blue colour range?
+    const valid = value => {
+      if (value < 0) return false
+      if (value > 255) return false
+      return true
+    }
+
+    const rgb = { split: [], join: `` }
+    let value = ``
+
+    for (const code of codePoints) {
+      // remove the `t` identifier
+      if (code === 116) break
+      rgb.join += String.fromCharCode(code)
+    }
+    rgb.split = rgb.join.split(`;`)
+
+    if (rgb.split.length !== 4) return ``
+    if ([`0`, `1`].includes(rgb.split[0]) !== true) return ``
+    if (!valid(rgb.split[1])) return `` // red
+    if (!valid(rgb.split[2])) return `` // green
+    if (!valid(rgb.split[3])) return `` // blue
+    value += rgb.split.join()
+    return `RGB,${value.length + 1},${value}`
+  }
+
+  /**
+   * Return a Set or Remove Mode string sequence
+   * This is based off the MS-DOS ANSI.SYS driver, not ECMA-48
+   *
+   * @param [index=0] Unicode code point that should either be
+   * `104` (h = SM) or `108` (l = RM)
+   * @param [parameters=[0, 0]] Mode parameters as an array of Unicode decimal values
+   * @param [prefix=true] Is the code point prefixed with an ANSI.SYS compatible symbol
+   *                      ANSI.SYS permits `=` `?` `>` i.e `←[=13h` `←[?13h` `←[>13h`
+   * @returns A Set or Remove Mode string sequence
+   */
+  setMode(index = 0, parameters = [0, 0], prefix = true) {
+    if (parameters.length < 1)
+      CheckRange(`parameter.length`, `small`, parameters.length)
+    if (parameters.length > 2)
+      CheckRange(`parameter.length`, `large`, parameters.length)
+    if (typeof prefix !== `boolean`) CheckArguments(`prefix`, `boolean`, prefix)
+    if (![108, 104].includes(index)) return ``
+
+    const cp = parameters
+    const mode = new Map()
+      .set(`code`, `SM`)
+      .set(`length`, cp.length + 1)
+      .set(`value`, ``)
+
+    // Code
+    const i = parseInt(index, 10)
+    if (i === 108) mode.set(`code`, `RM`)
+    // Length
+    if (prefix === true) {
+      let len = mode.get(`length`)
+      len++
+      mode.set(`length`, len)
+    }
+    // Value
+    if (cp.length > 1 && cp[1] > 0)
+      mode.set(
+        `value`,
+        `${String.fromCharCode(cp[0])}${String.fromCharCode(cp[1])}`
+      )
+    else mode.set(`value`, `${String.fromCharCode(cp[0])}`)
+
+    return `${mode.get(`code`)},${mode.get(`length`)},${mode.get(`value`)}`
+  }
+}
+
+/**
+ * Builds array objects containing display text and ANSI commands
+ *
+ * @class Build
+ */
+class Build extends Scan {
+  /**
+   * Creates an instance of Build.
+   * @param [text=``] String of text containing ANSI escape sequences
+   * @param [verbose=false] Verbose console output
+   */
+  constructor(text = ``, verbose = false) {
+    super()
+    this.text = `${text}`
+    this.verbose = verbose
+  }
+
+  /**
+   * This is the entry point for the Build class.
+   *
+   * It converts the `this.text` string into and array of strings for further processing.
+   *
+   * @returns An array of strings with elements comprising of CSI items and
+   * Unicode text characters
+   */
+  arrayOfText() {
+    const decimals = this.decimals()
+    const elements = []
+    const issues = []
+
+    const control = new Map()
+      .set(`name`, ``)
+      .set(`csi`, ``)
+      .set(`joined`, ``)
+      .set(`split`, [])
+
+    const counts = {
+      delete: 0, // number of characters to delete when cleaning control sequences from the text
+      loop: 0, // number of loops passed, used in console.log()
+      control: 0, // number of control functions passed so far
+      err_msdos: 0, // number of unsupported MS-DOS ANSI.SYS control sequences found
+      err_ecma48: 0 // number of unsupported ECMA-48 control sequences found
+    }
+
+    let i = decimals.length
+    while (i--) {
+      // current character as a Unicode decimal value
+      const decimal = decimals[i]
+      counts.loop++
+      switch (decimal) {
+        case -1:
+          elements[i] = ``
+          break
+        case 8594:
+        case 26:
+          // if the last character is `→` then assume this is a MS-DOS 'end of file' mark
+          // SGR should be reset otherwise leftover background colours might get displayed
+          elements[i] = `SGR+0`
+          break
+        // fallthrough
+        case 155:
+          // handle character value 155 which is our place holder for the Control Sequence Introducer `←[`
+          counts.control++
+          // discover if the control sequence is supported
+          control.set(`joined`, this.controlCode(i, decimals))
+          if (control.get(`joined`) === ``) {
+            // handle unknown sequences
+            issues.push(
+              `Unsupported control function for array item ${i}, character #${
+                counts.control
+              }`
+            )
+            // display all unknown controls sequences in the text that could belong to the much larger ECMA-48 standard
+            // or proprietary sequences introduced by terminal or drawing programs
+            elements[i] = `\u241b` // `esc` control picture
+            elements[i + 1] = `[`
+            counts.err_ecma48++
+            continue
+          }
+          control.set(`split`, control.get(`joined`).split(`,`))
+          control.set(`name`, control.get(`split`)[0])
+          counts.delete = parseInt(control.get(`split`)[1], 10)
+          switch (control.get(`name`)) {
+            case `CHT`:
+            case `CUD`:
+            case `CUF`:
+            case `CUP`:
+            case `ED`:
+            case `EL`:
+            case `HVP`:
+            case `NULL`:
+            case `RCP`:
+            case `RGB`:
+            case `SCP`:
+            case `SGR`:
+              // strip out supported control sequences from the text
+              elements.fill(``, i + 2, counts.delete + i + 2) // value, start, end
+              // EL (erase line) is supported except when used as an erase in-line sequence
+              if (
+                control.get(`name`) === `EL` &&
+                control.get(`split`)[2] === `1`
+              )
+                counts.err_msdos++
+              break
+            case `ICE`:
+              // strip out iCE colors control sequences
+              elements.fill(``, i + 2, counts.delete + i + 6) // value, start, end
+              break
+            case `CUB`: // cursor back
+            case `CUU`: // cursor up
+            case `RM`: // restore cursor position
+            case `SM`: // save cursor position
+            case `/x`: // ansi.sys device driver to remap extended keys
+              // strip out unsupported control sequences from the text
+              counts.err_msdos++
+              if (counts.delete > 0)
+                elements.fill(``, i + 2, counts.delete + i + 2) // value, start, end
+              break
+            // default should not be needed as all unknown sequences should have previously been handled
+          }
+          // humanise control sequence introducer
+          control.set(`csi`, this.functionsForArray(control.get(`split`)))
+          // merge results into the array
+          elements[i] = control.get(`csi`)
+          // handle any formatting triggers
+          switch (control.get(`csi`)) {
+            case `ICE+0`:
+              ecma48.iceColors = false
+              break
+            case `ICE+1`:
+              ecma48.iceColors = true
+              break
+            case `LW+0`:
+              sgrObject.lineWrap = false
+              break
+            case `LW+1`:
+              sgrObject.lineWrap = true
+              break
+          }
+          break
+        default:
+          // parse characters for display
+          // convert the Unicode decimal character value into a UTF-16 text string
+          elements[i] = `${String.fromCharCode(decimal)}`
+      }
+      // end of while-loop
+    }
+    // browser console parse error feedback
+    if (issues.length > 0) {
+      console.groupCollapsed(
+        `EMCA-48/ANSI issues detected: `,
+        issues.length,
+        ` total`
+      )
+      for (const issue of issues) {
+        console.info(issue)
+      }
+      console.groupEnd()
+    }
+    if (this.issues.length) {
+      let noun = `type`
+      if (this.issues.length > 1) noun += `s`
+      console.warn(
+        `${
+          this.issues.length
+        } unsupported ${noun} of control sequence in use: ${this.issues}`
+      )
+    }
+    ecma48.other = counts.err_msdos
+    ecma48.unknown = counts.err_ecma48
+    return this.clean(elements)
+  }
+
+  /**
+   * Filters out unwanted elements from an array,
+   * non-string types and empty strings
+   *
+   * @param [elements=[]] An array of strings
+   * @returns An array of strings
+   */
+  clean(elements = []) {
+    return elements.filter(value => {
+      return typeof value === `string` && value.length !== 0
+    })
+  }
+
+  /**
+   * This is a function of arrayOfText() that takes `this.text` containing plain text
+   * with ANSI/ECMA-48 encoding and splits it into an array of Unicode decimal values.
+   *
+   * JavaScript's performance for comparison and manipulation is faster using
+   * arrays and numeric values than it is using String functions. While loops are
+   * generally the faster than other loop types but only work in reverse.
+   *
+   * @returns An array of Unicode decimal values
+   */
+  decimals() {
+    const d0 = new Date().getTime()
+    const string = this.text
+    let i = string.length
+    // for performance, create a new, empty array with the expected number of elements
+    const decimals = new Array(i)
+    // iterate through the loop and apply fixes
+    // while loops are performant and JS engines can compile switch/case conditions
+    while (i--) {
+      const code = string.charCodeAt(i)
+      const _code = string.charCodeAt(i - 1)
+      const code_ = string.charCodeAt(i + 1)
+      switch (code) {
+        case 8592:
+          // When the characters ←[ are found in sequence
+          // ←[ = CSI Control Sequence Introducer
+          switch (code_) {
+            case 91:
+              // we will use this value as an identifier to mark ←[ introducer
+              decimals[i] = 155
+              continue
+          }
+          break
+        case 91:
+          // if [ is found and the previous character is ← (escape) then we nullify it
+          // as iterating and skipping over -1 values is much faster than modifying the array
+          switch (_code) {
+            case 8592:
+              decimals[i] = -1
+              continue
           }
           break
       }
-      break
-    case `EL+`: // erase in line
-      switch (item1) {
-        case 0:
-          buildNewColumns(0)
-          break // go to end of the line
-        case 1:
-          break // [not supported] clear from cursor to the beginning of the line (-ANSI.SYS)
-        case 2:
-          cursor.eraseLines.push(cursor.row - 1)
-          break // erase line (-ANSI.SYS)
-      }
-      break
-    case `SM+`: // set modes (non-standard MS-DOS ANSI.SYS)
-      {
-        const psm = new ParseSetMode(parseInt(item1))
-        ecma48.colorDepth = psm.colorDepth
-        ecma48.font = psm.font
-        ecma48.maxColumns = psm.maxColumns
-      }
-      break
-    default:
-      console.warn(
-        `parseCtrlName() tried to parse this unknown control '${item}'`
+      decimals[i] = code
+    }
+    if (this.verbose) {
+      const d1 = new Date().getTime()
+      console.log(
+        `Time taken to process Build.decimals(): ${d1 - d0} milliseconds`
       )
-  }
-}
-
-// Translates the SGR numeric ranges (10...20) into CSS font-family values
-function parseFont(f = 10) {
-  if (typeof f !== `number`) CheckArguments(`f`, `number`, f)
-
-  switch (f) {
-    case 10: // use Option selection
-    case 20:
-      return null // gothic font (not implemented due to a lack of a suitable font)
-    case 11:
-      return `bios`
-    case 12:
-      return `cga`
-    case 13:
-      return `cgathin`
-    case 14:
-      return `amiga`
-    case 15:
-      return `ega9`
-    case 16:
-      return `ega8`
-    case 17:
-      return `vga8`
-    case 18:
-      return `vga9`
-    case 19:
-      return `mda`
-  }
-}
-
-function ParseSetMode(sm = -1) {
-  if (typeof sm !== `number`) CheckArguments(`sm`, `number`, sm)
-  else if (sm < 0) CheckRange(`sm`, `small`, `0`, sm)
-  else if (sm > 19) CheckRange(`sm`, `large`, `19`, sm)
-
-  this.colorDepth = -1
-  this.font = -1
-  this.maxColumns = 80
-  const v = [`4-bit`, `VGA`, `80`] // -1 = invalid
-  // set colour depth
-  if ([0, 2, 5, 6, 15, 17].includes(sm)) {
-    this.colorDepth = 1
-    v[0] = `1-bit`
-  } // monochrome 1-bit colour
-  else if ([5, 6].includes(sm)) {
-    this.colorDepth = 0
-    v[0] = `4-bit monochrome`
-  } // grey scale 4-bit colour
-  else if ([1, 3, 4].includes(sm)) {
-    this.colorDepth = 2
-    v[0] = `2-bit`
-  } // magenta 2-bit colours
-  else if ([13, 14, 16, 18].includes(sm)) {
-    this.colorDepth = 4
-    v[0] = `4-bit`
-  } // 4-bit colours
-  else if (sm === 19) {
-    this.colorDepth = 8
-    v[0] = `8-bit [unsupported]`
-  } // 8-bit colours
-  // set resolution (but in our HTML/CSS output we only switch the font)
-  if (sm === 2) this.font = 19
-  // MDA font 80×25
-  else if ([0, 1, 4, 5, 13, 19].includes(sm)) this.font = 12
-  // CGA font
-  else if ([6, 14].includes(sm)) this.font = 13
-  //  CGA higher resolution
-  else if ([3, 15, 16].includes(sm)) this.font = 15
-  // EGA font
-  else if ([17, 18].includes(sm)) this.font = 17 // VGA font
-  // number of columns
-  if (sm === 0 || sm === 1) this.maxColumns = 40
-  console.info(`Set mode applied, ${v[0]} ${v[1]} in ${v[2]} columns mode`)
-}
-
-function renditionItalic(
-  vals = ``,
-  verbose = false // Constructs an <i> tag based on the current styles and classes in use // @vals          SGR parameter values or ANSI.SYS text attributes
-) {
-  const rp = new RenditionParse(vals)
-  if (verbose && vals === `SGR+38+2+0+103+108`) {
-    console.group(`renditionItalic(${vals})`)
-    console.groupEnd()
-  }
-  if (rp.style !== `` && rp.class !== ``) {
-    return `<i class="${rp.class}" style="${rp.style}">`
-  } else if (rp.class !== ``) {
-    return `<i class="${rp.class}">`
-  } else if (rp.style !== ``) {
-    return `<i style="${rp.style}">`
-  }
-  return ``
-}
-
-// Creates CSS classes to apply presentation changes to text
-// These are based on ECMA-48 which are backwards compatible with Microsoft's
-// MS-DOS ANSI.SYS implementation.
-// see 8.3.117 SGR - SELECT GRAPHIC RENDITION
-// http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf
-// @vals          SGR parameter values or ANSI.SYS text attributes
-function RenditionParse(vals = ``, verbose = false) {
-  const values = vals.split(`+`)
-  this.classes = ``
-  this.styles = ``
-  // forward loop as multiple codes together have compound effects
-  for (const v of values) {
-    if (v === null) continue
-    let val = parseInt(v, 10)
-    if (isNaN(val) === true) continue // error
-    if (val === 0 && vals !== `ICE+0`) {
-      if (verbose) console.info(`SGRInit()`)
-      sgrClear()
-      //sgrObject = new SGRInit() // reset to defaults
     }
-    // handle colour values
-    switch (ecma48.colorDepth) {
-      case 1:
-        break // if color depth = 1 bit, then ignore SGR color values
-      default:
-        // handle aixterm bright colours
-        // these are standard ANSI SGR colours but with the bold flag
-        if (val >= 90 && val <= 97) {
-          sgrObject.bold = true
-          val = val - 60 // change val to a standard SGR value
-        } else if (val >= 100 && val <= 107) {
-          sgrObject.blinkSlow = true
-          val = val - 60
-        }
-        // handle RBG colours
-        if ([38, 48].includes(val) && values[2] === `2`) {
-          const r = parseInt(values[3], 10)
-          const g = parseInt(values[4], 10)
-          const b = parseInt(values[5], 10)
-          if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
-            values[2] = values[3] = values[4] = values[5] = null
-            ecma48.colorDepth = 24
-            if (val === 38) {
-              sgrObject.colorF = null
-              sgrObject.rgbF = `color:rgb(${r},${g},${b});`
-              if (sgrObject.rgbB.length > 0)
-                this.styles += sgrObject.rgbF + sgrObject.rgbB
-              else this.styles += sgrObject.rgbF
-            } else if (val === 48) {
-              sgrObject.colorB = null
-              sgrObject.rgbB = `background-color:rgb(${r},${g},${b});`
-              if (sgrObject.rgbF.length > 0)
-                this.styles = sgrObject.rgbF + sgrObject.rgbB
-              else this.styles += sgrObject.rgbB
-            }
-            continue
-          }
-        }
-        // handle standard foreground
-        else if (findForeground(val) === true) {
-          sgrObject.colorF = val
-          sgrObject.rgbF = ``
-          if (sgrObject.rgbB.length > 0) this.styles = sgrObject.rgbB
-        }
-        // handle standard background
-        else if (findBackground(val) === true) {
-          sgrObject.colorB = val
-          sgrObject.rgbB = ``
-          if (sgrObject.rgbF.length > 0) this.styles = sgrObject.rgbF
-        }
-    }
-    // handle presentation options
-    switch (val) {
-      case 1:
-        sgrObject.bold = !sgrObject.bold
-        break // '!' switches the existing boolean value
-      case 2:
-        sgrObject.faint = !sgrObject.faint
-        break
-      case 3:
-        sgrObject.italic = !sgrObject.italic
-        break
-      case 4:
-        sgrObject.underline = !sgrObject.underline
-        break
-      case 5:
-        sgrObject.blinkSlow = !sgrObject.blinkSlow
-        break
-      case 6:
-        sgrObject.blinkFast = !sgrObject.blinkFast
-        break
-      case 7:
-        sgrObject.inverse = !sgrObject.inverse
-        break
-      case 8:
-        sgrObject.conceal = !sgrObject.conceal
-        break
-      case 9:
-        sgrObject.crossedOut = !sgrObject.crossedOut
-        break
-      case 21:
-        sgrObject.underlineX2 = !sgrObject.underlineX2
-        break
-      case 22:
-        sgrObject.bold = false
-        sgrObject.faint = false
-        break
-      case 23:
-        sgrObject.italic = false
-        if (ecma48.font === 20) ecma48.font = 10 // = font not Gothic
-        break
-      case 24:
-        sgrObject.underline = false
-        sgrObject.underlineX2 = false
-        break
-      case 25:
-        sgrObject.blinkSlow = false
-        sgrObject.blinkFast = false
-        break
-      // case 26 is reserved
-      case 27:
-        sgrObject.inverse = false
-        break
-      case 28:
-        sgrObject.conceal = false
-        break
-      case 29:
-        sgrObject.crossedOut = false
-        break
-      case 51:
-        sgrObject.framed = !sgrObject.framed
-        break
-      case 52:
-        sgrObject.encircled = !sgrObject.encircled
-        break
-      case 53:
-        sgrObject.overLined = !sgrObject.overLined
-        break
-      case 54:
-        sgrObject.framed = false
-        sgrObject.encircled = false
-        break
-      case 55:
-        sgrObject.overLined = false
-        break
-      default:
-        if (val >= 10 && val <= 20) ecma48.font = val
-    }
-    // end of loop
+    return decimals
   }
-  // handle colours
-  // bold/intense foreground
-  if (
-    sgrObject.bold === true &&
-    sgrObject.colorF !== 38 &&
-    sgrObject.colorF >= 30 &&
-    sgrObject.colorF <= 39
-  )
-    this.classes += ` SGR1${sgrObject.colorF}`
-  else if (sgrObject.colorF !== null) this.classes += ` SGR${sgrObject.colorF}` // normal
-  // backgrounds when blink is enabled
-  if (sgrObject.colorB !== null) this.classes += ` SGR${sgrObject.colorB}`
-  // presentation options this.classes
-  if (sgrObject.faint === true) this.classes += ` SGR2`
-  if (sgrObject.italic === true) this.classes += ` SGR3`
-  if (sgrObject.underline === true) this.classes += ` SGR4`
-  if (sgrObject.blinkSlow === true) this.classes += ` SGR5`
-  if (sgrObject.blinkFast === true) this.classes += ` SGR6`
-  if (sgrObject.inverse === true) this.classes += ` SGR7`
-  if (sgrObject.conceal === true) this.classes += ` SGR8`
-  if (sgrObject.crossedOut === true) this.classes += ` SGR9`
-  if (sgrObject.underlineX2 === true) this.classes += ` SGR21`
-  if (sgrObject.framed === true) this.classes += ` SGR51`
-  if (sgrObject.encircled === true) this.classes += ` SGR52`
-  if (sgrObject.overLined === true) this.classes += ` SGR53`
-  // alternative fonts, values 11…19, 20 is reserved for a Gothic font
-  // value 10 is the primary (default) font
-  if (ecma48.font > 10 && ecma48.font <= 20)
-    this.classes += ` SGR${ecma48.font}` // see `text_ecma_48.css` for fonts
-  //console.log(`>input '${values}' output> this.classes: ${this.classes} bold: ${sgrObject.bold}`) // uncomment to debug SGR
-  if (verbose && vals === `SGR+38+2+0+103+108`) {
-    console.group(`RenditionParse(${vals})`)
-    console.info(sgrObject)
-    console.groupEnd()
-  }
-  this.class = this.classes.trim()
-  this.style = this.styles.trim()
 }

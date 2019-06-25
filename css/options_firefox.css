@@ -122,7 +122,7 @@ header > nav.tab > button {
   align-items: flex-start;
   text-align: center;
 }
-/* overriding firefox's buttons doesn't work as expected */
+/* overriding Firefox's buttons doesn't work as expected */
 .tablinks {
   background-color: transparent;
   border: 1px solid transparent;

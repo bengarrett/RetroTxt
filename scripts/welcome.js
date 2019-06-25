@@ -21,7 +21,7 @@ class HTML {
       .set(`updateNotice`, document.getElementById(`rtu-ui-a`))
   }
   /**
-   * iCE colors.
+   * iCE Colors.
    * When enabled, extra ANSI background colours are used.
    * Otherwise the same ANSI codes represent legacy blink mode.
    */

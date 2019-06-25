@@ -1,3 +1,4 @@
+// spellcheck-off
 // Configuration for Mozilla's web-ext CLI tool
 // For options: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/web-ext_command_reference
 module.exports = {
@@ -6,15 +7,23 @@ module.exports = {
   // any hidden file (one that starts with a dot) is ignored
   // any directory named node_modules is ignored
   ignoreFiles: [
-    `cli.js`,
-    `fonts/!(woff2|material)`,
-    `manifest_chrome.json`,
-    `manifest_firefox.json`,
+    `assets/snaps/options_*`,
+    `assets/snaps/preview_permissions*`,
+    `css/options_chrome.css`,
+    `docs`,
+    `fonts/!(woff2)`,
+    `manifest_*.json`,
+    `*.md`,
+    `html/options_chrome.html`,
+    `package.json`,
     `package-lock.json`,
+    `libs/tippyjs/README.md`,
     `test`,
     `tools`,
+    `web-ext-chrome.js`,
     `web-ext-config.js`,
-    `yarn.lock`
+    `yarn.lock`,
+    `*.yml`
   ],
   verbose: false,
   // Command options:

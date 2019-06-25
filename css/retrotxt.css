@@ -17,6 +17,7 @@ sources of font selection:
 https://css-tricks.com/snippets/css/system-font-stack/
 https://webcache.googleusercontent.com/search?q=cache:9KxXPAA8eOwJ:https://www.client9.com/css-system-font-stack---monospace-v1/+&cd=4&hl=en&ct=clnk&gl=au&client=firefox-b-ab
 */
+/* spellcheck: off */
 
 :root {
   /* macOS, Windows, Linux, OSX, Linux */
@@ -25,10 +26,20 @@ https://webcache.googleusercontent.com/search?q=cache:9KxXPAA8eOwJ:https://www.c
   --font-system: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
   /* gives the font face an extremely small block period and an infinite swap period */
-  /*--font-display: swap; # Sep-2018: this var doesn't work in the Blink engine */
+  /*--font-display: swap; # Sep-2018: this variable doesn't work in the Blink engine */
 }
 
-/* csslint ignore:start */
+@font-face {
+  font-family: "unscii8";
+  src: url("../fonts/woff2/unscii-8.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "unscii16";
+  src: url("../fonts/woff2/unscii-16.woff2") format("woff2");
+  font-display: swap;
+}
 
 @font-face {
   font-family: "ibmplexmono";
@@ -278,12 +289,19 @@ https://webcache.googleusercontent.com/search?q=cache:9KxXPAA8eOwJ:https://www.c
   font-display: swap;
 }
 
-/* csslint ignore:end */
-
 /* Classes to apply fonts */
+
+.font-unscii8 {
+  font-family: unscii8;
+}
+
+.font-unscii16 {
+  font-family: unscii16;
+}
 
 .font-ibmplex {
   font-family: ibmplexmono;
+  font-size: 1.5em;
 }
 
 .font-mona {
@@ -502,7 +520,7 @@ https://webcache.googleusercontent.com/search?q=cache:9KxXPAA8eOwJ:https://www.c
 }
 
 /*
-Blinking terminal prompt that works with any background/forground colour combination
+Blinking terminal prompt that works with any background/foreground colour combination
 */
 
 .dos-cursor {

@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>RetroTxt Web Extension Unit Tests</title>
+    <link rel="stylesheet" href="/node_modules/qunit/qunit/qunit.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>RetroTxt Unit Tests</title>
-  <link rel="stylesheet" href="qunit-2.4.0.css">
-</head>
-
-<body>
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
-  <script src="qunit-2.4.0.js"></script>
-  <script src="tests_browser.js"></script>
-  <script src="../scripts/eventpage.js"></script>
-  <script src="../scripts/functions.js"></script>
-  <script src="../scripts/retrotxt.js"></script>
-  <script src="../scripts/parse_ansi.js"></script>
-  <script src="../scripts/parse_dos.js"></script>
-</body>
-
+  <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="/node_modules/qunit/qunit/qunit.js"></script>
+    <script src="tests-eventpage.js"></script>
+    <script src="tests-functions.js"></script>
+    <script src="tests-parse_ansi-sequences.js"></script>
+    <script src="tests-parse_ansi.js"></script>
+    <script src="tests-parse_dos.js"></script>
+    <script src="tests-retrotxt.js"></script>
+    <script src="../scripts/eventpage.js"></script>
+    <script src="../scripts/functions.js"></script>
+    <script src="../scripts/retrotxt.js"></script>
+    <script src="../scripts/parse_ansi.js"></script>
+    <script src="../scripts/parse_dos.js"></script>
+  </body>
 </html>

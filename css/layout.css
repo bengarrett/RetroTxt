@@ -18,13 +18,11 @@ font color value is the invert of the background colour
 */
 
 header {
-  /* ver 2.2: the filter styles has been moved to dom.setColor() */
+  /* version 2.2: the filter styles has been moved to dom.setColor() */
   font-family: vgalcd;
   font-size: 1.5em;
   line-height: 1.6em;
-  /* csslint ignore:start */
   mix-blend-mode: difference;
-  /* csslint ignore:end */
   order: 1;
   position: sticky;
   text-align: left;
@@ -57,7 +55,7 @@ main i {
 pre {
   border: 0 dotted rgba(0, 128, 0, 1);
   padding: 0;
-  /* for text that lack linebreaks this wraps text to the tab width */
+  /* for text that lack line breaks this wraps text to the tab width */
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }

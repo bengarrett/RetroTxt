@@ -129,7 +129,6 @@ class CharacterSet {
       this.set_f
     )
   }
-  //cSpell:disable
   /**
    * Internal table of Unicode characters that emulate Code Page 1250.
    */
@@ -191,7 +190,7 @@ class CharacterSet {
   }
   /**
    * Internal table of Unicode characters that emulate ISO 8859-5.
-   * Note there are some incosistencies that get manually corrected.
+   * Note there are some inconsistencies that get manually corrected.
    * A_0, A_D, F_0, F_D
    */
   iso8859_5Table() {
@@ -255,7 +254,7 @@ class CharacterSet {
     this.set_f = Array.from(`ÒÚÛÙıˆ˜¯˘˙˚¸˝˛ˇ`)
   }
   /**
-   * Unicode characters that emulatethe Macintosh Roman character set,
+   * Unicode characters that emulate the Macintosh Roman character set,
    * also known as Macintosh, Mac OS Roman and MacRoman or in Windows
    * as Code Page 10000. This is the default legacy character encoding
    * for Mac OS 9 and earlier.
@@ -273,7 +272,6 @@ class CharacterSet {
       this.set_f
     )
   }
-  //cSpell:enable
 }
 
 class Transcode extends CharacterSet {
@@ -433,7 +431,7 @@ class DOSText {
   /**
    * Looks up a character code and returns an equivalent Unicode symbol.
    * @param {*} number hex or decimal character code
-   * @returns {string} unicode symbol
+   * @returns {string} Unicode symbol
    */
   fromCharCode(number) {
     if (RetroTxt.developer && number > 127)
@@ -445,8 +443,8 @@ class DOSText {
           .codePointAt(0)
           .toString(16)
       )
-    //  asciiTable = %s this.asciiTable[number]
-    // break out to func?
+    // asciiTable = %s this.asciiTable[number]
+    // break out to function?
     switch (this.codepage) {
       case `cp_1251`: {
         if (number === 0xad) return `\u00A1`
@@ -454,11 +452,13 @@ class DOSText {
     }
     // handle oddball NULL characters that some docs use as a placeholder
     // 65533 is used by the browser as an invalid or unknown character code
-    if (number === 0 || number === 65533) return ` `
+    // the ␀ glyph was originally return but it doesn't work well in monospace fonts
+    if (number === 0) return ` `
+    if (number === 65533) return ` `
     // ASCII was originally 7-bits so could support a maximum of 128 characters
-    // Interperate ASCII C0 controls as CP-437 symbols characters 0-31
+    // Interpret ASCII C0 controls as CP-437 symbols characters 0-31
     if (number >= 0x00 && number <= 0x1f) {
-      // 0x1B is the escape character that is also used as a trigger for ansi escape codes
+      // 0x1B is the escape character that is also used as a trigger for ANSI escape codes
       if (number === 0x1b) return this.asciiTable[number]
       // displayControls enabled will force the display of most CP-437 glyphs
       if (this.displayControls === `true`) {
@@ -470,7 +470,7 @@ class DOSText {
           case 13: // CR - carriage return
             return `\n`
           default:
-            // javascript also supports the following escape codes but they have no effect in HTML
+            // JavaScript also supports the following escape codes but they have no effect in HTML
             // 08 BS \b - backspace
             // 11 VT \v - vertical tab
             // 12 FF \f - form feed
@@ -525,7 +525,7 @@ class DOSText {
    * @param {*} number hex or decimal character code
    * @param {number} [offsetInput=0] array index offset for this.extendedTable
    * @param {number} [offsetOutput=0] array index offset for the CP437 table
-   * @returns {string} unicode symbol
+   * @returns {string} Unicode symbol
    */
   lookupCp437(number, offsetInput = 0, offsetOutput = 0) {
     // This function takes a Unicode decimal character number, finds its matching character in a legacy ISO codepage table to
@@ -550,7 +550,7 @@ class DOSText {
           return `\u00B2`
       }
       // Unicode Cyrillic decimals between 1088 - 1120 are out of range of our lookup sequence
-      // such as р с т у ф ... so the unicode decimal value offsets get adjusted
+      // such as р с т у ф ... so the Unicode decimal value offsets get adjusted
       if (number >= 1088) {
         offsetInput = 0
         offsetOutput = 32
@@ -603,7 +603,7 @@ class DOSText {
   /**
    * CP-865 (DOS Nordic) specific input.
    * @param {*} number hex or decimal character code
-   * @returns {string} unicode symbol
+   * @returns {string} Unicode symbol
    */
   lookupCp865(number) {
     switch (number) {
@@ -620,7 +620,7 @@ class DOSText {
    * Windows-1252 specific input.
    * Often but incorrectly called Windows ANSI.
    * @param {*} number hex or decimal character code
-   * @returns {string} unicode symbol
+   * @returns {string} Unicode symbol
    */
   lookupCp1252(number) {
     if (number >= 0xa0 && number <= 0xff) {
@@ -632,7 +632,7 @@ class DOSText {
   /**
    * ISO-8859-1 (Latin 1) specific input.
    * @param {*} number hex or decimal character code
-   * @returns {string} unicode symbol
+   * @returns {string} Unicode symbol
    */
   lookupIso8859_1(number) {
     if (number >= 0xa0 && number <= 0xff) {
@@ -644,7 +644,7 @@ class DOSText {
   /**
    * ISO-8859-15 (Latin 9) specific input.
    * @param {*} number hex or decimal character code
-   * @returns {string} unicode symbol
+   * @returns {string} Unicode symbol
    */
   lookupIso8859_15(number) {
     // ISO 8859-15 is identical to ISO 8859-1 except for these 8 changes
@@ -671,7 +671,7 @@ class DOSText {
   /**
    * UTF-16 (JavaScript default) specific input.
    * @param {*} number hex or decimal character code
-   * @returns {string} unicode symbol
+   * @returns {string} Unicode symbol
    */
   lookupUtf16(number) {
     if (number >= 0xa0 && number <= 0xff) {
@@ -696,7 +696,7 @@ class DOSText {
 
   /**
    * Transcode text derived from a character set into Unicode characters that emulate IBM PC era CP-437 set.
-   * @returns {string} unicode text
+   * @returns {string} Unicode text
    */
   normalize() {
     // create the character table to fetch glyphs from
@@ -800,10 +800,10 @@ class BBS {
     // <pre></pre> DOM object
     let pre
     if (typeof module === `undefined`) {
-      // webextension DOM
+      // web extension DOM
       pre = document.createElement(`pre`)
     } else {
-      // nodejs DOM
+      // node.js DOM
       const jsdom = module.require(`jsdom`)
       const { JSDOM } = jsdom
       const dom = new JSDOM(``)

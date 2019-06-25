@@ -3,8 +3,8 @@
 // Run by the browser onload, by RetroTxt onload or refresh.
 "use strict"
 
-// Globals set here are not shared with browser tabs
-// retrotxt developer verbose feedback (this is dynamically set)
+// Global set here are not shared with browser tabs
+// RetroTxt developer verbose feedback (this is dynamically set)
 // TODO Always set RetroTxt.developer to false before public release!
 var RetroTxt = { developer: false }
 
@@ -41,7 +41,7 @@ function CheckError(error = ``, log = false) {
 }
 
 /**
- * Handle event listenders for browser tabs.
+ * Handle event listeners for browser tabs.
  * @class Tabs
  */
 class Tabs {
@@ -105,7 +105,7 @@ class Tab {
   /**
    * Creates an instance of Tab.
    * @param [id=0] id of the tab
-   * @param [url=``] uri or url of the tab
+   * @param [url=``] URI or URL of the tab
    * @param [info={}] tab object
    * @param [menuId=``] id the context menus to modify
    */
@@ -160,7 +160,7 @@ class Tab {
         status: `complete`
       },
       () => {
-        // sessionStorage cleanup
+        // sessionStorage clean up
         const updateCount = sessionStorage.getItem(`tab${this.id}update`)
         if (updateCount === null) {
           sessionStorage.setItem(`tab${this.id}update`, 1)
@@ -231,7 +231,7 @@ class Tab {
         this.url
       )
     }
-    // get and parse the url
+    // get and parse the URL
     const uri = {
       domain: this.removeSubDomains(),
       scheme: this.url.split(`:`)[0]
@@ -259,7 +259,7 @@ class Tab {
       }
     }
     // insert the RetroTxt URL into the approved list
-    // see _locales/en_US/messages.json url for the http address
+    // see _locales/en_US/messages.json URL for the http address
     domains = `${chrome.i18n.getMessage(`url`)};${domains}`
     // list of approved website domains
     approved = domains.includes(uri.domain)
@@ -296,15 +296,15 @@ class Tab {
     console.log(`Tabs.compatibleURL() has been requested.`)
     const config = new Configuration()
     const downloads = new Downloads()
-    // fetch() method init object
+    // fetch() method initialize object
     // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
     const fetchInit = { method: `GET`, cache: `default` }
     // tab object
     const tab = { menuId: this.menuId, tabid: this.id, url: this.url }
-    // uri (URL) object with a domain, scheme `https` or `file` and a skip Boolean
+    // URI (URL) object with a domain, scheme `https` or `file` and a skip Boolean
     const uri = {
       domain: this.removeSubDomains(),
-      ignore: config.validateFilename(this.url),
+      ignore: !config.validateFilename(this.url),
       scheme: this.url.split(`:`)[0]
     }
     // check against the hard coded black list of domains & schemes to skip any false positives or conflicts
@@ -317,7 +317,7 @@ class Tab {
     }
     const files = new Security(`files`)
     switch (uri.scheme) {
-      // note there is a `uri` object and `url` string
+      // note there is a `URI` object and `URL` string
       case `file`:
         // if last character is `/` then it is most probably a directory
         if (this.url.substring(this.url.length - 1) === `/`) {
@@ -342,7 +342,7 @@ class Tab {
         if (FindEngine() === `gecko`) {
           // look for file names with extensions
           const path = this.url.split(`/`).slice(-1)
-          // otherwise, assume it's a dir
+          // otherwise, assume it's a directory
           if (path.toString().indexOf(`.`) < 0) {
             if (RetroTxt.developer)
               console.log(
@@ -391,7 +391,7 @@ class Tab {
     }
   }
   /**
-   * Returns a url without any sub-domains or schemes.
+   * Returns a URL without any sub-domains or schemes.
    * For example `https://www.example.com` will return `example.com`.
    */
   removeSubDomains() {
@@ -421,6 +421,15 @@ class ToolbarButton {
     this.id = tabId
     // note manifest.json browser_action.default_title contains the initial title
     this.title = `RetroTxt`
+    if (FindDarkScheme()) {
+      // todo: add additional sized icons
+      chrome.browserAction.setIcon({
+        path: {
+          16: `assets/retrotxt_16-light.png`,
+          32: `assets/retrotxt_32-light.png`
+        }
+      })
+    }
   }
   disable() {
     if (this.id === 0) return
@@ -559,7 +568,7 @@ class Action {
             }
           })
         }
-        // check the tab & then refetch session storage
+        // check the tab & then re-fetch session storage
         const tab = new Tab(this.id, this.info.url, this.info)
         const scheme = this.info.url.split(`:`)[0]
         if (scheme === `file`) {
@@ -599,11 +608,11 @@ class Security {
   /**
    * Creates an instance of Security.
    * @param [type=``] permission type to handle: `action`, `downloads`, `files` or `http`
-   * @param [origin=``] an optional url or uri
+   * @param [origin=``] an optional URL or URI
    */
   constructor(type = ``, origin = ``) {
     // IMPORTANT! These Map values must sync to those in the Security class in options.js
-    // Firefox REQUIRES tabs permission to access url in the queryInfo parameter to tabs.query().
+    // Firefox REQUIRES tabs permission to access URL in the queryInfo parameter to tabs.query().
     const permissions = new Map()
       .set(`action`, [`tabs`])
       .set(`downloads`, [`downloads`, `downloads.open`, `tabs`])
@@ -643,14 +652,14 @@ class Security {
     return permissionsToRequest
   }
   /**
-   * Converts a url or uri supplied by `this.origin` into a
+   * Converts a URL or URI supplied by `this.origin` into a
    * collection of host permissions.
    * @returns array containing host permissions
    */
   httpToOrigins() {
     if (typeof this.origin === `undefined`) return this.origins
     if (this.origin.length < 1) return this.origins
-    // parse url to valid host
+    // parse URL to valid host
     let noScheme = this.origin
     if (this.origin.includes(`://`)) {
       noScheme = this.origin.slice(this.origin.indexOf(`://`) + 3)
@@ -679,8 +688,8 @@ class Storage {
   /**
    * There are 4 types of browser storage that is accessible to RetroTxt.
    * `sessionStorage` is temporary and is cleared whenever the browser is closed.
-   * `localStorage` is persistant and offers immediate access but is not able to be accessed by all parts of RetroTxt.
-   * `chrome.Storage.local` is persistant but much slower than localStorage, but can be accessed by all parts of RetroTxt.
+   * `localStorage` is persistent and offers immediate access but is not able to be accessed by all parts of RetroTxt.
+   * `chrome.Storage.local` is persistent but much slower than localStorage, but can be accessed by all parts of RetroTxt.
    * `chrome.Storage.sync` allows cloud saving and syncing storage but is currently not implemented by RetroTxt.
    */
   constructor() {
@@ -718,7 +727,7 @@ class Storage {
     })
   }
   /**
-   * Scan success callback that looks for an identical localStorage key/value pair.
+   * Scan success call back that looks for an identical localStorage key/value pair.
    * If a matching localStorage item is not found then it is set here.
    * @param [key=``] storage.local key
    * @param [value=``] storage.local value
@@ -728,7 +737,7 @@ class Storage {
     if (local === null) localStorage.setItem(`${key}`, `${value}`)
   }
   /**
-   * Scan failed callback that saves the `this.defaults` value to the storage area and then updates the context menus.
+   * Scan failed call back that saves the `this.defaults` value to the storage area and then updates the context menus.
    * @param [key=``] storage.local key
    */
   fail(key = ``) {
@@ -765,7 +774,7 @@ class Storage {
     }
   }
   /**
-   * Removes legacy storagelocal items that may have been configured
+   * Removes legacy storage local items that may have been configured
    * and used in earlier RetroTxt versions.
    */
   clean() {
@@ -895,7 +904,10 @@ class Downloads {
           // (application/octet-stream) and forces it to download instead of render in a tab
           if (!(`item` in downloads)) return
           if (!(`mime` in downloads.item)) return
-          if (downloads.item.mime === `application/octet-stream`) {
+          // catch all mime types that use binary types such as
+          // application/octet-stream, application/x-font
+          const type = downloads.item.mime.split(`/`)
+          if (type[0] === `application`) {
             if (
               `state` in downloads.delta &&
               downloads.delta.state.current === `complete`
@@ -967,7 +979,11 @@ class Downloads {
     const scheme = this.item.url.split(`:`)[0]
     if (schemes.includes(scheme) === false) return
     // check file name extension isn't an obvious non-text file
-    if (config.validateFilename(this.item.filename)) return
+    if (config.validateFileExtension(this.item.filename)) {
+      // do nothing because extension is valid
+    } else if (!config.validateFilename(this.item.filename)) {
+      return // exit because extension is invalid
+    }
     // location of saved local file
     sessionStorage.setItem(
       `download${this.item.id}-localpath`,
@@ -1016,14 +1032,14 @@ class Downloads {
     const filename = this.delta.filename.current
     if (filename.length < 1) return false
     const config = new Configuration()
-    if (config.validateFilename(filename)) return false
+    if (!config.validateFilename(filename)) return false
     sessionStorage.setItem(`download${this.delta.id}-localpath`, `${filename}`)
     return true
   }
   /**
    * Determines if the data blob is a text file.
    * Blob object: https://developer.mozilla.org/en-US/docs/Web/API/Blob
-   * @param [data] fetch api data blob
+   * @param [data] fetch API data blob
    * @param [tab={}] tab object
    */
   parseBlob(data, tab = {}, test = false) {
@@ -1049,7 +1065,7 @@ class Downloads {
           case `plain`:
           case `x-nfo`:
           case `unknown`: {
-            // check to makesure text/plain is not mark-up
+            // check to make sure text/plain is not mark-up
             reader.onload = loadedEvent => {
               const text = loadedEvent.target.result.trim()
               // if the body starts with <! or <? then it is most likely mark-up
@@ -1140,7 +1156,7 @@ class WebExtension {
   }
   /**
    * Activates and prepares browser tab to invoke RetroTxt.
-   * @param [data] optional fetch api data blob
+   * @param [data] optional fetch API data blob
    * @param [tab={}] tab object
    */
   activateTab(data, tab = {}) {
@@ -1256,7 +1272,7 @@ class Menu {
     // browser_action: tool bar button
     // page: right click on the body of the web page / text file
     this.contexts = [`browser_action`, `page`]
-    // these are URL patterns that will trigger the menus to avoid inappropriate reveals on system tabs ie on chrome://extensions/
+    // these are URL patterns that will trigger the menus to avoid inappropriate reveals on system tabs i.e on chrome://extensions/
     this.urlPatterns = [`http://*/*`, `https://*/*`, `file:///*`]
     // context menu titles
     this.titles = new Map()
@@ -1340,6 +1356,15 @@ class Menu {
         documentUrlPatterns: this.urlPatterns
       })
     }
+  }
+  itemFocusMode() {
+    chrome.contextMenus.create({
+      type: `checkbox`,
+      title: `Focus mode`,
+      contexts: [`page`],
+      documentUrlPatterns: this.urlPatterns,
+      id: `focusmode`
+    })
   }
   itemHelpAction() {
     chrome.contextMenus.create({
@@ -1440,17 +1465,19 @@ class Menu {
    * Creates the context menus used on pages and on the task bar button.
    */
   async create() {
-    // remove any existing menus to avoid undetected errors in any callbacks
+    // remove any existing menus to avoid undetected errors in any call backs
     chrome.contextMenus.removeAll()
     //  Firefox imposes a 6 item limit for `browser_action` and `page_action` contexts
     //  see: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/menus/ContextType
+    this.itemFocusMode()
     this.itemOptions()
     this.itemHelpAction()
     this.itemDisplay()
     this.itemSeparator(1)
     this.itemTranscode()
     if (FindEngine() === `gecko`) {
-      // `browser_action` context creates an unintentional double separator in Firefox, so only use it with `page`
+      // `browser_action` context creates an unintentional double separator in
+      // Firefox, so only use it with `page`
       this.itemSeparator(2)
     } else {
       this.itemSeparator(2, this.contexts)
@@ -1458,6 +1485,26 @@ class Menu {
     this.itemThemes()
     this.itemSeparator(3)
     this.itemHelpPage()
+    chrome.storage.local.get(`focusMode`, result => {
+      if (result.focusMode === `true`) {
+        this.itemChecked(`focusmode`)
+        // hide (instead of remove) the menu items so their event listeners
+        // don't break and cause errors
+        chrome.contextMenus.update(`transcode`, { visible: false })
+        chrome.contextMenus.update(`displaysub`, { visible: false })
+        chrome.contextMenus.update(`no-theme`, { visible: false })
+        chrome.contextMenus.remove(`sep3`)
+        // in Chromium these two separators are not removed
+        chrome.contextMenus.remove(`sep2`)
+        chrome.contextMenus.remove(`sep1`)
+        for (const id of this.themes.get(`order`)) {
+          if (id === `-`) continue
+          chrome.contextMenus.update(id, {
+            visible: false
+          })
+        }
+      }
+    })
   }
   /**
    * Handles the results after a menu item is clicked.
@@ -1514,6 +1561,16 @@ class Menu {
         chrome.tabs.create({ url: chrome.i18n.getMessage(`url_help`) })
         break
       }
+      case `focusmode`: {
+        this.focusMode()
+        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            action: id,
+            id: `focusmode`
+          })
+        })
+        break
+      }
     }
     // if a theme option is clicked while viewing the browser default text then also apply the new theme
     if (typeof autorun !== `string` || autorun === `false`) {
@@ -1542,6 +1599,24 @@ class Menu {
     if (typeof checked !== `boolean`)
       CheckArguments(`checked`, `boolean`, checked)
     chrome.contextMenus.update(menuId, { checked: checked })
+  }
+  /**
+   * Toggles focus mode that temporarily readjusts contexts menus + tab settings
+   */
+  focusMode() {
+    chrome.storage.local.get(`focusMode`, result => {
+      switch (result.focusMode) {
+        case `true`:
+          chrome.storage.local.set({ focusMode: `false` })
+          localStorage.setItem(`focusMode`, `false`)
+          this.create()
+          break
+        default:
+          chrome.storage.local.set({ focusMode: `true` })
+          localStorage.setItem(`focusMode`, `true`)
+          this.create()
+      }
+    })
   }
   /**
    * Switches the RetroTxt font and colour theme.

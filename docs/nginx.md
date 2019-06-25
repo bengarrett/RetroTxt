@@ -1,5 +1,4 @@
-
-## Configure NGINX to serve ASCII & ASCII art
+# Configure NGINX to serve ASCII & ASCII art
 
 ### A barebones configuration to serve plain text files using [NGINX](https://www.nginx.com).
 
@@ -29,7 +28,7 @@ location /ansi {
 }
 ```
 
-Broken down the `location` block applies the configuration only to files using the path http://example.com/ansi/. While the `types` block filters that further to just use the setting with files utilising an `asc` `ans` or `txt` file extension.
+Broken down the `location` block applies the configuration only to files using the path http://example.com/ansi/. While the `types` block further filters files utilising an `asc` `ans` or `txt` file extension.
 
 `charset "ISO-8859-1"` directive combined with the `types { text/plain }` block will add a **`Content-Type:text/plain; charset=ISO-8859-1`** response header. It tells the browser to treat the file as plain text encoded as [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1), which is a legacy character set RetroTxt can understand. You cannot use [CP-437](https://en.wikipedia.org/wiki/Code_page_437) or other DOS code pages as they are not [valid browser encodings](https://encoding.spec.whatwg.org/#legacy-single-byte-encodings).
 

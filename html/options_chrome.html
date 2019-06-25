@@ -1,10 +1,9 @@
 <!doctype html>
-<!-- cSpell:ignore rsfibmplex,CHOOL -->
 <html>
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="../fonts/material/iconfont/material-icons.css">
+  <link rel="stylesheet" href="../css/material-icons.css">
   <link rel="stylesheet" href="../css/retrotxt.css">
   <link rel="stylesheet" href="../css/options_chrome.css">
   <link rel="stylesheet" href="../css/text_colors.css">
@@ -41,12 +40,20 @@
           <div class="font block top">
             <div class="font-title">Modern</div>
             <div class="font-content">
+              <div class="block">
               <label for="rsfibmplex">
                 <input type="radio" name="font" value="ibmplex" id="rsfibmplex">
-                <strong>IBM Plex</strong> Mono</label>
-              <label for="rsfmono">
+                <strong>IBM Plex</strong> Mono</label></div>
+              <div class="block">
+              <label for="rsfmono" style="white-space: nowrap">
                 <input type="radio" name="font" value="monospace" id="rsfmono">
-                <strong>Monospace</strong> browser default</label>
+                <strong>Monospace</strong> <span style="text-overflow: ellipsis">browser default</span></label></div>
+              <label for="rsfunscii16">
+                <input type="radio" name="font" value="unscii16" id="rsfunscii16">
+                <strong>Unscii</strong> 16</label>
+              <label for="rsfunscii8">
+                  <input type="radio" name="font" value="unscii8" id="rsfunscii8">
+                  <strong>Unscii</strong> 8</label>
             </div>
           </div>
           <!-- MS-DOS -->
@@ -522,6 +529,9 @@
               <li>Mona Shift JIS
                 <a href="http://monafont.sourceforge.net/index-e.html">public domain</a>
               </li>
+              <li>Unscii
+                <a href="http://pelulamu.net/unscii/">Viznut</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -541,7 +551,7 @@
       <a href="welcome.html" class="link-button" target="_blank" title="Welcome"><i class="material-icons">extension</i></a>
       <a href="https://github.com/bengarrett/RetroTxt" class="link-button" target="_blank" title="Get the source code hosted on GitHub"><i
           class="material-icons">code</i></a>
-      <a href="test/index.html" class="link-button" id="unittest" target="_blank" title="Unit tests (this will also reset all Options)"><i
+      <a href="../test/index.html" class="link-button" id="unittest" target="_blank" title="Unit tests (this will also reset all Options)"><i
           class="material-icons">bug_report</i></a>
     </div>
   </footer>

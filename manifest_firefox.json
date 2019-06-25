@@ -7,7 +7,10 @@
   },
   "author": "Ben Garrett",
   "background": {
-    "scripts": ["scripts/functions.js", "scripts/eventpage.js"]
+    "scripts": [
+      "scripts/functions.js",
+      "scripts/eventpage.js"
+    ]
   },
   "browser_action": {
     "browser_style": true,
@@ -46,7 +49,7 @@
     "64": "assets/retrotxt_128.svg"
   },
   "manifest_version": 2,
-  "name": "RetroTxt for Firefox",
+  "name": "RetroTxt",
   "optional_permissions": [
     "tabs",
     "file:///*/",
@@ -72,7 +75,7 @@
     "*://*.retrotxt.com/*"
   ],
   "short_name": "RetroTxt",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "web_accessible_resources": [
     "css/*.css",
     "fonts/woff2/*.woff2",

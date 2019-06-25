@@ -3,9 +3,8 @@
 "use strict"
 
 // For this to work using the chrome.management.getSelf() method in this page.
-// Retrotxt requires the Management permission but which is currently not requested.
+// RetroTxt requires the Management permission but which is currently not requested.
 var RetroTxt = { developer: false, dump: false }
-//<link rel="stylesheet" href="css/text_animation-off.css">
 /**
  * Document Object Model (DOM) programming interface for HTML.
  * @class DOM
@@ -29,6 +28,7 @@ class DOM {
     this.storage = [
       `customBackground`,
       `customForeground`,
+      `focusMode`,
       `lineHeight`,
       `retroColor`,
       `retroFont`,
@@ -63,9 +63,10 @@ class DOM {
     // load any CSS that are used to mimic colours by the text file
     let format
     if (typeof qunit === `undefined`) {
-      if (typeof this.pre1 === `undefined`)
+      if (typeof this.pre1 === `undefined`) {
+        if (typeof this.pre0 === `undefined`) return // error
         format = FindControlSequences(this.pre0.textContent)
-      else format = FindControlSequences(this.pre1.textContent)
+      } else format = FindControlSequences(this.pre1.textContent)
     }
     // make <link> tags to point to CSS files for use with 4-bit colour text
     switch (format) {
@@ -125,10 +126,22 @@ class DOM {
     // ice colors toggle in the information header (only shows with EMCA48/ANSI documents)
     this.iceColors = document.getElementById(`ice-colors-toggle`)
     if (this.iceColors !== null) {
-      this.iceColors.onclick = () => this.iCEColors()
-      if (this.ecma48.iceColors === true)
-        this.iceColors.childNodes[1].textContent = `On`
-      else this.iceColors.childNodes[1].textContent = `Off`
+      this.iceColors.onclick = () => {
+        this.iCEColors()
+      }
+      if (this.ecma48.iceColors === true) this.iceColors.textContent = `On`
+      else if (this.ecma48.iceColors === false)
+        this.iceColors.textContent = `Off`
+    }
+    // line wrap toggle in the information header (only shows with EMCA48/ANSI documents)
+    this.wrap = document.getElementById(`line-wrap-toggle`)
+    if (this.wrap !== null) {
+      const setting = localStorage.getItem(`textAnsiWrap80c`)
+      this.wrap.onclick = () => {
+        this.lineWrap()
+      }
+      if (setting === `true`) this.wrap.textContent = `On`
+      else this.wrap.textContent = `Off`
     }
   }
   /**
@@ -137,7 +150,7 @@ class DOM {
   async colorPalette() {
     const element = document.getElementById(`h-palette`)
     const palette = new HardwarePalette()
-    if (element !== null && this.ecma48.colorDepth === 4) {
+    if (element !== null && ecma48.colorDepth === 4) {
       element.onclick = () => {
         const css = document.getElementById(`retrotxt-4bit-ice`)
         // this cycles through to the next palette
@@ -158,7 +171,7 @@ class DOM {
    * Initialises run RetroTxt.
    */
   async initialize() {
-    // context menu onclick listener
+    // context menu on-click listener
     chrome.runtime.onMessage.addListener(handleMessages)
     // monitor for any changed Options set by the user
     chrome.storage.onChanged.addListener(handleChanges)
@@ -209,12 +222,19 @@ class DOM {
       } else err(`retroFont`)
     }
     // scan lines
-    if (`${this.results.textBgScanlines}` === `true`)
-      ToggleScanlines(this.results.textBgScanlines, this.body)
-    else if (StringToBool(this.results.textBgScanlines) === null)
+    if (`${this.results.textBgScanlines}` === `true`) {
+      let toggle = this.results.textBgScanlines
+      if (
+        typeof this.results.focusMode === `string` &&
+        this.results.focusMode === `true`
+      )
+        toggle = false
+      ToggleScanlines(toggle, this.body)
+    } else if (StringToBool(this.results.textBgScanlines) === null)
       err(`textBgScanlines`)
     // centre alignment of text
     if (`${this.results.textCenterAlignment}` === `true`) {
+      if (this.main === null) return // error
       this.main.style.margin = `auto`
       this.main.style.justifyContent = `true`
     } else if (`${this.results.textCenterAlignment}` === `false`) {
@@ -223,9 +243,15 @@ class DOM {
     } else if (StringToBool(this.results.textCenterAlignment) === null)
       err(`textCenterAlignment`)
     // text effect
-    if (typeof this.results.textEffect === `string`)
-      ToggleTextEffect(this.results.textEffect, this.main)
-    else if (typeof this.results.textEffect !== `string`) err(`textEffect`)
+    if (typeof this.results.textEffect === `string`) {
+      let effect = this.results.textEffect
+      if (
+        typeof this.results.focusMode === `string` &&
+        this.results.focusMode === `true`
+      )
+        effect = `normal`
+      ToggleTextEffect(effect, this.main)
+    } else if (typeof this.results.textEffect !== `string`) err(`textEffect`)
     // blink animation
     if (`${this.results.textBlinkAnimation}` === `false`) this.blinkAnimation()
     else if (StringToBool(this.results.textBlinkAnimation) === null)
@@ -242,40 +268,50 @@ class DOM {
       /* Some Firefox/Gecko versions throw a security error when handling file:/// */
     }
     // refresh scan lines and font shadows as they are effected by colour changes
-    chrome.storage.local.get([`textBgScanlines`, `textEffect`], result => {
-      if (!(`textBgScanlines` in result))
-        CheckError(
-          `🖫 Could not obtain the required textBgScanlines setting to apply the scanlines effect.`,
-          true
+    chrome.storage.local.get(
+      [`textBgScanlines`, `textEffect`, `focusMode`],
+      result => {
+        if (!(`textBgScanlines` in result))
+          CheckError(
+            `🖫 Could not obtain the required textBgScanlines setting to apply the scanlines effect.`,
+            true
+          )
+        if (!(`textEffect` in result))
+          CheckError(
+            `🖫 Could not obtain the required textEffect setting to apply text effects.`,
+            true
+          )
+        const scanlines = result.textBgScanlines
+        const textEffect = result.textEffect
+        // scan lines on the page body
+        if (typeof scanlines === `boolean` && scanlines === true)
+          ToggleScanlines(true, this.body)
+        // font shadowing applied to text in the page main tag
+        if (
+          typeof textEffect === `string` &&
+          textEffect === `shadowed` &&
+          result.focusMode !== `true`
         )
-      if (!(`textEffect` in result))
-        CheckError(
-          `🖫 Could not obtain the required textEffect setting to apply text effects.`,
-          true
-        )
-      const scanlines = result.textBgScanlines
-      const textEffect = result.textEffect
-      // scan lines on the page body
-      if (typeof scanlines === `boolean` && scanlines === true)
-        ToggleScanlines(true, this.body)
-      // font shadowing applied to text in the page main tag
-      if (typeof textEffect === `string` && textEffect === `shadowed`)
-        ToggleTextEffect(`shadowed`, this.main)
-    })
+          ToggleTextEffect(`shadowed`, this.main)
+      }
+    )
     // apply new colours
     const colorName = this.backgroundColor
     let colorId = colorName
     if (colorName.startsWith(`theme-`) === false) colorId = `theme-${colorName}`
     if (this.body.classList !== null) this.body.classList.add(`${colorName}-bg`)
     else return // error
-    if (this.main.classList !== null) this.main.classList.add(`${colorName}-fg`)
+    if (this.main === null) return
+    // error
+    else if (this.main.classList !== null)
+      this.main.classList.add(`${colorName}-fg`)
     else return // error
-    // cleanup custom colours
+    // clean up custom colours
     if (colorName !== `theme-custom`) {
       this.body.removeAttribute(`style`)
       this.main.removeAttribute(`style`)
     }
-    // handle color fixes
+    // handle colour fixes
     const fixes = document.getElementById(`white-bg-fixes`)
     switch (colorId) {
       case `theme-atarist`:
@@ -368,11 +404,25 @@ class DOM {
     }
   }
   /**
+   * Toggles the column line wrap that's available under Options
+   */
+  async lineWrap() {
+    switch (localStorage.getItem(`textAnsiWrap80c`)) {
+      case `true`:
+        localStorage.setItem(`textAnsiWrap80c`, `false`)
+        break
+      default:
+        localStorage.setItem(`textAnsiWrap80c`, `true`)
+        break
+    }
+    location.reload()
+  }
+  /**
    * Toggle between the display of blinking ANSI text or static text with background iCE colors.
    */
   async iCEColors() {
     const css = document.getElementById(`retrotxt-4bit-ice`)
-    const state = this.iceColors.childNodes[1].textContent
+    const state = this.iceColors.textContent
     const palette = new HardwarePalette()
     switch (state) {
       case `Off`: {
@@ -388,13 +438,13 @@ class DOM {
         }
         this.head.appendChild(
           CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`)
-        ) // child 4
-        this.iceColors.childNodes[1].textContent = `On`
+        )
+        this.iceColors.textContent = `On`
         break
       }
       default: {
         if (css !== null) css.remove()
-        this.iceColors.childNodes[1].textContent = `Off`
+        this.iceColors.textContent = `Off`
       }
     }
   }
@@ -455,7 +505,7 @@ class DOM {
       else if (typeof font === `boolean`) this.header(font)
     })
     if (FindEngine() === `blink`) {
-      // temporary workaround for issue where the previous background color of <body> is cached and not removed
+      // temporary workaround for issue where the previous background colour of <body> is cached and not removed
       this.pre1.style.backgroundColor = ``
     }
     this.pre1.style.display = `none`
@@ -472,6 +522,7 @@ class DOM {
   async lineHeight(lineHeight = `normal`) {
     if (typeof lineHeight !== `string`)
       CheckArguments(`lineHeight`, `string`, lineHeight)
+    if (typeof this.pre0 === `undefined`) return // error
     this.pre0.style.lineHeight = lineHeight
   }
   /**
@@ -518,6 +569,7 @@ class DOM {
     }
     // iCE colors
     if (this.ecma48.iceColors === true) {
+      // see setBlinking() for the initializer
       this.head.appendChild(
         CreateLink(this.palette.savedFilename(true), `retrotxt-4bit-ice`)
       ) // child 4
@@ -545,7 +597,7 @@ class DOM {
       this.pre0.style.display = `none`
       this.pre1.style.display = `block`
       if (FindEngine() === `blink`) {
-        // temporary workaround for a Blink engine issue where the previous background color of <body> cached and not removed
+        // temporary workaround for a Blink engine issue where the previous background colour of <body> cached and not removed
         this.pre1.style.backgroundColor = `white`
       }
     } else if (typeof this.pre0 !== `undefined`) {
@@ -663,7 +715,6 @@ class SAUCE {
     }
     // rudimentary Map of ANSI/ASCII groups linked to textmod.es crew ids
     // it's not too useful as most artists don't include group metadata
-    //cSpell:disable
     this.textmodes = new Map()
       .set(`acid`, `acid.production`)
       .set(`a.m.i.s.h`, `amish`)
@@ -687,7 +738,6 @@ class SAUCE {
       .set(`the legion`, `the.legion`)
       .set(`titan`, `titan`)
       .set(`zenith`, `zenith`)
-    //cSpell:enable
     // match SAUCE font families to RetroTxt fonts
     this.sauceFonts = new Map()
       .set(`IBM VGA`, `vga8`) // 8px font
@@ -742,7 +792,7 @@ class SAUCE {
     }
     // when no COMNT found delete the position index
     if (comntStart === -1) this.positions.comntIndex = 0
-    // binary zero is represented as unicode code point 65533 (�), named as 'replacement character'
+    // binary zero is represented as Unicode code point 65533 (�), named as 'replacement character'
     const rBin0 = new RegExp(String.fromCharCode(65533), `g`) // a pattern to find all binary zeros
     // search the 500 characters for a SAUCE record
     this.sliced = this.text.slice(start, this.length)
@@ -1044,21 +1094,23 @@ class Output {
    */
   fontSize() {
     const bold = this.newBold()
+    const preElm = this.pre
     bold.id = `h-doc-text-adjust`
     bold.title = `Font size adjustment`
     bold.textContent = `1x`
     // create event listener
     bold.onclick = () => {
+      preElm.classList.add(`text-2x`)
       switch (bold.textContent) {
         case `1x`:
           bold.textContent = `2x`
-          this.pre.classList.add(`text-2x`)
-          this.pre.classList.remove(`text-1x`)
+          preElm.classList.add(`text-2x`)
+          preElm.classList.remove(`text-1x`)
           break
         case `2x`:
           bold.textContent = `1x`
-          this.pre.classList.add(`text-1x`)
-          this.pre.classList.remove(`text-2x`)
+          preElm.classList.add(`text-1x`)
+          preElm.classList.remove(`text-2x`)
           break
       }
     }
@@ -1095,7 +1147,8 @@ class Output {
    * Returns ECMA48 data.
    */
   getECMA48() {
-    this.ecma48 = new BuildEcma48(this.data.html, this.sauce, false, false)
+    this.ecma48 = new Controls(`${this.data.html}`, this.sauce)
+    this.ecma48.parse()
     this.statisticsECMA48()
     // font override
     sessionStorage.removeItem(`fontOverride`)
@@ -1111,7 +1164,7 @@ class Output {
       fonts.swap(this.pre)
       sessionStorage.setItem(`fontOverride`, `true`)
     }
-    // color palette
+    // colour palette
     this.dom.ecma48 = this.ecma48
     this.dom.paletteSwap()
     // parse text & insert it into the browser tab
@@ -1145,6 +1198,8 @@ class Output {
     const sessionItem = sessionStorage.getItem(`transcode`)
     // Transcode() class is found in parse_dos.js
     const transcode = new Transcode(`${characterSet}`, `${this.slice}`)
+    this.slice = ``
+    this.sauce.text = ``
     // count number of rows (lines of text)
     const rowCount = (text = this.data.html) => {
       return text.trim().split(/\r\n|\r|\n/).length
@@ -1164,7 +1219,7 @@ class Output {
     // Characters() class is found in functions.js
     const characters = new Characters(newCodePage)
     // Normalise text where document.characterSet is supplied
-    // ie WINDOWS-1250
+    // i.e WINDOWS-1250
     if (characters.supportedEncoding() === true) {
       const text = new DOSText(`${transcode.text}`, {
         codepage: `${characters.getEncoding(newCodePage)}`
@@ -1174,7 +1229,7 @@ class Output {
       return
     }
     // Normalise text where code page key is supplied
-    // ie cp_1252
+    // i.e cp_1252
     if (characters.support() === true) {
       const text = new DOSText(`${transcode.text}`, { codepage: newCodePage })
       this.data.html = text.normalize()
@@ -1216,7 +1271,7 @@ class Output {
     elements.in.textContent = text.in
     elements.in.title = inputChars.titleIn(input.characterSet)
     if (inputEncoding.support() === false) {
-      // this class hightlights the characterSet string
+      // this class highlights the characterSet string
       elements.in.textContent = input.characterSet
       elements.in.classList.add(`unknown`)
       elements.in.title = `Unknown character set`
@@ -1230,21 +1285,21 @@ class Output {
     let outputKey = `${outputChars.key}`
     let outputTitle = ``
     // Matches Characters.output Map
-    // ie iso_8859_1➡ that is supplied by this web-extension
+    // i.e iso_8859_1➡ that is supplied by this web-extension
     if (outputChars.outputs.has(outputKey)) {
       stored.text = outputChars.compactOut()
       text.out = outputChars.compactOut()
       outputTitle = outputChars.titleOut()
     }
     // Matches Document.characterSet property supplied by the browser
-    // ie ISO-8859-1, UTF-8, WINDOWS-1252, etc
+    // i.e ISO-8859-1, UTF-8, WINDOWS-1252, etc
     else if (outputEncoding.support()) {
       // append an arrow to label
-      // ie iso-8859-1➡
+      // i.e iso-8859-1➡
       const newLabel = `${outputEncoding.label()}➡`
       const inLabel = inputEncoding.label()
       // also make sure input encoding doesn't match output encoding
-      // ie CP1252 → CP1252
+      // i.e CP1252 → CP1252
       if (
         outputChars.outputs.has(newLabel) &&
         newLabel.slice(0, -1) !== inLabel
@@ -1256,7 +1311,7 @@ class Output {
       outputTitle = outputChars.titleOut()
     }
     // Matches Characters.labels Map that is supplied by SAUCE metadata
-    // ie cp_437 etc
+    // i.e cp_437 etc
     else if (outputChars.support()) {
       stored.text = outputChars.compactOut()
       text.out = outputChars.compactOut()
@@ -1337,7 +1392,10 @@ class Output {
       this.columns = null
     else this.columns = this.ecma48.columns
     this.rows = this.ecma48.rows
+    // this copies the string and increases the memory heap
     this.data.html = this.ecma48.htmlString
+    // empty the string to reduce memory usage
+    this.ecma48.htmlString = ``
     this.data.oths = this.ecma48.otherCodesCount
     this.data.errs = this.ecma48.unknownCount
   }
@@ -1527,6 +1585,7 @@ class Information extends Output {
       if (this.ecma48.iceColors === true) {
         this.setBlinking()
       }
+      this.setLineWrap()
       // append any ecma-48 errors
       const sum = this.ecma48.otherCodesCount + this.ecma48.unknownCount
       if (sum > 10) {
@@ -1625,15 +1684,30 @@ class Information extends Output {
   setBlinking() {
     const bold = super.newBold()
     const span = super.newSpan()
-    bold.textContent = `??`
-    span.id = `ice-colors-toggle`
+    bold.textContent = `On`
+    bold.id = `ice-colors-toggle`
     span.title = `Toggle between blinking mode or static background ${chrome.i18n.getMessage(
       `color`
     )}`
     span.textContent = `iCE colors `
-    span.appendChild(bold)
+    //span.appendChild(bold)
     this.show.appendChild(document.createTextNode(`, `))
     this.show.appendChild(span)
+    this.show.appendChild(bold)
+  }
+  /**
+   * Line wrap notice.
+   */
+  setLineWrap() {
+    const bold = super.newBold()
+    const span = super.newSpan()
+    bold.textContent = ``
+    bold.id = `line-wrap-toggle`
+    span.title = `Toggle an 80 character column wrap that will reload this tab`
+    span.textContent = `Line wrap `
+    this.show.appendChild(document.createTextNode(`, `))
+    this.show.appendChild(span)
+    this.show.appendChild(bold)
   }
   /**
    * ECMA48/ANSI errors notice.
@@ -1661,6 +1735,57 @@ class Information extends Output {
 class Invoke {
   constructor() {
     this.dom = new DOM()
+  }
+  focusMode(toggle = true) {
+    const fonts = new FontFamily(`ibmplex`)
+    switch (`${toggle}`) {
+      case `true`:
+        console.log(`Focus mode enabled.`)
+        ToggleScanlines(false, this.dom.body)
+        ToggleTextEffect(`normal`, this.dom.main)
+        for (const item of this.dom.main.classList) {
+          if (item.endsWith(`-shadowed`) === true)
+            this.dom.main.classList.remove(item)
+          if (item === `text-smeared`) this.dom.main.classList.remove(item)
+        }
+        this.dom.main.style.justifyContent = `left`
+        this.dom.main.style.margin = `initial`
+        this.dom.headers[0].style.display = `none`
+        this.dom.headers[1].style.display = `none`
+        fonts.swap(this.dom.pre0)
+        break
+      default:
+        console.log(`Focus mode disabled.`)
+        chrome.storage.local.get(
+          [
+            `retroFont`,
+            `textBgScanlines`,
+            `textCenterAlignment`,
+            `textEffect`,
+            `textFontInformation`
+          ],
+          result => {
+            ToggleScanlines(result.textBgScanlines, this.dom.body)
+            ToggleTextEffect(`${result.textEffect}`, this.dom.main)
+            if (result.textCenterAlignment === true) {
+              this.dom.main.style.justifyContent = `true`
+              this.dom.main.style.margin = `auto`
+            }
+            const fonts = new FontFamily(`${result.retroFont.toLowerCase()}`)
+            fonts.swap(this.dom.pre0)
+            switch (result.textFontInformation) {
+              case false:
+                this.dom.headers[0].style.display = `none`
+                this.dom.headers[1].style.display = `block`
+                break
+              case true:
+                this.dom.headers[0].style.display = `block`
+                this.dom.headers[1].style.display = `none`
+                break
+            }
+          }
+        )
+    }
   }
   toggle() {
     if (this.dom.cssLink === null) return // raw text
@@ -1818,7 +1943,7 @@ function handleChanges(change) {
         else if (typeof main === `object`) {
           ToggleTextEffect(result.textEffect, main, newColor)
         }
-        // need to update center alignment
+        // need to update centre alignment
         if (typeof result.textCenterAlignment === `undefined`)
           CheckError(
             `🖫 Could not obtain the required textCenterAlignment setting to handle changes (${typeof result.textCenterAlignment}).`,
@@ -1865,8 +1990,8 @@ function handleChanges(change) {
  * Handle messages passed on by functions in eventpage.js
  * @param message chrome.runtime onMessage event object
  */
-// sending messages here from eventpage require the chrome.tabs.sendMessage method which includes the tabId.
-// responding back to messages from eventpage requires the chrome.runtime.sendMessage method without tabId.
+// sending messages here from event page require the chrome.tabs.sendMessage method which includes the tabId.
+// responding back to messages from event page requires the chrome.runtime.sendMessage method without tabId.
 function handleMessages(message, sender) {
   const unexpected = () => {
     if (typeof qunit !== `undefined`) return false
@@ -1881,6 +2006,10 @@ function handleMessages(message, sender) {
     console.log(`✉ Received '%s' for handleMessages().`, message.id)
   const invoke = new Invoke()
   switch (message.id) {
+    case `focusmode`:
+      return chrome.storage.local.get(`focusMode`, result => {
+        invoke.focusMode(result.focusMode)
+      })
     case `invoked`:
       if (document.getElementById(`retrotxt-styles`) === null) {
         chrome.runtime.sendMessage({ invoked: false })
@@ -1936,6 +2065,13 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
   let ecma48 = {}
   if (RetroTxt.dump)
     console.log(`InvokeRetroTxt('${tabId}', '${pageEncoding}')`)
+  if (typeof dom.pre0 === `undefined`) {
+    return CheckError(
+      `RetroTxt failed to load and has been aborted. Were you trying to load an empty file?`
+    )
+  }
+  if ([`UTF-16BE`, `UTF-16LE`].includes(document.characterSet))
+    DisplayEncodingAlert()
   const input = new Input(pageEncoding, `${dom.pre0.textContent}`)
   if (RetroTxt.dump) console.log(input)
   const sauce = new SAUCE(input)
@@ -1967,9 +2103,10 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
         `%c%cECMA-48%c control sequences in use.`,
         `font-weight: bold`,
         `font-weight: bold; color: green`,
-        `font-weight: bold; color: initial`
+        `font-weight: bold; color: default`
       )
       ecma48 = output.getECMA48()
+      output.data.html = ``
       break
     case `pcboard`:
     case `wildcat`: {
@@ -1983,11 +2120,13 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
         `font-weight: bold; color: initial`
       )
       const bbs = new BBS(`${output.data.html}`, `${input.format}`)
+      output.data.html = ``
       output.pre = bbs.normalize()
       break
     }
     default: {
       output.htmlEscapes()
+      output.data.html = ``
     }
   }
   // apply a blinking cursor
@@ -2061,11 +2200,42 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
     dom.body.insertBefore(information.show, dom.pre0)
     dom.body.insertBefore(information.hide, dom.pre0)
     dom.body.insertBefore(output.main, dom.pre0)
+    chrome.storage.local.get(`focusMode`, result => {
+      if (result.focusMode === `true`) {
+        const invoke = new Invoke()
+        invoke.focusMode()
+      }
+    })
   } catch (error) {
     CheckError(`⚠ Unexpected DOM.body HTMLElement Node error.`)
     const errorDiv = document.getElementById(`CheckError`)
-    errorDiv.textContent = `Oops, it looks like the HTML has failed to render! Are the RetroTxt Unit Tests (QUnit) loaded in another tab? Try closing it and reload this.`
+    errorDiv.textContent = `Oops, it looks like the HTML has failed to render! Is the RetroTxt Web Extension Unit Tests loaded in another tab? Try closing it and reload this.`
   }
+  // clean-up globals
+  delete output.columns
+  delete output.data
+  delete output.dom
+  delete output.ecma48
+  delete output.encode
+  delete output.main
+  delete output.pre
+  delete output.rows
+  delete output.sauce
+  delete output.slice
+  delete output.text
+  delete output.unknownCount
+  delete ecma48.colorDepth
+  delete ecma48.columns
+  delete ecma48.font
+  delete ecma48.htmlString
+  delete ecma48.iceColors
+  delete ecma48.lineWrap
+  delete ecma48.otherCodesCount
+  delete ecma48.rows
+  delete ecma48.sauce
+  delete ecma48.text
+  delete ecma48.unknownCount
+  delete ecma48.verbose
   // hide spin loader
   BusySpinner(false)
   // need to delay getting calculated element size
@@ -2078,7 +2248,7 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
     w.textContent = m.clientWidth
   }, 500)
 }
-// eslint no-unused-var fix
+// eslint no-unused-variable fix
 if (typeof InvokeRetroTxt !== `undefined`) {
   void 0
 }

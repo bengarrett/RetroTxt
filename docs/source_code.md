@@ -1,12 +1,12 @@
 # RetroTxt
 
-## Source code
+# Source code
 
-RetroTxt employs an [open sourced license](https://choosealicense.com/licenses/lgpl-3.0/) with the complete code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs on how to use the source in both Chrome and Firefox web browsers.
+RetroTxt employs an [open sourced license](https://choosealicense.com/licenses/lgpl-3.0/) with the complete source code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs on how to use the source in both Chromium based and Firefox web browsers.
 
 [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package such as Tasks and extension recommendations.
 
-The source code also depends on [Node.js](https://nodejs.org) with [NPM](https://www.npmjs.com) for a some linting and build tools.
+The source code also depends on [Node.js](https://nodejs.org) with [NPM](https://www.npmjs.com) for some linting and build tools.
 
 ## Download
 
@@ -26,12 +26,17 @@ Or run the following command in a terminal.
 
 `npm run version`
 
-## Use on Chrome
+## Use on Chrome and Chromium
 
 I suggest that you create a new user profile in Chrome and use that to load and edit this WebExtension.
 
-1.  Open a new tab and type in the address `chrome://extensions`
-1.  In the Extensions tab toggle **Developer mode**
+1.  Open a new tab and type in the address
+
+- Chrome/Chromium: `chrome://extensions`
+- Brave: `brave://extensions`
+- Edge: `edge://extensions`
+
+1.  In the Extensions tab, toggle **Developer mode**
 1.  Click the **Load unpacked** button
 1.  Navigate to the local directory containing the RetroTxt source code and select OK
 
@@ -56,7 +61,7 @@ The web-ext tool is the preferred method and [has a dedicated web page](https://
 
 ![web-ext run example](assets/web-ext_example.png)
 
-## Otherwise, if you prefer using Firefox Developer Edition.
+## Use on Firefox Developer Edition
 
 1.  Open a new tab and type in the address `about:debugging`
 1.  Click the **Load Temporary Add-on** button and navigate to the local directory containing the RetroTxt source code

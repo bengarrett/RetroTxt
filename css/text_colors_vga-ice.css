@@ -2,7 +2,7 @@
  filename: text_colors_vga-ice.css
 
  ECMA-48 presentation control function colour codes in CGA, EGA and VGA BIOS modes
- RGB values taken from Wikipeda https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+ RGB values taken from Wikipedia https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 
  SGR39 SGR40 SGR49 are in text_ecma_48.css
 */

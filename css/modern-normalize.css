@@ -27,11 +27,13 @@ html {
 }
 
 /**
- * Correct the line height in all browsers.
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 
 html {
-  line-height: 1.15;
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
 }
 
 /* Sections
@@ -52,16 +54,6 @@ body {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-}
-
-/**
- * Correct the font size and margin on `h1` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
-
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
 }
 
 /* Grouping content
@@ -118,8 +110,7 @@ small {
 }
 
 /**
- * Prevent `sub` and `sup` elements from affecting the line height in
- * all browsers.
+ * Prevent `sub` and `sup` elements from affecting the line height in all browsers.
  */
 
 sub,
@@ -211,8 +202,7 @@ fieldset {
 }
 
 /**
- * Remove the padding so developers are not caught out when they zero out
- *    `fieldset` elements in all browsers.
+ * Remove the padding so developers are not caught out when they zero out `fieldset` elements in all browsers.
  */
 
 legend {
@@ -228,7 +218,7 @@ progress {
 }
 
 /**
- * Correct the cursor style of increment and decrement buttons in Chrome.
+ * Correct the cursor style of increment and decrement buttons in Safari.
  */
 
 [type="number"]::-webkit-inner-spin-button,

@@ -1,11 +1,32 @@
 # RetroTxt Changes
 
+## 3.3
+
+### June 2019
+
+- Added a _Focus mode_ toggle.
+- Added _Unscii 8_ and _Unscii 16_ font support.
+- Added _Line wrap_ toggle to the information header when displaying ANSI/ECMA-48 text.
+- Added preferred dark mode support for Chrome/Chromium 67+ browsers.
+- Significantly reduced the tab memory usage after rendering ANSI/ECMA-48 text.
+- Dropped the use of `null` in all large, internal arrays which should slightly improve performance with the JavaScript V8 engine.
+- Significantly reduced the console spam when undetected ANSI control sequences are found.
+- Refactored `scripts\parse_ansi.sys` to use [ES5 Class expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) so the source code easier to follow.
+- Added support for the following ECMA-48 controls.
+- - _CHT_ Cursor Forward Tabulation, it acts as 4 forward space movements.
+- Changed the horizontal behaviour of the ECMA-48 _HVP_ command, it will now wrap to the maximum columns limit and then continue on the new row.
+- Greatly expanded the unit test coverage of parse_ansi.js.
+- Fixed, duplicate downloads are triggering with some binary file types such as woff fonts.
+- Fixed, _Save link as_ accidentally creating a new, empty `file:///` tab.
+- Fixed ECMA-48 CUD bug where there were too many rows created.
+- An error is now displayed when trying to load a `file:///` with no content.
+
 ## 3.2
 
 ### February 2019
 
 - Added IBM AIX terminal bright and bold colour support.
-- Improved _Allow access to file URLs is disabled_ notification to be more obvious.
+- Improved _Allow access to file URLs is disabled_ notification to be more prominent.
 - Added npm run scripts to the package.json.
 - - `npm run build`
 - - `npm run firefox`
@@ -58,10 +79,10 @@
 - RetroTxt browser toolbar button now behaves differently to avoid occasional false positives. Instead of disabling itself when an invalid page is detected, the button now shows a ✔ checkmark whenever a compatible tab is active. The compatibility results vary based on the web-extension permissions grants.
 - Fixed PCBoard & Wildcat BBS colour inaccuracies in the CSS.
 - Remapped CGA palettes so black is less frequent.
-- Text that lack linebreaks now wrap to the browser tab.
+- Text that lack line breaks now wrap to the browser tab.
 - CSS variables are more frequently in use.
 - Added install type detection that enables a verbose mode when the type is `development`.
-- Sourcecode uses [Prettier](https://github.com/prettier/prettier) for opinionated formatting.
+- Source code uses [Prettier](https://github.com/prettier/prettier) for opinionated formatting.
 - Refactored most of the JS to use [ES5 Class expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) so the source code easier to follow.
   It is still a TODO item for `parse_ansi.js`.
 - Using separate manifest.json and options.html for Firefox and Chrome. Chrome's web-extension API hasn't been updated since early 2016 and is now the legacy implementation.
@@ -247,6 +268,6 @@
 - **Added ability to increase the whitespace between rows of text (line space)**.
 - **Rearranged the Options menu to be more compact**.
 - Changed the sample text found in the Options menu.
-- Removed the Options, font selection mouseout event to make the font samples more stable.
+- Removed the Options, font selection mouse out event to make the font samples more stable.
 - Added IBM BIOS font (only 2y and 2x were previously included).
 - Created this file.
