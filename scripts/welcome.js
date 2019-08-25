@@ -13,12 +13,13 @@ class HTML {
       .set(`fontSize`, document.getElementById(`h-doc-text-adjust`))
       .set(`infoHide`, document.getElementById(`h-ui-toggle-hide`))
       .set(`infoShow`, document.getElementById(`h-ui-toggle-show`))
-      .set(`options`, document.getElementsByClassName(`optionsLink`))
+      .set(`options`, document.getElementsByClassName(`options-link`))
       .set(`privacy`, document.getElementsByClassName(`privacyLink`))
-      .set(`reload`, document.getElementsByClassName(`reloadLink`))
+      .set(`reload`, document.getElementsByClassName(`reload-link`))
       .set(`textBlink`, document.getElementById(`ice-colors-toggle`))
       .set(`textRender`, document.getElementById(`h-text-rend`))
-      .set(`updateNotice`, document.getElementById(`rtu-ui-a`))
+      .set(`textWrap`, document.getElementById(`line-wrap-toggle`))
+      .set(`updateNotice`, document.getElementById(`welcome_banner-ui-a`))
   }
   /**
    * iCE Colors.
@@ -34,8 +35,7 @@ class HTML {
     }
   }
   iceColorsOn() {
-    const iceCSS = document.getElementById(`retrotxt-4bit-ice`)
-    if (iceCSS !== null) return
+    if (document.getElementById(`retrotxt-4bit-ice`) !== null) return
     const palette = new HardwarePalette()
     document.head.appendChild(
       CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`)
@@ -54,8 +54,6 @@ class HTML {
     const retroTxtLogo = document.getElementsByTagName(`main`)[0]
     switch (this.element.get(`textRender`).textContent) {
       case `Normal`:
-        return ToggleTextEffect(`smeared`, retroTxtLogo)
-      case `Smeared`:
         return ToggleTextEffect(`shadowed`, retroTxtLogo)
       default:
         return ToggleTextEffect(`normal`, retroTxtLogo)
@@ -100,15 +98,29 @@ class HTML {
     }
   }
   /**
+   * Simulates the line wrap toggles but has no effect on the displayed ANSI.
+   * @returns Bool
+   */
+  wrapText() {
+    const content = this.element.get(`textWrap`).childNodes[0]
+    switch (content.textContent) {
+      case `On`:
+        content.textContent = `Off`
+        return false
+      default:
+        content.textContent = `On`
+        return true
+    }
+  }
+  /**
    * Reveals browser specific preview and help images.
    */
   async browserPreviews() {
     let id = `chromePreview`
     if (FindEngine() === `gecko`) id = `firefoxPreview`
-    for (const img of document.getElementsByName(id)) {
-      if (typeof img === `undefined`) return
-      img.style.display = `block`
-      //link.setAttribute(`href`, chrome.i18n.getMessage(message))
+    for (const image of document.getElementsByName(id)) {
+      if (typeof image === `undefined`) return
+      image.style.display = `block`
     }
   }
   /**
@@ -118,9 +130,9 @@ class HTML {
    */
   async setLocalization(id = ``, message = ``) {
     const element = document.getElementById(id)
-    if (element !== null) {
+    if (element !== null)
       element.setAttribute(`href`, chrome.i18n.getMessage(message))
-    } else {
+    else {
       for (const link of document.getElementsByName(id)) {
         if (typeof link === `undefined`) return
         link.setAttribute(`href`, chrome.i18n.getMessage(message))
@@ -132,9 +144,9 @@ class HTML {
    */
   async shuffleSamples() {
     // credit: https://stackoverflow.com/questions/7070054
-    const element = this.element.get(`cards`)
-    for (let i = element.children.length; i >= 0; i--) {
-      element.appendChild(element.children[(Math.random() * i) | 0])
+    const cards = this.element.get(`cards`)
+    for (let i = cards.children.length; i >= 0; i--) {
+      cards.appendChild(cards.children[(Math.random() * i) | 0])
     }
   }
   /**
@@ -152,41 +164,36 @@ class HTML {
         gettingInfo.then(this.gotPlatformInfo)
       }
     }
-    document.getElementById(`manifest`).textContent = `RetroTxt v${
-      manifest.version
-    }`
-    if (`version_name` in manifest) {
-      document.getElementById(`rt-updated`).textContent = `${
-        manifest.version_name
-      }`
-    } else if (`version` in manifest) {
+    document.getElementById(
+      `manifest`
+    ).textContent = `RetroTxt v${manifest.version}`
+    if (`version_name` in manifest)
+      document.getElementById(
+        `rt-updated`
+      ).textContent = `${manifest.version_name}`
+    else if (`version` in manifest)
       document.getElementById(`rt-updated`).textContent = `${manifest.version}`
-    }
     if (
       location.hash.includes(`#update`) ||
       location.hash.includes(`#permission`)
     ) {
-      document.getElementById(`rtu`).style.display = `block`
-      document.getElementById(`rtu-ui`).style.display = `flex`
-      if (`version_name` in manifest) {
+      document.getElementById(`welcome_banner`).style.display = `block`
+      document.getElementById(`welcome_banner-ui`).style.display = `flex`
+      if (`version_name` in manifest)
         document.title = `[··] ${manifest.version_name} update`
-      } else {
-        document.title = `[··] ${manifest.short_name} update`
-      }
+      else document.title = `[··] ${manifest.short_name} update`
     }
-    if (location.hash.includes(`#permission`)) {
+    if (location.hash.includes(`#permission`))
       document.getElementById(`rt-permission`).classList.add(`orange-border`)
-    }
   }
   /**
    * Parse browser metadata into readable text.
    * @param {*} [browser={}] result of the browser.runtime method
    */
   async gotBrowserInfo(browser = {}) {
-    const element = document.getElementById(`program`)
-    element.textContent = ` on ${browser.vendor} ${browser.name} ${
-      browser.version
-    }`
+    document.getElementById(
+      `program`
+    ).textContent = ` on ${browser.vendor} ${browser.name} ${browser.version}`
   }
   /**
    * Parse operating system metadata into readable text.
@@ -218,9 +225,8 @@ class HTML {
       manifest.options_ui !== undefined &&
       manifest.options_ui.page !== undefined
     ) {
-      const page = manifest.options_ui.page
       const br = document.getElementById(`browser`)
-      if (page.startsWith(`moz-extension`, 0) === true)
+      if (manifest.options_ui.page.startsWith(`moz-extension`, 0) === true)
         br.textContent = `Firefox`
       else br.textContent = `Chrome`
     }
@@ -243,45 +249,41 @@ class HTML {
   // filter by extension installation type
   if (typeof chrome.management !== `undefined`) {
     chrome.management.getSelf(info => {
-      const testLink = document.getElementById(`developer`)
       switch (info.installType) {
         // reveal developer links
         case `development`:
-          testLink.style.display = `inline`
+          document.getElementById(`developer`).style.display = `inline`
           break
       }
     })
   }
   for (const link of html.element.get(`options`)) {
-    link.addEventListener(`click`, () => {
-      chrome.runtime.openOptionsPage()
-    })
+    link.addEventListener(`click`, () => chrome.runtime.openOptionsPage())
   }
   for (const link of html.element.get(`reload`)) {
-    link.addEventListener(`click`, () => {
-      chrome.runtime.reload()
-    })
+    link.addEventListener(`click`, () => chrome.runtime.reload())
   }
-  html.element.get(`textBlink`).addEventListener(`click`, () => {
-    html.iceColors()
-  })
-  html.element.get(`textRender`).addEventListener(`click`, () => {
-    html.textRender()
-  })
+  html.element
+    .get(`textBlink`)
+    .addEventListener(`click`, () => html.iceColors())
+  html.element
+    .get(`textRender`)
+    .addEventListener(`click`, () => html.textRender())
   html.element.get(`updateNotice`).addEventListener(`click`, () => {
     localStorage.setItem(`updatedNotice`, false)
     chrome.storage.local.set({ [`updatedNotice`]: false })
     window.close()
   })
-  html.element.get(`infoHide`).addEventListener(`click`, () => {
-    html.exampleUI(true)
-  })
-  html.element.get(`infoShow`).addEventListener(`click`, () => {
-    html.exampleUI(false)
-  })
-  html.element.get(`fontSize`).addEventListener(`click`, result => {
-    html.fontSize(result)
-  })
+  html.element.get(`textWrap`).addEventListener(`click`, () => html.wrapText())
+  html.element
+    .get(`infoHide`)
+    .addEventListener(`click`, () => html.exampleUI(true))
+  html.element
+    .get(`infoShow`)
+    .addEventListener(`click`, () => html.exampleUI(false))
+  html.element
+    .get(`fontSize`)
+    .addEventListener(`click`, result => html.fontSize(result))
 
   html.setLocalization(`changesLink`, `url_new`)
   html.setLocalization(`docLink`, `url_help`)

@@ -25,8 +25,8 @@
     "url": "https://github.com/bengarrett/RetroTxt.git"
   },
   "dependencies": {
-    "web-ext": "latest",
-    "webfont": "^9.0.0"
+    "wawoff2": "^1.0.2",
+    "web-ext": "latest"
   },
   "os": [
     "darwin",
@@ -46,7 +46,7 @@
   "scripts": {
     "build-chrome": "web-ext --config web-ext-chrome.js build",
     "build-firefox": "web-ext build",
-    "font": "webfont",
+    "font": "woff2_compress.js",
     "json": "dot-json",
     "lint": "web-ext lint",
     "firefox": "web-ext run",

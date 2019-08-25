@@ -39,7 +39,7 @@
   },
   "incognito": "split",
   "manifest_version": 2,
-  "minimum_chrome_version": "55",
+  "minimum_chrome_version": "58",
   "name": "RetroTxt",
   "optional_permissions": [
     "downloads",
@@ -52,7 +52,6 @@
     "*://*.gutenberg.org/*",
     "*://*.scene.org/*",
     "*://*.textfiles.com/*",
-    "*://*.textmod.es/*",
     "*://*.uncreativelabs.net/*"
   ],
   "options_ui": {
@@ -66,7 +65,7 @@
     "*://*.retrotxt.com/*"
   ],
   "short_name": "RetroTxt",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "web_accessible_resources": [
     "css/*.css",
     "fonts/woff2/*.woff2",

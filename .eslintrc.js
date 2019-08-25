@@ -33,6 +33,7 @@ module.exports = {
     FindControlSequences: "readonly",
     FindDarkScheme: "readonly",
     FindEngine: "readonly",
+    FindOS: "readonly",
     FontFamily: "readonly",
     Guess: "readonly",
     HumaniseCamelCase: "readonly",
@@ -44,6 +45,7 @@ module.exports = {
     RetroTxt: "readonly",
     SAUCE: "readonly",
     StringToBool: "readonly",
+    TagBlockCharacters: "readonly",
     ToggleScanlines: "readonly",
     ToggleTextEffect: "readonly",
     Transcode: "readonly"

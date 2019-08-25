@@ -1,11 +1,12 @@
 /*
- filename: text_ecma_48.css
+  filename: text_ecma_48.css
 
- ECMA-48 presentation control function, SGR (Select Graphic Rendition) codes as CSS
- 8.3.117 http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf
+  Similates the ANSI / ECMA-48 presentation control function
+  SGR - Select Graphic Rendition codes as CSS
+  http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf
 
-note: 0.063em = 1px with a 16px font
-element is the preferred measurement to pixels as it scales better in CSS
+  note: 0.063em = 1px with a 16px sized font
+  element is the preferred measurement to pixels as it scales better in CSS
 */
 
 .ED {
@@ -44,12 +45,12 @@ div > i.SGR4 {
 
 div > i.SGR5 {
   /* blink slow */
-  animation: 300ms blink step-end infinite;
+  animation: var(--blink-timer) blink step-end infinite;
 }
 
 div > i.SGR6 {
   /* blink fast */
-  animation: 100ms blink step-end infinite;
+  animation: var(--blink-fast-timer) blink step-end infinite;
 }
 
 div > i.SGR7 {

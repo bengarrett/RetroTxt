@@ -5,13 +5,14 @@
 
 // Global set here are not shared with browser tabs
 // RetroTxt developer verbose feedback (this is dynamically set)
-// TODO Always set RetroTxt.developer to false before public release!
+// NOTE: Always set RetroTxt.developer to false before public release!
 var RetroTxt = { developer: false }
 
 /**
- * Error handler for this eventpage.js.
- * @param [error=``] error feedback
- * @param [log=false] `false` errors are logged to the browser Console otherwise a JavaScript exception is thrown
+ * Error handler for this `scripts/eventpage.js`.
+ * @param [error=``] Error feedback
+ * @param [log=false] Log errors `false` are logged to the browser Console
+ * otherwise a JavaScript exception is thrown
  */
 function CheckError(error = ``, log = false) {
   const debug = false
@@ -22,7 +23,8 @@ function CheckError(error = ``, log = false) {
           tabs[0].id,
           { error: error, id: `CheckError` },
           result => {
-            if (debug && result !== undefined) console.log(result) // debug message passing
+            // debug message passing
+            if (debug && result !== undefined) console.log(result)
           }
         )
       }
@@ -49,14 +51,13 @@ class Tabs {
     this.tabId = 0
   }
   /**
-   * Add event listeners for tabs
+   * Add event listeners for tabs.
    */
   async listen() {
     chrome.tabs.onCreated.addListener(tab => {
       this.tabId = tab.id
       if (!(`url` in tab)) return this.permissionDenied(true, `created`)
-      const callback = new Tab(tab.id, tab.url, tab)
-      callback.create()
+      new Tab(tab.id, tab.url, tab).create()
     })
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
       this.tabId = tabId
@@ -67,17 +68,14 @@ class Tabs {
         return this.permissionDenied(consoleLog, `updated`)
       }
       // don't run the update when the tab isn't 'active'
-      if (!tabInfo.active) return
-      const callback = new Tab(tabId, tabInfo.url, changeInfo)
-      callback.update()
+      if (tabInfo.active) new Tab(tabId, tabInfo.url, changeInfo).update()
     })
     chrome.tabs.onRemoved.addListener(tabId => {
-      const callback = new Tab(tabId)
-      callback.remove()
+      new Tab(tabId).remove()
     })
   }
   /**
-   * Remove all event listeners for tabs
+   * Remove all event listeners for tabs.
    */
   async remove() {
     chrome.tabs.onCreated.removeListener()
@@ -104,10 +102,10 @@ class Tabs {
 class Tab {
   /**
    * Creates an instance of Tab.
-   * @param [id=0] id of the tab
+   * @param [id=0] Id of the tab
    * @param [url=``] URI or URL of the tab
-   * @param [info={}] tab object
-   * @param [menuId=``] id the context menus to modify
+   * @param [info={}] Tab object
+   * @param [menuId=``] Id the context menus to modify
    */
   constructor(id = 0, url = ``, info = {}, menuId = ``) {
     this.id = id
@@ -127,10 +125,10 @@ class Tab {
             })
             return
           case `loading`:
-            // Chrome fix: when a tab is not active & tab.status is stuck at loading
+            // Chrome fix:
+            // when a tab is not active & tab.status is stuck at loading
             if (this.url.startsWith(`file:///`) && !this.info.active) {
-              const files = new Security(`files`)
-              const test = files.test()
+              const test = new Security(`files`).test()
               chrome.permissions.contains(test, result => {
                 if (result === true) return this.checkURL()
                 else this.permissionDenied(test)
@@ -140,8 +138,7 @@ class Tab {
       }
       // handle file protocol
       if (this.url.startsWith(`file:///`)) {
-        const files = new Security(`files`)
-        const test = files.test()
+        const test = new Security(`files`).test()
         chrome.permissions.contains(test, result => {
           if (result === true) validate()
           else this.permissionDenied(test)
@@ -160,30 +157,29 @@ class Tab {
         status: `complete`
       },
       () => {
-        // sessionStorage clean up
+        // `sessionStorage` clean up
         const updateCount = sessionStorage.getItem(`tab${this.id}update`)
-        if (updateCount === null) {
+        if (updateCount === null)
           sessionStorage.setItem(`tab${this.id}update`, 1)
-        } else {
+        else
           sessionStorage.setItem(
             `tab${this.id}update`,
             parseInt(updateCount) + 1
           )
-        }
         if (updateCount >= 3) {
           sessionStorage.removeItem(`tab${this.id}encoding`)
           sessionStorage.removeItem(`tab${this.id}textfile`)
           sessionStorage.removeItem(`tab${this.id}update`)
         }
         // browser specific cases
-        // important: if there are multiple instances of RetroTxt being invoked within the same browser tab the logic in this code
-        // below is the likely suspect!
+        // IMPORTANT: if there are multiple instances of RetroTxt being invoked
+        // within the same browser tab, then the logic in the code below is a
+        // likely suspect!
         this.menuId = `onUpdated`
         if (this.info.status === `complete`) {
           // handle file protocol
           if (this.url.startsWith(`file:///`)) {
-            const files = new Security(`files`)
-            const test = files.test()
+            const test = new Security(`files`).test()
             chrome.permissions.contains(test, result => {
               if (result === true) this.checkURL()
               else this.permissionDenied(test)
@@ -191,8 +187,7 @@ class Tab {
             return
           }
           // handle http protocol
-          const http = new Security(`http`, this.url)
-          const test = http.test()
+          const test = new Security(`http`, this.url).test()
           chrome.permissions.contains(test, result => {
             if (result === true) return this.checkURL()
             else return this.permissionDenied(test)
@@ -205,32 +200,29 @@ class Tab {
     if (RetroTxt.developer) console.log(`🗙 Closed tab #${this.id}.`)
     // clean up sessionStorage used by tab
     for (const key in sessionStorage) {
-      if (key.includes(`tab${this.id}`)) {
-        sessionStorage.removeItem(key)
-      }
+      if (key.includes(`tab${this.id}`)) sessionStorage.removeItem(key)
     }
   }
   /**
    * API permission access has been denied to RetroTxt by the browser.
-   * @param [result={}] permission test object that was denied
+   * @param [result={}] Permission test object that was denied
    */
   permissionDenied(result = {}) {
-    if (RetroTxt.developer) {
+    if (RetroTxt.developer)
       console.log(`⚠ Permission denied for the following request\n`, result)
-    }
   }
   /**
-   * Validates `this.url` and skips URL schemes and domains that are not compatible with RetroTxt.
+   * Validates `this.url` and skips URL schemes and domains that are not
+   * compatible with RetroTxt.
    */
   checkURL() {
     const valid = this.validateURLSyntax()
-    if (!valid) {
+    if (!valid)
       return console.info(
         `RetroTxt has skipped tab #%s as it points to an incompatible URL.\n%s`,
         this.id,
         this.url
       )
-    }
     // get and parse the URL
     const uri = {
       domain: this.removeSubDomains(),
@@ -243,8 +235,7 @@ class Tab {
       chrome.storage.local.get(`runWebUrlsPermitted`, result => {
         const value = `${result.runWebUrlsPermitted}`
         if (value.length < 1) {
-          const storage = new Storage()
-          storage.scan()
+          new Storage().scan()
           CheckError(
             `Could not obtain the required runWebUrlsPermitted setting requested by eventUrl().`,
             false
@@ -253,23 +244,25 @@ class Tab {
       })
       domains = `${localStorage.getItem(`runWebUrlsPermitted`)}`
       if (domains.length === 0) {
-        // redundancy in case localStorage doesn't work
-        const extension = new WebExtension()
-        domains = extension.defaults.get(`runWebUrlsPermitted`)
+        // redundancy in case `localStorage` doesn't work
+        domains = new WebExtension().defaults.get(`runWebUrlsPermitted`)
       }
     }
     // insert the RetroTxt URL into the approved list
-    // see _locales/en_US/messages.json URL for the http address
+    // see `_locales/en_US/messages.json` URL for the http address
     domains = `${chrome.i18n.getMessage(`url`)};${domains}`
     // list of approved website domains
     approved = domains.includes(uri.domain)
-    // as the compatibleURL() function silently breaks functionality with some secured website logins such as online banks
-    // it must NEVER be run passively in the eventpage.js except for preselected web domains
+    // as the `compatibleURL()` function silently breaks functionality with some
+    // secured website logins such as online banks it must NEVER be run
+    // passively in the `script/eventpage.js` except for preselected web domains
     if (this.url === chrome.extension.getURL(`welcome.ans`))
       return this.compatibleURL()
-    // if the URL domain is not apart of the user approved list then RetroTxt is aborted for this tab
+    // if the URL domain is not apart of the user approved list then RetroTxt is
+    // aborted for the tab
     if (uri.scheme !== `file` && approved !== true) return
-    // if the URL domain is apart of the user approved list then we then test the filename or body content
+    // if the URL domain is apart of the user approved list then we then test
+    // the filename or body content
     this.compatibleURL()
   }
   /**
@@ -279,8 +272,9 @@ class Tab {
   validateURLSyntax() {
     if (this.url.length < 1) return false
     if (this.url === chrome.extension.getURL(`welcome.ans`)) return false
-    // TODO: There is a strange bug in Firefox that cannot be replicated that tries to
-    // parse about:blank activeTab but results in an permissions denied loop.
+    // NOTE: There is a strange bug in Firefox that cannot be replicated, that
+    // tries to parse `about:blank` activeTab but results in an permissions
+    // denied loop.
     if (this.url.startsWith(`https://`)) return true
     if (this.url.startsWith(`http://`)) return true
     if (this.url.startsWith(`file:///`)) return true
@@ -290,31 +284,30 @@ class Tab {
   /**
    * Checks to the filename of the URL and then checks the
    * content of the tab to make sure it's compatible with RetroTxt.
-   * Intended to be run in conjunction with this.checkURL().
+   * Intended to be run in conjunction with `this.checkURL()`.
    */
   compatibleURL() {
     console.log(`Tabs.compatibleURL() has been requested.`)
     const config = new Configuration()
-    const downloads = new Downloads()
     // fetch() method initialize object
     // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
     const fetchInit = { method: `GET`, cache: `default` }
     // tab object
     const tab = { menuId: this.menuId, tabid: this.id, url: this.url }
-    // URI (URL) object with a domain, scheme `https` or `file` and a skip Boolean
+    // URI (URL) object with a domain, scheme `https` or `file` & a skip Boolean
     const uri = {
       domain: this.removeSubDomains(),
       ignore: !config.validateFilename(this.url),
       scheme: this.url.split(`:`)[0]
     }
-    // check against the hard coded black list of domains & schemes to skip any false positives or conflicts
-    if (config.validateDomain(uri.domain)) {
+    // check against the hard coded black list of domains & schemes to skip any
+    // false positives or conflicts
+    if (config.validateDomain(uri.domain))
       return console.warn(
         `RetroTxt conflicts with the domain %s so %s is ignored.`,
         uri.domain,
         this.url
       )
-    }
     const files = new Security(`files`)
     switch (uri.scheme) {
       // note there is a `URI` object and `URL` string
@@ -329,7 +322,7 @@ class Tab {
             )
           return
         }
-        // compare local file name extension to the file name ignore list
+        // compare the filename extension to the filename ignore list
         if (uri.ignore === true) {
           if (RetroTxt.developer)
             console.log(
@@ -340,9 +333,9 @@ class Tab {
           return
         }
         if (FindEngine() === `gecko`) {
-          // look for file names with extensions
+          // look for filenames with extensions
           const path = this.url.split(`/`).slice(-1)
-          // otherwise, assume it's a directory
+          // otherwise assume it's a directory
           if (path.toString().indexOf(`.`) < 0) {
             if (RetroTxt.developer)
               console.log(
@@ -356,8 +349,7 @@ class Tab {
         console.info(`Loading local file ${this.url}.`)
         chrome.permissions.contains(files.test(), result => {
           if (result === true) {
-            const extension = new WebExtension()
-            extension.activateTab(null, tab)
+            new WebExtension().activateTab(null, tab)
           } else files.fail()
         })
         break
@@ -370,15 +362,13 @@ class Tab {
             throw new Error()
           })
           .then(data => {
-            downloads.parseBlob(data, tab)
+            new Downloads().parseBlob(data, tab)
             if (RetroTxt.developer)
               console.log(`Fetch API data results.\n`, data)
           })
           .catch(error => {
             console.error(
-              `Tabs.compatibleURL(${this.menuId}, ${this.url}, ${
-                this.id
-              }) failed: ${error}.`
+              `Tabs.compatibleURL(${this.menuId}, ${this.url}, ${this.id}) failed: ${error}.`
             )
           })
         break
@@ -414,19 +404,23 @@ class Tab {
  */
 class ToolbarButton {
   /**
-   * Creates an instance of ToolbarButton.
-   * @param [tabId=0] id of the tab
+   * Creates an instance of `ToolbarButton`.
+   * @param [tabId=0] Id of the tab
    */
   constructor(tabId = 0) {
     this.id = tabId
-    // note manifest.json browser_action.default_title contains the initial title
+    // note: the `manifest.json` `browser_action.default_title` key
+    // contains the initial title
     this.title = `RetroTxt`
     if (FindDarkScheme()) {
-      // todo: add additional sized icons
       chrome.browserAction.setIcon({
         path: {
           16: `assets/retrotxt_16-light.png`,
-          32: `assets/retrotxt_32-light.png`
+          19: `assets/retrotxt_19-light.png`,
+          32: `assets/retrotxt_32-light.png`,
+          38: `assets/retrotxt_38-light.png`,
+          48: `assets/retrotxt_48-light.png`,
+          128: `assets/retrotxt_128-light.png`
         }
       })
     }
@@ -439,7 +433,8 @@ class ToolbarButton {
   }
   enable() {
     if (this.id === 0) return
-    chrome.browserAction.setBadgeText({ text: `✓` }) // checkmark styles: ✓ ✔ 🗹 ✅
+    // alternative checkmark styles for the badge text: ✓ ✔ 🗹 ✅
+    chrome.browserAction.setBadgeText({ text: `✓` })
     chrome.browserAction.setTitle({ title: this.title, tabId: this.id })
     chrome.browserAction.enable(this.id)
   }
@@ -452,27 +447,25 @@ class ToolbarButton {
 class Action {
   /**
    * Creates an instance of Action.
-   * @param [tabId=0] id of the tab
-   * @param [info={}] tab object
+   * @param [tabId=0] Id of the tab
+   * @param [info={}] Tab object
    */
   constructor(tabId = 0, info = {}) {
     this.scheme = ``
     this.id = tabId
     this.info = info
     this.state = false
-    if (`url` in this.info) {
+    if (`url` in this.info)
       this.scheme = `${this.info.url.split(`:`)[0].toLowerCase()}`
-    } else {
-      this.info.url = `tabs.Tab.url permission denied`
-      this.info.title = `tabs.Tab.title permission denied`
-    }
+    else this.info.url = `tabs.Tab.url permission denied`
+    this.info.title = `tabs.Tab.title permission denied`
   }
   /**
    * Browser tab activated (selected).
    */
   activated() {
     const item = sessionStorage.getItem(`tab${this.id}textfile`)
-    if (RetroTxt.developer) {
+    if (RetroTxt.developer)
       console.log(
         `↩ Activated tab #%s with a stored item = %s.\n%s\n%s`,
         this.id,
@@ -480,7 +473,6 @@ class Action {
         this.info.url,
         this.info.title
       )
-    }
     const button = new ToolbarButton(this.id)
     button.enable()
     this.state = false
@@ -492,7 +484,8 @@ class Action {
         this.state = false
         return this.contextMenus()
       case `null`:
-        // for incompatible tabs but also this can be a dead state as after the web-extension is reloaded all the tab event listeners are gone
+        // for incompatible tabs, but also this can catch a dead state after the
+        // web-extension is reloaded and all the tab event listeners are removed
         button.disable()
         this.state = false
         return this.contextMenus()
@@ -501,14 +494,12 @@ class Action {
         this.state = false
         this.contextMenus()
         return CheckError(
-          `Could not run button.update() as the sessionStorage tab#${
-            this.id
-          }textfile value '${item}' != Boolean.`
+          `Could not run button.update() as the sessionStorage tab#${this.id}textfile value '${item}' != Boolean.`
         )
     }
   }
   /**
-   * Update context menus to reflect the tab's suitability for RetroTxt.
+   * Update context menus to reflect a browser tab suitability for RetroTxt.
    */
   contextMenus() {
     const update = [`transcode`]
@@ -517,7 +508,8 @@ class Action {
     }
   }
   /**
-   * Event handler sanity check when a user clicks the RetroTxt button in the toolbar.
+   * Event handler sanity check when a user clicks the RetroTxt button in the
+   * toolbar.
    */
   browserAction() {
     // pass
@@ -530,8 +522,7 @@ class Action {
    * @returns boolean
    */
   validateScheme() {
-    const extension = new WebExtension()
-    const result = extension.defaults
+    const result = new WebExtension().defaults
       .get(`schemesPermitted`)
       .includes(this.scheme)
     return result
@@ -540,12 +531,11 @@ class Action {
    * Event handler for user clicks on the RetroTxt button in the toolbar.
    */
   clicked() {
-    if (!(`url` in this.info) || this.info.url.length === 0) {
+    if (!(`url` in this.info) || this.info.url.length === 0)
       return console.warn(
         `RetroTxt could not determine the URL of the active tab #%s.`,
         this.id
       )
-    }
     if (this.id === 0) return
     if (RetroTxt.developer)
       console.log(`↩ Toolbar button click registered for tab #%s.`, this.id)
@@ -554,36 +544,30 @@ class Action {
       state: sessionStorage.getItem(`tab${this.id}textfile`),
       type: sessionStorage.getItem(`tab${this.id}encoding`)
     }
-    // determine if active tab is a text file and save the results to a sessionStore to reduce any future, expensive HTTP HEAD requests
+    // determine if active tab is a text file and save the results to a
+    // `sessionStore` to reduce any future, expensive HTTP HEAD requests
     if (typeof session.state !== `string`) {
       const security = new Security(`action`)
       const test = security.test()
       chrome.permissions.contains(test, containsResult => {
         if (containsResult === false) {
           chrome.permissions.request(test, requestResult => {
-            if (requestResult === true) {
-              console.log(`Permission was granted`)
-            } else {
-              return console.log(`Permission was refused`)
-            }
+            if (requestResult === true) console.log(`Permission was granted`)
+            else return console.log(`Permission was refused`)
           })
         }
-        // check the tab & then re-fetch session storage
-        const tab = new Tab(this.id, this.info.url, this.info)
+        // check the tab and then refetch the session storage
         const scheme = this.info.url.split(`:`)[0]
         if (scheme === `file`) {
           const security = new Security(`files`)
           if (containsResult === false) {
             chrome.permissions.request(security.test(), requestResult => {
-              if (requestResult === true) {
-                console.log(`Permission was granted`)
-              } else {
-                return console.log(`Permission was refused`)
-              }
+              if (requestResult === true) console.log(`Permission was granted`)
+              else return console.log(`Permission was refused`)
             })
           }
         }
-        tab.compatibleURL()
+        new Tab(this.id, this.info.url, this.info).compatibleURL()
         session.state = sessionStorage.getItem(`tab${this.id}textfile`)
       })
     }
@@ -607,17 +591,22 @@ class Action {
 class Security {
   /**
    * Creates an instance of Security.
-   * @param [type=``] permission type to handle: `action`, `downloads`, `files` or `http`
-   * @param [origin=``] an optional URL or URI
+   * @param [type=``] Permission type to handle
+   * `action`, `downloads`, `files` or `http`
+   * @param [origin=``] An optional URL or URI
    */
   constructor(type = ``, origin = ``) {
-    // IMPORTANT! These Map values must sync to those in the Security class in options.js
-    // Firefox REQUIRES tabs permission to access URL in the queryInfo parameter to tabs.query().
+    // IMPORTANT!
+    // These `Map` values must sync to those in the Security class in
+    // `scripts/options.js`
+    // Firefox REQUIRES tabs permission to access URL in the `queryInfo`
+    // parameter to `tabs.query()`.
     const permissions = new Map()
       .set(`action`, [`tabs`])
       .set(`downloads`, [`downloads`, `downloads.open`, `tabs`])
       .set(`files`, [`tabs`])
-      // `http` needs to be `activeTab` instead of `tabs` otherwise URLs listed in `permissions` will not toggle
+      // `http` needs to be `activeTab` instead of `tabs` otherwise URLs listed
+      // in `permissions` will not toggle
       .set(`http`, [`activeTab`])
     const origins = new Map()
       .set(`action`, [])
@@ -642,9 +631,7 @@ class Security {
   test() {
     if (RetroTxt.developer)
       console.trace(`⚿ Security test request for '${this.type}'.`)
-    if (this.type === `http`) {
-      this.origins = this.httpToOrigins()
-    }
+    if (this.type === `http`) this.origins = this.httpToOrigins()
     const permissionsToRequest = {
       permissions: this.permissions,
       origins: this.origins
@@ -652,18 +639,17 @@ class Security {
     return permissionsToRequest
   }
   /**
-   * Converts a URL or URI supplied by `this.origin` into a
-   * collection of host permissions.
-   * @returns array containing host permissions
+   * Converts a URL or URI supplied by `this.origin` into a collection of host
+   * permissions.
+   * @returns Array containing host permissions
    */
   httpToOrigins() {
     if (typeof this.origin === `undefined`) return this.origins
     if (this.origin.length < 1) return this.origins
     // parse URL to valid host
     let noScheme = this.origin
-    if (this.origin.includes(`://`)) {
+    if (this.origin.includes(`://`))
       noScheme = this.origin.slice(this.origin.indexOf(`://`) + 3)
-    }
     const hostname = noScheme.split(`/`, 1)[0]
     return [`*://${hostname}/*`]
   }
@@ -672,9 +658,7 @@ class Security {
    */
   fail() {
     console.warn(
-      `⚠ WebExtension permission access '${
-        this.permissions
-      }' is denied for %s.`,
+      `⚠ WebExtension permission access '${this.permissions}' is denied for %s.`,
       this.type
     )
   }
@@ -687,16 +671,19 @@ class Security {
 class Storage {
   /**
    * There are 4 types of browser storage that is accessible to RetroTxt.
-   * `sessionStorage` is temporary and is cleared whenever the browser is closed.
-   * `localStorage` is persistent and offers immediate access but is not able to be accessed by all parts of RetroTxt.
-   * `chrome.Storage.local` is persistent but much slower than localStorage, but can be accessed by all parts of RetroTxt.
-   * `chrome.Storage.sync` allows cloud saving and syncing storage but is currently not implemented by RetroTxt.
+   * `sessionStorage` is temporary & is cleared whenever the browser is closed.
+   * `localStorage` is persistent & offers immediate access but is not able to
+   * be accessed by all parts of RetroTxt.
+   * `chrome.Storage.local` is persistent but much slower than localStorage, but
+   * can be accessed by all parts of RetroTxt.
+   * `chrome.Storage.sync` allows cloud saving & syncing storage but is
+   * currently not implemented by RetroTxt.
    */
   constructor() {
-    const extension = new WebExtension()
-    this.defaults = extension.defaults
+    this.defaults = new WebExtension().defaults
     this.redundant = new Set().add(`runFileDownloads`).add(`runFileUrls`)
-    // TODO The following MUST be disabled in production as it erases all the storage objects whenever this web-extension is reloaded
+    // NOTE: The following MUST be disabled in production as it erases all the
+    // storage objects whenever this web-extension is reloaded
     this.storageReset = false
     this.redundantTest = false
   }
@@ -708,15 +695,15 @@ class Storage {
     if (this.storageReset) {
       this.wipe()
       this.clean()
-    } else if (this.redundantTest) {
+    } else if (this.redundantTest)
       chrome.storage.local.set({ runFileDownloads: true })
-    }
     sessionStorage.clear()
     this.scan()
   }
   /**
-   * Iterates through the `this.defaults` Map and looks for matching keys in chrome.Storage.local.
-   * If a matching key in Storage is found then the pass() function is called otherwise fail() is used.
+   * Iterates through the `this.defaults` Map and looks for matching keys in
+   * `chrome.Storage.local`. If a matching key in Storage is found then the
+   * `pass()` function is called otherwise `fail()` is used.
    */
   scan() {
     this.defaults.forEach((value, key) => {
@@ -727,8 +714,9 @@ class Storage {
     })
   }
   /**
-   * Scan success call back that looks for an identical localStorage key/value pair.
-   * If a matching localStorage item is not found then it is set here.
+   * Scan success call back that looks for an identical `localStorage` key/value
+   * pair.
+   * If a matching `localStorage` item is not found then it is set here.
    * @param [key=``] storage.local key
    * @param [value=``] storage.local value
    */
@@ -737,7 +725,8 @@ class Storage {
     if (local === null) localStorage.setItem(`${key}`, `${value}`)
   }
   /**
-   * Scan failed call back that saves the `this.defaults` value to the storage area and then updates the context menus.
+   * Scan failed call back that saves the `this.defaults` value to the storage
+   * area and then updates the context menus.
    * @param [key=``] storage.local key
    */
   fail(key = ``) {
@@ -774,8 +763,8 @@ class Storage {
     }
   }
   /**
-   * Removes legacy storage local items that may have been configured
-   * and used in earlier RetroTxt versions.
+   * Removes legacy storage local items that may have been configured by
+   * earlier editions of RetroTxt.
    */
   clean() {
     this.redundant.forEach(key => {
@@ -784,13 +773,14 @@ class Storage {
   }
   /**
    * Outputs any chrome.storage changes to the background page console.
-   * @param changes object describing the change
-   * @param areaName name of the storage area where changes were made
+   * @param changes Object describing the change
+   * @param areaName Name of the storage area where changes were made
    */
   event(changes, areaName) {
     for (const item of Object.keys(changes)) {
       const oldValue = changes[item].oldValue
-      // newValue must be saved as a string otherwise context menu errors will occur
+      // newValue must be saved as a string otherwise context menu errors will
+      // occur
       const newValue = `${changes[item].newValue}`
       if (RetroTxt.developer)
         console.log(
@@ -860,7 +850,7 @@ class Storage {
 class Downloads {
   /**
    * Creates an instance of Downloads.
-   * @param [monitor=true] `true` to monitor downloads or `false` to ignore
+   * @param [monitor=true] Monitor downloads `true` or `false` to ignore
    */
   constructor(monitor = true) {
     this.delta
@@ -869,7 +859,8 @@ class Downloads {
   }
   /**
    * Monitor file downloads.
-   * TODO Firefox 62+ access is still disabled, see the `complete` state of update() for the reasons
+   * TODO Firefox 62+ access is still disabled, see the `complete` state of
+   * update() for the reasons
    */
   async listen() {
     if (FindEngine() === `gecko`) return
@@ -887,25 +878,24 @@ class Downloads {
       case true:
         chrome.downloads.onCreated.addListener(item => {
           downloads.item = item
-          // security check blocks downloads.create()
+          // security check blocks `downloads.create()`
           // otherwise any Options changes will require a web-extension reload
           chrome.permissions.contains(test, result => {
             if (result !== true) {
               if (RetroTxt.developer) security.fail()
               return // abort
-            } else {
-              downloads.create()
-            }
+            } else downloads.create()
           })
         })
         chrome.downloads.onChanged.addListener(delta => {
           downloads.delta = delta
-          // a fix for the Chrome endless loop issue where it incorrectly identifies a text file as a binary
-          // (application/octet-stream) and forces it to download instead of render in a tab
+          // a fix for the Chrome endless loop issue where it incorrectly
+          // identifies a text file as a binary (application/octet-stream)
+          // and forces it to download instead of render in a tab
           if (!(`item` in downloads)) return
           if (!(`mime` in downloads.item)) return
           // catch all mime types that use binary types such as
-          // application/octet-stream, application/x-font
+          // `application/octet-stream`, `application/x-font`
           const type = downloads.item.mime.split(`/`)
           if (type[0] === `application`) {
             if (
@@ -934,7 +924,7 @@ class Downloads {
     }
   }
   /**
-   * Runs a permissions check whenever a new user download is started.
+   * Runs a permissions check whenever a new user triggered download is started.
    * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/onCreated
    */
   initialize() {
@@ -958,7 +948,8 @@ class Downloads {
     }
   }
   /**
-   * Initialise the new file download so RetroTxt can monitor its download state.
+   * Initialise the new file download so RetroTxt can monitor its
+   * download state.
    */
   create() {
     // sanity checks
@@ -967,7 +958,7 @@ class Downloads {
       if (!(`url` in this.item)) return false
       if (!(`filename` in this.item)) return false
       // some browsers leave the filename property empty
-      // so sessionStorage can also be set in this.update()
+      // so `sessionStorage` can also be set in `this.update()`
       if (this.item.filename.length < 1) return false
       if (this.item.url.length < 11) return false
       return true
@@ -981,9 +972,9 @@ class Downloads {
     // check file name extension isn't an obvious non-text file
     if (config.validateFileExtension(this.item.filename)) {
       // do nothing because extension is valid
-    } else if (!config.validateFilename(this.item.filename)) {
-      return // exit because extension is invalid
     }
+    // exit because extension is invalid
+    else if (!config.validateFilename(this.item.filename)) return
     // location of saved local file
     sessionStorage.setItem(
       `download${this.item.id}-localpath`,
@@ -991,9 +982,10 @@ class Downloads {
     )
   }
   /**
-   * Handle any changes to the download state including aborts and completed downloads.
+   * Handle any changes to the download state including aborts and completed
+   * downloads.
    * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/onChanged
-   * @param [data={}] download item properties and status of changes
+   * @param [data={}] Download item properties and status of changes
    */
   update() {
     // sanity checks
@@ -1006,9 +998,8 @@ class Downloads {
     const item = sessionStorage.getItem(itemName)
     if (item === null) return
     // handle all errors including cancelled downloads
-    if (`error` in this.delta && `current` in this.delta.error) {
+    if (`error` in this.delta && `current` in this.delta.error)
       return sessionStorage.removeItem(itemName)
-    }
     // completed downloads
     if (`state` in this.delta && `current` in this.delta.state) {
       if (this.delta.state.current === `complete`) {
@@ -1017,11 +1008,13 @@ class Downloads {
         const path = item.replace(/\\/g, `/`)
         const uri = `file:///${path}`
         // open a new tab with the loaded text file
-        // Chrome will force-close any new tabs that it believes are binary files or dangerous
-        // Firefox refuses to open privileged URLS such as file:///
+        // Chrome will force-close any new tabs that it believes are either
+        // binary files or dangerous.
+        // Firefox refuses to open privileged URLs such as `file:///`
         chrome.tabs.create({ active: false, url: uri })
-        // Firefox refuses to open downloads without User Input which is lost by this point.
-        // ↳ "Error: downloads.open may only be called from a user input handler"
+        // Firefox refuses to open downloads without user input, but which is
+        // lost by this point.
+        // ↳"Error: downloads.open may only be called from a user input handler"
         //chrome.downloads.open(this.delta.id)
       }
     }
@@ -1031,33 +1024,32 @@ class Downloads {
     if (!(`current` in this.delta.filename)) return false
     const filename = this.delta.filename.current
     if (filename.length < 1) return false
-    const config = new Configuration()
-    if (!config.validateFilename(filename)) return false
+    const valid = new Configuration().validateFilename(filename)
+    if (!valid) return false
     sessionStorage.setItem(`download${this.delta.id}-localpath`, `${filename}`)
     return true
   }
   /**
    * Determines if the data blob is a text file.
    * Blob object: https://developer.mozilla.org/en-US/docs/Web/API/Blob
-   * @param [data] fetch API data blob
-   * @param [tab={}] tab object
+   * @param [data] Fetch API data blob
+   * @param [tab={}] Tab object
    */
   parseBlob(data, tab = {}, test = false) {
     // mime type split (text/plain)
     const split = data.type.split(`/`, 2)
-    // if data.type.split is empty then the browser couldn't work out the MIME type
-    // but we will assume it is a text file as the browser didn't attempt to download/render it
+    // if `data.type.split` is empty then the browser couldn't work out the MIME
+    // type but it is assumed to be a text file as the browser didn't attempt to
+    // download or render it
     const format = split[0] || `text`
     let subType = ``
     if (split[0] === ``) {
       console.log(`Tab #%s Blob MIME type is unknown.`, tab.tabid)
       subType = `unknown`
-    } else {
-      // sub-type split (plain;charset=iso-8859-1)
-      subType = split[1].split(`;`, 1)[0]
     }
+    // sub-type split (`plain;charset=iso-8859-1`)
+    else subType = split[1].split(`;`, 1)[0]
     // data
-    const dataSlice = data.slice(0, 2)
     const reader = new FileReader()
     switch (format) {
       case `text`: {
@@ -1065,7 +1057,7 @@ class Downloads {
           case `plain`:
           case `x-nfo`:
           case `unknown`: {
-            // check to make sure text/plain is not mark-up
+            // check to make sure `text/plain` is not mark-up
             reader.onload = loadedEvent => {
               const text = loadedEvent.target.result.trim()
               // if the body starts with <! or <? then it is most likely mark-up
@@ -1078,11 +1070,10 @@ class Downloads {
                     tab.tabid,
                     tab.url
                   )
-                const extension = new WebExtension()
-                extension.activateTab(data, tab)
+                new WebExtension().activateTab(data, tab)
               }
             }
-            if (test === false) return reader.readAsText(dataSlice)
+            if (test === false) return reader.readAsText(data.slice(0, 2))
           }
         }
       }
@@ -1105,7 +1096,7 @@ class Downloads {
  */
 class WebExtension {
   constructor() {
-    // import from functions.js
+    // import from `functions.js`
     this.defaults = new OptionsReset().options
   }
   /**
@@ -1124,14 +1115,15 @@ class WebExtension {
         })
         break
       case `update`:
-        // push redundant items into checks array for storage.local.get()
+        // push redundant items into checks array for `storage.local.get()`
         storage.redundant.forEach(key => {
           checks.push(`${key}`)
         })
         chrome.storage.local.get(checks, results => {
           for (const result in results) {
             if (result === `updatedNotice`) continue
-            // if any of the redundant checks are set to true, then show the welcome page
+            // if any of the redundant checks are set to true, then show the
+            // welcome page
             if (results[result] === true) {
               chrome.tabs.create({
                 url: chrome.extension.getURL(`html/welcome.html#permission`)
@@ -1156,33 +1148,30 @@ class WebExtension {
   }
   /**
    * Activates and prepares browser tab to invoke RetroTxt.
-   * @param [data] optional fetch API data blob
-   * @param [tab={}] tab object
+   * @param [data] Optional fetch API data blob
+   * @param [tab={}] Tab object
    */
   activateTab(data, tab = {}) {
-    if (data === null || !(`type` in data)) {
-      data = { type: `unknown` }
-    }
+    if (data === null || !(`type` in data)) data = { type: `unknown` }
     // is the tab hosting a text file and what is the page encoding?
     sessionStorage.setItem(`tab${tab.tabid}textfile`, true)
     sessionStorage.setItem(`tab${tab.tabid}encoding`, data.type)
     sessionStorage.removeItem(`tab${tab.tabid}update`)
-    // Update the browser tab UI
-    const button = new ToolbarButton(tab.tabid)
-    button.enable()
-    const menu = new Menu()
-    menu.enableTranscode()
-    // if tab has previously been flagged as 'do not autorun' then finish up
+    // update the browser tab interface
+    new ToolbarButton(tab.tabid).enable()
+    new Menu().enableTranscode()
+    // if the tab has previously been flagged as 'do not autorun' then finish up
     if (sessionStorage.getItem(`tab${tab.tabid}execute`) === `false`) return
     // otherwise execute RetroTxt on the tab
     const execute = localStorage.getItem(`runWebUrls`)
-    if (typeof execute !== `string` || execute === `false`) return // if unchecked
+    // if unchecked
+    if (typeof execute !== `string` || execute === `false`) return
     this.invoke(tab.tabid, data.type)
   }
   /**
-   * Invokes for the first time RetroTxt in browser tab.
-   * @param [tabId=0] id of the tab
-   * @param [pageEncoding=``] optional, text character encoding
+   * Invokes RetroTxt for the first time in the browser tab.
+   * @param [tabId=0] Id of the tab
+   * @param [pageEncoding=``] Optional text character encoding
    */
   invoke(tabId = 0, pageEncoding = ``) {
     const lastError = () => {
@@ -1192,8 +1181,9 @@ class WebExtension {
         chrome.runtime.lastError.mess
       )
     }
-    // Firefox doesn't support background.persistent and the manifest returns null
-    // the runtime.lastError checks are only needed when background.persistent is true otherwise they will throw false positives
+    // Firefox doesn't support `background.persistent`.
+    // the `runtime.lastError` checks are only needed when
+    // `background.persistent` is true otherwise they will throw false positives
     const persistent =
       chrome.runtime.getManifest().background.persistent || false
     // execute RetroTxt
@@ -1206,7 +1196,8 @@ class WebExtension {
       () => {
         if (persistent && typeof chrome.runtime.lastError !== `undefined`)
           return lastError()
-        // automatic invocation that will be run after this eventpage.js page is loaded and at the start of the document
+        // automatic invocation that will be run after this
+        // `scripts/eventpage.js` page is loaded & at the start of the document
         chrome.tabs.executeScript(tabId, {
           code: `BusySpinner()`,
           runAt: `document_start`
@@ -1244,7 +1235,8 @@ class WebExtension {
       () => {
         if (persistent && typeof chrome.runtime.lastError !== `undefined`)
           return lastError()
-        // automatic execute, has to be run after retrotxt.js is loaded
+        // automatic execute
+        // but has to be run after `scripts/retrotxt.js` is loaded
         chrome.tabs.executeScript(
           tabId,
           {
@@ -1269,10 +1261,11 @@ class Menu {
   constructor() {
     this.support = chrome.contextMenus.onClicked !== undefined
     // contexts types for the RetroTxt context menus
-    // browser_action: tool bar button
-    // page: right click on the body of the web page / text file
+    // `browser_action`: tool bar button
+    // `page`: right-click the body of a page or text file
     this.contexts = [`browser_action`, `page`]
-    // these are URL patterns that will trigger the menus to avoid inappropriate reveals on system tabs i.e on chrome://extensions/
+    // these are URL patterns that will trigger the menus to avoid inappropriate
+    // reveals on system tabs such as `chrome://extensions/`
     this.urlPatterns = [`http://*/*`, `https://*/*`, `file:///*`]
     // context menu titles
     this.titles = new Map()
@@ -1392,8 +1385,9 @@ class Menu {
   }
   /**
    * Inserts a line divider into the context menu.
-   * @param [id=1] unique id to assign the separator
-   * @param [targets=[`page`]] array of contexts in which to display (see this.contexts)
+   * @param [id=1] Unique id to assign the separator
+   * @param [targets=[`page`]] Array of contexts in which to display
+   * (see this.contexts)
    */
   itemSeparator(id = 1, targets = [`page`]) {
     chrome.contextMenus.create({
@@ -1406,8 +1400,8 @@ class Menu {
   itemThemes() {
     let storedItem = `${localStorage.getItem(`retroColor`)}`
     if (storedItem === `null`) {
-      const reset = new OptionsReset()
-      storedItem = `theme-${reset.get(`retroColor`)}`
+      const color = new OptionsReset().get(`retroColor`)
+      storedItem = `theme-${color}`
     }
     let otherItem = true
     for (const id of this.themes.get(`order`)) {
@@ -1449,8 +1443,9 @@ class Menu {
     })
     // generate `Transcode text` child items
     for (const id of this.titles.get(`codeOrder`)) {
-      // only type `normal` works correctly with this menu as the transcode configuration is a per-tab configuration while these
-      // context menus apply to all tabs
+      // only type `normal` works correctly with this menu as the transcode
+      // configuration is a per-tab configuration while these context menus
+      // apply to all tabs
       chrome.contextMenus.create({
         type: `normal`,
         title: this.titles.get(id),
@@ -1467,8 +1462,8 @@ class Menu {
   async create() {
     // remove any existing menus to avoid undetected errors in any call backs
     chrome.contextMenus.removeAll()
-    //  Firefox imposes a 6 item limit for `browser_action` and `page_action` contexts
-    //  see: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/menus/ContextType
+    // Firefox imposes 6 items limit for `browser_action`+`page_action` contexts
+    // see: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/menus/ContextType
     this.itemFocusMode()
     this.itemOptions()
     this.itemHelpAction()
@@ -1476,12 +1471,10 @@ class Menu {
     this.itemSeparator(1)
     this.itemTranscode()
     if (FindEngine() === `gecko`) {
-      // `browser_action` context creates an unintentional double separator in
-      // Firefox, so only use it with `page`
+      // the `browser_action` context creates an unintentional double separator
+      // in Firefox so only use it with `page`
       this.itemSeparator(2)
-    } else {
-      this.itemSeparator(2, this.contexts)
-    }
+    } else this.itemSeparator(2, this.contexts)
     this.itemThemes()
     this.itemSeparator(3)
     this.itemHelpPage()
@@ -1489,7 +1482,7 @@ class Menu {
       if (result.focusMode === `true`) {
         this.itemChecked(`focusmode`)
         // hide (instead of remove) the menu items so their event listeners
-        // don't break and cause errors
+        // don't break and throw errors
         chrome.contextMenus.update(`transcode`, { visible: false })
         chrome.contextMenus.update(`displaysub`, { visible: false })
         chrome.contextMenus.update(`no-theme`, { visible: false })
@@ -1508,8 +1501,8 @@ class Menu {
   }
   /**
    * Handles the results after a menu item is clicked.
-   * @param [id=``] id of the menu item that was clicked
-   * @param [tab={}] tab details where the click took place (tabs.Tab)
+   * @param [id=``] Id of the menu item that was clicked
+   * @param [tab={}] Tab details where the click took place (`tabs.Tab`)
    */
   async event(id = ``, tab = {}) {
     const autorun = localStorage.getItem(`runWebUrls`)
@@ -1540,7 +1533,7 @@ class Menu {
       case `iso_8859_15➡`:
       case `us_ascii➡`:
       case `cp_1252➡`: {
-        // see handleMessages() in retrotxt.js for the event handler
+        // see `handleMessages()` in `scripts/retrotxt.js` for the event handler
         chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
           chrome.tabs.sendMessage(
             tabs[0].id,
@@ -1549,7 +1542,8 @@ class Menu {
               id: `transcode`
             },
             () => {
-              // save a session item to tell RetroTxt how to render the text on this tab. session storage is isolated to the one active tab
+              // save a session item to tell RetroTxt how to render the text on
+              // this tab, session storage is isolated to the one active tab
               sessionStorage.setItem(`transcode`, id)
             }
           )
@@ -1572,7 +1566,8 @@ class Menu {
         break
       }
     }
-    // if a theme option is clicked while viewing the browser default text then also apply the new theme
+    // if a theme option is clicked while viewing the browser default text then
+    // also apply the new theme
     if (typeof autorun !== `string` || autorun === `false`) {
       const extension = new WebExtension()
       switch (id) {
@@ -1589,9 +1584,10 @@ class Menu {
     }
   }
   /**
-   * Toggles checked for all context menu tabs for both checkboxes and radios.
-   * @param [menuId=``] menu item id
-   * @param [checked=true] toggle checkbox, either `true` to check or `false` to un-check
+   * Toggles checked for all context menu tabs both for checkboxes and radios.
+   * @param [menuId=``] Menu item id
+   * @param [checked=true] Toggle checkbox, `true` to check
+   * or `false` to un-check
    */
   itemChecked(menuId = ``, checked = true) {
     if (typeof menuId !== `string`) CheckArguments(`menuId`, `string`, menuId)
@@ -1620,7 +1616,7 @@ class Menu {
   }
   /**
    * Switches the RetroTxt font and colour theme.
-   * @param [theme=``] name of the theme
+   * @param [theme=``] Name of the theme
    */
   newTheme(theme = ``) {
     if (typeof theme !== `string`) CheckArguments(`theme`, `string`, theme)
@@ -1642,14 +1638,14 @@ class Menu {
   }
   /**
    * Switches Options using the content menu.
-   * Only options with boolean toggles (on/off) are supported.
-   * @param [key=``] name of the storage item to change.
+   * Only options with boolean on/off toggles are supported.
+   * @param [key=``] Name of the storage item to change
    */
   newOption(key = ``) {
     if (typeof key !== `string`) CheckArguments(`key`, `string`, key)
     if (key.length < 1) CheckRange(`key`, `length`, `1`, key.length)
     const newValue = () => {
-      const extension = new WebExtension()
+      const result = new WebExtension().defaults.get(key)
       switch (localStorage.getItem(key)) {
         case `true`:
           return false
@@ -1657,20 +1653,20 @@ class Menu {
           return true
         default:
           // no existing local storage for setting
-          return extension.defaults.get(key)
+          return result
       }
     }
     const value = newValue()
     // create and save setting object to local storage
     const setting = { [key]: value }
-    // localStorage value must be a string
+    // `localStorage` value must be a string
     localStorage.setItem(key, `${value}`)
     chrome.storage.local.set(setting)
     // update any context menus to apply
     this.itemChecked(key, value)
   }
   /**
-   * Unlock the Transcode text context menu
+   * Unlock the Transcode text context menu.
    */
   enableTranscode() {
     chrome.contextMenus.update(`transcode`, {
@@ -1684,11 +1680,10 @@ class Menu {
   // exit if running a qunit test
   if (typeof qunit !== `undefined`) return
   // browser failure
-  if (chrome === undefined) {
+  if (chrome === undefined)
     CheckError(
       `RetroTxt failed to run because the browser's WebExtension API did not load! Please close this browser and try again.`
     )
-  }
   // detect developer mode
   if (`management` in chrome) {
     chrome.management.getSelf(info => {
@@ -1707,8 +1702,7 @@ class Menu {
     })
   }
   // browser tabs
-  const tabs = new Tabs()
-  tabs.listen()
+  new Tabs().listen()
   // context menus
   const menu = new Menu()
   if (menu.support === true) menu.create()
@@ -1723,7 +1717,6 @@ class Menu {
       console.log(`✉ Received by runtime.onMessage.addListener().\n`, sender)
     const key = Object.entries(message)[0][0]
     const value = Object.entries(message)[0][1]
-    const downloads = new Downloads()
     switch (key) {
       case `askForSettings`:
         sendResponse({ response: extension.defaults })
@@ -1744,15 +1737,14 @@ class Menu {
               tabId,
               `${sessionStorage.getItem(`tab${tabId}encoding`)}`
             )
-          } else if (value === true) {
+          } else if (value === true)
             chrome.tabs.sendMessage(tabId, { id: `toggle` })
-          }
         }
         break
       case `monitorDownloads`:
         if (RetroTxt.developer)
           console.log(`✉ Received invoke %s request.`, value)
-        downloads.listen(value)
+        new Downloads().listen(value)
         break
       case `retroTxtified`:
         if (!(`tab` in sender)) return
@@ -1784,22 +1776,18 @@ class Menu {
   // browser tab activated listener
   chrome.tabs.onActivated.addListener(activeInfo => {
     chrome.tabs.get(activeInfo.tabId, tab => {
-      const action = new Action(tab.id, tab)
-      action.activated()
+      new Action(tab.id, tab).activated()
     })
   })
   // browser action (tool bar button) click event
   chrome.browserAction.onClicked.addListener(tab => {
-    const action = new Action(tab.id, tab)
-    action.browserAction()
+    new Action(tab.id, tab).browserAction()
   })
   // file downloads event listeners
-  const downloads = new Downloads()
-  downloads.listen()
-  // monitor saved changes to Options, so the context menu can be updated
-  const storage = new Storage()
+  new Downloads().listen()
+  // monitor saved changes to Options so the context menu can be updated
   chrome.storage.onChanged.addListener((changes, areaName) => {
-    storage.event(changes, areaName)
+    new Storage().event(changes, areaName)
   })
   // context menus clicked event
   if (`onClicked` in chrome.contextMenus) {
@@ -1807,7 +1795,8 @@ class Menu {
       menu.event(info.menuItemId, tab)
     })
   }
-  // initialisation of storage and generate context menu on browser launch and extension load
+  // initialisation of storage plus generate context menu on browser launch and
+  // extension load
   const browserEngine = FindEngine()
   console.info(
     `RetroTxt is being initialised for the %s%s engine.`,

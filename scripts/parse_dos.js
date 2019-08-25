@@ -1,17 +1,21 @@
 // filename: parse_dos.js
 //
-// JavaScript converts all the text it handles from the original encoding into UTF-16.
-// The functions in this page attempts to convert text encodings commonly used on
-// legacy IBM-PC/MS-DOS systems to be JavaScript UTF-16 friendly.
+// JavaScript converts all the text it handles from the original encoding into
+// UTF-16. The functions on this page attempts to convert text encodings
+// commonly used on legacy PC/MS-DOS systems to be JavaScript UTF-16 friendly.
 //
 // See parse_ansi.js for ANSI art conversion functions.
 //
-// Characters 0…31 commonly are bits for C0 control functions, but in PC-DOS
-// and MS-DOS they were also used for the display of characters.
+// Characters 0…31 commonly are bits for C0 control functions,
+// but in PC/MS-DOS they were also used for the display of characters.
 // Characters 32…126 are skipped as they are based on the US-ASCII/ECMA-43
-// near-universal character set, "8-Bit Coded Character Set Structure and Rules".
-// ECMA-43 (US-ASCII) www.ecma-international.org/publications/standards/Ecma-043.htm
-// ECMA-48 (contains C0) www.ecma-international.org/publications/standards/Ecma-048.htm
+// near-universal character set.
+//
+// "8-Bit Coded Character Set Structure and Rules"
+// ECMA-43 (US-ASCII)
+// ecma-international.org/publications/standards/Ecma-043.htm
+// ECMA-48 (contains C0)
+// ecma-international.org/publications/standards/Ecma-048.htm
 //
 // JavaScript performance notes:
 // Normal objects use less memory than typed arrays (Uint8Array())
@@ -19,23 +23,27 @@
 "use strict"
 
 /**
- * Simulate legacy text character sets (also called code pages) using Unicode symbols.
+ * Simulate legacy text character sets (also called code pages) using Unicode
+ * symbols.
  * @class CharacterSet
  */
 class CharacterSet {
   /**
    * Creates an instance of CharacterSet.
-   * @param [set=``] character set name
+   * @param [set=``] Character set name
    */
   constructor(set = ``) {
     this.set = set
-    this.empty = `\u0020` // used as a placeholder for an empty cell
-    this.nbsp = `\u00A0` // no-break space
-    this.shy = `\u00AD` // soft hyphen
+    // used as a placeholder for an empty cell
+    this.empty = `\u0020`
+    // no-break space
+    this.nbsp = `\u00A0`
+    // soft hyphen
+    this.shy = `\u00AD`
   }
   /**
    * Unicode characters that emulate a code page set.
-   * @returns {Array} collection of matching characters
+   * @returns {Array} Collection of matching characters
    */
   get() {
     switch (this.set) {
@@ -64,9 +72,10 @@ class CharacterSet {
     }
   }
   /**
-   * Internal table of Unicode characters that emulate Code Page 437.
+   * An internal table of Unicode characters that emulate Code Page 437.
    * ASCII C0 controls are replaced with characters.
-   * Sets 2-7 are standard characters that are identical in ASCII and Unicode.
+   * Sets 2 through 7 are standard characters that are identical in both
+   * ASCII and Unicode.
    */
   cp437Table() {
     //prettier-ignore
@@ -100,7 +109,7 @@ class CharacterSet {
   }
   /**
    * Unicode characters that emulate Code Page 437.
-   * @returns {Array} extended characters
+   * @returns {Array} Extended characters
    */
   cp437() {
     this.cp437Table()
@@ -116,8 +125,8 @@ class CharacterSet {
   }
   /**
    * Unicode characters that emulate ISO 8859-1.
-   * Is identical to Windows CP-1252 except it leaves rows 8 and 9 empty.
-   * @returns {Array} extended characters
+   * It is identical to Windows CP-1252 except it leaves rows 8 and 9 empty.
+   * @returns {Array} Extended characters
    */
   iso8859_1() {
     this.cp437Table()
@@ -130,7 +139,7 @@ class CharacterSet {
     )
   }
   /**
-   * Internal table of Unicode characters that emulate Code Page 1250.
+   * An internal table of Unicode characters that emulate Code Page 1250.
    */
   cp1250Table() {
     const e = this.empty
@@ -145,7 +154,7 @@ class CharacterSet {
   }
   /**
    * Unicode characters that emulate Code Page 1250.
-   * @returns {Array} extended characters
+   * @returns {Array} Extended characters
    */
   cp1250() {
     this.cp1250Table()
@@ -160,7 +169,7 @@ class CharacterSet {
     )
   }
   /**
-   * Internal table of Unicode characters that emulate Code Page 1251.
+   * An internal table of Unicode characters that emulate Code Page 1251.
    */
   cp1251Table() {
     this.set_8 = Array.from(`ЂЃ‚ѓ„…†‡€‰Љ‹ЊЌЋЏ`)
@@ -174,7 +183,7 @@ class CharacterSet {
   }
   /**
    * Unicode characters that emulate Code Page 1251.
-   * @returns {Array} extended characters
+   * @returns {Array} Extended characters
    */
   cp1251() {
     this.cp1251Table()
@@ -189,7 +198,7 @@ class CharacterSet {
     )
   }
   /**
-   * Internal table of Unicode characters that emulate ISO 8859-5.
+   * An internal table of Unicode characters that emulate ISO 8859-5.
    * Note there are some inconsistencies that get manually corrected.
    * A_0, A_D, F_0, F_D
    */
@@ -203,7 +212,7 @@ class CharacterSet {
   }
   /**
    * Unicode characters that emulate ISO 8859-5.
-   * @returns {Array} extended characters
+   * @returns {Array} Extended characters
    */
   iso8859_5() {
     this.iso8859_5Table()
@@ -216,7 +225,7 @@ class CharacterSet {
     )
   }
   /**
-   * Internal table of Unicode characters that emulate ISO 8859-10.
+   * An internal table of Unicode characters that emulate ISO 8859-10.
    */
   iso8859_10Table() {
     this.set_a = Array.from(`${this.nbsp}ĄĒĢĪĨĶ§ĻĐŠŦŽ${this.shy}ŪŊ`)
@@ -228,7 +237,7 @@ class CharacterSet {
   }
   /**
    * Unicode characters that emulate ISO 8859-10.
-   * @returns {Array} extended characters
+   * @returns {Array} Extended characters
    */
   iso8859_10() {
     this.iso8859_10Table()
@@ -241,7 +250,8 @@ class CharacterSet {
     )
   }
   /**
-   * Internal table of Unicode characters that emulate the Macintosh Roman character set.
+   * Internal table of Unicode characters that emulate the
+   * Macintosh Roman character set.
    */
   macRomanTable() {
     this.set_8 = Array.from(`ÄÅÇÉÑÖÜáàâäãåçéè`)
@@ -256,9 +266,9 @@ class CharacterSet {
   /**
    * Unicode characters that emulate the Macintosh Roman character set,
    * also known as Macintosh, Mac OS Roman and MacRoman or in Windows
-   * as Code Page 10000. This is the default legacy character encoding
+   * Code Page 10000. This is the default legacy character encoding
    * for Mac OS 9 and earlier.
-   * @returns {Array} extended characters
+   * @returns {Array} Extended characters
    */
   macRoman() {
     this.macRomanTable()
@@ -294,7 +304,8 @@ class Transcode extends CharacterSet {
     return super.get().length > 0
   }
   /**
-   * Rebuilds string using a code page supplied by the user via the transcode context menus.
+   * Rebuilds string using a code page supplied by the user via
+   * the transcode context menus.
    */
   rebuild() {
     if (this.verbose) console.log(`rebuild() = ${this.session}`)
@@ -313,16 +324,13 @@ class Transcode extends CharacterSet {
         break
       default:
         console.log(
-          `Transcode.rebuild() doesn't know sessionStorage.transcode item '${
-            this.session
-          }'`
+          `Transcode.rebuild() doesn't know sessionStorage.transcode item '${this.session}'`
         )
     }
     // handle character 1B to inject EMCA-48/ANSI control function support
     // in ASCII Character 1B (code 27) is the Escape control while with the
     // MS-DOS code page (CP-437) it also is used as a left arrow symbol
-    const reg = new RegExp(`\u001B`, `g`)
-    this.text = this.text.replace(reg, `←`)
+    this.text = this.text.replace(RegExp(`\u001B`, `g`), `←`)
   }
   /**
    * Rebuilds text to emulate the CP-1252 (Windows Latin 1) character set.
@@ -348,14 +356,14 @@ class Transcode extends CharacterSet {
    */
   _input_iso8859_15() {
     let s = this.text
-    s = s.replace(RegExp(String.fromCharCode(164), `g`), `€`)
-    s = s.replace(RegExp(String.fromCharCode(166), `g`), `Š`)
-    s = s.replace(RegExp(String.fromCharCode(168), `g`), `š`)
-    s = s.replace(RegExp(String.fromCharCode(180), `g`), `Ž`)
-    s = s.replace(RegExp(String.fromCharCode(184), `g`), `ž`)
-    s = s.replace(RegExp(String.fromCharCode(188), `g`), `Œ`)
-    s = s.replace(RegExp(String.fromCharCode(189), `g`), `œ`)
-    s = s.replace(RegExp(String.fromCharCode(190), `g`), `Ÿ`)
+      .replace(RegExp(String.fromCharCode(164), `g`), `€`)
+      .replace(RegExp(String.fromCharCode(166), `g`), `Š`)
+      .replace(RegExp(String.fromCharCode(168), `g`), `š`)
+      .replace(RegExp(String.fromCharCode(180), `g`), `Ž`)
+      .replace(RegExp(String.fromCharCode(184), `g`), `ž`)
+      .replace(RegExp(String.fromCharCode(188), `g`), `Œ`)
+      .replace(RegExp(String.fromCharCode(189), `g`), `œ`)
+      .replace(RegExp(String.fromCharCode(190), `g`), `Ÿ`)
     this.text = s
   }
   /**
@@ -380,9 +388,10 @@ class Transcode extends CharacterSet {
 class DOSText {
   /**
    * Creates an instance of DOSText.
-   * @param [text=``] text to parse
-   * @param [codepage=`input_UTF16`] character table key
-   * @param [displayControls=false] display dos control characters (used by unit tests)
+   * @param [text=``] Text to parse
+   * @param [codepage=`input_UTF16`] Character table key
+   * @param [displayControls=false] Display DOS control characters
+   * (used by unit tests)
    */
   constructor(
     text = ``,
@@ -394,28 +403,24 @@ class DOSText {
     this.text = text
     this.codepage = options.codepage
     this.errorCharacter = `�`
-    this.displayControls = `${options.displayControls}` || `false` // Boolean needs to be string
-    // use localStorage displayControls setting if options.displayControls is not provided
-    if (
-      options.displayControls === null &&
-      typeof localStorage !== `undefined`
-    ) {
+    // this Boolean needs to be a string type
+    this.displayControls = `${options.displayControls}` || `false`
+    // use the `localStorage` displayControls setting
+    // when the `options.displayControls` is not provided
+    if (options.displayControls === null && typeof localStorage !== `undefined`)
       this.displayControls = localStorage.getItem(`textDosCtrlCodes`) || `false`
-    }
     this.asciiTable = []
     this.extendedTable = []
   }
   /**
    * Build a character table.
-   * @returns {(Array|void)} characters
+   * @returns {(Array|void)} Characters
    */
   characterTable() {
     if (RetroTxt.developer)
       console.log(`DOSText(codepage=%s).characterTable()`, this.codepage)
-    // ascii C0 controls are generally either ignored or
-    // are common between all tables
-    const c0 = new CharacterSet(`cp437_C0`)
-    this.asciiTable = c0.get()
+    // ascii C0 controls are either ignored or are common between all tables
+    this.asciiTable = new CharacterSet(`cp437_C0`).get()
     // extended character tables
     const table = new CharacterSet(`${this.codepage}`)
     this.extendedTable = table.get()
@@ -430,7 +435,7 @@ class DOSText {
   }
   /**
    * Looks up a character code and returns an equivalent Unicode symbol.
-   * @param {*} number hex or decimal character code
+   * @param {*} number Hex or decimal character code
    * @returns {string} Unicode symbol
    */
   fromCharCode(number) {
@@ -443,34 +448,36 @@ class DOSText {
           .codePointAt(0)
           .toString(16)
       )
-    // asciiTable = %s this.asciiTable[number]
-    // break out to function?
     switch (this.codepage) {
       case `cp_1251`: {
         if (number === 0xad) return `\u00A1`
       }
     }
-    // handle oddball NULL characters that some docs use as a placeholder
-    // 65533 is used by the browser as an invalid or unknown character code
-    // the ␀ glyph was originally return but it doesn't work well in monospace fonts
+    // handle oddball `NULL` characters that some docs use as a placeholder.
+    // 65533 is used by the browser as an invalid or unknown character code.
+    // the ␀ glyph used to be return but doesn't work well in monospace fonts
     if (number === 0) return ` `
     if (number === 65533) return ` `
-    // ASCII was originally 7-bits so could support a maximum of 128 characters
-    // Interpret ASCII C0 controls as CP-437 symbols characters 0-31
+    // ASCII was originally 7-bits so could support a maximum of 128 characters.
+    // interpret ASCII C0 controls as CP-437 symbols characters 0-31
     if (number >= 0x00 && number <= 0x1f) {
-      // 0x1B is the escape character that is also used as a trigger for ANSI escape codes
+      // 0x1B is the escape character that is also used as a trigger for
+      // ANSI escape codes
       if (number === 0x1b) return this.asciiTable[number]
-      // displayControls enabled will force the display of most CP-437 glyphs
+      // `displayControls` enabled will force the display of most CP-437 glyphs
       if (this.displayControls === `true`) {
         switch (number) {
           // return as an ASCII C0 control
           case 9: // HT - horizontal tab
-            return `\t`
+            // some ANSI/DOS art expect the ○ character
+            if (this.codepage === `cp_1252`) return this.asciiTable[9]
+            else return `\t`
           case 10: // LF - linefeed
           case 13: // CR - carriage return
             return `\n`
           default:
-            // JavaScript also supports the following escape codes but they have no effect in HTML
+            // JavaScript also supports these escape codes but in HTML they
+            // have no effect
             // 08 BS \b - backspace
             // 11 VT \v - vertical tab
             // 12 FF \f - form feed
@@ -479,23 +486,18 @@ class DOSText {
         }
       }
       // RetroTxt option displayControls=disabled will return all C0 controls
-      else {
-        // return as an ASCII C0 control
-        return `${String.fromCharCode(number)}`
-      }
+      // return as an ASCII C0 control
+      else return `${String.fromCharCode(number)}`
     }
     // characters 0x20 (32) through to 0x7E (126) are universal between
     // most code pages and so they are left as-is
-    if (number >= 0x20 && number <= 0x7e) {
+    if (number >= 0x20 && number <= 0x7e)
       return `${String.fromCharCode(number)}`
-    }
     // normally ASCII 0x7F (127) is the delete control
     // but in CP437 it can also represent a house character
-    if (number === 0x7f && `${this.displayControls}` === `true`) {
-      return `⌂`
-    }
-    // ASCII extended are additional supported characters when ASCII is used in an
-    // 8-bit set. All MS-DOS code pages are 8-bit and support the additional
+    if (number === 0x7f && `${this.displayControls}` === `true`) return `⌂`
+    // ASCII extended are additional supported characters when ASCII is used in
+    // an 8-bit set. All MS-DOS code pages are 8-bit and support the additional
     // 128 characters, between 8_0 (128)...F_F (255)
     switch (this.codepage) {
       case `cp_865`:
@@ -522,35 +524,46 @@ class DOSText {
   }
   /**
    * A lookup for extended characters using Code Page 437 as the base table.
-   * @param {*} number hex or decimal character code
-   * @param {number} [offsetInput=0] array index offset for this.extendedTable
-   * @param {number} [offsetOutput=0] array index offset for the CP437 table
+   * @param {*} Numeric hex or decimal character code
+   * @param {number} [offsetInput=0] Array index offset for this.extendedTable
+   * @param {number} [offsetOutput=0] Array index offset for the CP437 table
    * @returns {string} Unicode symbol
    */
   lookupCp437(number, offsetInput = 0, offsetOutput = 0) {
-    // This function takes a Unicode decimal character number, finds its matching character in a legacy ISO codepage table to
-    // return the MS-DOS CP-437 character that occupies the same table cell position.
-    // The following examples take Unicode Latin/Cyrillic characters in an ISO 8859-5 table and replaces them with MS-DOS CP-437
-    // characters.
+    // This function takes a Unicode decimal character number, finds its
+    // matching character in a legacy ISO codepage table to return the
+    // MS-DOS CP-437 character that occupies the same table cell position.
+    //
+    // The following examples take Unicode Latin/Cyrillic characters in an
+    // ISO 8859-5 table and replaces them with MS-DOS CP-437 characters.
+    //
+    // An ISO 8859-5 encoded tab may return Cyrillic А (1040, \u0401) which is
+    // located at B_0 in the codepage table.
+    // In the CP-437 table, cell B_0 is the character ░ (\u2591)
+    // so Cyrillic А gets swapped with ░
+    // The next 8859-5 character Б (1041, \u0411) is in cell B_1,
+    // CP-437 B_1 is ▒ (\u2592)
+    // The next 8859-5 character В (1042, \u0412) is in cell B_2,
+    // CP-437 B_2 is ▓ (\u2593)
+    // The next 8859-5 character Г (1043, \u0413) is in cell B_3,
+    // CP-437 B_3 is │ (\u2502)
+    // here the value is out of sequence so lookup character tables are used -⤴
+    //
     // Latin/Cyrillic (legacy ISO) https://en.wikipedia.org/wiki/ISO/IEC_8859-5
     // Cyrillic (Unicode block) https://en.wikipedia.org/wiki/Cyrillic_(Unicode_block)
     // OEM-US (legacy MS-DOS, CP-437) https://en.wikipedia.org/wiki/Code_page_437
-    // An ISO 8859-5 encoded tab may return Cyrillic А (1040, \u0401) which is located at B_0 in the codepage table.
-    // In the CP-437 table, cell B_0 is the character ░ (\u2591) so Cyrillic А gets swapped with ░
-    // The next 8859-5 character Б (1041, \u0411) is in cell B_1, CP-437 B_1 is ▒ (\u2592)
-    // The next 8859-5 character В (1042, \u0412) is in cell B_2, CP-437 B_2 is ▓ (\u2593)
-    // The next 8859-5 character Г (1043, \u0413) is in cell B_3, CP-437 B_3 is │ (\u2502)
-    // here the value is out of sequence, so lookup character tables are always used -⤴
     if (this.codepage === `iso_8859_5`) {
-      // handle inconsistencies where Unicode Cyrillic characters are not found in ISO 8859-5
+      // handle inconsistencies where Unicode Cyrillic characters
+      // are not found in ISO 8859-5
       switch (number) {
         case 8470:
           return `\u2116`
         case 167:
           return `\u00B2`
       }
-      // Unicode Cyrillic decimals between 1088 - 1120 are out of range of our lookup sequence
-      // such as р с т у ф ... so the Unicode decimal value offsets get adjusted
+      // The Unicode Cyrillic decimals between 1088 - 1120 are out of range
+      // for our lookup sequence, i.e characters such as `р с т у ф`.
+      // so the Unicode decimal value offsets are adjusted
       if (number >= 1088) {
         offsetInput = 0
         offsetOutput = 32
@@ -585,8 +598,7 @@ class DOSText {
       return `${this.errorCharacter}` // error, unknown character
     }
     // fetch the CP-437 table
-    const characterset = new CharacterSet(`cp437`)
-    const table = characterset.get()
+    const table = new CharacterSet(`cp437`).get()
     if (RetroTxt.developer)
       console.log(
         `extendedTable.indexOf(%s) character success: \\u%s '%s' %s`,
@@ -597,12 +609,13 @@ class DOSText {
         String.fromCharCode(number + offsetInput),
         table[index + offsetOutput]
       )
-    // swap the character from Macintosh with the matching decimal from table CP437
+    // swap the character from Macintosh with the
+    // matching decimal from table CP437
     return table[index + offsetOutput]
   }
   /**
    * CP-865 (DOS Nordic) specific input.
-   * @param {*} number hex or decimal character code
+   * @param {*} number Hex or decimal character code
    * @returns {string} Unicode symbol
    */
   lookupCp865(number) {
@@ -619,31 +632,31 @@ class DOSText {
   /**
    * Windows-1252 specific input.
    * Often but incorrectly called Windows ANSI.
-   * @param {*} number hex or decimal character code
+   * @param {*} number Hex or decimal character code
    * @returns {string} Unicode symbol
    */
   lookupCp1252(number) {
-    if (number >= 0xa0 && number <= 0xff) {
+    if (number >= 0xa0 && number <= 0xff)
       return this.extendedTable[number - 128]
-    }
-    // assume any values higher than 0xFF (255) are Unicode values and return as-is
+    // assume any values higher than 0xFF (255)
+    // are Unicode values and return as-is
     return `${String.fromCharCode(number)}`
   }
   /**
    * ISO-8859-1 (Latin 1) specific input.
-   * @param {*} number hex or decimal character code
+   * @param {*} number Hex or decimal character code
    * @returns {string} Unicode symbol
    */
   lookupIso8859_1(number) {
-    if (number >= 0xa0 && number <= 0xff) {
+    if (number >= 0xa0 && number <= 0xff)
       return this.extendedTable[number - 160]
-    }
-    // assume any values higher than 0xFF (255) are Unicode values and return as-is
+    // assume any values higher than 0xFF (255)
+    // are Unicode values and return as-is
     return `${String.fromCharCode(number)}`
   }
   /**
    * ISO-8859-15 (Latin 9) specific input.
-   * @param {*} number hex or decimal character code
+   * @param {*} number Hex or decimal character code
    * @returns {string} Unicode symbol
    */
   lookupIso8859_15(number) {
@@ -670,12 +683,13 @@ class DOSText {
   }
   /**
    * UTF-16 (JavaScript default) specific input.
-   * @param {*} number hex or decimal character code
+   * @param {*} number Hex or decimal character code
    * @returns {string} Unicode symbol
    */
   lookupUtf16(number) {
     if (number >= 0xa0 && number <= 0xff) {
-      // handle empty Windows 1252 values that would otherwise return incorrect characters
+      // handle empty Windows 1252 values that would
+      // otherwise return incorrect characters
       switch (number) {
         case 0xfc: // ü 0x81 (129)
         case 0xec: // ì 0x8D (141)
@@ -684,18 +698,20 @@ class DOSText {
         case 0xa5: // ¥ 0x9D (157)
           return `${String.fromCharCode(number)}`
       }
-      // find character in CP437 and return its glyph
+      // find a character in CP437 and return its glyph
       const ext = this.extendedTable.indexOf(String.fromCharCode(number))
-      // console.log(`number: ${number}\tstr: ${String.fromCharCode(number)}\text: ${ext}`)
-      if (ext <= -1) return `${this.errorCharacter}` // error, unknown character
+      // error, unknown character
+      if (ext <= -1) return `${this.errorCharacter}`
       return this.extendedTable[ext]
     }
-    // assume any values higher than 0xFF (255) are Unicode values and return as-is
+    // assume any values higher than 0xFF (255)
+    // are Unicode values and return as-is
     return `${String.fromCharCode(number)}`
   }
 
   /**
-   * Transcode text derived from a character set into Unicode characters that emulate IBM PC era CP-437 set.
+   * Transcode text derived from a character set into Unicode characters that
+   * emulate the IBM PC era CP-437 set.
    * @returns {string} Unicode text
    */
   normalize() {
@@ -705,22 +721,23 @@ class DOSText {
     let normalized = ``
     // loop through text and use the values to propagate the container
     for (let i = 0; i < this.text.length; i++) {
-      const characterCode = this.text.charCodeAt(i)
-      normalized += this.fromCharCode(characterCode)
+      normalized += this.fromCharCode(this.text.charCodeAt(i))
     }
     return normalized
   }
 }
 /**
- * Converts plain text documents embedded with legacy BBS colour codes to a HTML5 document with matching CSS colour styles.
+ * Converts plain text documents embedded with legacy BBS colour codes to a
+ * HTML5 document with matching CSS colour styles.
  * @class BBS
  */
 class BBS {
   /**
    * Creates an instance of BBS.
-   * @param [text=``] ascii text encoded with at-symbol codes
-   * @param [formatOverride=``] provide a at-symbol format to parse, either `pcboard`, `wildcat` or leave blank to auto-detect
-   * @param [monochrome=false] strip out all colour and return an ASCII document?
+   * @param [text=``] Ascii text encoded with at-symbol codes
+   * @param [formatOverride=``] Provide a at-symbol format to parse,
+   * such as `celerity`, `pcboard` or leave blank to auto-detect
+   * @param [monochrome=false] Strip out all colour & return an ASCII document?
    */
   constructor(text = ``, formatOverride = ``, monochrome = false) {
     if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
@@ -733,17 +750,102 @@ class BBS {
    * Looks for and returns the BBS encoding format type.
    */
   detect() {
-    const format = FindControlSequences(this.text.trim().slice(0, 5))
+    const format = FindControlSequences(
+      this.text
+        .trim()
+        .slice(0, 10)
+        .replace(`@CLS@`, ``)
+    )
     switch (format) {
+      case `celerity`:
       case `pcboard`:
+      case `renegade`:
+      case `telegard`:
       case `wildcat`:
+      case `wwivhash`:
+      case `wwivheart`:
+        // note: any new formats will also need to be added to
+        // _locales/en_US/messages.json
         return format
       default:
         console.warn(
-          `The format value '%s' for BBS.detect() is not supported, valid choices: pcboard, wildcat`,
+          `The format value '%s' for BBS.detect() is not supported`,
           format
         )
         return ``
+    }
+  }
+  findPrefix(format = ``) {
+    switch (format) {
+      case `pcboard`:
+      case `wildcat`:
+        return `@X`
+      case `celerity`:
+      case `renegade`:
+        return `|`
+      case `telegard`:
+        return `\``
+      case `wwivhash`:
+        return `|#`
+      case `wwivheart`:
+        return `♥`
+    }
+  }
+  /**
+   * "Bring Attention To" all CP-437 block characters within the supplied text
+   * that will be contained within <b></b> elements to apply a CSS style fix.
+   * @param [text=``] String of text
+   * @returns HTMLDivElement
+   */
+  BBlocks(text = ``) {
+    const div = document.createElement(`div`)
+    // handle empty rows by inserting a space character between the
+    // <div></div> elements
+    if (text === ``) return div.appendChild(document.createTextNode(` `))
+    // RegExp to markout block characters
+    const row = text.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `ig`), `⮚$1⮘`)
+    let textNode = ``
+    let b
+    for (const character of row) {
+      switch (character) {
+        case `⮚`:
+          // creates an open b element
+          if (textNode.length > 0) {
+            div.appendChild(document.createTextNode(`${textNode}`))
+            textNode = ``
+          }
+          b = document.createElement(`b`)
+          break
+        case `⮘`:
+          // closes an opened b element
+          if (textNode.length > 0) {
+            b.appendChild(document.createTextNode(`${textNode}`))
+            div.appendChild(b)
+            textNode = ``
+          }
+          break
+        default:
+          textNode += `${character}`
+      }
+    }
+    if (textNode.length > 0)
+      div.appendChild(document.createTextNode(`${textNode}`))
+    return div
+  }
+  /**
+   * Creates new `<i></i>` or `<pre></pre>` elements
+   * @param [name=``] Element tag name, either `i` or `pre`
+   */
+  newElement(name = ``) {
+    if (![`i`, `pre`].includes(name)) return null
+    // web extension DOM
+    if (typeof module === `undefined`) return document.createElement(`${name}`)
+    else {
+      // node.js DOM
+      const jsdom = module.require(`jsdom`)
+      const { JSDOM } = jsdom
+      const dom = new JSDOM(``)
+      return dom.window.document.createElement(`${name}`)
     }
   }
   /**
@@ -754,40 +856,113 @@ class BBS {
     let format = this.override
     if (format === ``) format = this.detect()
     switch (format) {
+      case `plaintext`:
+        return this.normalizePlainText()
+      case `celerity`:
+        return this.normalizeCelerity()
       case `pcboard`:
         return this.normalizePCBoard()
+      case `renegade`:
+        return this.normalizeRenegade()
+      case `telegard`:
+        return this.normalizeTelegard()
       case `wildcat`:
         return this.normalizeWildcat()
+      case `wwivhash`:
+        return this.normalizeWWIVHash()
+      case `wwivheart`:
+        return this.normalizeWWIVHeart()
       default:
         // unsupported or undetected format so return the text unmodified
         return this.text
     }
   }
   /**
-   * Takes text encoded for PCBoard and returns HTML.
+   * Parse plain text and ASCII.
+   */
+  normalizePlainText() {
+    const pre = this.newElement(`pre`)
+    // replace escaped characters because text will be encoded by <pre>
+    this.sanitizedText = this.text
+    const replaced = this.replaceEscapedChars()
+    const config = localStorage.getItem(`textSmearBlocks`) || `false`
+    // To avoid line artefacts in Windows we surround all block characters
+    // with <b></b> elements to apply a CSS style fix.
+    if (FindOS() === `win` && config === `true`) {
+      const rows = replaced.split(`\n`)
+      for (const row of rows) {
+        const div = this.BBlocks(row)
+        pre.appendChild(div)
+      }
+    }
+    // All other operating systems are able to display the text within
+    // a <pre></pre> element
+    else pre.appendChild(document.createTextNode(`${replaced}`))
+    return pre
+  }
+  /**
+   * Takes text encoded for PCBoard BBS @-codes and returns HTML.
    */
   normalizePCBoard() {
-    // drop the clear screen control code
-    this.sanitizedText = this.text.replace(RegExp(`@CLS@`, `ig`), ``)
-    return this.normalizeCodes()
+    this.sanitizedText = this.text.replace(
+      RegExp(`@(CLS|CLS |PAUSE)@`, `ig`),
+      ``
+    )
+    return this.normalizeAtCodes()
   }
   /**
-   * Takes text encoded for WildCat! and returns HTML.
+   * Takes text encoded for Renegade BBS pipe colors and returns HTML.
    */
-  normalizeWildcat() {
-    // WildCat to PCBoard @ codes regular-expression
-    const wildCatExpression = new RegExp(/@([0-9|A-F])([0-9|A-F])@/gi)
-    // convert Wildcat to PCBoard @ codes as they're easier to split
+  normalizeRenegade() {
     this.sanitizedText = this.text.replace(
-      RegExp(wildCatExpression, `ig`),
+      RegExp(`@(CLS|CLS |PAUSE)@`, `ig`),
+      ``
+    )
+    return this.normalizePipes()
+  }
+  /**
+   * Takes text encoded for Telegard BBS grave accent colors and returns HTML.
+   */
+  normalizeTelegard() {
+    // convert Telegard `-grave codes to PCBoard @-codes
+    // as they share the same colour values
+    this.sanitizedText = this.text.replace(
+      RegExp(/`([0-9|A-F])([0-9|A-F])/gi, `ig`),
       `@X$1$2`
     )
-    return this.normalizeCodes()
+    return this.normalizeAtCodes()
   }
   /**
-   * Takes text encoded with PCBoard @ Codes and returns HTML.
+   * Takes text encoded for WildCat! BBS @-codes and returns HTML.
    */
-  normalizeCodes() {
+  normalizeWildcat() {
+    // convert Wildcat to PCBoard @-codes as they're easier to `String.split()`
+    this.sanitizedText = this.text
+      .replace(RegExp(/@([0-9|A-F])([0-9|A-F])@/gi, `ig`), `@X$1$2`)
+      .replace(RegExp(`@(CLS|CLS |PAUSE)@`, `ig`), ``)
+    return this.normalizeAtCodes()
+  }
+  /**
+   * Takes text encoded for WVIV BBS pipe codes and returns HTML.
+   */
+  normalizeWWIVHash() {
+    this.sanitizedText = this.text.replace(RegExp(/\|#([0-9])/gi, `ig`), `|0$1`)
+    return this.normalizePipes()
+  }
+  /**
+   * Takes text encoded for WVIV BBS heart ♥ codes and returns HTML.
+   */
+  normalizeWWIVHeart() {
+    this.sanitizedText = this.text.replace(
+      RegExp(/\x03([0-9])/gi, `ig`),
+      `|0$1`
+    )
+    return this.normalizePipes()
+  }
+  /**
+   * Parse text encoded with PCBoard @-codes.
+   */
+  normalizeAtCodes() {
     // validate the values of @X codes
     // see NaN issues, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN
     const validate = value => {
@@ -797,50 +972,19 @@ class BBS {
       if (isNaN(hex) || hex < 0 || hex > 16) return false
       return true
     }
-    // <pre></pre> DOM object
-    let pre
-    if (typeof module === `undefined`) {
-      // web extension DOM
-      pre = document.createElement(`pre`)
-    } else {
-      // node.js DOM
-      const jsdom = module.require(`jsdom`)
-      const { JSDOM } = jsdom
-      const dom = new JSDOM(``)
-      pre = dom.window.document.createElement(`pre`)
-    }
-    // replace escaped characters because text will be encoded by <pre>
-    const expGT = new RegExp(`&gt;`, `gi`)
-    const textGT = this.sanitizedText.replace(expGT, `>`)
-    const expLT = new RegExp(`&lt;`, `gi`)
-    const textLT = textGT.replace(expLT, `<`)
-    const expAmpersand = new RegExp(`&amp;`, `gi`)
-    const textAmpersand = textLT.replace(expAmpersand, `&`)
-    // drop other @ codes
-    // trim in needed for \n@CLS@ etc.
-    let preText = textAmpersand
-    if (textAmpersand.trim().substr(0, 5) === `@CLS @`)
-      preText = preText.trim().substr(5)
-    // monochrome mode strips out all @X codes and returns an ASCII-text page
-    if (this.monochrome === true) {
-      const pcBoardExpression = new RegExp(/@X([0-9|A-F])([0-9|A-F])/gi)
-      this.sanitizedText = preText.replace(RegExp(pcBoardExpression, `ig`), ``)
-      let element = document.createElement(`i`)
-      element.textContent = this.sanitizedText
-      pre.appendChild(element)
-      return pre
-    }
-    // to handle colour, split @X (referred to as 'at codes')
-    const atCodes = preText.split(`@X`)
-    for (const code of atCodes) {
-      if (code.length === 0) continue
-      // check values to match expected @X
+    const pre = this.newElement(`pre`)
+    const replaced = this.replaceEscapedChars()
+    // to handle colour, split @X characters
+    const colours = replaced.split(`@X`)
+    for (const code of colours) {
+      if (code.length === 0 || code.charCodeAt(0) === 10) continue
+      // check values to match expected prefix
       // otherwise .. treat as text
       const backgroundCode = `${code.substring(0, 1)}`
       const foregroundCode = `${code.substring(1, 2)}`
       let appendText = code.substring(2)
       if (!validate(foregroundCode) || !validate(backgroundCode)) {
-        // handle false-positive @X codes
+        // handle false-positive codes
         appendText = `@X${code}`
         const element = pre.lastChild
         if (element !== null) {
@@ -850,20 +994,112 @@ class BBS {
         }
         // if childNodes = 0, then use the code below to create a new element
       }
-      let element
-      if (typeof module === `undefined`) element = document.createElement(`i`)
-      else {
-        const jsdom = module.require(`jsdom`)
-        const { JSDOM } = jsdom
-        const dom = new JSDOM(``)
-        element = dom.window.document.createElement(`i`)
-      }
-      element.classList.add(`PB${backgroundCode}`)
-      element.classList.add(`PF${foregroundCode}`)
+      const element = this.newElement(`i`)
+      element.classList.add(`PB${backgroundCode}`, `PF${foregroundCode}`)
       element.textContent = appendText
       pre.appendChild(element)
     }
     return pre
+  }
+
+  /**
+   * Takes text encoded for Celerity BBS pipe codes and returns HTML.
+   */
+  normalizeCelerity() {
+    this.sanitizedText = this.text.replace(
+      RegExp(`@(CLS|CLS |PAUSE)@`, `ig`),
+      ``
+    )
+    const pre = this.newElement(`pre`)
+    // replace escaped characters because text will be encoded by <pre>
+    const replaced = this.replaceEscapedChars()
+    // monochrome mode strips out all pipe codes and returns an ASCII-text page
+    const celerityCodes = new Map()
+      .set(`k`, `00`)
+      .set(`b`, `01`)
+      .set(`g`, `02`)
+      .set(`c`, `03`)
+      .set(`r`, `04`)
+      .set(`m`, `05`)
+      .set(`y`, `06`)
+      .set(`w`, `07`)
+      .set(`d`, `08`)
+      .set(`B`, `09`)
+      .set(`G`, `10`)
+      .set(`C`, `11`)
+      .set(`R`, `12`)
+      .set(`M`, `13`)
+      .set(`Y`, `14`)
+      .set(`W`, `15`)
+      .set(`S`, `16`)
+    // to handle colour, split | characters
+    const colours = replaced.split(`|`)
+    let background = `00`
+    let foreground = `00`
+    let swap = false
+    for (const code of colours) {
+      if (code.length === 0) continue
+      // check values to match expected prefix
+      // otherwise .. treat as text
+      const pipe = `${celerityCodes.get(code.substring(0, 1))}`
+      const appendText = code.substring(1)
+      // undefined
+      const element = this.newElement(`i`)
+      if (pipe === `undefined`) {
+        element.textContent = `|${code}`
+        pre.appendChild(element)
+        continue
+      }
+      const x = parseInt(pipe, 10)
+      if (x === 16) {
+        swap = !swap
+      } else if (x >= 0 && x <= 15) {
+        if (swap === true) background = 16 + x
+        else foreground = pipe
+      }
+      element.classList.add(`P${background}`, `P${foreground}`)
+      element.textContent = appendText
+      pre.appendChild(element)
+    }
+    return pre
+  }
+  /**
+   * Parse text encoded with Renegade pipe color codes.
+   */
+  normalizePipes() {
+    const pre = this.newElement(`pre`)
+    // replace escaped characters because text will be encoded by <pre>
+    let replaced = this.replaceEscapedChars()
+    // to handle colour, split | characters
+    const colours = replaced.split(`|`)
+    let background = -1
+    let foreground = -1
+    for (const code of colours) {
+      if (code.length === 0 || code.charCodeAt(0) === 10) continue
+      // check values to match expected prefix
+      // otherwise .. treat as text
+      const pipe = `${code.substring(0, 2)}`
+      const appendText = code.substring(2)
+      const element = this.newElement(`i`)
+      const x = parseInt(pipe, 10)
+      if (x >= 0 && x <= 15) background = pipe
+      else if (x >= 16 && x <= 23) foreground = pipe
+      element.classList.add(`P${background}`, `P${foreground}`)
+      element.textContent = appendText
+      pre.appendChild(element)
+    }
+    return pre
+  }
+  /**
+   * Replace any escaped characters in the text as it will be preformatted in
+   * a <pre> element.
+   * @returns string
+   */
+  replaceEscapedChars() {
+    return this.sanitizedText
+      .replace(RegExp(`&gt;`, `gi`), `>`)
+      .replace(RegExp(`&lt;`, `gi`), `<`)
+      .replace(RegExp(`&amp;`, `gi`), `&`)
   }
 }
 // eslint no-undef/no-unused-vars work around
@@ -872,6 +1108,4 @@ function eslintUndef() {
   return
 }
 // NodeJS exports (must be placed after the Classes)
-if (typeof module === `object`) {
-  module.exports = { BBS, DOSText }
-}
+if (typeof module === `object`) module.exports = { BBS, DOSText }

@@ -2,8 +2,8 @@
 // These functions are used to apply and remove RetroTxt from browser tabs.
 "use strict"
 
-// For this to work using the chrome.management.getSelf() method in this page.
-// RetroTxt requires the Management permission but which is currently not requested.
+// developer verbose console output
+// dump Input SAUCE and Output classes
 var RetroTxt = { developer: false, dump: false }
 /**
  * Document Object Model (DOM) programming interface for HTML.
@@ -50,12 +50,12 @@ class DOM {
   async construct() {
     // build link tags
     const palette = new HardwarePalette()
-    // make a <link> to point to the CSS for use with 1-bit colour themes (ASCII, NFO)
+    // make a <link> to point to the CSS for use with
+    // 1-bit colour themes (ASCII, NFO)
     // child 0
     this.head.appendChild(CreateLink(`../css/retrotxt.css`, `retrotxt-styles`))
     // child 1
     this.head.appendChild(CreateLink(`../css/layout.css`, `retrotxt-layout`))
-    // make a <link> to point to the CSS for use with 1-bit colour themes (ASCII, NFO)
     // child 2
     this.head.appendChild(
       CreateLink(`../css/text_colors.css`, `retrotxt-theme`)
@@ -83,10 +83,25 @@ class DOM {
         this.head.appendChild(CreateLink(`../css/text_ecma_48.css`, `ecma-48`))
         break
       case `pcboard`:
+      case `telegard`:
       case `wildcat`:
         // child 2
         this.head.appendChild(
           CreateLink(`../css/text_colors_pcboard.css`, `retrotxt-4bit`)
+        )
+        break
+      case `celerity`:
+      case `renegade`:
+        // child 2
+        this.head.appendChild(
+          CreateLink(`../css/text_colors_pipe.css`, `retrotxt-4bit`)
+        )
+        break
+      case `wwivhash`:
+      case `wwivheart`:
+        // child 2
+        this.head.appendChild(
+          CreateLink(`../css/text_colors_wviv-pipe.css`, `retrotxt-4bit`)
         )
         break
     }
@@ -97,17 +112,13 @@ class DOM {
     }
   }
   /**
-   * Display or hide the header UI.
+   * Display or hide the header user-interface.
    */
   headerUI() {
     const hide = document.getElementById(`h-ui-toggle-hide`)
     const show = document.getElementById(`h-ui-toggle-show`)
-    if (hide !== null) {
-      hide.onclick = () => this.header(true)
-    }
-    if (show !== null) {
-      show.onclick = () => this.header(false)
-    }
+    if (hide !== null) hide.onclick = () => this.header(true)
+    if (show !== null) show.onclick = () => this.header(false)
     switch (`${this.results.textFontInformation}`) {
       case `false`:
       case `true`:
@@ -123,23 +134,25 @@ class DOM {
     this.renderEffect()
     // palette event listener
     this.colorPalette()
-    // ice colors toggle in the information header (only shows with EMCA48/ANSI documents)
+    // ice colors toggle in the information header
+    // (only shows with EMCA48/ANSI documents)
     this.iceColors = document.getElementById(`ice-colors-toggle`)
     if (this.iceColors !== null) {
-      this.iceColors.onclick = () => {
-        this.iCEColors()
-      }
-      if (this.ecma48.iceColors === true) this.iceColors.textContent = `On`
-      else if (this.ecma48.iceColors === false)
+      this.iceColors.onclick = () => this.iCEColors()
+      if (this.ecma48.iceColors === true) {
+        this.iceColors.textContent = `On`
+        this.head.appendChild(
+          CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`)
+        )
+      } else if (this.ecma48.iceColors === false)
         this.iceColors.textContent = `Off`
     }
-    // line wrap toggle in the information header (only shows with EMCA48/ANSI documents)
+    // line wrap toggle in the information header
+    // (only shows with EMCA48/ANSI documents)
     this.wrap = document.getElementById(`line-wrap-toggle`)
     if (this.wrap !== null) {
       const setting = localStorage.getItem(`textAnsiWrap80c`)
-      this.wrap.onclick = () => {
-        this.lineWrap()
-      }
+      this.wrap.onclick = () => this.lineWrap()
       if (setting === `true`) this.wrap.textContent = `On`
       else this.wrap.textContent = `Off`
     }
@@ -147,7 +160,7 @@ class DOM {
   /**
    * Colour palette event listener.
    */
-  async colorPalette() {
+  colorPalette() {
     const element = document.getElementById(`h-palette`)
     const palette = new HardwarePalette()
     if (element !== null && ecma48.colorDepth === 4) {
@@ -161,9 +174,8 @@ class DOM {
         const link = chrome.extension.getURL(palette.savedFilename())
         document.getElementById(`retrotxt-4bit`).href = link
         // update ice colors link
-        if (css !== null) {
+        if (css !== null)
           css.href = chrome.extension.getURL(palette.savedFilename(true))
-        }
       }
     }
   }
@@ -179,7 +191,8 @@ class DOM {
     if (this.cssLink !== null) {
       if (this.cssLink.disabled === true) this.html()
       else if (this.cssLink.disabled === false) this.textSwap()
-      // end InvokeRetroTxt() function & tell a listener in eventpage.js that this tab's body has been modified
+      // end InvokeRetroTxt() function then tell a listener in eventpage.js that
+      // the body of this browser tab is modified
       return chrome.runtime.sendMessage({ retroTxtified: false })
     }
     // get and apply saved Options
@@ -188,11 +201,12 @@ class DOM {
       dom.results = result
       dom.restore()
     })
-    // tell a listener in eventpage.js that the body of this tab has been modified
+    // tell a listener in eventpage.js that the body of this tab has been
+    // modified
     chrome.runtime.sendMessage({ retroTxtified: true })
   }
   /**
-   * Apply options fetched from localStorage.
+   * Apply options fetched from `localStorage`.
    */
   restore() {
     const err = id => {
@@ -265,9 +279,12 @@ class DOM {
       this.body.className = ``
       this.main.className = ``
     } catch (err) {
-      /* Some Firefox/Gecko versions throw a security error when handling file:/// */
+      /* 
+        Some Firefox/Gecko versions throw a security error when 
+        handling file:/// 
+      */
     }
-    // refresh scan lines and font shadows as they are effected by colour changes
+    // refresh scan lines & font shadows as they are effected by colour changes
     chrome.storage.local.get(
       [`textBgScanlines`, `textEffect`, `focusMode`],
       result => {
@@ -283,10 +300,10 @@ class DOM {
           )
         const scanlines = result.textBgScanlines
         const textEffect = result.textEffect
-        // scan lines on the page body
+        // scan lines in the body element
         if (typeof scanlines === `boolean` && scanlines === true)
           ToggleScanlines(true, this.body)
-        // font shadowing applied to text in the page main tag
+        // font shadowing applied to text in the main element
         if (
           typeof textEffect === `string` &&
           textEffect === `shadowed` &&
@@ -316,19 +333,16 @@ class DOM {
     switch (colorId) {
       case `theme-atarist`:
       case `theme-windows`:
-        if (fixes == null) {
+        if (fixes == null)
           this.head.appendChild(
             CreateLink(
               `../css/text_colors_white_bg-fixes.css`,
               `white-bg-fixes`
             )
           )
-        }
         break
       default:
-        if (fixes != null) {
-          fixes.remove()
-        }
+        if (fixes != null) fixes.remove()
     }
     // handle theme-custom colours
     // this also loads stylesheet and applies CSS
@@ -346,7 +360,7 @@ class DOM {
         }
       )
     }
-    // CSS used to invert the header's colours
+    // CSS to invert the colours for the header
     const cssFilter = colorId => {
       if (FindEngine() !== `blink`) return `invert(100%)`
       else {
@@ -379,26 +393,21 @@ class DOM {
     }
     // invert headers, white backgrounds need to be handled separately
     for (const header of this.headers) {
-      // deal with varying browser support (http://caniuse.com/#feat=css-filters)
+      // deal with varying browser support
+      // (http://caniuse.com/#feat=css-filters)
       if (header === null) continue
-      if (`filter` in header.style) {
-        // modern browsers
-        header.style.filter = cssFilter(colorId)
-      } else if (`webkitFilter` in header.style) {
-        // Chrome <=57
-        header.style.webkitFilter = cssFilter(colorId)
-      }
+      if (`filter` in header.style) header.style.filter = cssFilter(colorId)
     }
   }
   /**
-   * Toggles the ability to disable all blinking animation within a tab.
+   * Toggles the ability to disable all blinking animation
    */
   async blinkAnimation() {
-    if (this.results.textBlinkAnimation === `false`) {
+    if (this.results.textBlinkAnimation === `false`)
       this.head.appendChild(
         CreateLink(`../css/text_animation-off.css`, `no-blink-animation`)
       )
-    } else {
+    else {
       const css = document.getElementById(`no-blink-animation`)
       if (css !== null) css.remove()
     }
@@ -418,7 +427,8 @@ class DOM {
     location.reload()
   }
   /**
-   * Toggle between the display of blinking ANSI text or static text with background iCE colors.
+   * Toggle between the display of blinking ANSI text or static text with
+   * background iCE colors.
    */
   async iCEColors() {
     const css = document.getElementById(`retrotxt-4bit-ice`)
@@ -453,26 +463,20 @@ class DOM {
    */
   async cssFix() {
     // colour choices
-    if (typeof this.results.retroColor === `string`) {
-      const fixes = document.getElementById(`white-bg-fixes`)
-      if (fixes == null) {
-        switch (this.results.retroColor) {
-          case `theme-atarist`:
-          case `theme-windows`:
-            this.head.appendChild(
-              CreateLink(
-                `../css/text_colors_white_bg-fixes.css`,
-                `white-bg-fixes`
-              )
-            )
-            break
-        }
-      }
+    if (typeof this.results.retroColor !== `string`) return
+    if (document.getElementById(`white-bg-fixes`) != null) return
+    switch (this.results.retroColor) {
+      case `theme-atarist`:
+      case `theme-windows`:
+        this.head.appendChild(
+          CreateLink(`../css/text_colors_white_bg-fixes.css`, `white-bg-fixes`)
+        )
+        break
     }
   }
   /**
    * Displays or hides the information header.
-   * @param [display=true] show the header in the browser tab?
+   * @param [display=true] Show the header in the browser tab
    */
   async header(display = true) {
     const parseDisplay = StringToBool(display)
@@ -504,10 +508,9 @@ class DOM {
         )
       else if (typeof font === `boolean`) this.header(font)
     })
-    if (FindEngine() === `blink`) {
-      // temporary workaround for issue where the previous background colour of <body> is cached and not removed
-      this.pre1.style.backgroundColor = ``
-    }
+    // temporary workaround for issue where the previous
+    // background colour of <body> is cached and not removed
+    if (FindEngine() === `blink`) this.pre1.style.backgroundColor = ``
     this.pre1.style.display = `none`
     this.pre0.style.display = `block`
     const links = Array.from(this.head.childNodes)
@@ -517,7 +520,7 @@ class DOM {
   }
   /**
    * Toggles line height changes.
-   * @param [lineHeight=`normal`] line height value
+   * @param [lineHeight=`normal`] Line height value
    */
   async lineHeight(lineHeight = `normal`) {
     if (typeof lineHeight !== `string`)
@@ -530,6 +533,7 @@ class DOM {
    */
   async paletteSwap() {
     const depth = this.ecma48.colorDepth
+    ecma48.colorDepth = depth
     const url = chrome.extension.getURL
     switch (depth) {
       case 24:
@@ -568,15 +572,13 @@ class DOM {
         document.getElementById(`retrotxt-8bit`).remove()
     }
     // iCE colors
-    if (this.ecma48.iceColors === true) {
-      // see setBlinking() for the initializer
+    if (ecma48.iceColors === true)
       this.head.appendChild(
         CreateLink(this.palette.savedFilename(true), `retrotxt-4bit-ice`)
-      ) // child 4
-    }
+      )
   }
   /**
-   * Restore or display the original unmodified browser tab.
+   * Restore the original, unmodified browser page.
    */
   async textSwap() {
     const schemes = [`chrome-extension`, `moz-extension`]
@@ -589,20 +591,17 @@ class DOM {
     ToggleScanlines(false, this.body)
     // hide page style customisations
     if (this.preCount >= 2) {
-      if (this.headers !== null) {
-        for (const h of this.headers) {
-          h.style.display = `none`
+      if (this.headers !== null)
+        for (const header of this.headers) {
+          header.style.display = `none`
         }
-      }
       this.pre0.style.display = `none`
       this.pre1.style.display = `block`
-      if (FindEngine() === `blink`) {
-        // temporary workaround for a Blink engine issue where the previous background colour of <body> cached and not removed
-        this.pre1.style.backgroundColor = `white`
-      }
-    } else if (typeof this.pre0 !== `undefined`) {
+      // temporary workaround for a Blink engine issue where the previous
+      // background colour of the <body> element is cached and not removed
+      if (FindEngine() === `blink`) this.pre1.style.backgroundColor = `white`
+    } else if (typeof this.pre0 !== `undefined`)
       this.pre0.style.display = `block`
-    }
     // hide links
     const links = Array.from(this.head.childNodes)
     links.forEach(link => (link.disabled = true))
@@ -614,18 +613,14 @@ class DOM {
    */
   async renderEffect() {
     const element = document.getElementById(`h-text-rend`)
-    if (element !== null) {
-      element.onclick = click => {
-        switch (click.srcElement.textContent) {
-          case `Normal`:
-            ToggleTextEffect(`smeared`, this.body.childNodes[3])
-            break
-          case `Smeared`:
-            ToggleTextEffect(`shadowed`, this.body.childNodes[3])
-            break
-          default:
-            ToggleTextEffect(`normal`, this.body.childNodes[3])
-        }
+    if (element === null) return
+    element.onclick = click => {
+      switch (click.srcElement.textContent) {
+        case `Normal`:
+          ToggleTextEffect(`shadowed`, this.body.childNodes[3])
+          break
+        default:
+          ToggleTextEffect(`normal`, this.body.childNodes[3])
       }
     }
   }
@@ -637,8 +632,8 @@ class DOM {
 class Input {
   /**
    * Creates an instance of Input.
-   * @param [encoding=``] document page encoding
-   * @param [text=``] plain text
+   * @param [encoding=``] Document page encoding
+   * @param [text=``] Plain text
    */
   constructor(encoding = ``, text = ``) {
     const guess = new Guess(text)
@@ -657,15 +652,15 @@ class Input {
  * Standard Architecture for Universal Comment Extensions
  * see: http://www.acid.org/info/sauce/sauce.htm
  *
- * To reduce the memory footprint when handling large text files.
- * We pass SAUCE text as an object pointing to the in-memory location
- * instead of duplicating the text using a primitive string.
+ * To reduce the memory footprint when handling large text files. Pass the SAUCE
+ * text as an object pointing to the in-memory location instead of duplicating
+ * text using a primitive string.
  * @class SAUCE
  */
 class SAUCE {
   /**
    * Creates an instance of SAUCE.
-   * @param [input={}] Input class object.
+   * @param [input={}] Input class object
    */
   constructor(input = { text: `` }) {
     this.text = input.text
@@ -713,38 +708,39 @@ class SAUCE {
       sauceIndex: null,
       comntIndex: null
     }
-    // rudimentary Map of ANSI/ASCII groups linked to textmod.es crew ids
-    // it's not too useful as most artists don't include group metadata
+    // a rudimentary Map of ANSI/ASCII groups linked to 16colo.rs crew ids
+    // this is not too useful as most artists don't include group metadata
     this.textmodes = new Map()
-      .set(`acid`, `acid.production`)
+      .set(`acid`, `acid`)
       .set(`a.m.i.s.h`, `amish`)
       .set(`amish`, `amish`)
       .set(`apathy`, `apathy`)
-      .set(`black maiden`, `black.maiden`)
-      .set(`blender!`, `the.blender`)
+      .set(`black maiden`, `black maiden`)
+      .set(`blender!`, `blender`)
       .set(`blocktronics`, `blocktronics`)
-      .set(`cia`, `creators.of.intense.art`)
-      .set(`eerie`, `~eerie`)
+      .set(`cia`, `cia`)
       .set(`fuel`, `fuel`)
       .set(`glue`, `glue`)
-      .set(`ice`, `insane.creators.enterprise`)
-      .set(`impure`, `impure!ascii.1940`)
-      .set(`mistergirls`, `mistergirls`)
+      .set(`ice`, `ice`)
+      .set(`impure`, `impure`)
       .set(`mistigris`, `mistigris`)
-      .set(`remorse`, `remorse.1981`)
-      .set(`revival`, `revival`)
-      .set(`sac`, `superior.art.creations`)
+      .set(`remorse`, `remorse`)
+      .set(`sac`, `sac`)
       .set(`seviin`, `seviin`)
-      .set(`the legion`, `the.legion`)
       .set(`titan`, `titan`)
       .set(`zenith`, `zenith`)
     // match SAUCE font families to RetroTxt fonts
     this.sauceFonts = new Map()
-      .set(`IBM VGA`, `vga8`) // 8px font
-      .set(`IBM VGA50`, `vga50`) // 8x8 (as no 9×8 font found)
-      .set(`IBM VGA25G`, `vgalcd`) // 8x19
-      .set(`IBM EGA`, `ega8`) // 8×14
-      // 'For the 8x8 font present in EGA/MCGA/VGA hardware, see the IBM PC BIOS'
+      // 8px font
+      .set(`IBM VGA`, `vga8`)
+      // 8x8 (as no 9×8 font found)
+      .set(`IBM VGA50`, `vga50`)
+      // 8x19
+      .set(`IBM VGA25G`, `vgalcd`)
+      // 8×14
+      .set(`IBM EGA`, `ega8`)
+      // 'For the 8x8 font present in EGA/MCGA/VGA hardware
+      // see the IBM PC BIOS'
       .set(`IBM EGA43`, `bios`)
       .set(`Amiga Topaz 1`, `topaza500`)
       .set(`Amiga Topaz 1+`, `topazplusa500`)
@@ -769,15 +765,16 @@ class SAUCE {
   }
   /**
    * Remove malformed metadata from data.
-   * @param [data=``] text to clean
+   * @param [data=``] Text to clean
    * @returns string
    */
   clean(data = ``) {
-    // do not delete the space in this regex or SAUCE embedded documents will fail
+    // note: do not delete the space in this RegExp
+    // or SAUCE embedded documents will fail
     return data.replace(/[^A-Za-z0-9 ]/g, ``)
   }
   /**
-   * Discovers and parses any SAUCE metadata from text.
+   * Discovers and parses any SAUCE metadata contained in the text.
    */
   find() {
     // scan the last 500 characters of the text for a SAUCE identifier
@@ -790,10 +787,12 @@ class SAUCE {
       sauceIndex: this.length + start,
       comntIndex: this.length - comntStart
     }
-    // when no COMNT found delete the position index
+    // when no `COMNT` is found, delete the position index
     if (comntStart === -1) this.positions.comntIndex = 0
-    // binary zero is represented as Unicode code point 65533 (�), named as 'replacement character'
-    const rBin0 = new RegExp(String.fromCharCode(65533), `g`) // a pattern to find all binary zeros
+    // binary zero is represented as Unicode code point 65533 (�),
+    // referred to as the 'replacement character'.
+    // RegExp pattern to find all binary zeros
+    const regexBin0 = new RegExp(String.fromCharCode(65533), `g`)
     // search the 500 characters for a SAUCE record
     this.sliced = this.text.slice(start, this.length)
     this.extract()
@@ -811,24 +810,76 @@ class SAUCE {
     this.dates.day = parseInt(this.date.slice(6, 8))
     // handle ANSiFlags
     // see http://www.acid.org/info/sauce/sauce.htm#ANSiFlags
-    this.configs.flags = this.TFlags.charCodeAt(0).toString(2) // get binary representation of character
-    const len = this.configs.flags.length
-    if (len < 8) {
-      // pad with leading 0s to make an 8-bit binary string
-      this.configs.flags = `0`.repeat(8 - len) + this.configs.flags
+    // get binary representation of character
+    this.configs.flags = this.TFlags.charCodeAt(0).toString(2)
+    // pad with leading 0s to make an 8-bit binary string
+    switch (this.configs.flags) {
+      case `10101`:
+      case `1010`:
+        this.configs.letterSpacing = `10`
+        this.configs.iceColors = `1`
+        break
+      case `1111111111111101`:
+      case `10011`:
+      case `1011`:
+        this.configs.letterSpacing = `00`
+        this.configs.iceColors = `1`
+        break
+      case `10100`:
+      case `1100`:
+        this.configs.letterSpacing = `10`
+        this.configs.iceColors = `0`
+        break
+      case `10010`:
+        this.configs.letterSpacing = `00`
+        this.configs.iceColors = `0`
+        break
+      default:
+        if (!isNaN(this.configs.flags))
+          console.log(`New ANSiFlags`, this.configs.flags)
     }
-    this.configs.iceColors = this.configs.flags.slice(-1)
-    this.configs.letterSpacing = this.configs.flags.slice(-3, -1)
-    this.configs.aspectRatio = this.configs.flags.slice(-5, -3)
     // handle font name
-    this.configs.fontName = this.TInfoS.replace(rBin0, ``)
+    this.configs.fontName = this.TInfoS.replace(regexBin0, ``)
     // document length (ignored) & width
     if (typeof TextEncoder === `function`) {
       // see http://ourcodeworld.com/articles/read/164/how-to-convert-an-uint8array-to-string-in-javascript
-      const uea = new TextEncoder(`ascii`).encode(
-        this.TInfo1.replace(rBin0, ``)[0]
+      const bytes = new TextEncoder(`ascii`).encode(
+        this.TInfo1.replace(regexBin0, ``)[0]
       )
-      this.configs.width = parseInt(uea, 10)
+      // this is a hacked workaround for issue 44.
+      // https://github.com/bengarrett/RetroTxt/issues/44
+      const byteSequence = Array.from(bytes).join()
+      // these sets contain uint8array byte sequences
+      //  and their matching column values
+      const widths = new Map()
+        .set(`226,128,147`, `150`)
+        .set(`226,128,153`, `146`)
+        .set(`226,128,161`, `135`)
+        .set(`194,170`, `1450`)
+        .set(`194,188`, `700`)
+        .set(`194,169`, `169`)
+        .set(`194,164`, `420`)
+        .set(`195,186`, `250`)
+        .set(`195,180`, `500`)
+        .set(`195,176`, `240`)
+        .set(`195,156`, `220`)
+        .set(`195,146`, `210`)
+        .set(`208,168`, `200`)
+        .set(`195,136`, `200`)
+        .set(`194,187`, `187`)
+        .set(`194,180`, `180`)
+        .set(`194,160`, `160`)
+        .set(`194,144`, `144`)
+        .set(`197,146`, `140`)
+        .set(`94`, `350`)
+        .set(`91`, `80`)
+        .set(`69`, `325`)
+      const columns = widths.get(`${byteSequence}`)
+      if (typeof columns === `undefined`) {
+        if (byteSequence !== ``)
+          console.log(`New width byte sequence`, byteSequence)
+        this.configs.width = `${bytes[0]}`
+      } else this.configs.width = `${columns}`
     }
     // comment lines
     if (comntStart > -1 && comntStart - start < 255 * 64) {
@@ -845,17 +896,18 @@ class SAUCE {
     if (this.version !== `00`) return
     const fontValue = `${this.configs.fontName}`
     // clean-up any malformed data
-    let font = fontValue.replace(/[^A-Za-z0-9 +/-]/g, ``)
+    const font = fontValue.replace(/[^A-Za-z0-9 +/-]/g, ``)
     // 9 pixel font exception
     if (font === `IBM VGA` && this.configs.letterSpacing === `10`)
       this.configs.fontFamily = `vga9`
     // default font family to use if no font information exists
     else if (fontValue === ``) this.configs.fontFamily = `vga8`
     // get local font
-    else this.configs.fontFamily = this.sauceFonts.get(font)
+    else this.configs.fontFamily = this.sauceFonts.get(font) || ``
   }
   /**
-   * Returns a suitable codepage for use based on the supplied SAUCE font family.
+   * Returns a suitable codepage for use based on the
+   * supplied SAUCE font family.
    */
   fontCodePage() {
     const font = `${this.configs.fontName}`
@@ -879,7 +931,7 @@ class SAUCE {
     this.configs.codePage = codePage
   }
   /**
-   * Parses SAUCE metadata into HTML for display.
+   * Parse and converts SAUCE metadata to HTML for page display.
    * @returns HTMLElement or `null`
    */
   divBlock() {
@@ -921,9 +973,8 @@ class SAUCE {
     // date
     if (this.dates.ccyymmdd.trim() !== ``) {
       if (the.year > 1980 && the.year <= now.getFullYear()) {
-        if (the.day > 0 && the.day <= 31 && the.month > 0 && the.month <= 12) {
+        if (the.day > 0 && the.day <= 31 && the.month > 0 && the.month <= 12)
           the.string = ` ${months[the.month - 1]} ${the.day} `
-        }
         body = body.trim()
         if (body.length > 0) body += `, dated ${the.year} ${the.string}`
         else body = `Dated ${the.year} ${the.string}`
@@ -935,14 +986,14 @@ class SAUCE {
     const sauce = document.createElement(`span`)
     sauce.id = `SAUCE00-metadata`
     sauce.textContent = body.trim()
-    // append textmod.es crew link
+    // append 16colo.rs crew link
     if (this.textmodes.has(group.toLowerCase())) {
       const id = this.textmodes.get(group.toLowerCase())
       const link = document.createElement(`a`)
-      const sp = document.createTextNode(` `)
-      link.setAttribute(`href`, `https://pc.textmod.es/crew/${id}`)
-      link.textContent = `textmod.es/crew/${id}`
-      sauce.appendChild(sp)
+      const space = document.createTextNode(` `)
+      link.setAttribute(`href`, `https://16colo.rs/tags/group/${id}`)
+      link.textContent = `16colo.rs/tags/${id}`
+      sauce.appendChild(space)
       sauce.appendChild(link)
     }
     // author comments
@@ -977,7 +1028,8 @@ class SAUCE {
     this.TInfoS = text.slice(106, 128) // 22 bytes
     this.cType = text.slice(90, 106) // 16 bytes
     // binary values
-    // NOTE: these values are not always accurate due to the source files being read as text and not as binary data
+    // note: these are not always accurate due to the source files being
+    // loaded as text and not as binary data
     this.fileSize = text.slice(90, 94)
     this.dataType = text.slice(94, 95)
     this.fileType = text.slice(95, 96)
@@ -1000,7 +1052,7 @@ class SAUCE {
         this.positions.comntIndex > 0 &&
         this.positions.comntIndex < this.positions.sauceIndex
       ) {
-        // re-evaluate location of COMNT and remove it from text
+        // re-evaluate location of `COMNT` and remove it from text
         const cmnt = this.text.lastIndexOf(`COMNT`)
         this.text = this.text.slice(0, cmnt)
       } else {
@@ -1012,15 +1064,14 @@ class SAUCE {
       // look for a fixed DLE, SUB character sequence and trim the text
       // note: regex and indexOf doesn't work with C0 control characters
       const slice = this.text.slice(-6)
-      if (slice.codePointAt(0) === 10 && slice.codePointAt(1) === 26) {
+      if (slice.codePointAt(0) === 10 && slice.codePointAt(1) === 26)
         this.text = this.text.slice(0, -6)
-      } else if (slice.codePointAt(1) === 10 && slice.codePointAt(2) === 26) {
+      else if (slice.codePointAt(1) === 10 && slice.codePointAt(2) === 26)
         this.text = this.text.slice(0, -5)
-      }
     }
   }
   /**
-   * Validate SAUCE record.
+   * Validate the SAUCE record.
    */
   valid() {
     if (this.id === `SAUCE00`) return true
@@ -1043,11 +1094,11 @@ class Output {
     this.encode.id = `h-doc-fmt`
     this.main = document.createElement(`main`)
     this.pre = document.createElement(`pre`)
-    this.slice = sauce.text //`${inputText}`
+    this.slice = sauce.text
     // assume 80 for all text formats
     this.columns = config.textRender.get(`columns`)
     this.rows = 0
-    // Data objects
+    // data objects
     this.data = {
       cs: ``,
       cp: {},
@@ -1152,15 +1203,13 @@ class Output {
     this.statisticsECMA48()
     // font override
     sessionStorage.removeItem(`fontOverride`)
-    if (this.ecma48.font === undefined) {
+    if (this.ecma48.font === undefined)
       CheckError(
-        `🖫 'this.ecma48.font' should have returned a font value or 'null' but instead returned ${
-          this.ecma48.font
-        }.`
+        `🖫 'this.ecma48.font' should have returned a font value or 'null' but instead returned ${this.ecma48.font}.`
       )
-    } else if (this.ecma48.font !== null) {
+    else if (this.ecma48.font !== null) {
       const fonts = new FontFamily(this.ecma48.font)
-      // this needs to run before setting the sessionStorage
+      // fonts.swap() needs to run before setting the sessionStorage
       fonts.swap(this.pre)
       sessionStorage.setItem(`fontOverride`, `true`)
     }
@@ -1179,16 +1228,16 @@ class Output {
     return this.ecma48
   }
   /**
-   * Replace escaped characters because we're using <pre>.
+   * Replace escaped characters as the text is used in a <pre> element.
    */
   htmlEscapes() {
-    const reg1 = new RegExp(`&gt;`, `gi`)
-    const reg2 = new RegExp(`&lt;`, `gi`)
-    const reg3 = new RegExp(`&amp;`, `gi`)
-    this.data.html = this.data.html.replace(reg1, `>`)
-    this.data.html = this.data.html.replace(reg2, `<`)
-    this.data.html = this.data.html.replace(reg3, `&`)
+    const gt = new RegExp(/&gt;/gi)
+    const lt = new RegExp(/&lt;/gi)
+    const and = new RegExp(/&amp;/gi)
     this.pre.textContent = this.data.html
+      .replace(gt, `>`)
+      .replace(lt, `<`)
+      .replace(and, `&`)
   }
   /**
    * Rebuild text with a new character encoding.
@@ -1196,7 +1245,7 @@ class Output {
   rebuildCharSet() {
     const characterSet = `${this.data.cs}`
     const sessionItem = sessionStorage.getItem(`transcode`)
-    // Transcode() class is found in parse_dos.js
+    // The Transcode() class is found in parse_dos.js
     const transcode = new Transcode(`${characterSet}`, `${this.slice}`)
     this.slice = ``
     this.sauce.text = ``
@@ -1205,11 +1254,10 @@ class Output {
       return text.trim().split(/\r\n|\r|\n/).length
     }
     if (sessionItem !== null) {
-      // Transcode text US-ASCII simply returns the input text
-      // Other transcode selections require the text to be rebuild based on the sessionItem value
-      if (sessionItem !== `us_ascii➡`) {
-        transcode.rebuild()
-      }
+      // US-ASCII transcode value simply returns the input text.
+      // Other transcode selections require the text to be rebuilt based on the
+      // sessionItem value
+      if (sessionItem !== `us_ascii➡`) transcode.rebuild()
       this.data.html = transcode.text
       this.rows = rowCount()
       return
@@ -1218,7 +1266,7 @@ class Output {
     if (characterSet.slice(-1) === `➡`) newCodePage = characterSet.slice(0, -1)
     // Characters() class is found in functions.js
     const characters = new Characters(newCodePage)
-    // Normalise text where document.characterSet is supplied
+    // Normalise text where `document.characterSet` is supplied
     // i.e WINDOWS-1250
     if (characters.supportedEncoding() === true) {
       const text = new DOSText(`${transcode.text}`, {
@@ -1228,7 +1276,7 @@ class Output {
       this.rows = rowCount()
       return
     }
-    // Normalise text where code page key is supplied
+    // normalise text where code page key is supplied
     // i.e cp_1252
     if (characters.support() === true) {
       const text = new DOSText(`${transcode.text}`, { codepage: newCodePage })
@@ -1243,8 +1291,8 @@ class Output {
   }
   /**
    * Creates information on both the input/output codepage & text encoding.
-   * @param input input text object
-   * @param width <pre> element width
+   * @param input Input text object
+   * @param width With for the <pre> element
    */
   showTextFormat(input, width = ``) {
     // lock centring alignment to 640px columns
@@ -1271,7 +1319,7 @@ class Output {
     elements.in.textContent = text.in
     elements.in.title = inputChars.titleIn(input.characterSet)
     if (inputEncoding.support() === false) {
-      // this class highlights the characterSet string
+      // this class highlights the `characterSet` string
       elements.in.textContent = input.characterSet
       elements.in.classList.add(`unknown`)
       elements.in.title = `Unknown character set`
@@ -1284,33 +1332,33 @@ class Output {
     const outputEncoding = new BrowserEncodings(outputChars.key)
     let outputKey = `${outputChars.key}`
     let outputTitle = ``
-    // Matches Characters.output Map
+    // matches the `Characters.output` Map
     // i.e iso_8859_1➡ that is supplied by this web-extension
     if (outputChars.outputs.has(outputKey)) {
       stored.text = outputChars.compactOut()
       text.out = outputChars.compactOut()
       outputTitle = outputChars.titleOut()
     }
-    // Matches Document.characterSet property supplied by the browser
+    // matches the `Document.characterSet` property supplied by the browser
     // i.e ISO-8859-1, UTF-8, WINDOWS-1252, etc
     else if (outputEncoding.support()) {
       // append an arrow to label
       // i.e iso-8859-1➡
       const newLabel = `${outputEncoding.label()}➡`
       const inLabel = inputEncoding.label()
-      // also make sure input encoding doesn't match output encoding
+      // make sure input encoding doesn't match output encoding
       // i.e CP1252 → CP1252
       if (
         outputChars.outputs.has(newLabel) &&
         newLabel.slice(0, -1) !== inLabel
-      ) {
+      )
         outputChars.key = outputEncoding.label()
-      } else outputChars.key = `cp_437`
+      else outputChars.key = `cp_437`
       stored.text = outputChars.compactOut()
       text.out = outputChars.compactOut()
       outputTitle = outputChars.titleOut()
     }
-    // Matches Characters.labels Map that is supplied by SAUCE metadata
+    // matches `Characters.labels` Map that is supplied by SAUCE metadata
     // i.e cp_437 etc
     else if (outputChars.support()) {
       stored.text = outputChars.compactOut()
@@ -1323,7 +1371,7 @@ class Output {
     // handle codepages that require specific fonts
     // ==============================================
     switch (text.in) {
-      // these will override user font choices for plain text files
+      // these cases will override user font choices for plain text files
       case `SHIFT_JIS`:
         elements.out.textContent = ``
         elements.out.title = ``
@@ -1333,7 +1381,7 @@ class Output {
       // handle other codepage special cases
       default:
         switch (stored.item) {
-          // Transcode text CP-1252 ↻ and ISO 8859-5 ↻ selections
+          // transcode text `CP-1252 ↻` and `ISO 8859-5 ↻` selections
           case `cp_1252`:
           case `iso_8859_5`:
             if (text.in === stored.text) {
@@ -1344,24 +1392,23 @@ class Output {
               old.textContent = text.in
               elements.in.appendChild(old)
               elements.in.textContent = stored.text
-              elements.in.title = `Unable to transcode this text using '${
-                stored.text
-              } ↻'`
+              elements.in.title = `Unable to transcode this text using '${stored.text} ↻'`
               elements.in.style.textDecoration = `line-through`
             }
             break
-          // stored.item === null, Transcode text is set to Browser default
+          // transcode text is set to `Browser default`
           default:
             if (text.in.length === 0) {
               // unsupported input
             } else if (text.out === `CP437`) {
               // standard output character set
             } else if (stored.text === text.out) {
-              // Transcode text output enabled
+              // transcode text output enabled
               elements.out.style = `text-decoration: underline`
               elements.out.textContent = text.out
             } else if (stored.text !== ``) {
-              // Transcode text selection unsupported (manual storage edit?)
+              // transcode text selection unsupported
+              // example: manual storage edit?
               const old = document.createElement(`span`)
               old.textContent = text.out
               elements.out.appendChild(old)
@@ -1382,11 +1429,11 @@ class Output {
       this.encode.appendChild(elements.vs)
       this.encode.appendChild(elements.out)
     }
-    if (typeof qunit !== `undefined`) {
-      return elements
-    }
+    if (typeof qunit !== `undefined`) return elements
   }
-  // returns ECMA48 statistics
+  /**
+   * Returns ECMA48 statistics.
+   */
   statisticsECMA48() {
     if (this.ecma48.columns === 999 && this.sauce.configs.width >= 180)
       this.columns = null
@@ -1502,7 +1549,7 @@ class Information extends Output {
   }
   /**
    * Font in use notice.
-   * @param name font family
+   * @param name Font family
    */
   setFont(name) {
     const title = name => {
@@ -1582,17 +1629,12 @@ class Information extends Output {
         default:
           this.append(document.createTextNode(` palette`))
       }
-      if (this.ecma48.iceColors === true) {
-        this.setBlinking()
-      }
+      this.setBlinking()
       this.setLineWrap()
       // append any ecma-48 errors
       const sum = this.ecma48.otherCodesCount + this.ecma48.unknownCount
-      if (sum > 10) {
-        this.append(this.setErrorBBS())
-      } else if (sum > 0) {
-        this.append(this.setWarningBBS())
-      }
+      if (sum > 10) this.append(this.setErrorBBS())
+      else if (sum > 0) this.append(this.setWarningBBS())
     }
   }
   /**
@@ -1641,7 +1683,7 @@ class Information extends Output {
   }
   /**
    * CSS palette notice.
-   * @param [colorDepth=0] colour bit depth
+   * @param [colorDepth=0] Colour bit depth
    */
   setPalette(colorDepth = this.ecma48.colorDepth) {
     const palette = super.newBold()
@@ -1690,7 +1732,6 @@ class Information extends Output {
       `color`
     )}`
     span.textContent = `iCE colors `
-    //span.appendChild(bold)
     this.show.appendChild(document.createTextNode(`, `))
     this.show.appendChild(span)
     this.show.appendChild(bold)
@@ -1729,7 +1770,7 @@ class Information extends Output {
 }
 
 /**
- * Swaps a browser tab between the RetroTxt output and the tab's text source output.
+ * Swaps the browser tab between RetroTxt's output and the raw text output.
  * @class Invoke
  */
 class Invoke {
@@ -1746,6 +1787,7 @@ class Invoke {
         for (const item of this.dom.main.classList) {
           if (item.endsWith(`-shadowed`) === true)
             this.dom.main.classList.remove(item)
+          // TODO: Jul-2019: This can be removed in a future update
           if (item === `text-smeared`) this.dom.main.classList.remove(item)
         }
         this.dom.main.style.justifyContent = `left`
@@ -1835,9 +1877,8 @@ class Invoke {
 }
 
 /**
- * Is triggered by an event handler when changes are made to the chrome.storage.
- * For example such as a different selection in the Options menu.
- * @param change chrome.storage onChanged event object
+ * The Chrome Storage event handler.
+ * @param change OnChanged `chrome.storage` object
  */
 function handleChanges(change) {
   if (typeof change !== `object`) CheckArguments(`change`, `object`, change)
@@ -1854,7 +1895,8 @@ function handleChanges(change) {
     info: change.textFontInformation,
     lineHeight: change.lineHeight,
     scanlines: change.textBgScanlines,
-    wrap80c: change.textAnsiWrap80c
+    wrap80c: change.textAnsiWrap80c,
+    smear: change.textSmearBlocks
   }
   if (RetroTxt.developer) {
     console.log(`🖫 handleChanges(change)`)
@@ -1866,15 +1908,14 @@ function handleChanges(change) {
   }
   const dom = new DOM()
   // handle objects that only need to set local storage
-  if (changes.wrap80c) {
+  if (changes.smear)
+    localStorage.setItem(`textSmearBlocks`, changes.smear.newValue)
+  if (changes.wrap80c)
     localStorage.setItem(`textAnsiWrap80c`, changes.wrap80c.newValue)
-  }
-  if (changes.iceColors) {
+  if (changes.iceColors)
     localStorage.setItem(`textAnsiIceColors`, changes.iceColors.newValue)
-  }
-  if (changes.dosCtrls) {
+  if (changes.dosCtrls)
     localStorage.setItem(`textDosCtrlCodes`, changes.dosCtrls.newValue)
-  }
   const centerAlignment = (toggle = `true`, dom = {}) => {
     // centre, vertical & horizontal alignment
     if (typeof dom === `object` && `${toggle}` === `true`) {
@@ -1896,9 +1937,7 @@ function handleChanges(change) {
           `🖫 Could not obtain the required lineHeight setting to adjust the layout.`,
           true
         )
-      else {
-        dom.lineHeight(result.lineHeight)
-      }
+      else dom.lineHeight(result.lineHeight)
     })
     return
   }
@@ -1908,11 +1947,9 @@ function handleChanges(change) {
       localStorage.setItem(`customBackground`, changes.customBG.newValue)
     if (changes.customFG)
       localStorage.setItem(`customForeground`, changes.customFG.newValue)
-    // custom colours are handled by DOM.background()
-    {
-      dom.backgroundColor = `theme-custom`
-      return dom.background()
-    }
+    // custom colours are handled by `DOM.background()`
+    dom.backgroundColor = `theme-custom`
+    return dom.background()
   }
   // colour themes
   if (changes.color) {
@@ -1925,74 +1962,66 @@ function handleChanges(change) {
       result => {
         const body = document.body
         const main = document.getElementsByTagName(`main`)[0]
-        // need to update scan lines if background colour changes
+        // update scan lines on background colour changes requirement
         if (typeof result.textBgScanlines === `undefined`)
           CheckError(
             `🖫 Could not obtain the required textBgScanlines setting to handle changes (${typeof result.textBgScanlines}).`,
             true
           )
-        else if (result.textBgScanlines === true && typeof body === `object`) {
+        else if (result.textBgScanlines === true && typeof body === `object`)
           ToggleScanlines(true, body, newColor)
-        }
-        // need to update text effect colours
+        // update text effect colours requirement
         if (typeof result.textEffect === `undefined`)
           CheckError(
             `🖫 Could not obtain the required textEffect setting to handle changes (${typeof result.textEffect}).`,
             true
           )
-        else if (typeof main === `object`) {
+        else if (typeof main === `object`)
           ToggleTextEffect(result.textEffect, main, newColor)
-        }
-        // need to update centre alignment
+        // update centre alignment requirement
         if (typeof result.textCenterAlignment === `undefined`)
           CheckError(
             `🖫 Could not obtain the required textCenterAlignment setting to handle changes (${typeof result.textCenterAlignment}).`,
             true
           )
-        else if (typeof main === `object`) {
+        else if (typeof main === `object`)
           centerAlignment(result.textCenterAlignment, main)
-        }
       }
     )
     return
   }
   // text effect
-  if (changes.effect && typeof dom.main === `object`) {
+  if (changes.effect && typeof dom.main === `object`)
     return ToggleTextEffect(changes.effect.newValue, dom.main)
-  }
   // line height
-  if (changes.lineHeight) {
-    return dom.lineHeight(changes.lineHeight.newValue)
-  }
+  if (changes.lineHeight) return dom.lineHeight(changes.lineHeight.newValue)
   // information text
-  if (changes.info) {
-    return dom.header(changes.info.newValue)
-  }
+  if (changes.info) return dom.header(changes.info.newValue)
   // blink animation
   if (changes.blink) {
     dom.results = { textBlinkAnimation: changes.blink.newValue }
     return dom.blinkAnimation()
   }
   // centre, vertical & horizontal alignment
-  if (changes.alignment) {
+  if (changes.alignment)
     return centerAlignment(changes.alignment.newValue, dom.main)
-  }
   // scan lines
   if (changes.scanlines) {
     const body = document.getElementsByTagName(`body`)[0]
-    if (typeof body === `object`) {
+    if (typeof body === `object`)
       ToggleScanlines(changes.scanlines.newValue, body)
-    }
     return
   }
 }
 /**
- * Handle messages passed on by functions in eventpage.js
- * @param message chrome.runtime onMessage event object
+ * Handle messages passed on by functions in `eventpage.js`.
+ * @param message OnMessage event for the `chrome.runtime` object
  */
-// sending messages here from event page require the chrome.tabs.sendMessage method which includes the tabId.
-// responding back to messages from event page requires the chrome.runtime.sendMessage method without tabId.
 function handleMessages(message, sender) {
+  // Receiving messages here from event page requires the
+  // `chrome.tabs.sendMessage` method which includes the `tabId`. Responding to
+  // these messages from event page requires the `chrome.runtime.sendMessage`
+  // method without `tabId`.
   const unexpected = () => {
     if (typeof qunit !== `undefined`) return false
     if (!RetroTxt.developer) return
@@ -2029,13 +2058,15 @@ function handleMessages(message, sender) {
       if (message.action === `browserGuess➡`)
         sessionStorage.removeItem(`transcode`)
       else sessionStorage.setItem(`transcode`, message.action)
-      window.location.reload() // reload the active tab
+      // reload the active tab
+      window.location.reload()
       if (RetroTxt.developer)
         console.log(`✉ 'transcode' message '%s' received.`, message.action)
       break
     case `CheckError`:
       if (RetroTxt.developer) console.log(`✉ 'CheckError' message received.`)
-      return DisplayAlert() // display error alert box on active tab
+      // display error alert box on active tab
+      return DisplayAlert()
     case `qunit`:
       return true
     default:
@@ -2043,9 +2074,9 @@ function handleMessages(message, sender) {
   }
 }
 /**
- * RetroTxt trigger used by the chrome.tabs executeScript method.
- * @param [tabId=0] browser tab id to invoke RetroTxt
- * @param [pageEncoding=`unknown`] page encoding used by the tab
+ * RetroTxt trigger used by the `chrome.tabs` `executeScript` method.
+ * @param [tabId=0] Browser tab id to invoke RetroTxt
+ * @param [pageEncoding=`unknown`] Page encoding used by the tab
  */
 function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
   if (typeof tabId !== `number`) CheckArguments(`tabId`, `number`, tabId)
@@ -2065,11 +2096,10 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
   let ecma48 = {}
   if (RetroTxt.dump)
     console.log(`InvokeRetroTxt('${tabId}', '${pageEncoding}')`)
-  if (typeof dom.pre0 === `undefined`) {
+  if (typeof dom.pre0 === `undefined`)
     return CheckError(
       `RetroTxt failed to load and has been aborted. Were you trying to load an empty file?`
     )
-  }
   if ([`UTF-16BE`, `UTF-16LE`].includes(document.characterSet))
     DisplayEncodingAlert()
   const input = new Input(pageEncoding, `${dom.pre0.textContent}`)
@@ -2078,24 +2108,21 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
   if (RetroTxt.dump) console.log(sauce)
   const output = new Output(sauce, dom)
   if (RetroTxt.dump) console.log(output)
-  // copy user settings to localStorage (active browser tab)
+  // copy user settings to the active browser tab `localStorage`
   config.setLocalStorage(`textBlinkAnimation`)
   config.setLocalStorage(`textDosCtrlCodes`)
   config.setLocalStorage(`textAnsiIceColors`)
-  // determine and rebuilt character set
+  config.setLocalStorage(`textSmearBlocks`)
+  // determine and rebuild the character set
+  // attempt to use SAUCE metadata
   if (sauce.valid()) {
-    // attempt to use SAUCE metadata
     output.data.cs = sauce.configs.codePage
-    if (pageEncoding === `unknown`) {
-      output.data.cs = ``
-    }
+    if (pageEncoding === `unknown`) output.data.cs = ``
   }
-  if (output.data.cs === ``) {
-    // attempt to guess
-    output.data.cs = guess.codePage(null, output)
-  }
+  // attempt to guess
+  if (output.data.cs === ``) output.data.cs = guess.codePage(null, output)
   output.rebuildCharSet()
-  // handle non-ASCII text formatting
+  let inputMessage = ``
   switch (input.format) {
     case `ecma48`:
       // ECMA-48 aka ANSI encoded text
@@ -2108,13 +2135,22 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
       ecma48 = output.getECMA48()
       output.data.html = ``
       break
+    case `celerity`:
     case `pcboard`:
-    case `wildcat`: {
-      // converts PCBoard and WildCat! BBS colour codes into HTML and CSS
+    case `renegade`:
+    case `telegard`:
+    case `wildcat`:
+    case `wwivhash`:
+    case `wwivheart`: {
+      // handle non-ASCII text formatting
+      inputMessage = `${chrome.i18n.getMessage(input.format)}`
+      if (inputMessage.length === 0) {
+        console.warn(`"${input.format}" is not found in messages.json locales`)
+        inputMessage = `${input.format}`
+      }
+      // convert BBS colour codes and pipes into HTML and CSS
       console.info(
-        `%c%c${chrome.i18n.getMessage(input.format)} %c${chrome.i18n.getMessage(
-          `color`
-        )} codes.`,
+        `%c%c${inputMessage} %c${chrome.i18n.getMessage(`color`)} codes.`,
         `font-weight: bold`,
         `font-weight: bold; color: green`,
         `font-weight: bold; color: initial`
@@ -2125,8 +2161,12 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
       break
     }
     default: {
-      output.htmlEscapes()
+      const bbs = new BBS(`${output.data.html}`, `plaintext`)
       output.data.html = ``
+      output.pre = bbs.normalize()
+      // for ascii text that lack line breaks, wrap text to the browser tab
+      output.pre.style.textOverflow = `break-word`
+      output.pre.style.whiteSpace = `pre-wrap`
     }
   }
   // apply a blinking cursor
@@ -2136,19 +2176,29 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
     dom.ecma48 = ecma48
     dom.palette = output.palette
     dom.results = result
-    dom.headerUI()
+    if (sauce.configs.iceColors !== ``) {
+      const iceColors = parseInt(sauce.configs.iceColors, 10)
+      if (iceColors === 1) dom.ecma48.iceColors = true
+      else dom.ecma48.iceColors = false
+    }
+    dom.headerUI(sauce)
   })
   // apply any stylesheet fixes
   chrome.storage.local.get([`retroColor`], result => {
     dom.results = result
     dom.cssFix()
   })
-  // code page details for text font info.
+  // code page details
   switch (input.format) {
+    case `celerity`:
     case `pcboard`:
+    case `renegade`:
+    case `telegard`:
     case `wildcat`:
+    case `wwivhash`:
+    case `wwivheart`:
       output.encode.title = `Special bulletin board system, text formatting`
-      output.encode.textContent = `${chrome.i18n.getMessage(input.format)}`
+      output.encode.textContent = `${inputMessage}`
       break
     case `ecma48`:
       // console output
@@ -2169,10 +2219,10 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
   information.create()
   // SAUCE records for text font info
   if (output.data.sauce !== null) information.append(output.data.sauce)
-  // create red alert message at the top of the page
+  // create an alert message at the top of the page
   if (window.checkedErr !== undefined && window.checkedErr === true)
     DisplayAlert(true)
-  else DisplayAlert(false) // hide from view
+  else DisplayAlert(false)
   // hide original source text
   dom.pre0.style.display = `none`
   // mark tab's title with the RetroTxt ascii logo
@@ -2186,14 +2236,11 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
           return !!el
         })
         .pop()
-  } else {
-    title.textContent = `[··] ${window.location.host}${
-      window.location.pathname
-    }`
-  }
+  } else
+    title.textContent = `[··] ${window.location.host}${window.location.pathname}`
   // set document language
   document.documentElement.lang = `en`
-  // insert new tags into HTML DOM
+  // insert new tags into the HTML of the DOM
   dom.head.appendChild(title)
   output.main.appendChild(output.pre)
   try {
@@ -2238,8 +2285,8 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
   delete ecma48.verbose
   // hide spin loader
   BusySpinner(false)
-  // need to delay getting calculated element size
-  // otherwise the received client values are incorrect
+  // delay calculating the element size
+  // as the received client values are incorrect
   setTimeout(() => {
     const m = document.getElementsByTagName(`main`)[0]
     const w = document.getElementById(`width-of-text`)
@@ -2249,6 +2296,4 @@ function InvokeRetroTxt(tabId = 0, pageEncoding = `unknown`) {
   }, 500)
 }
 // eslint no-unused-variable fix
-if (typeof InvokeRetroTxt !== `undefined`) {
-  void 0
-}
+if (typeof InvokeRetroTxt !== `undefined`) void 0

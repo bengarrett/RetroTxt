@@ -19,6 +19,7 @@
         <button class="tablinks" id="btnTab2">Display</button>
         <button class="tablinks" id="btnTab3">Config</button>
         <button class="tablinks" id="btnTab4">About</button>
+        <a href="https://github.com/bengarrett/RetroTxt/wiki/options" class="help-button" target="_blank" title="RetroTxt options help"><i class="material-icons">help</i></a>
       </nav>
       <!-- status text -->
       <div id="status">&nbsp;</div>
@@ -356,6 +357,16 @@
             <label class="browser-style"><input type="checkbox" id="ansi-ice-colors"> <span class="asterisk">*</span></label>
           </div>
         </div>
+        <!-- smear block characters -->
+        <div class="display block separator-block" id="smear-blocks-container">
+          <div class="display-title">
+              Smear block characters
+          </div>
+          <div class="display-content">
+            <i class="material-icons">blur_linear</i>
+            <label class="browser-style"><input type="checkbox" id="smear-blocks"> <span class="asterisk">*</span></label>
+          </div>
+        </div>
         <!-- background scan lines -->
         <div class="display block separator-block">
           <div class="display-title">
@@ -415,8 +426,6 @@
             <form name="texteffects" id="effects-form">
               <label class="browser-style" for="trclear" title="Suggested for small fonts and line art">
                 <input type="radio" name="effect" value="normal" id="trclear"> Normal</label>
-              <label class="browser-style text-smeared" for="trart" title="Suggested for ANSI and ASCII block art">
-                <input type="radio" name="effect" value="smeared" id="trart"> Smeared</label>
               <label class="browser-style theme-windows-shadowed" for="trds" title="Suggested for large fonts and line art">
                 <input type="radio" name="effect" value="shadowed" id="trds"> Shadowed</label>
             </form>
@@ -567,11 +576,11 @@
   </article>
   <footer>
     <div class="box">
-      <a href="https://github.com/bengarrett/RetroTxt/blob/master/README.md" class="help-button" title="Help and readme"><i
+      <a href="https://github.com/bengarrett/RetroTxt/blob/master/README.md" class="help-button" title="Readme"><i
           class="material-icons">live_help</i></a>
-      <a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/privacy.md" class="link-button" title="Privacy policy"><i
+      <a href="https://github.com/bengarrett/RetroTxt/wiki/privacy" class="link-button" title="Privacy policy"><i
           class="material-icons">location_off</i></a>
-      <a href="welcome.html" target="_blank" class="link-button" title="Welcome"><i class="material-icons">extension</i></a>
+      <a href="welcome.html" target="_blank" class="link-button" title="Welcome"><i class="material-icons">home</i></a>
       <a href="https://github.com/bengarrett/RetroTxt" class="link-button" title="Get the source code hosted on GitHub"><i
           class="material-icons">code</i></a>
       <a href="../test/index.html" target="_blank" class="link-button" id="unittest" title="Unit tests (this will also reset all Options)"><i

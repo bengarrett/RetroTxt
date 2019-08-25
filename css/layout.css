@@ -1,8 +1,13 @@
-/* items formerly retrotxt.css that conflict with options.css */
+/*
+  filename: layout.css
+
+  Items formerly located in`css/retrotxt.css` 
+  that conflict with `css/options.css`
+*/
 
 /*
-- Use flexbox for our layout to stack HTML items
-- apply a work-around fix for Chrome browser's vertical line, font artefacts
+  use flexbox for our layout to stack HTML items
+  apply a work-around fix for Chrome browser's vertical line, font artefacts
 */
 
 body {
@@ -12,9 +17,9 @@ body {
 }
 
 /*
-'Text and font information' style
-font color value is the invert of the background colour
-- change 'order: 3;' to move text information header to the bottom of the screen
+  'Text and font information' style
+  font color value is the invert of the background colour
+  change 'order: 3;' to move text information header to the bottom of the screen
 */
 
 header {
@@ -44,7 +49,15 @@ header .unknown {
 main {
   display: inline-block;
   letter-spacing: 0;
+  min-width: 640px;
   order: 2;
+}
+
+main b {
+  font-style: normal;
+  font-weight: normal;
+  /* offset-x | offset-y | blur-radius | color */
+  text-shadow: 1px 0 1px currentColor;
 }
 
 main i {
@@ -55,9 +68,8 @@ main i {
 pre {
   border: 0 dotted rgba(0, 128, 0, 1);
   padding: 0;
-  /* for text that lack line breaks this wraps text to the tab width */
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
+  /* override the Firefox default value `pre-wrap` that breaks wide ANSI art */
+  white-space: pre;
 }
 
 body > div#checkError {
@@ -70,7 +82,7 @@ body > div#checkError {
 }
 
 body > div#checkError > kbd {
-  /* Source: https://github.com/auth0/kbd */
+  /* source: https://github.com/auth0/kbd */
   background: rgb(238, 238, 238);
   border-radius: 3px;
   box-shadow: 1px 1px 1px rgb(119, 119, 119);

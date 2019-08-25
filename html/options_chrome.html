@@ -19,6 +19,7 @@
         <button class="tablinks" id="btnTab2">Display</button>
         <button class="tablinks" id="btnTab3">Config</button>
         <button class="tablinks" id="btnTab4">About</button>
+        <a href="https://github.com/bengarrett/RetroTxt/wiki/options" class="help-button" target="_blank" title="RetroTxt options help"><i class="material-icons">help</i></a>
       </nav>
       <!-- status text -->
       <div id="status">&nbsp;</div>
@@ -309,7 +310,7 @@
             <i class="material-icons">format_line_spacing</i>
             <select id="line-height">
               <optgroup label="Default">
-                <option value="100%">Normal</option>
+                <option value="normal">Normal</option>
               </optgroup>
               <optgroup label="Increases">
                 <option value="1.1">+10%</option>
@@ -329,7 +330,7 @@
             ANSI 80 column wrap
           </div>
           <div class="display-content">
-            <label><i class="material-icons">format_align_justify</i>
+            <label><i class="material-icons">wrap_text</i>
               <input type="checkbox" id="ansi-wrap-80c"> *</label>
           </div>
         </div>
@@ -341,6 +342,16 @@
           <div class="display-content">
             <label><i class="material-icons">format_color_fill</i>
               <input type="checkbox" id="ansi-ice-colors"> *</label>
+          </div>
+        </div>
+        <!-- smear block characters -->
+        <div class="display block" id="smear-blocks-container" style="display:none">
+          <div class="display-title">
+            Smear block characters
+          </div>
+          <div class="display-content">
+            <label><i class="material-icons">blur_linear</i>
+              <input type="checkbox" id="smear-blocks"> *</label>
           </div>
         </div>
         <!-- background scan lines -->
@@ -369,7 +380,7 @@
             <span class="msg-center">Center</span> align text</label>
           </div>
           <div class="display-content">
-            <label><i class="material-icons">format_align_center</i>
+            <label><i class="material-icons">format_align_justify</i>
               <input type="checkbox" id="center-alignment"></label>
           </div>
         </div>
@@ -383,16 +394,6 @@
               <input type="checkbox" id="dos-ctrl-codes"> *</label>
           </div>
         </div>
-        <!-- information header -->
-        <div class="display block">
-          <div class="display-title">
-            Information header
-          </div>
-          <div class="display-content">
-            <label><i class="material-icons">info_outline</i>
-              <input type="checkbox" id="text-font-information"></label>
-          </div>
-        </div>
         <!-- text render -->
         <div class="display block">
           <div class="display-content">
@@ -400,8 +401,6 @@
               Text render
               <label for="trclear" title="Suggested for small fonts and line art">
                 <input type="radio" name="effect" value="normal" id="trclear"> Normal</label>
-              <label for="trart" title="Suggested for ANSI and ASCII block art">
-                <input type="radio" name="effect" value="smeared" id="trart"> Smeared</label>
               <label for="trds" title="Suggested for large fonts and line art">
                 <input type="radio" name="effect" value="shadowed" id="trds"> Shadowed</label>
             </form>
@@ -410,6 +409,16 @@
       </section>
       <!-- Config tab -->
       <section class="tabcontent" id="tab3">
+        <!-- information header -->
+        <div class="config block">
+          <div class="config-title">
+            Information header
+          </div>
+          <div class="config-content">
+            <label><i class="material-icons">info_outline</i>
+              <input type="checkbox" id="text-font-information"></label>
+          </div>
+        </div>
         <!-- apply to websites -->
         <div class="config block">
           <div class="config-title">
@@ -544,11 +553,11 @@
   </article>
   <footer>
     <div class="box">
-      <a href="https://github.com/bengarrett/RetroTxt/blob/master/README.md" class="help-button" target="_blank" title="Help and readme"><i
+      <a href="https://github.com/bengarrett/RetroTxt/blob/master/README.md" class="help-button" target="_blank" title="Readme"><i
           class="material-icons">live_help</i></a>
-      <a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/privacy.md" class="link-button" target="_blank"
+      <a href="https://github.com/bengarrett/RetroTxt/wiki/privacy" class="link-button" target="_blank"
         title="Privacy policy"><i class="material-icons">location_off</i></a>
-      <a href="welcome.html" class="link-button" target="_blank" title="Welcome"><i class="material-icons">extension</i></a>
+      <a href="welcome.html" class="link-button" target="_blank" title="Welcome"><i class="material-icons">home</i></a>
       <a href="https://github.com/bengarrett/RetroTxt" class="link-button" target="_blank" title="Get the source code hosted on GitHub"><i
           class="material-icons">code</i></a>
       <a href="../test/index.html" class="link-button" id="unittest" target="_blank" title="Unit tests (this will also reset all Options)"><i

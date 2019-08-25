@@ -1,13 +1,15 @@
 // filename: functions.js
 //
-// These functions are shared between all pages including eventpage.js options.js and text*.js
-// To make the code in those pages easier to read, functions listed here use the Global naming convention.
+// These functions are shared between all scripts including
+// `scripts/eventpage.js`, `scripts/options.js` and `scripts/parse_*.js`.
+// To make the code in those pages easier to read, functions listed here use the
+// Global naming convention.
 
 /*global DOM */
 "use strict"
 
 if (typeof module === `undefined`) {
-  // error flag used by CheckError()
+  // error flag used by `CheckError()`
   // we need to prefix `window.` to the variable name when in strict mode
   window.checkedErr = false
   // detect developer mode
@@ -31,10 +33,11 @@ if (typeof module === `undefined`) {
 }
 
 /**
- * Argument checker for functions in function.js, retrotxt.js and text_*.js.
+ * Argument checker for functions in
+ * `scripts/eventpage.js`, `scripts/options.js` and `scripts/parse_*.js`.
  * @param {string} [name=``] The argument name that failed
  * @param {string} [expected=``] The expected argument type or value
- * @param {*} a The actual argument used
+ * @param {*} actual The actual argument used
  */
 function CheckArguments(name = ``, expected = ``, actual) {
   let errorMessage = ``
@@ -57,7 +60,8 @@ function CheckArguments(name = ``, expected = ``, actual) {
 }
 
 /**
- * Out of range handler for function.js, retrotxt.js and text_*.js.
+ * Out of range handler for
+ * `scripts/eventpage.js`, `scripts/options.js` and `scripts/parse_*.js`.
  * @param {string} [name=``] The argument name that failed
  * @param {string} [issue=``] The type of error
  * @param {*} expected The expected value
@@ -88,14 +92,17 @@ function CheckRange(name = ``, issue = ``, expected, actual) {
 }
 
 /**
- * Error handler for function.js, retrotxt.js and text_*.js.
+ * Error handler for
+ * `scripts/eventpage.js`, `scripts/options.js` and `scripts/parse_*.js`.
  * @param {*} errorMessage Description of the error
- * @param {boolean} [log=false] Should the error be logged to the browser console, otherwise a JS exception is thrown
+ * @param {boolean} [log=false] Should the error be logged to the browser
+ * console otherwise an exception is thrown
  */
 function CheckError(errorMessage, log = false) {
   if (errorMessage !== undefined) {
     BusySpinner(false)
-    // If the window.document is not yet built, tell RetroTxt to set display='block' on the red alert message
+    // if the `window.document` is not yet built, tell RetroTxt to apply
+    // display='block' on the red alert message
     if (window.checkedErr !== undefined) window.checkedErr = true
     if (typeof qunit === `undefined`) DisplayAlert()
     else throw new Error(errorMessage)
@@ -111,18 +118,16 @@ function CheckError(errorMessage, log = false) {
 }
 
 /**
- * Creates a red alert message box at the top of the user's active browser page.
+ * Creates a red alert message box at the top of the active browser page.
  * @param {boolean} [show=true] Reveal or hide the box
  */
 function DisplayAlert(show = true) {
-  // div element containing error alert
+  // div element containing the error alert
   let div = window.document.getElementById(`CheckError`)
   const link = window.document.getElementById(`retrotxt-styles`)
   if (div === null) {
     let ext = `reloading the RetroTxt extension on the `
-    // cannot use chrome.runtime.getPlatformInfo() here
-    const os = window.navigator.platform.slice(0, 3).toLowerCase()
-    // build URI to browser's extensions
+    // build an URI to point to the browser extensions page
     switch (FindEngine()) {
       case `blink`:
         ext += ` Extensions page (chrome://extensions)`
@@ -136,13 +141,12 @@ function DisplayAlert(show = true) {
       .set(`reload`, `F5`)
       .set(`ctrl`, `Control`)
       .set(`shift`, `Shift`)
-    if (os === `mac`) {
+    if (FindOS() === `mac`)
       keyboard
         .set(`console`, `J`)
         .set(`reload`, `R`)
         .set(`ctrl`, `⌘`)
         .set(`shift`, `⌥`)
-    }
     // build error as a html node
     const alert = {
       div: document.createElement(`div`),
@@ -169,7 +173,7 @@ function DisplayAlert(show = true) {
         `Sorry, RetroTxt has run into a problem. Please reload `
       )
     )
-    if (os !== `mac`) alert.div.appendChild(alert.f5)
+    if (FindOS() !== `mac`) alert.div.appendChild(alert.f5)
     alert.div.appendChild(
       document.createTextNode(
         ` this tab to attempt to fix the problem. For more information press `
@@ -191,7 +195,7 @@ function DisplayAlert(show = true) {
     alert.div = null
     div.id = `CheckError`
     const dom = new DOM()
-    // inject CSS link into the page
+    // add CSS link elements into the page
     if (link === null) {
       dom.head.appendChild(CreateLink(`../css/retrotxt.css`, `retrotxt-styles`))
       dom.head.appendChild(CreateLink(`../css/layout.css`, `retrotxt-layout`))
@@ -243,7 +247,6 @@ function DisplayEncodingAlert() {
     )
     // for examples:
     // https://www.gnu.org/software/libiconv/
-    // todo dynamic --from-code
     alert.fix1.appendChild(
       document.createTextNode(
         `iconv file.txt --from-code=UTF-16${endian()} --to-code=UTF-8 > file-fixed.txt`
@@ -272,83 +275,92 @@ function DisplayEncodingAlert() {
 
 /**
  * Determines a font colour to contrast against a user chosen background.
- * TODO: Implement in <header> .. currently not used
  * @class Contrast
  */
 class Contrast {
   /**
    * Creates an instance of Contrast.
-   * @param [color=``] CSS colour value either #hex, RGB(), HSL() or keyword value
-   * @param [backgroundColor=``] Used by `brighterTest()` and is a CSS colour value either #hex, RGB(), HSL() or keyword value
+   * @param [color=``] CSS colour value
+   * either #hex, `RGB()`, `HSL()` or a keyword value
+   * @param [backgroundColor=``] Used by `brighterTest()` and is a
+   * CSS colour value either #hex, `RGB()`, `HSL()` or a keyword value
    */
   constructor(color = ``, backgroundColor = ``) {
     this.color = color.toLowerCase().trim()
     this.compare = backgroundColor.toLowerCase().trim()
-    this.r = -1
-    this.g = -1
-    this.b = -1
+    this.red = -1
+    this.green = -1
+    this.blue = -1
   }
   /**
-   * Compares color brightness and determines whether `color` is brighter than `backgroundColor`.
-   * @returns Boolean result of the comparison, `true` means `color` is brighter, `false` means `backgroundColor` is brighter
+   * Compares color brightness and determines whether `color`
+   * is brighter than `backgroundColor`.
+   * @returns Boolean result of the comparison,
+   * `true` means `color` is brighter,
+   * `false` means `backgroundColor` is brighter
    */
   brighterTest() {
     const oldColor = this.color
-    // parse backgroundColor to a brightness value
+    // parse `backgroundColor` to a brightness value
     this.color = this.compare
     this.compare = this.brightness()
-    // parse color to a brightness value and compare against backgroundColor brightness
+    // parse color to a brightness value
+    // and compare against `backgroundColor` brightness
     this.color = oldColor
     return this.brightness() > this.compare
   }
   /**
    * Returns the brightness value of `color`.
-   * @returns a number between 0 and 255
+   * @returns A number between 0 and 255
    */
   brightness() {
     this.rgb()
     // taken from Trendy.js by Jake Kara
     // https://trendct.org/2016/01/22/how-to-choose-a-label-color-to-contrast-with-background/
     // https://github.com/trendct/Trendy.js/blob/master/Trendy.js
-    return (this.r * 299 + this.g * 587 + this.b * 114) / 1000
+    return (this.red * 299 + this.green * 587 + this.blue * 114) / 1000
   }
   /**
-   * Parses the `color` value and returns a 3 item array containing RGB brightness values.
-   * @returns array containing RGB brightness values or -1 values if `color` is invalid
+   * Parses the `color` value and returns a 3 item array containing
+   * RGB brightness values.
+   * @returns Array containing RGB brightness values
+   * or -1 values if `color` is invalid
    */
   rgb() {
     if (this.color.slice(0, 1) === `#`) return this.parseHex()
     if (this.color.slice(0, 4) === `rgb(`) return this.parseRGB()
     if (this.color.slice(0, 4) === `hsl(`) return this.parseHSL()
-    else {
-      // assume it's a keyword
-      return this.parseKeyword()
-    }
+    // assume it's a keyword
+    else return this.parseKeyword()
   }
   /**
-   * Parses a #hex color value and returns a 3 item array containing RGB brightness values.
-   * @returns array containing RGB brightness values or -1 values if `color` is invalid
+   * Parses a #hex color value and returns a 3 item array containing
+   * RGB brightness values.
+   * @returns array containing RGB brightness values or -1 values if `color`
+   * is invalid
    */
   parseHex() {
     const hex = this.color.substring(1)
     if (hex.length === 3) {
-      // handle shorthand hex values i.e #f4f ≍ #ff44ff
-      this.r = parseInt(`${hex.slice(0, 1)}${hex.slice(0, 1)}`, 16)
-      this.g = parseInt(`${hex.slice(1, 2)}${hex.slice(1, 2)}`, 16)
-      this.b = parseInt(`${hex.slice(2, 3)}${hex.slice(2, 3)}`, 16)
+      // handle shorthand hex values i.e `#f4f` ≍ `#ff44ff`
+      this.red = parseInt(`${hex.slice(0, 1)}${hex.slice(0, 1)}`, 16)
+      this.green = parseInt(`${hex.slice(1, 2)}${hex.slice(1, 2)}`, 16)
+      this.blue = parseInt(`${hex.slice(2, 3)}${hex.slice(2, 3)}`, 16)
     } else if (hex.length === 6) {
       // handle standard hex values
-      this.r = parseInt(`${hex.slice(0, 2)}`, 16)
-      this.g = parseInt(`${hex.slice(2, 4)}`, 16)
-      this.b = parseInt(`${hex.slice(4, 6)}`, 16)
+      this.red = parseInt(`${hex.slice(0, 2)}`, 16)
+      this.green = parseInt(`${hex.slice(2, 4)}`, 16)
+      this.blue = parseInt(`${hex.slice(4, 6)}`, 16)
     }
-    return [this.r, this.g, this.b]
+    return [this.red, this.green, this.blue]
   }
   /**
-   * Parses a HSL() color value and returns a 3 item array containing RGB brightness values.
+   * Parses a `HSL()` color value and returns a 3 item array containing
+   * RGB brightness values.
    * HSL = Hue, Saturation, and Lightness.
    * There is an inconsequential inaccuracy of 1 RGB decimal value (0.39%).
-   * @returns array containing RGB brightness values or -1 values if `color` is invalid
+   * @returns Array containing RGB brightness values
+   * or -1 values if `color` is invalid
    */
   parseHSL() {
     const notations = this.color.slice(4, -1)
@@ -364,24 +376,19 @@ class Contrast {
       if (l < 2 / 3) return h + (s - h) * (2 / 3 - l) * 6
       return h
     }
-    // iterate through the HSL results and replace their string values with numbers
-    // the hue value supports different symbols such as °, deg, rad, turn
+    // iterate through the HSL results and replace their string values with
+    // numbers the hue value supports symbols such as °, deg, rad, turn
     for (const [i, value] of symbols.entries()) {
       // handle hue and convert it to a float range between 0 -> 1
       if (i === 0) {
         // handle a hue value given as a radian
-        if (value.includes(`rad`)) {
+        if (value.includes(`rad`))
           // convert the radian value to degrees and then a turn
           hsl[0] = parseFloat(value, 10) * (180 / Math.PI) * 0.00278
-        }
         // handle a hue value given as a turn (1 turn = 360°)
-        else if (value.includes(`turn`)) {
-          hsl[0] = parseFloat(value, 10)
-        }
+        else if (value.includes(`turn`)) hsl[0] = parseFloat(value, 10)
         // otherwise hue is a degree value (1 degree = 0.00278 of a turn)
-        else {
-          hsl[0] = parseFloat(value, 10) * 0.00278
-        }
+        else hsl[0] = parseFloat(value, 10) * 0.00278
         continue
       }
       // saturation and lightness are percentage % values
@@ -392,14 +399,16 @@ class Contrast {
     const l = hsl[2]
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s
     const p = 2 * l - q
-    this.r = Math.round(hue2rgb(p, q, h + 1 / 3) * 255)
-    this.g = Math.round(hue2rgb(p, q, h) * 255)
-    this.b = Math.round(hue2rgb(p, q, h - 1 / 3) * 255)
-    return [this.r, this.g, this.b]
+    this.red = Math.round(hue2rgb(p, q, h + 1 / 3) * 255)
+    this.green = Math.round(hue2rgb(p, q, h) * 255)
+    this.blue = Math.round(hue2rgb(p, q, h - 1 / 3) * 255)
+    return [this.red, this.green, this.blue]
   }
   /**
-   * Parses a keyword color value and returns a 3 item array containing RGB brightness values.
-   * @returns array containing RGB brightness values or -1 values if `color` is invalid
+   * Parses a keyword color value and returns a 3 item array containing
+   * RGB brightness values.
+   * @returns array containing RGB brightness values
+   * or -1 values if `color` is invalid
    */
   parseKeyword() {
     // create a mock element to test that the keyword is a valid colour value
@@ -408,21 +417,23 @@ class Contrast {
     p.style.color = `${this.color}`
     document.body.appendChild(p)
     const computed = window.getComputedStyle(p, null).getPropertyValue(`color`)
-    // when the colour is invalid it returns `rgb(0, 0, 0)` aka black
+    // when the colour is invalid it returns black as `rgb(0, 0, 0)`
     if (computed === `rgb(0, 0, 0)`) {
       if (this.color === `black`) {
         this.color = computed
         return this.parseRGB()
       } else return this.error()
     }
-
     this.color = computed
     return this.parseRGB()
   }
   /**
-   * Parses a RGB() color value and returns a 3 item array containing RGB brightness values.
-   * RGB = Red, Green, Blue values that when combined represent over 16.7 million colours.
-   * @returns array containing RGB brightness values or -1 values if `color` is invalid
+   * Parses a `RGB()` color value and returns a 3 item array containing RGB
+   * brightness values.
+   * RGB = Red, Green, Blue values that when combined represent over
+   * 16.7 million colours.
+   * @returns Array containing RGB brightness values
+   * or -1 values if `color` is invalid
    */
   parseRGB() {
     const valid = number => {
@@ -435,18 +446,18 @@ class Contrast {
     // sanity check
     if (rgb.length < 3 || rgb.length > 4) return this.error()
     // parse values
-    this.r = parseInt(rgb[0], 10)
-    this.g = parseInt(rgb[1], 10)
-    this.b = parseInt(rgb[2], 10)
+    this.red = parseInt(rgb[0], 10)
+    this.green = parseInt(rgb[1], 10)
+    this.blue = parseInt(rgb[2], 10)
     // validate values
-    if (!valid(this.r)) return this.error()
-    if (!valid(this.g)) return this.error()
-    if (!valid(this.b)) return this.error()
-    return [this.r, this.g, this.b]
+    if (!valid(this.red)) return this.error()
+    if (!valid(this.green)) return this.error()
+    if (!valid(this.blue)) return this.error()
+    return [this.red, this.green, this.blue]
   }
   /**
    * Used to signify a color is invalid.
-   * @returns array of three -1 values
+   * @returns Array of three -1 values
    */
   error() {
     return [-1, -1, -1]
@@ -464,19 +475,19 @@ class C0Controls {
    */
   constructor(character) {
     this.character = null
-    if (typeof character === `string`) {
+    if (typeof character === `string`)
       // convert the first character to a UTF-16 code unit
       this.character = character.codePointAt(0)
-    } else if (typeof character === `number`) {
-      this.character = character
-    }
-    // 8 Backspace, 9 Horizontal tab, 10 Line feed (line break), 12 Form feed (page break)
+    else if (typeof character === `number`) this.character = character
+    // 8 Backspace, 9 Horizontal tab, 10 Line feed (line break),
+    // 12 Form feed (page break)
     // 13 Carriage return
     // 26 End of file (not a C0 control but is commonly used by MS-DOS)
     this.specials = new Set([8, 9, 10, 12, 13, 26])
   }
   /**
-   * Does the character match any C0 control codes that do text formatting in HTML?
+   * Does the character match any C0 control codes that do text formatting in
+   * HTML?
    * @returns boolean
    */
   special() {
@@ -529,30 +540,27 @@ class BrowserEncodings {
    * @returns
    */
   compactEncoding() {
-    let compact = this.encoding.replace(`-`, ``)
-    compact = compact.replace(`WINDOWS`, `CP`)
-    return compact
+    return this.encoding.replace(`-`, ``).replace(`WINDOWS`, `CP`)
   }
 
   findLabel() {
     let foundKey = ``
     this.encodings.forEach((value, key) => {
-      if (value === this.encoding.toLowerCase() && foundKey.length === 0) {
+      if (value === this.encoding.toLowerCase() && foundKey.length === 0)
         foundKey = key
-      }
     })
-    //this.encodings
     return foundKey
   }
 }
 /**
- * Character set (code page) class.
+ * Character set, code page class.
  * @class Characters
  */
 class Characters extends BrowserEncodings {
   /**
    * Creates an instance of Characters.
-   * @param [key=``] either a character set label (labels) or a browser document set (documentSets)
+   * @param [key=``] Either a character set label (labels) or a browser document
+   * set (documentSets)
    */
   constructor(key = ``) {
     super()
@@ -579,7 +587,7 @@ class Characters extends BrowserEncodings {
       .set(`utf_8`, [`UTF 8-bit`, `Unicode Transformation Format`])
       .set(`UTF16LE`, [``, ``])
       .set(`UTF16BE`, [``, ``])
-    // key, BrowserEncodings.encoding
+    // key, `BrowserEncodings.encoding`
     this.outputs = new Map()
       .set(`cp_1252➡`, `CP-1252`)
       .set(`iso_8859_1➡`, `ISO-8859-1`)
@@ -599,16 +607,15 @@ class Characters extends BrowserEncodings {
     return super.label()
   }
   /**
-   * Get the formal and informal names of `this.key` and save them to `this.label`.
+   * Get the formal and informal names of `this.key`
+   * and save them to `this.label`.
    */
   setLabel() {
     if (this.outputs.has(this.key)) {
-      // drop the ➡ from this.key
+      // drop the `➡` from this.key
       const newKey = this.key.slice(0, -1)
       this.label = this.labels.get(newKey)
-    } else if (this.labels.has(this.key)) {
-      this.label = this.labels.get(this.key)
-    }
+    } else if (this.labels.has(this.key)) this.label = this.labels.get(this.key)
   }
   /**
    * Checks `this.key` to see if it is valid.
@@ -620,7 +627,8 @@ class Characters extends BrowserEncodings {
     return false
   }
   /**
-   * Checks `this.key` to see if it is a browser character encoding supported by RetroTxt.
+   * Checks `this.key` to see if it is a browser character encoding supported by
+   * RetroTxt.
    * @returns boolean
    */
   supportedEncoding() {
@@ -628,7 +636,7 @@ class Characters extends BrowserEncodings {
     return super.support()
   }
   /**
-   * Returns a shortened, official name of a character label.
+   * Returns a shortened official name of a character label.
    * @returns string
    */
   compactIn() {
@@ -647,15 +655,14 @@ class Characters extends BrowserEncodings {
     }
     const encoding = new BrowserEncodings(this.key)
     if (encoding.support() === false) {
-      const newKey = encoding.findLabel()
-      const newEncoding = new BrowserEncodings(newKey)
+      const newEncoding = new BrowserEncodings(encoding.findLabel())
       return newEncoding.compactEncoding()
     }
     // return a shortened name
     return encoding.compactEncoding()
   }
   /**
-   * Returns a shortened, formal name for transcode labels.
+   * Returns a shortened formal name for transcode labels.
    * @returns string
    */
   compactOut() {
@@ -687,9 +694,8 @@ class Characters extends BrowserEncodings {
   titleOut() {
     let newKey = ``
     if (this.support() === false) return `error1`
-    else if (this.outputs.has(this.key)) {
-      newKey = this.outputs.get(this.key)
-    } else {
+    else if (this.outputs.has(this.key)) newKey = this.outputs.get(this.key)
+    else {
       super.encoding = this.key
       newKey = super.findLabel()
     }
@@ -710,11 +716,10 @@ class Characters extends BrowserEncodings {
     return `${formal}`
   }
 }
-if (typeof module !== `undefined`) {
-  module.exports.Characters = new Characters()
-}
+if (typeof module !== `undefined`) module.exports.Characters = new Characters()
+
 /**
- * Inaccurately guess text character encoding.
+ * Inaccurately attempt to guess the text character encoding.
  * @class Guess
  */
 class Guess extends BrowserEncodings {
@@ -740,20 +745,21 @@ class Guess extends BrowserEncodings {
     this.text = text
   }
   /**
-   * Guess the MS-DOS era text encoding (code page) used by `this.text`.
-   * @returns string sourced from `this.characterSets`
+   * Guess the MS-DOS era text encoding code page used by `this.text`.
+   * @returns string Sourced from `this.characterSets`
    */
   characterSet() {
-    const limit = 10000 // maximum loop count
+    // maximum loop count
+    const limit = 10000
     const finds = {
-      char: ``,
-      cp: 0,
+      character: ``,
+      codePoint: 0,
       cp437: 0,
       hex: ``,
       iso8859: 0,
       page: 0,
       position: 0,
-      usAscii: 0,
+      us_ascii: 0,
       unsure: 0
     }
     const decimals = this.decimalSet(this.table_cp1252())
@@ -762,106 +768,109 @@ class Guess extends BrowserEncodings {
     while (i--) {
       if (i < length - limit) break
       finds.position = length - i
-      finds.char = this.text[finds.position]
-      finds.cp = this.text.codePointAt(finds.position)
-      if (finds.cp !== undefined) finds.hex = finds.cp.toString(16) // not used
-      // Unsupported Unicode code point?
-      if (finds.cp >= 65535) {
+      finds.character = this.text[finds.position]
+      finds.codePoint = this.text.codePointAt(finds.position)
+      if (finds.codePoint !== undefined)
+        finds.hex = finds.codePoint.toString(16) // not used
+      // unsupported Unicode code point?
+      if (finds.codePoint >= 65535) {
         finds.page = 7
         break
       }
       // distinctive CP-1252 chars 128,142,158,159,130…140,145…156
       // these also double-up as C1 controls in UTF-8
-      if (decimals.includes(finds.cp)) {
+      if (decimals.includes(finds.codePoint)) {
         finds.page = 3
         break
       }
-      // hack to deal with characters decimals 993…1248 found in some ANSI art
-      if (finds.cp > 992 && finds.cp < 1249) {
+      // a hack to deal with characters decimals 993…1248 found in some ANSI art
+      if (finds.codePoint > 992 && finds.codePoint < 1249) {
         finds.page = 2
         break
       }
       // UTF-8 catch-all
-      if (finds.cp > 255) {
+      if (finds.codePoint > 255) {
         finds.page = 6
         break
       }
       // count the guesses of other characters
-      // only catches single and double lines but not single/double combination characters
+      // only catches single and double lines
+      // but not single/double combination characters
       if (
-        (finds.cp >= 176 && finds.cp <= 181) ||
-        (finds.cp >= 185 && finds.cp <= 188) ||
-        (finds.cp >= 190 && finds.cp <= 197) ||
-        (finds.cp >= 200 && finds.cp <= 206) ||
-        (finds.cp >= 217 && finds.cp <= 223) ||
-        [254, 249, 250].includes(finds.cp)
+        (finds.codePoint >= 176 && finds.codePoint <= 181) ||
+        (finds.codePoint >= 185 && finds.codePoint <= 188) ||
+        (finds.codePoint >= 190 && finds.codePoint <= 197) ||
+        (finds.codePoint >= 200 && finds.codePoint <= 206) ||
+        (finds.codePoint >= 217 && finds.codePoint <= 223) ||
+        [254, 249, 250].includes(finds.codePoint)
       ) {
         finds.cp437++
         continue
       }
       // other than common C0 controls like newline if characters 1…31 are found
       // then assume it is a CP-437 document
-      const c0controls = new C0Controls(finds.cp)
+      const special = new C0Controls(finds.codePoint).special()
       if (
-        finds.cp !== 10 &&
-        finds.cp !== 27 &&
-        finds.cp > 0 &&
-        finds.cp < 32 &&
-        c0controls.special() === false
+        finds.codePoint !== 10 &&
+        finds.codePoint !== 27 &&
+        finds.codePoint > 0 &&
+        finds.codePoint < 32 &&
+        special === false
       ) {
         finds.cp437++
         continue
       }
-      // if the character is between these ranges that was not caught by CP-437 then it's assumed ISO-8859-1 or 15
-      if (finds.cp >= 160 && finds.cp <= 255) {
+      // if the character is between these ranges that was not matched as CP-437
+      // then it is assumed to be either ISO-8859-1 or 15
+      if (finds.codePoint >= 160 && finds.codePoint <= 255) {
         finds.iso8859++
         continue
       }
       // anything else below 128 is certainly US-ASCII
-      if (finds.cp <= 127) {
-        finds.usAscii++
+      if (finds.codePoint <= 127) {
+        finds.us_ascii++
         continue
       }
-      // otherwise, not sure
+      // otherwise flag the character as not sure
       finds.unsure++
       // exit scan after the encoding has been guessed
       if (finds.page > 0) break
     }
-    // console.log(`guessCodePage() counts: finds.iso8859 ${finds.iso8859} finds.cp437 ${finds.cp437} finds.usAscii ${finds.usAscii}, total characters ${t.length}`);
     if (finds.iso8859 > 0) finds.page = 4
     if (finds.cp437 > finds.iso8859) finds.page = 1
     return this.characterSets[finds.page]
   }
   /**
-   * Discovers Unicode Byte Order Marks (identifiers) prefixing `this.text`
+   * Discovers Unicode Byte Order Marks identifiers prefixing `this.text`.
    * This is not reliable as the browser can strip out markings.
    * Using Byte Order Marks https://msdn.microsoft.com/en-us/library/windows/desktop/dd374101%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
    * @returns string
    */
   byteOrderMark() {
-    // find the first 4 characters of the string and convert them into hexadecimal values
+    // find the first 4 characters of the string
+    // and convert them into hexadecimal values
     const mark = this.text.slice(0, 4)
-    const chr1 = mark
+    const byte1 = mark
       .charCodeAt(0)
       .toString(16)
       .toLowerCase()
-    const chr2 = mark
+    const byte2 = mark
       .charCodeAt(1)
       .toString(16)
       .toLowerCase()
-    const chr3 = mark
+    const byte3 = mark
       .charCodeAt(2)
       .toString(16)
       .toLowerCase()
-    if (chr1 === `ef` && chr2 === `bb` && chr3 === `bf`) return `UTF-8`
-    if (chr1 === `ff` && chr2 === `fe`) return `UTF-16, little endian`
-    if (chr1 === `fe` && chr2 === `ff`) return `UTF-16, big endian`
-    // UTF-32 BOM cannot be detected the 32 bit placeholders get ignored
+    if (byte1 === `ef` && byte2 === `bb` && byte3 === `bf`) return `UTF-8`
+    if (byte1 === `ff` && byte2 === `fe`) return `UTF-16, little endian`
+    if (byte1 === `fe` && byte2 === `ff`) return `UTF-16, big endian`
+    // UTF-32 BOM cannot be detected as the 32 bit placeholders get ignored
     return ``
   }
   /**
    * Parse a HTML element and attempt to determine the text encoding.
-   * @param [sauceSet=``] document character set supplied by SAUCE metadata
+   * @param [sauceSet=``] Document character set supplied by SAUCE metadata
    * @param [dom={}] HTML element
    * @returns string
    */
@@ -869,14 +878,14 @@ class Guess extends BrowserEncodings {
     if (typeof sauceSet !== `string` && sauceSet !== null)
       CheckArguments(`sauceSet`, `string`, sauceSet)
     if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
-    // if there was no useful SAUCE data we use the transcode setting
+    // if there was no useful SAUCE data then use the transcode setting
     if (sauceSet === ``) {
       sauceSet = sessionStorage.getItem(`transcode`)
       if (sauceSet !== null)
         console.log(`Using saved transcode setting: "${sauceSet}"`)
     }
-    // user override using the transcode context menu
-    // match sauceSet arrow values such as cp_1252➡ us_ascii➡
+    // user override set by the transcode context menu
+    // match sauceSet arrow values such as `cp_1252➡` `us_ascii➡`
     if (
       typeof sauceSet === `string` &&
       sauceSet.length > 1 &&
@@ -890,11 +899,11 @@ class Guess extends BrowserEncodings {
     // force returns based on browser tab character set
     super.encoding = documentSet
     if (super.support() === false) {
-      // unknown/unsupported encodings, so guess but it will probably be inaccurate
+      // unknown/unsupported encodings
+      // so take a guess but the result will probably be inaccurate
       this.text = `${dom.slice}`
       return this.characterSet()
     }
-    //return super.label()
     return documentSet
   }
   // turns an array of character strings into an array of Unicode decimal values
@@ -911,13 +920,19 @@ class Guess extends BrowserEncodings {
 
 /**
  * Options values when first initialised or reset.
- * This needs to be in functions.js so it can be shared with eventpage.js and content pages.
+ * This needs to be in `scripts/functions.js` so it can be shared
+ * with `scripts/eventpage.js` and content pages.
  * @class OptionsReset
  */
 class OptionsReset {
   constructor() {
+    let lineHeight = `normal`,
+      smearBlocks = false
+    if (FindEngine() === `gecko`) lineHeight = `100%`
+    if (FindOS() === `win`) smearBlocks = true
     this.options = new Map()
       // boolean options for checkboxes
+      .set(`textSmearBlocks`, smearBlocks)
       .set(`textBgScanlines`, false)
       .set(`textDosCtrlCodes`, false)
       .set(`textAnsiWrap80c`, true)
@@ -931,28 +946,29 @@ class OptionsReset {
       // 1-bit colour, font & line height
       .set(`retroColor`, `msdos`)
       .set(`retroFont`, `vga8`)
-      .set(`lineHeight`, `100%`)
+      .set(`lineHeight`, `${lineHeight}`)
       // custom colours
       .set(`customForeground`, `#dcdccc`)
       .set(`customBackground`, `#3f3f3f`)
       // options tab selection
       .set(`optionTab`, `1`)
-      // permitted domains, these must also be listed as hosts in the manifest.json under "optional_permissions"
+      // permitted domains, these must also be listed as `hosts` in the
+      // `manifest.json` under the `optional_permissions` key.
       .set(`runWebUrlsPermitted`, [
         `16colo.rs`,
         `defacto2.net`,
         `gutenberg.org`,
         `scene.org`,
         `textfiles.com`,
-        `textmod.es`,
         `uncreativelabs.net`
       ])
-      // permitted URI schemes, these must also be listed as hosts in the manifest.json under "optional_permissions"
+      // permitted URI schemes, these must also be listed as `hosts` in the
+      // `manifest.json` under the `optional_permissions` key.
       .set(`schemesPermitted`, [`file`, `http`, `https`])
   }
   /**
    * Get an option's reset value.
-   * @param [item=``] options Map key
+   * @param [item=``] Options `Map` key
    * @returns any
    */
   get(item = ``) {
@@ -969,7 +985,7 @@ class Configuration extends OptionsReset {
     super()
     // RetroTxt background triggers
     this.triggers = new Map()
-      // file extensions that trigger RetroTxt when a file:/// URI is used
+      // file extensions that trigger RetroTxt when a `file:///` URI is used
       .set(`extensions`, [
         `asc`,
         `ascii`,
@@ -982,10 +998,10 @@ class Configuration extends OptionsReset {
         `text`,
         `txt`
       ])
-      // list of domains that RetroTxt will run on in the background
+      // list of domains that RetroTxt will run in the background
       .set(`domains`, super.get(`runWebUrlsPermitted`))
     this.errors = new Map()
-      // file extensions to always ignore when a file:/// URI is used
+      // file extensions to always ignore when a `file:///` URI is used
       .set(`code`, [`css`, `htm`, `html`, `js`, `json`, `md`, `xml`, `yml`])
       .set(`fonts`, [`otc`, `otf`, `svg`, `ttc`, `ttf`, `woff`, `woff2`])
       .set(`images`, [
@@ -1004,8 +1020,32 @@ class Configuration extends OptionsReset {
         `xbm`
       ])
       .set(`others`, [`ini`, `pdf`])
-      // list of domains that RetroTxt will always ignore because of render conflicts
-      .set(`domains`, [`feedly.com`, `github.com`])
+      // Chrome data sourced from https://sites.google.com/a/chromium.org/dev/audio-video
+      // Firefox https://support.mozilla.org/en-US/kb/html5-audio-and-video-firefox?redirectlocale=en-US&redirectslug=Viewing+video+in+Firefox+without+a+plugin
+      .set(`media`, [
+        `flac`,
+        `mp3`,
+        `mp4`,
+        `m4a`,
+        `m4b`,
+        `m4p`,
+        `m4r`,
+        `m4v`,
+        `mp3`,
+        `ogv`,
+        `ogm`,
+        `ogg`,
+        `oga`,
+        `ogx`,
+        `opus`,
+        `spx`,
+        `webm`,
+        `wav`,
+        `wave`
+      ])
+      // list of domains that RetroTxt will always ignore because of rendering
+      // conflicts
+      .set(`domains`, [`feedly.com`, `github.com`, `webhooks.retrotxt.com`])
     // RetroTxt render options
     this.textRender = new Map()
       // default number of characters of text per line
@@ -1029,7 +1069,7 @@ class Configuration extends OptionsReset {
   }
   /**
    * A list of domains that RetroTxt can monitor.
-   * @param [separator=`;`] character to use as a separator
+   * @param [separator=`;`] Character to use as a separator
    * @returns string
    */
   domainsString(separator = `;`) {
@@ -1051,12 +1091,13 @@ class Configuration extends OptionsReset {
       ...this.errors.get(`code`),
       ...this.errors.get(`fonts`),
       ...this.errors.get(`images`),
+      ...this.errors.get(`media`),
       ...this.errors.get(`others`)
     ]
   }
   /**
    * Check the `uri` to see if RetroTxt is permitted to monitor.
-   * @param [uri=``] the domain to check
+   * @param [uri=``] Domain to check
    * @returns boolean
    */
   validateDomain(uri = ``) {
@@ -1064,8 +1105,9 @@ class Configuration extends OptionsReset {
     return domains.includes(uri)
   }
   /**
-   * Check the `filename` to see if RetroTxt download event handler should trigger.
-   * @param [filename=``] filename to check
+   * Check the `filename` to see if RetroTxt download event handler should
+   * trigger.
+   * @param [filename=``] Filename to check
    * @returns boolean
    */
   validateFileExtension(filename = ``) {
@@ -1076,7 +1118,7 @@ class Configuration extends OptionsReset {
   }
   /**
    * Check the `filename` to see if RetroTxt will trigger.
-   * @param [filename=``] filename to check
+   * @param [filename=``] Filename to check
    * @returns boolean
    */
   validateFilename(filename = ``) {
@@ -1086,8 +1128,8 @@ class Configuration extends OptionsReset {
     return !this.fileExtsError().includes(ext)
   }
   /**
-   * Copies a chrome.storage.local item to the browser's localStorage item
-   * @param [key=``] storage item name
+   * Copies a `chrome.storage.local` item to the browser `localStorage` item
+   * @param [key=``] Storage item name
    */
   setLocalStorage(key = ``) {
     if (this.options.has(key) === false) {
@@ -1097,13 +1139,13 @@ class Configuration extends OptionsReset {
     }
     // get saved item from browser storage
     chrome.storage.local.get([`${key}`], result => {
-      const r = result[`${key}`]
-      if (StringToBool(r) === null) {
+      const value = result[`${key}`]
+      if (StringToBool(value) === null) {
         return CheckError(
           `Could not obtain the requested chrome.storage ${key} setting`
         )
       }
-      localStorage.setItem(`${key}`, r)
+      localStorage.setItem(`${key}`, value)
     })
   }
 }
@@ -1113,14 +1155,22 @@ class Configuration extends OptionsReset {
  */
 class HardwarePalette {
   /**
-   * Creates an instance of HardwarePalette.
-   * @param [key=``] palette name
+   * Creates an instance of `HardwarePalette`.
+   * @param [key=``] Palette name
    */
   constructor(key = ``) {
     this.gray = `${chrome.i18n.getMessage(`Gray`)}`
-    // The sort of these palettes effects the order of the on click events
-    this.palettes = [`IBM`, `XTerm`, `CGA 0`, `CGA 1`, this.gray]
-    this.filenames = [`vga`, `xterm`, `cga_0`, `cga_1`, `gray`]
+    // the sort of these palettes also effect the order of the onClick events
+    this.palettes = [
+      `IBM`,
+      `XTerm`,
+      `IIgs`,
+      `C-64`,
+      `CGA 0`,
+      `CGA 1`,
+      this.gray
+    ]
+    this.filenames = [`vga`, `xterm`, `iigs`, `c64`, `cga_0`, `cga_1`, `gray`]
     // set initial palette to IBM VGA
     this.active = 0
     // initialise
@@ -1129,22 +1179,24 @@ class HardwarePalette {
     this.get()
   }
   /**
-   * Sets a partial filename to `this.filename` for use with `this.savedFilename()`
+   * Sets a partial filename to `this.filename`
+   * for use with `this.savedFilename()`
    */
   get() {
     const i = this.palettes.indexOf(this.key)
-    if (i <= -1) return `` // err
+    if (i <= -1) return `` // error
     this.filename = this.filenames[i]
   }
   /**
    * Returns the next sequential palette name.
-   * If the last name is supplied i.e `Gray`, then the first name will be returned i.e `IBM`.
-   * @param [palette=``] the initial palette name
+   * If the last name is supplied i.e `Gray`,
+   * then the first name will be returned i.e `IBM`.
+   * @param [palette=``] Initial palette name
    * @returns string
    */
   next(palette = ``) {
     let i = this.palettes.indexOf(palette)
-    if (i <= -1) return `` // err
+    if (i <= -1) return `` // error
     // go back to first item if title is at the end of the array
     if (i >= this.palettes.length - 1) i = 0
     else i++
@@ -1157,35 +1209,37 @@ class HardwarePalette {
     return this.palettes[this.active]
   }
   /**
-   * Returns a local file path that points to a CSS stylesheet for use in a <link> element.
-   * @param [iceColor=false] use the iCE Color stylesheet?
+   * Returns a local file path that points to a CSS stylesheet for use in
+   * a `<link>` element.
+   * @param [iceColor=false] Use the iCE Color stylesheet?
    * @returns string
    */
   savedFilename(iceColor = false) {
     this.key = this.saved()
     this.get()
-    if (iceColor === true) return `../css/text_colors_${this.filename}-ice.css`
+    if (iceColor === true) return `../css/text_colors_4bit-ice.css`
     return `../css/text_colors_${this.filename}.css`
   }
   /**
-   * Saves the current palette selection and returns `true` if the save is successful.
+   * Saves the current palette selection and returns `true` if the save is
+   * successful.
    * @returns boolean
    */
   set() {
     const i = this.palettes.indexOf(this.key)
-    if (i <= -1) return false // err
+    if (i <= -1) return false // error
     this.active = i
     return true
   }
 }
 
 /**
- * Handles CSS font family in the DOM.
+ * Handles the CSS font family in the DOM.
  * @class FontFamily
  */
 class FontFamily {
   /**
-   * Creates an instance of FontFamily.
+   * Creates an instance of `FontFamily`.
    * @param [key=``] `this.fonts` key
    */
   constructor(key = ``) {
@@ -1206,11 +1260,8 @@ class FontFamily {
       .set(`TOPAZPLUSA1200`, `Topaz+ 2`)
       .set(`UNSCII16`, `Unscii 16`)
       .set(`UNSCII8`, `Unscii 8`)
-    if (FindEngine() === `blink`) {
-      this.fonts.set(`MONOSPACE`, `Fixed-width`)
-    } else {
-      this.fonts.set(`MONOSPACE`, `Monospace`)
-    }
+    if (FindEngine() === `blink`) this.fonts.set(`MONOSPACE`, `Fixed-width`)
+    else this.fonts.set(`MONOSPACE`, `Monospace`)
     this.key = key.toUpperCase()
     this.family = ``
     this.set()
@@ -1221,66 +1272,65 @@ class FontFamily {
   set() {
     if (this.fonts.has(this.key))
       return (this.family = this.fonts.get(this.key))
-    // Options also passes 'Text render' on mouseover through here
-    if ([`normal`, `smeared`, `shadowed`].includes(this.key.toLowerCase())) {
+    // options also passes 'Text render' on mouseOver through here
+    if ([`normal`, `shadowed`].includes(this.key.toLowerCase())) {
       this.family = this.key.toLowerCase()
       return `this.key.toLowerCase()`
     }
     // IBM specific batch edits
-    let ibm = this.key.toUpperCase()
-    ibm = ibm.replace(`-2X`, ` (wide)`)
-    ibm = ibm.replace(`-2Y`, ` (narrow)`)
-    ibm = ibm.replace(`CGATHIN`, `CGA Thin`)
-    ibm = ibm.replace(`TANDYNEW`, `Tandy `)
+    const ibm = this.key
+      .toUpperCase()
+      .replace(`-2X`, ` (wide)`)
+      .replace(`-2Y`, ` (narrow)`)
+      .replace(`CGATHIN`, `CGA Thin`)
+      .replace(`TANDYNEW`, `Tandy `)
     this.family = ibm
     return this.family
   }
   /**
-   * Applies `this.family` to a <PRE> tag in the `dom`.
+   * Applies `this.family` to a `<pre>` element in the `dom`.
    * @param [dom={}] HTML document object model
    */
   async swap(dom = {}) {
     if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
-    // Ignore swap request if sessionStorage fontOverride is true
+    // ignore swap request if `sessionStorage` `fontOverride` is true
     const override = `${sessionStorage.getItem(`fontOverride`)}`
-    if (override === `true`) {
+    if (override === `true`)
       return console.log(
         `Cannot refresh font as sessionStorage.fontOverride is set to true.`,
         `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`
       )
-    }
-    // Change the font
+    // change the font
     if (typeof dom.className === `undefined`) return // error
     if (typeof dom.classList === `undefined`) return // error
     this.set()
     const classes = dom.className.split(` `)
     console.info(`Using font ${this.family}.`)
-    // loop through and remove any font-* classes
+    // loop through and remove any `font-*` classes
     let i = classes.length
     while (i--) {
       if (classes[i].startsWith(`font-`)) dom.classList.remove(classes[i])
     }
-    // inject replacement font
+    // inject a replacement font
     dom.classList.add(`font-${this.key.toLowerCase()}`)
-    // Update the header with new font information
+    // update the header with new font information
     const header = window.document.getElementById(`h-doc-font-family`)
     if (header !== null) header.textContent = this.set()
   }
 }
 
 /**
- * Creates a <link> element for use in the <head> to load a CSS stylesheet.
- * @param [path=``] file path to the CSS stylesheet
- * @param [id=``] Id name to apply to the <link> element
+ * Creates a `<link>` element for use in the `<head>` to load a CSS stylesheet.
+ * @param [path=``] File path to the CSS stylesheet
+ * @param [id=``] Id name to apply to the `<link>` element
  * @returns html element
  */
 function CreateLink(path = ``, id = ``) {
   if (typeof path !== `string`) CheckArguments(`path`, `string`, path)
-  if (typeof chrome.extension === `undefined`) {
+  if (typeof chrome.extension === `undefined`)
     return console.error(
       `RetroTxt cannot continue as the WebExtension API is inaccessible.`
     )
-  }
   const link = document.createElement(`link`)
   if (id.length > 0) link.id = id
   link.href = chrome.extension.getURL(path)
@@ -1290,9 +1340,10 @@ function CreateLink(path = ``, id = ``) {
 }
 /**
  * Uses CSS3 styles to emulate retro CRT monitor scanlines.
- * @param [toggle=true] show `true` or remove `false` scanlines
+ * @param [toggle=true] Show `true` or `false` to remove scanlines
  * @param [dom={}] HTML DOM element to receive the scanline effect
- * @param [colorClass=``] optional CSS class that overrides light or dark scanlines
+ * @param [colorClass=``] Optional CSS class that overrides light or dark
+ * scanlines
  */
 async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
   const effect = StringToBool(toggle)
@@ -1307,22 +1358,17 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
       if (
         newClass.endsWith(`-on-white`) ||
         [`theme-windows`, `theme-appleii`].includes(newClass)
-      ) {
+      )
         dom.classList.add(`scanlines-light`)
-      } else {
-        dom.classList.add(`scanlines-dark`)
-      }
+      else dom.classList.add(`scanlines-dark`)
     }
   }
   // disable scanlines
-  if (effect === false) {
+  if (effect === false)
     return dom.classList.remove(`scanlines-light`, `scanlines-dark`)
-  }
-  // apply colours provided by the colorClass parameter
-  if (typeof color === `string`) {
-    return applyNewClass(colorClass)
-  }
-  // apply colours fetched from the browser localStorage (default)
+  // apply colours provided by the `colorClass` parameter
+  if (typeof color === `string`) return applyNewClass(colorClass)
+  // apply colours fetched from the browser `localStorage` (default)
   const result = localStorage.getItem(`retroColor`)
   if (typeof result !== `string`) {
     chrome.storage.local.get([`retroColor`], result => {
@@ -1338,9 +1384,10 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
 }
 /**
  * Uses CSS3 styles to manipulate font effects.
- * @param [effect=`normal`] font effect name to apply
- * @param [dom={}] required HTML DOM element object to apply shadow effect to
- * @param [colorClass=``] optional CSS colour class when we already know the new colour values
+ * @param [effect=`normal`] Font effect name to apply
+ * @param [dom={}] Required HTML DOM element object to apply shadow effect to
+ * @param [colorClass=``] Optional CSS colour class when we already know the new
+ * colour values
  */
 async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   if (typeof effect !== `string`) CheckArguments(`effect`, `string`, effect)
@@ -1349,15 +1396,14 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   // this removes any pre-existing text effect class names from the element
   for (const item of dom.classList) {
     if (item.endsWith(`-shadowed`) === true) dom.classList.remove(item)
+    // TODO: Jul-2019: This can be removed in a future update
     if (item === `text-smeared`) dom.classList.remove(item)
   }
   switch (effect) {
     case `shadowed`:
       // use colours provided by the colour parameter
-      if (typeof color === `string`) {
-        dom.classList.add(`${colorClass}-shadowed`)
-      }
-      // use colours fetched from chrome's storage (default)
+      if (typeof color === `string`) dom.classList.add(`${colorClass}-shadowed`)
+      // use colours fetched from chrome storage (default)
       else {
         const result = localStorage.getItem(`retroColor`)
         if (typeof result !== `string`) {
@@ -1372,64 +1418,95 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
         } else dom.classList.add(`${result}-shadowed`)
       }
       break
-    case `smeared`:
-      dom.classList.add(`text-smeared`)
-      break
     default:
-      // 'normal' do nothing, as the text effects have already been removed
+      // 'normal, auto' do nothing as the text effects have been removed
       break
   }
   const textRender = document.getElementById(`h-text-rend`)
-  if (textRender !== null) {
+  if (textRender !== null)
     textRender.textContent = `${effect.charAt(0).toUpperCase()}${effect.slice(
       1
     )}`
-  }
 }
 /**
  * Scans a body of text for special control codes.
  * Returns either `ecma48`, `pcboard`, `plain` or `wildcat`.
- * @param [text=``] text to scan
+ * @param [text=``] Text to scan
  * @returns string
  */
 function FindControlSequences(text = ``) {
   if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
-  // only need the first 5 characters
-  const slice = text
-    .trim()
-    .slice(0, 5)
-    .toUpperCase()
+  // remove `@CLS@` BBS control that was sometimes inserted by TheDraw
+  // only need the first 5 characters for testing
+  let cleaned = ``
+  if (text.startsWith(`@CLS@`)) cleaned = text.trim().slice(5, 10)
+  else cleaned = text.trim().slice(0, 5)
+  const slice = cleaned.toUpperCase()
   // ECMA-48 control sequences
-  // (04/Feb/2017: despite the performance hit, need to run this first to avoid false detections)
-  // (16/Feb/2017: trim is needed for some ANSI)
+  // Despite the performance hit trim is needed for some ANSI art to avoid false
+  // detections
   if (text.trim().charCodeAt(0) === 27 && text.trim().charCodeAt(1) === 91)
     return `ecma48`
-  // indexOf is the fastest form of string search
+  // `indexOf` is the fastest form of string search
   const sequence = text.indexOf(
     `${String.fromCharCode(27)}${String.fromCharCode(91)}`
   )
-  if (sequence > 0) {
-    return `ecma48`
+  if (sequence > 0) return `ecma48`
+  // detect pipe codes for WWIV
+  // needs to be checked before other forms of pipe-codes
+  else if (slice.charAt(0) === `|` && slice.charAt(1) === `#`) {
+    const a = parseInt(`${slice.charAt(2)}`)
+    if (a >= 0 && a <= 9) return `wwivhash`
   }
-  // make sure first char is an @-code
+  // detect pipe-codes for Renegade, Telegard and Celerity
+  else if (slice.charAt(0) === `|`) {
+    // renegade and telegard
+    const a = parseInt(`${slice.charAt(1)}${slice.charAt(2)}`, 10)
+    if (a >= 0 && a <= 23) return `renegade`
+    // celerity
+    const celerityCodes = new Set([
+      `B`,
+      `C`,
+      `D`,
+      `G`,
+      `K`,
+      `M`,
+      `R`,
+      `S`,
+      `Y`,
+      `W`
+    ])
+    if (celerityCodes.has(slice.charAt(1))) return `celerity`
+  }
+  // detect Telegard grave accent codes
+  else if (slice.charAt(0) === `\``) {
+    const a = parseInt(`${slice.charAt(1)}${slice.charAt(2)}`, 10)
+    if (a >= 0 && a <= 23) return `telegard`
+  }
+  // detect @-codes for Wildcat & PCBoard
   else if (slice.charAt(0) === `@`) {
     // match PCBoard `@Xxx` codes
     if (slice.charAt(1) === `X`) {
-      const a = slice.charCodeAt(2) // get Unicode indexes of 2nd + 3rd chars
+      // get Unicode indexes of 2nd + 3rd chars
+      const a = slice.charCodeAt(2)
       const b = slice.charCodeAt(3)
       // index range 48-70 equals 0-9 A-F
       if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return `pcboard`
-    } else if (slice.startsWith(`@CLS@`)) {
-      return `pcboard`
     } else if (slice.charAt(3) === `@`) {
-      // match wildcat `@xx @` codes
-      const a = slice.charCodeAt(1) // get Unicode indexes of 1st + 2nd chars
+      // match wildcat `@xx@` codes
+      // get Unicode indexes of 1st + 2nd chars
+      const a = slice.charCodeAt(1)
       const b = slice.charCodeAt(2)
       if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return `wildcat`
     }
   }
-  // plain text (no codes detected)
-  else return `plain`
+  // detect heart codes for WVIV
+  else if (slice.charCodeAt(0) === 3) {
+    const a = parseInt(`${slice.charAt(1)}`)
+    if (a >= 0 && a <= 9) return `wwivheart`
+  }
+  // plain or unsupported text
+  return `plain`
 }
 /**
  * Determines if Chrome/Chromium is running in dark mode.
@@ -1462,11 +1539,26 @@ function FindEngine() {
     return `blink`
   }
 }
-
+/**
+ * Determines the browser host operating system.
+ * Returns either `win` for Windows, `mac` for macOS or `linux` for other
+ * systems.
+ * @returns string
+ */
+function FindOS() {
+  const os = window.navigator.platform.slice(0, 3).toLowerCase()
+  switch (os) {
+    case `win`:
+    case `mac`:
+      return `${os}`
+    default:
+      return `linux`
+  }
+}
 /**
  * Takes a camelCaseString and returns a normalised string.
  *
- * @param [string=``] camel case string
+ * @param [string=``] Camel case string
  * @param [capitalise=false] Capitalise the first letter?
  * @returns string
  */
@@ -1475,16 +1567,15 @@ function HumaniseCamelCase(string = ``, capitalise = false) {
     .split(/(?=[A-Z])/)
     .join(` `)
     .toLowerCase()
-  if (capitalise) {
+  if (capitalise)
     return `${humanise.charAt(0).toUpperCase()}${humanise.slice(1)}`
-  }
   return humanise
 }
 /**
  * Humanises numeric values of bytes into a useful string.
  * Based on http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
- * @param [bytes=0] a numeric value of bytes
- * @param [si=1024] `1000` decimal (file size) or `1024` binary (RAM) conversion
+ * @param [bytes=0] A numeric value of bytes
+ * @param [si=1024] Decimal (filesize) `1000` or `1024` binary (RAM) conversion
  * @returns string
  */
 function HumaniseFS(bytes = 0, si = 1024) {
@@ -1503,19 +1594,20 @@ function HumaniseFS(bytes = 0, si = 1024) {
   return `${Math.round(bytes * 10) / 10}${units[u]}`
 }
 /**
- * Injects text into a DOM node object to be used with appendChild().
- * This is to avoid lint errors `UNSAFE_VAR_ASSIGNMENT` "Unsafe assignment to innerHTML".
- * @param [text=``] text to scan
+ * Injects text into a DOM node object to be used with `appendChild()`.
+ * This is to avoid lint errors `UNSAFE_VAR_ASSIGNMENT`
+ * "Unsafe assignment to innerHTML".
+ * @param [text=``] Text to scan
  * @returns element
  */
 function ParseToChildren(text = ``) {
   if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
-  // parseFromString() creates a <body> element which we don't need,
-  // so create a <div> container and as a work-around return its content
+  // `parseFromString()` creates a `<body>` element which we don't need,
+  // so create a `<div>` container and as a work-around return its content
   text = `<div>${text}</div>`
-  const parser = new DOMParser()
-  const parsed = parser.parseFromString(text, `text/html`)
-  const tag = parsed.getElementsByTagName(`div`)
+  const tag = new DOMParser()
+    .parseFromString(text, `text/html`)
+    .getElementsByTagName(`div`)
   if (tag.length === 0)
     return CheckError(
       `DOMParser.parseFromString('${text}','text/html') did not build a HTML object containing a <div> tag`
@@ -1525,7 +1617,7 @@ function ParseToChildren(text = ``) {
 /**
  * Takes a string and converts it to a primitive boolean value,
  * or returns null if string is not a boolean representation.
- * @param [string=``] boolean represented as a string
+ * @param [string=``] Boolean represented as a string
  * @returns boolean
  */
 function StringToBool(string = ``) {
@@ -1546,17 +1638,17 @@ function StringToBool(string = ``) {
 }
 /**
  * Display a large loading spinner on the active tab.
- * TODO: apply a timeout timer that will look for any uncaught errors and if detected, display them in the tab.
- * @param [display=true] display?
+ * @param [display=true] Display spinner
  */
 async function BusySpinner(display = true) {
   if (typeof display !== `boolean`)
     CheckArguments(`display`, `boolean`, display)
+  // TODO apply a timeout timer that will look for any uncaught errors and if
+  // detected, display them in the tab?
   const spinner = window.document.getElementById(`spin-loader`)
   switch (display) {
     case true:
       if (spinner === null) {
-        const headTag = document.querySelector(`head`)
         const spinner = document.createElement(`div`)
         spinner.setAttribute(`id`, `spin-loader`)
         spinner.setAttribute(`class`, `loader`)
@@ -1567,20 +1659,17 @@ async function BusySpinner(display = true) {
           `../css/retrotxt_loader.css`,
           `retrotxt-loader`
         )
-        headTag.appendChild(stylesheet)
-      } else {
-        spinner.setAttribute(`style`, `display: block`)
-      }
+        document.querySelector(`head`).appendChild(stylesheet)
+      } else spinner.setAttribute(`style`, `display: block`)
       break
     case false:
-      if (spinner !== null) {
-        spinner.setAttribute(`style`, `display: none`)
-      }
+      if (spinner !== null) spinner.setAttribute(`style`, `display: none`)
       break
   }
 }
 
 // eslint no-undef/no-unused-vars work around
+if (typeof TagBlockCharacters === `undefined`) eslintUndef
 if (typeof ToggleTextEffect === `undefined`) eslintUndef
 if (typeof ToggleScanlines === `undefined`) eslintUndef
 if (typeof CheckArguments === `undefined`) eslintUndef
@@ -1595,6 +1684,4 @@ if (typeof HardwarePalette === `undefined`) eslintUndef
 if (typeof ParseToChildren === `undefined`) eslintUndef
 if (typeof DisplayEncodingAlert === `undefined`) eslintUndef
 if (typeof FindDarkScheme === `undefined`) eslintUndef
-function eslintUndef() {
-  return
-}
+function eslintUndef() {}

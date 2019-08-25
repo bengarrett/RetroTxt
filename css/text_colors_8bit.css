@@ -1,7 +1,9 @@
 /*
  filename: text_colors_8bit.css
 
-  256 (8-bit) Colours for use with SGR 38 and SGR 48 values used by parse_ansi.js
+  256 (8-bit) colours for use with SGR 38 and SGR 48 values parsed in 
+  `scripts/parse_ansi.js`
+
   These colour values were taken from Micah Elliott's colortrans.py
   https://gist.github.com/MicahElliott/719710
 */

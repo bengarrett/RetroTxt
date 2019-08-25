@@ -1,32 +1,28 @@
 /*
   filename: retrotxt.css
 
-Load fonts and initialise basic page layout
-
-See…
-text_colors*.css for themes and text colouring.
-text_ecma_48.css for ECMA-48/ANSI-X3.64/ANSI.SYS 'SGR' codes in CSS.
-options*.css for the styling of the Options dialogue.
-*/
-
-/* fonts */
-
-/*
-these root variables are accessible by all CSS files except retrotxt_loader.css
-sources of font selection:
-https://css-tricks.com/snippets/css/system-font-stack/
-https://webcache.googleusercontent.com/search?q=cache:9KxXPAA8eOwJ:https://www.client9.com/css-system-font-stack---monospace-v1/+&cd=4&hl=en&ct=clnk&gl=au&client=firefox-b-ab
+  Loads fonts and initialises the basic page layout
+  For themes and text colouring, see `css/text_colors*.css` 
+  For ECMA-48/ANSI-X3.64/ANSI.SYS 'SGR' codes in CSS, see `text_ecma_48.css`
+  For the styling of the Options dialogue, see `css/options*.css`
 */
 /* spellcheck: off */
 
+/* fonts */
+/*
+  these :root variables are accessible by all CSS files,
+  except `css/retrotxt_loader.css`
+*/
 :root {
-  /* macOS, Windows, Linux, OSX, Linux */
+  /*  macOS, Windows, Linux, OSX, Linux */
   --font-console: Menlo, Consolas, Fira Mono, Monaco, monospace;
-  /* macOS, Chrome macOS, Windows Vista+, Google, KDE (Linux), Ubuntu, Gnome (Linux), Monotype */
+  /*  macOS, Chrome macOS, Windows Vista+, Google, 
+      KDE (Linux), Ubuntu, Gnome (Linux), Monotype */
   --font-system: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
-  /* gives the font face an extremely small block period and an infinite swap period */
-  /*--font-display: swap; # Sep-2018: this variable doesn't work in the Blink engine */
+  /* blinking text timers */
+  --blink-timer: 500ms;
+  --blink-fast-timer: 300ms;
 }
 
 @font-face {
@@ -486,14 +482,10 @@ https://webcache.googleusercontent.com/search?q=cache:9KxXPAA8eOwJ:https://www.c
   font-size: 200%;
 }
 
-.text-smeared {
-  text-shadow: 1px 0 0;
-}
-
 /*
- Primitive scanline effects only works on background, not over text.
- Learned from A Pen By Oliver Kühn https://codepen.io/0x04/pen/qlayi
- */
+  Primitive scanline effects only works on background not over text.
+  Learned from A Pen By Oliver Kühn https://codepen.io/0x04/pen/qlayi
+*/
 
 .scanlines-dark {
   background-image: repeating-linear-gradient(
@@ -520,11 +512,12 @@ https://webcache.googleusercontent.com/search?q=cache:9KxXPAA8eOwJ:https://www.c
 }
 
 /*
-Blinking terminal prompt that works with any background/foreground colour combination
+  Blinking terminal prompt that works with 
+  any background/foreground colour combination
 */
 
 .dos-cursor {
-  animation: 300ms blink step-end infinite;
+  animation: var(--blink-fast-timer) blink step-end infinite;
   text-shadow: none;
 }
 

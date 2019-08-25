@@ -1,8 +1,12 @@
 /*
-filename: welcome.css
+  filename: welcome.css
 
-Stylises the RetroTxt welcome page
+  Stylises the RetroTxt welcome page
 */
+
+:root {
+  --round: 5px;
+}
 
 body {
   font-family: var(--font-system);
@@ -41,17 +45,36 @@ body > #developer a:active {
   color: var(--white);
 }
 
-body > #rtu {
+body > #welcome_banner {
   background-color: rgb(30, 144, 255);
+  border-bottom-right-radius: var(--round);
+  border-bottom-left-radius: var(--round);
   margin: 0;
   padding-bottom: 0.2em;
 }
-body > #rtu-ui {
+body > #welcome_banner-ui {
   display: flex;
   justify-content: flex-end;
 }
-body > #rtu-ui small {
+body > #welcome_banner-ui small {
   margin-right: 1em;
+}
+
+header > span > strong {
+  cursor: default;
+  user-select: none;
+}
+
+menu > #rt-permission div {
+  background-color: #fff;
+  border-radius: var(--round);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+menu > #rt-permission div img {
+  display: none;
 }
 
 menu {

@@ -2,61 +2,63 @@
 
 Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. The browser agnostic WebExtension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
 
-Available for installation from both the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
+### Available for installation from both the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
-- View ANSI, ASCII, NFO, Shift JIS, PCBoard, Wildcat text art as HTML
+- View ANSI, ASCII, NFO, Shift JIS text art as HTML
 - View server and dev-op logs formatted in coloured text with modern fonts
-- RGB 16.7 million, xterm 256 and IBM VGA 16 colour support
-- Swappable ANSI palettes, xterm, VGA, CGA, monochrome and switchable iCE Colors
-- Swappable ASCII & NFO colour themes, DOS, Windows, Amiga, C-64, Apple II, Atari ST
-- SAUCE metadata parsing
-- Multiple text encodings support including CP437, ISO-8959-1, Windows-1252, Shift JIS
-- Text rendering toggles, smeared, shadow and normal
-- Multiple IBM PC font support such as VGA, PS/2, EGA, CGA, MDA plus variants and more
-- Various Amiga fonts plus Mona, Commodore PETSCII, Atari ATASCII, Atari ST and Apple II
+- View BBS coloured text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
+- RGB 16.7 million, xterm 256 and standard VGA 16 colour support
 
-![RetroTxt showcase](/docs/assets/zii-rtxt-ad.png)
+* Swappable ANSI palettes, VGA, xterm, Apple IIgs, Commodore 64, CGA, monochrome and switchable iCE Colors
+* Swappable ASCII & NFO colour themes, DOS, Windows, Amiga, C-64, Apple II, Atari ST
+* SAUCE metadata parsing
+* Multiple text encodings support including CP-437, ISO-8959-1, Windows-1252, Shift JIS
+* Automatic block character, line artefact fixes on Windows systems
+* Multiple IBM PC font support such as VGA, PS/2, EGA, CGA, MDA plus variants and more
+* Various Amiga fonts plus Mona, Commodore PETSCII, Atari ATASCII, Atari ST and Apple II
+
+![RetroTxt showcase](/md/assets/zii-rtxt-ad.png)
 
 ## Documentation
 
-### [Read](/docs/index.md)
+### [Read](https://github.com/bengarrett/RetroTxt/wiki)
 
-### [What is new?](/docs/changes.md)
+### [What is new?](/md/changes.md)
 
-### [Limitations](/docs/limitations.md)
+### [Limitations](https://github.com/bengarrett/RetroTxt/wiki/limitations)
 
 ## Install
 
 ### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/) · [Brave](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Edge (Chromium)](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
 
-#### [Or use the source code](/docs/source_code.md)
+### [Or use the source code](https://github.com/bengarrett/RetroTxt/wiki/source_code)
 
 ### Requirements
 
-**Chrome/Chromium 55** or **Firefox 63** or newer browsers.
+**Chrome/Chromium 58** or **Firefox 63** or newer browsers.
 
 ## Tryout RetroTxt
 
 You can test the RetroTxt install by clicking on one of the 10 sample artworks found on the `welcome.html` tab that launches after installation.
 
-![RetroTxt samples](/docs/assets/rtxt-samples.png)
+![RetroTxt samples](/md/assets/rtxt-samples.png)
 
 ## Configuration
 
 Out of the box, some useful features of RetroTxt are off. Newer browsers require you to grant permission at prompts before RetroTxt can
-[access specific browser data](/docs/privacy.md) it needs. There are a couple of links to the Options dialogue in the `welcome.html` tab, or it is accessible from the browser's Extensions tab.
+[access specific browser data](/md/privacy.md) it needs. There are a couple of links to the Options dialogue in the `welcome.html` tab, or it is accessible from the browser's Extensions tab.
 
-![Config tab in Options](/docs/assets/requests_additional_permissions.png)
+![Config tab in Options](/md/assets/requests_additional_permissions.png)
 
 ## Run RetroTxt
 
 Once configured RetroTxt will run on any text or ANSI art file observed in a permitted browser tab and mark the toolbar icon with a check.
 
-![RetroTxt toolbar button in Chrome](/docs/assets/retrotxt_toolbar_button_chrome.png)
+![RetroTxt toolbar button in Chrome](/md/assets/retrotxt_toolbar_button_chrome.png)
 
 Elsewhere there are thousands of text files hosted at [textfiles.com](https://textfiles.com/directory.html) or the [Project
 Gutenberg](https://www.gutenberg.org/catalog/) _plain text_ books. Or download one of the fantastic text art packs created by
-[Blocktronics](http://blocktronics.org/artpacks/), found at [textmod.es](https://pc.textmod.es/) or [16 colors](https://16colo.rs) and use the `file:///` protocol
+[Blocktronics](http://blocktronics.org/artpacks/), or found at [16 colors](https://16colo.rs) and use the `file:///` protocol
 to browse and view the text art files saved onto your hard drive.
 
 ### Permissions
@@ -69,7 +71,7 @@ RetroTxt does not collect or transmit any data created by your web browser.
 
 All data generated by the web extension is only ever stored locally on your computer through the use of the browser local or session storage APIs.
 
-[RetroTxt Privacy](/docs/privacy.md)
+[RetroTxt Privacy](https://github.com/bengarrett/RetroTxt/wiki/privacy)
 
 ## License
 
@@ -81,7 +83,7 @@ While RetroTxt uses a [GNU Lesser General Public License v3.0](https://chooseali
 
 ## Credits
 
-RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett/) on [Twitter @bens_zone](https://twitter.com/bens_zone) and [GitHub](https://github.com/bengarrett/)
+RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett/) on [Twitter @bens_zone](https://twitter.com/bens_zone) or [mail](mailto:code.by.ben@gmail.com)
 
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 

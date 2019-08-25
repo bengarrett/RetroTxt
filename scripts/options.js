@@ -1,10 +1,11 @@
 // filename: options.js
 //
-// These functions are used exclusively by the Options dialogue (options.html).
+// These functions are used exclusively by the
+// Options dialogue `html/options.html`.
 "use strict"
 
 /**
- * Argument checker used exclusively by options.js.
+ * Argument checker used exclusively by `scripts/options.js`.
  * @param {string} [name=``] Argument name that failed
  * @param {string} [expected=``] Expected argument type or value
  * @param {*} actual The actual argument used
@@ -48,7 +49,7 @@ function handleError(error) {
 /**
  * Workaround to add localization support to HTML files.
  * @param {string} [word=``] i18n message name
- * @param {string} [className=``] Class name to inject translation into
+ * @param {string} [className=``] Class name to inject translation to
  */
 async function localizeWord(word = ``, className = ``) {
   if (typeof word !== `string`) checkArgument(`name`, `string`, word)
@@ -57,25 +58,22 @@ async function localizeWord(word = ``, className = ``) {
   if (word.length < 1) CheckRange(`word`, `length`, `1`, word.length)
   if (className.length < 1)
     CheckRange(`className`, `length`, `1`, className.length)
-
   const message = chrome.i18n.getMessage(word)
   const elements = document.getElementsByClassName(className)
   for (const element of elements) {
     const text = element.textContent
-    if (text.slice(0, 1).toUpperCase()) {
-      // if original word is capitalised, apply to new word
+    // if the original word is capitalised then apply it to the new word
+    if (text.slice(0, 1).toUpperCase())
       element.textContent = `${message[0].toUpperCase()}${message.slice(1)}`
-    } else {
-      element.textContent = message
-    }
+    else element.textContent = message
   }
 }
 
 /**
- * Update a localStorage item with a new value.
- * When the value is left empty the storage item is instead deleted.
- * @param {string} [key=``] id of the storage item
- * @param {string} [value=``] value to store
+ * Update a `localStorage` item with a new value.
+ * When the value is left empty the local storage item is instead deleted.
+ * @param {string} [key=``] Id of the storage item
+ * @param {string} [value=``] Value to store
  */
 function localStore(key = ``, value = ``) {
   switch (value) {
@@ -101,12 +99,13 @@ function localStore(key = ``, value = ``) {
 class Security {
   /**
    * Creates an instance of Security.
-   * @param [type=``] checkbox type, either `downloads`, `files` or `http`
+   * @param [type=``] Checkbox type, either `downloads`, `files` or `http`
    */
   constructor(type = ``) {
-    const config = new Configuration()
-    this.domains = config.domainsString()
-    // IMPORTANT! These Map values must sync to those in the Security class in eventpage.js
+    this.domains = new Configuration().domainsString()
+    // IMPORTANT
+    // these `Map` values must sync to those in the `Security` class in
+    // `scripts/eventpage.js`
     const permissions = new Map()
       .set(`downloads`, [`downloads`, `downloads.open`, `tabs`])
       .set(`files`, [`tabs`])
@@ -143,27 +142,21 @@ class Security {
    */
   httpOrigins() {
     const domains = chrome.runtime.getManifest().optional_permissions
-    let origins = []
-    domains.filter(domain => {
-      if (domain.slice(0, 6) === `*://*.`) {
-        origins = origins.concat(this.collection(domain))
-      }
-    })
+    const origins = domains.filter(domain => domain.slice(0, 6) === `*://*.`)
     return origins
   }
   collection(url = ``) {
     if (url.length < 1) return ``
     // parse URL to valid host
     let noScheme = url
-    if (url.includes(`://`)) {
-      noScheme = url.slice(url.indexOf(`://`) + 3)
-    }
+    if (url.includes(`://`)) noScheme = url.slice(url.indexOf(`://`) + 3)
     const hostname = noScheme.split(`/`, 1)[0]
     return [`*://${hostname}/*`]
   }
   /**
-   * Textarea onChanged event that updates the `this.allWebPermissions` permission.
-   * @param [request=true] request `true` or remove `false` permission
+   * Textarea onChanged event that updates the `this.allWebPermissions`
+   * permission.
+   * @param [request=true] Request `true` or remove `false` permission
    */
   allWeb(request = false) {
     if (this.type !== `http`) return
@@ -190,28 +183,25 @@ class Security {
   }
   /**
    * Display a notification "Please " when the textarea onChanged is triggered.
-   * @param [display=false] show `true` or remove `false` the notification
+   * @param [display=false] Show `true` or remove `false` the notification
    */
   allWebNotice(display = false) {
-    const checkbox = document.getElementById(`run-web-urls`)
     const div = document.getElementById(`please-apply`)
     if (display) {
-      checkbox.checked = false
+      document.getElementById(`run-web-urls`).checked = false
       div.style.display = `block`
-    } else {
-      div.style.display = `none`
-    }
+    } else div.style.display = `none`
     this.permissionsCallback()
   }
   /**
-   * Initialise on-change event listeners for checkboxes and the <textarea>.
+   * Initialise onChange event listeners for checkboxes and the `<textarea>`.
    */
   listen() {
-    // this is only run once when the Security.listen() is initialised
-    // we cannot ask for permissions.request() here as the API requires
-    // a user interaction beforehand, such as a checkbox toggle
+    // this is only run once when the `Security.listen()` is initialised.
+    // we cannot ask for `permissions.request()` here as the API requires
+    // a user interaction beforehand such as a checkbox toggle.
     chrome.permissions.contains(this.test(), result => {
-      // this.checkedInitialise() cannot request permissions
+      // `this.checkedInitialise()` cannot request permissions
       this.checkedInitialise(result)
       toggles()
       this.permissionsCallback()
@@ -242,8 +232,9 @@ class Security {
             // `*://*/*` permission has not been granted
             if (!this.origins.includes(`*://*/*`)) {
               // append `*://*/*` to the permissions origins and then ask the
-              // user to toggle the checkbox input to apply the new permissions.
-              // web extensions can only ask for new permissions using user toggles
+              // user to toggle the checkbox input to apply the new permission.
+              // web extensions can only ask for new permissions using user
+              // toggles.
               this.origins.push(`*://*/*`)
               this.allWebNotice(true)
             } else {
@@ -265,19 +256,17 @@ class Security {
       switch (this.elementId) {
         case `run-file-downloads`:
           if (value === true) monitor = true
-          // sent message to eventpage.js listener
+          // send message to `scripts/eventpage.js` listener
           chrome.runtime.sendMessage({ monitorDownloads: monitor })
           // disable `run-file-urls` checkboxes with duplicate functionality
           if (value === true) {
             files.disabled = true
             files.checked = false
-          } else {
-            files.disabled = false
-          }
+          } else files.disabled = false
           break
         case `run-web-urls`:
           this.allWebNotice(false)
-          // if value is false, disable text area
+          // disable text area if value is false
           textarea.disabled = !value
           break
       }
@@ -285,8 +274,8 @@ class Security {
   }
   /**
    * Checkbox onChanged event that updates a permission.
-   * @param [request=true] request `true` or remove `false` permission
-   * @param testResult a collection of permissions
+   * @param [request=true] Request `true` or remove `false` permission
+   * @param testResult A collection of permissions
    */
   checkedEvent(request = true, testResult = this.test()) {
     switch (this.type) {
@@ -302,8 +291,8 @@ class Security {
   }
   /**
    * Requests or removes a checked permission.
-   * @param [request=true] request `true` or remove `false` permission
-   * @param testResult a collection of permissions
+   * @param [request=true] Request `true` or remove `false` permission
+   * @param testResult A collection of permissions
    */
   permissionSet(request = true, testResult) {
     const items = testResult.permissions.concat(testResult.origins).join(`, `)
@@ -323,9 +312,12 @@ class Security {
           if (RetroTxt.developer)
             console.log(`%s: request to remove permissions [%s]`, result, items)
         })
-        // Tabs should normally be listed under `permission` in the manifest.json but instead it's `optional_permission`.
-        // This is a workaround as host permissions (origins) cannot be requested without a corresponding named permission.
-        // So Tabs acts as a named permission placeholder for whenever the host permissions are removed.
+        // `Tabs` should normally be listed under `permission` key in the
+        // manifest.json but instead it is placed under `optional_permission`.
+        // This is a workaround as host permissions (origins) cannot be
+        // requested without a corresponding named permission. So Tabs acts as a
+        // named permission placeholder for whenever the host permissions are
+        // removed.
         chrome.permissions.request(workaround, result => {
           if (RetroTxt.developer)
             console.log(`%s: workaround set permission [tabs]`, result)
@@ -335,11 +327,12 @@ class Security {
   }
   /**
    * Updates the Options dialogue after a permission has been changed.
-   * This needs to be an event callback otherwise the dialogue won't accurately reflect the changed permission.
+   * This needs to be an event callback otherwise the dialogue won't accurately
+   * reflect the changed permission.
    */
   permissionsCallback() {
     chrome.permissions.getAll(result => {
-      // iterate through result.permissions and humanise camelCase text
+      // iterate through `result.permissions` and humanise camelCase text
       const formattedPermissions = []
       result.permissions.filter(permission => {
         formattedPermissions.push(HumaniseCamelCase(permission, true))
@@ -347,10 +340,9 @@ class Security {
       document.getElementById(
         `requestedPermissions`
       ).textContent = formattedPermissions.join(`, `)
-      // iterate through result.origins and apply link anchors to URLs
+      // iterate through `result.origins` and apply link anchors to URLs
       const formattedOrigins = []
       let count = 0
-      const browser = FindEngine()
       result.origins.sort()
       result.origins.filter(origin => {
         count++
@@ -368,21 +360,20 @@ class Security {
           formattedOrigins.push(span)
         }
         if (count < result.origins.length) {
-          if (browser !== `gecko`) {
+          if (FindEngine() !== `gecko`)
             formattedOrigins.push(document.createTextNode(`, `))
-          } else {
-            formattedOrigins.push(document.createElement(`br`))
-          }
+          else formattedOrigins.push(document.createElement(`br`))
         }
       })
-      // erase all requestedOrigins children elements if permissionsCallback() has previously been called
+      // erase all `requestedOrigins` children elements if
+      // `permissionsCallback()` has previously been called
       const element = document.getElementById(`requestedOrigins`)
       if (element.hasChildNodes()) {
         while (element.firstChild) {
           element.removeChild(element.firstChild)
         }
       }
-      // append <a> links and <span> to the requestedOrigins HTML element
+      // append <a> and <span> elements to the `requestedOrigins` HTML element
       formattedOrigins.filter(child => {
         element.appendChild(child)
       })
@@ -390,7 +381,7 @@ class Security {
   }
   /**
    * Set the checkbox checked state.
-   * @param [granted=false] `true` checked or `false` unchecked
+   * @param [granted=false] Checked `true` or `false` unchecked
    */
   checkedInitialise(granted = false) {
     const checkbox = document.getElementById(`${this.elementId}`)
@@ -400,13 +391,11 @@ class Security {
         this.elementId
       )
     checkbox.checked = granted
-    if (this.elementId === `run-web-urls`) {
-      this.textareaInitialise(granted)
-    }
+    if (this.elementId === `run-web-urls`) this.textareaInitialise(granted)
   }
   /**
    * Set the textarea checked state.
-   * @param [granted=false] `true` checked or `false` unchecked
+   * @param [granted=false] Checked `true` or `false` unchecked
    */
   textareaInitialise(granted = false) {
     if (this.type !== `http`) return
@@ -415,7 +404,7 @@ class Security {
     textarea.disabled = !granted
   }
   /**
-   * Reveals the checkbox <div> block on the Options dialogue.
+   * Reveals the checkbox <div> block element on the Options dialogue.
    */
   show() {
     const div = document.getElementById(`${this.elementId}-div`)
@@ -424,7 +413,7 @@ class Security {
   }
   /**
    * Creates a collection of permissions.
-   * @returns permissions.Permissions object
+   * @returns `permissions.Permissions` object
    */
   test() {
     if (RetroTxt.developer)
@@ -437,7 +426,7 @@ class Security {
   }
 }
 /**
- * Checkbox interactions
+ * Checkbox interactions.
  * @class CheckBox
  */
 class CheckBox {
@@ -457,11 +446,12 @@ class CheckBox {
       .set(`blink-animation`, `textBlinkAnimation`)
       .set(`center-alignment`, `textCenterAlignment`)
       .set(`dos-ctrl-codes`, `textDosCtrlCodes`)
+      .set(`smear-blocks`, `textSmearBlocks`)
       .set(`text-font-information`, `textFontInformation`)
       .set(`updated-notice`, `updatedNotice`)
   }
   /**
-   * Event listeners.
+   * Checkbox event listeners.
    */
   async listen() {
     this.boxes.forEach((item, id) => {
@@ -476,21 +466,18 @@ class CheckBox {
         // special cases that have permission dependencies
         switch (id) {
           case `run-file-downloads`:
-            if (value === true) {
+            if (value === true)
               document.getElementById(`run-file-urls`).checked = true
-            }
             break
           case `run-file-urls`:
-            if (value === false) {
+            if (value === false)
               document.getElementById(`run-file-downloads`).checked = false
-            }
             break
         }
         this.preview()
       })
     })
-    const http = new Security(`http`)
-    http.listen()
+    new Security(`http`).listen()
     this.isAllowedFileAccess()
   }
   /**
@@ -551,7 +538,7 @@ class CheckBox {
   }
   /**
    * Event listeners for options.
-   * These require extension.isAllowedFileSchemeAccess.
+   * These require `extension.isAllowedFileSchemeAccess`.
    */
   isAllowedFileAccess() {
     chrome.extension.isAllowedFileSchemeAccess(result => {
@@ -560,11 +547,12 @@ class CheckBox {
       files.show()
       const downloads = new Security(`downloads`)
       downloads.show()
-      // in Firefox isAllowedFileSchemeAccess() always returns false
+      // in Firefox `isAllowedFileSchemeAccess()` always returns false
       if (FindEngine() !== `gecko` && result !== true) {
         this.id = `run-file-urls`
         this.disable()
-        // as isAllowedFileSchemeAccess() is false downloads.test() will also return false
+        // as `isAllowedFileSchemeAccess()` is false
+        // `downloads.test()` will also return false
         this.id = `run-file-downloads`
         this.disable()
         const div = document.getElementById(`allow-access-file-urls-div`)
@@ -576,7 +564,7 @@ class CheckBox {
     })
   }
   /**
-   * Read the browser's localStorage and apply text effects on the sample text.
+   * Read the browser `localStorage` and apply text effects on the sample text.
    */
   async storageLoad() {
     this.boxes.forEach((item, id) => {
@@ -596,7 +584,12 @@ class Initialise extends CheckBox {
   constructor() {
     super()
     this.defaults = new OptionsReset()
-    this.lengths = new Set([`retroColor`, `retroFont`, `textEffect`])
+    this.lengths = new Set([
+      `smearBlocks`,
+      `retroColor`,
+      `retroFont`,
+      `textEffect`
+    ])
     this.id = ``
     this.key = ``
     this.value = ``
@@ -606,11 +599,10 @@ class Initialise extends CheckBox {
    */
   async browser() {
     const ctrl = document.getElementById(`keyboardCtrl`)
-    const os = window.navigator.platform.slice(0, 3).toLowerCase()
     switch (FindEngine()) {
       // Firefox
       case `gecko`:
-        if (os === `mac`) ctrl.textContent = `⌘`
+        if (FindOS() === `mac`) ctrl.textContent = `⌘`
         return
       // Chrome, Chromium, Brave, Vivaldi, Edge
       default:
@@ -677,7 +669,8 @@ class Initialise extends CheckBox {
   /**
    * Checks for saved radio and select group values
    * and applies them to the Options form.
-   * @param {number} [minLength=1] minimum value length required before the value is stored
+   * @param {number} [minLength=1] Minimum value length required before the
+   * value is stored
    */
   checkLength(minLength = 1) {
     this.value = localStorage.getItem(`${this.key}`)
@@ -725,7 +718,7 @@ class Initialise extends CheckBox {
     }
   }
   /**
-   * Parse the ExtensionInfo.installType property to adjust Options.
+   * Parse the `ExtensionInfo.installType` property to adjust Options.
    */
   async management() {
     if (typeof chrome.management !== `undefined`) {
@@ -747,7 +740,7 @@ class Initialise extends CheckBox {
     }
   }
   /**
-   * Parse the runtime.getPlatformInfo object to adjust Options.
+   * Parse the `runtime.getPlatformInfo` object to adjust Options.
    */
   async platform() {
     chrome.runtime.getPlatformInfo(info => {
@@ -757,6 +750,10 @@ class Initialise extends CheckBox {
         case `win`:
           // Windows uses drive letters for local file links
           localFileAccess.setAttribute(`href`, `file:///C:/`)
+          if (FindEngine() === `blink`)
+            document.getElementById(
+              `smear-blocks-container`
+            ).style.display = `flex`
           break
         case `mac`:
         case `android`:
@@ -765,6 +762,10 @@ class Initialise extends CheckBox {
         case `openbsd`:
           // cros = ChromeOS, openbsd = Open BSD (Unix)
           // reference placeholder
+          if (FindEngine() === `gecko`)
+            document.getElementById(
+              `smear-blocks-container`
+            ).style.display = `none`
           break
       }
     })
@@ -779,7 +780,7 @@ class Initialise extends CheckBox {
     this.version()
   }
   /**
-   * Returns the RetroTxt version for the about tab
+   * Returns the RetroTxt version for the Options About tab.
    */
   async version() {
     const data = chrome.runtime.getManifest()
@@ -815,11 +816,10 @@ class ColorPair {
     this.pairSelect.addEventListener(
       `change`,
       () => {
-        const textEffect = new Effects()
         this.value = `${this.pairSelect.value}`
         this.select()
         this.storageSave()
-        textEffect.storageLoad()
+        new Effects().storageLoad()
       },
       {
         passive: true
@@ -839,10 +839,6 @@ class ColorPair {
    * Applies the CSS class of a colour pair to the sample text.
    */
   async sample() {
-    // if (this.value === `theme-custom`) {
-    //   const custom = new ColorCustomPair()
-    //   return custom.update()
-    // }
     const classAsArray = this.sampleText.className.split(` `)
     // loop through and remove any *-bg and *-fg classes
     let i = classAsArray.length
@@ -871,26 +867,25 @@ class ColorPair {
   }
   /**
    * Choose a theme from the menu of the Colour Pair options
-   * saved in the browser's localStorage.
+   * saved in the browser `localStorage`.
    */
   async storageLoad() {
     const selected = localStorage.getItem(`retroColor`)
-    if (typeof selected !== `string`) {
+    if (typeof selected !== `string`)
       return console.error(`Failed to obtain the 'retroColor' setting.`)
-    }
     this.value = `${selected}`
     this.sample()
   }
   /**
-   * Save the id of a Colour Pair theme to the browser's localStorage.
-   * If an id is not provided the localStorage item will be deleted from the browser.
+   * Save the id of a Colour Pair theme to the browser `localStorage`.
+   * If an id is not provided the `localStorage` item will be deleted.
    */
   storageSave() {
     localStore(`retroColor`, `${this.value}`)
   }
 }
 /**
- * Combination of user supplied, theme colours for text.
+ * Combination of user supplied theme colours for text.
  * @class ColorCustomPair
  */
 class ColorCustomPair {
@@ -918,7 +913,7 @@ class ColorCustomPair {
     this.defaults = new OptionsReset()
   }
   /**
-   * Event listeners for <input> and <select>.
+   * Event listeners for `<input>` and `<select>` elements.
    */
   async listen() {
     this.input.addEventListener(`input`, () => this.lengthCheck())
@@ -926,9 +921,7 @@ class ColorCustomPair {
     this.pairSelect.addEventListener(
       `change`,
       () => {
-        if (this.pairSelect.value === `theme-custom`) {
-          this.update(false)
-        }
+        if (this.pairSelect.value === `theme-custom`) this.update(false)
       },
       {
         passive: true
@@ -936,25 +929,24 @@ class ColorCustomPair {
     )
   }
   /**
-   * Validates the length of the <input> value.
-   * Resets the value to a default when the length is 0.
+   * Validates the length of the `<input>` element value.
+   * Resets the value to a default when the length is `0`.
    */
   lengthCheck() {
     if (this.input.value.length === 0)
       this.input.value = this.defaults.get(this.mapId)
     this.update()
-    if (this.pairSelect.value !== `theme-custom`) {
+    if (this.pairSelect.value !== `theme-custom`)
       this.pairSelect.value = `theme-custom`
-    }
   }
   /**
    * Previews and saves a custom colour pair change.
-   * @param [save=true] save `input.value` to localStorage?
+   * @param [save=true] Save `input.value` to `localStorage`?
    */
   update(save = true) {
     const colorTest = (value = ``) => {
-      console.log(`colorTest(${value})`)
-      // if you try and apply an invalid style.color or style.backgroundColor to an element it will return an empty value.
+      // if you try and apply an invalid `style.color` or
+      // `style.backgroundColor` to an element it will return an empty value.
       if (value === ``) {
         status.textContent += `value is invalid. `
         // red colourisation
@@ -966,45 +958,44 @@ class ColorCustomPair {
       return true
     }
     // reset sample text
-    const status = document.getElementById(`status`)
     let previousColor = ``
     if (`value` in this.input) this.input.value = this.input.value.toLowerCase()
-    status.textContent = `${this.title} `
+    document.getElementById(`status`).textContent = `${this.title} `
     previousColor = this.sampleText.style[this.property]
     // check the input colour is valid
     this.sampleText.style[this.property] = `${this.input.value}`
-    // if the new colour style is invalid, the browser will instead return the previous colour
+    // if the new colour style is invalid, the browser will instead return the
+    // previous colour
     if (this.sampleText.style[this.property] === previousColor) {
       colorTest(``)
       this.valid = false
     } else this.valid = colorTest(this.sampleText.style[this.property])
-    if (this.valid === false) {
+    if (this.valid === false)
       return (this.sampleText.style[this.property] = previousColor)
-    } else if (save === true) {
+    else if (save === true) {
       localStore(`${this.mapId}`, `${this.input.value}`)
       localStore(`retroColor`, `theme-custom`)
     }
   }
   /**
-   * Read the browser's localStorage and apply text effects on the sample text.
+   * Read the browser `localStorage` and apply text effects on the sample text.
    */
   async storageLoad() {
     const value = localStorage.getItem(`${this.mapId}`)
     if (typeof value === `string`) this.input.value = `${value}`
     else this.input.value = this.defaults.get(`${this.mapId}`)
-    if (this.pairSelect.value === `theme-custom`) {
-      this.update(false)
-    }
+    if (this.pairSelect.value === `theme-custom`) this.update(false)
   }
 }
 /**
- * Radio <input> groups.
+ * Radio `<input>` element groups.
  * @class Radios
  */
 class Radios {
   /**
    * Creates an instance of Radios.
-   * @param [storageId=``] local storage item key, either `retroFont` or `textEffect`
+   * @param [storageId=``] Local storage item key,
+   * either `retroFont` or `textEffect`
    */
   constructor(storageId = ``) {
     this.sample = document.getElementById(`sample-dos-text`)
@@ -1029,7 +1020,7 @@ class Radios {
     }
   }
   /**
-   * Apply onclick and mouseover event listeners to radio buttons.
+   * Apply onClick and mouseOver event listeners to radio buttons.
    */
   async listen() {
     const labels = document.forms[this.formName].getElementsByTagName(`label`)
@@ -1083,7 +1074,7 @@ class Radios {
     this.preview()
   }
   /**
-   * Save the id of radio selection to the browser's localStorage.
+   * Save the id of radio selection to the browser `localStorage`.
    */
   storageSave() {
     localStore(`${this.storageId}`, `${this.value}`)
@@ -1104,7 +1095,6 @@ class Effects extends Radios {
     switch (this.value) {
       case `normal`:
       case `shadowed`:
-      case `smeared`:
         return ToggleTextEffect(this.value, this.sample)
       default:
         return handleError(`Effects.text "${this.value}"`)
@@ -1126,7 +1116,7 @@ class Fonts extends Radios {
     if (this.sample.classList === null) return // error
     const classes = this.sample.className.split(` `)
     // loop through and remove any font-* classes
-    for (let name of classes) {
+    for (const name of classes) {
       if (name.startsWith(`font-`)) this.sample.classList.remove(name)
     }
     this.sample.classList.add(`font-${this.value}`)
@@ -1143,14 +1133,22 @@ class LineHeight {
     this.value = this.lineHeight.value
   }
   /**
-   * Event listener for <select>.
+   * Event listener for the `<select>` element.
    */
   async listen() {
     this.lineHeight.addEventListener(
       `change`,
       () => {
         this.value = this.lineHeight.value
-        this.status.textContent = `Saved ${this.value}x line height selection`
+        switch (`${this.value}`) {
+          case `100%`:
+          case `normal`:
+            this.status.textContent = `Saved ${this.value}`
+            break
+          default:
+            this.status.textContent = `Saved ${this.value}x`
+        }
+        this.status.textContent += ` line height selection`
         this.storageSave()
       },
       { passive: true }
@@ -1166,7 +1164,7 @@ class LineHeight {
     }
   }
   /**
-   * Save line height selection to localStorage.
+   * Save line height selection to `localStorage`.
    */
   storageSave() {
     localStore(`lineHeight`, `${this.value}`)
@@ -1191,7 +1189,7 @@ class Tabs {
         const id = `${page.id.charAt(6)}`
         this.reveal(id)
         this.storageSave(id)
-        // clear all then apply active class to button
+        // clear all then apply active class to the button element
         const buttons = document.getElementsByClassName(`tablinks`)
         for (const button of buttons) {
           button.classList.remove(`activeButton`)
@@ -1203,7 +1201,7 @@ class Tabs {
   }
   /**
    * Refreshes the Options dialogue after a tab is selected.
-   * @param {number} [selected=1] numeric tab id
+   * @param {number} [selected=1] Numeric tab id
    */
   async reveal(selected = 1) {
     const value = parseInt(selected, 10)
@@ -1212,7 +1210,7 @@ class Tabs {
     Array.prototype.filter.call(this.content, page => {
       if (typeof page !== `undefined`) page.style.display = `none`
     })
-    // iterate over each <button class="tablinks"> element
+    // iterate over each `<button class="tablinks">` element
     const buttons = document.getElementsByClassName(`tablinks`)
     Array.prototype.filter.call(buttons, button => {
       return (button.style.backgroundColor = `initial`)
@@ -1256,8 +1254,8 @@ class Tabs {
     else this.reveal()
   }
   /**
-   * Save the active tab to localStorage.
-   * @param {string} [id=``] tab id
+   * Save the active tab to `localStorage`.
+   * @param {string} [id=``] Tab id
    */
   storageSave(id = ``) {
     localStore(`optionTab`, id)
@@ -1275,24 +1273,21 @@ class URLs {
     this.value = this.textArea.value
   }
   /**
-   * Event listener for <textarea>.
+   * Event listener for the `<textarea>` element.
    */
   async listen() {
     this.textArea.addEventListener(`input`, () => {
       this.value = this.textArea.value
       if (this.value.length < 1) {
         this.status.textContent = `Reset websites to defaults`
-        const config = new Configuration()
-        this.value = config.domainsString()
+        this.value = new Configuration().domainsString()
         this.textArea.value = this.value
-      } else {
-        this.status.textContent = `Updated websites`
-      }
+      } else this.status.textContent = `Updated websites`
       this.storageSave()
     })
   }
   /**
-   * Load and display URLs in <textarea>.
+   * Load and display URLs in the `<textarea>` element.
    */
   async storageLoad() {
     chrome.storage.local.get(`runWebUrlsPermitted`, result => {
@@ -1301,7 +1296,7 @@ class URLs {
     })
   }
   /**
-   * Save the URLs to localStorage.
+   * Save the URLs to `localStorage`.
    */
   storageSave() {
     localStore(`runWebUrlsPermitted`, `${this.value}`)
@@ -1316,9 +1311,10 @@ class URLs {
   if (typeof qunit !== `undefined`) return
   // initialise classes
   const initialise = new Initialise()
-  // lookup and applies checked, selections, active, once the HTML is loaded and parsed
+  // lookup and applies checked, selections, active, once the HTML is loaded and
+  // parsed
   document.addEventListener(`DOMContentLoaded`, initialise.checks())
-  // modifies options.html
+  // modifies `html/options.html`
   initialise.updates()
   // restore any saved options and apply event listeners
   const checkboxes = new CheckBox()
@@ -1350,12 +1346,15 @@ class URLs {
   urls.listen()
 
   // apply regional English edits
-  localizeWord(`color`, `msg-color`) // color vs colour
-  localizeWord(`center`, `msg-center`) // center vs centre
+  // color vs colour
+  localizeWord(`color`, `msg-color`)
+  // center vs centre
+  localizeWord(`center`, `msg-center`)
+  // gray vs grey
   document.getElementById(
     `gray-white-option`
-  ).textContent = chrome.i18n.getMessage(`gray_white_option`) // gray vs grey
-  // capitalize first letter
+  ).textContent = chrome.i18n.getMessage(`gray_white_option`)
+  // capitalize the first letter
   const customColorText = document
     .getElementById(`font-styles-custom-colors`)
     .getElementsByClassName(`msg-color`)[0]

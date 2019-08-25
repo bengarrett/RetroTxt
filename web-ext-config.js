@@ -7,10 +7,10 @@ module.exports = {
   // any hidden file (one that starts with a dot) is ignored
   // any directory named node_modules is ignored
   ignoreFiles: [
-    `assets/snaps/options_*`,
-    `assets/snaps/preview_permissions*`,
+    `assets/snaps/options_config-chrome.png`,
+    `assets/snaps/preview_permissions-chrome.png`,
     `css/options_chrome.css`,
-    `docs`,
+    `md`,
     `fonts/!(woff2)`,
     `manifest_*.json`,
     `*.md`,
@@ -35,6 +35,6 @@ module.exports = {
     // Browser to run, either `firefox`, `firefoxdeveloperedition`
     firefox: `firefox`,
     // start URL
-    startUrl: [`test/example_files/ecma-48.txt`]
+    startUrl: [`https://retrotxt.com/test/`, `https://retrotxt.com/e/`]
   }
 }

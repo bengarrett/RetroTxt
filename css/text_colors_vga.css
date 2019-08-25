@@ -1,11 +1,15 @@
 /*
- filename: text_colors_vga.css
+  filename: text_colors_vga.css
 
- ECMA-48 presentation control function colour codes in CGA, EGA and VGA BIOS modes
- RGB values taken from Wikipedia https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+  ANSI / ECMA-48 presentation control function colour codes in 
+  CGA, EGA and VGA BIOS modes. RGB values taken from Wikipedia 
+  https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 
- SGR39 SGR40 SGR49 are in text_ecma_48.css
+  Classes SGR39 SGR40 SGR49 are in `css/text_ecma_48.css`
 */
+
+@import url("text_colors_blink.css");
+@import url("text_colors_4bit.css");
 
 :root {
   --black: rgb(0, 0, 0);
@@ -24,100 +28,4 @@
   --lightmagenta: rgb(255, 85, 255);
   --lightcyan: rgb(85, 255, 255);
   --white: rgb(255, 255, 255);
-}
-
-div > i.SGR30 {
-  color: var(--black);
-}
-
-div > i.SGR31 {
-  color: var(--red);
-}
-
-div > i.SGR32 {
-  color: var(--green);
-}
-
-div > i.SGR33 {
-  color: var(--brown);
-}
-
-div > i.SGR34 {
-  color: var(--blue);
-}
-
-div > i.SGR35 {
-  color: var(--magenta);
-}
-
-div > i.SGR36 {
-  color: var(--cyan);
-}
-
-div > i.SGR37 {
-  color: var(--grey);
-}
-
-div > i.SGR40 {
-  background-color: var(--black);
-}
-
-div > i.SGR41 {
-  background-color: var(--red);
-}
-
-div > i.SGR42 {
-  background-color: var(--green);
-}
-
-div > i.SGR43 {
-  background-color: var(--brown);
-}
-
-div > i.SGR44 {
-  background-color: var(--blue);
-}
-
-div > i.SGR45 {
-  background-color: var(--magenta);
-}
-
-div > i.SGR46 {
-  background-color: var(--cyan);
-}
-
-div > i.SGR47 {
-  background-color: var(--grey);
-}
-
-div > i.SGR130 {
-  color: var(--darkgrey);
-}
-
-div > i.SGR131 {
-  color: var(--lightred);
-}
-
-div > i.SGR132 {
-  color: var(--lightgreen);
-}
-
-div > i.SGR133 {
-  color: var(--yellow);
-}
-
-div > i.SGR134 {
-  color: var(--lightblue);
-}
-
-div > i.SGR135 {
-  color: var(--lightmagenta);
-}
-
-div > i.SGR136 {
-  color: var(--lightcyan);
-}
-
-div > i.SGR137 {
-  color: var(--white);
 }

@@ -74,7 +74,7 @@ const testCU = new Map()
   .set(`←[;H${textIn}`, textOut)
   .set(
     `←[2H${textIn}`,
-    `<div id="row-1"><i class="SGR37 SGR40"> </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><br></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
   .set(
     `←[;18H${textIn}`,
@@ -91,11 +91,11 @@ const testCU = new Map()
   // CUD (cursor down)
   .set(
     `←[B${textIn}`,
-    `<div id="row-1"><i class="SGR37 SGR40"> </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><br></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
   .set(
     `←[3B${textIn}`,
-    `<div id="row-1"><i class="SGR37 SGR40"> </i></div><div id="row-2"><i class="SGR37 SGR40"> </i></div><div id="row-3"><i class="SGR37 SGR40"> </i></div><div id="row-4"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><br></div><div id="row-2"><br></div><div id="row-3"><br></div><div id="row-4"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
   .set(
     `Hello←[BNew←[Blines`,
@@ -160,7 +160,7 @@ const testHVP = new Map()
   )
   .set(
     `←[1;81f${textIn}`,
-    `<div id="row-1"><i class="SGR37 SGR40"> </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><br></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
 
 QUnit.test(`ANSI.SYS HVP (horizontal vertical position)`, assert => {
@@ -181,7 +181,7 @@ const testErase = new Map()
   // EL0 Erase line
   .set(
     `←[K${textIn}`,
-    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i><i class="SGR37 SGR40"></i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
 
 QUnit.test(`ANSI.SYS Erase functions`, assert => {
@@ -235,7 +235,7 @@ const testSGM = new Map()
   )
   .set(
     `←[8mHello ←[8mworld.`,
-    `<div id="row-1"><i class="SGR37 SGR40 SGR8">Hello </i><i class="SGR37 SGR40">world.</i></div>`
+    `<div id="row-1"><i class="SGR37 SGR40 SGR8">Hello </i><i class="SGR37 SGR40 SGR8">world.</i></div>`
   )
   // foreground colours
   .set(
@@ -315,11 +315,11 @@ const testE48 = new Map()
   // ED Erase in Page
   .set(
     `←[J${textIn}`,
-    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i><i class="SGR37 SGR40"></i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
   .set(
     `←[0J${textIn}`,
-    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i><i class="SGR37 SGR40"></i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
   .set(
     `←[1J${textIn}`,
@@ -331,7 +331,7 @@ const testE48 = new Map()
   )
   // [2J erases display
   // NOTE: 16/9/17 - switched RT to ignore \n values when rendering ANSI
-  // TODO: THIS RANDOMLY FAILS IN THE THE TESTS
+  // THIS RANDOMLY FAILS IN THE THE TESTS
   // .set(
   //   `${textIn}\n${textIn}\n${textIn}←[2J`,
   //   `<div id="row-1" class="ED"><i class="SGR37 SGR40">Hello world.</i></div><div id="row-2" class="ED"><i class="SGR37 SGR40">Hello world.</i></div><div id="row-3" class="ED"><i class="SGR37 SGR40">Hello world.</i></div>`
@@ -339,11 +339,11 @@ const testE48 = new Map()
   // EL Erase in Line
   .set(
     `←[K${textIn}`,
-    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i><i class="SGR37 SGR40"></i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
   .set(
     `←[0K${textIn}`,
-    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i><i class="SGR37 SGR40"></i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
+    `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
   // ←[1K is not supported
   .set(
@@ -498,20 +498,20 @@ const testiCE = new Map()
   // start with iCE on
   .set(
     `←[?33h←[47;5m←[B${textIn}`,
-    `<div id="row-1"><i class="SGR37 SGR47 SGR5"></i></div><div id="row-2"><i class="SGR37 SGR47 SGR5">Hello world.</i></div>`
+    `<div id="row-1"><br></div><div id="row-2"><i class="SGR37 SGR47 SGR5">Hello world.</i></div>`
   )
   // start with iCE off
   .set(
     `←[?33l←[47;5m←[B${textIn}`,
-    `<div id="row-1"><i class="SGR37 SGR47 SGR5"></i></div><div id="row-2"><i class="SGR37 SGR47 SGR5">Hello world.</i></div>`
+    `<div id="row-1"><br></div><div id="row-2"><i class="SGR37 SGR47 SGR5">Hello world.</i></div>`
   )
   .set(
     `←[?33h←[5;47m${textIn}`,
     `<div id="row-1"><i class="SGR37 SGR47 SGR5">Hello world.</i></div>`
   )
   .set(
-    `←[?33h←[6;47miCE iCE Baby←[?33l${textIn}`,
-    `<div id="row-1"><i class="SGR37 SGR47 SGR6">iCE iCE Baby</i><i class="SGR37 SGR47 SGR6">Hello world.</i></div>`
+    `←[?33h←[6;47miCE iCE Baby ←[?33l${textIn}`,
+    `<div id="row-1"><i class="SGR37 SGR47 SGR6">iCE iCE Baby Hello world.</i></div>`
   )
 
 QUnit.test(`iCE Colors`, assert => {

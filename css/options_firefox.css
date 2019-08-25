@@ -1,13 +1,15 @@
 /*
   filename: options_firefox.css
 
-  Colour modifications for Firefox/Gecko browsers based on the Firefox and Mozilla style guides.
+  Colour modifications for Firefox/Gecko browsers 
+  based on the Firefox and Mozilla style guides.
   Firefox: https://www.mozilla.org/en-US/styleguide/identity/firefox/color/
   Mozilla: https://www.mozilla.org/en-US/styleguide/identity/mozilla/color/
   Photon: http://design.firefox.com/photon/visual/typography.html
 
-  In manifest.json for Firefox, options_ui should be { browser_style: true }
-  The stylesheet can be viewed at chrome://browser/content/extension.css
+  In the `manifest.json` for Firefox the `options_ui` key 
+  should be { browser_style: true }.
+  The stylesheet can be viewed at `chrome://browser/content/extension.css`
 */
 
 :root {
@@ -84,9 +86,12 @@ header > #sample-container {
   justify-content: start;
   height: var(--sample-container);
   padding-left: 6px;
+  /* fix for the render issue of the white shadow on sample text */
+  text-shadow: none;
 }
 header > #sample-container > #sample-dos-text {
-  /* anything placed here will override classes introduced by options.js */
+  /* anything placed here will override classes
+     introduced by `scripts/options.js` */
   display: flex;
   align-items: center;
   height: var(--sample-box-height);
@@ -117,35 +122,38 @@ header > nav.tab {
   align-items: center;
   justify-content: start;
 }
+
 header > nav.tab > button {
   display: inline-block;
   align-items: flex-start;
   text-align: center;
+
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--in-content-text-color);
 }
 /* overriding Firefox's buttons doesn't work as expected */
 .tablinks {
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  color: var(--in-content-text-color);
-  font-size: 15px;
-  font-variant: normal;
-  letter-spacing: 1.1px;
+  border: none;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  background: var(--in-content-box-background);
+  font-size: 14px;
   line-height: 20px;
-  margin: 4px;
-  min-width: 94.5px;
-  min-height: 30px;
-  text-shadow: none;
+  padding: 4px 16px;
+  color: var(--in-content-text-color);
 }
-button.tablinks:focus,
-.tablinks:hover {
-  border-color: var(--button-border-color);
+
+button.tablinks:hover {
+  background-color: var(--in-content-box-background-hover);
+  border-top-color: var(--in-content-box-border-color);
+}
+
+button.tablinks:hover:active {
+  background-color: var(--in-content-box-background-active);
   color: var(--firefox-active);
 }
-button.tablinks:active {
-  border-color: var(--button-border-color);
-  color: var(--firefox-active);
-}
+
 /* Main */
 main {
   display: flex;
@@ -329,6 +337,23 @@ main > section .about-link {
   flex-basis: 15em;
 }
 /* Icon links */
+
+header a:hover,
+header a:visited,
+header a:link,
+header a:active {
+  text-decoration: none;
+}
+
+header .material-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--icon);
+  text-decoration: none;
+}
+
 footer > .box {
   display: flex;
   align-items: center;

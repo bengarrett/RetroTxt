@@ -454,7 +454,7 @@ QUnit.test(`Configuration() class`, assert => {
   assert.equal(cfg.cssWidth(), `100%`, `Configuration should be 100%`)
   assert.equal(
     cfg.domainsString(),
-    `16colo.rs;defacto2.net;gutenberg.org;scene.org;textfiles.com;textmod.es;uncreativelabs.net`,
+    `16colo.rs;defacto2.net;gutenberg.org;scene.org;textfiles.com;uncreativelabs.net`,
     `Domains are incorrect`
   )
 

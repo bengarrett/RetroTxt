@@ -54,7 +54,8 @@ header > #sample-container {
   height: var(--sample-container);
 }
 header > #sample-container > #sample-dos-text {
-  /* anything placed here will override classes introduced by options.js */
+  /*  anything placed here will override classes 
+      introduced by `scripts/options.js` */
   display: flex;
   align-items: center;
   height: var(--sample-box-height);
@@ -260,4 +261,20 @@ footer .material-icons:hover {
 footer .material-icons:active {
   background-color: var(--chrome-hover);
   transition: var(--icon-transition);
+}
+
+header a:hover,
+header a:visited,
+header a:link,
+header a:active {
+  text-decoration: none;
+}
+
+header .material-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--icon);
+  text-decoration: none;
 }
