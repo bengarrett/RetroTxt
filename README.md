@@ -46,7 +46,7 @@ You can test the RetroTxt install by clicking on one of the 10 sample artworks f
 ## Configuration
 
 Out of the box, some useful features of RetroTxt are off. Newer browsers require you to grant permission at prompts before RetroTxt can
-[access specific browser data](/md/privacy.md) it needs. There are a couple of links to the Options dialogue in the `welcome.html` tab, or it is accessible from the browser's Extensions tab.
+[access specific browser data](https://github.com/bengarrett/RetroTxt/wiki/privacy) it needs. There are a couple of links to the Options dialogue in the `welcome.html` tab, or it is accessible from the browser's Extensions tab.
 
 ![Config tab in Options](/md/assets/requests_additional_permissions.png)
 
@@ -56,7 +56,7 @@ Once configured RetroTxt will run on any text or ANSI art file observed in a per
 
 ![RetroTxt toolbar button in Chrome](/md/assets/retrotxt_toolbar_button_chrome.png)
 
-Elsewhere there are thousands of text files hosted at [textfiles.com](https://textfiles.com/directory.html) or the [Project
+Elsewhere there are thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or the [Project
 Gutenberg](https://www.gutenberg.org/catalog/) _plain text_ books. Or download one of the fantastic text art packs created by
 [Blocktronics](http://blocktronics.org/artpacks/), or found at [16 colors](https://16colo.rs) and use the `file:///` protocol
 to browse and view the text art files saved onto your hard drive.
