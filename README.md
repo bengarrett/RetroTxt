@@ -1,5 +1,14 @@
 # RetroTxt
 
+![Maintenance](https://img.shields.io/maintenance/yes/2019)
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bengarrett/retrotxt)
+&nbsp;
+![Chrome Web Store](https://img.shields.io/chrome-web-store/users/gkjkgilckngllkopkogcaiojfajanahn?color=rgb%280%2C%20153%2C%20255%29&label=Chrome%20installs)
+![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/gkjkgilckngllkopkogcaiojfajanahn) &nbsp;
+![Mozilla Add-on](https://img.shields.io/amo/users/retrotxt?color=E66000&label=Firefox%20installs)
+![Mozilla Add-on](https://img.shields.io/amo/rating/retrotxt)
+
 Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. The browser agnostic WebExtension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
 
 ### Available for installation from both the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
