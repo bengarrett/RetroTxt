@@ -10,7 +10,7 @@
 
 Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. The browser agnostic WebExtension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
 
-#### ☕ [Enjoying RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
+#### [If you enjoy RetroTxt, consider buying me a cup of coffee?](https://www.buymeacoffee.com/4rtEGvUIY) ☕
 
 ### Available for installation from both the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
 
