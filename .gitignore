@@ -8,6 +8,8 @@
 # Visual Studio Code
 .vscode/tasks.json
 node_modules
+package-lock.json
+yarn.lock
 
 # Other
 notes.md
