@@ -1,6 +1,6 @@
 {
   "name": "retrotxt",
-  "version": "3.3.0",
+  "version": "3.4.2",
   "description": "Turn many pieces of ANSI text art and ASCII, NFO, Shift-JIS, plain text into HTML5.",
   "keywords": [
     "ascii",
@@ -24,10 +24,6 @@
     "type": "git",
     "url": "https://github.com/bengarrett/RetroTxt.git"
   },
-  "dependencies": {
-    "wawoff2": "^1.0.2",
-    "web-ext": "latest"
-  },
   "os": [
     "darwin",
     "linux",
@@ -37,19 +33,15 @@
     "semi": false
   },
   "devDependencies": {
-    "ajv": "^6.10.0",
+    "ajv": "^6.10.2",
     "dot-json": "^1.1.0",
     "eslint": "^5.16.0",
     "prettier-eslint": "^9.0.0",
-    "qunit": "^2.9.2"
+    "qunit": "^2.9.3",
+    "wawoff2": "^1.0.2",
+    "web-ext": "^3.2.0"
   },
   "scripts": {
-    "build-chrome": "web-ext --config web-ext-chrome.js build",
-    "build-firefox": "web-ext build",
-    "font": "woff2_compress.js",
-    "json": "dot-json",
-    "lint": "web-ext lint",
-    "firefox": "web-ext run",
-    "version": "web-ext --version"
+    "font": "woff2_compress.js"
   }
 }

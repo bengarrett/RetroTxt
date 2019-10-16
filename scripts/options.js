@@ -585,9 +585,10 @@ class Initialise extends CheckBox {
     super()
     this.defaults = new OptionsReset()
     this.lengths = new Set([
-      `smearBlocks`,
+      `colorPalette`,
       `retroColor`,
       `retroFont`,
+      `smearBlocks`,
       `textEffect`
     ])
     this.id = ``
@@ -634,7 +635,7 @@ class Initialise extends CheckBox {
     // check #3 - options tab
     const key3 = `optionTab`
     const value3 = parseInt(localStorage.getItem(key3), 10)
-    if (isNaN(value3) || value3 < 1 || value3 > 4) {
+    if (isNaN(value3) || value3 < 1 || value3 > 5) {
       const fix = this.defaults.get(key3)
       if (fix === ``) handleError(`Initialise.checks() ${key3} = "${value3}"`)
       localStore(`${key3}`, `${fix}`)
@@ -682,12 +683,23 @@ class Initialise extends CheckBox {
       this.value = `${fix}`
     }
     switch (this.key) {
+      case `colorPalette`:
+        return this.colorPalette()
       case `retroColor`:
         return this.selectColor()
       case `retroFont`:
         return this.selectFont()
       case `textEffect`:
         return this.selectEffect()
+    }
+  }
+  /**
+   * Selects a colour palette radio option.
+   */
+  async colorPalette() {
+    const palettes = document.getElementsByName(`palette`)
+    for (const palette of palettes) {
+      if (palette.value === this.value) return (palette.checked = true)
     }
   }
   /**
@@ -700,7 +712,7 @@ class Initialise extends CheckBox {
     }
   }
   /**
-   * Selects a text render radio button.
+   * Selects a text render radio option.
    */
   async selectEffect() {
     const effects = document.getElementsByName(`effect`)
@@ -995,7 +1007,7 @@ class Radios {
   /**
    * Creates an instance of Radios.
    * @param [storageId=``] Local storage item key,
-   * either `retroFont` or `textEffect`
+   * either `colorPalette`, `retroFont` or `textEffect`
    */
   constructor(storageId = ``) {
     this.sample = document.getElementById(`sample-dos-text`)
@@ -1005,6 +1017,11 @@ class Radios {
     this.storageId = `${storageId}`
     this.value = ``
     switch (storageId) {
+      case `colorPalette`:
+        this.feedback = `palette`
+        this.formId = `palette-form`
+        this.formName = `colorpalette`
+        break
       case `retroFont`:
         this.feedback = `font selection`
         this.formId = `font-form`
@@ -1037,6 +1054,8 @@ class Radios {
         status.textContent = `Saved ${this.feedback} ${font.family}`
         this.storageSave()
       }
+      // skip colorPalette as it doesn't effect Sample Text
+      if (this.storageId === `colorPalette`) continue
       label.onmouseover = () => {
         this.value = `${input.value}`
         const font = new FontFamily(this.value)
@@ -1078,6 +1097,18 @@ class Radios {
    */
   storageSave() {
     localStore(`${this.storageId}`, `${this.value}`)
+  }
+}
+/**
+ * Default colour palette.
+ * @class Palette
+ */
+class Palette extends Radios {
+  constructor() {
+    super(`colorPalette`)
+  }
+  async preview() {
+    // do not remove
   }
 }
 /**
@@ -1205,7 +1236,8 @@ class Tabs {
    */
   async reveal(selected = 1) {
     const value = parseInt(selected, 10)
-    if (isNaN(value) || value < 1 || value > 4) selected = `1`
+    if (isNaN(value) || value < 1 || value > 5)
+      return console.error(`Tab value ${value} is invalid`)
     // iterate over each <section> element
     Array.prototype.filter.call(this.content, page => {
       if (typeof page !== `undefined`) page.style.display = `none`
@@ -1243,6 +1275,12 @@ class Tabs {
         sample.style.display = `none`
         status.textContent = `About tab selected`
         break
+      case 5:
+        sample.style.display = `none`
+        status.textContent = `ANSI tab selected`
+        break
+      default:
+        console.error(`Tab value ${value} is invalid`)
     }
   }
   /**
@@ -1332,6 +1370,9 @@ class URLs {
   const font = new Fonts()
   font.storageLoad()
   font.listen()
+  const colorPalette = new Palette()
+  colorPalette.storageLoad()
+  colorPalette.listen()
   const textEffect = new Effects()
   textEffect.storageLoad()
   textEffect.listen()

@@ -1,5 +1,14 @@
 # RetroTxt Changes
 
+## 3.4.1
+
+### October 2019
+
+- Created an ANSI tab in the options.
+- Created `Default color palette` selection option.
+- Added links in the welcome page for extension-app store reviews.
+- Replaced Download API console warnings on startup with logs.
+
 ## 3.4
 
 ### August 2019

@@ -866,9 +866,9 @@ class Downloads {
     if (FindEngine() === `gecko`) return
     // exit when chrome.downloads is inaccessible due Extensions configurations
     if (`downloads` in chrome === false)
-      return console.warn(`chrome.downloads API is inaccessible`)
+      return console.log(`chrome.downloads API is inaccessible`)
     if (`onCreated` in chrome.downloads === false)
-      return console.warn(
+      return console.log(
         `chrome.downloads API onCreated event is inaccessible`
       )
     const downloads = new Downloads()

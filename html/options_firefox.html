@@ -17,6 +17,7 @@
       <nav class="tab">
         <button class="tablinks" id="btnTab1">Fonts</button>
         <button class="tablinks" id="btnTab2">Display</button>
+        <button class="tablinks" id="btnTab5">ANSI</button>
         <button class="tablinks" id="btnTab3">Config</button>
         <button class="tablinks" id="btnTab4">About</button>
         <a href="https://github.com/bengarrett/RetroTxt/wiki/options" class="help-button" target="_blank" title="RetroTxt options help"><i class="material-icons">help</i></a>
@@ -37,8 +38,8 @@
       <section class="tabcontent" id="tab1">
         <form name="fonts" class="flexed" id="font-form">
           <!-- Modern -->
-          <div class="font block top separator-block">
-            <div class="font-title">Modern</div>
+          <div class="font block top">
+            <p class="font-title">Modern</p>
             <div class="font-content">
               <div class="block">
                 <label class="browser-style" for="rsfibmplex">
@@ -61,8 +62,8 @@
             </div>
           </div>
           <!-- MS-DOS -->
-          <div class="font block separator-block">
-            <div class="font-title">MS-DOS</div>
+          <div class="font block">
+            <p class="font-title">MS-DOS</p>
             <div class="font-content">
               <div class="block">
                 <label class="browser-style" for="rsf1">
@@ -97,8 +98,8 @@
             </div>
           </div>
           <!-- IBM PC -->
-          <div class="font block separator-block">
-            <div class="font-title">IBM PC</div>
+          <div class="font block">
+            <p class="font-title">IBM PC</p>
             <div class="font-content">
               <div class="block">
                 <label class="browser-style" for="rsfiso9">
@@ -185,10 +186,8 @@
             </div>
           </div>
           <!-- Atari -->
-          <div class="font block separator-block">
-            <div class="font-title">
-              Atari
-            </div>
+          <div class="font block">
+            <p class="font-title">Atari</p>
             <div class="font-content">
               <div class="block">
                 <label class="browser-style" for="rsf16">
@@ -202,7 +201,7 @@
           </div>
           <!-- Amiga & Commodore -->
           <div class="font block">
-            <div class="font-title">Amiga &amp; Commodore</div>
+            <p class="font-title">Amiga &amp; Commodore</p>
             <div class="font-content">
               <div class="block">
                 <label class="browser-style" for="rsft2">
@@ -337,26 +336,6 @@
             </label>
           </div>
         </div>
-        <!-- ansi 80 column wrap -->
-        <div class="display block separator-block">
-          <div class="display-title">
-            ANSI 80 column wrap
-          </div>
-          <div class="display-content">
-            <i class="material-icons">format_align_justify</i>
-            <label class="browser-style"><input type="checkbox" id="ansi-wrap-80c"> <span class="asterisk">*</span></label>
-          </div>
-        </div>
-        <!-- ansi ice colors -->
-        <div class="display block separator-block">
-          <div class="display-title">
-            ANSI iCE colors
-          </div>
-          <div class="display-content">
-            <i class="material-icons">format_color_fill</i>
-            <label class="browser-style"><input type="checkbox" id="ansi-ice-colors"> <span class="asterisk">*</span></label>
-          </div>
-        </div>
         <!-- smear block characters -->
         <div class="display block separator-block" id="smear-blocks-container">
           <div class="display-title">
@@ -430,6 +409,63 @@
                 <input type="radio" name="effect" value="shadowed" id="trds"> Shadowed</label>
             </form>
           </div>
+        </div>
+      </section>
+      <!-- ANSI tab -->
+      <section class="tabcontent" id="tab5">
+        <!-- ansi 80 column wrap -->
+        <div class="display block separator-block">
+          <div class="display-title">
+            ANSI 80 column wrap
+          </div>
+          <div class="display-content">
+            <i class="material-icons">format_align_justify</i>
+            <label class="browser-style"><input type="checkbox" id="ansi-wrap-80c"> <span class="asterisk">*</span></label>
+          </div>
+        </div>
+        <!-- ansi ice colors -->
+        <div class="display block separator-block">
+          <div class="display-title">
+            Use iCE colors
+          </div>
+          <div class="display-content">
+            <i class="material-icons">format_color_fill</i>
+            <label class="browser-style"><input type="checkbox" id="ansi-ice-colors"> <span class="asterisk">*</span>
+            <span> <em>instead of blinking text</em></span></label>
+          </div>
+        </div>
+        <div class="font block">
+          <p class="font-title"><span class="msg-color">Color</span> palette default <span class="asterisk">*</span></p>
+          <form name="colorpalette" id="palette-form" class="font-content">
+            <div class="block">
+            <label for="palettevga">
+              <input type="radio" name="palette" value="vga" id="palettevga">
+              <strong>IBM</strong> VGA</label> <span style="text-overflow: ellipsis">recommend</span></div>
+            <div class="block">
+            <label for="palettexterm">
+              <input type="radio" name="palette" value="xterm" id="palettexterm">
+              <strong>XTerm</strong></label></div>
+            <div class="block">
+            <label for="paletteiigs">
+              <input type="radio" name="palette" value="iigs" id="paletteiigs">
+              <strong>Apple</strong> IIgs</label></div>
+            <div class="block">
+            <label for="palettec64">
+                <input type="radio" name="palette" value="c64" id="palettec64">
+                <strong>Commodore</strong> 64</label></div>
+            <div class="block">
+            <label for="palettecga0">
+                <input type="radio" name="palette" value="cga_0" id="palettecga0">
+                <strong>IBM</strong> CGA palette 0</label></div>
+            <div class="block">
+            <label for="palettecga1">
+                <input type="radio" name="palette" value="cga_1" id="palettecga1">
+                <strong>IBM</strong> CGA palette 1</label></div>
+            <div class="block">
+            <label for="palettegray">
+                <input type="radio" name="palette" value="gray" id="palettegray">
+                <strong>Monochrome</strong></label></div>
+          </form>
         </div>
       </section>
       <!-- Config tab -->

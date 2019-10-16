@@ -17,6 +17,7 @@
       <nav class="tab">
         <button class="tablinks" id="btnTab1">Fonts</button>
         <button class="tablinks" id="btnTab2">Display</button>
+        <button class="tablinks" id="btnTab5">ANSI</button>
         <button class="tablinks" id="btnTab3">Config</button>
         <button class="tablinks" id="btnTab4">About</button>
         <a href="https://github.com/bengarrett/RetroTxt/wiki/options" class="help-button" target="_blank" title="RetroTxt options help"><i class="material-icons">help</i></a>
@@ -324,26 +325,6 @@
             </select>
           </div>
         </div>
-        <!-- ansi 80 column wrap -->
-        <div class="display block">
-          <div class="display-title">
-            ANSI 80 column wrap
-          </div>
-          <div class="display-content">
-            <label><i class="material-icons">wrap_text</i>
-              <input type="checkbox" id="ansi-wrap-80c"> *</label>
-          </div>
-        </div>
-        <!-- ansi ice colors -->
-        <div class="display block">
-          <div class="display-title">
-            ANSI iCE colors
-          </div>
-          <div class="display-content">
-            <label><i class="material-icons">format_color_fill</i>
-              <input type="checkbox" id="ansi-ice-colors"> *</label>
-          </div>
-        </div>
         <!-- smear block characters -->
         <div class="display block" id="smear-blocks-container" style="display:none">
           <div class="display-title">
@@ -406,6 +387,66 @@
             </form>
           </div>
         </div>
+      </section>
+      <!-- ANSI tab -->
+      <section class="tabcontent" id="tab5">
+        <!-- ansi 80 column wrap -->
+        <div class="display block">
+          <div class="display-title">
+            ANSI 80 column wrap
+          </div>
+          <div class="display-content">
+            <label><i class="material-icons">wrap_text</i>
+              <input type="checkbox" id="ansi-wrap-80c"> *</label>
+          </div>
+        </div>
+        <!-- ansi ice colors -->
+        <div class="display block">
+          <div class="display-title">
+            Use iCE colors
+          </div>
+          <div class="display-content">
+            <label><i class="material-icons">format_color_fill</i>
+              <input type="checkbox" id="ansi-ice-colors"> *
+              <span><em>instead of blinking text</em></span></label>
+          </div>
+        </div>
+        <div class="font block">
+          <p class="font-title"><span class="msg-color">Color</span> palette default *</p>
+          <form name="colorpalette" id="palette-form" class="font-content">
+            <div class="block">
+            <label for="palettevga">
+              <input type="radio" name="palette" value="vga" id="palettevga">
+              <strong>IBM</strong> VGA</label> <span style="text-overflow: ellipsis">recommend</span></div>
+            <div class="block">
+            <label for="palettexterm">
+              <input type="radio" name="palette" value="xterm" id="palettexterm">
+              <strong>XTerm</strong></label></div>
+            <div class="block">
+            <label for="paletteiigs">
+              <input type="radio" name="palette" value="iigs" id="paletteiigs">
+              <strong>Apple</strong> IIgs</label></div>
+            <div class="block">
+            <label for="palettec64">
+                <input type="radio" name="palette" value="c64" id="palettec64">
+                <strong>Commodore</strong> 64</label></div>
+            <div class="block">
+            <label for="palettecga0">
+                <input type="radio" name="palette" value="cga_0" id="palettecga0">
+                <strong>IBM</strong> CGA palette 0</label></div>
+            <div class="block">
+            <label for="palettecga1">
+                <input type="radio" name="palette" value="cga_1" id="palettecga1">
+                <strong>IBM</strong> CGA palette 1</label></div>
+            <div class="block">
+            <label for="palettegray">
+                <input type="radio" name="palette" value="gray" id="palettegray">
+                <strong>Monochrome</strong></label></div>
+          </form>
+        </div>
+<!-- 
+    this.filenames = [`vga`, `xterm`, `iigs`, `c64`, `cga_0`, `cga_1`, `gray`]
+ -->
       </section>
       <!-- Config tab -->
       <section class="tabcontent" id="tab3">

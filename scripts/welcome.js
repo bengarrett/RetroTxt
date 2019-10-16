@@ -185,6 +185,9 @@ class HTML {
     }
     if (location.hash.includes(`#permission`))
       document.getElementById(`rt-permission`).classList.add(`orange-border`)
+    else if (location.hash.includes(`#update`)) {
+      document.getElementById(`rt-permission`).classList.add(`hidden`)
+    }
   }
   /**
    * Parse browser metadata into readable text.
@@ -226,9 +229,13 @@ class HTML {
       manifest.options_ui.page !== undefined
     ) {
       const br = document.getElementById(`browser`)
-      if (manifest.options_ui.page.startsWith(`moz-extension`, 0) === true)
+      if (manifest.options_ui.page.startsWith(`moz-extension`, 0) === true) {
         br.textContent = `Firefox`
-      else br.textContent = `Chrome`
+        document.getElementById(`5star-firefox`).classList.toggle(`hidden`)
+      } else {
+        br.textContent = `Chrome`
+        document.getElementById(`5star-chrome`).classList.toggle(`hidden`)
+      }
     }
   }
   /**

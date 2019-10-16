@@ -25,7 +25,9 @@ class DOM {
     this.pre0 = document.getElementsByTagName(`pre`)[0]
     this.pre1 = document.getElementsByTagName(`pre`)[1]
     this.preCount = document.getElementsByTagName(`pre`).length
+    // fetch Options stored values to be usable here
     this.storage = [
+      `colorPalette`,
       `customBackground`,
       `customForeground`,
       `focusMode`,
@@ -215,6 +217,9 @@ class DOM {
         true
       )
     }
+    // colour palette
+    if (typeof this.results.colorPalette === `string`) this.colorpalette()
+    else err(`colorPalette`)
     // line height choice
     if (typeof this.results.lineHeight === `string`)
       this.lineHeight(this.results.lineHeight)
@@ -271,6 +276,7 @@ class DOM {
     else if (StringToBool(this.results.textBlinkAnimation) === null)
       err(`textBlinkAnimation`)
   }
+
   /**
    * Toggles a background colour to the body element.
    */
@@ -411,6 +417,23 @@ class DOM {
       const css = document.getElementById(`no-blink-animation`)
       if (css !== null) css.remove()
     }
+  }
+  /**
+   * Toggles the stored colour palette
+   */
+  async colorpalette() {
+    const palette = new HardwarePalette()
+    const paletteName = `${this.results.colorPalette}`
+    const paletteIndex = palette.filenames.indexOf(paletteName)
+    if (paletteIndex < -1)
+      return console.error(`Unknown colour palette name '${paletteName}'`)
+    palette.key = `${palette.palettes[paletteIndex]}`
+    palette.set()
+    document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(
+      palette.savedFilename()
+    )
+    const element = document.getElementById(`h-palette`)
+    element.textContent = `${palette.key}`
   }
   /**
    * Toggles the column line wrap that's available under Options

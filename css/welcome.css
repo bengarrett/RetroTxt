@@ -152,6 +152,9 @@ menu > .flex-container .card .container {
   padding: 2px 16px;
 }
 
+.hidden {
+  display: none;
+}
 .orange-border {
   border: 0.2em solid orange;
   margin-bottom: 1em;

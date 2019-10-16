@@ -931,6 +931,9 @@ class OptionsReset {
     if (FindEngine() === `gecko`) lineHeight = `100%`
     if (FindOS() === `win`) smearBlocks = true
     this.options = new Map()
+      // radio checked values
+      .set(`colorPalette`, `vga`)
+      .set(`textEffect`, `normal`)
       // boolean options for checkboxes
       .set(`textSmearBlocks`, smearBlocks)
       .set(`textBgScanlines`, false)
@@ -938,7 +941,6 @@ class OptionsReset {
       .set(`textAnsiWrap80c`, true)
       .set(`textAnsiIceColors`, true)
       .set(`textBlinkAnimation`, true)
-      .set(`textEffect`, `normal`)
       .set(`textCenterAlignment`, true)
       .set(`textFontInformation`, true)
       .set(`runWebUrls`, true)
