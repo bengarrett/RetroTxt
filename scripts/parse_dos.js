@@ -969,15 +969,16 @@ class BBS {
       if (value === ` `) return false
       // convert from hexadecimal to decimal
       const hex = parseInt(value, 16)
-      if (isNaN(hex) || hex < 0 || hex > 16) return false
+      if (Number.isNaN(hex) || hex < 0 || hex > 16) return false
       return true
     }
     const pre = this.newElement(`pre`)
     const replaced = this.replaceEscapedChars()
     // to handle colour, split @X characters
     const colours = replaced.split(`@X`)
+    colour:
     for (const code of colours) {
-      if (code.length === 0 || code.charCodeAt(0) === 10) continue
+      if (code.length === 0 || code.charCodeAt(0) === 10) continue colour
       // check values to match expected prefix
       // otherwise .. treat as text
       const backgroundCode = `${code.substring(0, 1)}`
@@ -990,7 +991,7 @@ class BBS {
         if (element !== null) {
           // inject text into the previous <i> node
           element.textContent = `${element.textContent} ${appendText}`
-          continue
+          continue colour
         }
         // if childNodes = 0, then use the code below to create a new element
       }
@@ -1037,8 +1038,9 @@ class BBS {
     let background = `00`
     let foreground = `00`
     let swap = false
+    colour:
     for (const code of colours) {
-      if (code.length === 0) continue
+      if (code.length === 0) continue colour
       // check values to match expected prefix
       // otherwise .. treat as text
       const pipe = `${celerityCodes.get(code.substring(0, 1))}`
@@ -1048,7 +1050,7 @@ class BBS {
       if (pipe === `undefined`) {
         element.textContent = `|${code}`
         pre.appendChild(element)
-        continue
+        continue colour
       }
       const x = parseInt(pipe, 10)
       if (x === 16) {

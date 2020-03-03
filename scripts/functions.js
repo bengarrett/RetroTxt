@@ -378,7 +378,7 @@ class Contrast {
     }
     // iterate through the HSL results and replace their string values with
     // numbers the hue value supports symbols such as °, deg, rad, turn
-    for (const [i, value] of symbols.entries()) {
+    symbols: for (const [i, value] of symbols.entries()) {
       // handle hue and convert it to a float range between 0 -> 1
       if (i === 0) {
         // handle a hue value given as a radian
@@ -389,7 +389,7 @@ class Contrast {
         else if (value.includes(`turn`)) hsl[0] = parseFloat(value, 10)
         // otherwise hue is a degree value (1 degree = 0.00278 of a turn)
         else hsl[0] = parseFloat(value, 10) * 0.00278
-        continue
+        continue symbols
       }
       // saturation and lightness are percentage % values
       hsl[i] = parseFloat(value, 10) / 100
@@ -865,7 +865,7 @@ class Guess extends BrowserEncodings {
     if (byte1 === `ef` && byte2 === `bb` && byte3 === `bf`) return `UTF-8`
     if (byte1 === `ff` && byte2 === `fe`) return `UTF-16, little endian`
     if (byte1 === `fe` && byte2 === `ff`) return `UTF-16, big endian`
-    // UTF-32 BOM cannot be detected as the 32 bit placeholders get ignored
+    // UTF-32 BOM cannot be detected as the 32 bit place holders get ignored
     return ``
   }
   /**
@@ -1256,6 +1256,7 @@ class FontFamily {
       .set(`IBMPLEX`, `IBM Plex`)
       .set(`P0TNOODLE`, `P0T-NOoDLE`)
       .set(`PS24`, `PS/2 (thin 4)`)
+      .set(`SPLEEN`, `Spleen`)
       .set(`TOPAZA500`, `Topaz`)
       .set(`TOPAZA1200`, `Topaz 2`)
       .set(`TOPAZPLUSA500`, `Topaz+`)
@@ -1398,8 +1399,6 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   // this removes any pre-existing text effect class names from the element
   for (const item of dom.classList) {
     if (item.endsWith(`-shadowed`) === true) dom.classList.remove(item)
-    // TODO: Jul-2019: This can be removed in a future update
-    if (item === `text-smeared`) dom.classList.remove(item)
   }
   switch (effect) {
     case `shadowed`:

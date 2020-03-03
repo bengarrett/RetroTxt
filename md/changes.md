@@ -1,6 +1,26 @@
 # RetroTxt Changes
 
-## 3.4.1
+## 3.5
+
+### March 2020
+
+- Added Spleen font support.
+- Added Microsoft Edge browser support.
+- Added Microsoft Edge Addons links.
+- Improved compatibility with Blocktronics Blocky Horror & dsotb packs.
+- Added labels to for() loops.
+- Added `hidepassed` argument to QUnit test links.
+- Added Chrome and Edge browser version info to welcome.html.
+- isNum() now intentionally points to either to the Number function.
+- Fixed stylesheets not being loaded for BBS coloured text formats.
+- Fixed broken DOM() class unit test.
+- Fixed _New width byte sequence 80_ console message.
+- Fixed colorpalette() causing errors with non-ANSI art.
+- Fixed missing Unscii credit on the Firefox Options About tab.
+- Fixed 'Font family used for display' title mislabelling some fonts.
+- Reduced the width of the Options menu buttons to better fit with Edge.
+
+## 3.4.2
 
 ### October 2019
 

@@ -1120,8 +1120,9 @@ class WebExtension {
           checks.push(`${key}`)
         })
         chrome.storage.local.get(checks, results => {
+          results:
           for (const result in results) {
-            if (result === `updatedNotice`) continue
+            if (result === `updatedNotice`) continue results
             // if any of the redundant checks are set to true, then show the
             // welcome page
             if (results[result] === true) {
@@ -1490,8 +1491,9 @@ class Menu {
         // in Chromium these two separators are not removed
         chrome.contextMenus.remove(`sep2`)
         chrome.contextMenus.remove(`sep1`)
+        checkMarks:
         for (const id of this.themes.get(`order`)) {
-          if (id === `-`) continue
+          if (id === `-`) continue checkMarks
           chrome.contextMenus.update(id, {
             visible: false
           })
@@ -1629,8 +1631,9 @@ class Menu {
     chrome.storage.local.set({ retroFont: `${style[0]}` })
     chrome.storage.local.set({ retroColor: `${style[1]}` })
     // remove any existing theme menu check-marks
+    checkMarks:
     for (const id of this.themes.get(`order`)) {
-      if (id === `-`) continue
+      if (id === `-`) continue checkMarks
       if (theme !== id) this.itemChecked(id, false)
     }
     // add new check-mark

@@ -98,7 +98,7 @@ header > nav.tab > button {
   text-rendering: auto;
   text-shadow: rgb(240, 240, 240) 0 1px 0;
   user-select: none;
-  min-width: 6em;
+  min-width: 5em;
   min-height: 2em;
 }
 header > nav.tab > button:hover,

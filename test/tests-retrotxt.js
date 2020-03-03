@@ -24,9 +24,9 @@ QUnit.test(`DOM() class`, assert => {
   assert.equal(dom.head.nodeName, `HEAD`, `Should be a <head> element`)
   assert.equal(dom.cssLink, null, `Should be null element doesn't exist`)
   assert.equal(
-    dom.storage[0],
+    dom.storage[1],
     `customBackground`,
-    `1st storage item should be customBackground`
+    `Storage item 1 should be customBackground`
   )
   dom.construct()
   assert.equal(

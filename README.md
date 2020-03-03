@@ -12,9 +12,7 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 
 #### ☕ [Enjoying RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
 
-Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** using RetroTxt. The browser agnostic WebExtension that takes retro text files and stylises them into a more pleasing, useful format to view and copy in a web browser.
-
-### Available for installation from both the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/).
+### Available for installation from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/) and [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog).
 
 - View ANSI, ASCII, NFO, Shift JIS text art as HTML
 - View server and dev-op logs formatted in coloured text with modern fonts
@@ -41,7 +39,7 @@ Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 **text** u
 
 ## Install
 
-### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/) · [Brave](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Edge (Chromium)](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
+### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt/) · [Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) · [Brave](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
 
 ### [Or use the source code](https://github.com/bengarrett/RetroTxt/wiki/source_code)
 
@@ -107,6 +105,7 @@ RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 - IBM PC fonts [_The Ultimate Oldschool PC Font Pack_](https://int10h.org/oldschool-pc-fonts/) by Viler
 - IBM Plex [_Plex Mono Regular_](https://github.com/IBM/plex) by IBM Corp.
 - Mona Shift JIS [_mona_](http://monafont.sourceforge.net/index-e.html) public domain
+- Spleen [_8x16_](https://github.com/fcambus/spleen) by Frederic Cambus
 - Unscii [_UNSCII_](hhttp://pelulamu.net/unscii/) by Viznut
 
 Options icons by [Google Material Design](https://material.google.com/)

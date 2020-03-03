@@ -29,7 +29,7 @@
   JavaScript Performance Tips:
   + Prefer switch over if-then-else conditionals as they can be optimised during
     compile time.
-  + Don't initialise ES6 `let` and `const` within loops, 
+  + Don't initialise ES6 `let` and `const` within loops,
     see https://github.com/vhf/v8-bailout-reasons/pull/10
   + To permit compile-time optimisation `const` declarations need to be at the
     top of the function.
@@ -265,7 +265,7 @@ class Cursor {
    */
   async columnElement(places = 1) {
     const move = parseInt(places, 10)
-    if (isNaN(move)) return null
+    if (Number.isNaN(move)) return null
     if (move < 0) CheckRange(`places`, `small`, `0`, move)
     const position = () => {
       if (move === 0) {
@@ -297,7 +297,7 @@ class Cursor {
    */
   columnParse(count = 1) {
     const track = parseInt(count, 10)
-    if (isNaN(track)) return null
+    if (Number.isNaN(track)) return null
     if (track < 0) CheckRange(`count`, `small`, `0`, track)
     switch (track) {
       case 0:
@@ -322,8 +322,8 @@ class Cursor {
   async rowElement(count = 1, columns = 0) {
     const move = parseInt(count, 10)
     const cols = parseInt(columns, 10)
-    if (isNaN(move)) return null
-    if (isNaN(cols)) return null
+    if (Number.isNaN(move)) return null
+    if (Number.isNaN(cols)) return null
     if (move < 1) CheckRange(`count`, `small`, `1`, move)
     if (cols < 0) CheckRange(`columns`, `small`, `0`, cols)
     const element = italicElement()
@@ -554,9 +554,10 @@ class CharacterAttributes {
     const values = parameters.split(`+`)
     // forward loop as multiple codes together have compound effects
     let value = -1
+    rgbValues:
     for (const parameter of values) {
       value = parseInt(parameter, 10)
-      if (isNaN(value) === true) continue // error
+      if (Number.isNaN(value) === true) continue rgbValues // error
       if (value === 0 && parameters !== `ICE+0`) {
         if (this.verbose) console.info(`dataSGR()`)
         reset(`sgr`)
@@ -605,7 +606,7 @@ class CharacterAttributes {
    */
   aixterm() {
     let value = parseInt(this.value, 10)
-    if (isNaN(value)) return null
+    if (Number.isNaN(value)) return null
     if (value >= 90 && value <= 97) {
       this.toggles.bold = true
       // change value to a standard SGR value
@@ -851,18 +852,19 @@ class HTML {
     }
     const item = this.item
     let row = 0
+    sequences:
     for (item.value of this.sequences) {
       row += 1
       // handle items
       switch (item.value.length) {
         case 0:
-          continue
+          continue sequences
         case 1:
           // 1 byte values are individual characters to display
           this.specialMarker(item.value)
           break
         default:
-          // multibyte values are control sequences
+          // multi-byte values are control sequences
           this.parseNamedSequence(row, item.value)
       }
       // handle the first row HTML
@@ -876,7 +878,7 @@ class HTML {
           }`
         }
         item.row1 = true
-        continue
+        continue sequences
       }
       if (row <= 2 && domObject.html.startsWith(`<div id="row-1"></i>`)) {
         // handle malformed tags due to iCE Color triggers
@@ -884,7 +886,7 @@ class HTML {
           `<div id="row-1"></i>`,
           `<div id="row-1">`
         )
-        continue
+        continue sequences
       }
     }
     // Clean up empty elements before the browser render
@@ -1307,7 +1309,7 @@ class Metadata {
     switch (data.version) {
       case `00`:
         if (data.configs.fontFamily.length > 0) {
-          // fontFamily returns a lowercase short name
+          // fontFamily returns a lower case short name
           // this gets parsed by `getECMA48()` in `retrotxt.js`
           // it expects a string
           this.font = `${data.configs.fontFamily}`
@@ -1315,7 +1317,7 @@ class Metadata {
         // override column width
         width = parseInt(data.configs.width, 10)
         // handle corrupted or missing width data
-        if (isNaN(width)) width = 80
+        if (Number.isNaN(width)) width = 80
         console.log(`Determined column width`, width)
         if (width <= cappedWidth) cursor.maxColumns = width
         else {
@@ -1685,6 +1687,7 @@ class Scan {
         // set graphic rendition
         cs.name = `SGR`
         // loop over array, index should start from 1 not 0
+        codes:
         for (let i = 1; i < count; i++) {
           const value = parseInt(values[i], 10)
           // handle xterm 256 colour codes
@@ -1694,7 +1697,7 @@ class Scan {
             if (cs.next1 === 5 && cs.next2 >= 0 && cs.next2 <= 255) {
               cs.name += `+${value}${cs.next2}`
               i = i + 2
-              continue
+              continue codes
             }
           }
           cs.name = `${cs.name}+${value}`
@@ -1859,13 +1862,14 @@ class Scan {
       CheckArguments(`codePoints`, `array`, codePoints)
     const length = codePoints.length + 1
     const hvp = { row: ``, column: ``, mode: `m` }
+    points:
     for (const cp of codePoints) {
       switch (cp) {
         case 59:
           // if character is a semicolon ; then switch modes from
           // horizontal to vertical
           hvp.mode = `n`
-          continue
+          continue points
       }
       switch (hvp.mode) {
         case `n`:
@@ -1933,9 +1937,10 @@ class Scan {
     }
     const rgb = { split: [], join: `` }
     let value = ``
+    points:
     for (const code of codePoints) {
       // remove the `t` identifier
-      if (code === 116) break
+      if (code === 116) break points
       rgb.join += String.fromCharCode(code)
     }
     rgb.split = rgb.join.split(`;`)

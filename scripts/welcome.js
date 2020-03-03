@@ -154,6 +154,7 @@ class HTML {
    */
   async showRuntimeInfo() {
     const manifest = chrome.runtime.getManifest()
+    // only supported by Firefox
     if (typeof browser.runtime !== `undefined`) {
       if (typeof browser.runtime.getBrowserInfo !== `undefined`) {
         const gettingInfo = browser.runtime.getBrowserInfo()
@@ -163,7 +164,31 @@ class HTML {
         const gettingInfo = browser.runtime.getPlatformInfo()
         gettingInfo.then(this.gotPlatformInfo)
       }
+    } else {
+      // else assume a Chromium based browser
+      // Brave does not reveal itself in the UA
+      const ua = navigator.userAgent
+      const b = {
+        vendor: `Google`,
+        name: `Chrome`,
+        version: ``
+      }
+      if (ua.includes(`Edg/`)) {
+        b.vendor = `Microsoft`
+        b.name = `Edge`
+        const i = ua.indexOf(`Edg/`)
+        b.version = ua.substring(i + 4, i + 6)
+      } else if (ua.includes(`Chrome/`)) {
+        const i = ua.indexOf(`Chrome/`)
+        b.version = ua.substring(i + 7, i + 9)
+      } else {
+        b.vendor = ``
+        b.name = ``
+      }
+      console.log(ua)
+      this.gotBrowserInfo(b)
     }
+
     document.getElementById(
       `manifest`
     ).textContent = `RetroTxt v${manifest.version}`
@@ -232,6 +257,8 @@ class HTML {
       if (manifest.options_ui.page.startsWith(`moz-extension`, 0) === true) {
         br.textContent = `Firefox`
         document.getElementById(`5star-firefox`).classList.toggle(`hidden`)
+      } else if (navigator.userAgent.includes(`Edg/`)) {
+        // don't show a notice as the Microsoft Addons page doesn't have user reviews
       } else {
         br.textContent = `Chrome`
         document.getElementById(`5star-chrome`).classList.toggle(`hidden`)

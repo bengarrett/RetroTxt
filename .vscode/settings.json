@@ -10,9 +10,10 @@
   "editor.wordWrap": "wordWrapColumn",
   // ESLint (Javascript)
   "eslint.alwaysShowStatus": true,
-  "eslint.autoFixOnSave": true,
   "eslint.validate": ["javascript", "html"],
-  "prettier.eslintIntegration": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   // NPM
   "npm.autoDetect": "off",
   "npm.enableScriptExplorer": true,
@@ -30,9 +31,7 @@
   "css.lint.universalSelector": "warning",
   "css.lint.zeroUnits": "warning",
   // Spell Right
-  "spellright.language": [
-    "en"
-  ],
+  "spellright.language": ["en"],
   "spellright.documentTypes": [
     "markdown",
     "latex",

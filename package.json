@@ -1,6 +1,6 @@
 {
   "name": "retrotxt",
-  "version": "3.4.2",
+  "version": "3.5.0",
   "description": "Turn many pieces of ANSI text art and ASCII, NFO, Shift-JIS, plain text into HTML5.",
   "keywords": [
     "ascii",
@@ -36,10 +36,10 @@
     "ajv": "^6.10.2",
     "dot-json": "^1.1.0",
     "eslint": "^5.16.0",
-    "prettier-eslint": "^9.0.0",
+    "prettier-eslint": "^9.0.1",
     "qunit": "^2.9.3",
     "wawoff2": "^1.0.2",
-    "web-ext": "^3.2.0"
+    "web-ext": "^3.2.1"
   },
   "scripts": {
     "font": "woff2_compress.js"

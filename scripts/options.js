@@ -635,7 +635,7 @@ class Initialise extends CheckBox {
     // check #3 - options tab
     const key3 = `optionTab`
     const value3 = parseInt(localStorage.getItem(key3), 10)
-    if (isNaN(value3) || value3 < 1 || value3 > 5) {
+    if (Number.isNaN(value3) || value3 < 1 || value3 > 5) {
       const fix = this.defaults.get(key3)
       if (fix === ``) handleError(`Initialise.checks() ${key3} = "${value3}"`)
       localStore(`${key3}`, `${fix}`)
@@ -1042,10 +1042,11 @@ class Radios {
   async listen() {
     const labels = document.forms[this.formName].getElementsByTagName(`label`)
     const status = document.getElementById(`status`)
+    labels:
     for (const label of labels) {
       const input = label.getElementsByTagName(`input`)[0]
       // skip labels with no radio inputs
-      if (typeof input === `undefined`) continue
+      if (typeof input === `undefined`) continue labels
       // radio event listeners
       label.onclick = () => {
         this.value = `${input.value}`
@@ -1055,7 +1056,7 @@ class Radios {
         this.storageSave()
       }
       // skip colorPalette as it doesn't effect Sample Text
-      if (this.storageId === `colorPalette`) continue
+      if (this.storageId === `colorPalette`) continue labels
       label.onmouseover = () => {
         this.value = `${input.value}`
         const font = new FontFamily(this.value)
@@ -1064,7 +1065,7 @@ class Radios {
         this.preview()
       }
       // reset sample text when the mouse is out
-      if (label.htmlFor.length < 1) continue
+      if (label.htmlFor.length < 1) continue labels
       const radio = document.getElementById(label.htmlFor)
       document
         .getElementById(`${this.formId}`)
@@ -1236,7 +1237,7 @@ class Tabs {
    */
   async reveal(selected = 1) {
     const value = parseInt(selected, 10)
-    if (isNaN(value) || value < 1 || value > 5)
+    if (Number.isNaN(value) || value < 1 || value > 5)
       return console.error(`Tab value ${value} is invalid`)
     // iterate over each <section> element
     Array.prototype.filter.call(this.content, page => {

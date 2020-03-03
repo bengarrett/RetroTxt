@@ -45,6 +45,14 @@ class DOM {
     // local storage results
     this.results
     this.backgroundColor = ``
+    // text or document format
+    this.format = ``
+    if (typeof qunit === `undefined`) {
+      if (typeof this.pre1 === `undefined`) {
+        if (typeof this.pre0 === `undefined`) return // error
+        this.format = FindControlSequences(this.pre0.textContent)
+      } else this.format = FindControlSequences(this.pre1.textContent)
+    }
   }
   /**
    * Constructs the Document Object Model needed to display RetroTxt.
@@ -63,13 +71,7 @@ class DOM {
       CreateLink(`../css/text_colors.css`, `retrotxt-theme`)
     )
     // load any CSS that are used to mimic colours by the text file
-    let format
-    if (typeof qunit === `undefined`) {
-      if (typeof this.pre1 === `undefined`) {
-        if (typeof this.pre0 === `undefined`) return // error
-        format = FindControlSequences(this.pre0.textContent)
-      } else format = FindControlSequences(this.pre1.textContent)
-    }
+    const format = this.format
     // make <link> tags to point to CSS files for use with 4-bit colour text
     switch (format) {
       case `ecma48`:
@@ -218,8 +220,10 @@ class DOM {
       )
     }
     // colour palette
-    if (typeof this.results.colorPalette === `string`) this.colorpalette()
-    else err(`colorPalette`)
+    if (this.format === `ecma48`) {
+      if (typeof this.results.colorPalette === `string`) this.colorpalette()
+      else err(`colorPalette`)
+    }
     // line height choice
     if (typeof this.results.lineHeight === `string`)
       this.lineHeight(this.results.lineHeight)
@@ -285,9 +289,9 @@ class DOM {
       this.body.className = ``
       this.main.className = ``
     } catch (err) {
-      /* 
-        Some Firefox/Gecko versions throw a security error when 
-        handling file:/// 
+      /*
+        Some Firefox/Gecko versions throw a security error when
+        handling file:///
       */
     }
     // refresh scan lines & font shadows as they are effected by colour changes
@@ -429,11 +433,11 @@ class DOM {
       return console.error(`Unknown colour palette name '${paletteName}'`)
     palette.key = `${palette.palettes[paletteIndex]}`
     palette.set()
-    document.getElementById(`retrotxt-4bit`).href = chrome.extension.getURL(
-      palette.savedFilename()
-    )
+    const paletteLink = document.getElementById(`retrotxt-4bit`)
+    if (paletteLink !== null)
+      paletteLink.href = chrome.extension.getURL(palette.savedFilename())
     const element = document.getElementById(`h-palette`)
-    element.textContent = `${palette.key}`
+    if (element !== null) element.textContent = `${palette.key}`
   }
   /**
    * Toggles the column line wrap that's available under Options
@@ -845,6 +849,8 @@ class SAUCE {
       case `1111111111111101`:
       case `10011`:
       case `1011`:
+      case `11`:
+      case `1`:
         this.configs.letterSpacing = `00`
         this.configs.iceColors = `1`
         break
@@ -854,11 +860,12 @@ class SAUCE {
         this.configs.iceColors = `0`
         break
       case `10010`:
+      case `10`:
         this.configs.letterSpacing = `00`
         this.configs.iceColors = `0`
         break
       default:
-        if (!isNaN(this.configs.flags))
+        if (!Number.isNaN(this.configs.flags))
           console.log(`New ANSiFlags`, this.configs.flags)
     }
     // handle font name
@@ -889,14 +896,22 @@ class SAUCE {
         .set(`195,146`, `210`)
         .set(`208,168`, `200`)
         .set(`195,136`, `200`)
+        .set(`194,191`, `447`)
         .set(`194,187`, `187`)
         .set(`194,180`, `180`)
         .set(`194,160`, `160`)
         .set(`194,144`, `144`)
         .set(`197,146`, `140`)
+        .set(`104`, `360`)
         .set(`94`, `350`)
         .set(`91`, `80`)
+        .set(`80`, `80`)
+        // these fails on actual sizes
         .set(`69`, `325`)
+      // 44px width is a common size for FILE_ID.DIZ/FILE_ID.ANS
+      if (this.length > 5000) {
+        widths.set(`44`, `300`)
+      }
       const columns = widths.get(`${byteSequence}`)
       if (typeof columns === `undefined`) {
         if (byteSequence !== ``)
@@ -1576,7 +1591,13 @@ class Information extends Output {
    */
   setFont(name) {
     const title = name => {
+      switch (name.slice(0, 11)) {
+        case `Fixed-width`:
+          return `browser default`
+      }
       switch (name.slice(0, 8)) {
+        case `IBM Plex`:
+          return name
         case `Tandy TV`:
           return `Tandy 1000 series TV composite${name.slice(8)}`
         case `Tandy 22`:
@@ -1587,8 +1608,12 @@ class Information extends Output {
           return `Atari 400 and 800`
         case `PETSCI`:
           return `Commodore 8-bit series`
+        case `Spleen`:
+          return name
         case `VGALCD`:
           return `Monochrome laptop, Video Graphics Array`
+        case `Unscii`:
+          return name
       }
       switch (name.slice(0, 4)) {
         case `BIOS`:
@@ -1810,8 +1835,6 @@ class Invoke {
         for (const item of this.dom.main.classList) {
           if (item.endsWith(`-shadowed`) === true)
             this.dom.main.classList.remove(item)
-          // TODO: Jul-2019: This can be removed in a future update
-          if (item === `text-smeared`) this.dom.main.classList.remove(item)
         }
         this.dom.main.style.justifyContent = `left`
         this.dom.main.style.margin = `initial`

@@ -26,6 +26,12 @@
 }
 
 @font-face {
+  font-family: "spleen";
+  src: url("../fonts/woff2/spleen-8x16.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
   font-family: "unscii8";
   src: url("../fonts/woff2/unscii-8.woff2") format("woff2");
   font-display: swap;
@@ -286,6 +292,10 @@
 }
 
 /* Classes to apply fonts */
+
+.font-spleen {
+  font-family: spleen;
+}
 
 .font-unscii8 {
   font-family: unscii8;
