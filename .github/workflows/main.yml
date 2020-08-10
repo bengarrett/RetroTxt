@@ -26,5 +26,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           cmd: lint
-          # source: src
+          source: .
           channel: listed
