@@ -135,12 +135,12 @@ These are the root directories and files that comprise of RetroTxt. With critica
 - - `text_colors_8bit.css` xterm 256 colours for ANSI colour classes.
 - - `text_colors_bbs.css` BBS colours and font styles.
 - - `text_colors_pcboard.css` PCBoard BBS colour classes.
+- `docs` Changes document in [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/), README and wiki assets.
 - `fonts` Original fonts with their documentation and licences.
 - - `/woff2` [Compressed TrueType/OpenType fonts](https://developer.mozilla.org/en-US/docs/Web/Guide/WOFF) used by RetroTxt.
 - `html` WebExtension HTML5 templates for the Options dialogue and the welcome load page.
 - `libs` JavaScript dependencies that cannot be installed using [yarn](https://yarnpkg.com/).
 - - `/tippyjs` [A tooltip and popover provider](https://atomiks.github.io/tippyjs/) that is used by the welcome load page.
-- `md` Changes document in [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/) and README assets.
 - `scripts` WebExtension JavaScripts in ES6+ (ES2015) syntax.
 - - `eventpage.js` Background functions and listeners that are completely isolated from all other scripts.
 - - `functions.js` Shared functions accessible to non-isolated scripts.

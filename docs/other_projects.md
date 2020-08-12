@@ -7,7 +7,7 @@ Many excellent programs that offer similar functionality that inspire RetroTxt.
 AnsiLove is a collection of tools on various platforms, to convert an extensive variety of text art into PNG images.
 
 - [AnsiLove](https://www.ansilove.org) \[[GitHub](https://github.com/ansilove/ansilove)\] for Linux, macOS, BSD
-- [ansilove.js](https://ansilove.github.io/ansilove.js) for JavaScript (legacy)
+- [ansilove.js](https://github.com/ansilove/ansilove.js) for JavaScript (legacy)
 
 ## ansi_up
 

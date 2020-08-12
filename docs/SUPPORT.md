@@ -1,6 +1,9 @@
 # RetroTxt - Q.A.
 
-To ask a question, report a bug or request a feature please feel free to [leave a new issue](https://github.com/bengarrett/RetroTxt/issues) on the GitHub repository or get in contact with [@bens_zone](https://twitter.com/bens_zone) on Twitter and [mail](mailto:code.by.ben@gmail.com).
+To ask a question, report a bug or request a feature please feel free to
+[leave a new issue](https://github.com/bengarrett/RetroTxt//issues/new/choose) on the GitHub
+repository or get in contact with [@bens_zone](https://twitter.com/bens_zone) on
+Twitter and [mail](mailto:code.by.ben@gmail.com).
 
 - [Can I adjust the size of the font?](#font-size)
 - [Can I view files stored on my computer?](#view-files)
@@ -62,10 +65,8 @@ You could also try to manually switch the transcoding RetroTxt applies by right-
 ## Code page tables
 
 - [ASCII codes](http://www.ascii-codes.com/)
-- [ASCII-1967/US-ASCII](http://0x6a.org/ASCII)
-- [CP-437](https://msdn.microsoft.com/en-us/goglobal/cc305156)
-- [ISO 8859-1](https://msdn.microsoft.com/en-us/goglobal/cc305167)
-- [Windows 1252](https://msdn.microsoft.com/en-us/goglobal/cc305145)
+- [ASCII-1967/US-ASCII](https://web.archive.org/web/20161021054311/http://0x6a.org/ASCII)
+- [Microsoft Windows Bestfit](http://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WindowsBestFit)
 - [Unicode](http://unicode-table.com/)
 
 ## [Limitations and known issues](limitations)

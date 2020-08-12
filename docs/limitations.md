@@ -67,4 +67,4 @@ Some fonts are for 40 columns (characters per line of text), but the extension d
 
 The browser and the operating system can make modifications the font width, height, and space for either accessibility or due to user applied themes.
 
-## [FAQ - Common questions and fixes](qa)
+## [FAQ - Common questions and fixes](SUPPORT)
