@@ -8,7 +8,7 @@ stylises them into a more pleasing, useful format to view and copy in a web brow
 
 ### Support
 
-- [README with installation instructions](README)
+- [README with installation instructions](https://github.com/bengarrett/RetroTxt#readme)
 - [Limitations and known issues](limitations)
 - [FAQ - Common questions and fixes](SUPPORT)
 
