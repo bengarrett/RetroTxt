@@ -31,9 +31,9 @@ stylises them into a more pleasing, useful format to view and copy in a web brow
 ### Policies
 
 - [Privacy policy](privacy) / [Security policy](SECURITY)
-- [Code of conduct](CODE_OF_CONDUCT)
+- [Code of conduct](https://github.com/bengarrett/RetroTxt/blob/master/docs/CODE_OF_CONDUCT.md)
 
-* [Contributing documentation or code](CONTRIBUTING)
+* [Contributing documentation or code](https://github.com/bengarrett/RetroTxt/blob/master/docs/CONTRIBUTING.md)
 * [License](https://choosealicense.com/licenses/lgpl-3.0/)
 
 ---
