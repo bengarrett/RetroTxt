@@ -39,7 +39,7 @@
     "prettier-eslint": "^9.0.1",
     "qunit": "^2.9.3",
     "wawoff2": "^1.0.2",
-    "web-ext": "^3.2.1"
+    "web-ext": "^5.2.0"
   },
   "scripts": {
     "font": "woff2_compress.js"
