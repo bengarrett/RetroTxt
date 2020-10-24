@@ -1,0 +1,31 @@
+/*
+  filename: text_colors_workbench.css
+
+  ANSI / ECMA-48 presentation control function colour codes in 
+  classic Amiga Workbench colours. RGB values taken from 
+  http://classicwb.abime.net
+
+  Classes SGR39 SGR40 SGR49 are in `css/text_ecma_48.css`
+*/
+
+@import url("text_colors_blink.css");
+@import url("text_colors_4bit.css");
+
+:root {
+  --black: rgb(0, 0, 0);
+  --red: rgb(102, 34, 0);
+  --green: rgb(85, 221, 85);
+  --brown: rgb(238, 153, 0);
+  --blue: rgb(0, 68, 221);
+  --magenta: rgb(170, 144, 124);
+  --cyan: rgb(238, 85, 0);
+  --grey: rgb(175, 175, 175);
+  --darkgrey: rgb(123, 123, 123);
+  --lightred: rgb(238, 68, 68);
+  --lightgreen: rgb(153, 255, 17);
+  --yellow: rgb(238, 187, 0);
+  --lightblue: rgb(84, 130, 129);
+  --lightmagenta: rgb(255, 169, 151);
+  --lightcyan: rgb(170, 170, 170);
+  --white: rgb(255, 255, 255);
+}

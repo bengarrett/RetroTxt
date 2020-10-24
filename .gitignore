@@ -5,11 +5,12 @@
 #web-ext-artifacts
 *.xpi
 
-# Visual Studio Code
-.vscode/tasks.json
+# Dependencies
 node_modules
 
 # Other
-notes.md
 .env
 .DS_Store
+
+# micro log
+log.txt

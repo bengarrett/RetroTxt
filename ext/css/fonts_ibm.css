@@ -1,0 +1,1480 @@
+@font-face {
+  font-family: "ibm_bios";
+  src: url("../fonts/Web_IBM_BIOS.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_bios {
+  font-family: ibm_bios;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ibm_cga";
+  src: url("../fonts/Web_IBM_CGA.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_cga {
+  font-family: ibm_cga;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ibm_cgathin";
+  src: url("../fonts/Web_IBM_CGAthin.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_cgathin {
+  font-family: ibm_cgathin;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ibm_mda";
+  src: url("../fonts/Web_IBM_MDA.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_mda {
+  font-family: ibm_mda;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ibm_ega_8x14";
+  src: url("../fonts/Web_IBM_EGA_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_ega_8x14 {
+  font-family: ibm_ega_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ibm_ega_8x8";
+  src: url("../fonts/Web_IBM_EGA_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_ega_8x8 {
+  font-family: ibm_ega_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ibm_ega_9x14";
+  src: url("../fonts/Web_IBM_EGA_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_ega_9x14 {
+  font-family: ibm_ega_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ibm_ega_9x8";
+  src: url("../fonts/Web_IBM_EGA_9x8.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_ega_9x8 {
+  font-family: ibm_ega_9x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ibm_vga_9x16";
+  src: url("../fonts/Web_IBM_VGA_9x16.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_vga_9x16 {
+  font-family: ibm_vga_9x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_vga_9x14";
+  src: url("../fonts/Web_IBM_VGA_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_vga_9x14 {
+  font-family: ibm_vga_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ibm_vga_9x8";
+  src: url("../fonts/Web_IBM_VGA_9x8.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_vga_9x8 {
+  font-family: ibm_vga_9x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ibm_vga_8x16";
+  src: url("../fonts/Web_IBM_VGA_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_vga_8x16 {
+  font-family: ibm_vga_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_vga_8x14";
+  src: url("../fonts/Web_IBM_VGA_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_vga_8x14 {
+  font-family: ibm_vga_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ibm_3270pc";
+  src: url("../fonts/Web_IBM_3270pc.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_3270pc {
+  font-family: ibm_3270pc;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ibm_pgc";
+  src: url("../fonts/Web_IBM_PGC.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_pgc {
+  font-family: ibm_pgc;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_conv";
+  src: url("../fonts/Web_IBM_Conv.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_conv {
+  font-family: ibm_conv;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ibm_model30r0";
+  src: url("../fonts/Web_IBM_Model30r0.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_model30r0 {
+  font-family: ibm_model30r0;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_model3x_alt1";
+  src: url("../fonts/Web_IBM_Model3x_Alt1.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_model3x_alt1 {
+  font-family: ibm_model3x_alt1;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_model3x_alt2";
+  src: url("../fonts/Web_IBM_Model3x_Alt2.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_model3x_alt2 {
+  font-family: ibm_model3x_alt2;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_model3x_alt3";
+  src: url("../fonts/Web_IBM_Model3x_Alt3.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_model3x_alt3 {
+  font-family: ibm_model3x_alt3;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_model3x_alt4";
+  src: url("../fonts/Web_IBM_Model3x_Alt4.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_model3x_alt4 {
+  font-family: ibm_model3x_alt4;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_ps-55_re";
+  src: url("../fonts/Web_IBM_PS-55_re.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_ps-55_re {
+  font-family: ibm_ps-55_re;
+  font-size: 29px;
+  line-height: 29px;
+}
+@font-face {
+  font-family: "ibm_xga-ai_7x15";
+  src: url("../fonts/Web_IBM_XGA-AI_7x15.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_xga-ai_7x15 {
+  font-family: ibm_xga-ai_7x15;
+  font-size: 15px;
+  line-height: 15px;
+}
+@font-face {
+  font-family: "ibm_xga-ai_12x20";
+  src: url("../fonts/Web_IBM_XGA-AI_12x20.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_xga-ai_12x20 {
+  font-family: ibm_xga-ai_12x20;
+  font-size: 20px;
+  line-height: 20px;
+}
+@font-face {
+  font-family: "ibm_xga-ai_12x23";
+  src: url("../fonts/Web_IBM_XGA-AI_12x23.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_xga-ai_12x23 {
+  font-family: ibm_xga-ai_12x23;
+  font-size: 23px;
+  line-height: 23px;
+}
+@font-face {
+  font-family: "ibm_dos_iso8";
+  src: url("../fonts/Web_IBM_DOS_ISO8.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_dos_iso8 {
+  font-family: ibm_dos_iso8;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ibm_dos_iso9";
+  src: url("../fonts/Web_IBM_DOS_ISO9.woff") format("woff");
+  font-display: swap;
+}
+.font-ibm_dos_iso9 {
+  font-family: ibm_dos_iso9;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "dos-v_re_jpn12";
+  src: url("../fonts/Web_DOS-V_re_JPN12.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_jpn12 {
+  font-family: dos-v_re_jpn12;
+  font-size: 12px;
+  line-height: 12px;
+}
+@font-face {
+  font-family: "dos-v_re_jpn16";
+  src: url("../fonts/Web_DOS-V_re_JPN16.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_jpn16 {
+  font-family: dos-v_re_jpn16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "dos-v_re_jpn19";
+  src: url("../fonts/Web_DOS-V_re_JPN19.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_jpn19 {
+  font-family: dos-v_re_jpn19;
+  font-size: 19px;
+  line-height: 19px;
+}
+@font-face {
+  font-family: "dos-v_re_jpn24";
+  src: url("../fonts/Web_DOS-V_re_JPN24.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_jpn24 {
+  font-family: dos-v_re_jpn24;
+  font-size: 24px;
+  line-height: 24px;
+}
+@font-face {
+  font-family: "dos-v_re_jpn30";
+  src: url("../fonts/Web_DOS-V_re_JPN30.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_jpn30 {
+  font-family: dos-v_re_jpn30;
+  font-size: 30px;
+  line-height: 30px;
+}
+@font-face {
+  font-family: "dos-v_re_ank16";
+  src: url("../fonts/Web_DOS-V_re_ANK16.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_ank16 {
+  font-family: dos-v_re_ank16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "dos-v_re_ank19";
+  src: url("../fonts/Web_DOS-V_re_ANK19.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_ank19 {
+  font-family: dos-v_re_ank19;
+  font-size: 19px;
+  line-height: 19px;
+}
+@font-face {
+  font-family: "dos-v_re_ank24";
+  src: url("../fonts/Web_DOS-V_re_ANK24.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_ank24 {
+  font-family: dos-v_re_ank24;
+  font-size: 24px;
+  line-height: 24px;
+}
+@font-face {
+  font-family: "dos-v_re_ank30";
+  src: url("../fonts/Web_DOS-V_re_ANK30.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_ank30 {
+  font-family: dos-v_re_ank30;
+  font-size: 30px;
+  line-height: 30px;
+}
+@font-face {
+  font-family: "dos-v_twn16";
+  src: url("../fonts/Web_DOS-V_TWN16.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_twn16 {
+  font-family: dos-v_twn16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "dos-v_twn19";
+  src: url("../fonts/Web_DOS-V_TWN19.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_twn19 {
+  font-family: dos-v_twn19;
+  font-size: 19px;
+  line-height: 19px;
+}
+@font-face {
+  font-family: "dos-v_re_prc16";
+  src: url("../fonts/Web_DOS-V_re_PRC16.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_prc16 {
+  font-family: dos-v_re_prc16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "dos-v_re_prc19";
+  src: url("../fonts/Web_DOS-V_re_PRC19.woff") format("woff");
+  font-display: swap;
+}
+.font-dos-v_re_prc19 {
+  font-family: dos-v_re_prc19;
+  font-size: 19px;
+  line-height: 19px;
+}
+@font-face {
+  font-family: "acer710_cga";
+  src: url("../fonts/Web_Acer710_CGA.woff") format("woff");
+  font-display: swap;
+}
+.font-acer710_cga {
+  font-family: acer710_cga;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "amstrad_pc";
+  src: url("../fonts/Web_Amstrad_PC.woff") format("woff");
+  font-display: swap;
+}
+.font-amstrad_pc {
+  font-family: amstrad_pc;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ast_premiumexec";
+  src: url("../fonts/Web_AST_PremiumExec.woff") format("woff");
+  font-display: swap;
+}
+.font-ast_premiumexec {
+  font-family: ast_premiumexec;
+  font-size: 19px;
+  line-height: 19px;
+}
+@font-face {
+  font-family: "att_pc6300";
+  src: url("../fonts/Web_ATT_PC6300.woff") format("woff");
+  font-display: swap;
+}
+.font-att_pc6300 {
+  font-family: att_pc6300;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "compaq_port3";
+  src: url("../fonts/Web_Compaq_Port3.woff") format("woff");
+  font-display: swap;
+}
+.font-compaq_port3 {
+  font-family: compaq_port3;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "compaqthin_8x8";
+  src: url("../fonts/Web_CompaqThin_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-compaqthin_8x8 {
+  font-family: compaqthin_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "compaqthin_8x14";
+  src: url("../fonts/Web_CompaqThin_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-compaqthin_8x14 {
+  font-family: compaqthin_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "compaqthin_8x16";
+  src: url("../fonts/Web_CompaqThin_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-compaqthin_8x16 {
+  font-family: compaqthin_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "cordata_ppc-21";
+  src: url("../fonts/Web_Cordata_PPC-21.woff") format("woff");
+  font-display: swap;
+}
+.font-cordata_ppc-21 {
+  font-family: cordata_ppc-21;
+  font-size: 26px;
+  line-height: 26px;
+}
+@font-face {
+  font-family: "cordata_ppc-400";
+  src: url("../fonts/Web_Cordata_PPC-400.woff") format("woff");
+  font-display: swap;
+}
+.font-cordata_ppc-400 {
+  font-family: cordata_ppc-400;
+  font-size: 32px;
+  line-height: 32px;
+}
+@font-face {
+  font-family: "dg_one";
+  src: url("../fonts/Web_DG_One.woff") format("woff");
+  font-display: swap;
+}
+.font-dg_one {
+  font-family: dg_one;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "dg_one_alt";
+  src: url("../fonts/Web_DG_One_Alt.woff") format("woff");
+  font-display: swap;
+}
+.font-dg_one_alt {
+  font-family: dg_one_alt;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "itt_xtra";
+  src: url("../fonts/Web_ITT_Xtra.woff") format("woff");
+  font-display: swap;
+}
+.font-itt_xtra {
+  font-family: itt_xtra;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "kaypro2k_g";
+  src: url("../fonts/Web_Kaypro2K_G.woff") format("woff");
+  font-display: swap;
+}
+.font-kaypro2k_g {
+  font-family: kaypro2k_g;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "le_model_d_cga";
+  src: url("../fonts/Web_LE_Model_D_CGA.woff") format("woff");
+  font-display: swap;
+}
+.font-le_model_d_cga {
+  font-family: le_model_d_cga;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "le_model_d_mono";
+  src: url("../fonts/Web_LE_Model_D_Mono.woff") format("woff");
+  font-display: swap;
+}
+.font-le_model_d_mono {
+  font-family: le_model_d_mono;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "mbytepc230_cga";
+  src: url("../fonts/Web_MBytePC230_CGA.woff") format("woff");
+  font-display: swap;
+}
+.font-mbytepc230_cga {
+  font-family: mbytepc230_cga;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "mbytepc230_ega";
+  src: url("../fonts/Web_MBytePC230_EGA.woff") format("woff");
+  font-display: swap;
+}
+.font-mbytepc230_ega {
+  font-family: mbytepc230_ega;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "mbytepc230_mono";
+  src: url("../fonts/Web_MBytePC230_Mono.woff") format("woff");
+  font-display: swap;
+}
+.font-mbytepc230_mono {
+  font-family: mbytepc230_mono;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "mbytepc230_8x16";
+  src: url("../fonts/Web_MBytePC230_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-mbytepc230_8x16 {
+  font-family: mbytepc230_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "nix8810_m15";
+  src: url("../fonts/Web_Nix8810_M15.woff") format("woff");
+  font-display: swap;
+}
+.font-nix8810_m15 {
+  font-family: nix8810_m15;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "nix8810_m16";
+  src: url("../fonts/Web_Nix8810_M16.woff") format("woff");
+  font-display: swap;
+}
+.font-nix8810_m16 {
+  font-family: nix8810_m16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "nix8810_m35";
+  src: url("../fonts/Web_Nix8810_M35.woff") format("woff");
+  font-display: swap;
+}
+.font-nix8810_m35 {
+  font-family: nix8810_m35;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "olivetti_m15";
+  src: url("../fonts/Web_Olivetti_M15.woff") format("woff");
+  font-display: swap;
+}
+.font-olivetti_m15 {
+  font-family: olivetti_m15;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "olivetti_mxvga";
+  src: url("../fonts/Web_Olivetti_MxVGA.woff") format("woff");
+  font-display: swap;
+}
+.font-olivetti_mxvga {
+  font-family: olivetti_mxvga;
+  font-size: 19px;
+  line-height: 19px;
+}
+@font-face {
+  font-family: "sanyombc16";
+  src: url("../fonts/Web_SanyoMBC16.woff") format("woff");
+  font-display: swap;
+}
+.font-sanyombc16 {
+  font-family: sanyombc16;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "seequacm";
+  src: url("../fonts/Web_SeequaCm.woff") format("woff");
+  font-display: swap;
+}
+.font-seequacm {
+  font-family: seequacm;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "sperrypc_cga";
+  src: url("../fonts/Web_SperryPC_CGA.woff") format("woff");
+  font-display: swap;
+}
+.font-sperrypc_cga {
+  font-family: sperrypc_cga;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "sperrypc_8x16";
+  src: url("../fonts/Web_SperryPC_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-sperrypc_8x16 {
+  font-family: sperrypc_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "tandy1k-i_200l";
+  src: url("../fonts/Web_Tandy1K-I_200L.woff") format("woff");
+  font-display: swap;
+}
+.font-tandy1k-i_200l {
+  font-family: tandy1k-i_200l;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "tandy1k-i_225l";
+  src: url("../fonts/Web_Tandy1K-I_225L.woff") format("woff");
+  font-display: swap;
+}
+.font-tandy1k-i_225l {
+  font-family: tandy1k-i_225l;
+  font-size: 9px;
+  line-height: 9px;
+}
+@font-face {
+  font-family: "tandy1k-ii_200l";
+  src: url("../fonts/Web_Tandy1K-II_200L.woff") format("woff");
+  font-display: swap;
+}
+.font-tandy1k-ii_200l {
+  font-family: tandy1k-ii_200l;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "tandy1k-ii_225l";
+  src: url("../fonts/Web_Tandy1K-II_225L.woff") format("woff");
+  font-display: swap;
+}
+.font-tandy1k-ii_225l {
+  font-family: tandy1k-ii_225l;
+  font-size: 9px;
+  line-height: 9px;
+}
+@font-face {
+  font-family: "tandy1k-ii_mono";
+  src: url("../fonts/Web_Tandy1K-II_Mono.woff") format("woff");
+  font-display: swap;
+}
+.font-tandy1k-ii_mono {
+  font-family: tandy1k-ii_mono;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "toshibasat_8x8";
+  src: url("../fonts/Web_ToshibaSat_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibasat_8x8 {
+  font-family: toshibasat_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "toshibasat_9x8";
+  src: url("../fonts/Web_ToshibaSat_9x8.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibasat_9x8 {
+  font-family: toshibasat_9x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "toshibasat_8x14";
+  src: url("../fonts/Web_ToshibaSat_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibasat_8x14 {
+  font-family: toshibasat_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "toshibasat_9x14";
+  src: url("../fonts/Web_ToshibaSat_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibasat_9x14 {
+  font-family: toshibasat_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "toshibasat_8x16";
+  src: url("../fonts/Web_ToshibaSat_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibasat_8x16 {
+  font-family: toshibasat_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "toshibasat_9x16";
+  src: url("../fonts/Web_ToshibaSat_9x16.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibasat_9x16 {
+  font-family: toshibasat_9x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "toshibatxl1_8x8";
+  src: url("../fonts/Web_ToshibaTxL1_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibatxl1_8x8 {
+  font-family: toshibatxl1_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "toshibatxl1_8x16";
+  src: url("../fonts/Web_ToshibaTxL1_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibatxl1_8x16 {
+  font-family: toshibatxl1_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "toshibatxl2_8x8";
+  src: url("../fonts/Web_ToshibaTxL2_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibatxl2_8x8 {
+  font-family: toshibatxl2_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "toshibatxl2_8x16";
+  src: url("../fonts/Web_ToshibaTxL2_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibatxl2_8x16 {
+  font-family: toshibatxl2_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "copam_bios";
+  src: url("../fonts/Web_Copam_BIOS.woff") format("woff");
+  font-display: swap;
+}
+.font-copam_bios {
+  font-family: copam_bios;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "dtk_bios";
+  src: url("../fonts/Web_DTK_BIOS.woff") format("woff");
+  font-display: swap;
+}
+.font-dtk_bios {
+  font-family: dtk_bios;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "phoenix_bios";
+  src: url("../fonts/Web_Phoenix_BIOS.woff") format("woff");
+  font-display: swap;
+}
+.font-phoenix_bios {
+  font-family: phoenix_bios;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "vtech_bios";
+  src: url("../fonts/Web_VTech_BIOS.woff") format("woff");
+  font-display: swap;
+}
+.font-vtech_bios {
+  font-family: vtech_bios;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "acer_vga_8x8";
+  src: url("../fonts/Web_Acer_VGA_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-acer_vga_8x8 {
+  font-family: acer_vga_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "acer_vga_9x8";
+  src: url("../fonts/Web_Acer_VGA_9x8.woff") format("woff");
+  font-display: swap;
+}
+.font-acer_vga_9x8 {
+  font-family: acer_vga_9x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ami_ega_8x8";
+  src: url("../fonts/Web_AMI_EGA_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-ami_ega_8x8 {
+  font-family: ami_ega_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ami_ega_8x14";
+  src: url("../fonts/Web_AMI_EGA_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ami_ega_8x14 {
+  font-family: ami_ega_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ami_ega_9x14";
+  src: url("../fonts/Web_AMI_EGA_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ami_ega_9x14 {
+  font-family: ami_ega_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ati_8x8";
+  src: url("../fonts/Web_ATI_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-ati_8x8 {
+  font-family: ati_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ati_9x8";
+  src: url("../fonts/Web_ATI_9x8.woff") format("woff");
+  font-display: swap;
+}
+.font-ati_9x8 {
+  font-family: ati_9x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "ati_8x14";
+  src: url("../fonts/Web_ATI_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ati_8x14 {
+  font-family: ati_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ati_9x14";
+  src: url("../fonts/Web_ATI_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-ati_9x14 {
+  font-family: ati_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "ati_8x16";
+  src: url("../fonts/Web_ATI_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-ati_8x16 {
+  font-family: ati_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ati_9x16";
+  src: url("../fonts/Web_ATI_9x16.woff") format("woff");
+  font-display: swap;
+}
+.font-ati_9x16 {
+  font-family: ati_9x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "ati_smallw_6x8";
+  src: url("../fonts/Web_ATI_SmallW_6x8.woff") format("woff");
+  font-display: swap;
+}
+.font-ati_smallw_6x8 {
+  font-family: ati_smallw_6x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "eaglespcga_alt1";
+  src: url("../fonts/Web_EagleSpCGA_Alt1.woff") format("woff");
+  font-display: swap;
+}
+.font-eaglespcga_alt1 {
+  font-family: eaglespcga_alt1;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "eaglespcga_alt2";
+  src: url("../fonts/Web_EagleSpCGA_Alt2.woff") format("woff");
+  font-display: swap;
+}
+.font-eaglespcga_alt2 {
+  font-family: eaglespcga_alt2;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "eaglespcga_alt3";
+  src: url("../fonts/Web_EagleSpCGA_Alt3.woff") format("woff");
+  font-display: swap;
+}
+.font-eaglespcga_alt3 {
+  font-family: eaglespcga_alt3;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "epsonmga";
+  src: url("../fonts/Web_EpsonMGA.woff") format("woff");
+  font-display: swap;
+}
+.font-epsonmga {
+  font-family: epsonmga;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "epsonmga_alt";
+  src: url("../fonts/Web_EpsonMGA_Alt.woff") format("woff");
+  font-display: swap;
+}
+.font-epsonmga_alt {
+  font-family: epsonmga_alt;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "epsonmga_mono";
+  src: url("../fonts/Web_EpsonMGA_Mono.woff") format("woff");
+  font-display: swap;
+}
+.font-epsonmga_mono {
+  font-family: epsonmga_mono;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "everexme_5x8";
+  src: url("../fonts/Web_EverexME_5x8.woff") format("woff");
+  font-display: swap;
+}
+.font-everexme_5x8 {
+  font-family: everexme_5x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "everexme_7x8";
+  src: url("../fonts/Web_EverexME_7x8.woff") format("woff");
+  font-display: swap;
+}
+.font-everexme_7x8 {
+  font-family: everexme_7x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "everexme_8x16";
+  src: url("../fonts/Web_EverexME_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-everexme_8x16 {
+  font-family: everexme_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "paradise132_7x9";
+  src: url("../fonts/Web_Paradise132_7x9.woff") format("woff");
+  font-display: swap;
+}
+.font-paradise132_7x9 {
+  font-family: paradise132_7x9;
+  font-size: 9px;
+  line-height: 9px;
+}
+@font-face {
+  font-family: "paradise132_7x16";
+  src: url("../fonts/Web_Paradise132_7x16.woff") format("woff");
+  font-display: swap;
+}
+.font-paradise132_7x16 {
+  font-family: paradise132_7x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "phoenixega_8x8";
+  src: url("../fonts/Web_PhoenixEGA_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-phoenixega_8x8 {
+  font-family: phoenixega_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "phoenixega_8x14";
+  src: url("../fonts/Web_PhoenixEGA_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-phoenixega_8x14 {
+  font-family: phoenixega_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "phoenixega_9x14";
+  src: url("../fonts/Web_PhoenixEGA_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-phoenixega_9x14 {
+  font-family: phoenixega_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "phoenixega_8x16";
+  src: url("../fonts/Web_PhoenixEGA_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-phoenixega_8x16 {
+  font-family: phoenixega_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "trident_8x8";
+  src: url("../fonts/Web_Trident_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-trident_8x8 {
+  font-family: trident_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "trident_9x8";
+  src: url("../fonts/Web_Trident_9x8.woff") format("woff");
+  font-display: swap;
+}
+.font-trident_9x8 {
+  font-family: trident_9x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "trident_8x14";
+  src: url("../fonts/Web_Trident_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-trident_8x14 {
+  font-family: trident_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "trident_9x14";
+  src: url("../fonts/Web_Trident_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-trident_9x14 {
+  font-family: trident_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "trident_8x16";
+  src: url("../fonts/Web_Trident_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-trident_8x16 {
+  font-family: trident_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "trident_9x16";
+  src: url("../fonts/Web_Trident_9x16.woff") format("woff");
+  font-display: swap;
+}
+.font-trident_9x16 {
+  font-family: trident_9x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "trident_8x11";
+  src: url("../fonts/Web_Trident_8x11.woff") format("woff");
+  font-display: swap;
+}
+.font-trident_8x11 {
+  font-family: trident_8x11;
+  font-size: 11px;
+  line-height: 11px;
+}
+@font-face {
+  font-family: "verite_8x8";
+  src: url("../fonts/Web_Verite_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-verite_8x8 {
+  font-family: verite_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "verite_9x8";
+  src: url("../fonts/Web_Verite_9x8.woff") format("woff");
+  font-display: swap;
+}
+.font-verite_9x8 {
+  font-family: verite_9x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "verite_8x14";
+  src: url("../fonts/Web_Verite_8x14.woff") format("woff");
+  font-display: swap;
+}
+.font-verite_8x14 {
+  font-family: verite_8x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "verite_9x14";
+  src: url("../fonts/Web_Verite_9x14.woff") format("woff");
+  font-display: swap;
+}
+.font-verite_9x14 {
+  font-family: verite_9x14;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "verite_8x16";
+  src: url("../fonts/Web_Verite_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-verite_8x16 {
+  font-family: verite_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "verite_9x16";
+  src: url("../fonts/Web_Verite_9x16.woff") format("woff");
+  font-display: swap;
+}
+.font-verite_9x16 {
+  font-family: verite_9x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "wyse700a";
+  src: url("../fonts/Web_Wyse700a.woff") format("woff");
+  font-display: swap;
+}
+.font-wyse700a {
+  font-family: wyse700a;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "wyse700b";
+  src: url("../fonts/Web_Wyse700b.woff") format("woff");
+  font-display: swap;
+}
+.font-wyse700b {
+  font-family: wyse700b;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "apricot_mono";
+  src: url("../fonts/Web_Apricot_Mono.woff") format("woff");
+  font-display: swap;
+}
+.font-apricot_mono {
+  font-family: apricot_mono;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "apricot_200l";
+  src: url("../fonts/Web_Apricot_200L.woff") format("woff");
+  font-display: swap;
+}
+.font-apricot_200l {
+  font-family: apricot_200l;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "apricot_256l";
+  src: url("../fonts/Web_Apricot_256L.woff") format("woff");
+  font-display: swap;
+}
+.font-apricot_256l {
+  font-family: apricot_256l;
+  font-size: 10px;
+  line-height: 10px;
+}
+@font-face {
+  font-family: "apricotportable";
+  src: url("../fonts/Web_ApricotPortable.woff") format("woff");
+  font-display: swap;
+}
+.font-apricotportable {
+  font-family: apricotportable;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "apricotxenc";
+  src: url("../fonts/Web_ApricotXenC.woff") format("woff");
+  font-display: swap;
+}
+.font-apricotxenc {
+  font-family: apricotxenc;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "fmtowns_re_8x8";
+  src: url("../fonts/Web_FMTowns_re_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-fmtowns_re_8x8 {
+  font-family: fmtowns_re_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "fmtowns_re_8x16";
+  src: url("../fonts/Web_FMTowns_re_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-fmtowns_re_8x16 {
+  font-family: fmtowns_re_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "mindset";
+  src: url("../fonts/Web_Mindset.woff") format("woff");
+  font-display: swap;
+}
+.font-mindset {
+  font-family: mindset;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "nec_apc3_8x8";
+  src: url("../fonts/Web_NEC_APC3_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-nec_apc3_8x8 {
+  font-family: nec_apc3_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "nec_apc3_8x16";
+  src: url("../fonts/Web_NEC_APC3_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-nec_apc3_8x16 {
+  font-family: nec_apc3_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "philips_yes_g";
+  src: url("../fonts/Web_Philips_YES_G.woff") format("woff");
+  font-display: swap;
+}
+.font-philips_yes_g {
+  font-family: philips_yes_g;
+  font-size: 10px;
+  line-height: 10px;
+}
+@font-face {
+  font-family: "philips_yes_t";
+  src: url("../fonts/Web_Philips_YES_T.woff") format("woff");
+  font-display: swap;
+}
+.font-philips_yes_t {
+  font-family: philips_yes_t;
+  font-size: 10px;
+  line-height: 10px;
+}
+@font-face {
+  font-family: "rm_nimbus";
+  src: url("../fonts/Web_RM_Nimbus.woff") format("woff");
+  font-display: swap;
+}
+.font-rm_nimbus {
+  font-family: rm_nimbus;
+  font-size: 10px;
+  line-height: 10px;
+}
+@font-face {
+  font-family: "siemens_pc-d";
+  src: url("../fonts/Web_Siemens_PC-D.woff") format("woff");
+  font-display: swap;
+}
+.font-siemens_pc-d {
+  font-family: siemens_pc-d;
+  font-size: 14px;
+  line-height: 14px;
+}
+@font-face {
+  font-family: "tandy2k";
+  src: url("../fonts/Web_Tandy2K.woff") format("woff");
+  font-display: swap;
+}
+.font-tandy2k {
+  font-family: tandy2k;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "compis";
+  src: url("../fonts/Web_Compis.woff") format("woff");
+  font-display: swap;
+}
+.font-compis {
+  font-family: compis;
+  font-size: 16px;
+  line-height: 16px;
+}
+@font-face {
+  font-family: "toshibat300_8x8";
+  src: url("../fonts/Web_ToshibaT300_8x8.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibat300_8x8 {
+  font-family: toshibat300_8x8;
+  font-size: 8px;
+  line-height: 8px;
+}
+@font-face {
+  font-family: "toshibat300_8x16";
+  src: url("../fonts/Web_ToshibaT300_8x16.woff") format("woff");
+  font-display: swap;
+}
+.font-toshibat300_8x16 {
+  font-family: toshibat300_8x16;
+  font-size: 16px;
+  line-height: 16px;
+}

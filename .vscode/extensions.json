@@ -1,11 +1,11 @@
 {
   "recommendations": [
+    "ban.spellright",
+    "bierner.github-markdown-preview",
+    "bierner.markdown-preview-github-styles",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "eg2.vscode-npm-script",
-    "ionutvmi.path-autocomplete",
-    "joelday.docthis",
-    "streetsidesoftware.code-spell-checker",
-    "zeithaste.cursorcharcode"
+    "jock.svg",
+    "visualstudioexptteam.vscodeintellicode"
   ]
 }

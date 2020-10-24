@@ -1,0 +1,35 @@
+{
+  "artifact": {
+    "message": "artifact"
+  },
+  "color": {
+    "message": "color"
+  },
+  "center": {
+    "message": "center"
+  },
+  "Gray": {
+    "message": "Gray"
+  },
+  "gray_white_option": {
+    "message": "DOS gray"
+  },
+  "url": {
+    "message": "https://retrotxt.com"
+  },
+  "url_help": {
+    "message": "https://docs.retrotxt.com"
+  },
+  "url_issues": {
+    "message": "https://github.com/bengarrett/RetroTxt/issues"
+  },
+  "url_new": {
+    "message": "https://docs.retrotxt.com/changes"
+  },
+  "url_privacy": {
+    "message": "https://docs.retrotxt.com/privacy"
+  },
+  "url_qa": {
+    "message": "https://docs.retrotxt.com/SUPPORT"
+  }
+}

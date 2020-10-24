@@ -1,0 +1,534 @@
+/*
+  Use rem values instead of pixels.
+  1rem = 16px, 0.75rm = 12px ...
+*/
+
+/* Amiga fonts */
+@font-face {
+  font-family: "topaza500";
+  src: url("../fonts/Topaz_a500.woff2") format("woff2");
+  font-display: swap;
+}
+.font-topaza500 {
+  font-family: topaza500;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+@font-face {
+  font-family: "topazplusa500";
+  src: url("../fonts/TopazPlus_a500.woff2") format("woff2");
+  font-display: swap;
+}
+.font-topazplusa500 {
+  font-family: topazplusa500;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+@font-face {
+  font-family: "topaza1200";
+  src: url("../fonts/Topaz_a1200.woff2") format("woff2");
+  font-display: swap;
+}
+.font-topaza1200 {
+  font-family: topaza1200;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+@font-face {
+  font-family: "topazplusa1200";
+  src: url("../fonts/TopazPlus_a1200.woff2") format("woff2");
+  font-display: swap;
+}
+.font-topazplusa1200 {
+  font-family: topazplusa1200;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+@font-face {
+  font-family: "p0tnoodle";
+  src: url("../fonts/P0T-NOoDLE.woff2") format("woff2");
+  font-display: swap;
+}
+.font-p0tnoodle {
+  font-family: p0tnoodle;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+@font-face {
+  font-family: "microknight";
+  src: url("../fonts/MicroKnight.woff2") format("woff2");
+  font-display: swap;
+}
+.font-microknight {
+  font-family: microknight;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+@font-face {
+  font-family: "microknightplus";
+  src: url("../fonts/MicroKnightPlus.woff2") format("woff2");
+  font-display: swap;
+}
+.font-microknightplus {
+  font-family: microknightplus;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+@font-face {
+  font-family: "mosoul";
+  src: url("../fonts/mOsOul.woff2") format("woff2");
+  font-display: swap;
+}
+.font-mosoul {
+  font-family: mosoul;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+/* Commodore */
+@font-face {
+  font-family: "c64-pro-mono";
+  src: url("../fonts/C64_Pro_Mono-STYLE.woff2") format("woff2");
+  font-display: swap;
+}
+.font-c64-pro-mono {
+  font-family: c64-pro-mono;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "c64-pro";
+  src: url("../fonts/C64_Pro-STYLE.woff2") format("woff2");
+  font-display: swap;
+}
+.font-c64-pro {
+  font-family: c64-pro;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "petme";
+  src: url("../fonts/PetMe.woff") format("woff");
+  font-display: swap;
+}
+.font-petme {
+  font-family: petme;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "petme64";
+  src: url("../fonts/PetMe64.woff") format("woff");
+  font-display: swap;
+}
+.font-petme64 {
+  font-family: petme64;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "petme128";
+  src: url("../fonts/PetMe128.woff") format("woff");
+  font-display: swap;
+}
+.font-petme128 {
+  font-family: petme128;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "petme642y";
+  src: url("../fonts/PetMe642Y.woff") format("woff");
+  font-display: swap;
+}
+.font-petme642y {
+  font-family: petme642y;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "petme1282y";
+  src: url("../fonts/PetMe1282Y.woff") format("woff");
+  font-display: swap;
+}
+.font-petme1282y {
+  font-family: petme1282y;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Atari */
+@font-face {
+  font-family: "atarist";
+  src: url("../fonts/AtariST8x16SystemFont.woff2") format("woff2");
+  font-display: swap;
+}
+.font-atarist {
+  font-family: atarist;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "atarist2min";
+  src: url("../fonts/TwoMinutestoBoot.woff") format("woff2");
+  font-display: swap;
+}
+.font-atarist2min {
+  font-family: atarist2min;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "atascii";
+  src: url("../fonts/AtariClassicChunky.woff2") format("woff2");
+  font-display: swap;
+}
+.font-atascii {
+  font-family: atascii;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "candyantics";
+  src: url("../fonts/CandyAntics.woff") format("woff");
+  font-display: swap;
+}
+.font-candyantics {
+  font-family: candyantics;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "colleenantics";
+  src: url("../fonts/ColleenAntics.woff") format("woff");
+  font-display: swap;
+}
+.font-colleenantics {
+  font-family: colleenantics;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* apple ][ */
+/* pr_number_3 currently fails, corrupt? */
+@font-face {
+  font-family: "pr_number_3";
+  src: url("../fonts/PRNumber3.woff2") format("woff2");
+  font-display: swap;
+}
+.font-pr_number_3 {
+  font-family: pr_number_3;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "print_character_21";
+  src: url("../fonts/PrintChar21.woff") format("woff");
+  font-display: swap;
+}
+.font-print_character_21 {
+  font-family: print_character_21;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Apple GEOS */
+@font-face {
+  font-family: "berkeliumiidhr";
+  src: url("../fonts/berkeliumiidhr-webfont.woff2") format("woff2");
+  font-display: swap;
+}
+.font-berkeliumiidhr {
+  font-family: berkeliumiidhr;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "berkeliumiihgr";
+  src: url("../fonts/berkeliumiihgr-webfont.woff2") format("woff2");
+  font-display: swap;
+}
+.font-berkeliumiihgr {
+  font-family: berkeliumiihgr;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Apple Lisa */
+@font-face {
+  font-family: "lisatwiggy";
+  src: url("../fonts/TwiggyRaw.woff") format("woff");
+  font-display: swap;
+}
+.font-lisatwiggy {
+  font-family: lisatwiggy;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "lisastartup";
+  src: url("../fonts/StartupFromRaw.woff") format("woff");
+  font-display: swap;
+}
+.font-lisastartup {
+  font-family: lisastartup;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "lisaacronym";
+  src: url("../fonts/SomeAcronymRaw.woff") format("woff");
+  font-display: swap;
+}
+.font-lisaacronym {
+  font-family: lisaacronym;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "lisapaper";
+  src: url("../fonts/LisaTerminalPaperRaw.woff") format("woff");
+  font-display: swap;
+}
+.font-lisapaper {
+  font-family: lisapaper;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "lisapapersmall";
+  src: url("../fonts/LisaTerminalPaperSmallRaw.woff") format("woff");
+  font-display: swap;
+}
+.font-lisapapersmall {
+  font-family: lisapapersmall;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Apple IIGS */
+@font-face {
+  font-family: "shaston320";
+  src: url("../fonts/shaston320-webfont.woff2") format("woff2");
+  font-display: swap;
+}
+.font-shaston320 {
+  font-family: shaston320;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "shaston640";
+  src: url("../fonts/shaston640-webfont.woff2") format("woff2");
+  font-display: swap;
+}
+.font-shaston640 {
+  font-family: shaston640;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "shastonhi320";
+  src: url("../fonts/shastonhi320-webfont.woff2") format("woff2");
+  font-display: swap;
+}
+.font-shastonhi320 {
+  font-family: shastonhi320;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "shastonhi640";
+  src: url("../fonts/shastonhi640-webfont.woff2") format("woff2");
+  font-display: swap;
+}
+.font-shastonhi640 {
+  font-family: shastonhi640;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Apple Macintosh */
+@font-face {
+  font-family: "applemac";
+  src: url("../fonts/SteveSez.woff") format("woff");
+  font-display: swap;
+}
+.font-applemac {
+  font-family: applemac;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Tandy 8-bit */
+@font-face {
+  font-family: "miaraw";
+  src: url("../fonts/AnotherMansTreasureMIARaw.woff") format("woff");
+  font-display: swap;
+}
+.font-miaraw {
+  font-family: miaraw;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "miiiraw";
+  src: url("../fonts/AnotherMansTreasureMIII32C.woff") format("woff");
+  font-display: swap;
+}
+.font-miiiraw {
+  font-family: miiiraw;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "m4araw";
+  src: url("../fonts/AnotherMansTreasureM4ARaw.woff") format("woff");
+  font-display: swap;
+}
+.font-m4araw {
+  font-family: m4araw;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "m4braw";
+  src: url("../fonts/AnotherMansTreasureM4BRaw.woff") format("woff");
+  font-display: swap;
+}
+.font-m4braw {
+  font-family: m4braw;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Gameboy */
+@font-face {
+  font-family: "gameboy";
+  src: url("../fonts/ItalianPlumber.woff") format("woff");
+  font-display: swap;
+}
+.font-gameboy {
+  font-family: gameboy;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Mattel Antiquarius */
+@font-face {
+  font-family: "antiquarius";
+  src: url("../fonts/Antiquarius.woff") format("woff");
+  font-display: swap;
+}
+.font-antiquarius {
+  font-family: antiquarius;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Sharp MZ */
+@font-face {
+  font-family: "sharpmz";
+  src: url("../fonts/Mizuno.woff") format("woff");
+  font-display: swap;
+}
+.font-sharpmz {
+  font-family: sharpmz;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Tandy CoCo */
+@font-face {
+  font-family: "hotcoco";
+  src: url("../fonts/HotCoCo.woff") format("woff");
+  font-display: swap;
+}
+.font-hotcoco {
+  font-family: hotcoco;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "hotcoco2y";
+  src: url("../fonts/HotCoCo2Y.woff") format("woff");
+  font-display: swap;
+}
+.font-hotcoco2y {
+  font-family: hotcoco2y;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "hotcocowitht";
+  src: url("../fonts/HotCoCoWithT.woff") format("woff");
+  font-display: swap;
+}
+.font-hotcocowitht {
+  font-family: hotcocowitht;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "hotcocowitht2y";
+  src: url("../fonts/HotCoCoWithT2Y.woff") format("woff");
+  font-display: swap;
+}
+.font-hotcocowitht2y {
+  font-family: hotcocowitht2y;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* ZX Spectrum */
+@font-face {
+  font-family: "zxspectrum";
+  src: url("../fonts/Speccy.woff") format("woff");
+  font-display: swap;
+}
+.font-zxspectrum {
+  font-family: zxspectrum;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* IBM 3270 */
+@font-face {
+  font-family: "ibm3270";
+  src: url("../fonts/3270-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+.font-ibm3270 {
+  font-family: ibm3270;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "ibm3270Condensed";
+  src: url("../fonts/3270Condensed-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+.font-ibm3270Condensed {
+  font-family: ibm3270Condensed;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "ibm3270SemiCondensed";
+  src: url("../fonts/3270SemiCondensed-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+.font-ibm3270SemiCondensed {
+  font-family: ibm3270SemiCondensed;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* Xerox Alto */
+@font-face {
+  font-family: "alto";
+  src: url("../fonts/AltoSerif.woff") format("woff");
+  font-display: swap;
+}
+.font-alto {
+  font-family: alto;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "altolegacy";
+  src: url("../fonts/AltoSerifLegacy.woff") format("woff");
+  font-display: swap;
+}
+.font-altolegacy {
+  font-family: altolegacy;
+  font-size: 1em;
+  line-height: 1em;
+}

@@ -1,5 +1,58 @@
 # RetroTxt Changes
 
+## 4.0
+
+### Highlights
+
+- Complete Options redesign, it loads in a tab and is identical across all browsers.
+- Welcome tab features is merged into the Options tab.
+- Refreshed the information header.
+- 200+ PC/MS-DOS system fonts.
+- Numerous new fonts for home computers.
+- Improved the font representation for SAUCE fontname matching.
+- Dropped the context menu functionality and replaced it with Option tab links.
+- Omnibox support, type `rt` <kbd>space</kbd> in the browser address bar to see the list of commands.
+
+### October 2020
+
+- The font choice save is reset.
+
+- Minimum Chrome requirement v72, minimum Firefox requirement v69.
+
+- Improved compatibility with Amiga ANSI.
+
+* Added Unscii fonts fantasy and MCR.
+* Added PR Number 3 (Apple II).
+* Added Apple IIGS Shaston system fonts.
+* Added Apple GEOS Berkelium fonts.
+* Added Pet Me Commodore 64 fonts.
+* Added Tandy TRS-80 and CoCo fonts.
+* Added IBM 3270 font.
+* Added new Workbench ANSI theme.
+
+- Updated Print Char 21 font (Apple II).
+- Updated Unscii fonts to v2.0.
+- Updated Plex Mono fonts plus new weights.
+
+* Changed references to web-extension, web extension, WebExtension to Extension, with a capital E.
+* Moved documentation from the barebones Wiki into `/docs` and https://docs.retrotxt.com.
+
+- Options in Chrome uses a dedicated browser tab.
+- Options in Chrome implements Bulma as a CSS framework for a larger and improved layout.
+- Added `content-visibility` CSS attribute for Chrome 85+ to help improve large screen rendering, see issue [#91](https://github.com/bengarrett/RetroTxt/issues/91).
+- Added showBrowser(), links to the Edge Add-ons page, issue [#78](https://github.com/bengarrett/RetroTxt/issues/78).
+- Replaced all Material Design Icon fonts with individual SVG images. This improves icon resize scalability and user accessibility, see issue [#92](https://github.com/bengarrett/RetroTxt/issues/92).
+- Fixed eventpage.js `invoke()`, checks the `lastError` value, this also fixes issue [#93](https://github.com/bengarrett/RetroTxt/issues/93).
+- Fixed the broken toolbar icon swap when Chrome detects a system dark mode theme.
+- Updated dev dependencies and libraries.
+- Moved the programming code and assets of the Extension into `/ext`.
+- Removed Windows PowerShell source code support, instead Windows users can use WSL.
+- Removed 'API permissions granted' from the Options as it duplicates included browser features.
+- Renamed `Storage` class to `LocalStore` to avoid browser API conflicts.
+- Context menus code were difficult to maintain and inconsistent between browsers.
+- Unified pages to use LF instead of CRLF.
+- Added support for ECMA48 SGR20 Fraktur font.
+
 ## 3.5
 
 ### March 2020
@@ -64,6 +117,8 @@
 - Renamed `/docs/` directory to `/md/`, most of the documentation is now located at the [Wiki](https://github.com/bengarrett/RetroTxt/wiki).
 - Replaced non-working `textmod.es/crew` links with `16colo.rs/tags/group`.
 - Removed the _Smeared_ text render toggle as it has been replaced with the Smear block characters setting.
+- Removed the Focus mode as the technical debt to maintain was too high.
+- Removed theme and display adjustments from the context menus to simplify the code.
 
 ## 3.3
 
@@ -141,7 +196,7 @@
 - Added new icons for Firefox dark themes.
 - Firefox uses SVG icons.
 - _Center align text_ now previews in the sample text.
-- RetroTxt browser toolbar button now behaves differently to avoid occasional false positives. Instead of disabling itself when an invalid page is detected, the button now shows a ✔ checkmark whenever a compatible tab is active. The compatibility results vary based on the web-extension permissions grants.
+- RetroTxt browser toolbar button now behaves differently to avoid occasional false positives. Instead of disabling itself when an invalid page is detected, the button now shows a ✔ checkmark whenever a compatible tab is active. The compatibility results vary based on the Extension permissions grants.
 - Fixed PCBoard & Wildcat BBS colour inaccuracies in the CSS.
 - Remapped CGA palettes so black is less frequent.
 - Text that lack line breaks now wrap to the browser tab.
@@ -150,7 +205,7 @@
 - Source code uses [Prettier](https://github.com/prettier/prettier) for opinionated formatting.
 - Refactored most of the JS to use [ES5 Class expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) so the source code easier to follow.
   It is still a TODO item for `parse_ansi.js`.
-- Using separate manifest.json and options.html for Firefox and Chrome. Chrome's web-extension API hasn't been updated since early 2016 and is now the legacy implementation.
+- Using separate manifest.json and options.html for Firefox and Chrome. The Chrome Extension API hasn't been updated since early 2016 and is now the legacy implementation.
 - Saves the Options last active tab.
 - Expanded the number of unit tests to cover more of the application.
 - Fixed incorrect keyboard keys displayed on alerts with macOS.
@@ -178,7 +233,7 @@
 - Context menu now uses radio buttons instead of tick glyphs.
 - Console output is now grouped and collapsed by default to reduce message spam.
 - Improved rendering of PCBoard art with alternative fonts.
-- Regenerated internal fonts to the `woff2` format to reduce the download and install size of the WebExtension.
+- Regenerated internal fonts to the `woff2` format to reduce the download and install size of the Extension.
 - Fixed context menu issues.
 - Fixed unsupported ECMA-48 controls reported as unknown.
 - Fixed blinking cursor not positioning correctly on small ANSI documents.
@@ -257,7 +312,7 @@
 - JavaScript refactor to be [ESlint compliant](http://eslint.org/).
 - Uses more [ES6 features](http://es6-features.org) such as arrow functions and for-of loops.
 
-- Improved error handling and user feedback when the addon or WebExtension API fails.
+- Improved error handling and user feedback when the addon or Extension API fails.
 - Improved embedded [SAUCE detection](http://www.acid.org/info/sauce/sauce.htm).
 
 - Fixed ECMA48/ANSI bug that dropped the first row of text.

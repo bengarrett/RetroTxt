@@ -1,12 +1,11 @@
 # Security Policy
 
 The RetroTxt repository uses [Github Dependabot](https://docs.github.com/en/github/administering-a-repository/keeping-your-actions-up-to-date-with-github-dependabot#about-github-dependabot-version-updates-for-actions),
-ShiftLen Scan and CodeQL security updates and alerts.
+[ShiftLeft Scan](https://www.shiftleft.io/scan) and [CodeQL](https://securitylab.github.com/tools/codeql) security updates and alerts.
 
 ## Supported Versions
 
-Unfortunately, RetroTxt only supports the most recent browser and web-extension
-release with security updates.
+Unfortunately, RetroTxt only supports the most recent Extension release with security updates.
 
 ## Reporting a Vulnerability
 

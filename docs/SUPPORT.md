@@ -1,6 +1,6 @@
 # RetroTxt - Q.A.
 
-To ask a question, report a bug or request a feature please feel free to
+To ask a question, report a bug, or request a feature, please feel free to
 [leave a new issue](https://github.com/bengarrett/RetroTxt//issues/new/choose) on the GitHub
 repository or get in contact with [@bens_zone](https://twitter.com/bens_zone) on
 Twitter and [mail](mailto:code.by.ben@gmail.com).
@@ -21,52 +21,50 @@ You can change the _zoom_ of the font by using the <kbd>Ctrl</kbd> <kbd>+</kbd> 
 
 ## Can I view files stored on my computer?
 
-By typing a path into the address bar, many browsers are quite happy to read files and directories stored locally on your computer.
+Many browsers are quite happy to read files and directories stored locally on your computer by typing a path into the address bar.
 
-On Windows, for example, pasting `C:\Users\Ben\Downloads\myfile.txt` into Chrome, Brave, Edge and Firefox will convert it to into a browser-friendly file URI and view the document in the browser.
+On Windows, for example, pasting `C:\Users\Ben\Downloads\myfile.txt` into Chrome, Brave, Edge, and Firefox will convert it into a browser-friendly file URI and view the document in the browser.
 
 `file:///C:/Users/Ben/Downloads/myfile.txt`
 
-You can also [browse your Windows drive](file:///C:/) or [your Linux and macOS drives](file:///).
+- You can also browse your Windows drive `file:///C:/`.
+- Or your Linux and macOS drive `file:///`.
 
-The feature is enabled in the **Options** > **Config** by either having the _Apply RetroTxt to any local text files_ or _Apply RetroTxt to any
-downloaded or local text files_ selection checked. Chrome, Brave and Edge will also need to [**Allow access to the file URLs** permission](chrome://extensions/) enabled if you want it to work with local files automatically.
+The feature is enabled in the **Options**, **Settings** tab by either having the _Use RetroTxt as a local text file viewer_ or _Monitor downloads_ enabled.
 
-Follow these instructions to make a web browser your default text file viewer in Microsoft Windows.
-
-1. Right-click on the desktop and choose **text file** under **New** to create the file `New Text Document.txt`
-1. Right-click on the file, select **Choose another app** (_Choose default program..._ in Windows 7) under **Open with** item
-1. Then under **Other options** scroll down and choose your browser
+All browsers except Firefox will also need to **Allow access to the file URLs** permission enabled (`chrome://extensions/`) if you want it to work with local files.
 
 <a id="text-encodings"></a>
 
 ## What are the text encodings supported?
 
-Please see [Technical Specifications on the supported text](technical).
+Please see the [Technical Specifications on the supported text](technical).
 
 <a id="garbled"></a>
 
 ## Garbled text?
 
-There could be many causes of this, but generally, it is related to the web server or browser choosing the incorrect character encoding for the file.
+There could be many causes of this, but it is generally related to the web server or browser choosing the incorrect character encoding for the file.
 
-In the **Firefox** browser, press <kbd>ALT</kbd> <kbd>v</kbd> and select **Text Encoding**.
+### Firefox
 
-Choose a more suitable character encoding but if you are not quite sure which one to use but the document is in English. First, try the **Unicode (UTF-8)** then each of the other **Western** options.
+In the browser, press <kbd>ALT</kbd> <kbd>v</kbd> and select **Text Encoding**.
 
-Without using a 3rd-party WebExtension, **Chrome**, **Brave** and **Edge** cannot switch the character encoding.
+Choose a more suitable character encoding, but if you are not quite sure which one to use but the document is in English. First, try the **Unicode (UTF-8)** then each of the other **Western** options.
 
-You could also try to manually switch the transcoding RetroTxt applies by right-clicking on the page and select **Transcode text** from the **RetroTxt** context menu.
+### All other browsers
 
-![Context menu transcode text](assets/context_menu_transcode_text.png)
+Without using a 3rd-party Extension, **Chrome**, **Brave**, and **Edge** cannot switch the character encoding.
+
+You could also manually switch the transcoding RetroTxt applies by right-clicking on the page and select **Transcode text** from the RetroTxt context menu.
+
+![Context menu transcode text](assets/menus-transcode.png)
 
 <a id="cp-tables"></a>
 
 ## Code page tables
 
-- [ASCII codes](http://www.ascii-codes.com/)
+- [ASCII codes](https://www.ascii-codes.com)
 - [ASCII-1967/US-ASCII](https://web.archive.org/web/20161021054311/http://0x6a.org/ASCII)
-- [Microsoft Windows Bestfit](http://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WindowsBestFit)
-- [Unicode](http://unicode-table.com/)
-
-## [Limitations and known issues](limitations)
+- [Microsoft Windows Bestfit](https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WindowsBestFit)
+- [Unicode](https://unicode-table.com)

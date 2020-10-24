@@ -1,0 +1,129 @@
+/*
+  Use rem values instead of pixels.
+  1rem = 16px, 0.75rm = 12px ...
+*/
+
+/* IBM Plex */
+@font-face {
+  font-family: "ibmplexmono";
+  src: url("../fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+.font-ibmplexmono {
+  font-family: ibmplexmono;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "ibmplextlight";
+  src: url("../fonts/IBMPlexMono-Light.woff2") format("woff2");
+  font-display: swap;
+}
+.font-ibmplextlight {
+  font-family: ibmplextlight;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "ibmplextmedium";
+  src: url("../fonts/IBMPlexMono-Medium.woff2") format("woff2");
+  font-display: swap;
+}
+.font-ibmplextmedium {
+  font-family: ibmplextmedium;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Spleen */
+@font-face {
+  font-family: "spleen";
+  src: url("../fonts/spleen-8x161.woff") format("woff");
+  font-display: swap;
+  font-weight: 1;
+}
+.font-spleen {
+  font-family: spleen;
+  font-size: 1rem;
+  line-height: 1;
+}
+@font-face {
+  font-family: "spleen6x12";
+  src: url("../fonts/spleen-6x121.woff") format("woff");
+  font-display: swap;
+  font-weight: 1;
+}
+.font-spleen6x12 {
+  font-family: spleen6x12;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+@font-face {
+  font-family: "spleen12x24";
+  src: url("../fonts/spleen-12x243.woff") format("woff");
+  font-display: swap;
+  font-weight: 1;
+}
+.font-spleen12x24 {
+  font-family: spleen12x24;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+@font-face {
+  font-family: "spleen16x32";
+  src: url("../fonts/spleen-16x323.woff") format("woff");
+  font-display: swap;
+  font-weight: 1;
+}
+.font-spleen16x32 {
+  font-family: spleen16x32;
+  font-size: 2rem;
+  line-height: 1;
+}
+/* Unscii fonts */
+@font-face {
+  font-family: "unscii-16";
+  src: url("../fonts/unscii-16-full.woff") format("woff");
+  font-display: swap;
+}
+.font-unscii-16 {
+  font-family: unscii-16;
+  font-size: 1rem;
+  line-height: 1;
+}
+@font-face {
+  font-family: "unscii-8";
+  src: url("../fonts/unscii-8.woff") format("woff");
+  font-display: swap;
+}
+.font-unscii-8 {
+  font-family: unscii-8;
+  font-size: 1rem;
+  line-height: 0.5rem;
+}
+@font-face {
+  font-family: unscii-mcr;
+  src: url("../fonts/unscii-8-mcr.woff") format("woff");
+  font-display: swap;
+}
+.font-unscii-mcr {
+  font-family: unscii-mcr;
+  font-size: 1rem;
+  line-height: 0.5rem;
+}
+@font-face {
+  font-family: unscii-fantasy;
+  src: url("../fonts/unscii-8-fantasy.woff") format("woff");
+  font-display: swap;
+}
+.font-unscii-fantasy {
+  font-family: unscii-fantasy;
+  font-size: 1rem;
+  line-height: 0.5rem;
+}
+
+/* 1x line height fixes */
+.text-1x.font-unscii-mcr,
+.text-1x.font-unscii-fantasy,
+.text-1x.font-unscii-8 {
+  line-height: 0.5rem;
+}

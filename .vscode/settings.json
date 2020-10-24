@@ -1,45 +1,40 @@
-// Place your settings in this file to overwrite default and user settings.
 {
-  // web-ext
-  "files.autoSave": "off",
-  // White space and formatting
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[js]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.formatOnPaste": true,
   "editor.insertSpaces": true,
   "editor.renderWhitespace": "boundary",
   "editor.tabSize": 2,
-  "editor.wordWrapColumn": 132,
   "editor.wordWrap": "wordWrapColumn",
-  // ESLint (Javascript)
-  "eslint.alwaysShowStatus": true,
-  "eslint.validate": ["javascript", "html"],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  // NPM
-  "npm.autoDetect": "off",
-  "npm.enableScriptExplorer": true,
-  // Unused or conflicting features
+  "editor.wordWrapColumn": 132,
+  "eslint.run": "onSave",
+  "files.autoSave": "off",
+  "files.eol": "\n",
   "javascript.format.enable": false,
-  "typescript.format.enable": false,
-  // Document This
-  "docthis.includeMemberOfOnClassMembers": false,
-  "docthis.includeMemberOfOnInterfaceMembers": false,
-  "docthis.includeTypes": false,
-  "css.lint.float": "warning",
-  "css.lint.ieHack": "warning",
-  "css.lint.important": "warning",
-  "css.lint.importStatement": "warning",
-  "css.lint.universalSelector": "warning",
-  "css.lint.zeroUnits": "warning",
-  // Spell Right
-  "spellright.language": ["en"],
   "spellright.documentTypes": [
     "markdown",
     "latex",
     "plaintext",
-    "javascript",
     "html",
     "css",
     "yaml"
   ],
-  "spellright.notificationClass": "hint"
+  "spellright.language": ["en"],
+  "spellright.notificationClass": "hint",
+  "typescript.format.enable": false
 }
