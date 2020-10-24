@@ -1,7 +1,7 @@
 # RetroTxt
 
 ![GitHub](https://img.shields.io/github/license/bengarrett/retrotxt?style=flat-square)
-![GitHub manifest version](https://img.shields.io/github/manifest-json/v/bengarrett/retrotxt?style=flat-square)
+![GitHub manifest version](https://img.shields.io/github/manifest-json/v/bengarrett/retrotxt?filename=ext%2Fmanifest.json&style=flat-square)
 &nbsp;
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/gkjkgilckngllkopkogcaiojfajanahn?color=rgb%280%2C%20153%2C%20255%29&label=Chrome%20installs&style=flat-square)
 &nbsp;
