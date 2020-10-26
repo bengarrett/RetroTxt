@@ -821,7 +821,7 @@ class LocalStore {
     this.importV3Test = false
     const v3Imports = new Map()
       // display tab
-      .set(`lineHeight`, `4`)
+      .set(`lineHeight`, `normal`)
       .set(`textSmearBlocks`, `true`)
       .set(`textBgScanlines`, `true`)
       .set(`textBlinkAnimation`, `false`)
@@ -1217,6 +1217,7 @@ class Extension {
     const storage = new LocalStore()
     storage.initialize()
     const checks = [`settingsNewUpdateNotice`]
+    //details.reason = `update`
     switch (details.reason) {
       case `install`:
         localStorage.setItem(`optionTab`, `0`)
@@ -1225,11 +1226,12 @@ class Extension {
         })
       case `update`:
         // push redundant items into checks array for `storage.local.get()`
-        storage.redundant.forEach((key) => {
-          checks.push(`${key}`)
-        })
+        // storage.redundant.forEach((key) => {
+        //   checks.push(`${key}`)
+        // })
         return chrome.storage.local.get(checks, (results) => {
           results: for (const result of Object.keys(results)) {
+            if (result === `updatedNotice`) continue results // legacy
             if (result === `settingsNewUpdateNotice`) continue results
             // if any of the redundant checks are set to true, then show the
             // option page
@@ -1241,6 +1243,13 @@ class Extension {
               return storage.clean()
             }
           }
+          const notice = results.settingsNewUpdateNotice
+          if (notice === false) return
+          // do not show updated notice
+          else
+            chrome.tabs.create({
+              url: chrome.extension.getURL(`html/options.html#update`),
+            })
         })
       case `browser_update`:
       case `shared_module_update`:

@@ -112,6 +112,7 @@ class HTML {
       ;`version_name` in m
         ? (document.title = `[··] ${m.version_name} update`)
         : (document.title = `[··] ${m.short_name} update`)
+      document.getElementById(`hero0`).click()
       return document
         .getElementById(`updateNotice`)
         .classList.remove(`is-hidden`)
@@ -239,7 +240,6 @@ class HTML {
    * @param {*} [browser={}] result of the browser.runtime method
    */
   async _gotBrowserInfo(browser = {}) {
-    console.log(browser)
     const txt = ` on ${browser.vendor} ${browser.name} ${browser.version}`
     document.getElementById(`program`).textContent = txt
   }
@@ -1726,14 +1726,35 @@ class Import {
     })
   }
   _importHeader(value = ``) {
-    switch (value) {
-      case `true`: // show
-        return `on`
-      case `false`: // hide
-        return `off`
+    const show = `on`,
+      hide = `close`
+    switch (`${value}`) {
+      case `true`:
+        return show
+      case `false`:
+        return hide
+      default:
+        return show
+    }
+  }
+  _importLineHeight(value = ``) {
+    switch (`${value}`) {
+      case `normal`:
+        return `1`
+      case `1.1`:
+      case `1.25`:
+      case `1.5`:
+      case `1.75`:
+      case `2`:
+      case `3`:
+      case `4`:
+        return `${value}`
+      default:
+        return `1`
     }
   }
   _modalAskAgain() {
+    sessionStorage.setItem(`pauseV3Import`, `true`)
     document.getElementById(`modalImport`).classList.remove(`is-active`)
   }
   _modalNoDelete() {
@@ -1744,6 +1765,8 @@ class Import {
     })
   }
   _modalShow() {
+    if (sessionStorage.getItem(`pauseV3Import`))
+      return console.log(`Paused the import of RetroTxt v3 settings.`)
     this.modal.classList.add(`is-active`)
     this.counter.textContent = `${this.found}`
   }
@@ -1754,13 +1777,14 @@ class Import {
         if (len < 1) return
         let value = store[v3Key]
         if (v3Key === `textFontInformation`) value = this._importHeader(value)
+        if (v3Key === `lineHeight`) value = this._importLineHeight(value)
         chrome.storage.local.set({ [v4Key]: value })
         localStorage.setItem(`${v4Key}`, `${value}`)
         localStorage.removeItem(`${v3Key}`)
         chrome.storage.local.remove(`${v3Key}`)
-        this._modalAskAgain()
       })
     })
+    this._modalAskAgain()
   }
 }
 // Self-invoking expression that runs whenever the Options dialogue is opened.

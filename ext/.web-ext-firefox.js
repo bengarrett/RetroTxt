@@ -8,16 +8,14 @@ module.exports = {
   // any hidden file (one that starts with a dot) is ignored
   // any directory named node_modules is ignored
   ignoreFiles: [
-    `md`,
-    `fonts/!(woff2)`,
+    `json/font_info.json`,
     `manifest_*.json`,
     `*.md`,
-    `html/options.html`,
     `package.json`,
     `package-lock.json`,
     `test`,
-    `tools`,
     `.web-ext-*.js`,
+    `fonts/woff2.sh`,
     `yarn.lock`,
     `*.yml`,
   ],

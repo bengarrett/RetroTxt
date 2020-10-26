@@ -171,9 +171,11 @@ class DOM {
         this.clickHeader(2)
         break
       default:
-        CheckError(
-          `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`,
-          true
+        this.clickHeader(1)
+        chrome.storage.local.set({ [`settingsInformationHeader`]: `on` })
+        localStorage.setItem(`settingsInformationHeader`, `on`)
+        console.log(
+          `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`
         )
     }
     this._constructRender()
@@ -317,9 +319,11 @@ class DOM {
           this.clickHeader(2)
           break
         default:
-          CheckError(
-            `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`,
-            true
+          this.clickHeader(1)
+          chrome.storage.local.set({ [`settingsInformationHeader`]: `on` })
+          localStorage.setItem(`settingsInformationHeader`, `on`)
+          console.log(
+            `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`
           )
       }
     })
