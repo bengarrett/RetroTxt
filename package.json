@@ -1,6 +1,6 @@
 {
   "name": "retrotxt",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Turn many pieces of ANSI text art and ASCII, NFO, Shift-JIS, plain text into HTML5.",
   "keywords": [
     "ascii",

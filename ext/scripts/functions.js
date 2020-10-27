@@ -1227,7 +1227,7 @@ class FontFamily {
     // update the header fontname with the new font
     const header = globalThis.document.getElementById(`fontnameInUse`)
     if (header !== null) {
-      header.textContent = this.set()
+      header.textContent = this.set().replaceAll(`_`, ` `)
       header.title = this.title(this.family)
       replaceFont(fontClass, header)
     }

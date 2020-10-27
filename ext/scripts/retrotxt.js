@@ -1855,9 +1855,7 @@ class Information extends Output {
     this.font.id = `fontnameInUse`
     this.font.textContent = `${family.replaceAll(`_`, ` `)}`
     this.font.classList.add(`font-${family.toLowerCase()}`)
-    // update the header fontname with the new font
-    const header = globalThis.document.getElementById(`fontnameInUse`)
-    if (header !== null) header.title = `${fonts.title(family)}`
+    this.font.title = `${fonts.title(family)}`
   }
   _setIceColors() {
     const bold = super.newBold(),

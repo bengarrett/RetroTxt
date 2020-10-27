@@ -117,17 +117,27 @@ class HTML {
         .getElementById(`updateNotice`)
         .classList.remove(`is-hidden`)
     }
-    if (location.hash.includes(`#permission`)) {
-      document.getElementById(`welcomeNotice`).classList.remove(`is-hidden`)
+    if (location.hash.includes(`#newinstall`)) {
+      document.getElementById(`newInstallNotice`).classList.remove(`is-hidden`)
       document
-        .getElementById(`welcomeSettings`)
-        .addEventListener(`click`, () => {
-          document.getElementById(`hero6`).click()
-        })
-      return document
-        .getElementById(`welcomeSamples`)
+        .getElementById(`newInstallSamples`)
         .addEventListener(`click`, () => {
           document.getElementById(`hero2`).click()
+        })
+      document
+        .getElementById(`newInstallFonts`)
+        .addEventListener(`click`, () => {
+          document.getElementById(`hero4`).click()
+        })
+      document
+        .getElementById(`newInstallDisplay`)
+        .addEventListener(`click`, () => {
+          document.getElementById(`hero5`).click()
+        })
+      return document
+        .getElementById(`newInstallSettings`)
+        .addEventListener(`click`, () => {
+          document.getElementById(`hero6`).click()
         })
     }
     if (location.hash.includes(`#display`)) {
@@ -1785,6 +1795,7 @@ class Import {
       })
     })
     this._modalAskAgain()
+    alert(`Settings import is done.`)
   }
 }
 // Self-invoking expression that runs whenever the Options dialogue is opened.
