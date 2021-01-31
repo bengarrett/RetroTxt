@@ -53,15 +53,22 @@ class DOM {
     // local storage results
     this.results
     this.backgroundColor = ``
-    // text or document format
-    this.format = ``
+    this.format = this._format()
+
+  }
+  /**
+   * Discover the text or document format.
+   */
+  _format() {
     if (typeof qunit === `undefined`) {
       if (typeof this.pre === `undefined`) {
-        if (typeof this.rawText === `undefined`)
-          return console.error(`this.rawText element is missing`)
-        return (this.format = FindControlSequences(this.rawText.textContent))
+        if (typeof this.rawText === `undefined`){
+          console.error(`this.rawText element is missing`)
+          return ``
+        }
+        return `${FindControlSequences(this.rawText.textContent)}`
       }
-      this.format = FindControlSequences(this.pre.textContent)
+      return `${FindControlSequences(this.pre.textContent)}`
     }
   }
   /**
