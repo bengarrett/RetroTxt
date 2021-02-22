@@ -36,7 +36,7 @@
     "ajv": "6.x",
     "dot-json": "*",
     "eslint": "7.x",
-    "eslint-config-prettier": "6.x",
+    "eslint-config-prettier": "8.x",
     "eslint-plugin-prettier": "3.x",
     "prettier": "2.x",
     "wawoff2": "1.x",
