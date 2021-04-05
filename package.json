@@ -39,7 +39,7 @@
     "eslint-config-prettier": "6.x",
     "eslint-plugin-prettier": "3.x",
     "prettier": "2.x",
-    "wawoff2": "1.x",
+    "wawoff2": "2.x",
     "web-ext": "*"
   },
   "scripts": {
