@@ -1,5 +1,22 @@
 # Building RetroTxt
 
+Please note: [Tasks do not run on Powershell](https://github.com/go-task/task/issues/319), Windows users should use WSL.
+
+### Clone and initialize the repo
+
+```sh
+gh repo clone bengarrett/RetroTxt
+cd RetroTxt
+task init
+```
+
+### Package dependencies to newer versions
+
+```sh
+yarn outdated
+yarn upgrade-interactive --latest
+```
+
 ### Update VERSION stamp
 
 ```sh
@@ -10,8 +27,6 @@ edit Taskfile.yml
 vars:
   VERSION: "0.0.0"
 ```
-
-#### Tasks can only be run on POSIX file systems<br><small>\* Use WSL on Windows</small>
 
 ### Submit RetroTxt daily with version stamp
 
