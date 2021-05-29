@@ -1,12 +1,10 @@
 /*!
- * QUnit 2.11.3
+ * QUnit 2.15.0
  * https://qunitjs.com/
  *
  * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
- *
- * Date: 2020-10-05T01:34Z
  */
 
 /** Font Family and Sizes */
@@ -35,6 +33,33 @@
 #qunit-tests, #qunit-header, #qunit-banner, #qunit-filteredTest, #qunit-userAgent, #qunit-testresult, #qunit-modulefilter {
 	margin: 0;
 	padding: 0;
+}
+
+
+/** Fixed headers with scrollable tests */
+
+@supports (display: flex) or (display: -webkit-box) {
+	@media (min-height: 500px) {
+		#qunit {
+			position: fixed;
+			left: 0px;
+			right: 0px;
+			top: 0px;
+			bottom: 0px;
+			padding: 8px;
+			display: -webkit-box;
+			display: flex;
+			flex-direction: column;
+		}
+
+		#qunit-tests {
+			overflow: scroll;
+		}
+
+		#qunit-banner {
+			flex: 5px 0 0;
+		}
+	}
 }
 
 
