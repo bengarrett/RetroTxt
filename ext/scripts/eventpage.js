@@ -266,7 +266,7 @@ class Tab {
     }
     // URI object with a domain, a skip Boolean and scheme (https|file)
     const uri = {
-      domain: this._removeSubDomains(),
+      domain: this._hostname(),
       ignore: !config.validateFilename(this.url),
       scheme: this.url.split(`:`)[0],
     }
@@ -415,7 +415,7 @@ class Tab {
       )
     // get and parse the URL
     const uri = {
-      domain: this._removeSubDomains(),
+      domain: this._hostname(),
       scheme: this.url.split(`:`)[0],
     }
     // Option `Run RetroTxt on files hosted on these domains`
@@ -444,12 +444,22 @@ class Tab {
     domains = `${chrome.i18n.getMessage(`url`)};${domains}`
     // list of approved website domains
     approved = domains.includes(uri.domain)
+    console.log(`domains: ${domains} approved: ${approved} >> ${uri.domain}`)
     // if the URL domain is not apart of the user approved list then RetroTxt is
     // aborted for the tab
     if (uri.scheme !== `file` && approved !== true) return
     // if the URL domain is apart of the user approved list then we then test
     // the filename or body content
     this.compatibleURL()
+  }
+  /**
+   * Returns a URL without any sub-domains, ports or schemes.
+   * For example `https://www.example.com:9000` will return `example.com`.
+   */
+  _hostname() {
+    if (this.url === ``) return ``
+    const url = new URL(this.url)
+    return url.hostname
   }
   _ignoreDir() {
     const directory = `/`
@@ -501,22 +511,7 @@ class Tab {
    */
   _permissionDenied(result = {}) {
     if (RetroTxt.developer)
-      console.log(`⚠ Permission denied for the following request\n`, result)
-  }
-  /**
-   * Returns a URL without any sub-domains or schemes.
-   * For example `https://www.example.com` will return `example.com`.
-   */
-  _removeSubDomains() {
-    if (this.url === ``) return ``
-    let host = this.url.split(`/`)[2]
-    if (typeof host === `undefined`) host = this.url
-    const parts = host.split(`.`)
-    if (parts.length <= 2) return host
-    // drop the sub-domain
-    parts.shift()
-    // convert the array back to a string
-    return parts.join(`.`)
+      console.trace(`⚠ Permission denied for the following request\n`, result)
   }
   /**
    * Checks the URL compatibility with RetroTxt.
@@ -788,11 +783,8 @@ class Security {
     if (typeof this.origin === `undefined`) return this.origins
     if (this.origin.length < 1) return this.origins
     // parse URL to valid host
-    let noScheme = this.origin
-    if (this.origin.includes(`://`))
-      noScheme = this.origin.slice(this.origin.indexOf(`://`) + 3)
-    const hostname = noScheme.split(`/`, 1)[0]
-    return [`*://${hostname}/*`]
+    const url = new URL(this.origin)
+    return [`*://${url.hostname}/*`]
   }
 }
 

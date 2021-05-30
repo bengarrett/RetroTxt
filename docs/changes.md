@@ -1,5 +1,13 @@
 # RetroTxt Changes
 
+## 4.0.5
+
+### May 2021
+
+- Support for custom ports in URLs such as `http://localhost:8080` or `https://example.com:9999`.
+- Fixed broken Apple Lisa fonts.
+- Using Task for the build process.
+
 ## 4.0
 
 ### Highlights
