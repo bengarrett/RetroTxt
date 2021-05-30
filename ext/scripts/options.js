@@ -1552,19 +1552,18 @@ class Hosts {
     })
     this.input.addEventListener(`input`, () => {
       try {
-        console.log(`${this.input.value}`)
-        // when URLs are pasted, attempt to return just the hostname
+        // when URLs are pasted, attempt to return just the host
         const url = new URL(`${this.input.value}`)
         this.input.value = url.host
       } catch (e) {
-        // this catch is okay, as a hostname was probably pasted
+        // this catch is okay, as a host was probably pasted
       } finally {
         this._check(this.input.value)
       }
     })
   }
   /**
-   * Load and display hostname tags.
+   * Load and display host tags.
    */
   async storageLoad() {
     chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
