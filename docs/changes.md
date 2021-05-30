@@ -5,10 +5,11 @@
 ### May 2021
 
 - Support for custom ports in URLs such as `http://localhost:8080` or `https://example.com:9999`.
-- Improved support and display of multiline SAUCE comments.
 - Fixed broken Apple Lisa fonts.
+- Improved support and display of multiline SAUCE comments.
+- Improve the positioning of the error alert box.
 - Using Task for the build process.
-- Dropped the use of the convoluted Node.createTextNode() method.
+- Dropped the use of the convoluted Node.createTextNode() and Node.appendChild() methods.
 
 ## 4.0
 

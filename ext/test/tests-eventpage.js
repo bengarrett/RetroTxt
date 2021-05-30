@@ -34,9 +34,8 @@ try {
     b.style.color = `red`
     b.textContent = `Unit testing has been disabled in this copy of RetroTxt.`
     t.textContent = `It depends on the QUnit testing framework which is incompatible with the Extension submission process used by addons.mozilla.org.`
-    h.appendChild(b)
-    div.appendChild(h)
-    div.appendChild(t)
+    h.append(b)
+    div.append(h, t)
   }
 }
 

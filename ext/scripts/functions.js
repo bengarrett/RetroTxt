@@ -272,8 +272,8 @@ function DisplayAlert(show = true) {
     const dom = new DOM()
     // add CSS link elements into the page
     if (link === null) {
-      dom.head.appendChild(CreateLink(`../css/retrotxt.css`, `retrotxt-styles`))
-      dom.head.appendChild(CreateLink(`../css/layout.css`, `retrotxt-layout`))
+      dom.head.append(CreateLink(`../css/retrotxt.css`, `retrotxt-styles`))
+      dom.head.append(CreateLink(`../css/layout.css`, `retrotxt-layout`))
     }
     // inject div
     dom.body.insertBefore(div, dom.pre0)
@@ -1706,7 +1706,7 @@ function HumaniseFS(bytes = 0, si = 1024) {
   return `${value}${units[u]}`
 }
 /**
- * Injects text into a DOM node object to be used with `appendChild()`.
+ * Injects text into a DOM node object to be used with `append()`.
  * This is to avoid lint errors `UNSAFE_VAR_ASSIGNMENT`
  * "Unsafe assignment to innerHTML".
  * @param [text=``] Text to scan
@@ -1777,12 +1777,12 @@ async function BusySpinner(display = true) {
         const div = document.createElement(`div`)
         div.id = `spinLoader`
         div.classList.add(`loader`)
-        document.body.appendChild(div)
+        document.body.append(div)
         const stylesheet = CreateLink(
           `../css/retrotxt_loader.css`,
           `retrotxt-loader`
         )
-        return document.querySelector(`head`).appendChild(stylesheet)
+        return document.querySelector(`head`).append(stylesheet)
       }
       return spin.classList.remove(`is-hidden`)
     case false:

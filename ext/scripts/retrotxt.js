@@ -112,41 +112,37 @@ class DOM {
     const palette = new HardwarePalette(),
       path = `../css`
     // 1-bit colour themes (ASCII, NFO)
-    this.head.appendChild(CreateLink(`${path}/retrotxt.css`, `retrotxt-styles`))
-    this.head.appendChild(CreateLink(`${path}/layout.css`, `retrotxt-layout`))
-    this.head.appendChild(
-      CreateLink(`${path}/text_colors.css`, `retrotxt-theme`)
-    )
+    this.head.append(CreateLink(`${path}/retrotxt.css`, `retrotxt-styles`))
+    this.head.append(CreateLink(`${path}/layout.css`, `retrotxt-layout`))
+    this.head.append(CreateLink(`${path}/text_colors.css`, `retrotxt-theme`))
     // load any CSS that are used to mimic colours by the text file
     const format = this.format,
       link4bit = `retrotxt-4bit`
     // 4-bit colour text
     switch (format) {
       case ANSIText:
-        this.head.appendChild(CreateLink(palette.savedFilename(), link4bit))
-        this.head.appendChild(
+        this.head.append(CreateLink(palette.savedFilename(), link4bit))
+        this.head.append(
           CreateLink(`${path}/text_colors_8bit.css`, `retrotxt-8bit`)
         )
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`${path}/text_ecma_48.css`, `retrotxt-ecma48`)
         )
         break
       case PCBoardText:
       case TelegardText:
       case WildcatText:
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`${path}/text_colors_pcboard.css`, link4bit)
         )
         break
       case CelerityText:
       case RenegadeText:
-        this.head.appendChild(
-          CreateLink(`${path}/text_colors_pipe.css`, link4bit)
-        )
+        this.head.append(CreateLink(`${path}/text_colors_pipe.css`, link4bit))
         break
       case WWIVHashText:
       case WWIVHeartText:
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`${path}/text_colors_wviv-pipe.css`, link4bit)
         )
         break
@@ -243,7 +239,7 @@ class DOM {
       `${localStorage.getItem(`ansiUseIceColors`)}`
     toggle.onclick = () => this.clickIceColors()
     if (setting === `true`) {
-      this.head.appendChild(
+      this.head.append(
         CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`)
       )
       this._toggleOn(toggle)
@@ -270,7 +266,7 @@ class DOM {
     if (toggle === null) return
     toggle.onclick = () => this.clickPageWrap()
     if (setting === `true`) {
-      this.head.appendChild(
+      this.head.append(
         CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
       )
       this._toggleOn(toggle)
@@ -349,7 +345,7 @@ class DOM {
    */
   async clickAccurate9pxFonts() {
     if (this.results.textAccurate9pxFonts === `false`)
-      return this.head.appendChild(
+      return this.head.append(
         CreateLink(`../css/fonts_ibm-scale-9x.css`, `retrotxt-scale-fonts`)
       )
     const css = document.getElementById(`retrotxt-scale-fonts`)
@@ -375,7 +371,7 @@ class DOM {
    */
   async clickBlinkingCursorText() {
     if (this.results.textBlinkingCursor === `false`)
-      return this.head.appendChild(
+      return this.head.append(
         CreateLink(`../css/text_animation-off.css`, `no-blinkingCursorText`)
       )
     const css = document.getElementById(`no-blinkingCursorText`)
@@ -449,7 +445,7 @@ class DOM {
       case `theme-atarist`:
       case `theme-windows`:
         if (fixes == null)
-          this.head.appendChild(
+          this.head.append(
             CreateLink(
               `../css/text_colors_white_bg-fixes.css`,
               `white-bg-fixes`
@@ -513,7 +509,7 @@ class DOM {
       elm = document.getElementById(`togglePageWrap`)
     switch (elm.textContent.toLowerCase()) {
       case `off`: {
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
         )
         this._toggleOn(elm)
@@ -543,7 +539,7 @@ class DOM {
             palette.set()
           }
         }
-        this.head.appendChild(
+        this.head.append(
           CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`)
         )
         this._toggleOn(elm)
@@ -639,7 +635,7 @@ class DOM {
     }
     // ice colors
     if (ecma48.iceColors === true)
-      this.head.appendChild(
+      this.head.append(
         CreateLink(this.palette.savedFilename(true), `${link4bit}-ice`)
       )
   }
@@ -653,7 +649,7 @@ class DOM {
     switch (this.results.colorsTextPairs) {
       case `theme-atarist`:
       case `theme-windows`:
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`../css/text_colors_white_bg-fixes.css`, `white-bg-fixes`)
         )
         break
@@ -995,10 +991,10 @@ class SauceMeta {
     commt.classList.add(`is-hidden`)
     commt.textContent = this.commentLines.trim()
     if (body.length <= 0) return null
-    div.appendChild(sauce)
+    div.append(sauce)
     if (this.commentLines.trim() !== ``) {
       commt.classList.remove(`is-hidden`)
-      div.appendChild(commt)
+      div.append(commt)
     }
     return div
   }
@@ -1322,7 +1318,7 @@ class Output {
     const span = this.newSpan()
     span.classList.add(`dos-cursor`)
     span.textContent = `_`
-    this.pre.appendChild(span)
+    this.pre.append(span)
   }
   /**
    * ECMA48 data.
@@ -1350,7 +1346,7 @@ class Output {
     // parse text & insert it into the browser tab
     if (typeof this.data.html === `string`) {
       const html = ParseToChildren(this.data.html)
-      this.pre.appendChild(html)
+      this.pre.append(html)
     } else
       CheckError(
         `Expecting a string type for output.data.html but instead it is ${typeof this
@@ -1621,7 +1617,7 @@ class Output {
           return
         }
         old.textContent = text.in
-        elm.in.appendChild(old)
+        elm.in.append(old)
         elm.in.textContent = stored.text
         elm.in.title = `Unable to transcode this text using '${stored.text} ↻'`
         elm.in.classList.add(`has-text-strike`)
@@ -1643,7 +1639,7 @@ class Output {
           // localStorage has been edited using the browser developer tools.
           const old = document.createElement(`span`)
           old.textContent = text.out
-          elm.out.appendChild(old)
+          elm.out.append(old)
           elm.out.textContent = stored.text
           elm.out.classList.add(`has-text-strike`)
         }
@@ -1835,14 +1831,14 @@ class Information extends Output {
     bold.textContent = ``
     bold.id = `toggleColumnWrap`
     span.title = `Toggle an 80 character column wrap that will reload this tab`
-    span.appendChild(bold)
+    span.append(bold)
     return span
   }
   _setErrorBBS() {
     const div = super.newDiv(),
       span = super.newSpan()
     span.textContent = `Unfortunately, this work of animated BBS art is too complicated to replicate as HTML`
-    div.appendChild(span)
+    div.append(span)
     return div
   }
   /**
@@ -1864,7 +1860,7 @@ class Information extends Output {
     span.title = `Toggle between blinking mode or static background ${chrome.i18n.getMessage(
       `color`
     )}`
-    span.appendChild(bold)
+    span.append(bold)
     return span
   }
   _setPalette(colorDepth = this.ecma48.colorDepth) {
@@ -1884,9 +1880,9 @@ class Information extends Output {
         g.classList.add(`has-text-success`)
         b.textContent = `B`
         b.classList.add(`has-text-info`)
-        strong.appendChild(r)
-        strong.appendChild(g)
-        strong.appendChild(b)
+        strong.append(r)
+        strong.append(g)
+        strong.append(b)
         break
       case 8:
         strong.title = `A range of 256 ${chrome.i18n.getMessage(
@@ -1916,7 +1912,7 @@ class Information extends Output {
     bold.textContent = ``
     bold.id = `togglePageWrap`
     span.title = `ANSI text will behave as HTML where lines can break to wrap the text to the tab.`
-    span.appendChild(bold)
+    span.append(bold)
     return span
   }
   _setRender() {
@@ -1939,7 +1935,7 @@ class Information extends Output {
     const div = super.newDiv(),
       span = super.newSpan()
     span.textContent = `This replication of BBS art to HTML is partly inaccurate`
-    div.appendChild(span)
+    div.append(span)
     return div
   }
 }
@@ -2383,12 +2379,12 @@ RetroTxt will not be able to work with this page.
   document.documentElement.lang = `en`
   document.documentElement.translate = false
   // insert the new tags into the HTML of the DOM
-  dom.head.appendChild(title)
+  dom.head.append(title)
   // insert the header into document
-  output.main.appendChild(information.show)
-  output.main.appendChild(information.hide)
-  output.main.appendChild(output.article)
-  output.article.appendChild(output.pre)
+  output.main.append(information.show)
+  output.main.append(information.hide)
+  output.main.append(output.article)
+  output.article.append(output.pre)
   try {
     dom.body.insertBefore(output.main, dom.rawText)
   } catch {

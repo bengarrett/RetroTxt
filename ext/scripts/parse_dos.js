@@ -864,7 +864,7 @@ class BBS {
       bringAttentionClose = `⮘`
     // handle empty rows by inserting a space character between the
     // <div></div> elements
-    if (text === ``) return div.appendChild(document.createTextNode(` `))
+    if (text === ``) return div.append(document.createTextNode(` `))
     // RegExp to markout block characters
     const row = text.replace(
       RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `ig`),
@@ -1027,7 +1027,7 @@ class BBS {
       const element = this._newElement(`i`)
       element.classList.add(`PB${backgroundCode}`, `PF${foregroundCode}`)
       element.textContent = appendText
-      pre.appendChild(element)
+      pre.append(element)
     }
     return pre
   }
@@ -1074,7 +1074,7 @@ class BBS {
         element = this._newElement(`i`)
       if (pipe === `undefined`) {
         element.textContent = `|${code}`
-        pre.appendChild(element)
+        pre.append(element)
         continue colour
       }
       const x = parseInt(pipe, 10),
@@ -1089,7 +1089,7 @@ class BBS {
       }
       element.classList.add(`P${background}`, `P${foreground}`)
       element.textContent = appendText
-      pre.appendChild(element)
+      pre.append(element)
     }
     return pre
   }
@@ -1119,7 +1119,7 @@ class BBS {
       else if (x >= foregroundMin && x <= foregroundMax) foreground = pipe
       element.classList.add(`P${background}`, `P${foreground}`)
       element.textContent = appendText
-      pre.appendChild(element)
+      pre.append(element)
     }
     return pre
   }

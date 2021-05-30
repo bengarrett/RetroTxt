@@ -4725,7 +4725,7 @@
             }
           } else {
             while ((test = hiddenTests.pop()) != null) {
-              tests.appendChild(test);
+              tests.append(test)
             }
           }
         }
