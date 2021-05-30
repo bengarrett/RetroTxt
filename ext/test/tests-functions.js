@@ -200,9 +200,8 @@ QUnit.test(`Guess() class`, (assert) => {
   )
   test = `€99,95 on sale™`
   guess = new Guess(test)
-  let div = document.createElement(`div`),
-    divText = document.createTextNode(`${test}`)
-  div.appendChild(divText)
+  let div = document.createElement(`div`)
+  div.append(`div`)
   assert.equal(
     guess._characterSet(),
     OutputUS_ASCII,
@@ -221,8 +220,7 @@ QUnit.test(`Guess() class`, (assert) => {
     `Result should be UnicodeStandard`
   )
   div = document.createElement(`div`)
-  divText = document.createTextNode(`${test}`)
-  div.appendChild(divText)
+  div.append(`${test}`)
   assert.equal(
     guess.codePage(`utf_8➡`, div),
     `utf_8➡`,

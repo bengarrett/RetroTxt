@@ -877,7 +877,7 @@ class BBS {
         case bringAttentionOpen:
           // creates an open b element
           if (textNode.length > 0) {
-            div.appendChild(document.createTextNode(`${textNode}`))
+            div.append(`${textNode}`)
             textNode = ``
           }
           b = document.createElement(`b`)
@@ -885,8 +885,8 @@ class BBS {
         case bringAttentionClose:
           // closes an opened b element
           if (textNode.length > 0) {
-            b.appendChild(document.createTextNode(`${textNode}`))
-            div.appendChild(b)
+            b.append(`${textNode}`)
+            div.append(b)
             textNode = ``
           }
           break
@@ -894,8 +894,7 @@ class BBS {
           textNode += `${character}`
       }
     }
-    if (textNode.length > 0)
-      div.appendChild(document.createTextNode(`${textNode}`))
+    if (textNode.length > 0) div.append(`${textNode}`)
     return div
   }
   /**
@@ -921,13 +920,13 @@ class BBS {
       const rows = replaced.split(`\n`)
       for (const row of rows) {
         const div = this._BBlocks(row)
-        pre.appendChild(div)
+        pre.append(div)
       }
       return pre
     }
     // All other operating systems are able to display the text within
     // a <pre></pre> element
-    pre.appendChild(document.createTextNode(`${replaced}`))
+    pre.append(`${replaced}`)
     return pre
   }
   /**

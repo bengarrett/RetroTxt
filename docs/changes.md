@@ -8,6 +8,7 @@
 - Improved support and display of multiline SAUCE comments.
 - Fixed broken Apple Lisa fonts.
 - Using Task for the build process.
+- Dropped the use of the convoluted Node.createTextNode() method.
 
 ## 4.0
 

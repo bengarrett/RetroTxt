@@ -213,8 +213,9 @@ body > div#displayAlert {
   font-family: var(--header-font-family);
   padding: 1rem;
   position: absolute;
-  top: 2rem;
-  margin: 1rem;
+  top: 30%;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 body > div#displayAlert a:link,

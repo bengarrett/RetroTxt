@@ -237,40 +237,35 @@ function DisplayAlert(show = true) {
       p1: document.createElement(`p`),
       p2: document.createElement(`p`),
     }
-    alert.f5.appendChild(document.createTextNode(`${keyboard.get(`reload`)}`))
-    alert.ctrl.appendChild(document.createTextNode(keyboard.get(`ctrl`)))
-    alert.shift.appendChild(document.createTextNode(keyboard.get(`shift`)))
-    alert.ikey.appendChild(document.createTextNode(keyboard.get(`console`)))
-    alert.cons.appendChild(document.createTextNode(`Console`))
+    alert.f5.append(`${keyboard.get(`reload`)}`)
+    alert.ctrl.append(keyboard.get(`ctrl`))
+    alert.shift.append(keyboard.get(`shift`))
+    alert.ikey.append(keyboard.get(`console`))
+    alert.cons.append(`Console`)
     alert.issue.href = chrome.i18n.getMessage(`url_issues`)
     alert.issue.title = `On the RetroTxt GitHub repository`
-    alert.issue.appendChild(
-      document.createTextNode(`see if it has an issue report`)
+    alert.issue.append(`see if it has an issue report`)
+    alert.div.append(`Sorry, RetroTxt has run into a problem.`, alert.p1)
+    alert.p1.append(`Please reload `)
+    if (BrowserOS() !== MacOS) alert.p1.append(alert.f5)
+    alert.p1.append(` this tab to attempt to fix the problem.`)
+    alert.div.append(alert.p2)
+    alert.p2.append(
+      `For more information press `,
+      alert.ctrl,
+      alert.shift,
+      alert.ikey,
+      ` to open the `,
+      alert.cons,
+      `.`
     )
-    alert.div.appendChild(
-      document.createTextNode(`Sorry, RetroTxt has run into a problem.`)
+    alert.div.append(
+      `If the problem continues, try ${ext}`,
+      alert.br2,
+      `or `,
+      alert.issue,
+      `.`
     )
-    alert.div.appendChild(alert.p1)
-    alert.p1.appendChild(document.createTextNode(`Please reload `))
-    if (BrowserOS() !== MacOS) alert.p1.appendChild(alert.f5)
-    alert.p1.appendChild(
-      document.createTextNode(` this tab to attempt to fix the problem.`)
-    )
-    alert.div.appendChild(alert.p2)
-    alert.p2.appendChild(document.createTextNode(`For more information press `))
-    alert.p2.appendChild(alert.ctrl)
-    alert.p2.appendChild(alert.shift)
-    alert.p2.appendChild(alert.ikey)
-    alert.p2.appendChild(document.createTextNode(` to open the `))
-    alert.p2.appendChild(alert.cons)
-    alert.p2.appendChild(document.createTextNode(`.`))
-    alert.div.appendChild(
-      document.createTextNode(`If the problem continues, try ${ext}`)
-    )
-    alert.div.appendChild(alert.br2)
-    alert.div.appendChild(document.createTextNode(`or `))
-    alert.div.appendChild(alert.issue)
-    alert.div.appendChild(document.createTextNode(`.`))
     div = alert.div
     alert.div = null
     div.id = `displayAlert`
@@ -311,31 +306,18 @@ function DisplayEncodingAlert() {
         return `BE`
     }
   }
-  alert.div.appendChild(
-    document.createTextNode(`RetroTxt: The page encoding of this document `)
-  )
-  alert.code.appendChild(document.createTextNode(`${document.characterSet}`))
-  alert.div.appendChild(alert.code)
-  alert.div.appendChild(
-    document.createTextNode(` is not supported by the browser.`)
-  )
+  alert.div.append(`RetroTxt: The page encoding of this document `)
+  alert.code.append(`${document.characterSet}`)
+  alert.div.append(alert.code, ` is not supported by the browser.`)
   alert.code.style.color = `red`
-  alert.p1.appendChild(
-    document.createTextNode(
-      `To convert the document to UTF-8 in Linux or macOS: `
-    )
-  )
+  alert.p1.append(`To convert the document to UTF-8 in Linux or macOS: `)
   // for examples: https://www.gnu.org/software/libiconv
-  alert.fix1.appendChild(
-    document.createTextNode(
-      `iconv file.txt --from-code=UTF-16${endian()} --to-code=UTF-8 > file-fixed.txt`
-    )
+  alert.fix1.append(
+    `iconv file.txt --from-code=UTF-16${endian()} --to-code=UTF-8 > file-fixed.txt`
   )
-  alert.p2.appendChild(document.createTextNode(`In PowerShell or Windows: `))
-  alert.fix2.appendChild(
-    document.createTextNode(
-      `Get-Content file.txt -raw | Set-Content file-fixed.txt -Encoding UTF8`
-    )
+  alert.p2.append(`In PowerShell or Windows: `)
+  alert.fix2.append(
+    `Get-Content file.txt -raw | Set-Content file-fixed.txt -Encoding UTF8`
   )
   alert.p1.insertAdjacentElement(`beforeend`, alert.br1)
   alert.p1.insertAdjacentElement(`beforeend`, alert.fix1)

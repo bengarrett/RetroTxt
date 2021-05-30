@@ -984,12 +984,10 @@ class SauceMeta {
     // append 16colo.rs crew link
     if (this.sixteenColors.has(group.toLowerCase())) {
       const id = this.sixteenColors.get(group.toLowerCase()),
-        link = document.createElement(`a`),
-        space = document.createTextNode(` `)
+        link = document.createElement(`a`)
       link.setAttribute(`href`, `https://16colo.rs/tags/group/${id}`)
       link.textContent = `16colo.rs/${id}`
-      sauce.appendChild(space)
-      sauce.appendChild(link)
+      sauce.append(` `, link)
     }
     // author comments
     const commt = document.createElement(`div`)
@@ -1436,11 +1434,11 @@ class Output {
       text = { in: ``, out: `` },
       elm = {
         ansi: document.createElement(`span`),
-        vs: document.createTextNode(` → `),
         in: document.createElement(`span`),
         out: document.createElement(`span`),
       },
-      stored = { item: null, text: `` }
+      stored = { item: null, text: `` },
+      vs = ` → `
     // obtain transcode setting
     stored.item = sessionStorage.getItem(`transcode`)
     // ==============================================
@@ -1474,17 +1472,14 @@ class Output {
       default:
         this._headerTranscode(stored, elm, text)
     }
-    this.encode.appendChild(elm.in)
+    this.encode.append(elm.in)
     if (input.format === ANSIText) {
-      this.encode.appendChild(elm.vs)
-      this.encode.appendChild(elm.out)
+      this.encode.append(vs, elm.out)
       elm.ansi.title = `ECMA-48/ANSI X3.64 presentation control and cursor functions`
       elm.ansi.textContent = `ANSI`
-      this.encode.appendChild(document.createTextNode(` `))
-      this.encode.appendChild(elm.ansi)
+      this.encode.append(` `, elm.ansi)
     } else if (elm.out.textContent !== ``) {
-      this.encode.appendChild(elm.vs)
-      this.encode.appendChild(elm.out)
+      this.encode.append(vs, elm.out)
     }
     if (typeof qunit !== `undefined`) return elm
   }
@@ -1684,53 +1679,55 @@ class Information extends Output {
     const div = document.createElement(`div`),
       sp = `  `
     this._createToggle()
-    this.append(document.createTextNode(sp))
+    this.append(sp)
     this.append(this._info(`pixels`))
     this.append(this.area)
-    this.append(document.createTextNode(sp))
+    this.append(sp)
     this.append(this._info(`characters`))
     this.append(this.size)
-    this.append(document.createTextNode(sp))
+    this.append(sp)
     this.append(this._info(`encoding`))
     this.append(this.output.encode)
     this.append(div)
-    div.appendChild(this._label(`render`))
-    div.appendChild(this._setRender())
-    div.appendChild(this._sep())
-    div.appendChild(this._label(`size`))
-    div.appendChild(this.output.fontSize())
-    div.appendChild(this._sep())
-    div.appendChild(this._label(`fontname`))
-    div.appendChild(this.font)
+    div.append(
+      this._label(`render`),
+      this._setRender(),
+      this._sep(),
+      this._label(`size`),
+      this.output.fontSize(),
+      this._sep(),
+      this._label(`fontname`),
+      this.font
+    )
     if (this.input.format === ANSIText) {
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`palette`))
-      div.appendChild(this._setPalette())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`iCE colors`))
-      div.appendChild(this._setIceColors())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`column wrap`))
-      div.appendChild(this._setColumnWrap())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`page wrap`))
-      div.appendChild(this._setPageWrap())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`more`))
-      div.appendChild(this._setSettings())
+      div.append(
+        this._sep(),
+        this._label(`palette`),
+        this._setPalette(),
+        this._sep(),
+        this._label(`iCE colors`),
+        this._setIceColors(),
+        this._sep(),
+        this._label(`column wrap`),
+        this._setColumnWrap(),
+        this._sep(),
+        this._label(`page wrap`),
+        this._setPageWrap(),
+        this._sep(),
+        this._label(`more`),
+        this._setSettings()
+      )
       // append any ecma-48 errors
       const sum = this.ecma48.otherCodesCount + this.ecma48.unknownCount,
         errorTrigger = 10
       if (sum > errorTrigger) return this.append(this._setErrorBBS())
       if (sum > 0) return this.append(this._setWarningBBS())
     } else {
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`more`))
-      div.appendChild(this._setSettings())
+      div.append(this._sep(), this._label(`more`), this._setSettings())
     }
   }
   append(element) {
-    this.show.appendChild(element)
+    this.show.append(element)
   }
   /**
    * Document size notice.
@@ -1790,8 +1787,7 @@ class Information extends Output {
    * Document measurements.
    */
   createPixels() {
-    const vs = document.createTextNode(`x`),
-      columns = document.createElement(`span`),
+    const columns = document.createElement(`span`),
       lines = document.createElement(`span`)
     columns.title = `Pixel width of text`
     columns.id = `widthOfText`
@@ -1799,9 +1795,7 @@ class Information extends Output {
     lines.id = `lengthOfText`
     columns.textContent = `?`
     lines.textContent = `?`
-    this.area.appendChild(columns)
-    this.area.appendChild(vs)
-    this.area.appendChild(lines)
+    this.area.append(columns, "x", lines)
   }
   /**
    * Display and hide header switch.
@@ -1816,8 +1810,8 @@ class Information extends Output {
     hide.id = `toggleUp`
     hide.title = `Hide this information header`
     hide.textContent = `▲`
-    this.hide.appendChild(show)
-    this.show.appendChild(hide)
+    this.hide.append(show)
+    this.show.append(hide)
   }
   _label(text = ``) {
     const s = document.createElement(`small`)
