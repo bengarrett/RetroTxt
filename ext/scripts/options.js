@@ -645,6 +645,8 @@ FIREFOX NOTES:
       const files = new Security(`files`),
         downloads = new Security(`downloads`)
       if (allowed !== true) {
+        // the textfileViewerOff notice is redundant
+        document.getElementById(`textfileViewerOff`).classList.add(`is-hidden`)
         this.id = `textfileViewer`
         this._disable()
         // as isAllowedFileSchemeAccess() is false, downloads.test() will also be false
