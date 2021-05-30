@@ -1017,9 +1017,10 @@ class SauceMeta {
    * Discovers and parses any SAUCE metadata contained in the text.
    */
   _find() {
-    // scan the last 500 characters of the text for a SAUCE identifier
-    const scanLength = 2500,
-      search = this.text.slice(this.length - scanLength, this.length),
+    // scan the last 2500 characters of the text for a SAUCE identifier
+    let scanLength = 2500
+    if (this.length < scanLength) scanLength = this.length
+    const search = this.text.slice(this.length - scanLength, this.length),
       start = search.indexOf(`SAUCE00`) - scanLength,
       comntStart = search.lastIndexOf(`COMNT`)
     // data containers
@@ -1034,7 +1035,7 @@ class SauceMeta {
     // referred to as the 'replacement character'.
     // RegExp pattern to find all binary zeros
     const binaryZero = new RegExp(String.fromCharCode(65533), `g`)
-    // search the 500 characters for a SAUCE record
+    // search the last 2500 characters for a SAUCE record
     this.sliced = this.text.slice(start, this.length)
     this._extract()
     // when no SAUCE identifier is found
