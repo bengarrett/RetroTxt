@@ -11,7 +11,7 @@ version: "3"
 vars:
   # The published version number of RetroTxt used in the manifest.json and GitHub commit
   # Must use the numeric format 4.0.0
-  VERSION: "4.0.3"
+  VERSION: "4.1.0"
   # The (this) directory that gets posted to the private GitHub repo
   DIRPRIVATE: "{{.PWD}}"
   # The publication directory that gets submitted to the public GitHub repo
