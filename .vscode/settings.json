@@ -26,6 +26,9 @@
   "files.autoSave": "off",
   "files.eol": "\n",
   "javascript.format.enable": false,
+  "search.exclude": {
+    "**/qunit.js": true,
+  },
   "spellright.documentTypes": [
     "markdown",
     "latex",
