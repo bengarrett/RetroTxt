@@ -1798,7 +1798,14 @@ class Menu {
   })
   // browser tab activated listener
   chrome.tabs.onActivated.addListener((activeInfo) => {
+    if (typeof activeInfo.tabId === `undefined`) return
     chrome.tabs.get(activeInfo.tabId, (tab) => {
+      if (
+        typeof chrome.runtime.lastError === `object` &&
+        chrome.runtime.lastError.message !== ``
+      )
+        console.log(chrome.runtime.lastError.message)
+      if (typeof tab === `undefined`) return
       new Action(tab.id, tab).activated()
     })
   })
