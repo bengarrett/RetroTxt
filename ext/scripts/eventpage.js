@@ -795,7 +795,12 @@ class Security {
     if (typeof this.origin === `undefined`) return this.origins
     if (this.origin.length < 1) return this.origins
     // parse URL to valid host
-    const url = new URL(this.origin)
+    var url = ``
+    try {
+      url = new URL(this.origin)
+    } catch (e) {
+      return [`*://${this.origin}/*`]
+    }
     return [`*://${url.hostname}/*`]
   }
 }
