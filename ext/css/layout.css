@@ -165,6 +165,13 @@ header #sauce00Data {
   color: var(--has-text-white-ter);
 }
 
+header #SAUCE00-comment {
+  font-style: italic;
+  margin-left: 1em;
+  text-indent: 0;
+  white-space: pre-wrap;
+}
+
 /* article containing retrotxt */
 
 article {

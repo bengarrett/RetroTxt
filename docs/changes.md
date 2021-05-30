@@ -5,6 +5,7 @@
 ### May 2021
 
 - Support for custom ports in URLs such as `http://localhost:8080` or `https://example.com:9999`.
+- Improved support and display of multiline SAUCE comments.
 - Fixed broken Apple Lisa fonts.
 - Using Task for the build process.
 

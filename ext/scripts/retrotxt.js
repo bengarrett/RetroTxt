@@ -995,9 +995,7 @@ class SauceMeta {
     const commt = document.createElement(`div`)
     commt.id = `SAUCE00-comment`
     commt.classList.add(`is-hidden`)
-    const em = document.createElement(`em`)
-    em.textContent = this.commentLines.trim()
-    commt.appendChild(em)
+    commt.textContent = this.commentLines.trim()
     if (body.length <= 0) return null
     div.appendChild(sauce)
     if (this.commentLines.trim() !== ``) {
@@ -1020,7 +1018,7 @@ class SauceMeta {
    */
   _find() {
     // scan the last 500 characters of the text for a SAUCE identifier
-    const scanLength = 500,
+    const scanLength = 2500,
       search = this.text.slice(this.length - scanLength, this.length),
       start = search.indexOf(`SAUCE00`) - scanLength,
       comntStart = search.lastIndexOf(`COMNT`)
