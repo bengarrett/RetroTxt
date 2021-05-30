@@ -79,29 +79,13 @@ QUnit.test(`Tab() class`, (assert) => {
   tab = new Tab(0, ``)
   assert.equal(tab._validateURLSyntax(), false, `Is an invalid URI`)
   tab = new Tab(0, `https://www.example.com/hello-world/`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
   tab = new Tab(0, `ftp://example.com`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
   tab = new Tab(0, `www.example.com`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
   tab = new Tab(0, `example.com`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
 })
 
 QUnit.test(`ToolbarButton() class`, (assert) => {

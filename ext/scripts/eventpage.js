@@ -444,7 +444,6 @@ class Tab {
     domains = `${chrome.i18n.getMessage(`url`)};${domains}`
     // list of approved website domains
     approved = domains.includes(uri.domain)
-    console.log(`domains: ${domains} approved: ${approved} >> ${uri.domain}`)
     // if the URL domain is not apart of the user approved list then RetroTxt is
     // aborted for the tab
     if (uri.scheme !== `file` && approved !== true) return
@@ -458,8 +457,21 @@ class Tab {
    */
   _hostname() {
     if (this.url === ``) return ``
-    const url = new URL(this.url)
-    return url.hostname
+    var url = ``
+    try {
+      const u = new URL(`${this.url}`)
+      url = u.hostname
+    } catch (e) {
+      url = this.url
+    }
+    let host = url.split(`/`)[2]
+    if (typeof host === `undefined`) host = url
+    const parts = host.split(`.`)
+    if (parts.length <= 2) return host
+    // drop the sub-domain
+    parts.shift()
+    // convert the array back to a string
+    return parts.join(`.`)
   }
   _ignoreDir() {
     const directory = `/`
