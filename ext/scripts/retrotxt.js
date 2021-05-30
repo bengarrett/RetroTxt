@@ -54,7 +54,6 @@ class DOM {
     this.results
     this.backgroundColor = ``
     this.format = this._format()
-
   }
   /**
    * Discover the text or document format.
@@ -62,13 +61,13 @@ class DOM {
   _format() {
     if (typeof qunit === `undefined`) {
       if (typeof this.pre === `undefined`) {
-        if (typeof this.rawText === `undefined`){
+        if (typeof this.rawText === `undefined`) {
           console.error(`this.rawText element is missing`)
           return ``
         }
-        return `${FindControlSequences(this.rawText.textContent)}`
+        return FindControlSequences(this.rawText.textContent)
       }
-      return `${FindControlSequences(this.pre.textContent)}`
+      return FindControlSequences(this.pre.textContent)
     }
   }
   /**
