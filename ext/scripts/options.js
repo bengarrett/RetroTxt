@@ -931,9 +931,8 @@ class ColorPair {
    *  Event listeners.
    */
   async listen() {
-    const labels = document.forms[`text-pair-form`].getElementsByTagName(
-      `label`
-    )
+    const labels =
+      document.forms[`text-pair-form`].getElementsByTagName(`label`)
     labels: for (const label of labels) {
       const input = label.previousSibling.previousSibling
       // skip labels with no radio inputs
@@ -1553,9 +1552,10 @@ class Hosts {
     })
     this.input.addEventListener(`input`, () => {
       try {
+        console.log(`${this.input.value}`)
         // when URLs are pasted, attempt to return just the hostname
         const url = new URL(`${this.input.value}`)
-        this.input.value = url.hostname
+        this.input.value = url.host
       } catch (e) {
         // this catch is okay, as a hostname was probably pasted
       } finally {
