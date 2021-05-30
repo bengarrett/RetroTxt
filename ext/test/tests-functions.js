@@ -1,6 +1,6 @@
 /* eslint-env qunit:true */
 /*global QUnit C0Controls PCBoardText PlainText WildcatText
-DOS_437_English Windows_1252_English OutputUS_ASCII OutputISO8859_1 Shift_JIS UnicodeStandard*/
+DOS_437_English Windows_1252_English OutputUS_ASCII OutputISO8859_1 Shift_JIS UnicodeStandard Capitalize Titleize*/
 "use strict"
 
 QUnit.module(`functions.js`, {

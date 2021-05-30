@@ -1,5 +1,5 @@
 /* eslint-env qunit:true */
-/*global QUnit Action Chrome Downloads Extension LocalStore Menu Security Tab Tabs ToolbarButton*/
+/*global QUnit Action Chrome Downloads Extension LocalStore Menu Security Tab Tabs ToolbarButton UseCharSet*/
 "use strict"
 
 try {
