@@ -863,8 +863,8 @@ class BBS {
       bringAttentionOpen = `⮚`,
       bringAttentionClose = `⮘`
     // handle empty rows by inserting a space character between the
-    // <div></div> elements
-    if (text === ``) return div.append(document.createTextNode(` `))
+    // <div></div> elements, this must keep appendChild() and createTextNode()
+    if (text === ``) return div.appendChild(document.createTextNode(` `))
     // RegExp to markout block characters
     const row = text.replace(
       RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `ig`),
