@@ -8,6 +8,7 @@
 - Fixed broken Apple Lisa fonts.
 - Improved support and display of multiline SAUCE comments.
 - Improve the positioning of the error alert box.
+- Spelling and typo fixes for both UK and US English.
 - Using Task for the build process.
 - Dropped the use of the convoluted Node.createTextNode() and Node.appendChild() methods.
 

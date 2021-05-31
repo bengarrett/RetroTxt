@@ -1854,6 +1854,8 @@ class Import {
   localizeWord(`color`, `msg-color`)
   localizeWord(`center`, `msg-center`)
   localizeWord(`artifact`, `msg-artifact`)
+  localizeWord(`customize`, `msg-customize`)
+  localizeWord(`Minimalize`, `msg-minimalize`)
   // capitalize the first letter
   const customColorText = document
     .getElementById(`customColorValues`)

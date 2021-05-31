@@ -8,6 +8,12 @@
   "center": {
     "message": "center"
   },
+  "customize": {
+    "message": "customize"
+  },
+  "Minimalize": {
+    "message": "Minimalize"
+  },
   "Gray": {
     "message": "Gray"
   },

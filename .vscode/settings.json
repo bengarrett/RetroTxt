@@ -37,7 +37,9 @@
     "css",
     "yaml"
   ],
-  "spellright.language": ["en"],
+  "spellright.language": [
+    "en"
+  ],
   "spellright.notificationClass": "hint",
   "typescript.format.enable": false
 }
