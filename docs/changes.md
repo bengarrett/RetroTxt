@@ -4,6 +4,7 @@
 
 ### May 2021
 
+- Updated PC and MS-DOS fonts to Ultimate Oldschool PC Font Pack v2.2.
 - Support for custom ports in URLs such as `http://localhost:8080` or `https://example.com:9999`.
 - Fixed broken Apple Lisa fonts.
 - Improved support and display of multiline SAUCE comments.
