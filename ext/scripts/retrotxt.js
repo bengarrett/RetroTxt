@@ -1849,7 +1849,7 @@ class Information extends Output {
     const family = `${fonts.family}`
     this.font.id = `fontnameInUse`
     this.font.textContent = `${family.replaceAll(`_`, ` `)}`
-    this.font.classList.add(`font-${family.toLowerCase()}`)
+    this.font.classList.add(`font-${fonts.key.toLowerCase()}`)
     this.font.title = `${fonts.title(family)}`
   }
   _setIceColors() {

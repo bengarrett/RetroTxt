@@ -994,7 +994,7 @@ class Configuration extends OptionsReset {
     const arr = filename.split(`.`)
     if (arr.length < 2) return false
     const ext = arr[arr.length - 1]
-    return this.triggers.get(`extensions`).includes(ext)
+    return this.triggers.get(`extensions`).includes(ext.toLowerCase())
   }
   /**
    * Check the `filename` to see if RetroTxt will trigger.
@@ -1005,7 +1005,7 @@ class Configuration extends OptionsReset {
     const arr = filename.split(`.`)
     if (arr.length < 2) return false
     const ext = arr[arr.length - 1]
-    return !this._fileExtsError().includes(ext)
+    return !this._fileExtsError().includes(ext.toLowerCase())
   }
   /**
    * An array of filename extensions that RetroTxt always ignores.

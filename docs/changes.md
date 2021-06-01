@@ -7,6 +7,8 @@
 - Updated PC and MS-DOS fonts to Ultimate Oldschool PC Font Pack v2.2.
 - Support for custom ports in URLs such as `http://localhost:8080` or `https://example.com:9999`.
 - Fixed broken Apple Lisa fonts.
+- Fixed the local file viewer toggling on non-text file tabs when the file's extension is in uppercase.
+- Fixed certain fonts that use spaces within their names, breaking the loading text files.
 - Improved support and display of multiline SAUCE comments.
 - Improve the positioning of the error alert box.
 - Spelling and typo fixes for both UK and US English.
