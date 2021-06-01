@@ -1079,6 +1079,7 @@ class SauceMeta {
         break
       case `1111111111111101`:
       case `1011`:
+      case `101`:
       case `11`:
       case `1`:
         this.configs.letterSpacing = `01`
@@ -1144,12 +1145,14 @@ class SauceMeta {
         .set(`94`, `350`)
         .set(`91`, `80`)
         .set(`80`, `80`)
-        // any malformed width values that are less than 80, will cause
-        // false positives for other text that share these actual widths
-        // TODO: add a notice allowing people to toggle between the possible widths,
-        // ie: Switch to either 64 or 320 columns and save the choice to localStorage
-        .set(`69`, `325`)
-        .set(`64`, `320`)
+      // any malformed width values that are less than 80, will cause
+      // false positives for other text that share these actual widths
+      // TODO: add a notice allowing people to toggle between the possible widths,
+      // ie: Switch to either 64 or 320 columns and save the choice to localStorage
+      const largePiece = 15000
+      if (this.length > largePiece) {
+        widths.set(`69`, `325`).set(`64`, `320`).set(`32`, `800`)
+      }
       // 44px width is a common size for FILE_ID.DIZ/FILE_ID.ANS
       const fileIDMaximumLength = 5000 // an arbitrary value 🤷
       if (this.length > fileIDMaximumLength) widths.set(`44`, `300`)
