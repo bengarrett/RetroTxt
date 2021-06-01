@@ -11,6 +11,25 @@ DOS_437_English Windows_1252_English ISO8859_5 OutputCP1252 OutputUS_ASCII Shift
 RetroTxt.developer = false // verbose console output
 RetroTxt.dump = false // Input SauceMeta and Output classes
 
+// SAUCE fonts, these must be kept current to the font families in fonts_ibm.css & fonts_home.css
+const atascii = `candyantics`,
+  commodore64 = `petme64`,
+  ibmVGA = `ibm_vga_9x16`,
+  ibmVGA8 = `ibm_vga_8x16`,
+  ibmVGA50 = `ibm_vga_9x8`,
+  ibmVGA508 = `ibm_ega_8x8`,
+  ibmVGA25G = `ast_premiumexec`,
+  ibmEGA = `ibm_ega_8x14`,
+  ibmEGA43 = `ibm_ega_8x8`,
+  topaz1 = `topaza500`,
+  topaz1_ = `topazplusa500`,
+  topaz2 = `topaza1200`,
+  topaz2_ = `topazplusa1200`,
+  potNoodle = `p0tnoodle`,
+  microknight = `microknight`,
+  microknight_ = `microknightplus`,
+  mosoul = `mosoul`
+
 /**
  * Document Object Model (DOM) programming interface for HTML.
  * @class DOM
@@ -869,43 +888,43 @@ class SauceMeta {
     this.sauceFonts = new Map()
       // Standard hardware font on VGA cards for 80×25 text mode (code page 437)
       // IBM VGA  9×16
-      .set(`IBM VGA`, `ibm_vga_9x16`)
+      .set(`IBM VGA`, ibmVGA)
       // Standard hardware font on VGA cards for condensed 80×50 text mode (code page 437)
       // IBM VGA50  9×8
-      .set(`IBM VGA50`, `ibm_vga_9x8`)
+      .set(`IBM VGA50`, ibmVGA50)
       // Custom font for emulating 80×25 in VGA graphics mode 12 (640×480 16 color) (code page 437)
       // IBM VGA25G	8×19
       // ast_premiumexec is a 8x19, 640x480 font that replicates the VGA characters
-      .set(`IBM VGA25G`, `ast_premiumexec`)
+      .set(`IBM VGA25G`, ibmVGA25G)
       // Standard hardware font on EGA cards for 80×25 text mode (code page 437)
       // IBM EGA  8×14
-      .set(`IBM EGA`, `ibm_ega_8x14`)
+      .set(`IBM EGA`, ibmEGA)
       // Standard hardware font on EGA cards for condensed 80×43 text mode (code page 437)
       // IBM EGA43  8×8
-      .set(`IBM EGA43`, `ibm_ega_8x8`)
+      .set(`IBM EGA43`, ibmEGA43)
       // Original Amiga Topaz Kickstart 1.x font. (A500, A1000, A2000)
-      .set(`Amiga Topaz 1`, `topaza500`)
+      .set(`Amiga Topaz 1`, topaz1)
       // Modified Amiga Topaz Kickstart 1.x font. (A500, A1000, A2000)
-      .set(`Amiga Topaz 1+`, `topazplusa500`)
+      .set(`Amiga Topaz 1+`, topaz1_)
       // Original Amiga Topaz Kickstart 2.x font (A600, A1200, A4000)
-      .set(`Amiga Topaz 2`, `topaza1200`)
+      .set(`Amiga Topaz 2`, topaz2)
       // Modified Amiga Topaz Kickstart 2.x font (A600, A1200, A4000)
-      .set(`Amiga Topaz 2+`, `topazplusa1200`)
+      .set(`Amiga Topaz 2+`, topaz2_)
       // Original P0T-NOoDLE font.
-      .set(`Amiga PoT-NOoDLE`, `p0tnoodle`)
-      .set(`Amiga P0T-NOoDLE`, `p0tnoodle`)
+      .set(`Amiga PoT-NOoDLE`, potNoodle)
+      .set(`Amiga P0T-NOoDLE`, potNoodle)
       // Original MicroKnight font.
-      .set(`Amiga MicroKnight`, `microknight`)
+      .set(`Amiga MicroKnight`, microknight)
       // Modified MicroKnight font.
-      .set(`Amiga MicroKnight+`, `microknightplus`)
+      .set(`Amiga MicroKnight+`, microknight_)
       // Original mOsOul font.
-      .set(`Amiga mOsOul`, `mosoul`)
+      .set(`Amiga mOsOul`, mosoul)
       // Original PETSCII font in shifted mode. Shifted mode (text) has both uppercase and lowercase letters. This mode is actuated by pressing Shift+Commodore key.
-      .set(`C64 shifted`, `petme64`)
+      .set(`C64 shifted`, commodore64)
       // Original Commodore PETSCII font (PET, VIC-20, C64, CBM-II, Plus/4, C16, C116 and C128) in the unshifted mode. Unshifted mode (graphics) only has uppercase letters and additional graphic characters. This is the normal boot font.
-      .set(`C64 unshifted`, `petme64`)
+      .set(`C64 unshifted`, commodore64)
       // Original ATASCII font (Atari 400, 800, XL, XE)
-      .set(`Atari`, `candyantics`)
+      .set(`Atari`, atascii)
     // initialise sauce metadata
     if (this.length > 500) {
       this._find()
@@ -1168,17 +1187,17 @@ class SauceMeta {
     if (font === `IBM VGA`) {
       switch (this.configs.letterSpacing) {
         case pixel8:
-          return (this.configs.fontFamily = `ibm_vga_8x16`)
+          return (this.configs.fontFamily = ibmVGA8)
         case pixel9:
-          return (this.configs.fontFamily = `ibm_vga_9x16`)
+          return (this.configs.fontFamily = ibmVGA)
       }
     }
     if (font === `IBM VGA50`) {
       switch (this.configs.letterSpacing) {
         case pixel8:
-          return (this.configs.fontFamily = `ibm_vga_8x8`)
+          return (this.configs.fontFamily = ibmVGA508)
         case pixel9:
-          return (this.configs.fontFamily = `ibm_vga_9x8`)
+          return (this.configs.fontFamily = ibmVGA50)
       }
     }
     // default font family to use if no font information exists
