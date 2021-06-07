@@ -33,7 +33,7 @@
     "semi": false
   },
   "devDependencies": {
-    "ajv": "8.5.0",
+    "ajv": "8.6.0",
     "dot-json": "*",
     "eslint": "7.x",
     "eslint-config-prettier": "8.3.0",
