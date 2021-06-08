@@ -1476,12 +1476,13 @@ class Hero {
       return console.error(`Tab value ${value} is invalid`)
     // iterate over each <section> element
     Array.prototype.filter.call(this.content, (page) => {
-      if (typeof page !== `undefined`) page.style.display = `none`
+      if (typeof page !== `undefined`) {
+        page.style.display = `none`
+      }
     })
     // iterate over each `<button class="tablinks">` element
     const buttons = document.getElementsByClassName(this.item)
     Array.prototype.filter.call(buttons, (button) => {
-      // button.style.backgroundColor = `initial`
       return button.classList.remove(this.active)
     })
     // special handler for omnibox `rt tests` command
@@ -1496,7 +1497,7 @@ class Hero {
     const page = document.getElementById(`${this.page}${selected}`),
       button = document.getElementById(`${this.btn}${selected}`)
     if (typeof page.style.display !== `undefined`) {
-      page.style.display = `block`
+      page.style.display = `inline`
       button.classList.add(this.active)
     }
     // Set the sample-container

@@ -8,6 +8,7 @@
 - Support for custom ports in URLs such as `http://localhost:8080` or `https://example.com:9999`.
 - Replaced all the `woff` fonts with `woff2` fonts to offer better file compression.
   This reduces the overall file size of RetroTxt and system resource usage.
+- The Options Fonts tab Jump to menu now always remains on the tab.
 - Fixed broken Apple Lisa fonts.
 - Fixed the local file viewer toggling on non-text file tabs when the file's extension is in uppercase.
 - Fixed certain fonts that use spaces within their names, breaking the loading text files.
