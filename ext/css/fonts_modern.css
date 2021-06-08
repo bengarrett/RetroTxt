@@ -7,7 +7,7 @@
 @font-face {
   font-family: "ibmplexmono";
   src: url("../fonts/IBMPlexMono-Regular.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibmplexmono {
   font-family: ibmplexmono;
@@ -17,7 +17,7 @@
 @font-face {
   font-family: "ibmplextlight";
   src: url("../fonts/IBMPlexMono-Light.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibmplextlight {
   font-family: ibmplextlight;
@@ -27,7 +27,7 @@
 @font-face {
   font-family: "ibmplextmedium";
   src: url("../fonts/IBMPlexMono-Medium.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibmplextmedium {
   font-family: ibmplextmedium;
@@ -38,7 +38,7 @@
 @font-face {
   font-family: "spleen";
   src: url("../fonts/spleen-8x161.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
   font-weight: 1;
 }
 .font-spleen {
@@ -49,7 +49,7 @@
 @font-face {
   font-family: "spleen6x12";
   src: url("../fonts/spleen-6x121.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
   font-weight: 1;
 }
 .font-spleen6x12 {
@@ -60,7 +60,7 @@
 @font-face {
   font-family: "spleen12x24";
   src: url("../fonts/spleen-12x243.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
   font-weight: 1;
 }
 .font-spleen12x24 {
@@ -71,7 +71,7 @@
 @font-face {
   font-family: "spleen16x32";
   src: url("../fonts/spleen-16x323.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
   font-weight: 1;
 }
 .font-spleen16x32 {
@@ -83,7 +83,7 @@
 @font-face {
   font-family: "unscii-16";
   src: url("../fonts/unscii-16-full.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-unscii-16 {
   font-family: unscii-16;
@@ -93,7 +93,7 @@
 @font-face {
   font-family: "unscii-8";
   src: url("../fonts/unscii-8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-unscii-8 {
   font-family: unscii-8;
@@ -103,7 +103,7 @@
 @font-face {
   font-family: unscii-mcr;
   src: url("../fonts/unscii-8-mcr.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-unscii-mcr {
   font-family: unscii-mcr;
@@ -113,7 +113,7 @@
 @font-face {
   font-family: unscii-fantasy;
   src: url("../fonts/unscii-8-fantasy.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-unscii-fantasy {
   font-family: unscii-fantasy;

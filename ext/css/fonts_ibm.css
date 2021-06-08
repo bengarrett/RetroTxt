@@ -1,7 +1,7 @@
 @font-face {
   font-family: "ibm_bios";
   src: url("../fonts/WebPlus_IBM_BIOS.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_bios {
   font-family: ibm_bios;
@@ -11,7 +11,7 @@
 @font-face {
   font-family: "ibm_cga";
   src: url("../fonts/WebPlus_IBM_CGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_cga {
   font-family: ibm_cga;
@@ -21,7 +21,7 @@
 @font-face {
   font-family: "ibm_cgathin";
   src: url("../fonts/WebPlus_IBM_CGAthin.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_cgathin {
   font-family: ibm_cgathin;
@@ -31,7 +31,7 @@
 @font-face {
   font-family: "ibm_mda";
   src: url("../fonts/WebPlus_IBM_MDA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_mda {
   font-family: ibm_mda;
@@ -41,7 +41,7 @@
 @font-face {
   font-family: "ibm_ega_8x14";
   src: url("../fonts/WebPlus_IBM_EGA_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_ega_8x14 {
   font-family: ibm_ega_8x14;
@@ -51,7 +51,7 @@
 @font-face {
   font-family: "ibm_ega_8x8";
   src: url("../fonts/WebPlus_IBM_EGA_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_ega_8x8 {
   font-family: ibm_ega_8x8;
@@ -61,7 +61,7 @@
 @font-face {
   font-family: "ibm_ega_9x14";
   src: url("../fonts/WebPlus_IBM_EGA_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_ega_9x14 {
   font-family: ibm_ega_9x14;
@@ -71,7 +71,7 @@
 @font-face {
   font-family: "ibm_ega_9x8";
   src: url("../fonts/WebPlus_IBM_EGA_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_ega_9x8 {
   font-family: ibm_ega_9x8;
@@ -81,7 +81,7 @@
 @font-face {
   font-family: "ibm_vga_9x16";
   src: url("../fonts/WebPlus_IBM_VGA_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_vga_9x16 {
   font-family: ibm_vga_9x16;
@@ -91,7 +91,7 @@
 @font-face {
   font-family: "ibm_vga_9x14";
   src: url("../fonts/WebPlus_IBM_VGA_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_vga_9x14 {
   font-family: ibm_vga_9x14;
@@ -101,7 +101,7 @@
 @font-face {
   font-family: "ibm_vga_9x8";
   src: url("../fonts/WebPlus_IBM_VGA_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_vga_9x8 {
   font-family: ibm_vga_9x8;
@@ -111,7 +111,7 @@
 @font-face {
   font-family: "ibm_vga_8x16";
   src: url("../fonts/WebPlus_IBM_VGA_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_vga_8x16 {
   font-family: ibm_vga_8x16;
@@ -121,7 +121,7 @@
 @font-face {
   font-family: "ibm_vga_8x14";
   src: url("../fonts/WebPlus_IBM_VGA_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_vga_8x14 {
   font-family: ibm_vga_8x14;
@@ -131,7 +131,7 @@
 @font-face {
   font-family: "ibm_3270pc";
   src: url("../fonts/Web437_IBM_3270pc.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_3270pc {
   font-family: ibm_3270pc;
@@ -141,7 +141,7 @@
 @font-face {
   font-family: "ibm_pgc";
   src: url("../fonts/Web437_IBM_PGC.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_pgc {
   font-family: ibm_pgc;
@@ -151,7 +151,7 @@
 @font-face {
   font-family: "ibm_conv";
   src: url("../fonts/Web437_IBM_Conv.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_conv {
   font-family: ibm_conv;
@@ -161,7 +161,7 @@
 @font-face {
   font-family: "ibm_model30r0";
   src: url("../fonts/Web437_IBM_Model30r0.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_model30r0 {
   font-family: ibm_model30r0;
@@ -171,7 +171,7 @@
 @font-face {
   font-family: "ibm_model3x_alt1";
   src: url("../fonts/Web437_IBM_Model3x_Alt1.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_model3x_alt1 {
   font-family: ibm_model3x_alt1;
@@ -181,7 +181,7 @@
 @font-face {
   font-family: "ibm_model3x_alt2";
   src: url("../fonts/Web437_IBM_Model3x_Alt2.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_model3x_alt2 {
   font-family: ibm_model3x_alt2;
@@ -191,7 +191,7 @@
 @font-face {
   font-family: "ibm_model3x_alt3";
   src: url("../fonts/Web437_IBM_Model3x_Alt3.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_model3x_alt3 {
   font-family: ibm_model3x_alt3;
@@ -201,7 +201,7 @@
 @font-face {
   font-family: "ibm_model3x_alt4";
   src: url("../fonts/Web437_IBM_Model3x_Alt4.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_model3x_alt4 {
   font-family: ibm_model3x_alt4;
@@ -211,7 +211,7 @@
 @font-face {
   font-family: "ibm_ps-55_re";
   src: url("../fonts/Web437_IBM_PS-55_re.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_ps-55_re {
   font-family: ibm_ps-55_re;
@@ -221,7 +221,7 @@
 @font-face {
   font-family: "ibm_xga-ai_7x15";
   src: url("../fonts/Web437_IBM_XGA-AI_7x15.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_xga-ai_7x15 {
   font-family: ibm_xga-ai_7x15;
@@ -231,7 +231,7 @@
 @font-face {
   font-family: "ibm_xga-ai_12x20";
   src: url("../fonts/WebPlus_IBM_XGA-AI_12x20.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_xga-ai_12x20 {
   font-family: ibm_xga-ai_12x20;
@@ -241,7 +241,7 @@
 @font-face {
   font-family: "ibm_xga-ai_12x23";
   src: url("../fonts/Web437_IBM_XGA-AI_12x23.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_xga-ai_12x23 {
   font-family: ibm_xga-ai_12x23;
@@ -251,7 +251,7 @@
 @font-face {
   font-family: "ibm_dos_iso8";
   src: url("../fonts/Web437_IBM_DOS_ISO8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_dos_iso8 {
   font-family: ibm_dos_iso8;
@@ -261,7 +261,7 @@
 @font-face {
   font-family: "ibm_dos_iso9";
   src: url("../fonts/Web437_IBM_DOS_ISO9.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ibm_dos_iso9 {
   font-family: ibm_dos_iso9;
@@ -271,7 +271,7 @@
 @font-face {
   font-family: "dos-v_re_jpn12";
   src: url("../fonts/Web437_DOS-V_re_JPN12.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_jpn12 {
   font-family: dos-v_re_jpn12;
@@ -281,7 +281,7 @@
 @font-face {
   font-family: "dos-v_re_jpn16";
   src: url("../fonts/Web437_DOS-V_re_JPN16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_jpn16 {
   font-family: dos-v_re_jpn16;
@@ -291,7 +291,7 @@
 @font-face {
   font-family: "dos-v_re_jpn19";
   src: url("../fonts/Web437_DOS-V_re_JPN19.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_jpn19 {
   font-family: dos-v_re_jpn19;
@@ -301,7 +301,7 @@
 @font-face {
   font-family: "dos-v_re_jpn24";
   src: url("../fonts/Web437_DOS-V_re_JPN24.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_jpn24 {
   font-family: dos-v_re_jpn24;
@@ -311,7 +311,7 @@
 @font-face {
   font-family: "dos-v_re_jpn30";
   src: url("../fonts/Web437_DOS-V_re_JPN30.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_jpn30 {
   font-family: dos-v_re_jpn30;
@@ -321,7 +321,7 @@
 @font-face {
   font-family: "dos-v_re_ank16";
   src: url("../fonts/Web437_DOS-V_re_ANK16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_ank16 {
   font-family: dos-v_re_ank16;
@@ -331,7 +331,7 @@
 @font-face {
   font-family: "dos-v_re_ank19";
   src: url("../fonts/Web437_DOS-V_re_ANK19.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_ank19 {
   font-family: dos-v_re_ank19;
@@ -341,7 +341,7 @@
 @font-face {
   font-family: "dos-v_re_ank24";
   src: url("../fonts/Web437_DOS-V_re_ANK24.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_ank24 {
   font-family: dos-v_re_ank24;
@@ -351,7 +351,7 @@
 @font-face {
   font-family: "dos-v_re_ank30";
   src: url("../fonts/Web437_DOS-V_re_ANK30.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_ank30 {
   font-family: dos-v_re_ank30;
@@ -361,7 +361,7 @@
 @font-face {
   font-family: "dos-v_twn16";
   src: url("../fonts/Web437_DOS-V_TWN16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_twn16 {
   font-family: dos-v_twn16;
@@ -371,7 +371,7 @@
 @font-face {
   font-family: "dos-v_twn19";
   src: url("../fonts/Web437_DOS-V_TWN19.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_twn19 {
   font-family: dos-v_twn19;
@@ -381,7 +381,7 @@
 @font-face {
   font-family: "dos-v_re_prc16";
   src: url("../fonts/Web437_DOS-V_re_PRC16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_prc16 {
   font-family: dos-v_re_prc16;
@@ -391,7 +391,7 @@
 @font-face {
   font-family: "dos-v_re_prc19";
   src: url("../fonts/Web437_DOS-V_re_PRC19.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dos-v_re_prc19 {
   font-family: dos-v_re_prc19;
@@ -401,7 +401,7 @@
 @font-face {
   font-family: "acer710_cga";
   src: url("../fonts/Web437_Acer710_CGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acer710_cga {
   font-family: acer710_cga;
@@ -411,7 +411,7 @@
 @font-face {
   font-family: "acer710_mono";
   src: url("../fonts/Web437_Acer710_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acer710_mono {
   font-family: acer710_mono;
@@ -421,7 +421,7 @@
 @font-face {
   font-family: "amstrad_pc";
   src: url("../fonts/WebPlus_Amstrad_PC.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-amstrad_pc {
   font-family: amstrad_pc;
@@ -431,7 +431,7 @@
 @font-face {
   font-family: "ast_premiumexec";
   src: url("../fonts/WebPlus_AST_PremiumExec.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ast_premiumexec {
   font-family: ast_premiumexec;
@@ -441,7 +441,7 @@
 @font-face {
   font-family: "att_pc6300";
   src: url("../fonts/Web437_ATT_PC6300.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-att_pc6300 {
   font-family: att_pc6300;
@@ -451,7 +451,7 @@
 @font-face {
   font-family: "compaq_port3";
   src: url("../fonts/Web437_Compaq_Port3.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-compaq_port3 {
   font-family: compaq_port3;
@@ -461,7 +461,7 @@
 @font-face {
   font-family: "compaqthin_8x8";
   src: url("../fonts/Web437_CompaqThin_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-compaqthin_8x8 {
   font-family: compaqthin_8x8;
@@ -471,7 +471,7 @@
 @font-face {
   font-family: "compaqthin_8x14";
   src: url("../fonts/Web437_CompaqThin_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-compaqthin_8x14 {
   font-family: compaqthin_8x14;
@@ -481,7 +481,7 @@
 @font-face {
   font-family: "compaqthin_8x16";
   src: url("../fonts/Web437_CompaqThin_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-compaqthin_8x16 {
   font-family: compaqthin_8x16;
@@ -491,7 +491,7 @@
 @font-face {
   font-family: "cordata_ppc-21";
   src: url("../fonts/WebPlus_Cordata_PPC-21.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cordata_ppc-21 {
   font-family: cordata_ppc-21;
@@ -501,7 +501,7 @@
 @font-face {
   font-family: "cordata_ppc-400";
   src: url("../fonts/WebPlus_Cordata_PPC-400.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cordata_ppc-400 {
   font-family: cordata_ppc-400;
@@ -511,7 +511,7 @@
 @font-face {
   font-family: "dg_one";
   src: url("../fonts/Web437_DG_One.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dg_one {
   font-family: dg_one;
@@ -521,7 +521,7 @@
 @font-face {
   font-family: "dg_one_bold";
   src: url("../fonts/Web437_DG_One_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dg_one_bold {
   font-family: dg_one_bold;
@@ -531,7 +531,7 @@
 @font-face {
   font-family: "dg_one-2y_bold";
   src: url("../fonts/Web437_DG_One-2y_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dg_one-2y_bold {
   font-family: dg_one-2y_bold;
@@ -541,7 +541,7 @@
 @font-face {
   font-family: "hp_100lx_6x8";
   src: url("../fonts/WebPlus_HP_100LX_6x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-hp_100lx_6x8 {
   font-family: hp_100lx_6x8;
@@ -551,7 +551,7 @@
 @font-face {
   font-family: "hp_100lx_8x8";
   src: url("../fonts/WebPlus_HP_100LX_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-hp_100lx_8x8 {
   font-family: hp_100lx_8x8;
@@ -561,7 +561,7 @@
 @font-face {
   font-family: "hp_100lx_10x11";
   src: url("../fonts/WebPlus_HP_100LX_10x11.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-hp_100lx_10x11 {
   font-family: hp_100lx_10x11;
@@ -571,7 +571,7 @@
 @font-face {
   font-family: "hp_100lx_16x12";
   src: url("../fonts/WebPlus_HP_100LX_16x12.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-hp_100lx_16x12 {
   font-family: hp_100lx_16x12;
@@ -581,7 +581,7 @@
 @font-face {
   font-family: "itt_xtra";
   src: url("../fonts/Web437_ITT_Xtra.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-itt_xtra {
   font-family: itt_xtra;
@@ -591,7 +591,7 @@
 @font-face {
   font-family: "kaypro2k_g";
   src: url("../fonts/Web437_Kaypro2K_G.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-kaypro2k_g {
   font-family: kaypro2k_g;
@@ -601,7 +601,7 @@
 @font-face {
   font-family: "le_model_d_cga";
   src: url("../fonts/Web437_LE_Model_D_CGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-le_model_d_cga {
   font-family: le_model_d_cga;
@@ -611,7 +611,7 @@
 @font-face {
   font-family: "le_model_d_mono";
   src: url("../fonts/Web437_LE_Model_D_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-le_model_d_mono {
   font-family: le_model_d_mono;
@@ -621,7 +621,7 @@
 @font-face {
   font-family: "mbytepc230_cga";
   src: url("../fonts/Web437_MBytePC230_CGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-mbytepc230_cga {
   font-family: mbytepc230_cga;
@@ -631,7 +631,7 @@
 @font-face {
   font-family: "mbytepc230_ega";
   src: url("../fonts/Web437_MBytePC230_EGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-mbytepc230_ega {
   font-family: mbytepc230_ega;
@@ -641,7 +641,7 @@
 @font-face {
   font-family: "mbytepc230_mono";
   src: url("../fonts/Web437_MBytePC230_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-mbytepc230_mono {
   font-family: mbytepc230_mono;
@@ -651,7 +651,7 @@
 @font-face {
   font-family: "mbytepc230_8x16";
   src: url("../fonts/Web437_MBytePC230_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-mbytepc230_8x16 {
   font-family: mbytepc230_8x16;
@@ -661,7 +661,7 @@
 @font-face {
   font-family: "nec_multispeed";
   src: url("../fonts/Web437_NEC_MultiSpeed.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nec_multispeed {
   font-family: nec_multispeed;
@@ -671,7 +671,7 @@
 @font-face {
   font-family: "nec_multispeed_bold";
   src: url("../fonts/Web437_NEC_MultiSpeed_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nec_multispeed_bold {
   font-family: nec_multispeed_bold;
@@ -681,7 +681,7 @@
 @font-face {
   font-family: "nec_multispeed-2x_bold";
   src: url("../fonts/Web437_NEC_MultiSpeed-2x_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nec_multispeed-2x_bold {
   font-family: nec_multispeed-2x_bold;
@@ -691,7 +691,7 @@
 @font-face {
   font-family: "nix8810_m15";
   src: url("../fonts/Web437_Nix8810_M15.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nix8810_m15 {
   font-family: nix8810_m15;
@@ -701,7 +701,7 @@
 @font-face {
   font-family: "nix8810_m16";
   src: url("../fonts/Web437_Nix8810_M16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nix8810_m16 {
   font-family: nix8810_m16;
@@ -711,7 +711,7 @@
 @font-face {
   font-family: "nix8810_m35";
   src: url("../fonts/Web437_Nix8810_M35.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nix8810_m35 {
   font-family: nix8810_m35;
@@ -721,7 +721,7 @@
 @font-face {
   font-family: "olivetti_m15";
   src: url("../fonts/Web437_Olivetti_M15.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-olivetti_m15 {
   font-family: olivetti_m15;
@@ -731,7 +731,7 @@
 @font-face {
   font-family: "olivettithin_8x14";
   src: url("../fonts/Web437_OlivettiThin_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-olivettithin_8x14 {
   font-family: olivettithin_8x14;
@@ -741,7 +741,7 @@
 @font-face {
   font-family: "olivettithin_9x14";
   src: url("../fonts/Web437_OlivettiThin_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-olivettithin_9x14 {
   font-family: olivettithin_9x14;
@@ -751,7 +751,7 @@
 @font-face {
   font-family: "olivettithin_8x16";
   src: url("../fonts/Web437_OlivettiThin_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-olivettithin_8x16 {
   font-family: olivettithin_8x16;
@@ -761,7 +761,7 @@
 @font-face {
   font-family: "olivettithin_9x16";
   src: url("../fonts/Web437_OlivettiThin_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-olivettithin_9x16 {
   font-family: olivettithin_9x16;
@@ -771,7 +771,7 @@
 @font-face {
   font-family: "sanyombc55x";
   src: url("../fonts/Web437_SanyoMBC55x.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sanyombc55x {
   font-family: sanyombc55x;
@@ -781,7 +781,7 @@
 @font-face {
   font-family: "sanyombc775";
   src: url("../fonts/Web437_SanyoMBC775.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sanyombc775 {
   font-family: sanyombc775;
@@ -791,7 +791,7 @@
 @font-face {
   font-family: "sanyombc16";
   src: url("../fonts/Web437_SanyoMBC16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sanyombc16 {
   font-family: sanyombc16;
@@ -801,7 +801,7 @@
 @font-face {
   font-family: "europc_cga";
   src: url("../fonts/Web437_EuroPC_CGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-europc_cga {
   font-family: europc_cga;
@@ -811,7 +811,7 @@
 @font-face {
   font-family: "europc_mono";
   src: url("../fonts/Web437_EuroPC_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-europc_mono {
   font-family: europc_mono;
@@ -821,7 +821,7 @@
 @font-face {
   font-family: "seequacm";
   src: url("../fonts/Web437_SeequaCm.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-seequacm {
   font-family: seequacm;
@@ -831,7 +831,7 @@
 @font-face {
   font-family: "sharp_pc3k";
   src: url("../fonts/Web437_Sharp_PC3K.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sharp_pc3k {
   font-family: sharp_pc3k;
@@ -841,7 +841,7 @@
 @font-face {
   font-family: "sharp_pc3k_alt";
   src: url("../fonts/Web437_Sharp_PC3K_Alt.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sharp_pc3k_alt {
   font-family: sharp_pc3k_alt;
@@ -851,7 +851,7 @@
 @font-face {
   font-family: "sperrypc_cga";
   src: url("../fonts/Web437_SperryPC_CGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sperrypc_cga {
   font-family: sperrypc_cga;
@@ -861,7 +861,7 @@
 @font-face {
   font-family: "sperrypc_8x16";
   src: url("../fonts/Web437_SperryPC_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sperrypc_8x16 {
   font-family: sperrypc_8x16;
@@ -871,7 +871,7 @@
 @font-face {
   font-family: "tandy1k-i_200l";
   src: url("../fonts/Web437_Tandy1K-I_200L.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy1k-i_200l {
   font-family: tandy1k-i_200l;
@@ -881,7 +881,7 @@
 @font-face {
   font-family: "tandy1k-i_225l";
   src: url("../fonts/Web437_Tandy1K-I_225L.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy1k-i_225l {
   font-family: tandy1k-i_225l;
@@ -891,7 +891,7 @@
 @font-face {
   font-family: "tandy1k-ii_200l";
   src: url("../fonts/WebPlus_Tandy1K-II_200L.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy1k-ii_200l {
   font-family: tandy1k-ii_200l;
@@ -901,7 +901,7 @@
 @font-face {
   font-family: "tandy1k-ii_225l";
   src: url("../fonts/WebPlus_Tandy1K-II_225L.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy1k-ii_225l {
   font-family: tandy1k-ii_225l;
@@ -911,7 +911,7 @@
 @font-face {
   font-family: "tandy1k-ii_mono";
   src: url("../fonts/Web437_Tandy1K-II_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy1k-ii_mono {
   font-family: tandy1k-ii_mono;
@@ -921,7 +921,7 @@
 @font-face {
   font-family: "telepc";
   src: url("../fonts/Web437_TelePC.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-telepc {
   font-family: telepc;
@@ -931,7 +931,7 @@
 @font-face {
   font-family: "toshibasat_8x8";
   src: url("../fonts/WebPlus_ToshibaSat_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibasat_8x8 {
   font-family: toshibasat_8x8;
@@ -941,7 +941,7 @@
 @font-face {
   font-family: "toshibasat_9x8";
   src: url("../fonts/WebPlus_ToshibaSat_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibasat_9x8 {
   font-family: toshibasat_9x8;
@@ -951,7 +951,7 @@
 @font-face {
   font-family: "toshibasat_8x14";
   src: url("../fonts/WebPlus_ToshibaSat_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibasat_8x14 {
   font-family: toshibasat_8x14;
@@ -961,7 +961,7 @@
 @font-face {
   font-family: "toshibasat_9x14";
   src: url("../fonts/WebPlus_ToshibaSat_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibasat_9x14 {
   font-family: toshibasat_9x14;
@@ -971,7 +971,7 @@
 @font-face {
   font-family: "toshibasat_8x16";
   src: url("../fonts/WebPlus_ToshibaSat_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibasat_8x16 {
   font-family: toshibasat_8x16;
@@ -981,7 +981,7 @@
 @font-face {
   font-family: "toshibasat_9x16";
   src: url("../fonts/WebPlus_ToshibaSat_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibasat_9x16 {
   font-family: toshibasat_9x16;
@@ -991,7 +991,7 @@
 @font-face {
   font-family: "toshibatxl1_8x8";
   src: url("../fonts/Web437_ToshibaTxL1_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibatxl1_8x8 {
   font-family: toshibatxl1_8x8;
@@ -1001,7 +1001,7 @@
 @font-face {
   font-family: "toshibatxl1_8x16";
   src: url("../fonts/WebPlus_ToshibaTxL1_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibatxl1_8x16 {
   font-family: toshibatxl1_8x16;
@@ -1011,7 +1011,7 @@
 @font-face {
   font-family: "toshibatxl2_8x8";
   src: url("../fonts/Web437_ToshibaTxL2_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibatxl2_8x8 {
   font-family: toshibatxl2_8x8;
@@ -1021,7 +1021,7 @@
 @font-face {
   font-family: "toshibatxl2_8x16";
   src: url("../fonts/WebPlus_ToshibaTxL2_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibatxl2_8x16 {
   font-family: toshibatxl2_8x16;
@@ -1031,7 +1031,7 @@
 @font-face {
   font-family: "copam_bios";
   src: url("../fonts/Web437_Copam_BIOS.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-copam_bios {
   font-family: copam_bios;
@@ -1041,7 +1041,7 @@
 @font-face {
   font-family: "dtk_bios";
   src: url("../fonts/Web437_DTK_BIOS.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-dtk_bios {
   font-family: dtk_bios;
@@ -1051,7 +1051,7 @@
 @font-face {
   font-family: "phoenix_bios";
   src: url("../fonts/Web437_Phoenix_BIOS.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenix_bios {
   font-family: phoenix_bios;
@@ -1061,7 +1061,7 @@
 @font-face {
   font-family: "vtech_bios";
   src: url("../fonts/Web437_VTech_BIOS.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-vtech_bios {
   font-family: vtech_bios;
@@ -1071,7 +1071,7 @@
 @font-face {
   font-family: "acer_vga_8x8";
   src: url("../fonts/Web437_Acer_VGA_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acer_vga_8x8 {
   font-family: acer_vga_8x8;
@@ -1081,7 +1081,7 @@
 @font-face {
   font-family: "acer_vga_9x8";
   src: url("../fonts/Web437_Acer_VGA_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acer_vga_9x8 {
   font-family: acer_vga_9x8;
@@ -1091,7 +1091,7 @@
 @font-face {
   font-family: "ami_ega_8x8";
   src: url("../fonts/Web437_AMI_EGA_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ami_ega_8x8 {
   font-family: ami_ega_8x8;
@@ -1101,7 +1101,7 @@
 @font-face {
   font-family: "ami_ega_8x14";
   src: url("../fonts/Web437_AMI_EGA_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ami_ega_8x14 {
   font-family: ami_ega_8x14;
@@ -1111,7 +1111,7 @@
 @font-face {
   font-family: "ami_ega_9x14";
   src: url("../fonts/Web437_AMI_EGA_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ami_ega_9x14 {
   font-family: ami_ega_9x14;
@@ -1121,7 +1121,7 @@
 @font-face {
   font-family: "ati_8x8";
   src: url("../fonts/Web437_ATI_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ati_8x8 {
   font-family: ati_8x8;
@@ -1131,7 +1131,7 @@
 @font-face {
   font-family: "ati_9x8";
   src: url("../fonts/Web437_ATI_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ati_9x8 {
   font-family: ati_9x8;
@@ -1141,7 +1141,7 @@
 @font-face {
   font-family: "ati_8x14";
   src: url("../fonts/Web437_ATI_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ati_8x14 {
   font-family: ati_8x14;
@@ -1151,7 +1151,7 @@
 @font-face {
   font-family: "ati_9x14";
   src: url("../fonts/Web437_ATI_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ati_9x14 {
   font-family: ati_9x14;
@@ -1161,7 +1161,7 @@
 @font-face {
   font-family: "ati_8x16";
   src: url("../fonts/Web437_ATI_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ati_8x16 {
   font-family: ati_8x16;
@@ -1171,7 +1171,7 @@
 @font-face {
   font-family: "ati_9x16";
   src: url("../fonts/Web437_ATI_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ati_9x16 {
   font-family: ati_9x16;
@@ -1181,7 +1181,7 @@
 @font-face {
   font-family: "ati_smallw_6x8";
   src: url("../fonts/Web437_ATI_SmallW_6x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ati_smallw_6x8 {
   font-family: ati_smallw_6x8;
@@ -1191,7 +1191,7 @@
 @font-face {
   font-family: "cl_eagleii_8x16";
   src: url("../fonts/Web437_CL_EagleII_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_eagleii_8x16 {
   font-family: cl_eagleii_8x16;
@@ -1201,7 +1201,7 @@
 @font-face {
   font-family: "cl_eagleii_9x16";
   src: url("../fonts/Web437_CL_EagleII_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_eagleii_9x16 {
   font-family: cl_eagleii_9x16;
@@ -1211,7 +1211,7 @@
 @font-face {
   font-family: "cl_eagleiii_8x16";
   src: url("../fonts/Web437_CL_EagleIII_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_eagleiii_8x16 {
   font-family: cl_eagleiii_8x16;
@@ -1221,7 +1221,7 @@
 @font-face {
   font-family: "cl_eagleiii_9x16";
   src: url("../fonts/Web437_CL_EagleIII_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_eagleiii_9x16 {
   font-family: cl_eagleiii_9x16;
@@ -1231,7 +1231,7 @@
 @font-face {
   font-family: "cl_stingray_8x16";
   src: url("../fonts/Web437_CL_Stingray_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_stingray_8x16 {
   font-family: cl_stingray_8x16;
@@ -1241,7 +1241,7 @@
 @font-face {
   font-family: "cl_stingray_8x16_bold";
   src: url("../fonts/Web437_CL_Stingray_8x16_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_stingray_8x16_bold {
   font-family: cl_stingray_8x16_bold;
@@ -1251,7 +1251,7 @@
 @font-face {
   font-family: "cl_stingray_8x19";
   src: url("../fonts/Web437_CL_Stingray_8x19.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_stingray_8x19 {
   font-family: cl_stingray_8x19;
@@ -1261,7 +1261,7 @@
 @font-face {
   font-family: "cl_stingray_8x19_bold";
   src: url("../fonts/Web437_CL_Stingray_8x19_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-cl_stingray_8x19_bold {
   font-family: cl_stingray_8x19_bold;
@@ -1271,7 +1271,7 @@
 @font-face {
   font-family: "eaglespcga_alt1";
   src: url("../fonts/Web437_EagleSpCGA_Alt1.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-eaglespcga_alt1 {
   font-family: eaglespcga_alt1;
@@ -1281,7 +1281,7 @@
 @font-face {
   font-family: "eaglespcga_alt2";
   src: url("../fonts/Web437_EagleSpCGA_Alt2.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-eaglespcga_alt2 {
   font-family: eaglespcga_alt2;
@@ -1291,7 +1291,7 @@
 @font-face {
   font-family: "eaglespcga_alt3";
   src: url("../fonts/Web437_EagleSpCGA_Alt3.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-eaglespcga_alt3 {
   font-family: eaglespcga_alt3;
@@ -1301,7 +1301,7 @@
 @font-face {
   font-family: "epsonmga";
   src: url("../fonts/Web437_EpsonMGA.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-epsonmga {
   font-family: epsonmga;
@@ -1311,7 +1311,7 @@
 @font-face {
   font-family: "epsonmga_alt";
   src: url("../fonts/Web437_EpsonMGA_Alt.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-epsonmga_alt {
   font-family: epsonmga_alt;
@@ -1321,7 +1321,7 @@
 @font-face {
   font-family: "epsonmga_mono";
   src: url("../fonts/Web437_EpsonMGA_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-epsonmga_mono {
   font-family: epsonmga_mono;
@@ -1331,7 +1331,7 @@
 @font-face {
   font-family: "everexme_5x8";
   src: url("../fonts/Web437_EverexME_5x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-everexme_5x8 {
   font-family: everexme_5x8;
@@ -1341,7 +1341,7 @@
 @font-face {
   font-family: "everexme_7x8";
   src: url("../fonts/Web437_EverexME_7x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-everexme_7x8 {
   font-family: everexme_7x8;
@@ -1351,7 +1351,7 @@
 @font-face {
   font-family: "everexme_8x16";
   src: url("../fonts/Web437_EverexME_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-everexme_8x16 {
   font-family: everexme_8x16;
@@ -1361,7 +1361,7 @@
 @font-face {
   font-family: "igs_vga_8x16";
   src: url("../fonts/Web437_IGS_VGA_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-igs_vga_8x16 {
   font-family: igs_vga_8x16;
@@ -1371,7 +1371,7 @@
 @font-face {
   font-family: "igs_vga_9x16";
   src: url("../fonts/Web437_IGS_VGA_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-igs_vga_9x16 {
   font-family: igs_vga_9x16;
@@ -1381,7 +1381,7 @@
 @font-face {
   font-family: "paradise132_7x9";
   src: url("../fonts/Web437_Paradise132_7x9.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-paradise132_7x9 {
   font-family: paradise132_7x9;
@@ -1391,7 +1391,7 @@
 @font-face {
   font-family: "paradise132_7x16";
   src: url("../fonts/Web437_Paradise132_7x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-paradise132_7x16 {
   font-family: paradise132_7x16;
@@ -1401,7 +1401,7 @@
 @font-face {
   font-family: "phoenixega_8x8";
   src: url("../fonts/Web437_PhoenixEGA_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixega_8x8 {
   font-family: phoenixega_8x8;
@@ -1411,7 +1411,7 @@
 @font-face {
   font-family: "phoenixega_8x14";
   src: url("../fonts/Web437_PhoenixEGA_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixega_8x14 {
   font-family: phoenixega_8x14;
@@ -1421,7 +1421,7 @@
 @font-face {
   font-family: "phoenixega_9x14";
   src: url("../fonts/Web437_PhoenixEGA_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixega_9x14 {
   font-family: phoenixega_9x14;
@@ -1431,7 +1431,7 @@
 @font-face {
   font-family: "phoenixega_8x16";
   src: url("../fonts/Web437_PhoenixEGA_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixega_8x16 {
   font-family: phoenixega_8x16;
@@ -1441,7 +1441,7 @@
 @font-face {
   font-family: "phoenixvga_8x8";
   src: url("../fonts/Web437_PhoenixVGA_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixvga_8x8 {
   font-family: phoenixvga_8x8;
@@ -1451,7 +1451,7 @@
 @font-face {
   font-family: "phoenixvga_9x8";
   src: url("../fonts/Web437_PhoenixVGA_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixvga_9x8 {
   font-family: phoenixvga_9x8;
@@ -1461,7 +1461,7 @@
 @font-face {
   font-family: "phoenixvga_8x14";
   src: url("../fonts/Web437_PhoenixVGA_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixvga_8x14 {
   font-family: phoenixvga_8x14;
@@ -1471,7 +1471,7 @@
 @font-face {
   font-family: "phoenixvga_9x14";
   src: url("../fonts/Web437_PhoenixVGA_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixvga_9x14 {
   font-family: phoenixvga_9x14;
@@ -1481,7 +1481,7 @@
 @font-face {
   font-family: "phoenixvga_8x16";
   src: url("../fonts/Web437_PhoenixVGA_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixvga_8x16 {
   font-family: phoenixvga_8x16;
@@ -1491,7 +1491,7 @@
 @font-face {
   font-family: "phoenixvga_9x16";
   src: url("../fonts/Web437_PhoenixVGA_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-phoenixvga_9x16 {
   font-family: phoenixvga_9x16;
@@ -1501,7 +1501,7 @@
 @font-face {
   font-family: "verite_8x8";
   src: url("../fonts/Web437_Verite_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-verite_8x8 {
   font-family: verite_8x8;
@@ -1511,7 +1511,7 @@
 @font-face {
   font-family: "verite_9x8";
   src: url("../fonts/Web437_Verite_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-verite_9x8 {
   font-family: verite_9x8;
@@ -1521,7 +1521,7 @@
 @font-face {
   font-family: "verite_8x14";
   src: url("../fonts/Web437_Verite_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-verite_8x14 {
   font-family: verite_8x14;
@@ -1531,7 +1531,7 @@
 @font-face {
   font-family: "verite_9x14";
   src: url("../fonts/Web437_Verite_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-verite_9x14 {
   font-family: verite_9x14;
@@ -1541,7 +1541,7 @@
 @font-face {
   font-family: "verite_8x16";
   src: url("../fonts/Web437_Verite_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-verite_8x16 {
   font-family: verite_8x16;
@@ -1551,7 +1551,7 @@
 @font-face {
   font-family: "verite_9x16";
   src: url("../fonts/Web437_Verite_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-verite_9x16 {
   font-family: verite_9x16;
@@ -1561,7 +1561,7 @@
 @font-face {
   font-family: "sigma_rm_8x8";
   src: url("../fonts/Web437_Sigma_RM_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sigma_rm_8x8 {
   font-family: sigma_rm_8x8;
@@ -1571,7 +1571,7 @@
 @font-face {
   font-family: "sigma_rm_9x8";
   src: url("../fonts/Web437_Sigma_RM_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sigma_rm_9x8 {
   font-family: sigma_rm_9x8;
@@ -1581,7 +1581,7 @@
 @font-face {
   font-family: "sigma_rm_8x14";
   src: url("../fonts/Web437_Sigma_RM_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sigma_rm_8x14 {
   font-family: sigma_rm_8x14;
@@ -1591,7 +1591,7 @@
 @font-face {
   font-family: "sigma_rm_9x14";
   src: url("../fonts/Web437_Sigma_RM_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sigma_rm_9x14 {
   font-family: sigma_rm_9x14;
@@ -1601,7 +1601,7 @@
 @font-face {
   font-family: "sigma_rm_8x16";
   src: url("../fonts/Web437_Sigma_RM_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sigma_rm_8x16 {
   font-family: sigma_rm_8x16;
@@ -1611,7 +1611,7 @@
 @font-face {
   font-family: "sigma_rm_9x16";
   src: url("../fonts/Web437_Sigma_RM_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-sigma_rm_9x16 {
   font-family: sigma_rm_9x16;
@@ -1621,7 +1621,7 @@
 @font-face {
   font-family: "stb_autoega_8x14";
   src: url("../fonts/Web437_STB_AutoEGA_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-stb_autoega_8x14 {
   font-family: stb_autoega_8x14;
@@ -1631,7 +1631,7 @@
 @font-face {
   font-family: "stb_autoega_9x14";
   src: url("../fonts/Web437_STB_AutoEGA_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-stb_autoega_9x14 {
   font-family: stb_autoega_9x14;
@@ -1641,7 +1641,7 @@
 @font-face {
   font-family: "tridentearly_8x8";
   src: url("../fonts/Web437_TridentEarly_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tridentearly_8x8 {
   font-family: tridentearly_8x8;
@@ -1651,7 +1651,7 @@
 @font-face {
   font-family: "tridentearly_9x8";
   src: url("../fonts/Web437_TridentEarly_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tridentearly_9x8 {
   font-family: tridentearly_9x8;
@@ -1661,7 +1661,7 @@
 @font-face {
   font-family: "tridentearly_8x14";
   src: url("../fonts/Web437_TridentEarly_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tridentearly_8x14 {
   font-family: tridentearly_8x14;
@@ -1671,7 +1671,7 @@
 @font-face {
   font-family: "tridentearly_9x14";
   src: url("../fonts/Web437_TridentEarly_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tridentearly_9x14 {
   font-family: tridentearly_9x14;
@@ -1681,7 +1681,7 @@
 @font-face {
   font-family: "tridentearly_8x16";
   src: url("../fonts/Web437_TridentEarly_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tridentearly_8x16 {
   font-family: tridentearly_8x16;
@@ -1691,7 +1691,7 @@
 @font-face {
   font-family: "tridentearly_9x16";
   src: url("../fonts/Web437_TridentEarly_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tridentearly_9x16 {
   font-family: tridentearly_9x16;
@@ -1701,7 +1701,7 @@
 @font-face {
   font-family: "tridentearly_8x11";
   src: url("../fonts/Web437_TridentEarly_8x11.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tridentearly_8x11 {
   font-family: tridentearly_8x11;
@@ -1711,7 +1711,7 @@
 @font-face {
   font-family: "trident_8x8";
   src: url("../fonts/Web437_Trident_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-trident_8x8 {
   font-family: trident_8x8;
@@ -1721,7 +1721,7 @@
 @font-face {
   font-family: "trident_9x8";
   src: url("../fonts/Web437_Trident_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-trident_9x8 {
   font-family: trident_9x8;
@@ -1731,7 +1731,7 @@
 @font-face {
   font-family: "trident_8x14";
   src: url("../fonts/Web437_Trident_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-trident_8x14 {
   font-family: trident_8x14;
@@ -1741,7 +1741,7 @@
 @font-face {
   font-family: "trident_9x14";
   src: url("../fonts/Web437_Trident_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-trident_9x14 {
   font-family: trident_9x14;
@@ -1751,7 +1751,7 @@
 @font-face {
   font-family: "trident_8x16";
   src: url("../fonts/Web437_Trident_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-trident_8x16 {
   font-family: trident_8x16;
@@ -1761,7 +1761,7 @@
 @font-face {
   font-family: "trident_9x16";
   src: url("../fonts/Web437_Trident_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-trident_9x16 {
   font-family: trident_9x16;
@@ -1771,7 +1771,7 @@
 @font-face {
   font-family: "trident_8x11";
   src: url("../fonts/Web437_Trident_8x11.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-trident_8x11 {
   font-family: trident_8x11;
@@ -1781,7 +1781,7 @@
 @font-face {
   font-family: "tsengeva_132_6x8";
   src: url("../fonts/Web437_TsengEVA_132_6x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tsengeva_132_6x8 {
   font-family: tsengeva_132_6x8;
@@ -1791,7 +1791,7 @@
 @font-face {
   font-family: "tsengeva_132_6x14";
   src: url("../fonts/Web437_TsengEVA_132_6x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tsengeva_132_6x14 {
   font-family: tsengeva_132_6x14;
@@ -1801,7 +1801,7 @@
 @font-face {
   font-family: "wyse700a";
   src: url("../fonts/Web437_Wyse700a.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-wyse700a {
   font-family: wyse700a;
@@ -1811,7 +1811,7 @@
 @font-face {
   font-family: "wyse700b";
   src: url("../fonts/Web437_Wyse700b.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-wyse700b {
   font-family: wyse700b;
@@ -1821,7 +1821,7 @@
 @font-face {
   font-family: "acm_vga_8x8";
   src: url("../fonts/Web437_ACM_VGA_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acm_vga_8x8 {
   font-family: acm_vga_8x8;
@@ -1831,7 +1831,7 @@
 @font-face {
   font-family: "acm_vga_9x8";
   src: url("../fonts/Web437_ACM_VGA_9x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acm_vga_9x8 {
   font-family: acm_vga_9x8;
@@ -1841,7 +1841,7 @@
 @font-face {
   font-family: "acm_vga_8x14";
   src: url("../fonts/Web437_ACM_VGA_8x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acm_vga_8x14 {
   font-family: acm_vga_8x14;
@@ -1851,7 +1851,7 @@
 @font-face {
   font-family: "acm_vga_9x14";
   src: url("../fonts/Web437_ACM_VGA_9x14.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acm_vga_9x14 {
   font-family: acm_vga_9x14;
@@ -1861,7 +1861,7 @@
 @font-face {
   font-family: "acm_vga_8x16";
   src: url("../fonts/Web437_ACM_VGA_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acm_vga_8x16 {
   font-family: acm_vga_8x16;
@@ -1871,7 +1871,7 @@
 @font-face {
   font-family: "acm_vga_9x16";
   src: url("../fonts/Web437_ACM_VGA_9x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-acm_vga_9x16 {
   font-family: acm_vga_9x16;
@@ -1881,7 +1881,7 @@
 @font-face {
   font-family: "master_512";
   src: url("../fonts/Web437_Master_512.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-master_512 {
   font-family: master_512;
@@ -1891,7 +1891,7 @@
 @font-face {
   font-family: "master_512_bold";
   src: url("../fonts/Web437_Master_512_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-master_512_bold {
   font-family: master_512_bold;
@@ -1901,7 +1901,7 @@
 @font-face {
   font-family: "master_512-2y_bold";
   src: url("../fonts/Web437_Master_512-2y_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-master_512-2y_bold {
   font-family: master_512-2y_bold;
@@ -1911,7 +1911,7 @@
 @font-face {
   font-family: "master_512-m7";
   src: url("../fonts/Web437_Master_512-M7.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-master_512-m7 {
   font-family: master_512-m7;
@@ -1921,7 +1921,7 @@
 @font-face {
   font-family: "master_512-m7_bold";
   src: url("../fonts/Web437_Master_512-M7_bold.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-master_512-m7_bold {
   font-family: master_512-m7_bold;
@@ -1931,7 +1931,7 @@
 @font-face {
   font-family: "apricot_mono";
   src: url("../fonts/Web437_Apricot_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-apricot_mono {
   font-family: apricot_mono;
@@ -1941,7 +1941,7 @@
 @font-face {
   font-family: "apricot_200l";
   src: url("../fonts/Web437_Apricot_200L.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-apricot_200l {
   font-family: apricot_200l;
@@ -1951,7 +1951,7 @@
 @font-face {
   font-family: "apricot_256l";
   src: url("../fonts/Web437_Apricot_256L.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-apricot_256l {
   font-family: apricot_256l;
@@ -1961,7 +1961,7 @@
 @font-face {
   font-family: "apricotxenc";
   src: url("../fonts/Web437_ApricotXenC.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-apricotxenc {
   font-family: apricotxenc;
@@ -1971,7 +1971,7 @@
 @font-face {
   font-family: "apricotportable";
   src: url("../fonts/Web437_ApricotPortable.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-apricotportable {
   font-family: apricotportable;
@@ -1981,7 +1981,7 @@
 @font-face {
   font-family: "portfolio_6x8";
   src: url("../fonts/Web437_Portfolio_6x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-portfolio_6x8 {
   font-family: portfolio_6x8;
@@ -1991,7 +1991,7 @@
 @font-face {
   font-family: "rainbow100_re_40";
   src: url("../fonts/WebPlus_Rainbow100_re_40.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-rainbow100_re_40 {
   font-family: rainbow100_re_40;
@@ -2001,7 +2001,7 @@
 @font-face {
   font-family: "rainbow100_re_80";
   src: url("../fonts/WebPlus_Rainbow100_re_80.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-rainbow100_re_80 {
   font-family: rainbow100_re_80;
@@ -2011,7 +2011,7 @@
 @font-face {
   font-family: "rainbow100_re_66";
   src: url("../fonts/WebPlus_Rainbow100_re_66.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-rainbow100_re_66 {
   font-family: rainbow100_re_66;
@@ -2021,7 +2021,7 @@
 @font-face {
   font-family: "rainbow100_re_132";
   src: url("../fonts/WebPlus_Rainbow100_re_132.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-rainbow100_re_132 {
   font-family: rainbow100_re_132;
@@ -2031,7 +2031,7 @@
 @font-face {
   font-family: "fmtowns_re_8x8";
   src: url("../fonts/Web437_FMTowns_re_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-fmtowns_re_8x8 {
   font-family: fmtowns_re_8x8;
@@ -2041,7 +2041,7 @@
 @font-face {
   font-family: "fmtowns_re_8x16";
   src: url("../fonts/Web437_FMTowns_re_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-fmtowns_re_8x16 {
   font-family: fmtowns_re_8x16;
@@ -2051,7 +2051,7 @@
 @font-face {
   font-family: "hp_150_re";
   src: url("../fonts/WebPlus_HP_150_re.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-hp_150_re {
   font-family: hp_150_re;
@@ -2061,7 +2061,7 @@
 @font-face {
   font-family: "mindset";
   src: url("../fonts/Web437_Mindset.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-mindset {
   font-family: mindset;
@@ -2071,7 +2071,7 @@
 @font-face {
   font-family: "nec_apc3_8x8";
   src: url("../fonts/Web437_NEC_APC3_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nec_apc3_8x8 {
   font-family: nec_apc3_8x8;
@@ -2081,7 +2081,7 @@
 @font-face {
   font-family: "nec_apc3_8x16";
   src: url("../fonts/Web437_NEC_APC3_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-nec_apc3_8x16 {
   font-family: nec_apc3_8x16;
@@ -2091,7 +2091,7 @@
 @font-face {
   font-family: "philips_yes_g";
   src: url("../fonts/Web437_Philips_YES_G.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-philips_yes_g {
   font-family: philips_yes_g;
@@ -2101,7 +2101,7 @@
 @font-face {
   font-family: "philips_yes_t";
   src: url("../fonts/Web437_Philips_YES_T.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-philips_yes_t {
   font-family: philips_yes_t;
@@ -2111,7 +2111,7 @@
 @font-face {
   font-family: "rm_nimbus";
   src: url("../fonts/Web437_RM_Nimbus.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-rm_nimbus {
   font-family: rm_nimbus;
@@ -2121,7 +2121,7 @@
 @font-face {
   font-family: "robotron_a7100";
   src: url("../fonts/Web437_Robotron_A7100.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-robotron_a7100 {
   font-family: robotron_a7100;
@@ -2131,7 +2131,7 @@
 @font-face {
   font-family: "siemens_pc-d";
   src: url("../fonts/Web437_Siemens_PC-D.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-siemens_pc-d {
   font-family: siemens_pc-d;
@@ -2141,7 +2141,7 @@
 @font-face {
   font-family: "tandy2k";
   src: url("../fonts/Web437_Tandy2K.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy2k {
   font-family: tandy2k;
@@ -2151,7 +2151,7 @@
 @font-face {
   font-family: "tandy2k_g";
   src: url("../fonts/Web437_Tandy2K_G.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy2k_g {
   font-family: tandy2k_g;
@@ -2161,7 +2161,7 @@
 @font-face {
   font-family: "tandy2k_g-tv";
   src: url("../fonts/Web437_Tandy2K_G-TV.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-tandy2k_g-tv {
   font-family: tandy2k_g-tv;
@@ -2171,7 +2171,7 @@
 @font-face {
   font-family: "compis";
   src: url("../fonts/Web437_Compis.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-compis {
   font-family: compis;
@@ -2181,7 +2181,7 @@
 @font-face {
   font-family: "ti_pro";
   src: url("../fonts/Web437_TI_Pro.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-ti_pro {
   font-family: ti_pro;
@@ -2191,7 +2191,7 @@
 @font-face {
   font-family: "toshibat300_8x8";
   src: url("../fonts/Web437_ToshibaT300_8x8.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibat300_8x8 {
   font-family: toshibat300_8x8;
@@ -2201,7 +2201,7 @@
 @font-face {
   font-family: "toshibat300_8x16";
   src: url("../fonts/Web437_ToshibaT300_8x16.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-toshibat300_8x16 {
   font-family: toshibat300_8x16;
@@ -2211,7 +2211,7 @@
 @font-face {
   font-family: "wang_pro_mono";
   src: url("../fonts/Web437_Wang_Pro_Mono.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-wang_pro_mono {
   font-family: wang_pro_mono;
@@ -2221,7 +2221,7 @@
 @font-face {
   font-family: "wang_pro_color";
   src: url("../fonts/Web437_Wang_Pro_Color.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-wang_pro_color {
   font-family: wang_pro_color;
@@ -2231,7 +2231,7 @@
 @font-face {
   font-family: "zenith_z-100";
   src: url("../fonts/Web437_Zenith_Z-100.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-zenith_z-100 {
   font-family: zenith_z-100;
@@ -2241,7 +2241,7 @@
 @font-face {
   font-family: "zenith_z-100_alt";
   src: url("../fonts/Web437_Zenith_Z-100_Alt.woff2") format("woff2");
-  font-display: swap;
+  font-display: auto;
 }
 .font-zenith_z-100_alt {
   font-family: zenith_z-100_alt;
