@@ -107,7 +107,7 @@
 }
 @font-face {
   font-family: "petme";
-  src: url("../fonts/PetMe.woff") format("woff");
+  src: url("../fonts/PetMe.woff2") format("woff2");
   font-display: swap;
 }
 .font-petme {
@@ -117,7 +117,7 @@
 }
 @font-face {
   font-family: "petme64";
-  src: url("../fonts/PetMe64.woff") format("woff");
+  src: url("../fonts/PetMe64.woff2") format("woff2");
   font-display: swap;
 }
 .font-petme64 {
@@ -127,7 +127,7 @@
 }
 @font-face {
   font-family: "petme128";
-  src: url("../fonts/PetMe128.woff") format("woff");
+  src: url("../fonts/PetMe128.woff2") format("woff2");
   font-display: swap;
 }
 .font-petme128 {
@@ -137,7 +137,7 @@
 }
 @font-face {
   font-family: "petme642y";
-  src: url("../fonts/PetMe642Y.woff") format("woff");
+  src: url("../fonts/PetMe642Y.woff2") format("woff2");
   font-display: swap;
 }
 .font-petme642y {
@@ -147,7 +147,7 @@
 }
 @font-face {
   font-family: "petme1282y";
-  src: url("../fonts/PetMe1282Y.woff") format("woff");
+  src: url("../fonts/PetMe1282Y.woff2") format("woff2");
   font-display: swap;
 }
 .font-petme1282y {
@@ -168,7 +168,7 @@
 }
 @font-face {
   font-family: "atarist2min";
-  src: url("../fonts/TwoMinutestoBoot.woff") format("woff2");
+  src: url("../fonts/TwoMinutestoBoot.woff2") format("woff2");
   font-display: swap;
 }
 .font-atarist2min {
@@ -188,7 +188,7 @@
 }
 @font-face {
   font-family: "candyantics";
-  src: url("../fonts/CandyAntics.woff") format("woff");
+  src: url("../fonts/CandyAntics.woff2") format("woff2");
   font-display: swap;
 }
 .font-candyantics {
@@ -198,7 +198,7 @@
 }
 @font-face {
   font-family: "colleenantics";
-  src: url("../fonts/ColleenAntics.woff") format("woff");
+  src: url("../fonts/ColleenAntics.woff2") format("woff2");
   font-display: swap;
 }
 .font-colleenantics {
@@ -220,7 +220,7 @@
 }
 @font-face {
   font-family: "print_character_21";
-  src: url("../fonts/PrintChar21.woff") format("woff");
+  src: url("../fonts/PrintChar21.woff2") format("woff2");
   font-display: swap;
 }
 .font-print_character_21 {
@@ -252,7 +252,7 @@
 /* Apple Lisa */
 @font-face {
   font-family: "lisatwiggy";
-  src: url("../fonts/TwiggyRaw.woff") format("woff");
+  src: url("../fonts/TwiggyRaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-lisatwiggy {
@@ -262,7 +262,7 @@
 }
 @font-face {
   font-family: "lisastartup";
-  src: url("../fonts/StartupFromRaw.woff") format("woff");
+  src: url("../fonts/StartupFromRaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-lisastartup {
@@ -272,7 +272,7 @@
 }
 @font-face {
   font-family: "lisaacronym";
-  src: url("../fonts/SomeAcronymRaw.woff") format("woff");
+  src: url("../fonts/SomeAcronymRaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-lisaacronym {
@@ -282,7 +282,7 @@
 }
 @font-face {
   font-family: "lisapaper";
-  src: url("../fonts/LisaTerminalPaperRaw.woff") format("woff");
+  src: url("../fonts/LisaTerminalPaperRaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-lisapaper {
@@ -292,7 +292,7 @@
 }
 @font-face {
   font-family: "lisapapersmall";
-  src: url("../fonts/LisaTerminalPaperSmallRaw.woff") format("woff");
+  src: url("../fonts/LisaTerminalPaperSmallRaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-lisapapersmall {
@@ -344,7 +344,7 @@
 /* Apple Macintosh */
 @font-face {
   font-family: "applemac";
-  src: url("../fonts/SteveSez.woff") format("woff");
+  src: url("../fonts/SteveSez.woff2") format("woff2");
   font-display: swap;
 }
 .font-applemac {
@@ -355,7 +355,7 @@
 /* Tandy 8-bit */
 @font-face {
   font-family: "miaraw";
-  src: url("../fonts/AnotherMansTreasureMIARaw.woff") format("woff");
+  src: url("../fonts/AnotherMansTreasureMIARaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-miaraw {
@@ -365,7 +365,7 @@
 }
 @font-face {
   font-family: "miiiraw";
-  src: url("../fonts/AnotherMansTreasureMIII32C.woff") format("woff");
+  src: url("../fonts/AnotherMansTreasureMIII32C.woff2") format("woff2");
   font-display: swap;
 }
 .font-miiiraw {
@@ -375,7 +375,7 @@
 }
 @font-face {
   font-family: "m4araw";
-  src: url("../fonts/AnotherMansTreasureM4ARaw.woff") format("woff");
+  src: url("../fonts/AnotherMansTreasureM4ARaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-m4araw {
@@ -385,7 +385,7 @@
 }
 @font-face {
   font-family: "m4braw";
-  src: url("../fonts/AnotherMansTreasureM4BRaw.woff") format("woff");
+  src: url("../fonts/AnotherMansTreasureM4BRaw.woff2") format("woff2");
   font-display: swap;
 }
 .font-m4braw {
@@ -396,7 +396,7 @@
 /* Gameboy */
 @font-face {
   font-family: "gameboy";
-  src: url("../fonts/ItalianPlumber.woff") format("woff");
+  src: url("../fonts/ItalianPlumber.woff2") format("woff2");
   font-display: swap;
 }
 .font-gameboy {
@@ -407,7 +407,7 @@
 /* Mattel Antiquarius */
 @font-face {
   font-family: "antiquarius";
-  src: url("../fonts/Antiquarius.woff") format("woff");
+  src: url("../fonts/Antiquarius.woff2") format("woff2");
   font-display: swap;
 }
 .font-antiquarius {
@@ -418,7 +418,7 @@
 /* Sharp MZ */
 @font-face {
   font-family: "sharpmz";
-  src: url("../fonts/Mizuno.woff") format("woff");
+  src: url("../fonts/Mizuno.woff2") format("woff2");
   font-display: swap;
 }
 .font-sharpmz {
@@ -429,7 +429,7 @@
 /* Tandy CoCo */
 @font-face {
   font-family: "hotcoco";
-  src: url("../fonts/HotCoCo.woff") format("woff");
+  src: url("../fonts/HotCoCo.woff2") format("woff2");
   font-display: swap;
 }
 .font-hotcoco {
@@ -439,7 +439,7 @@
 }
 @font-face {
   font-family: "hotcoco2y";
-  src: url("../fonts/HotCoCo2Y.woff") format("woff");
+  src: url("../fonts/HotCoCo2Y.woff2") format("woff2");
   font-display: swap;
 }
 .font-hotcoco2y {
@@ -449,7 +449,7 @@
 }
 @font-face {
   font-family: "hotcocowitht";
-  src: url("../fonts/HotCoCoWithT.woff") format("woff");
+  src: url("../fonts/HotCoCoWithT.woff2") format("woff2");
   font-display: swap;
 }
 .font-hotcocowitht {
@@ -459,7 +459,7 @@
 }
 @font-face {
   font-family: "hotcocowitht2y";
-  src: url("../fonts/HotCoCoWithT2Y.woff") format("woff");
+  src: url("../fonts/HotCoCoWithT2Y.woff2") format("woff2");
   font-display: swap;
 }
 .font-hotcocowitht2y {
@@ -470,7 +470,7 @@
 /* ZX Spectrum */
 @font-face {
   font-family: "zxspectrum";
-  src: url("../fonts/Speccy.woff") format("woff");
+  src: url("../fonts/Speccy.woff2") format("woff2");
   font-display: swap;
 }
 .font-zxspectrum {
@@ -514,7 +514,7 @@
 /* Xerox Alto */
 @font-face {
   font-family: "alto";
-  src: url("../fonts/AltoSerif.woff") format("woff");
+  src: url("../fonts/AltoSerif.woff2") format("woff2");
   font-display: swap;
 }
 .font-alto {
@@ -524,7 +524,7 @@
 }
 @font-face {
   font-family: "altolegacy";
-  src: url("../fonts/AltoSerifLegacy.woff") format("woff");
+  src: url("../fonts/AltoSerifLegacy.woff2") format("woff2");
   font-display: swap;
 }
 .font-altolegacy {

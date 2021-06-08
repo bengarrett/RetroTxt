@@ -37,7 +37,7 @@
 /* Spleen */
 @font-face {
   font-family: "spleen";
-  src: url("../fonts/spleen-8x161.woff") format("woff");
+  src: url("../fonts/spleen-8x161.woff2") format("woff2");
   font-display: swap;
   font-weight: 1;
 }
@@ -48,7 +48,7 @@
 }
 @font-face {
   font-family: "spleen6x12";
-  src: url("../fonts/spleen-6x121.woff") format("woff");
+  src: url("../fonts/spleen-6x121.woff2") format("woff2");
   font-display: swap;
   font-weight: 1;
 }
@@ -59,7 +59,7 @@
 }
 @font-face {
   font-family: "spleen12x24";
-  src: url("../fonts/spleen-12x243.woff") format("woff");
+  src: url("../fonts/spleen-12x243.woff2") format("woff2");
   font-display: swap;
   font-weight: 1;
 }
@@ -70,7 +70,7 @@
 }
 @font-face {
   font-family: "spleen16x32";
-  src: url("../fonts/spleen-16x323.woff") format("woff");
+  src: url("../fonts/spleen-16x323.woff2") format("woff2");
   font-display: swap;
   font-weight: 1;
 }
@@ -82,7 +82,7 @@
 /* Unscii fonts */
 @font-face {
   font-family: "unscii-16";
-  src: url("../fonts/unscii-16-full.woff") format("woff");
+  src: url("../fonts/unscii-16-full.woff2") format("woff2");
   font-display: swap;
 }
 .font-unscii-16 {
@@ -92,7 +92,7 @@
 }
 @font-face {
   font-family: "unscii-8";
-  src: url("../fonts/unscii-8.woff") format("woff");
+  src: url("../fonts/unscii-8.woff2") format("woff2");
   font-display: swap;
 }
 .font-unscii-8 {
@@ -102,7 +102,7 @@
 }
 @font-face {
   font-family: unscii-mcr;
-  src: url("../fonts/unscii-8-mcr.woff") format("woff");
+  src: url("../fonts/unscii-8-mcr.woff2") format("woff2");
   font-display: swap;
 }
 .font-unscii-mcr {
@@ -112,7 +112,7 @@
 }
 @font-face {
   font-family: unscii-fantasy;
-  src: url("../fonts/unscii-8-fantasy.woff") format("woff");
+  src: url("../fonts/unscii-8-fantasy.woff2") format("woff2");
   font-display: swap;
 }
 .font-unscii-fantasy {
