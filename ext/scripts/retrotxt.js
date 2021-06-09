@@ -11,6 +11,25 @@ DOS_437_English Windows_1252_English ISO8859_5 OutputCP1252 OutputUS_ASCII Shift
 RetroTxt.developer = false // verbose console output
 RetroTxt.dump = false // Input SauceMeta and Output classes
 
+// SAUCE fonts, these must be kept current to the font families in fonts_ibm.css & fonts_home.css
+const atascii = `candyantics`,
+  commodore64 = `petme64`,
+  ibmVGA = `ibm_vga_9x16`,
+  ibmVGA8 = `ibm_vga_8x16`,
+  ibmVGA50 = `ibm_vga_9x8`,
+  ibmVGA508 = `ibm_ega_8x8`,
+  ibmVGA25G = `ast_premiumexec`,
+  ibmEGA = `ibm_ega_8x14`,
+  ibmEGA43 = `ibm_ega_8x8`,
+  topaz1 = `topaza500`,
+  topaz1_ = `topazplusa500`,
+  topaz2 = `topaza1200`,
+  topaz2_ = `topazplusa1200`,
+  potNoodle = `p0tnoodle`,
+  microknight = `microknight`,
+  microknight_ = `microknightplus`,
+  mosoul = `mosoul`
+
 /**
  * Document Object Model (DOM) programming interface for HTML.
  * @class DOM
@@ -53,15 +72,21 @@ class DOM {
     // local storage results
     this.results
     this.backgroundColor = ``
-    // text or document format
-    this.format = ``
+    this.format = this._format()
+  }
+  /**
+   * Discover the text or document format.
+   */
+  _format() {
     if (typeof qunit === `undefined`) {
       if (typeof this.pre === `undefined`) {
-        if (typeof this.rawText === `undefined`)
-          return console.error(`this.rawText element is missing`)
-        return (this.format = FindControlSequences(this.rawText.textContent))
+        if (typeof this.rawText === `undefined`) {
+          console.error(`this.rawText element is missing`)
+          return ``
+        }
+        return FindControlSequences(this.rawText.textContent)
       }
-      this.format = FindControlSequences(this.pre.textContent)
+      return FindControlSequences(this.pre.textContent)
     }
   }
   /**
@@ -106,41 +131,37 @@ class DOM {
     const palette = new HardwarePalette(),
       path = `../css`
     // 1-bit colour themes (ASCII, NFO)
-    this.head.appendChild(CreateLink(`${path}/retrotxt.css`, `retrotxt-styles`))
-    this.head.appendChild(CreateLink(`${path}/layout.css`, `retrotxt-layout`))
-    this.head.appendChild(
-      CreateLink(`${path}/text_colors.css`, `retrotxt-theme`)
-    )
+    this.head.append(CreateLink(`${path}/retrotxt.css`, `retrotxt-styles`))
+    this.head.append(CreateLink(`${path}/layout.css`, `retrotxt-layout`))
+    this.head.append(CreateLink(`${path}/text_colors.css`, `retrotxt-theme`))
     // load any CSS that are used to mimic colours by the text file
     const format = this.format,
       link4bit = `retrotxt-4bit`
     // 4-bit colour text
     switch (format) {
       case ANSIText:
-        this.head.appendChild(CreateLink(palette.savedFilename(), link4bit))
-        this.head.appendChild(
+        this.head.append(CreateLink(palette.savedFilename(), link4bit))
+        this.head.append(
           CreateLink(`${path}/text_colors_8bit.css`, `retrotxt-8bit`)
         )
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`${path}/text_ecma_48.css`, `retrotxt-ecma48`)
         )
         break
       case PCBoardText:
       case TelegardText:
       case WildcatText:
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`${path}/text_colors_pcboard.css`, link4bit)
         )
         break
       case CelerityText:
       case RenegadeText:
-        this.head.appendChild(
-          CreateLink(`${path}/text_colors_pipe.css`, link4bit)
-        )
+        this.head.append(CreateLink(`${path}/text_colors_pipe.css`, link4bit))
         break
       case WWIVHashText:
       case WWIVHeartText:
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`${path}/text_colors_wviv-pipe.css`, link4bit)
         )
         break
@@ -237,7 +258,7 @@ class DOM {
       `${localStorage.getItem(`ansiUseIceColors`)}`
     toggle.onclick = () => this.clickIceColors()
     if (setting === `true`) {
-      this.head.appendChild(
+      this.head.append(
         CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`)
       )
       this._toggleOn(toggle)
@@ -264,7 +285,7 @@ class DOM {
     if (toggle === null) return
     toggle.onclick = () => this.clickPageWrap()
     if (setting === `true`) {
-      this.head.appendChild(
+      this.head.append(
         CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
       )
       this._toggleOn(toggle)
@@ -343,7 +364,7 @@ class DOM {
    */
   async clickAccurate9pxFonts() {
     if (this.results.textAccurate9pxFonts === `false`)
-      return this.head.appendChild(
+      return this.head.append(
         CreateLink(`../css/fonts_ibm-scale-9x.css`, `retrotxt-scale-fonts`)
       )
     const css = document.getElementById(`retrotxt-scale-fonts`)
@@ -369,7 +390,7 @@ class DOM {
    */
   async clickBlinkingCursorText() {
     if (this.results.textBlinkingCursor === `false`)
-      return this.head.appendChild(
+      return this.head.append(
         CreateLink(`../css/text_animation-off.css`, `no-blinkingCursorText`)
       )
     const css = document.getElementById(`no-blinkingCursorText`)
@@ -443,7 +464,7 @@ class DOM {
       case `theme-atarist`:
       case `theme-windows`:
         if (fixes == null)
-          this.head.appendChild(
+          this.head.append(
             CreateLink(
               `../css/text_colors_white_bg-fixes.css`,
               `white-bg-fixes`
@@ -507,7 +528,7 @@ class DOM {
       elm = document.getElementById(`togglePageWrap`)
     switch (elm.textContent.toLowerCase()) {
       case `off`: {
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
         )
         this._toggleOn(elm)
@@ -537,7 +558,7 @@ class DOM {
             palette.set()
           }
         }
-        this.head.appendChild(
+        this.head.append(
           CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`)
         )
         this._toggleOn(elm)
@@ -633,7 +654,7 @@ class DOM {
     }
     // ice colors
     if (ecma48.iceColors === true)
-      this.head.appendChild(
+      this.head.append(
         CreateLink(this.palette.savedFilename(true), `${link4bit}-ice`)
       )
   }
@@ -647,7 +668,7 @@ class DOM {
     switch (this.results.colorsTextPairs) {
       case `theme-atarist`:
       case `theme-windows`:
-        this.head.appendChild(
+        this.head.append(
           CreateLink(`../css/text_colors_white_bg-fixes.css`, `white-bg-fixes`)
         )
         break
@@ -867,43 +888,43 @@ class SauceMeta {
     this.sauceFonts = new Map()
       // Standard hardware font on VGA cards for 80×25 text mode (code page 437)
       // IBM VGA  9×16
-      .set(`IBM VGA`, `ibm_vga_9x16`)
+      .set(`IBM VGA`, ibmVGA)
       // Standard hardware font on VGA cards for condensed 80×50 text mode (code page 437)
       // IBM VGA50  9×8
-      .set(`IBM VGA50`, `ibm_vga_9x8`)
+      .set(`IBM VGA50`, ibmVGA50)
       // Custom font for emulating 80×25 in VGA graphics mode 12 (640×480 16 color) (code page 437)
       // IBM VGA25G	8×19
       // ast_premiumexec is a 8x19, 640x480 font that replicates the VGA characters
-      .set(`IBM VGA25G`, `ast_premiumexec`)
+      .set(`IBM VGA25G`, ibmVGA25G)
       // Standard hardware font on EGA cards for 80×25 text mode (code page 437)
       // IBM EGA  8×14
-      .set(`IBM EGA`, `ibm_ega_8x14`)
+      .set(`IBM EGA`, ibmEGA)
       // Standard hardware font on EGA cards for condensed 80×43 text mode (code page 437)
       // IBM EGA43  8×8
-      .set(`IBM EGA43`, `ibm_ega_8x8`)
+      .set(`IBM EGA43`, ibmEGA43)
       // Original Amiga Topaz Kickstart 1.x font. (A500, A1000, A2000)
-      .set(`Amiga Topaz 1`, `topaza500`)
+      .set(`Amiga Topaz 1`, topaz1)
       // Modified Amiga Topaz Kickstart 1.x font. (A500, A1000, A2000)
-      .set(`Amiga Topaz 1+`, `topazplusa500`)
+      .set(`Amiga Topaz 1+`, topaz1_)
       // Original Amiga Topaz Kickstart 2.x font (A600, A1200, A4000)
-      .set(`Amiga Topaz 2`, `topaza1200`)
+      .set(`Amiga Topaz 2`, topaz2)
       // Modified Amiga Topaz Kickstart 2.x font (A600, A1200, A4000)
-      .set(`Amiga Topaz 2+`, `topazplusa1200`)
+      .set(`Amiga Topaz 2+`, topaz2_)
       // Original P0T-NOoDLE font.
-      .set(`Amiga PoT-NOoDLE`, `p0tnoodle`)
-      .set(`Amiga P0T-NOoDLE`, `p0tnoodle`)
+      .set(`Amiga PoT-NOoDLE`, potNoodle)
+      .set(`Amiga P0T-NOoDLE`, potNoodle)
       // Original MicroKnight font.
-      .set(`Amiga MicroKnight`, `microknight`)
+      .set(`Amiga MicroKnight`, microknight)
       // Modified MicroKnight font.
-      .set(`Amiga MicroKnight+`, `microknightplus`)
+      .set(`Amiga MicroKnight+`, microknight_)
       // Original mOsOul font.
-      .set(`Amiga mOsOul`, `mosoul`)
+      .set(`Amiga mOsOul`, mosoul)
       // Original PETSCII font in shifted mode. Shifted mode (text) has both uppercase and lowercase letters. This mode is actuated by pressing Shift+Commodore key.
-      .set(`C64 shifted`, `petme64`)
+      .set(`C64 shifted`, commodore64)
       // Original Commodore PETSCII font (PET, VIC-20, C64, CBM-II, Plus/4, C16, C116 and C128) in the unshifted mode. Unshifted mode (graphics) only has uppercase letters and additional graphic characters. This is the normal boot font.
-      .set(`C64 unshifted`, `petme64`)
+      .set(`C64 unshifted`, commodore64)
       // Original ATASCII font (Atari 400, 800, XL, XE)
-      .set(`Atari`, `candyantics`)
+      .set(`Atari`, atascii)
     // initialise sauce metadata
     if (this.length > 500) {
       this._find()
@@ -978,25 +999,21 @@ class SauceMeta {
     // append 16colo.rs crew link
     if (this.sixteenColors.has(group.toLowerCase())) {
       const id = this.sixteenColors.get(group.toLowerCase()),
-        link = document.createElement(`a`),
-        space = document.createTextNode(` `)
+        link = document.createElement(`a`)
       link.setAttribute(`href`, `https://16colo.rs/tags/group/${id}`)
       link.textContent = `16colo.rs/${id}`
-      sauce.appendChild(space)
-      sauce.appendChild(link)
+      sauce.append(` `, link)
     }
     // author comments
     const commt = document.createElement(`div`)
     commt.id = `SAUCE00-comment`
     commt.classList.add(`is-hidden`)
-    const em = document.createElement(`em`)
-    em.textContent = this.commentLines.trim()
-    commt.appendChild(em)
+    commt.textContent = this.commentLines.trim()
     if (body.length <= 0) return null
-    div.appendChild(sauce)
+    div.append(sauce)
     if (this.commentLines.trim() !== ``) {
       commt.classList.remove(`is-hidden`)
-      div.appendChild(commt)
+      div.append(commt)
     }
     return div
   }
@@ -1013,9 +1030,10 @@ class SauceMeta {
    * Discovers and parses any SAUCE metadata contained in the text.
    */
   _find() {
-    // scan the last 500 characters of the text for a SAUCE identifier
-    const scanLength = 500,
-      search = this.text.slice(this.length - scanLength, this.length),
+    // scan the last 2500 characters of the text for a SAUCE identifier
+    let scanLength = 2500
+    if (this.length < scanLength) scanLength = this.length
+    const search = this.text.slice(this.length - scanLength, this.length),
       start = search.indexOf(`SAUCE00`) - scanLength,
       comntStart = search.lastIndexOf(`COMNT`)
     // data containers
@@ -1030,7 +1048,7 @@ class SauceMeta {
     // referred to as the 'replacement character'.
     // RegExp pattern to find all binary zeros
     const binaryZero = new RegExp(String.fromCharCode(65533), `g`)
-    // search the 500 characters for a SAUCE record
+    // search the last 2500 characters for a SAUCE record
     this.sliced = this.text.slice(start, this.length)
     this._extract()
     // when no SAUCE identifier is found
@@ -1061,6 +1079,7 @@ class SauceMeta {
         break
       case `1111111111111101`:
       case `1011`:
+      case `101`:
       case `11`:
       case `1`:
         this.configs.letterSpacing = `01`
@@ -1126,12 +1145,14 @@ class SauceMeta {
         .set(`94`, `350`)
         .set(`91`, `80`)
         .set(`80`, `80`)
-        // any malformed width values that are less than 80, will cause
-        // false positives for other text that share these actual widths
-        // TODO: add a notice allowing people to toggle between the possible widths,
-        // ie: Switch to either 64 or 320 columns and save the choice to localStorage
-        .set(`69`, `325`)
-        .set(`64`, `320`)
+      // any malformed width values that are less than 80, will cause
+      // false positives for other text that share these actual widths
+      // TODO: add a notice allowing people to toggle between the possible widths,
+      // ie: Switch to either 64 or 320 columns and save the choice to localStorage
+      const largePiece = 15000
+      if (this.length > largePiece) {
+        widths.set(`69`, `325`).set(`64`, `320`).set(`32`, `800`)
+      }
       // 44px width is a common size for FILE_ID.DIZ/FILE_ID.ANS
       const fileIDMaximumLength = 5000 // an arbitrary value 🤷
       if (this.length > fileIDMaximumLength) widths.set(`44`, `300`)
@@ -1169,17 +1190,17 @@ class SauceMeta {
     if (font === `IBM VGA`) {
       switch (this.configs.letterSpacing) {
         case pixel8:
-          return (this.configs.fontFamily = `ibm_vga_8x16`)
+          return (this.configs.fontFamily = ibmVGA8)
         case pixel9:
-          return (this.configs.fontFamily = `ibm_vga_9x16`)
+          return (this.configs.fontFamily = ibmVGA)
       }
     }
     if (font === `IBM VGA50`) {
       switch (this.configs.letterSpacing) {
         case pixel8:
-          return (this.configs.fontFamily = `ibm_vga_8x8`)
+          return (this.configs.fontFamily = ibmVGA508)
         case pixel9:
-          return (this.configs.fontFamily = `ibm_vga_9x8`)
+          return (this.configs.fontFamily = ibmVGA50)
       }
     }
     // default font family to use if no font information exists
@@ -1319,7 +1340,7 @@ class Output {
     const span = this.newSpan()
     span.classList.add(`dos-cursor`)
     span.textContent = `_`
-    this.pre.appendChild(span)
+    this.pre.append(span)
   }
   /**
    * ECMA48 data.
@@ -1347,7 +1368,7 @@ class Output {
     // parse text & insert it into the browser tab
     if (typeof this.data.html === `string`) {
       const html = ParseToChildren(this.data.html)
-      this.pre.appendChild(html)
+      this.pre.append(html)
     } else
       CheckError(
         `Expecting a string type for output.data.html but instead it is ${typeof this
@@ -1431,11 +1452,11 @@ class Output {
       text = { in: ``, out: `` },
       elm = {
         ansi: document.createElement(`span`),
-        vs: document.createTextNode(` → `),
         in: document.createElement(`span`),
         out: document.createElement(`span`),
       },
-      stored = { item: null, text: `` }
+      stored = { item: null, text: `` },
+      vs = ` → `
     // obtain transcode setting
     stored.item = sessionStorage.getItem(`transcode`)
     // ==============================================
@@ -1469,17 +1490,14 @@ class Output {
       default:
         this._headerTranscode(stored, elm, text)
     }
-    this.encode.appendChild(elm.in)
+    this.encode.append(elm.in)
     if (input.format === ANSIText) {
-      this.encode.appendChild(elm.vs)
-      this.encode.appendChild(elm.out)
+      this.encode.append(vs, elm.out)
       elm.ansi.title = `ECMA-48/ANSI X3.64 presentation control and cursor functions`
       elm.ansi.textContent = `ANSI`
-      this.encode.appendChild(document.createTextNode(` `))
-      this.encode.appendChild(elm.ansi)
+      this.encode.append(` `, elm.ansi)
     } else if (elm.out.textContent !== ``) {
-      this.encode.appendChild(elm.vs)
-      this.encode.appendChild(elm.out)
+      this.encode.append(vs, elm.out)
     }
     if (typeof qunit !== `undefined`) return elm
   }
@@ -1621,7 +1639,7 @@ class Output {
           return
         }
         old.textContent = text.in
-        elm.in.appendChild(old)
+        elm.in.append(old)
         elm.in.textContent = stored.text
         elm.in.title = `Unable to transcode this text using '${stored.text} ↻'`
         elm.in.classList.add(`has-text-strike`)
@@ -1643,7 +1661,7 @@ class Output {
           // localStorage has been edited using the browser developer tools.
           const old = document.createElement(`span`)
           old.textContent = text.out
-          elm.out.appendChild(old)
+          elm.out.append(old)
           elm.out.textContent = stored.text
           elm.out.classList.add(`has-text-strike`)
         }
@@ -1679,53 +1697,55 @@ class Information extends Output {
     const div = document.createElement(`div`),
       sp = `  `
     this._createToggle()
-    this.append(document.createTextNode(sp))
+    this.append(sp)
     this.append(this._info(`pixels`))
     this.append(this.area)
-    this.append(document.createTextNode(sp))
+    this.append(sp)
     this.append(this._info(`characters`))
     this.append(this.size)
-    this.append(document.createTextNode(sp))
+    this.append(sp)
     this.append(this._info(`encoding`))
     this.append(this.output.encode)
     this.append(div)
-    div.appendChild(this._label(`render`))
-    div.appendChild(this._setRender())
-    div.appendChild(this._sep())
-    div.appendChild(this._label(`size`))
-    div.appendChild(this.output.fontSize())
-    div.appendChild(this._sep())
-    div.appendChild(this._label(`fontname`))
-    div.appendChild(this.font)
+    div.append(
+      this._label(`render`),
+      this._setRender(),
+      this._sep(),
+      this._label(`size`),
+      this.output.fontSize(),
+      this._sep(),
+      this._label(`fontname`),
+      this.font
+    )
     if (this.input.format === ANSIText) {
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`palette`))
-      div.appendChild(this._setPalette())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`iCE colors`))
-      div.appendChild(this._setIceColors())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`column wrap`))
-      div.appendChild(this._setColumnWrap())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`page wrap`))
-      div.appendChild(this._setPageWrap())
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`more`))
-      div.appendChild(this._setSettings())
+      div.append(
+        this._sep(),
+        this._label(`palette`),
+        this._setPalette(),
+        this._sep(),
+        this._label(`iCE colors`),
+        this._setIceColors(),
+        this._sep(),
+        this._label(`column wrap`),
+        this._setColumnWrap(),
+        this._sep(),
+        this._label(`page wrap`),
+        this._setPageWrap(),
+        this._sep(),
+        this._label(`more`),
+        this._setSettings()
+      )
       // append any ecma-48 errors
       const sum = this.ecma48.otherCodesCount + this.ecma48.unknownCount,
         errorTrigger = 10
       if (sum > errorTrigger) return this.append(this._setErrorBBS())
       if (sum > 0) return this.append(this._setWarningBBS())
     } else {
-      div.appendChild(this._sep())
-      div.appendChild(this._label(`more`))
-      div.appendChild(this._setSettings())
+      div.append(this._sep(), this._label(`more`), this._setSettings())
     }
   }
   append(element) {
-    this.show.appendChild(element)
+    this.show.append(element)
   }
   /**
    * Document size notice.
@@ -1785,8 +1805,7 @@ class Information extends Output {
    * Document measurements.
    */
   createPixels() {
-    const vs = document.createTextNode(`x`),
-      columns = document.createElement(`span`),
+    const columns = document.createElement(`span`),
       lines = document.createElement(`span`)
     columns.title = `Pixel width of text`
     columns.id = `widthOfText`
@@ -1794,9 +1813,7 @@ class Information extends Output {
     lines.id = `lengthOfText`
     columns.textContent = `?`
     lines.textContent = `?`
-    this.area.appendChild(columns)
-    this.area.appendChild(vs)
-    this.area.appendChild(lines)
+    this.area.append(columns, "x", lines)
   }
   /**
    * Display and hide header switch.
@@ -1811,8 +1828,8 @@ class Information extends Output {
     hide.id = `toggleUp`
     hide.title = `Hide this information header`
     hide.textContent = `▲`
-    this.hide.appendChild(show)
-    this.show.appendChild(hide)
+    this.hide.append(show)
+    this.show.append(hide)
   }
   _label(text = ``) {
     const s = document.createElement(`small`)
@@ -1836,14 +1853,14 @@ class Information extends Output {
     bold.textContent = ``
     bold.id = `toggleColumnWrap`
     span.title = `Toggle an 80 character column wrap that will reload this tab`
-    span.appendChild(bold)
+    span.append(bold)
     return span
   }
   _setErrorBBS() {
     const div = super.newDiv(),
       span = super.newSpan()
     span.textContent = `Unfortunately, this work of animated BBS art is too complicated to replicate as HTML`
-    div.appendChild(span)
+    div.append(span)
     return div
   }
   /**
@@ -1854,7 +1871,7 @@ class Information extends Output {
     const family = `${fonts.family}`
     this.font.id = `fontnameInUse`
     this.font.textContent = `${family.replaceAll(`_`, ` `)}`
-    this.font.classList.add(`font-${family.toLowerCase()}`)
+    this.font.classList.add(`font-${fonts.key.toLowerCase()}`)
     this.font.title = `${fonts.title(family)}`
   }
   _setIceColors() {
@@ -1865,7 +1882,7 @@ class Information extends Output {
     span.title = `Toggle between blinking mode or static background ${chrome.i18n.getMessage(
       `color`
     )}`
-    span.appendChild(bold)
+    span.append(bold)
     return span
   }
   _setPalette(colorDepth = this.ecma48.colorDepth) {
@@ -1885,9 +1902,9 @@ class Information extends Output {
         g.classList.add(`has-text-success`)
         b.textContent = `B`
         b.classList.add(`has-text-info`)
-        strong.appendChild(r)
-        strong.appendChild(g)
-        strong.appendChild(b)
+        strong.append(r)
+        strong.append(g)
+        strong.append(b)
         break
       case 8:
         strong.title = `A range of 256 ${chrome.i18n.getMessage(
@@ -1917,7 +1934,7 @@ class Information extends Output {
     bold.textContent = ``
     bold.id = `togglePageWrap`
     span.title = `ANSI text will behave as HTML where lines can break to wrap the text to the tab.`
-    span.appendChild(bold)
+    span.append(bold)
     return span
   }
   _setRender() {
@@ -1940,7 +1957,7 @@ class Information extends Output {
     const div = super.newDiv(),
       span = super.newSpan()
     span.textContent = `This replication of BBS art to HTML is partly inaccurate`
-    div.appendChild(span)
+    div.append(span)
     return div
   }
 }
@@ -2384,12 +2401,12 @@ RetroTxt will not be able to work with this page.
   document.documentElement.lang = `en`
   document.documentElement.translate = false
   // insert the new tags into the HTML of the DOM
-  dom.head.appendChild(title)
+  dom.head.append(title)
   // insert the header into document
-  output.main.appendChild(information.show)
-  output.main.appendChild(information.hide)
-  output.main.appendChild(output.article)
-  output.article.appendChild(output.pre)
+  output.main.append(information.show)
+  output.main.append(information.hide)
+  output.main.append(output.article)
+  output.article.append(output.pre)
   try {
     dom.body.insertBefore(output.main, dom.rawText)
   } catch {

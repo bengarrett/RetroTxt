@@ -40,11 +40,11 @@ body {
 }
 
 main > section > div.hero-body > div.tabcontent {
-  display: none;
+  display: inline;
 }
 
 main > section > div.hero-body > div#content0 {
-  display: initial;
+  display: inline;
 }
 
 main > section > div.hero-body > #error {
@@ -59,9 +59,9 @@ main > section .font-content {
   align-items: start;
 }
 
-main > section > div.hero-body #jumpTo {
+main > section #jumpTo {
   position: sticky;
-  top: 1em;
+  top: 1vh;
 }
 
 /* example blocks */
@@ -73,9 +73,8 @@ main > section > div.hero-body #jumpTo {
 }
 
 #sampleContainer {
-  border: 0.2rem solid white;
   position: sticky;
-  top: 1em;
+  top: 1vh;
 }
 
 #sampleTerminal {

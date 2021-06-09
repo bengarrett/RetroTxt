@@ -2,11 +2,12 @@
 ############
 
 # Firefox packages
-#web-ext-artifacts
+web-ext-artifacts
 *.xpi
 
 # Dependencies
 node_modules
+yarn.lock
 
 # Other
 .env

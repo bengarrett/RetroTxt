@@ -863,7 +863,7 @@ class BBS {
       bringAttentionOpen = `⮚`,
       bringAttentionClose = `⮘`
     // handle empty rows by inserting a space character between the
-    // <div></div> elements
+    // <div></div> elements, this must keep appendChild() and createTextNode()
     if (text === ``) return div.appendChild(document.createTextNode(` `))
     // RegExp to markout block characters
     const row = text.replace(
@@ -877,7 +877,7 @@ class BBS {
         case bringAttentionOpen:
           // creates an open b element
           if (textNode.length > 0) {
-            div.appendChild(document.createTextNode(`${textNode}`))
+            div.append(`${textNode}`)
             textNode = ``
           }
           b = document.createElement(`b`)
@@ -885,8 +885,8 @@ class BBS {
         case bringAttentionClose:
           // closes an opened b element
           if (textNode.length > 0) {
-            b.appendChild(document.createTextNode(`${textNode}`))
-            div.appendChild(b)
+            b.append(`${textNode}`)
+            div.append(b)
             textNode = ``
           }
           break
@@ -894,8 +894,7 @@ class BBS {
           textNode += `${character}`
       }
     }
-    if (textNode.length > 0)
-      div.appendChild(document.createTextNode(`${textNode}`))
+    if (textNode.length > 0) div.append(`${textNode}`)
     return div
   }
   /**
@@ -921,13 +920,13 @@ class BBS {
       const rows = replaced.split(`\n`)
       for (const row of rows) {
         const div = this._BBlocks(row)
-        pre.appendChild(div)
+        pre.append(div)
       }
       return pre
     }
     // All other operating systems are able to display the text within
     // a <pre></pre> element
-    pre.appendChild(document.createTextNode(`${replaced}`))
+    pre.append(`${replaced}`)
     return pre
   }
   /**
@@ -1028,7 +1027,7 @@ class BBS {
       const element = this._newElement(`i`)
       element.classList.add(`PB${backgroundCode}`, `PF${foregroundCode}`)
       element.textContent = appendText
-      pre.appendChild(element)
+      pre.append(element)
     }
     return pre
   }
@@ -1075,7 +1074,7 @@ class BBS {
         element = this._newElement(`i`)
       if (pipe === `undefined`) {
         element.textContent = `|${code}`
-        pre.appendChild(element)
+        pre.append(element)
         continue colour
       }
       const x = parseInt(pipe, 10),
@@ -1090,7 +1089,7 @@ class BBS {
       }
       element.classList.add(`P${background}`, `P${foreground}`)
       element.textContent = appendText
-      pre.appendChild(element)
+      pre.append(element)
     }
     return pre
   }
@@ -1120,7 +1119,7 @@ class BBS {
       else if (x >= foregroundMin && x <= foregroundMax) foreground = pipe
       element.classList.add(`P${background}`, `P${foreground}`)
       element.textContent = appendText
-      pre.appendChild(element)
+      pre.append(element)
     }
     return pre
   }

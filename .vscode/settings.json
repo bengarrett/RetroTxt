@@ -26,6 +26,9 @@
   "files.autoSave": "off",
   "files.eol": "\n",
   "javascript.format.enable": false,
+  "search.exclude": {
+    "**/qunit.js": true,
+  },
   "spellright.documentTypes": [
     "markdown",
     "latex",
@@ -34,7 +37,9 @@
     "css",
     "yaml"
   ],
-  "spellright.language": ["en"],
+  "spellright.language": [
+    "en"
+  ],
   "spellright.notificationClass": "hint",
   "typescript.format.enable": false
 }

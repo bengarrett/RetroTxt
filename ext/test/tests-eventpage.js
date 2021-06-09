@@ -1,5 +1,5 @@
 /* eslint-env qunit:true */
-/*global QUnit Action Chrome Downloads Extension LocalStore Menu Security Tab Tabs ToolbarButton*/
+/*global QUnit Action Chrome Downloads Extension LocalStore Menu Security Tab Tabs ToolbarButton UseCharSet*/
 "use strict"
 
 try {
@@ -34,9 +34,8 @@ try {
     b.style.color = `red`
     b.textContent = `Unit testing has been disabled in this copy of RetroTxt.`
     t.textContent = `It depends on the QUnit testing framework which is incompatible with the Extension submission process used by addons.mozilla.org.`
-    h.appendChild(b)
-    div.appendChild(h)
-    div.appendChild(t)
+    h.append(b)
+    div.append(h, t)
   }
 }
 
@@ -79,29 +78,13 @@ QUnit.test(`Tab() class`, (assert) => {
   tab = new Tab(0, ``)
   assert.equal(tab._validateURLSyntax(), false, `Is an invalid URI`)
   tab = new Tab(0, `https://www.example.com/hello-world/`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
   tab = new Tab(0, `ftp://example.com`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
   tab = new Tab(0, `www.example.com`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
   tab = new Tab(0, `example.com`)
-  assert.equal(
-    tab._removeSubDomains(),
-    `example.com`,
-    `Should return example.com`
-  )
+  assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
 })
 
 QUnit.test(`ToolbarButton() class`, (assert) => {

@@ -162,12 +162,12 @@ QUnit.test(`Information() class`, (assert) => {
     `Number of characters contained in the text`,
     `Should be a element title`
   )
-  information._setFontname({ family: `Hello_world` })
-  assert.equal(
-    information.font.textContent,
-    `Hello world`,
-    `Text content should contain a string`
-  )
+  // information._setFontname({ family: `Hello_world` })
+  // assert.equal(
+  //   information.font.textContent,
+  //   `Hello world`,
+  //   `Text content should contain a string`
+  // )
   assert.equal(
     information._setPalette(0).textContent,
     `monochrome`,
