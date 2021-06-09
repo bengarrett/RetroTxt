@@ -12,10 +12,6 @@ vars:
   # The published version number of RetroTxt used in the manifest.json and GitHub commit
   # Must use the numeric format 4.0.0
   VERSION: "4.1.0"
-  # The (this) directory that gets posted to the private GitHub repo
-  DIRPRIVATE: "{{.PWD}}"
-  # The publication directory that gets submitted to the public GitHub repo
-  DIRPUBLIC: "{{.PWD}}/../RetroTxt"
 
 tasks:
   # internal commands
@@ -28,7 +24,6 @@ tasks:
       - task: copy-manifest
         vars: { SRC: "ext/json/manifest_firefox.json" }
   init-chrome:
-    dir: "{{.DIRPRIVATE}}"
     cmds:
       - task: copy-manifest
         vars: { SRC: "ext/json/manifest_chrome.json" }
@@ -117,24 +112,6 @@ tasks:
       - task: init-chrome
       - cmd: yarn install
       - task: depends
-  publish:
-    desc: Builds the public codebase intended for GitHub.
-    cmds:
-      - task: version-set
-      - task: init-chrome
-      - rsync "{{.DIRPRIVATE}}/" "{{.DIRPUBLIC}}" --verbose --human-readable --archive --exclude 'web-ext-artifacts' --exclude '.git' --exclude 'node_modules' --exclude 'tools' --exclude 'notes.md' --exclude 'package-lock.json' --exclude 'yarn.lock' --exclude 'Taskfile*.yml' --exclude '.env' --exclude '.DS_Store' --delete
-  publish-public:
-    desc: Commits the public codebase to GitHub [github.com/bengarrett/retrotxt].
-    dir: "{{.DIRPUBLIC}}"
-    cmds:
-      - git add . {{.DRY}}
-      - cmd: git tag "v{{.VERSION}}"
-        ignore_error: true
-      - git commit {{.DRY}} --message "Version {{.VERSION}}"
-      - git push {{.DRY}} --tags
-      - git push {{.DRY}}
-    vars:
-      DRY: #--dry-run # Uncomment to test different git commands
   # serve-chrome:
   # Chrome does not have a command line switch to enable the reloading of an Extension
   serve-firefox:
@@ -158,7 +135,7 @@ tasks:
       - cmd: git tag "v{{.VERSION}}" --delete
         ignore_error: true
       - cmd: git push --tags
-  publish-private:
+  commit:
     desc: Applies the VERSION variable to the JSON files and commits it to GitHub.
     deps: [set-ver-chrome, set-ver-firefox, version-purge, builds]
     cmds:
