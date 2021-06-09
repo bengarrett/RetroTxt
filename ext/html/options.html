@@ -86,7 +86,7 @@
             </div>
           </nav>
           <!-- Error content -->
-          <article class="message is-danger mr-2 ml-2 mt-2 is-hidden" id="error">
+          <article class="message is-danger mr-2 ml-2 mt-2" style="display: none;" id="error">
             <div class="message-header">
               <p>Oops</p>
               <button class="delete" aria-label="delete" id="errorReload" title="Reload"></button>
@@ -112,31 +112,31 @@
                 <span id="os"></span>
               </span>
             </h2>
-            <div class="notice is-hidden" id="updateNotice">
+            <div class="notice" style="display: none;" id="updateNotice">
               <div class="notification is-info">
                 <button id="updateNoticeBtn" class="delete" title="Close update tab"></button>
                 RetroTxt is up to date, so
                 <a href="#" id="changesLink">see what is new</a>
               </div>
               <div class="notification is-primary">
-                <p id="5starFirefox" class="is-hidden">
+                <p id="5starFirefox" style="display: none;">
                   Enjoy RetroTxt? It would be fantastic for the exposure to
                   <a href="https://addons.mozilla.org/en-US/firefox/addon/retrotxt/reviews/">leave a 5-star rating on
                     Firefox Add-ons</a>
                 </p>
-                <p id="5starChrome" class="is-hidden">
+                <p id="5starChrome" style="display: none;">
                   Enjoy RetroTxt? It would be fantastic for the exposure to
                   <a href="https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn">leave a
                     5-star rating on the Chrome Web Store</a>
                 </p>
-                <p id="5starEdge" class="is-hidden">
+                <p id="5starEdge" style="display: none;">
                   Enjoy RetroTxt? It would be fantastic for the exposure to
                   <a href="https://microsoftedge.microsoft.com/addons/detail/retrotxt/hmgfnpgcofcpkgkadekmjdicaaeopkog">leave
                     a 5-star rating on Edge Add-ons</a>
                 </p>
               </div>
             </div>
-            <div class="notice is-hidden" id="newInstallNotice">
+            <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
                 <p class="mb-2">Welcome to RetroTxt!</p>
                 <p>
@@ -3405,8 +3405,8 @@
                   </h2>
                 </div>
                 <!-- smear block characters (only revealed on Windows) -->
-                <hr class="is-hidden" id="smearBlocksHR">
-                <div class="is-hidden" id="smearBlocksContainer">
+                <hr style="display: none;" id="smearBlocksHR">
+                <div style="display: none;" id="smearBlocksContainer">
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
                       Smear block characters
@@ -3853,12 +3853,12 @@
             <div class="column is-half is-offset-one-quarter">
               <div class="box">
                 <h1 class="title has-text-black-ter is-size-3 mt-4">Settings</h1>
-                <p class="is-size-7 m-0"><a href="https://docs.retrotxt.com/privacy">Privacy policy</a> for the
-                  browser API permission requests</p>
+                <p class="is-size-7 m-0"><a href="https://docs.retrotxt.com/privacy">Privacy policy for the
+                    browser API permission requests</a></p>
                 <hr>
                 <!-- run retrotxt on files hosted -->
                 <div>
-                  <article class="message is-info is-small is-hidden" id="websiteViewerOff">
+                  <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">
                     <div class="message-header">
                       <p>Setting intentionally off</p>
                     </div>
@@ -3876,7 +3876,7 @@
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
                           class="has-text-success">on</span>
                       <div class="field is-grouped is-grouped-multiline" id="hostTags">
-                        <div class="control is-hidden" id="templateHost">
+                        <div class="control" style="display: none;" id="templateHost">
                           <div class="tags has-addons">
                             <a class="tag is-link">example.com</a>
                             <a class="tag is-delete"></a>
@@ -3903,7 +3903,6 @@
                           <p class="help">Only the hostname is saved</p>
                         </div>
                       </div>
-
                     </div>
                     <div class="column is-2">
                       <div class="toggleswitch">
@@ -3916,7 +3915,7 @@
                 <hr>
                 <!--use retrotxt as a local text file viewer -->
                 <div>
-                  <article class="message is-info is-small" id="textfileViewerOff">
+                  <article class="message is-info is-small" style="display: none;" id="textfileViewerOff">
                     <div class="message-header">
                       <p>Setting disabled</p>
                     </div>
@@ -3937,8 +3936,8 @@
                       <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
                           class="has-text-grey">off</span> <span class="has-text-weight-normal">(unless
                           this feature is wanted)</span>
-                      <p name="is-allowed"
-                        class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7 is-hidden">
+                      <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
+                        style="display: none;">
                         This feature is blocked as the extension browser configuration <em>Allow access to file
                           URLs</em> is off.
                       </p>
@@ -4015,8 +4014,8 @@
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
                           class="has-text-grey">off</span>
-                      <p name="is-allowed"
-                        class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7 is-hidden">
+                      <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
+                        style="display: none;">
                         This feature is blocked as the extension browser configuration <em>Allow access to file
                           URLs</em> is off.
                       </p>
@@ -4096,12 +4095,12 @@
                 <li><a class="navbar-item" id="hero1" href="">Credits</a></li>
                 <li><a class="navbar-item" id="hero2" href="">Samples</a></li>
                 <li><a class="navbar-item" id="hero3" href="">Useful</a></li>
-                <li id="unittest" class="is-hidden">
+                <li id="unittest" style="display: none;">
                   <a href="../test/index.html?hidepassed"><svg role="img" class="material-icons" target="_blank">
                       <use xlink:href="../assets/svg/material-icons.svg#bug_report"></use>
                     </svg> &nbsp;Tests</a>
                 </li>
-                <li id="reload" class="is-hidden">
+                <li id="reload" style="display: none;">
                   <a href="#" class="reload-link"><svg role="img" class="material-icons">
                       <use xlink:href="../assets/svg/material-icons.svg#autorenew"></use>
                     </svg> &nbsp;Reload</a>

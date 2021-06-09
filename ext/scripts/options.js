@@ -43,8 +43,8 @@ function handleError(error) {
     console.error(`Failed to obtain the setting: ${e}`)
   }
   if (typeof qunit === `undefined`) {
-    document.getElementById(`error`).classList.remove(`is-hidden`)
-    document.getElementById(`status`).classList.add(`is-hidden`)
+    document.getElementById(`error`).style.display = `inline`
+    document.getElementById(`status`).style.display = `none`
     document.getElementById(`errorReload`).addEventListener(`click`, () => {
       const result = confirm("Reload RetroTxt?")
       if (!result) return
@@ -113,12 +113,10 @@ class HTML {
         ? (document.title = `[··] ${m.version_name} update`)
         : (document.title = `[··] ${m.short_name} update`)
       document.getElementById(`hero0`).click()
-      return document
-        .getElementById(`updateNotice`)
-        .classList.remove(`is-hidden`)
+      return (document.getElementById(`updateNotice`).style.display = `inline`)
     }
     if (location.hash.includes(`#newinstall`)) {
-      document.getElementById(`newInstallNotice`).classList.remove(`is-hidden`)
+      document.getElementById(`newInstallNotice`).style.display = `inline`
       document
         .getElementById(`newInstallSamples`)
         .addEventListener(`click`, () => {
@@ -228,15 +226,15 @@ class HTML {
       if (m.options_ui.page.startsWith(`moz-extension`, 0) === true) {
         browser = `Firefox`
         setting = `about:preferences`
-        document.getElementById(`5starFirefox`).classList.toggle(`is-hidden`)
+        document.getElementById(`5starFirefox`).display = `inline`
       } else if (navigator.userAgent.includes(`Edg/`)) {
         browser = `Edge`
         setting = `edge://settings/fonts`
-        document.getElementById(`5starEdge`).classList.toggle(`is-hidden`)
+        document.getElementById(`5starEdge`).display = `inline`
       } else {
         browser = `Chrome`
         setting = `chrome://settings/fonts`
-        document.getElementById(`5starChrome`).classList.toggle(`is-hidden`)
+        document.getElementById(`5starChrome`).display = `inline`
       }
       titles.forEach((elm) => {
         if (elm.textContent === null) return
@@ -323,10 +321,10 @@ class Security {
           if (value === true) {
             files.disabled = true
             files.checked = false
-            notice.classList.remove(`is-hidden`)
+            notice.style.display = `inline`
           } else {
             files.disabled = false
-            notice.classList.add(`is-hidden`)
+            notice.style.display = `none`
           }
           break
       }
@@ -374,9 +372,9 @@ class Security {
             // Extensions can only ask for new permissions using user toggles.
             const toggle = document.getElementById(`websiteViewer`)
             if (toggle.checked === true)
-              document
-                .getElementById(`websiteViewerOff`)
-                .classList.remove(`is-hidden`)
+              document.getElementById(
+                `websiteViewerOff`
+              ).style.display = `inline`
             toggle.checked = false
             if (RetroTxt.developer) console.log(`pushed permissions to origins`)
             return this.origins.push(catchallScheme)
@@ -470,9 +468,7 @@ class Security {
             console.log(`%s: request to set permissions [%s]`, result, items)
           if (result !== true) this._checkedInitialise(false)
           else
-            document
-              .getElementById(`websiteViewerOff`)
-              .classList.add(`is-hidden`)
+            document.getElementById(`websiteViewerOff`).style.display = `none`
         })
       default:
         this._allWeb(false)
@@ -635,9 +631,9 @@ FIREFOX NOTES:
       const id = `downloadViewer`,
         files = new Security(`files`)
       document.getElementById(id).disabled = true
-      document.getElementById(`${id}HR`).classList.add(`is-hidden`)
-      document.getElementById(`${id}Container`).classList.add(`is-hidden`)
-      document.getElementById(`textfileViewerOff`).classList.add(`is-hidden`)
+      document.getElementById(`${id}HR`).style.display = `none`
+      document.getElementById(`${id}Container`).style.display = `none`
+      document.getElementById(`textfileViewerOff`).style.display = `none`
       return files.listen()
     }
     chrome.extension.isAllowedFileSchemeAccess((allowed) => {
@@ -646,7 +642,7 @@ FIREFOX NOTES:
         downloads = new Security(`downloads`)
       if (allowed !== true) {
         // the textfileViewerOff notice is redundant
-        document.getElementById(`textfileViewerOff`).classList.add(`is-hidden`)
+        document.getElementById(`textfileViewerOff`).style.display = `none`
         this.id = `textfileViewer`
         this._disable()
         // as isAllowedFileSchemeAccess() is false, downloads.test() will also be false
@@ -654,7 +650,7 @@ FIREFOX NOTES:
         this._disable()
         const elements = document.getElementsByName(`is-allowed`)
         for (const element of elements) {
-          element.classList.remove(`is-hidden`)
+          element.style.display = `inline`
         }
         return
       }
@@ -855,9 +851,9 @@ class Initialise extends CheckBox {
           // the add-on was installed unpacked from disk
           case `development`:
             // reveal developer links
-            unit.classList.remove(`is-hidden`)
+            unit.style.display = `inline`
             reload.addEventListener(`click`, () => chrome.runtime.reload())
-            reload.classList.remove(`is-hidden`)
+            reload.style.display = `inline`
             return
           case `admin`: // the add-on was installed because of an administrative policy
           case `normal`: // the add-on was installed normally from an install package
@@ -888,14 +884,14 @@ class Initialise extends CheckBox {
         case unix:
         case windows:
           if (WebBrowser() === Chrome) {
-            hr.classList.remove(`is-hidden`)
-            blocks.classList.remove(`is-hidden`)
+            hr.style.display = `block`
+            blocks.style.display = `inline`
           }
         // fallthrough
         case macOS:
           if (WebBrowser() === Firefox) {
-            hr.classList.add(`is-hidden`)
-            blocks.classList.add(`is-hidden`)
+            hr.style.display = `none`
+            blocks.style.display = `none`
           }
           return
       }
@@ -1599,7 +1595,7 @@ class Hosts {
     if (!isDomain) anchor.classList.add(`is-light`)
     this.input.value = ``
     this.submit.disabled = true
-    tag.classList.remove(`is-hidden`)
+    tag.style.display = `inline`
     tag.removeAttribute(`id`)
     tags.append(tag)
     urls.push(hostname)
