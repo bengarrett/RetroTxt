@@ -1,5 +1,5 @@
 /*!
- * QUnit 2.15.0
+ * QUnit 2.16.0
  * https://qunitjs.com/
  *
  * Copyright OpenJS Foundation and other contributors
@@ -10,7 +10,6 @@
   'use strict';
 
   // Support IE 9-10, PhantomJS: Fallback for fuzzysort.js used by ./html.js
-  // eslint-disable-next-line no-unused-vars
   var Map = typeof Map === "function" ? Map : function StringMap() {
   	var store = Object.create( null );
   	this.get = function( strKey ) {
@@ -72,7 +71,7 @@
   }
 
   function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
   }
 
   function _unsupportedIterableToArray(o, minLen) {
@@ -97,9 +96,9 @@
   }
 
   function _createForOfIteratorHelper(o, allowArrayLike) {
-    var it;
+    var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
 
-    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+    if (!it) {
       if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
         if (it) o = it;
         var i = 0;
@@ -132,7 +131,7 @@
         err;
     return {
       s: function () {
-        it = o[Symbol.iterator]();
+        it = it.call(o);
       },
       n: function () {
         var step = it.next();
@@ -221,15 +220,17 @@
   // Detect if the console object exists and no-op otherwise.
   // This allows support for IE 9, which doesn't have a console
   // object if the developer tools are not open.
+  // Support: IE 9
+  // Function#bind is supported, but no console.log.bind().
   // Support: SpiderMonkey (mozjs 68+)
   // The console object has a log method, but no warn method.
 
   var Logger = {
-    warn: console$1 ? (console$1.warn || console$1.log).bind(console$1) : function () {}
+    warn: console$1 ? Function.prototype.bind.call(console$1.warn || console$1.log, console$1) : function () {}
   };
 
   var toString = Object.prototype.toString;
-  var hasOwn = Object.prototype.hasOwnProperty;
+  var hasOwn$1 = Object.prototype.hasOwnProperty;
   var now = Date.now || function () {
     return new Date().getTime();
   };
@@ -296,7 +297,7 @@
     var vals = is("array", obj) ? [] : {};
 
     for (var key in obj) {
-      if (hasOwn.call(obj, key)) {
+      if (hasOwn$1.call(obj, key)) {
         var val = obj[key];
         vals[key] = val === Object(val) ? objectValues(val) : val;
       }
@@ -306,7 +307,7 @@
   }
   function extend(a, b, undefOnly) {
     for (var prop in b) {
-      if (hasOwn.call(b, prop)) {
+      if (hasOwn$1.call(b, prop)) {
         if (b[prop] === undefined) {
           delete a[prop];
         } else if (!(undefOnly && typeof a[prop] !== "undefined")) {
@@ -523,7 +524,7 @@
         a.forEach(function (aVal) {
           // Short-circuit if the result is already known. (Using for...of
           // with a break clause would be cleaner here, but it would cause
-          // a syntax error on older Javascript implementations even if
+          // a syntax error on older JavaScript implementations even if
           // Set is unused)
           if (!outerEq) {
             return;
@@ -573,7 +574,7 @@
         a.forEach(function (aVal, aKey) {
           // Short-circuit if the result is already known. (Using for...of
           // with a break clause would be cleaner here, but it would cause
-          // a syntax error on older Javascript implementations even if
+          // a syntax error on older JavaScript implementations even if
           // Map is unused)
           if (!outerEq) {
             return;
@@ -698,6 +699,9 @@
     queue: [],
     // Block until document ready
     blocking: true,
+    // whether or not to fail when there are zero tests
+    // defaults to `true`
+    failOnZeroTests: true,
     // By default, run previously failed tests first
     // very useful in combination with "Hide passed tests" checked
     reorder: true,
@@ -816,7 +820,11 @@
           return res;
         }
 
-        return parserType === "string" ? parser : this.parsers.error;
+        if (parserType === "string") {
+          return parser;
+        }
+
+        return "[ERROR: Missing QUnit.dump formatter for type " + objType + "]";
       },
       typeOf: function typeOf(obj) {
         var type;
@@ -890,6 +898,8 @@
         error: function error(_error) {
           return "Error(\"" + _error.message + "\")";
         },
+        // This has been unused since QUnit 1.0.0.
+        // @todo Deprecate and remove.
         unknown: "[Unknown]",
         "null": "null",
         "undefined": "undefined",
@@ -1144,7 +1154,9 @@
   var moduleStack = [];
 
   function isParentModuleInQueue() {
-    var modulesInQueue = config.modules.map(function (module) {
+    var modulesInQueue = config.modules.filter(function (module) {
+      return !module.ignored;
+    }).map(function (module) {
       return module.moduleId;
     });
     return moduleStack.some(function (module) {
@@ -1215,7 +1227,12 @@
     if (objectType(executeNow) === "function") {
       moduleStack.push(module);
       config.currentModule = module;
-      executeNow.call(module.testEnvironment, moduleFns);
+      var cbReturnValue = executeNow.call(module.testEnvironment, moduleFns);
+
+      if (cbReturnValue != null && objectType(cbReturnValue.then) === "function") {
+        Logger.warn("Returning a promise from a module callback is not supported. " + "Instead, use hooks for async behavior. " + "This will become an error in QUnit 3.0.");
+      }
+
       moduleStack.pop();
       module = module.parentModule || currentModule;
     }
@@ -1231,7 +1248,7 @@
     function setHookFunction(module, hookName) {
       return function setHook(callback) {
         if (config.currentModule !== module) {
-          Logger.warn("The `" + hookName + "` hook was called inside the wrong module. " + "Instead, use hooks provided by the callback to the containing module." + "This will become an error in QUnit 3.0.");
+          Logger.warn("The `" + hookName + "` hook was called inside the wrong module. " + "Instead, use hooks provided by the callback to the containing module. " + "This will become an error in QUnit 3.0.");
         }
 
         module.hooks[hookName].push(callback);
@@ -1338,379 +1355,376 @@
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-  function createCommonjsModule(fn) {
-    var module = { exports: {} };
-  	return fn(module, module.exports), module.exports;
-  }
-
   function commonjsRequire (path) {
   	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
   }
 
-  var promisePolyfill = createCommonjsModule(function (module) {
-    (function () {
-      /** @suppress {undefinedVars} */
+  var promisePolyfill = {exports: {}};
 
-      var globalNS = function () {
-        // the only reliable means to get the global object is
-        // `Function('return this')()`
-        // However, this causes CSP violations in Chrome apps.
-        if (typeof globalThis !== 'undefined') {
-          return globalThis;
+  (function () {
+    /** @suppress {undefinedVars} */
+
+    var globalNS = function () {
+      // the only reliable means to get the global object is
+      // `Function('return this')()`
+      // However, this causes CSP violations in Chrome apps.
+      if (typeof globalThis !== 'undefined') {
+        return globalThis;
+      }
+
+      if (typeof self !== 'undefined') {
+        return self;
+      }
+
+      if (typeof window !== 'undefined') {
+        return window;
+      }
+
+      if (typeof commonjsGlobal !== 'undefined') {
+        return commonjsGlobal;
+      }
+
+      throw new Error('unable to locate global object');
+    }(); // Expose the polyfill if Promise is undefined or set to a
+    // non-function value. The latter can be due to a named HTMLElement
+    // being exposed by browsers for legacy reasons.
+    // https://github.com/taylorhakes/promise-polyfill/issues/114
+
+
+    if (typeof globalNS['Promise'] === 'function') {
+      promisePolyfill.exports = globalNS['Promise'];
+      return;
+    }
+    /**
+     * @this {Promise}
+     */
+
+
+    function finallyConstructor(callback) {
+      var constructor = this.constructor;
+      return this.then(function (value) {
+        // @ts-ignore
+        return constructor.resolve(callback()).then(function () {
+          return value;
+        });
+      }, function (reason) {
+        // @ts-ignore
+        return constructor.resolve(callback()).then(function () {
+          // @ts-ignore
+          return constructor.reject(reason);
+        });
+      });
+    }
+
+    function allSettled(arr) {
+      var P = this;
+      return new P(function (resolve, reject) {
+        if (!(arr && typeof arr.length !== 'undefined')) {
+          return reject(new TypeError(_typeof(arr) + ' ' + arr + ' is not iterable(cannot read property Symbol(Symbol.iterator))'));
         }
 
-        if (typeof self !== 'undefined') {
-          return self;
+        var args = Array.prototype.slice.call(arr);
+        if (args.length === 0) return resolve([]);
+        var remaining = args.length;
+
+        function res(i, val) {
+          if (val && (_typeof(val) === 'object' || typeof val === 'function')) {
+            var then = val.then;
+
+            if (typeof then === 'function') {
+              then.call(val, function (val) {
+                res(i, val);
+              }, function (e) {
+                args[i] = {
+                  status: 'rejected',
+                  reason: e
+                };
+
+                if (--remaining === 0) {
+                  resolve(args);
+                }
+              });
+              return;
+            }
+          }
+
+          args[i] = {
+            status: 'fulfilled',
+            value: val
+          };
+
+          if (--remaining === 0) {
+            resolve(args);
+          }
         }
 
-        if (typeof window !== 'undefined') {
-          return window;
+        for (var i = 0; i < args.length; i++) {
+          res(i, args[i]);
         }
-
-        if (typeof commonjsGlobal !== 'undefined') {
-          return commonjsGlobal;
-        }
-
-        throw new Error('unable to locate global object');
-      }(); // Expose the polyfill if Promise is undefined or set to a
-      // non-function value. The latter can be due to a named HTMLElement
-      // being exposed by browsers for legacy reasons.
-      // https://github.com/taylorhakes/promise-polyfill/issues/114
+      });
+    } // Store setTimeout reference so promise-polyfill will be unaffected by
+    // other code modifying setTimeout (like sinon.useFakeTimers())
 
 
-      if (typeof globalNS['Promise'] === 'function') {
-        module.exports = globalNS['Promise'];
+    var setTimeoutFunc = setTimeout;
+
+    function isArray(x) {
+      return Boolean(x && typeof x.length !== 'undefined');
+    }
+
+    function noop() {} // Polyfill for Function.prototype.bind
+
+
+    function bind(fn, thisArg) {
+      return function () {
+        fn.apply(thisArg, arguments);
+      };
+    }
+    /**
+     * @constructor
+     * @param {Function} fn
+     */
+
+
+    function Promise(fn) {
+      if (!(this instanceof Promise)) throw new TypeError('Promises must be constructed via new');
+      if (typeof fn !== 'function') throw new TypeError('not a function');
+      /** @type {!number} */
+
+      this._state = 0;
+      /** @type {!boolean} */
+
+      this._handled = false;
+      /** @type {Promise|undefined} */
+
+      this._value = undefined;
+      /** @type {!Array<!Function>} */
+
+      this._deferreds = [];
+      doResolve(fn, this);
+    }
+
+    function handle(self, deferred) {
+      while (self._state === 3) {
+        self = self._value;
+      }
+
+      if (self._state === 0) {
+        self._deferreds.push(deferred);
+
         return;
       }
-      /**
-       * @this {Promise}
-       */
 
+      self._handled = true;
 
-      function finallyConstructor(callback) {
-        var constructor = this.constructor;
-        return this.then(function (value) {
-          // @ts-ignore
-          return constructor.resolve(callback()).then(function () {
-            return value;
-          });
-        }, function (reason) {
-          // @ts-ignore
-          return constructor.resolve(callback()).then(function () {
-            // @ts-ignore
-            return constructor.reject(reason);
-          });
+      Promise._immediateFn(function () {
+        var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+
+        if (cb === null) {
+          (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
+          return;
+        }
+
+        var ret;
+
+        try {
+          ret = cb(self._value);
+        } catch (e) {
+          reject(deferred.promise, e);
+          return;
+        }
+
+        resolve(deferred.promise, ret);
+      });
+    }
+
+    function resolve(self, newValue) {
+      try {
+        // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
+        if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.');
+
+        if (newValue && (_typeof(newValue) === 'object' || typeof newValue === 'function')) {
+          var then = newValue.then;
+
+          if (newValue instanceof Promise) {
+            self._state = 3;
+            self._value = newValue;
+            finale(self);
+            return;
+          } else if (typeof then === 'function') {
+            doResolve(bind(then, newValue), self);
+            return;
+          }
+        }
+
+        self._state = 1;
+        self._value = newValue;
+        finale(self);
+      } catch (e) {
+        reject(self, e);
+      }
+    }
+
+    function reject(self, newValue) {
+      self._state = 2;
+      self._value = newValue;
+      finale(self);
+    }
+
+    function finale(self) {
+      if (self._state === 2 && self._deferreds.length === 0) {
+        Promise._immediateFn(function () {
+          if (!self._handled) {
+            Promise._unhandledRejectionFn(self._value);
+          }
         });
       }
 
-      function allSettled(arr) {
-        var P = this;
-        return new P(function (resolve, reject) {
-          if (!(arr && typeof arr.length !== 'undefined')) {
-            return reject(new TypeError(_typeof(arr) + ' ' + arr + ' is not iterable(cannot read property Symbol(Symbol.iterator))'));
-          }
+      for (var i = 0, len = self._deferreds.length; i < len; i++) {
+        handle(self, self._deferreds[i]);
+      }
 
-          var args = Array.prototype.slice.call(arr);
-          if (args.length === 0) return resolve([]);
-          var remaining = args.length;
+      self._deferreds = null;
+    }
+    /**
+     * @constructor
+     */
 
-          function res(i, val) {
+
+    function Handler(onFulfilled, onRejected, promise) {
+      this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+      this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+      this.promise = promise;
+    }
+    /**
+     * Take a potentially misbehaving resolver function and make sure
+     * onFulfilled and onRejected are only called once.
+     *
+     * Makes no guarantees about asynchrony.
+     */
+
+
+    function doResolve(fn, self) {
+      var done = false;
+
+      try {
+        fn(function (value) {
+          if (done) return;
+          done = true;
+          resolve(self, value);
+        }, function (reason) {
+          if (done) return;
+          done = true;
+          reject(self, reason);
+        });
+      } catch (ex) {
+        if (done) return;
+        done = true;
+        reject(self, ex);
+      }
+    }
+
+    Promise.prototype['catch'] = function (onRejected) {
+      return this.then(null, onRejected);
+    };
+
+    Promise.prototype.then = function (onFulfilled, onRejected) {
+      // @ts-ignore
+      var prom = new this.constructor(noop);
+      handle(this, new Handler(onFulfilled, onRejected, prom));
+      return prom;
+    };
+
+    Promise.prototype['finally'] = finallyConstructor;
+
+    Promise.all = function (arr) {
+      return new Promise(function (resolve, reject) {
+        if (!isArray(arr)) {
+          return reject(new TypeError('Promise.all accepts an array'));
+        }
+
+        var args = Array.prototype.slice.call(arr);
+        if (args.length === 0) return resolve([]);
+        var remaining = args.length;
+
+        function res(i, val) {
+          try {
             if (val && (_typeof(val) === 'object' || typeof val === 'function')) {
               var then = val.then;
 
               if (typeof then === 'function') {
                 then.call(val, function (val) {
                   res(i, val);
-                }, function (e) {
-                  args[i] = {
-                    status: 'rejected',
-                    reason: e
-                  };
-
-                  if (--remaining === 0) {
-                    resolve(args);
-                  }
-                });
+                }, reject);
                 return;
               }
             }
 
-            args[i] = {
-              status: 'fulfilled',
-              value: val
-            };
+            args[i] = val;
 
             if (--remaining === 0) {
               resolve(args);
             }
+          } catch (ex) {
+            reject(ex);
           }
-
-          for (var i = 0; i < args.length; i++) {
-            res(i, args[i]);
-          }
-        });
-      } // Store setTimeout reference so promise-polyfill will be unaffected by
-      // other code modifying setTimeout (like sinon.useFakeTimers())
-
-
-      var setTimeoutFunc = setTimeout;
-
-      function isArray(x) {
-        return Boolean(x && typeof x.length !== 'undefined');
-      }
-
-      function noop() {} // Polyfill for Function.prototype.bind
-
-
-      function bind(fn, thisArg) {
-        return function () {
-          fn.apply(thisArg, arguments);
-        };
-      }
-      /**
-       * @constructor
-       * @param {Function} fn
-       */
-
-
-      function Promise(fn) {
-        if (!(this instanceof Promise)) throw new TypeError('Promises must be constructed via new');
-        if (typeof fn !== 'function') throw new TypeError('not a function');
-        /** @type {!number} */
-
-        this._state = 0;
-        /** @type {!boolean} */
-
-        this._handled = false;
-        /** @type {Promise|undefined} */
-
-        this._value = undefined;
-        /** @type {!Array<!Function>} */
-
-        this._deferreds = [];
-        doResolve(fn, this);
-      }
-
-      function handle(self, deferred) {
-        while (self._state === 3) {
-          self = self._value;
         }
 
-        if (self._state === 0) {
-          self._deferreds.push(deferred);
-
-          return;
+        for (var i = 0; i < args.length; i++) {
+          res(i, args[i]);
         }
+      });
+    };
 
-        self._handled = true;
+    Promise.allSettled = allSettled;
 
-        Promise._immediateFn(function () {
-          var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
-
-          if (cb === null) {
-            (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
-            return;
-          }
-
-          var ret;
-
-          try {
-            ret = cb(self._value);
-          } catch (e) {
-            reject(deferred.promise, e);
-            return;
-          }
-
-          resolve(deferred.promise, ret);
-        });
+    Promise.resolve = function (value) {
+      if (value && _typeof(value) === 'object' && value.constructor === Promise) {
+        return value;
       }
 
-      function resolve(self, newValue) {
-        try {
-          // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-          if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.');
+      return new Promise(function (resolve) {
+        resolve(value);
+      });
+    };
 
-          if (newValue && (_typeof(newValue) === 'object' || typeof newValue === 'function')) {
-            var then = newValue.then;
+    Promise.reject = function (value) {
+      return new Promise(function (resolve, reject) {
+        reject(value);
+      });
+    };
 
-            if (newValue instanceof Promise) {
-              self._state = 3;
-              self._value = newValue;
-              finale(self);
-              return;
-            } else if (typeof then === 'function') {
-              doResolve(bind(then, newValue), self);
-              return;
-            }
-          }
-
-          self._state = 1;
-          self._value = newValue;
-          finale(self);
-        } catch (e) {
-          reject(self, e);
+    Promise.race = function (arr) {
+      return new Promise(function (resolve, reject) {
+        if (!isArray(arr)) {
+          return reject(new TypeError('Promise.race accepts an array'));
         }
+
+        for (var i = 0, len = arr.length; i < len; i++) {
+          Promise.resolve(arr[i]).then(resolve, reject);
+        }
+      });
+    }; // Use polyfill for setImmediate for performance gains
+
+
+    Promise._immediateFn = // @ts-ignore
+    typeof setImmediate === 'function' && function (fn) {
+      // @ts-ignore
+      setImmediate(fn);
+    } || function (fn) {
+      setTimeoutFunc(fn, 0);
+    };
+
+    Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
+      if (typeof console !== 'undefined' && console) {
+        console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
       }
+    };
 
-      function reject(self, newValue) {
-        self._state = 2;
-        self._value = newValue;
-        finale(self);
-      }
+    promisePolyfill.exports = Promise;
+  })();
 
-      function finale(self) {
-        if (self._state === 2 && self._deferreds.length === 0) {
-          Promise._immediateFn(function () {
-            if (!self._handled) {
-              Promise._unhandledRejectionFn(self._value);
-            }
-          });
-        }
-
-        for (var i = 0, len = self._deferreds.length; i < len; i++) {
-          handle(self, self._deferreds[i]);
-        }
-
-        self._deferreds = null;
-      }
-      /**
-       * @constructor
-       */
-
-
-      function Handler(onFulfilled, onRejected, promise) {
-        this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
-        this.onRejected = typeof onRejected === 'function' ? onRejected : null;
-        this.promise = promise;
-      }
-      /**
-       * Take a potentially misbehaving resolver function and make sure
-       * onFulfilled and onRejected are only called once.
-       *
-       * Makes no guarantees about asynchrony.
-       */
-
-
-      function doResolve(fn, self) {
-        var done = false;
-
-        try {
-          fn(function (value) {
-            if (done) return;
-            done = true;
-            resolve(self, value);
-          }, function (reason) {
-            if (done) return;
-            done = true;
-            reject(self, reason);
-          });
-        } catch (ex) {
-          if (done) return;
-          done = true;
-          reject(self, ex);
-        }
-      }
-
-      Promise.prototype['catch'] = function (onRejected) {
-        return this.then(null, onRejected);
-      };
-
-      Promise.prototype.then = function (onFulfilled, onRejected) {
-        // @ts-ignore
-        var prom = new this.constructor(noop);
-        handle(this, new Handler(onFulfilled, onRejected, prom));
-        return prom;
-      };
-
-      Promise.prototype['finally'] = finallyConstructor;
-
-      Promise.all = function (arr) {
-        return new Promise(function (resolve, reject) {
-          if (!isArray(arr)) {
-            return reject(new TypeError('Promise.all accepts an array'));
-          }
-
-          var args = Array.prototype.slice.call(arr);
-          if (args.length === 0) return resolve([]);
-          var remaining = args.length;
-
-          function res(i, val) {
-            try {
-              if (val && (_typeof(val) === 'object' || typeof val === 'function')) {
-                var then = val.then;
-
-                if (typeof then === 'function') {
-                  then.call(val, function (val) {
-                    res(i, val);
-                  }, reject);
-                  return;
-                }
-              }
-
-              args[i] = val;
-
-              if (--remaining === 0) {
-                resolve(args);
-              }
-            } catch (ex) {
-              reject(ex);
-            }
-          }
-
-          for (var i = 0; i < args.length; i++) {
-            res(i, args[i]);
-          }
-        });
-      };
-
-      Promise.allSettled = allSettled;
-
-      Promise.resolve = function (value) {
-        if (value && _typeof(value) === 'object' && value.constructor === Promise) {
-          return value;
-        }
-
-        return new Promise(function (resolve) {
-          resolve(value);
-        });
-      };
-
-      Promise.reject = function (value) {
-        return new Promise(function (resolve, reject) {
-          reject(value);
-        });
-      };
-
-      Promise.race = function (arr) {
-        return new Promise(function (resolve, reject) {
-          if (!isArray(arr)) {
-            return reject(new TypeError('Promise.race accepts an array'));
-          }
-
-          for (var i = 0, len = arr.length; i < len; i++) {
-            Promise.resolve(arr[i]).then(resolve, reject);
-          }
-        });
-      }; // Use polyfill for setImmediate for performance gains
-
-
-      Promise._immediateFn = // @ts-ignore
-      typeof setImmediate === 'function' && function (fn) {
-        // @ts-ignore
-        setImmediate(fn);
-      } || function (fn) {
-        setTimeoutFunc(fn, 0);
-      };
-
-      Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
-        if (typeof console !== 'undefined' && console) {
-          console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
-        }
-      };
-
-      module.exports = Promise;
-    })();
-  });
+  var _Promise = promisePolyfill.exports;
 
   function registerLoggingCallbacks(obj) {
     var callbackNames = ["begin", "done", "log", "testStart", "testDone", "moduleStart", "moduleDone"];
@@ -1753,9 +1767,9 @@
 
     return callbacks.reduce(function (promiseChain, callback) {
       return promiseChain.then(function () {
-        return promisePolyfill.resolve(callback(args));
+        return _Promise.resolve(callback(args));
       });
-    }, promisePolyfill.resolve([]));
+    }, _Promise.resolve([]));
   }
 
   // Doesn't support IE9, it will return undefined on these browsers
@@ -1846,7 +1860,7 @@
 
       if (!setTimeout$1 || config.updateRate <= 0 || elapsedTime < config.updateRate) {
         var task = taskQueue.shift();
-        promisePolyfill.resolve(task()).then(function () {
+        _Promise.resolve(task()).then(function () {
           if (!taskQueue.length) {
             advance();
           } else {
@@ -1952,7 +1966,7 @@
     var runtime = now() - config.started;
     var passed = config.stats.all - config.stats.bad;
 
-    if (config.stats.testCount === 0) {
+    if (config.stats.testCount === 0 && config.failOnZeroTests === true) {
       if (config.filter && config.filter.length) {
         throw new Error("No tests matched the filter \"".concat(config.filter, "\"."));
       }
@@ -2112,6 +2126,8 @@
     this.module = config.currentModule;
     this.steps = [];
     this.timeout = undefined;
+    this.data = undefined;
+    this.withData = false;
     extend(this, settings); // If a module is skipped, all its tests and the tests of the child suites
     // should be treated as skipped even if they are defined as `only` or `todo`.
     // As for `todo` module, all its tests will be treated as `todo` except for
@@ -2208,7 +2224,7 @@
             tests: startModule.tests
           });
         });
-      }, promisePolyfill.resolve([]));
+      }, _Promise.resolve([]));
       return callbackPromises.then(function () {
         config.current = _this;
         _this.testEnvironment = extend({}, module.testEnvironment);
@@ -2248,7 +2264,14 @@
       }
 
       function runTest(test) {
-        var promise = test.callback.call(test.testEnvironment, test.assert);
+        var promise;
+
+        if (test.withData) {
+          promise = test.callback.call(test.testEnvironment, test.assert, test.data);
+        } else {
+          promise = test.callback.call(test.testEnvironment, test.assert);
+        }
+
         test.resolvePromise(promise); // If the test has a "lock" on it, but the timeout is 0, then we push a
         // failure as the test should be synchronous.
 
@@ -2355,6 +2378,12 @@
       module.stats.all += this.assertions.length;
 
       for (var i = 0; i < this.assertions.length; i++) {
+        // A failing assertion will counts toward the HTML Reporter's
+        // "X assertions, Y failed" line even if it was inside a todo.
+        // Inverting this would be similarly confusing since all but the last
+        // passing assertion inside a todo test should be considered as good.
+        // These stats don't decide the outcome of anything, so counting them
+        // as failing seems the most intuitive.
         if (!this.assertions[i].result) {
           bad++;
           config.stats.bad++;
@@ -2366,7 +2395,9 @@
         incrementTestsIgnored(module);
       } else {
         incrementTestsRun(module);
-      } // Store result when possible
+      } // Store result when possible.
+      // Note that this also marks todo tests as bad, thus they get hoisted,
+      // and always run first on refresh.
 
 
       if (storage) {
@@ -2417,7 +2448,7 @@
             return promiseChain.then(function () {
               return logSuiteEnd(completedModule);
             });
-          }, promisePolyfill.resolve([]));
+          }, _Promise.resolve([]));
         }
       }).then(function () {
         config.current = undefined;
@@ -2497,7 +2528,7 @@
         todo: !!this.todo
       };
 
-      if (hasOwn.call(resultInfo, "expected")) {
+      if (hasOwn$1.call(resultInfo, "expected")) {
         details.expected = resultInfo.expected;
       }
 
@@ -2556,14 +2587,14 @@
         if (objectType(then) === "function") {
           var resume = internalStop(_test);
 
+          var resolve = function resolve() {
+            resume();
+          };
+
           if (config.notrycatch) {
-            then.call(promise, function () {
-              resume();
-            });
+            then.call(promise, resolve);
           } else {
-            then.call(promise, function () {
-              resume();
-            }, function (error) {
+            var reject = function reject(error) {
               var message = "Promise rejected " + (!phase ? "during" : phase.replace(/Each$/, "")) + " \"" + _test.testName + "\": " + (error && error.message || error);
 
               _test.pushFailure(message, extractStacktrace(error, 0)); // Else next test will carry the responsibility
@@ -2572,7 +2603,9 @@
               saveGlobal(); // Unblock
 
               internalRecover(_test);
-            });
+            };
+
+            then.call(promise, resolve, reject);
           }
         }
       }
@@ -2660,7 +2693,7 @@
 
     if (config.noglobals) {
       for (var key in globalThis$1) {
-        if (hasOwn.call(globalThis$1, key)) {
+        if (hasOwn$1.call(globalThis$1, key)) {
           // In Opera sometimes DOM element ids show up here, ignore them
           if (/^qunit-test-output/.test(key)) {
             continue;
@@ -2689,60 +2722,119 @@
   }
 
   var focused = false; // indicates that the "only" filter was used
-  // Will be exposed as QUnit.test
 
-  function test(testName, callback) {
+  function addTest(settings) {
     if (focused || config.currentModule.ignored) {
       return;
     }
 
-    var newTest = new Test({
+    var newTest = new Test(settings);
+    newTest.queue();
+  }
+
+  function addOnlyTest(settings) {
+    if (config.currentModule.ignored) {
+      return;
+    }
+
+    if (!focused) {
+      config.queue.length = 0;
+      focused = true;
+    }
+
+    var newTest = new Test(settings);
+    newTest.queue();
+  } // Will be exposed as QUnit.test
+
+
+  function test(testName, callback) {
+    addTest({
       testName: testName,
       callback: callback
     });
-    newTest.queue();
   }
+
+  function makeEachTestName(testName, argument) {
+    return "".concat(testName, " [").concat(argument, "]");
+  }
+
+  function runEach(data, eachFn) {
+    if (Array.isArray(data)) {
+      data.forEach(eachFn);
+    } else if (_typeof(data) === "object" && data !== null) {
+      var keys = Object.keys(data);
+      keys.forEach(function (key) {
+        eachFn(data[key], key);
+      });
+    } else {
+      throw new Error("test.each() expects an array or object as input, but\nfound ".concat(_typeof(data), " instead."));
+    }
+  }
+
   extend(test, {
     todo: function todo(testName, callback) {
-      if (focused || config.currentModule.ignored) {
-        return;
-      }
-
-      var newTest = new Test({
+      addTest({
         testName: testName,
         callback: callback,
         todo: true
       });
-      newTest.queue();
     },
     skip: function skip(testName) {
-      if (focused || config.currentModule.ignored) {
-        return;
-      }
-
-      var test = new Test({
+      addTest({
         testName: testName,
         skip: true
       });
-      test.queue();
     },
     only: function only(testName, callback) {
-      if (config.currentModule.ignored) {
-        return;
-      }
-
-      if (!focused) {
-        config.queue.length = 0;
-        focused = true;
-      }
-
-      var newTest = new Test({
+      addOnlyTest({
         testName: testName,
         callback: callback
       });
-      newTest.queue();
+    },
+    each: function each(testName, dataset, callback) {
+      runEach(dataset, function (data, testKey) {
+        addTest({
+          testName: makeEachTestName(testName, testKey),
+          callback: callback,
+          withData: true,
+          data: data
+        });
+      });
     }
-  }); // Resets config.timeout with a new timeout duration.
+  });
+
+  test.todo.each = function (testName, dataset, callback) {
+    runEach(dataset, function (data, testKey) {
+      addTest({
+        testName: makeEachTestName(testName, testKey),
+        callback: callback,
+        todo: true,
+        withData: true,
+        data: data
+      });
+    });
+  };
+
+  test.skip.each = function (testName, dataset) {
+    runEach(dataset, function (_, testKey) {
+      addTest({
+        testName: makeEachTestName(testName, testKey),
+        skip: true
+      });
+    });
+  };
+
+  test.only.each = function (testName, dataset, callback) {
+    runEach(dataset, function (data, testKey) {
+      addOnlyTest({
+        testName: makeEachTestName(testName, testKey),
+        callback: callback,
+        withData: true,
+        data: data
+      });
+    });
+  }; // Resets config.timeout with a new timeout duration.
+
 
   function resetTestTimeout(timeoutDuration) {
     clearTimeout(config.timeout);
@@ -2800,7 +2892,6 @@
     if (isNaN(test.semaphore)) {
       test.semaphore = 0;
       pushFailure("Invalid value on test.semaphore", sourceFromStacktrace(2));
-      return;
     } // Don't start until equal number of stop-calls
 
 
@@ -2812,7 +2903,6 @@
     if (test.semaphore < 0) {
       test.semaphore = 0;
       pushFailure("Tried to restart test while already started (test's semaphore was 0 already)", sourceFromStacktrace(2));
-      return;
     } // Add a slight delay to allow more assertions etc.
 
 
@@ -2961,8 +3051,13 @@
 
         var resume = internalStop(test);
         return function done() {
+          if (config.current === undefined) {
+            throw new Error("`assert.async` callback from test \"" + test.testName + "\" called after tests finished.");
+          }
+
           if (config.current !== test) {
-            throw Error("assert.async callback called after test finished.");
+            config.current.pushFailure("`assert.async` callback from test \"" + test.testName + "\" was called during this test.");
+            return;
           }
 
           if (popped) {
@@ -3375,6 +3470,418 @@
     }
   }
 
+  var ConsoleReporter = /*#__PURE__*/function () {
+    function ConsoleReporter(runner) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      _classCallCheck(this, ConsoleReporter);
+
+      // Cache references to console methods to ensure we can report failures
+      // from tests tests that mock the console object itself.
+      // https://github.com/qunitjs/qunit/issues/1340
+      // Support IE 9: Function#bind is supported, but no console.log.bind().
+      this.log = options.log || Function.prototype.bind.call(console$1.log, console$1);
+      runner.on("runStart", this.onRunStart.bind(this));
+      runner.on("testStart", this.onTestStart.bind(this));
+      runner.on("testEnd", this.onTestEnd.bind(this));
+      runner.on("runEnd", this.onRunEnd.bind(this));
+    }
+
+    _createClass(ConsoleReporter, [{
+      key: "onRunStart",
+      value: function onRunStart(runStart) {
+        this.log("runStart", runStart);
+      }
+    }, {
+      key: "onTestStart",
+      value: function onTestStart(test) {
+        this.log("testStart", test);
+      }
+    }, {
+      key: "onTestEnd",
+      value: function onTestEnd(test) {
+        this.log("testEnd", test);
+      }
+    }, {
+      key: "onRunEnd",
+      value: function onRunEnd(runEnd) {
+        this.log("runEnd", runEnd);
+      }
+    }], [{
+      key: "init",
+      value: function init(runner, options) {
+        return new ConsoleReporter(runner, options);
+      }
+    }]);
+
+    return ConsoleReporter;
+  }();
+
+  var FORCE_COLOR,
+      NODE_DISABLE_COLORS,
+      NO_COLOR,
+      TERM,
+      isTTY = true;
+
+  if (typeof process !== 'undefined') {
+    var _process$env = process.env;
+    FORCE_COLOR = _process$env.FORCE_COLOR;
+    NODE_DISABLE_COLORS = _process$env.NODE_DISABLE_COLORS;
+    NO_COLOR = _process$env.NO_COLOR;
+    TERM = _process$env.TERM;
+    isTTY = process.stdout && process.stdout.isTTY;
+  }
+
+  var $ = {
+    enabled: !NODE_DISABLE_COLORS && NO_COLOR == null && TERM !== 'dumb' && (FORCE_COLOR != null && FORCE_COLOR !== '0' || isTTY),
+    // modifiers
+    reset: init(0, 0),
+    bold: init(1, 22),
+    dim: init(2, 22),
+    italic: init(3, 23),
+    underline: init(4, 24),
+    inverse: init(7, 27),
+    hidden: init(8, 28),
+    strikethrough: init(9, 29),
+    // colors
+    black: init(30, 39),
+    red: init(31, 39),
+    green: init(32, 39),
+    yellow: init(33, 39),
+    blue: init(34, 39),
+    magenta: init(35, 39),
+    cyan: init(36, 39),
+    white: init(37, 39),
+    gray: init(90, 39),
+    grey: init(90, 39),
+    // background colors
+    bgBlack: init(40, 49),
+    bgRed: init(41, 49),
+    bgGreen: init(42, 49),
+    bgYellow: init(43, 49),
+    bgBlue: init(44, 49),
+    bgMagenta: init(45, 49),
+    bgCyan: init(46, 49),
+    bgWhite: init(47, 49)
+  };
+
+  function run(arr, str) {
+    var i = 0,
+        tmp,
+        beg = '',
+        end = '';
+
+    for (; i < arr.length; i++) {
+      tmp = arr[i];
+      beg += tmp.open;
+      end += tmp.close;
+
+      if (!!~str.indexOf(tmp.close)) {
+        str = str.replace(tmp.rgx, tmp.close + tmp.open);
+      }
+    }
+
+    return beg + str + end;
+  }
+
+  function chain(has, keys) {
+    var ctx = {
+      has: has,
+      keys: keys
+    };
+    ctx.reset = $.reset.bind(ctx);
+    ctx.bold = $.bold.bind(ctx);
+    ctx.dim = $.dim.bind(ctx);
+    ctx.italic = $.italic.bind(ctx);
+    ctx.underline = $.underline.bind(ctx);
+    ctx.inverse = $.inverse.bind(ctx);
+    ctx.hidden = $.hidden.bind(ctx);
+    ctx.strikethrough = $.strikethrough.bind(ctx);
+    ctx.black = $.black.bind(ctx);
+    ctx.red = $.red.bind(ctx);
+    ctx.green = $.green.bind(ctx);
+    ctx.yellow = $.yellow.bind(ctx);
+    ctx.blue = $.blue.bind(ctx);
+    ctx.magenta = $.magenta.bind(ctx);
+    ctx.cyan = $.cyan.bind(ctx);
+    ctx.white = $.white.bind(ctx);
+    ctx.gray = $.gray.bind(ctx);
+    ctx.grey = $.grey.bind(ctx);
+    ctx.bgBlack = $.bgBlack.bind(ctx);
+    ctx.bgRed = $.bgRed.bind(ctx);
+    ctx.bgGreen = $.bgGreen.bind(ctx);
+    ctx.bgYellow = $.bgYellow.bind(ctx);
+    ctx.bgBlue = $.bgBlue.bind(ctx);
+    ctx.bgMagenta = $.bgMagenta.bind(ctx);
+    ctx.bgCyan = $.bgCyan.bind(ctx);
+    ctx.bgWhite = $.bgWhite.bind(ctx);
+    return ctx;
+  }
+
+  function init(open, close) {
+    var blk = {
+      open: "\x1B[".concat(open, "m"),
+      close: "\x1B[".concat(close, "m"),
+      rgx: new RegExp("\\x1b\\[".concat(close, "m"), 'g')
+    };
+    return function (txt) {
+      if (this !== void 0 && this.has !== void 0) {
+        !!~this.has.indexOf(open) || (this.has.push(open), this.keys.push(blk));
+        return txt === void 0 ? this : $.enabled ? run(this.keys, txt + '') : txt + '';
+      }
+
+      return txt === void 0 ? chain([open], [blk]) : $.enabled ? run([blk], txt + '') : txt + '';
+    };
+  }
+
+  var hasOwn = Object.prototype.hasOwnProperty;
+  /**
+   * Format a given value into YAML.
+   *
+   * YAML is a superset of JSON that supports all the same data
+   * types and syntax, and more. As such, it is always possible
+   * to fallback to JSON.stringfify, but we generally avoid
+   * that to make output easier to read for humans.
+   *
+   * Supported data types:
+   *
+   * - null
+   * - boolean
+   * - number
+   * - string
+   * - array
+   * - object
+   *
+   * Anything else (including NaN, Infinity, and undefined)
+   * must be described in strings, for display purposes.
+   *
+   * Note that quotes are optional in YAML strings if the
+   * strings are "simple", and as such we generally prefer
+   * that for improved readability. We output strings in
+   * one of three ways:
+   *
+   * - bare unquoted text, for simple one-line strings.
+   * - JSON (quoted text), for complex one-line strings.
+   * - YAML Block, for complex multi-line strings.
+   *
+   * Objects with cyclical references will be stringifed as
+   * "[Circular]" as they cannot otherwise be represented.
+   */
+
+  function prettyYamlValue(value) {
+    var indent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
+
+    if (value === undefined) {
+      // Not supported in JSON/YAML, turn into string
+      // and let the below output it as bare string.
+      value = String(value);
+    } // Support IE 9-11: Use isFinite instead of ES6 Number.isFinite
+
+
+    if (typeof value === "number" && !isFinite(value)) {
+      // Turn NaN and Infinity into simple strings.
+      // Paranoia: Don't return directly just in case there's
+      // a way to add special characters here.
+      value = String(value);
+    }
+
+    if (typeof value === "number") {
+      // Simple numbers
+      return JSON.stringify(value);
+    }
+
+    if (typeof value === "string") {
+      // If any of these match, then we can't output it
+      // as bare unquoted text, because that would either
+      // cause data loss or invalid YAML syntax.
+      //
+      // - Quotes, escapes, line breaks, or JSON-like stuff.
+      var rSpecialJson = /['"\\/[{}\]\r\n]/; // - Characters that are special at the start of a YAML value
+
+      var rSpecialYaml = /[-?:,[\]{}#&*!|=>'"%@`]/; // - Leading or trailing whitespace.
+
+      var rUntrimmed = /(^\s|\s$)/; // - Ambiguous as YAML number, e.g. '2', '-1.2', '.2', or '2_000'
+
+      var rNumerical = /^[\d._-]+$/; // - Ambiguous as YAML bool.
+      //   Use case-insensitive match, although technically only
+      //   fully-lower, fully-upper, or uppercase-first would be ambiguous.
+      //   e.g. true/True/TRUE, but not tRUe.
+
+      var rBool = /^(true|false|y|n|yes|no|on|off)$/i; // Is this a complex string?
+
+      if (value === "" || rSpecialJson.test(value) || rSpecialYaml.test(value[0]) || rUntrimmed.test(value) || rNumerical.test(value) || rBool.test(value)) {
+        if (!/\n/.test(value)) {
+          // Complex one-line string, use JSON (quoted string)
+          return JSON.stringify(value);
+        } // See also <https://yaml-multiline.info/>
+        // Support IE 9-11: Avoid ES6 String#repeat
+
+
+        var prefix = new Array(indent + 1).join(" ");
+        var trailingLinebreakMatch = value.match(/\n+$/);
+        var trailingLinebreaks = trailingLinebreakMatch ? trailingLinebreakMatch[0].length : 0;
+
+        if (trailingLinebreaks === 1) {
+          // Use the most straight-forward "Block" string in YAML
+          // without any "Chomping" indicators.
+          var lines = value // Ignore the last new line, since we'll get that one for free
+          // with the straight-forward Block syntax.
+          .replace(/\n$/, "").split("\n").map(function (line) {
+            return prefix + line;
+          });
+          return "|\n" + lines.join("\n");
+        } else {
+          // This has either no trailing new lines, or more than 1.
+          // Use |+ so that YAML parsers will preserve it exactly.
+          var _lines = value.split("\n").map(function (line) {
+            return prefix + line;
+          });
+
+          return "|+\n" + _lines.join("\n");
+        }
+      } else {
+        // Simple string, use bare unquoted text
+        return value;
+      }
+    } // Handle null, boolean, array, and object
+
+
+    return JSON.stringify(decycledShallowClone(value), null, 2);
+  }
+  /**
+   * Creates a shallow clone of an object where cycles have
+   * been replaced with "[Circular]".
+   */
+
+
+  function decycledShallowClone(object) {
+    var ancestors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    if (ancestors.indexOf(object) !== -1) {
+      return "[Circular]";
+    }
+
+    var clone;
+    var type = Object.prototype.toString.call(object).replace(/^\[.+\s(.+?)]$/, "$1").toLowerCase();
+
+    switch (type) {
+      case "array":
+        ancestors.push(object);
+        clone = object.map(function (element) {
+          return decycledShallowClone(element, ancestors);
+        });
+        ancestors.pop();
+        break;
+
+      case "object":
+        ancestors.push(object);
+        clone = {};
+        Object.keys(object).forEach(function (key) {
+          clone[key] = decycledShallowClone(object[key], ancestors);
+        });
+        ancestors.pop();
+        break;
+
+      default:
+        clone = object;
+    }
+
+    return clone;
+  }
+
+  var TapReporter = /*#__PURE__*/function () {
+    function TapReporter(runner) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      _classCallCheck(this, TapReporter);
+
+      // Cache references to console methods to ensure we can report failures
+      // from tests tests that mock the console object itself.
+      // https://github.com/qunitjs/qunit/issues/1340
+      // Support IE 9: Function#bind is supported, but no console.log.bind().
+      this.log = options.log || Function.prototype.bind.call(console$1.log, console$1);
+      this.testCount = 0;
+      runner.on("runStart", this.onRunStart.bind(this));
+      runner.on("testEnd", this.onTestEnd.bind(this));
+      runner.on("runEnd", this.onRunEnd.bind(this));
+    }
+
+    _createClass(TapReporter, [{
+      key: "onRunStart",
+      value: function onRunStart(_globalSuite) {
+        this.log("TAP version 13");
+      }
+    }, {
+      key: "onTestEnd",
+      value: function onTestEnd(test) {
+        var _this = this;
+
+        this.testCount = this.testCount + 1;
+
+        if (test.status === "passed") {
+          this.log("ok ".concat(this.testCount, " ").concat(test.fullName.join(" > ")));
+        } else if (test.status === "skipped") {
+          this.log($.yellow("ok ".concat(this.testCount, " # SKIP ").concat(test.fullName.join(" > "))));
+        } else if (test.status === "todo") {
+          this.log($.cyan("not ok ".concat(this.testCount, " # TODO ").concat(test.fullName.join(" > "))));
+          test.errors.forEach(function (error) {
+            return _this.logError(error, "todo");
+          });
+        } else {
+          this.log($.red("not ok ".concat(this.testCount, " ").concat(test.fullName.join(" > "))));
+          test.errors.forEach(function (error) {
+            return _this.logError(error);
+          });
+        }
+      }
+    }, {
+      key: "onRunEnd",
+      value: function onRunEnd(globalSuite) {
+        this.log("1..".concat(globalSuite.testCounts.total));
+        this.log("# pass ".concat(globalSuite.testCounts.passed));
+        this.log($.yellow("# skip ".concat(globalSuite.testCounts.skipped)));
+        this.log($.cyan("# todo ".concat(globalSuite.testCounts.todo)));
+        this.log($.red("# fail ".concat(globalSuite.testCounts.failed)));
+      }
+    }, {
+      key: "logError",
+      value: function logError(error, severity) {
+        var out = "  ---";
+        out += "\n  message: ".concat(prettyYamlValue(error.message || "failed"));
+        out += "\n  severity: ".concat(prettyYamlValue(severity || "failed"));
+
+        if (hasOwn.call(error, "actual")) {
+          out += "\n  actual  : ".concat(prettyYamlValue(error.actual));
+        }
+
+        if (hasOwn.call(error, "expected")) {
+          out += "\n  expected: ".concat(prettyYamlValue(error.expected));
+        }
+
+        if (error.stack) {
+          // Since stacks aren't user generated, take a bit of liberty by
+          // adding a trailing new line to allow a straight-forward YAML Blocks.
+          out += "\n  stack: ".concat(prettyYamlValue(error.stack + "\n"));
+        }
+
+        out += "\n  ...";
+        this.log(out);
+      }
+    }], [{
+      key: "init",
+      value: function init(runner, options) {
+        return new TapReporter(runner, options);
+      }
+    }]);
+
+    return TapReporter;
+  }();
+
+  var reporters = {
+    console: ConsoleReporter,
+    tap: TapReporter
+  };
+
   // error handling should be suppressed and false otherwise.
   // In this case, we will only suppress further error handling if the
   // "ignoreGlobalErrors" configuration option is enabled.
@@ -3432,12 +3939,13 @@
 
   QUnit.isLocal = window$1 && window$1.location && window$1.location.protocol === "file:"; // Expose the current QUnit version
 
-  QUnit.version = "2.15.0";
+  QUnit.version = "2.16.0";
 
   extend(QUnit, {
     config: config,
     dump: dump,
     equiv: equiv,
+    reporters: reporters,
     is: is,
     objectType: objectType,
     on: on,
@@ -3711,28 +4219,16 @@
     }
   })();
 
-  /*
-  WHAT: SublimeText-like Fuzzy Search
+  var fuzzysort$1 = {exports: {}};
 
-  USAGE:
-    fuzzysort.single('fs', 'Fuzzy Search') // {score: -16}
-    fuzzysort.single('test', 'test') // {score: 0}
-    fuzzysort.single('doesnt exist', 'target') // null
-
-    fuzzysort.go('mr', ['Monitor.cpp', 'MeshRenderer.cpp'])
-    // [{score: -18, target: "MeshRenderer.cpp"}, {score: -6009, target: "Monitor.cpp"}]
-
-    fuzzysort.highlight(fuzzysort.single('fs', 'Fuzzy Search'), '<b>', '</b>')
-    // <b>F</b>uzzy <b>S</b>earch
-  */
-  var fuzzysort = createCommonjsModule(function (module) {
+  (function (module) {
 
     (function (root, UMD) {
       if (module.exports) module.exports = UMD();else root.fuzzysort = UMD();
     })(commonjsGlobal, function UMD() {
       function fuzzysortNew(instanceOptions) {
         var fuzzysort = {
-          single: function (search, target, options) {
+          single: function single(search, target, options) {
             if (!search) return null;
             if (!isObj(search)) search = fuzzysort.getPreparedSearch(search);
             if (!target) return null;
@@ -3745,7 +4241,7 @@
             // if(result.score < threshold) return null
             // return result
           },
-          go: function (search, targets, options) {
+          go: function go(search, targets, options) {
             if (!search) return noResults;
             search = fuzzysort.prepareSearch(search);
             var searchLowerCode = search[0];
@@ -3848,12 +4344,14 @@
             if (resultsLen === 0) return noResults;
             var results = new Array(resultsLen);
 
-            for (var i = resultsLen - 1; i >= 0; --i) results[i] = q.poll();
+            for (var i = resultsLen - 1; i >= 0; --i) {
+              results[i] = q.poll();
+            }
 
             results.total = resultsLen + limitedCount;
             return results;
           },
-          goAsync: function (search, targets, options) {
+          goAsync: function goAsync(search, targets, options) {
             var canceled = false;
             var p = new Promise(function (resolve, reject) {
               if (!search) return resolve(noResults);
@@ -3996,7 +4494,9 @@
                 if (resultsLen === 0) return resolve(noResults);
                 var results = new Array(resultsLen);
 
-                for (var i = resultsLen - 1; i >= 0; --i) results[i] = q.poll();
+                for (var i = resultsLen - 1; i >= 0; --i) {
+                  results[i] = q.poll();
+                }
 
                 results.total = resultsLen + limitedCount;
                 resolve(results);
@@ -4011,7 +4511,7 @@
 
             return p;
           },
-          highlight: function (result, hOpen, hClose) {
+          highlight: function highlight(result, hOpen, hClose) {
             if (result === null) return null;
             if (hOpen === undefined) hOpen = '<b>';
             if (hClose === undefined) hClose = '</b>';
@@ -4049,7 +4549,7 @@
 
             return highlighted;
           },
-          prepare: function (target) {
+          prepare: function prepare(target) {
             if (!target) return;
             return {
               target: target,
@@ -4060,7 +4560,7 @@
               obj: null
             }; // hidden
           },
-          prepareSlow: function (target) {
+          prepareSlow: function prepareSlow(target) {
             if (!target) return;
             return {
               target: target,
@@ -4071,7 +4571,7 @@
               obj: null
             }; // hidden
           },
-          prepareSearch: function (search) {
+          prepareSearch: function prepareSearch(search) {
             if (!search) return;
             return fuzzysort.prepareLowerCodes(search);
           },
@@ -4079,7 +4579,7 @@
           // Below this point is only internal code
           // Below this point is only internal code
           // Below this point is only internal code
-          getPrepared: function (target) {
+          getPrepared: function getPrepared(target) {
             if (target.length > 999) return fuzzysort.prepare(target); // don't cache huge targets
 
             var targetPrepared = preparedCache.get(target);
@@ -4088,7 +4588,7 @@
             preparedCache.set(target, targetPrepared);
             return targetPrepared;
           },
-          getPreparedSearch: function (search) {
+          getPreparedSearch: function getPreparedSearch(search) {
             if (search.length > 999) return fuzzysort.prepareSearch(search); // don't cache huge searches
 
             var searchPrepared = preparedSearchCache.get(search);
@@ -4097,7 +4597,7 @@
             preparedSearchCache.set(search, searchPrepared);
             return searchPrepared;
           },
-          algorithm: function (searchLowerCodes, prepared, searchLowerCode) {
+          algorithm: function algorithm(searchLowerCodes, prepared, searchLowerCode) {
             var targetLowerCodes = prepared._targetLowerCodes;
             var searchLen = searchLowerCodes.length;
             var targetLen = targetLowerCodes.length;
@@ -4232,12 +4732,14 @@
               prepared.score = score;
               prepared.indexes = new Array(matchesBestLen);
 
-              for (var i = matchesBestLen - 1; i >= 0; --i) prepared.indexes[i] = matchesBest[i];
+              for (var i = matchesBestLen - 1; i >= 0; --i) {
+                prepared.indexes[i] = matchesBest[i];
+              }
 
               return prepared;
             }
           },
-          algorithmNoTypo: function (searchLowerCodes, prepared, searchLowerCode) {
+          algorithmNoTypo: function algorithmNoTypo(searchLowerCodes, prepared, searchLowerCode) {
             var targetLowerCodes = prepared._targetLowerCodes;
             var searchLen = searchLowerCodes.length;
             var targetLen = targetLowerCodes.length;
@@ -4323,22 +4825,26 @@
               prepared.score = score;
               prepared.indexes = new Array(matchesBestLen);
 
-              for (var i = matchesBestLen - 1; i >= 0; --i) prepared.indexes[i] = matchesBest[i];
+              for (var i = matchesBestLen - 1; i >= 0; --i) {
+                prepared.indexes[i] = matchesBest[i];
+              }
 
               return prepared;
             }
           },
-          prepareLowerCodes: function (str) {
+          prepareLowerCodes: function prepareLowerCodes(str) {
             var strLen = str.length;
             var lowerCodes = []; // new Array(strLen)    sparse array is too slow
 
             var lower = str.toLowerCase();
 
-            for (var i = 0; i < strLen; ++i) lowerCodes[i] = lower.charCodeAt(i);
+            for (var i = 0; i < strLen; ++i) {
+              lowerCodes[i] = lower.charCodeAt(i);
+            }
 
             return lowerCodes;
           },
-          prepareBeginningIndexes: function (target) {
+          prepareBeginningIndexes: function prepareBeginningIndexes(target) {
             var targetLen = target.length;
             var beginningIndexes = [];
             var beginningIndexesLen = 0;
@@ -4357,7 +4863,7 @@
 
             return beginningIndexes;
           },
-          prepareNextBeginningIndexes: function (target) {
+          prepareNextBeginningIndexes: function prepareNextBeginningIndexes(target) {
             var targetLen = target.length;
             var beginningIndexes = fuzzysort.prepareBeginningIndexes(target);
             var nextBeginningIndexes = []; // new Array(targetLen)     sparse array is too slow
@@ -4426,18 +4932,20 @@
         var len = segs.length;
         var i = -1;
 
-        while (obj && ++i < len) obj = obj[segs[i]];
+        while (obj && ++i < len) {
+          obj = obj[segs[i]];
+        }
 
         return obj;
       }
 
       function isObj(x) {
-        return typeof x === 'object';
+        return _typeof(x) === 'object';
       } // faster as a function
       // Hacked version of https://github.com/lemire/FastPriorityQueue.js
 
 
-      var fastpriorityqueue = function () {
+      var fastpriorityqueue = function fastpriorityqueue() {
         var r = [],
             o = 0,
             e = {};
@@ -4448,7 +4956,9 @@
             e = c, f < o && r[f].score < r[c].score && (e = f), r[e - 1 >> 1] = r[e], c = 1 + (e << 1);
           }
 
-          for (var a = e - 1 >> 1; e > 0 && n.score < r[a].score; a = (e = a) - 1 >> 1) r[e] = r[a];
+          for (var a = e - 1 >> 1; e > 0 && n.score < r[a].score; a = (e = a) - 1 >> 1) {
+            r[e] = r[a];
+          }
 
           r[e] = n;
         }
@@ -4457,7 +4967,9 @@
           var n = o;
           r[o++] = e;
 
-          for (var c = n - 1 >> 1; n > 0 && e.score < r[c].score; c = (n = c) - 1 >> 1) r[n] = r[c];
+          for (var c = n - 1 >> 1; n > 0 && e.score < r[c].score; c = (n = c) - 1 >> 1) {
+            r[n] = r[c];
+          }
 
           r[n] = e;
         }, e.poll = function () {
@@ -4482,7 +4994,9 @@
     // TODO: (like sublime) backslash === forwardslash
     // TODO: (performance) i have no idea how well optizmied the allowing typos algorithm is
 
-  });
+  })(fuzzysort$1);
+
+  var fuzzysort = fuzzysort$1.exports;
 
   var stats = {
     passedTests: 0,
@@ -4725,7 +5239,7 @@
             }
           } else {
             while ((test = hiddenTests.pop()) != null) {
-              tests.append(test)
+              tests.appendChild(test);
             }
           }
         }
