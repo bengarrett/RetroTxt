@@ -13,6 +13,7 @@ module.exports = {
     `*.md`,
     `package.json`,
     `package-lock.json`,
+    `*.py`,
     `test`,
     `.web-ext-*.js`,
     `fonts/woff2.sh`,
