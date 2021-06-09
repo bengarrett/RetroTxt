@@ -1,13 +1,25 @@
 # Building RetroTxt
 
-Please note: [Tasks do not run on Powershell](https://github.com/go-task/task/issues/319), Windows users should use WSL.
+Please note: [Tasks do not run on PowerShell](https://github.com/go-task/task/issues/319), Windows users should use WSL.
 
-### Clone and initialize the repo
+### Clone, initialize and branch the repo
 
 ```sh
 gh repo clone bengarrett/RetroTxt
 cd RetroTxt
 task init
+```
+
+```sh
+# Create a dev branch
+git checkout -b dev
+```
+
+```sh
+# Create a pull request to merge the dev branch into main
+gh pr create
+gh pr status
+gh pr merge
 ```
 
 ### Package dependencies to newer versions
@@ -28,22 +40,11 @@ vars:
   VERSION: "0.0.0"
 ```
 
-### Submit RetroTxt daily with version stamp
-
 ```sh
-task publish-private
-```
-
-### Build for public Github
-
-```sh
-task publish
-```
-
-### Commit to public Github
-
-```sh
-task publish-public
+# apply VERSION stamp to the manifest and package json files.
+task version-set
+# or set the VERSION and then submit to GitHub
+task commit
 ```
 
 ## Store submissions
