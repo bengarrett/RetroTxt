@@ -37,7 +37,7 @@
           </footer>
         </div>
       </div>
-      <section class="hero is-primary is-fullheight">
+      <section class="hero is-primary is-fullheight" id="heroSection">
         <!-- Hero head: will stick at the top -->
         <div class="hero-head">
           <nav class="navbar">
@@ -71,8 +71,8 @@
                     Documentation
                   </a>
                   <span class="navbar-item">
-                    <a class="button is-primary is-inverted" href="https://github.com/bengarrett/RetroTxt"
-                      title="Get the source code hosted on GitHub">
+                    <a class="button is-primary is-inverted" id="getTheSource"
+                      href="https://github.com/bengarrett/RetroTxt" title="Get the source code hosted on GitHub">
                       <span class="icon">
                         <svg role="img" class="material-icons">
                           <use xlink:href="../assets/svg/material-icons.svg#code"></use>
@@ -3852,9 +3852,37 @@
             <div class="column is-half is-offset-one-quarter">
               <div class="box">
                 <h1 class="title has-text-black-ter is-size-3 mt-4">Settings</h1>
-                <p class="is-size-7 m-0"><a href="https://docs.retrotxt.com/privacy">Privacy policy for the
-                    browser API permission requests</a></p>
+                <!-- option themes -->
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">Options theme</div>
+                    <div class="column is-2"> </div>
+                  </h2>
+                  <p class="subtitle has-text-dark is-size-7 has-text-justified mb-4">The options theme sets the
+                    background and button <span class="msg-color">color</span> of this options tab interface.
+                  </p>
+                  <div id="optionTheme">
+                    <div class="buttons are-small mb-0">
+                      <button class="button option-theme is-primary">Default</button>
+                      <button class="button option-theme is-link">Blue</button>
+                      <button class="button option-theme is-info">Cyan</button>
+                      <button class="button option-theme is-success">Green</button>
+                      <button class="button option-theme is-warning">Yellow</button>
+                      <button class="button option-theme is-danger">Red</button>
+                    </div>
+                    <div class="buttons are-small">
+                      <button class="button option-theme is-white">White</button>
+                      <button class="button option-theme is-light">Light</button>
+                      <button class="button option-theme is-dark">Dark</button>
+                      <button class="button option-theme is-black">Black</button>
+                      <button class="button option-theme is-text">Text</button>
+                      <button class="button option-theme is-ghost">Ghost</button>
+                    </div>
+                  </div>
+                </div>
                 <hr>
+                <p class="is-size-7 m-0 mb-2"><a href="https://docs.retrotxt.com/privacy">Privacy policy for the
+                    browser API permission requests</a></p>
                 <!-- run retrotxt on files hosted -->
                 <div>
                   <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">

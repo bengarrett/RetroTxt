@@ -4,6 +4,7 @@
 
 ### October 2021
 
+- 11 new color themes for the Options tab under Settings.
 - Fixed broken elements in `options.html`.
 
 ## 4.1

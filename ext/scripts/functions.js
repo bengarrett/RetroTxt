@@ -828,6 +828,7 @@ class OptionsReset {
       .set(`colorsTextPairs`, `msdos`)
       .set(`fontFamilyName`, `ibm_vga_8x16`) // new in v4, formerly retroFont
       .set(`optionTab`, `0`) // new in v4
+      .set(`optionClass`, `is-primary`) // new in v4.2
       .set(`settingsInformationHeader`, `on`) // formerly textFontInformation
       .set(`settingsNewUpdateNotice`, true)
       .set(`settingsWebsiteViewer`, true)
