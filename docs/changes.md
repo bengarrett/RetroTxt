@@ -1,5 +1,11 @@
 # RetroTxt Changes
 
+## 4.2
+
+### October 2021
+
+- Fixed broken elements in `options.html`.
+
 ## 4.1
 
 ### June 2021
