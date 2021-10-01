@@ -4,6 +4,8 @@
 
 ### October 2021
 
+- Squared 1:1, 8x8 pixel PC fonts now use their `-2y` variants when available.
+  The 2y variants are 16x16 in size, meaning they're easier to read and look better.
 - 11 new color themes for the Options tab under Settings.
 - Fixed broken elements in `options.html`.
 
