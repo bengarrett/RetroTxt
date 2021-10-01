@@ -33,11 +33,11 @@
     "semi": false
   },
   "devDependencies": {
-    "ajv": "8.5.0",
+    "ajv": "8.6.3",
     "dot-json": "*",
     "eslint": "7.x",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-prettier": "3.x",
+    "eslint-plugin-prettier": "4.x",
     "prettier": "2.x",
     "wawoff2": "2.0.0",
     "web-ext": "*"
