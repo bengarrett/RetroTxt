@@ -1,0 +1,53 @@
+/*
+  filename: text_animation-off.css
+
+  Override RetroTxt infinite blink animations
+  Used by the "Blinking cursor and text" off toggle in Options Display.
+*/
+
+:root {
+  --blink-timer: 0ms;
+  --blink-fast-timer: 0ms;
+}
+
+/* PCBoard blinking */
+i.PB8,
+i.PB9,
+i.PBA,
+i.PBB,
+i.PBC,
+i.PBD,
+i.PBE,
+i.PBF {
+  animation: none;
+}
+
+/* ANSI/ECMA48 blinking */
+div > i.SGR5,
+div > i.SGR6 {
+  animation: none;
+}
+div > i.SGR40.SGR5 {
+  animation: none;
+}
+div > i.SGR41.SGR5 {
+  animation: none;
+}
+div > i.SGR42.SGR5 {
+  animation: none;
+}
+div > i.SGR43.SGR5 {
+  animation: none;
+}
+div > i.SGR44.SGR5 {
+  animation: none;
+}
+div > i.SGR45.SGR5 {
+  animation: none;
+}
+div > i.SGR46.SGR5 {
+  animation: none;
+}
+div > i.SGR47.SGR5 {
+  animation: none;
+}

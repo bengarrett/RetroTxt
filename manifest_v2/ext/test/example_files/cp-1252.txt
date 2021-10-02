@@ -1,0 +1,13 @@
+Document encoding: Windows-1252
+'Transcode text' setting: Automatic
+File name: cp-1252.txt
+
+RetroTxt CP-1252 test
+
+‘ single curved quotes ’
+
+“ double curved quotes ”
+
+…	Ellipsis
+
+™	Trademark

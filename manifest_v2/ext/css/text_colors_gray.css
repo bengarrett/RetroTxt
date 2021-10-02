@@ -1,0 +1,31 @@
+/*
+  filename: text_colors_gray.css
+
+  ECMA-48 presentation control function colour codes in XTERM 4-bit gray scale
+  Using BT.709 where gray = (Red * 0.2126 + Green * 0.7152 + Blue * 0.0722)
+  Equation explained http://www.tannerhelland.com/3643/grayscale-image-algorithm-vb6/
+
+  Classes SGR39 SGR40 SGR49 are in `css/text_ecma_48.css`
+*/
+
+@import url("text_colors_blink.css");
+@import url("text_colors_4bit.css");
+
+:root {
+  --black: rgb(0, 0, 0);
+  --red: rgb(44, 44, 44);
+  --green: rgb(147, 147, 147);
+  --brown: rgb(191, 191, 191);
+  --blue: rgb(26, 26, 26);
+  --magenta: rgb(67, 67, 67);
+  --cyan: rgb(170, 170, 170);
+  --grey: rgb(229, 229, 229);
+  --darkgrey: rgb(127, 127, 127);
+  --lightred: rgb(77, 77, 77);
+  --lightgreen: rgb(150, 150, 150);
+  --yellow: rgb(227, 277, 277);
+  --lightblue: rgb(110, 110, 110);
+  --lightmagenta: rgb(105, 105, 105);
+  --lightcyan: rgb(178, 178, 178);
+  --white: rgb(255, 255, 255);
+}

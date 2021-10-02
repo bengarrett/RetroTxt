@@ -1,0 +1,154 @@
+/*
+  filename: text_colors_pcboard.css
+
+  PCBoard BBS and WildCat! BBS @-codes
+  4-bit colour codes
+*/
+
+@import url("text_colors_bbs.css");
+@import url("text_colors_blink.css");
+
+/* PCBoard and WildCat! BBS colours */
+
+i.PF0 {
+  color: var(--black);
+}
+
+i.PF1 {
+  color: var(--blue);
+}
+
+i.PF2 {
+  color: var(--green);
+}
+
+i.PF3 {
+  color: var(--cyan);
+}
+
+i.PF4 {
+  color: var(--red);
+}
+
+i.PF5 {
+  color: var(--magenta);
+}
+
+i.PF6 {
+  color: var(--brown);
+}
+
+i.PF7 {
+  color: var(--grey);
+}
+
+i.PF8 {
+  color: var(--darkgrey);
+}
+
+i.PF9 {
+  color: var(--lightblue);
+}
+
+i.PFA {
+  color: var(--lightgreen);
+}
+
+i.PFB {
+  color: var(--lightcyan);
+}
+
+i.PFC {
+  color: var(--lightred);
+}
+
+i.PFD {
+  color: var(--lightmagenta);
+}
+
+i.PFE {
+  color: var(--yellow);
+}
+
+i.PFF {
+  color: var(--white);
+}
+
+i.PB0 {
+  background-color: transparent;
+}
+
+i.PB1 {
+  animation: none;
+  background-color: var(--blue);
+}
+
+i.PB2 {
+  animation: none;
+  background-color: var(--green);
+}
+
+i.PB3 {
+  animation: none;
+  background-color: var(--cyan);
+}
+
+i.PB4 {
+  animation: none;
+  background-color: var(--red);
+}
+
+i.PB5 {
+  animation: none;
+  background-color: var(--magenta);
+}
+
+i.PB6 {
+  animation: none;
+  background-color: var(--brown);
+}
+
+i.PB7 {
+  animation: none;
+  background-color: var(--grey);
+}
+
+i.PB8 {
+  animation: var(--blinking-on-black);
+  background-color: var(--black);
+}
+
+i.PB9 {
+  animation: var(--blinking-on-blue);
+  background-color: var(--blue);
+}
+
+i.PBA {
+  animation: var(--blinking-on-green);
+  background-color: var(--green);
+}
+
+i.PBB {
+  animation: var(--blinking-on-cyan);
+  background-color: var(--cyan);
+}
+
+i.PBC {
+  animation: var(--blinking-on-red);
+  background-color: var(--red);
+}
+
+i.PBD {
+  animation: var(--blinking-on-magenta);
+  background-color: var(--magenta);
+}
+
+i.PBE {
+  animation: var(--blinking-on-brown);
+  background-color: var(--brown);
+}
+
+i.PBF {
+  animation: var(--blinking-on-grey);
+  background-color: var(--grey);
+}

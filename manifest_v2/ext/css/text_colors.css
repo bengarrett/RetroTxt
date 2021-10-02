@@ -1,0 +1,178 @@
+/*
+  filename: text_colors.css
+
+  Colours used for ASCII and plain text themes
+*/
+
+/*
+Global variables for all text_colors_*.css
+*/
+
+:root {
+  --amber: rgb(185, 128, 0);
+  --black: rgb(0, 0, 0);
+  --green: rgb(41, 244, 24);
+  --vgagray: rgb(170, 170, 170);
+  --white: rgb(255, 255, 255);
+}
+
+/*
+MS-DOS / IBM PC BIOS
+*/
+
+.theme-msdos-fg {
+  color: var(--vgagray);
+}
+
+.theme-msdos-bg {
+  background-color: var(--black);
+}
+
+.theme-msdos-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(64, 64, 64, 1);
+}
+
+/*
+Windows 9x notepad.exe theme
+*/
+
+.theme-windows-fg {
+  color: var(--black);
+}
+
+.theme-windows-bg {
+  background-color: var(--white);
+}
+
+.theme-windows-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(156, 156, 156, 1);
+}
+
+/*
+Commodore Amiga theme
+*/
+
+.theme-amiga-fg {
+  color: rgb(247, 247, 247);
+}
+
+.theme-amiga-bg {
+  background-color: rgb(148, 148, 148);
+}
+
+.theme-amiga-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(72, 72, 72, 1);
+}
+
+/*
+Apple II (NTSC) theme
+source: http://www.kreativekorp.com/miscpages/a2info/munafo.shtml
+*/
+
+.theme-appleii-fg {
+  color: rgb(41, 41, 41);
+}
+
+.theme-appleii-bg {
+  background-color: rgb(12, 234, 97);
+}
+
+.theme-appleii-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(156, 156, 156, 1);
+}
+
+/*
+Atari ST theme
+*/
+
+.theme-atarist-fg {
+  color: var(--black);
+}
+
+.theme-atarist-bg {
+  background-color: var(--white);
+}
+
+.theme-atarist-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(156, 156, 156, 1);
+}
+
+/*
+Commodore 64 theme
+*/
+
+.theme-c64-fg {
+  color: rgb(108, 94, 181);
+}
+
+.theme-c64-bg {
+  background-color: rgb(53, 40, 121);
+}
+
+.theme-c64-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(30, 20, 77, 1);
+}
+
+/*
+Generic on black backgrounds
+*/
+
+.theme-white-on-black-fg {
+  color: var(--white);
+}
+
+.theme-amber-on-black-fg {
+  color: var(--amber);
+}
+
+.theme-green-on-black-fg {
+  color: var(--green);
+}
+
+.theme-white-on-black-bg,
+.theme-amber-on-black-bg,
+.theme-green-on-black-bg {
+  background-color: var(--black);
+}
+
+.theme-white-on-black-shadowed,
+.theme-amber-on-black-shadowed,
+.theme-green-on-black-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(72, 72, 72, 1);
+}
+
+/*
+Generic on white backgrounds
+*/
+
+.theme-gray-on-white-fg {
+  color: var(--vgagray);
+}
+
+.theme-amber-on-white-fg {
+  color: var(--amber);
+}
+
+.theme-green-on-white-fg {
+  color: var(--green);
+}
+
+.theme-gray-on-white-bg,
+.theme-amber-on-white-bg,
+.theme-green-on-white-bg {
+  background-color: var(--white);
+}
+
+.theme-gray-on-white-shadowed,
+.theme-amber-on-white-shadowed,
+.theme-green--on-white-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(224, 224, 224, 1);
+}
+
+/*
+Custom on an unknown background
+*/
+
+.theme-custom-shadowed {
+  text-shadow: 0.063em 0.063em 0 rgba(0, 0, 0, 0.5);
+}

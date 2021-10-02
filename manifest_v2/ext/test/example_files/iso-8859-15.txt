@@ -1,0 +1,11 @@
+Document encoding: ISO 8859-15
+'Transcode text' setting: ISO 8859-15
+File name: iso-8859-15.txt
+
+RetroTxt ISO 8859-15 test
+
+¤	Euro sign
+
+¾	Capital Y diacritic
+
+½	o and e grapheme

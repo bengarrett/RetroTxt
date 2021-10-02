@@ -1,0 +1,31 @@
+/*
+  filename: text_colors_c64.css
+
+  ANSI / ECMA-48 presentation control function colour codes in 
+  Commodore 64 colours. RGB values taken from Retroshowcase.gr 
+  http://www.retroshowcase.gr/index.php?p=palette
+
+  Classes SGR39 SGR40 SGR49 are in `css/text_ecma_48.css`
+*/
+
+@import url("text_colors_blink.css");
+@import url("text_colors_4bit.css");
+
+:root {
+  --black: rgb(0, 0, 0);
+  --red: rgb(135, 57, 50);
+  --green: rgb(84, 160, 73);
+  --brown: rgb(139, 83, 41);
+  --blue: rgb(64, 49, 141);
+  --magenta: rgb(138, 63, 150);
+  --cyan: rgb(102, 182, 189);
+  --grey: rgb(120, 120, 120);
+  --darkgrey: rgb(80, 79, 79);
+  --lightred: rgb(184, 104, 98);
+  --lightgreen: rgb(148, 224, 136);
+  --yellow: rgb(191, 206, 113);
+  --lightblue: rgb(120, 104, 196);
+  --lightmagenta: rgb(87, 66, 8);
+  --lightcyan: rgb(159, 159, 159);
+  --white: rgb(255, 255, 255);
+}

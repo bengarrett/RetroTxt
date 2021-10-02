@@ -1,0 +1,71 @@
+/*
+  filename: text_colors_cga_0.css
+
+  ECMA-48 presentation control function colour codes in CGA Palette 0, 2-bit
+  https://lospec.com/palette-list/tag/cga
+
+  Classes SGR39 SGR40 SGR49 are in `css/text_ecma_48.css`
+*/
+
+:root {
+  --black: rgb(0, 0, 0);
+  --green: rgb(85, 255, 85);
+  --red: rgb(255, 85, 85);
+  --yellow: rgb(255, 255, 85);
+  --darkgrey: rgb(85, 85, 85);
+  --darkgreen: rgb(0, 170, 0);
+  --darkred: rgb(170, 0, 0);
+  --brown: rgb(170, 85, 0);
+}
+
+/* low-intensity (used for bold text) */
+
+div > i.SGR30 {
+  color: var(--black);
+}
+
+div > i.SGR45,
+div > i.SGR42,
+div > i.SGR37,
+div > i.SGR34,
+div > i.SGR31 {
+  color: var(--green);
+}
+
+div > i.SGR46,
+div > i.SGR43,
+div > i.SGR40,
+div > i.SGR35,
+div > i.SGR32 {
+  color: var(--red);
+}
+
+div > i.SGR47,
+div > i.SGR44,
+div > i.SGR41,
+div > i.SGR36,
+div > i.SGR33 {
+  color: var(--yellow);
+}
+
+/* high-intensity (used for bold text) */
+
+div > i.SGR130,
+div > i.SGR134 {
+  color: var(--darkgrey);
+}
+
+div > i.SGR135,
+div > i.SGR131 {
+  color: var(--darkgreen);
+}
+
+div > i.SGR136,
+div > i.SGR132 {
+  color: var(--darkred);
+}
+
+div > i.SGR137,
+div > i.SGR133 {
+  color: var(--brown);
+}

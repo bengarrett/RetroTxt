@@ -1,0 +1,37 @@
+/*
+  To avoid unintended consequences only include
+  properties that need to be changed.
+
+  scaleX(1.125);                  9px / 8px = 1.125 scale
+  transform-origin: 0 0;          stops the scaled text repositioning
+  backface-visibility: visible;   reduces colour bleeding between block/shade characters
+*/
+
+.font-ibm_ega_9x8 {
+  font-family: ibm_ega_8x8;
+  transform: scaleX(1.125);
+  transform-origin: 0 0;
+  backface-visibility: visible;
+}
+.font-ibm_ega_9x14 {
+  font-family: ibm_ega_8x14;
+  transform: scaleX(1.125);
+  transform-origin: 0 0;
+  backface-visibility: visible;
+}
+.font-ibm_vga_9x16 {
+  font-family: ibm_vga_8x16;
+  transform: scaleX(1.125);
+  transform-origin: 0 0;
+  backface-visibility: visible;
+}
+.font-ibm_vga_9x14 {
+  font-family: ibm_vga_8x14;
+  transform: scaleX(1.125);
+  transform-origin: 0 0;
+  backface-visibility: visible;
+}
+
+.font-ibm_vga_9x16-example {
+  font-family: ibm_vga_9x16;
+}

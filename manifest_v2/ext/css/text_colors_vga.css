@@ -1,0 +1,31 @@
+/*
+  filename: text_colors_vga.css
+
+  ANSI / ECMA-48 presentation control function colour codes in 
+  CGA, EGA and VGA BIOS modes. RGB values taken from Wikipedia 
+  https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+
+  Classes SGR39 SGR40 SGR49 are in `css/text_ecma_48.css`
+*/
+
+@import url("text_colors_blink.css");
+@import url("text_colors_4bit.css");
+
+:root {
+  --black: rgb(0, 0, 0);
+  --red: rgb(170, 0, 0);
+  --green: rgb(0, 170, 0);
+  --brown: rgb(170, 85, 0);
+  --blue: rgb(0, 0, 170);
+  --magenta: rgb(170, 0, 170);
+  --cyan: rgb(0, 170, 170);
+  --grey: rgb(170, 170, 170);
+  --darkgrey: rgb(85, 85, 85);
+  --lightred: rgb(255, 85, 85);
+  --lightgreen: rgb(85, 255, 85);
+  --yellow: rgb(255, 255, 85);
+  --lightblue: rgb(85, 85, 255);
+  --lightmagenta: rgb(255, 85, 255);
+  --lightcyan: rgb(85, 255, 255);
+  --white: rgb(255, 255, 255);
+}

@@ -1,0 +1,35 @@
+@07@Document encoding: Windows-1252
+'Transcode text' setting: Automatic
+File name: bbs-wildcat.txt
+
+@07@The start of the text MUST start with a Wildcat @??@ code
+
+This is a test of the Wildcat BBS @ colour codes
+"@<Background><Foreground>@"
+
+@04@Red @02@Green @01@Blue@07@ on black
+
+@74@Red@04@ @72@Green@02@ @71@Blue@07@ on white
+
+@24@Red@04@ @22@Green@02@ @21@Blue@07@ on green
+
+
+    -* @0F@All Colours Chart @07@*-
+Code     Background Foreground
+@0F@
+@0      @0F@ BG        @70@ FG @07@ black@0F@
+@1      @18@ BG        @31@ FG @07@ blue@0F@
+@2      @20@ BG        @02@ FG @07@ green@0F@
+@3      @30@ BG        @03@ FG @07@ cyan@0F@
+@4      @40@ BG        @04@ FG @07@ red@0F@
+@5      @50@ BG        @05@ FG @07@ magenta@0F@
+@6      @60@ BG        @06@ FG @07@ brown@0F@
+@7      @70@ BG        @07@ FG @07@ light grey@0F@
+@8      @87@ BG        @08@ FG @07@ black/dark grey@0F@
+@9      @90@ BG        @09@ FG @07@ blue/light blue@0F@
+@A      @A0@ BG        @0A@ FG @07@ green/light green@0F@
+@B      @B0@ BG        @0B@ FG @07@ cyan/light cyan@0F@
+@C      @C0@ BG        @0C@ FG @07@ red/light red@0F@
+@D      @D0@ BG        @0D@ FG @07@ magenta/light magenta@0F@
+@E      @E0@ BG        @0E@ FG @07@ brown/yellow@0F@
+@F      @F0@ BG        @0F@ FG @07@ light grey/white

@@ -1,0 +1,31 @@
+/*
+  filename: text_colors_xterm.css
+
+  ANSI / ECMA-48 presentation control function colour codes in 
+  XTERM 4-bit colour mode. The RGB values taken from Wikipedia 
+  https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+
+  Classes SGR39 SGR40 SGR49 are in `css/text_ecma_48.css`
+*/
+
+@import url("text_colors_blink.css");
+@import url("text_colors_4bit.css");
+
+:root {
+  --black: rgb(0, 0, 0);
+  --red: rgb(205, 0, 0);
+  --green: rgb(0, 205, 0);
+  --brown: rgb(205, 205, 0);
+  --blue: rgb(0, 0, 205);
+  --magenta: rgb(205, 0, 205);
+  --cyan: rgb(0, 205, 205);
+  --grey: rgb(229, 229, 229);
+  --darkgrey: rgb(127, 127, 127);
+  --lightred: rgb(255, 0, 0);
+  --lightgreen: rgb(0, 255, 0);
+  --yellow: rgb(255, 255, 0);
+  --lightblue: rgb(92, 92, 255);
+  --lightmagenta: rgb(255, 0, 255);
+  --lightcyan: rgb(0, 255, 255);
+  --white: rgb(255, 255, 255);
+}

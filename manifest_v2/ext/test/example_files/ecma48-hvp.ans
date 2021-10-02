@@ -1,0 +1,8 @@
+[0m-----------------------------------------------------------
+      [1;3mECMA-48[3m Cursor HVP Proof sheet[0m
+      Horizontal and Vertical Positioning [row;column]
+-----------------------------------------------------------
+[7;fMove to row 7_[10;9fMove to row 10 and column 9_[15;1fMove to row 15 and column 1_
+[20;fIntended new line should start at row 20_[30;HCUP command to go to line 30_[31;H
+--------------------------------------------------
+[35;62HFinally let's test a position that toggles the 80 column wrapping.
