@@ -28,6 +28,7 @@
   "javascript.format.enable": false,
   "search.exclude": {
     "**/qunit.js": true,
+    "**/manifest_v2": true
   },
   "spellright.documentTypes": [
     "markdown",
@@ -37,9 +38,7 @@
     "css",
     "yaml"
   ],
-  "spellright.language": [
-    "en"
-  ],
+  "spellright.language": ["en"],
   "spellright.notificationClass": "hint",
   "typescript.format.enable": false
 }
