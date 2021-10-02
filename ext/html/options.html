@@ -37,7 +37,7 @@
           </footer>
         </div>
       </div>
-      <section class="hero is-primary is-fullheight">
+      <section class="hero is-primary is-fullheight" id="heroSection">
         <!-- Hero head: will stick at the top -->
         <div class="hero-head">
           <nav class="navbar">
@@ -64,15 +64,15 @@
                   <a class="navbar-item" id="hero5" href="">
                     Display
                   </a>
-                  <a class="navbar-item" id="hero6" href=""">
+                  <a class="navbar-item" id="hero6" href="">
                     Settings
                   </a>
                   <a class=" navbar-item" id="hero7" href="">
                     Documentation
                   </a>
                   <span class="navbar-item">
-                    <a class="button is-primary is-inverted" href="https://github.com/bengarrett/RetroTxt"
-                      title="Get the source code hosted on GitHub">
+                    <a class="button is-primary is-inverted" id="getTheSource"
+                      href="https://github.com/bengarrett/RetroTxt" title="Get the source code hosted on GitHub">
                       <span class="icon">
                         <svg role="img" class="material-icons">
                           <use xlink:href="../assets/svg/material-icons.svg#code"></use>
@@ -138,15 +138,15 @@
             </div>
             <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
-                <p class="mb-2">Welcome to RetroTxt!</p>
+                <p class="mb-2"><strong>Welcome</strong></p>
                 <p>
-                  To enhance its functionality, you can add new websites and enable <strong>Run
-                    RetroTxt on files hosted on these domains</strong> in the <a id="newInstallSettings">Settings
-                    tab</a>.<br>The <a id="newInstallDisplay">Display tab</a> contains the theming and style options,
-                  while <a id="newInstallFonts">Fonts</a> lets you choose one of many font families.
+                  <a id="newInstallSettings">To enhance functionality</a>, add new websites and enable <em>Run
+                    RetroTxt on files hosted on these domains</em> in the Settings
+                  tab.<br><a id="newInstallDisplay">The Display tab</a> contains the theming and style options.
+                  <br><a id="newInstallFonts">While Fonts lets you choose</a> one of many font families.
                 </p>
                 <p class="mt-2">
-                  Also, the <a id="newInstallSamples">Samples</a> tab offers a small gallery of text art to get you
+                  <a id="newInstallSamples">Also, the Samples tab</a> offers a small gallery of text art to get you
                   started.
                 </p>
               </div>
@@ -1073,7 +1073,7 @@
                   </div>
                 </div>
 
-                <!-- automatic generation begin (31 May 21 01:58 +0000) -->
+                <!-- automatic generation begin (01 Oct 21 06:33 +0000) -->
                 <div>
                   <!-- IBM PC -->
                   <div class="box"><a id="ibmpc"></a>
@@ -1089,9 +1089,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">The original PC's firmware font, used in
                       BIOS-supported graphics
                       modes</p>
-                    <label class="radio" for="ibm_bios">
-                      <input type="radio" name="font" id="ibm_bios" value="ibm_bios"> <u>IBM BIOS</u>
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_bios" target="_blank">
+                    <label class="radio" for="ibm_bios-2y">
+                      <input type="radio" name="font" id="ibm_bios-2y" value="ibm_bios-2y"> <u>IBM BIOS-2y</u>
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_bios-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1103,9 +1103,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">The first PC graphics board; its internal text mode
                       font (40 or 80
                       columns) was seen on the PCjr as well</p>
-                    <label class="radio" for="ibm_cga">
-                      <input type="radio" name="font" id="ibm_cga" value="ibm_cga"> <u>IBM CGA</u>
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_cga" target="_blank">
+                    <label class="radio" for="ibm_cga-2y">
+                      <input type="radio" name="font" id="ibm_cga-2y" value="ibm_cga-2y"> <u>IBM CGA-2y</u>
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_cga-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1117,9 +1117,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">With an additional jumper/solder bridge, CGA could
                       use this lighter
                       font in text mode</p>
-                    <label class="radio" for="ibm_cgathin">
-                      <input type="radio" name="font" id="ibm_cgathin" value="ibm_cgathin"> <u>IBM CGAthin</u>
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_cgathin" target="_blank">
+                    <label class="radio" for="ibm_cgathin-2y">
+                      <input type="radio" name="font" id="ibm_cgathin-2y" value="ibm_cgathin-2y"> <u>IBM CGAthin-2y</u>
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_cgathin-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1249,9 +1249,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">IBM's first laptop-style PC, with a monochrome LCD
                       supporting
                       programmable fonts</p>
-                    <label class="radio" for="ibm_conv">
-                      <input type="radio" name="font" id="ibm_conv" value="ibm_conv"> IBM Conv
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_conv" target="_blank">
+                    <label class="radio" for="ibm_conv-2y">
+                      <input type="radio" name="font" id="ibm_conv-2y" value="ibm_conv-2y"> IBM Conv-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ibm_conv-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1496,9 +1496,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">An XT-compatible machine, with both CGA and
                       MDA/Hercules support on
                       board</p>
-                    <label class="radio" for="acer710_cga">
-                      <input type="radio" name="font" id="acer710_cga" value="acer710_cga"> Acer710 CGA
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?acer710_cga" target="_blank">
+                    <label class="radio" for="acer710_cga-2y">
+                      <input type="radio" name="font" id="acer710_cga-2y" value="acer710_cga-2y"> Acer710 CGA-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?acer710_cga-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1515,9 +1515,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">PC compatibles popoular in Europe, with
                       enhanced-CGA video (plus
                       monochrome support in the PPC)</p>
-                    <label class="radio" for="amstrad_pc">
-                      <input type="radio" name="font" id="amstrad_pc" value="amstrad_pc"> <u>Amstrad PC</u>
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?amstrad_pc" target="_blank">
+                    <label class="radio" for="amstrad_pc-2y">
+                      <input type="radio" name="font" id="amstrad_pc-2y" value="amstrad_pc-2y"> <u>Amstrad PC-2y</u>
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?amstrad_pc-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1618,20 +1618,6 @@
                     <hr>
                     <h2 class="title has-text-dark is-size-6 ">Data General/One portable <span
                         class="has-text-weight-normal">(first
-                        model)</span></h2>
-                    <p class="subtitle has-text-dark is-size-7 mb-2">One of the first true PC-compatible laptops; used a
-                      monochrome LCD
-                      panel at CGA resolution and aspect</p>
-                    <label class="radio" for="dg_one">
-                      <input type="radio" name="font" id="dg_one" value="dg_one"> DG One
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?dg_one" target="_blank">
-                        <svg role="img" class="material-icons has-text-info is-size-7">
-                          <use xlink:href="../assets/svg/material-icons.svg#info"></use>
-                        </svg>
-                      </a></label>
-                    <hr>
-                    <h2 class="title has-text-dark is-size-6 ">Data General/One portable <span
-                        class="has-text-weight-normal">(first
                         model), alternate font</span></h2>
                     <p class="subtitle has-text-dark is-size-7 mb-2">One of the first true PC-compatible laptops; used a
                       monochrome LCD
@@ -1643,9 +1629,16 @@
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
-                    <label class="radio" for="dg_one-2y_bold">
-                      <input type="radio" name="font" id="dg_one-2y_bold" value="dg_one-2y_bold"> DG One-2y (bold)
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?dg_one-2y_bold" target="_blank">
+                    <hr>
+                    <h2 class="title has-text-dark is-size-6 ">Data General/One portable <span
+                        class="has-text-weight-normal">(first
+                        model)</span></h2>
+                    <p class="subtitle has-text-dark is-size-7 mb-2">One of the first true PC-compatible laptops; used a
+                      monochrome LCD
+                      panel at CGA resolution and aspect</p>
+                    <label class="radio" for="dg_one-2y">
+                      <input type="radio" name="font" id="dg_one-2y" value="dg_one-2y"> DG One-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?dg_one-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1688,9 +1681,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">A PC compatible machine circa 1984, had its own
                       font design in the
                       matching CGA card as well as its firmware and DOS</p>
-                    <label class="radio" for="itt_xtra">
-                      <input type="radio" name="font" id="itt_xtra" value="itt_xtra"> ITT Xtra
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?itt_xtra" target="_blank">
+                    <label class="radio" for="itt_xtra-2y">
+                      <input type="radio" name="font" id="itt_xtra-2y" value="itt_xtra-2y"> ITT Xtra-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?itt_xtra-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1700,9 +1693,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Laptop with CGA-level graphics but a different BIOS
                       font used in
                       graphics modes</p>
-                    <label class="radio" for="kaypro2k_g">
-                      <input type="radio" name="font" id="kaypro2k_g" value="kaypro2k_g"> Kaypro2K G
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?kaypro2k_g" target="_blank">
+                    <label class="radio" for="kaypro2k_g-2y">
+                      <input type="radio" name="font" id="kaypro2k_g-2y" value="kaypro2k_g-2y"> Kaypro2K G-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?kaypro2k_g-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1712,9 +1705,10 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">An XT-compatible machine from 1985 manfuactured by
                       Daewoo, with
                       both CGA and MDA/Hercules support on board</p>
-                    <label class="radio" for="le_model_d_cga">
-                      <input type="radio" name="font" id="le_model_d_cga" value="le_model_d_cga"> LE Model D CGA
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?le_model_d_cga" target="_blank">
+                    <label class="radio" for="le_model_d_cga-2y">
+                      <input type="radio" name="font" id="le_model_d_cga-2y" value="le_model_d_cga-2y"> LE Model D
+                      CGA-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?le_model_d_cga-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1731,9 +1725,10 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Australian V30-based computer with custom graphics
                       hardware, and a
                       loadable 'SoftBIOS' for extended video support (plus matching fonts)</p>
-                    <label class="radio" for="mbytepc230_cga">
-                      <input type="radio" name="font" id="mbytepc230_cga" value="mbytepc230_cga"> MBytePC230 CGA
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?mbytepc230_cga" target="_blank">
+                    <label class="radio" for="mbytepc230_cga-2y">
+                      <input type="radio" name="font" id="mbytepc230_cga-2y" value="mbytepc230_cga-2y"> MBytePC230
+                      CGA-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?mbytepc230_cga-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1779,16 +1774,6 @@
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
-                    <label class="radio" for="nec_multispeed-2x_bold">
-                      <input type="radio" name="font" id="nec_multispeed-2x_bold" value="nec_multispeed-2x_bold"> NEC
-                      MultiSpeed-2x
-                      (bold)
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?nec_multispeed-2x_bold"
-                        target="_blank">
-                        <svg role="img" class="material-icons has-text-info is-size-7">
-                          <use xlink:href="../assets/svg/material-icons.svg#info"></use>
-                        </svg>
-                      </a></label>
                     <hr>
                     <h2 class="title has-text-dark is-size-6 ">Nixdorf 8810 M15 PC07</h2>
                     <p class="subtitle has-text-dark is-size-7 mb-2">10MHz XT-class laptop with CGA-level compatibility,
@@ -1820,9 +1805,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">A baseline 4.77MHz 8088 desktop machine with CGA
                       support on board
                     </p>
-                    <label class="radio" for="nix8810_m35">
-                      <input type="radio" name="font" id="nix8810_m35" value="nix8810_m35"> Nix8810 M35
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?nix8810_m35" target="_blank">
+                    <label class="radio" for="nix8810_m35-2y">
+                      <input type="radio" name="font" id="nix8810_m35-2y" value="nix8810_m35-2y"> Nix8810 M35-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?nix8810_m35-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1832,9 +1817,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Laptops with CGA-type video displayed on a 4:3
                       monochrome LCD panel
                     </p>
-                    <label class="radio" for="olivetti_m15">
-                      <input type="radio" name="font" id="olivetti_m15" value="olivetti_m15"> Olivetti M15
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?olivetti_m15" target="_blank">
+                    <label class="radio" for="olivetti_m15-2y">
+                      <input type="radio" name="font" id="olivetti_m15-2y" value="olivetti_m15-2y"> Olivetti M15-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?olivetti_m15-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1881,9 +1866,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Early (1983) pizza-box form-factor computers,
                       mostly PC-compatible
                       with custom 640x200-color video (non-CGA compatible)</p>
-                    <label class="radio" for="sanyombc55x">
-                      <input type="radio" name="font" id="sanyombc55x" value="sanyombc55x"> SanyoMBC55x
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sanyombc55x" target="_blank">
+                    <label class="radio" for="sanyombc55x-2y">
+                      <input type="radio" name="font" id="sanyombc55x-2y" value="sanyombc55x-2y"> SanyoMBC55x-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sanyombc55x-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1893,18 +1878,18 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">A later Sanyo model, fully PC-compatible and one of
                       the first
                       portable ('luggable') clones to come with a color CRT</p>
-                    <label class="radio" for="sanyombc775">
-                      <input type="radio" name="font" id="sanyombc775" value="sanyombc775"> SanyoMBC775
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sanyombc775" target="_blank">
+                    <label class="radio" for="sanyombc775-2y">
+                      <input type="radio" name="font" id="sanyombc775-2y" value="sanyombc775-2y"> SanyoMBC775-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sanyombc775-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
                     <hr>
                     <h2 class="title has-text-dark is-size-6  mb-2">Sanyo MBC-16</h2>
-                    <label class="radio" for="sanyombc16">
-                      <input type="radio" name="font" id="sanyombc16" value="sanyombc16"> SanyoMBC16
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sanyombc16" target="_blank">
+                    <label class="radio" for="sanyombc16-2y">
+                      <input type="radio" name="font" id="sanyombc16-2y" value="sanyombc16-2y"> SanyoMBC16-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sanyombc16-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1914,9 +1899,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">PC/XT compatible computer-in-a-keyboard models,
                       with on-board video
                       supporting CGA and Hercules graphics</p>
-                    <label class="radio" for="europc_cga">
-                      <input type="radio" name="font" id="europc_cga" value="europc_cga"> EuroPC CGA
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?europc_cga" target="_blank">
+                    <label class="radio" for="europc_cga-2y">
+                      <input type="radio" name="font" id="europc_cga-2y" value="europc_cga-2y"> EuroPC CGA-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?europc_cga-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1933,9 +1918,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Luggable machine, dual-CPU (Z80 + i8088) with
                       on-board video
                       supporting CGA text and graphics</p>
-                    <label class="radio" for="seequacm">
-                      <input type="radio" name="font" id="seequacm" value="seequacm"> SeequaCm
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?seequacm" target="_blank">
+                    <label class="radio" for="seequacm-2y">
+                      <input type="radio" name="font" id="seequacm-2y" value="seequacm-2y"> SeequaCm-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?seequacm-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1965,9 +1950,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">1984 PC clone - mostly the same machine as the
                       Leading Edge Model
                       M, but with enhanced video options including hi-res graphics</p>
-                    <label class="radio" for="sperrypc_cga">
-                      <input type="radio" name="font" id="sperrypc_cga" value="sperrypc_cga"> SperryPC CGA
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sperrypc_cga" target="_blank">
+                    <label class="radio" for="sperrypc_cga-2y">
+                      <input type="radio" name="font" id="sperrypc_cga-2y" value="sperrypc_cga-2y"> SperryPC CGA-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sperrypc_cga-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -1986,9 +1971,10 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Enhanced PC (and Jr.) compatibles with extended CGA
                       video; used 8x8
                       text for TV output, but 8x9 on the matching monitor</p>
-                    <label class="radio" for="tandy1k-i_200l">
-                      <input type="radio" name="font" id="tandy1k-i_200l" value="tandy1k-i_200l"> Tandy1K-I 200L
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?tandy1k-i_200l" target="_blank">
+                    <label class="radio" for="tandy1k-i_200l-2y">
+                      <input type="radio" name="font" id="tandy1k-i_200l-2y" value="tandy1k-i_200l-2y"> Tandy1K-I
+                      200L-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?tandy1k-i_200l-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2007,10 +1993,10 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Tandy's later video chipset featured improved
                       graphics, optional
                       monochrome support, and selectable characteracter sets for localization</p>
-                    <label class="radio" for="tandy1k-ii_200l">
-                      <input type="radio" name="font" id="tandy1k-ii_200l" value="tandy1k-ii_200l"> <u>Tandy1K-II
-                        200L</u>
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?tandy1k-ii_200l" target="_blank">
+                    <label class="radio" for="tandy1k-ii_200l-2y">
+                      <input type="radio" name="font" id="tandy1k-ii_200l-2y" value="tandy1k-ii_200l-2y"> <u>Tandy1K-II
+                        200L-2y</u>
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?tandy1k-ii_200l-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2140,9 +2126,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Found in some cheaper PC clones; the BIOS font is
                       used in graphics
                       mode and includes only the lower ASCII characteracters (the rest come from DOS)</p>
-                    <label class="radio" for="copam_bios">
-                      <input type="radio" name="font" id="copam_bios" value="copam_bios"> Copam BIOS
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?copam_bios" target="_blank">
+                    <label class="radio" for="copam_bios-2y">
+                      <input type="radio" name="font" id="copam_bios-2y" value="copam_bios-2y"> Copam BIOS-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?copam_bios-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2153,9 +2139,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Found in some cheaper PC clones; the BIOS font is
                       used in graphics
                       mode and includes only the lower ASCII characteracters (the rest come from DOS)</p>
-                    <label class="radio" for="dtk_bios">
-                      <input type="radio" name="font" id="dtk_bios" value="dtk_bios"> DTK BIOS
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?dtk_bios" target="_blank">
+                    <label class="radio" for="dtk_bios-2y">
+                      <input type="radio" name="font" id="dtk_bios-2y" value="dtk_bios-2y"> DTK BIOS-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?dtk_bios-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2165,9 +2151,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Found in many PC clones; the BIOS font is used in
                       graphics mode and
                       includes only the lower ASCII characteracters (the rest are custom additions)</p>
-                    <label class="radio" for="phoenix_bios">
-                      <input type="radio" name="font" id="phoenix_bios" value="phoenix_bios"> Phoenix BIOS
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?phoenix_bios" target="_blank">
+                    <label class="radio" for="phoenix_bios-2y">
+                      <input type="radio" name="font" id="phoenix_bios-2y" value="phoenix_bios-2y"> Phoenix BIOS-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?phoenix_bios-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2177,9 +2163,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Found in the Vtech Laser series; the BIOS font is
                       used in graphics
                       mode and includes only the lower ASCII characteracters (the rest are custom additions)</p>
-                    <label class="radio" for="vtech_bios">
-                      <input type="radio" name="font" id="vtech_bios" value="vtech_bios"> VTech BIOS
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?vtech_bios" target="_blank">
+                    <label class="radio" for="vtech_bios-2y">
+                      <input type="radio" name="font" id="vtech_bios-2y" value="vtech_bios-2y"> VTech BIOS-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?vtech_bios-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2194,9 +2180,9 @@
                     </p>
                     <hr>
                     <h2 class="title has-text-dark is-size-6  mb-2">Acer M3125 VGA</h2>
-                    <label class="radio" for="acer_vga_8x8">
-                      <input type="radio" name="font" id="acer_vga_8x8" value="acer_vga_8x8"> Acer VGA 8x8
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?acer_vga_8x8" target="_blank">
+                    <label class="radio" for="acer_vga_8x8-2y">
+                      <input type="radio" name="font" id="acer_vga_8x8-2y" value="acer_vga_8x8-2y"> Acer VGA 8x8-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?acer_vga_8x8-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2213,9 +2199,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Used in some EGA boards e.g. the Matrox PG1281; the
                       8x8 size also
                       used in AMI's range of system BIOS firmware</p>
-                    <label class="radio" for="ami_ega_8x8">
-                      <input type="radio" name="font" id="ami_ega_8x8" value="ami_ega_8x8"> AMI EGA 8x8
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ami_ega_8x8" target="_blank">
+                    <label class="radio" for="ami_ega_8x8-2y">
+                      <input type="radio" name="font" id="ami_ega_8x8-2y" value="ami_ega_8x8-2y"> AMI EGA 8x8-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ami_ega_8x8-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2237,9 +2223,9 @@
                     <hr>
                     <h2 class="title has-text-dark is-size-6  mb-2">ATI video cards - EGA/VGA Wonder, Mach, Rage, etc.
                     </h2>
-                    <label class="radio" for="ati_8x8">
-                      <input type="radio" name="font" id="ati_8x8" value="ati_8x8"> ATI 8x8
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ati_8x8" target="_blank">
+                    <label class="radio" for="ati_8x8-2y">
+                      <input type="radio" name="font" id="ati_8x8-2y" value="ati_8x8-2y"> ATI 8x8-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?ati_8x8-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2374,23 +2360,26 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Present alongside the default IBM CGA font; Alt1 is
                       also the system
                       font from Eagle's 1630 and PC-2 computers</p>
-                    <label class="radio" for="eaglespcga_alt1">
-                      <input type="radio" name="font" id="eaglespcga_alt1" value="eaglespcga_alt1"> EagleSpCGA Alt1
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?eaglespcga_alt1" target="_blank">
+                    <label class="radio" for="eaglespcga_alt1-2y">
+                      <input type="radio" name="font" id="eaglespcga_alt1-2y" value="eaglespcga_alt1-2y"> EagleSpCGA
+                      Alt1-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?eaglespcga_alt1-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
-                    <label class="radio" for="eaglespcga_alt2">
-                      <input type="radio" name="font" id="eaglespcga_alt2" value="eaglespcga_alt2"> EagleSpCGA Alt2
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?eaglespcga_alt2" target="_blank">
+                    <label class="radio" for="eaglespcga_alt2-2y">
+                      <input type="radio" name="font" id="eaglespcga_alt2-2y" value="eaglespcga_alt2-2y"> EagleSpCGA
+                      Alt2-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?eaglespcga_alt2-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
-                    <label class="radio" for="eaglespcga_alt3">
-                      <input type="radio" name="font" id="eaglespcga_alt3" value="eaglespcga_alt3"> EagleSpCGA Alt3
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?eaglespcga_alt3" target="_blank">
+                    <label class="radio" for="eaglespcga_alt3-2y">
+                      <input type="radio" name="font" id="eaglespcga_alt3-2y" value="eaglespcga_alt3-2y"> EagleSpCGA
+                      Alt3-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?eaglespcga_alt3-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2402,16 +2391,16 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Has both CGA and Hercules support, also sold with
                       Epson's Equity
                       series computers (same fonts were used in the Equity LT laptop)</p>
-                    <label class="radio" for="epsonmga">
-                      <input type="radio" name="font" id="epsonmga" value="epsonmga"> EpsonMGA
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?epsonmga" target="_blank">
+                    <label class="radio" for="epsonmga-2y">
+                      <input type="radio" name="font" id="epsonmga-2y" value="epsonmga-2y"> EpsonMGA-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?epsonmga-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
-                    <label class="radio" for="epsonmga_alt">
-                      <input type="radio" name="font" id="epsonmga_alt" value="epsonmga_alt"> EpsonMGA Alt
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?epsonmga_alt" target="_blank">
+                    <label class="radio" for="epsonmga_alt-2y">
+                      <input type="radio" name="font" id="epsonmga_alt-2y" value="epsonmga_alt-2y"> EpsonMGA Alt-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?epsonmga_alt-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2499,9 +2488,10 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Available on certain EGA compatible cards; the 8x8
                       font is also
                       used in v3.x of Phoenix's system BIOS firmware</p>
-                    <label class="radio" for="phoenixega_8x8">
-                      <input type="radio" name="font" id="phoenixega_8x8" value="phoenixega_8x8"> PhoenixEGA 8x8
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?phoenixega_8x8" target="_blank">
+                    <label class="radio" for="phoenixega_8x8-2y">
+                      <input type="radio" name="font" id="phoenixega_8x8-2y" value="phoenixega_8x8-2y"> PhoenixEGA
+                      8x8-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?phoenixega_8x8-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2579,9 +2569,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Includes various 3D boards based on Verite
                       1000/2x00 chipsets, e.g.
                       Sierra Screamin' 3D, Intergraph Intense 3D 100, QDI Vision-1</p>
-                    <label class="radio" for="verite_8x8">
-                      <input type="radio" name="font" id="verite_8x8" value="verite_8x8"> Verite 8x8
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?verite_8x8" target="_blank">
+                    <label class="radio" for="verite_8x8-2y">
+                      <input type="radio" name="font" id="verite_8x8-2y" value="verite_8x8-2y"> Verite 8x8-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?verite_8x8-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2912,13 +2902,6 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">8-bit machine with a 80186 coprocessor to provide
                       PC emulation,
                       using DRI DOS Plus (bold characteracters used instead of high-intensty text)</p>
-                    <label class="radio" for="master_512">
-                      <input type="radio" name="font" id="master_512" value="master_512"> Master 512
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?master_512" target="_blank">
-                        <svg role="img" class="material-icons has-text-info is-size-7">
-                          <use xlink:href="../assets/svg/material-icons.svg#info"></use>
-                        </svg>
-                      </a></label>
                     <label class="radio" for="master_512_bold">
                       <input type="radio" name="font" id="master_512_bold" value="master_512_bold"> Master 512 (bold)
                       <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?master_512_bold" target="_blank">
@@ -2926,10 +2909,9 @@
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
-                    <label class="radio" for="master_512-2y_bold">
-                      <input type="radio" name="font" id="master_512-2y_bold" value="master_512-2y_bold"> Master 512-2y
-                      (bold)
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?master_512-2y_bold" target="_blank">
+                    <label class="radio" for="master_512-2y">
+                      <input type="radio" name="font" id="master_512-2y" value="master_512-2y"> Master 512-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?master_512-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -2963,9 +2945,9 @@
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
                       </a></label>
-                    <label class="radio" for="apricot_200l">
-                      <input type="radio" name="font" id="apricot_200l" value="apricot_200l"> Apricot 200L
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?apricot_200l" target="_blank">
+                    <label class="radio" for="apricot_200l-2y">
+                      <input type="radio" name="font" id="apricot_200l-2y" value="apricot_200l-2y"> Apricot 200L-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?apricot_200l-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -3081,9 +3063,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">Enhanced PC semi-compatible with custom
                       coprocessors for graphics
                       and other tasks, and video modes up to 640x400 (interlaced)</p>
-                    <label class="radio" for="mindset">
-                      <input type="radio" name="font" id="mindset" value="mindset"> Mindset
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?mindset" target="_blank">
+                    <label class="radio" for="mindset-2y">
+                      <input type="radio" name="font" id="mindset-2y" value="mindset-2y"> Mindset-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?mindset-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -3093,9 +3075,9 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">A relative of NEC's PC-9800 series, but sold
                       outisde Japan,
                       supporting 320x200 up to 640x400 graphics</p>
-                    <label class="radio" for="nec_apc3_8x8">
-                      <input type="radio" name="font" id="nec_apc3_8x8" value="nec_apc3_8x8"> NEC APC3 8x8
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?nec_apc3_8x8" target="_blank">
+                    <label class="radio" for="nec_apc3_8x8-2y">
+                      <input type="radio" name="font" id="nec_apc3_8x8-2y" value="nec_apc3_8x8-2y"> NEC APC3 8x8-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?nec_apc3_8x8-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -3219,9 +3201,10 @@
                     <p class="subtitle has-text-dark is-size-7 mb-2">1983 MS-DOS computer with both low-res TV
                       resolution video and a
                       high-end 640x500 graphics option</p>
-                    <label class="radio" for="toshibat300_8x8">
-                      <input type="radio" name="font" id="toshibat300_8x8" value="toshibat300_8x8"> ToshibaT300 8x8
-                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?toshibat300_8x8" target="_blank">
+                    <label class="radio" for="toshibat300_8x8-2y">
+                      <input type="radio" name="font" id="toshibat300_8x8-2y" value="toshibat300_8x8-2y"> ToshibaT300
+                      8x8-2y
+                      <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?toshibat300_8x8-2y" target="_blank">
                         <svg role="img" class="material-icons has-text-info is-size-7">
                           <use xlink:href="../assets/svg/material-icons.svg#info"></use>
                         </svg>
@@ -3275,7 +3258,7 @@
                       </a></label>
                   </div>
                 </div>
-                <!-- (31 May 21 01:58 +0000) automatic generation end -->
+                <!-- (01 Oct 21 06:33 +0000) automatic generation end -->
 
               </div>
             </div>
@@ -3299,7 +3282,7 @@
                     height.
                   </p>
                   <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                      class="has-text-info">1</span>
+                      class="has-text-info">1</span></p>
                   <div class="field is-horizontal">
                     <div class="field-body">
                       <div class="field">
@@ -3363,7 +3346,7 @@
                       <p class="subtitle has-text-dark is-size-7 mb-0">Toggle the position of the text document
                         from the left-top margin to the <span class="msg-center">center</span> of the display.</p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7 mb-0">recommend <span
-                          class="has-text-success">on</span>
+                          class="has-text-success">on</span></p>
                     </div>
                     <div class="column is-2">
                       <div class="toggleswitch">
@@ -3387,7 +3370,7 @@
                         <span class="has-text-info">Any open tabs will require a reload.</span>
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-grey">off</span>
+                          class="has-text-grey">off</span></p>
                       <p class="subtitle has-text-dark is-size-6 has-text-justified">
                         <code>◘</code> <span class="is-size-7">backspace</span><br>
                         <code>○</code> <span class="is-size-7">tab</span><br>
@@ -3476,7 +3459,7 @@
                     <div class="column is-2"></div>
                   </h2>
                   <p class="subtitle has-text-weight-bold has-text-dark is-size-7 mb-2">recommend <span
-                      class="has-text-info">normal</span>
+                      class="has-text-info">normal</span></p>
                   <form name="text-render-form" id="textRenderForm">
                     <div class="control">
                       <label class="radio" for="txtfxnorm">
@@ -3508,7 +3491,7 @@
                       <span class="has-text-info">Any open tabs will require a reload.</span>
                     </p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                        class="has-text-success">on</span>
+                        class="has-text-success">on</span></p>
                   </div>
                   <div class="column is-2">
                     <div class="toggleswitch">
@@ -3527,7 +3510,7 @@
                       to wrap the text.<br>Page wrap is useful for reading <span class="msg-color">color</span>ed text
                       and logs, but the <em>80 column wrap</em> should be off.</p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
-                        class="has-text-grey">off</span>
+                        class="has-text-grey">off</span></p>
                   </div>
                   <div class="column is-2">
                     <div class="toggleswitch">
@@ -3546,7 +3529,7 @@
                       The iCE Color mode, or the non-blink mode, replaces the eight blinking <span
                         class="msg-color">color</span>s with eight replacement backgrounds.</p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                        class="has-text-success">on</span>
+                        class="has-text-success">on</span></p>
                   </div>
                   <div class="column is-2">
                     <div class="toggleswitch">
@@ -3568,7 +3551,7 @@
                         historic home computer systems and terminals.
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-info">ms-dos</span>
+                          class="has-text-info">ms-dos</span></p>
                     </div>
                     <div class="column is-2"></div>
                   </h2>
@@ -3684,8 +3667,7 @@
                       Xterm is the standard terminal palette for X11 found on Linux, OpenVMS, etc.
                     </p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                        class="has-text-info">ibm
-                        vga</span>
+                        class="has-text-info">ibm vga</span></p>
                   </div>
                   <div class="column is-2"></div>
                 </h2>
@@ -3853,9 +3835,37 @@
             <div class="column is-half is-offset-one-quarter">
               <div class="box">
                 <h1 class="title has-text-black-ter is-size-3 mt-4">Settings</h1>
-                <p class="is-size-7 m-0"><a href="https://docs.retrotxt.com/privacy">Privacy policy for the
-                    browser API permission requests</a></p>
+                <!-- option themes -->
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">Options theme</div>
+                    <div class="column is-2"> </div>
+                  </h2>
+                  <p class="subtitle has-text-dark is-size-7 has-text-justified mb-4">The options theme sets the
+                    background and button <span class="msg-color">color</span> of this options tab interface.
+                  </p>
+                  <div id="optionTheme">
+                    <div class="buttons are-small mb-0">
+                      <button class="button option-theme is-primary">Default</button>
+                      <button class="button option-theme is-link">Blue</button>
+                      <button class="button option-theme is-info">Cyan</button>
+                      <button class="button option-theme is-success">Green</button>
+                      <button class="button option-theme is-warning">Yellow</button>
+                      <button class="button option-theme is-danger">Red</button>
+                    </div>
+                    <div class="buttons are-small">
+                      <button class="button option-theme is-white">White</button>
+                      <button class="button option-theme is-light">Light</button>
+                      <button class="button option-theme is-dark">Dark</button>
+                      <button class="button option-theme is-black">Black</button>
+                      <button class="button option-theme is-text">Text</button>
+                      <button class="button option-theme is-ghost">Ghost</button>
+                    </div>
+                  </div>
+                </div>
                 <hr>
+                <p class="is-size-7 m-0 mb-2"><a href="https://docs.retrotxt.com/privacy">Privacy policy for the
+                    browser API permission requests</a></p>
                 <!-- run retrotxt on files hosted -->
                 <div>
                   <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">
@@ -3874,7 +3884,7 @@
                         Runs in the background and applies RetroTxt to text files
                         hosted on these websites.</p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-success">on</span>
+                          class="has-text-success">on</span></p>
                       <div class="field is-grouped is-grouped-multiline" id="hostTags">
                         <div class="control" style="display: none;" id="templateHost">
                           <div class="tags has-addons">
@@ -3935,7 +3945,7 @@
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
                           class="has-text-grey">off</span> <span class="has-text-weight-normal">(unless
-                          this feature is wanted)</span>
+                          this feature is wanted)</span></p>
                       <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
                         style="display: none;">
                         This feature is blocked as the extension browser configuration <em>Allow access to file
@@ -3959,7 +3969,7 @@
                       <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">When styling text RetroTxt
                         injects a text header detailing the document metadata and style controls.</p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-info">always</span>
+                          class="has-text-info">always</span></p>
                       <form name="infoheader" id="info-form">
                         <div class="control">
                           <label class="radio">
@@ -3989,7 +3999,7 @@
                         when RetroTxt is updated.
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-success">on</span>
+                          class="has-text-success">on</span></p>
                     </div>
                     <div class="column is-2">
                       <div class="toggleswitch">
@@ -4013,7 +4023,7 @@
                           Downloads.</span>
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
-                          class="has-text-grey">off</span>
+                          class="has-text-grey">off</span></p>
                       <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
                         style="display: none;">
                         This feature is blocked as the extension browser configuration <em>Allow access to file
@@ -4054,7 +4064,8 @@
                 <ul>
                   <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/menus.md">Context menu, Transcode
                       this text</a></li>
-                  <li><a href="https://docs.retrotxt.com/source_code">Source code and how to use it</a></li>
+                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/main/docs/source_code.md">Source code and how
+                      to use it</a></li>
                 </ul>
                 <ul class="mt-2">
                   <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/technical.md">Technical

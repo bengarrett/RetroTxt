@@ -1231,7 +1231,7 @@ class Extension {
       case `install`:
         localStorage.setItem(`optionTab`, `0`)
         return chrome.tabs.create({
-          url: chrome.extension.getURL(`html/options.html#newinstall`),
+          url: chrome.runtime.getURL(`html/options.html#newinstall`),
         })
       case `update`:
         // push redundant items into checks array for `storage.local.get()`
@@ -1247,7 +1247,7 @@ class Extension {
             if (results[result] === true) {
               localStorage.setItem(`optionTab`, `0`)
               chrome.tabs.create({
-                url: chrome.extension.getURL(`html/options.html`),
+                url: chrome.runtime.getURL(`html/options.html`),
               })
               return storage.clean()
             }
@@ -1257,7 +1257,7 @@ class Extension {
           // do not show updated notice
           else
             chrome.tabs.create({
-              url: chrome.extension.getURL(`html/options.html#update`),
+              url: chrome.runtime.getURL(`html/options.html#update`),
             })
         })
       case `browser_update`:

@@ -828,6 +828,7 @@ class OptionsReset {
       .set(`colorsTextPairs`, `msdos`)
       .set(`fontFamilyName`, `ibm_vga_8x16`) // new in v4, formerly retroFont
       .set(`optionTab`, `0`) // new in v4
+      .set(`optionClass`, `is-primary`) // new in v4.2
       .set(`settingsInformationHeader`, `on`) // formerly textFontInformation
       .set(`settingsNewUpdateNotice`, true)
       .set(`settingsWebsiteViewer`, true)
@@ -1461,7 +1462,7 @@ function CreateLink(path = ``, id = ``) {
     )
   const link = document.createElement(`link`)
   if (id.length > 0) link.id = id
-  link.href = chrome.extension.getURL(path)
+  link.href = chrome.runtime.getURL(path)
   link.type = `text/css`
   link.rel = `stylesheet`
   return link

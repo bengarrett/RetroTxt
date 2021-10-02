@@ -141,7 +141,7 @@ class HTML {
     if (location.hash.includes(`#display`)) {
       document.getElementById(`hero5`).click()
       // drop the #display in the url which conflict with the option tabs
-      location.replace(`${chrome.extension.getURL(`html/options.html`)}`)
+      location.replace(`${chrome.runtime.getURL(`html/options.html`)}`)
     }
   }
   /**
@@ -386,6 +386,40 @@ class Security {
           console.log(`${catchallScheme} permission has been granted`)
       })
     })
+    // options theme buttons listeners
+    const themes = document.getElementsByClassName(`option-theme`)
+    for (let theme of themes) {
+      theme.addEventListener(`click`, () => {
+        theme.classList.forEach(function (value, key) {
+          let arr = [`button`, `option-theme`]
+          if (arr.includes(value)) {
+            return
+          }
+          const hero = document.getElementById(`heroSection`),
+            src = document.getElementById(`getTheSource`)
+          hero.classList.forEach(function (heroValue) {
+            if (heroValue === `is-fullheight`) {
+              return
+            }
+            if (!heroValue.startsWith(`is-`)) {
+              return
+            }
+            hero.classList.replace(heroValue, value)
+          })
+          src.classList.forEach(function (heroValue) {
+            if (heroValue === `is-inverted`) {
+              return
+            }
+            if (!heroValue.startsWith(`is-`)) {
+              return
+            }
+            src.classList.replace(heroValue, value)
+          })
+          localStorage.setItem(`optionClass`, `${value}`)
+          console.log(theme.textContent, key, value)
+        })
+      })
+    }
   }
   /**
    * Textarea onChanged event that updates the `this.allWebPermissions`
@@ -727,6 +761,30 @@ class Initialise extends CheckBox {
       if (fix === ``) handleError(`Initialise.checks() ${key4} = "${value4}"`)
       localStore(`${key4}`, `${fix.join(";")}`)
     }
+    // check #5 - option theme button
+    const classes = [
+      `is-primary`,
+      `is-link`,
+      `is-info`,
+      `is-success`,
+      `is-warning`,
+      `is-danger`,
+      `is-white`,
+      `is-light`,
+      `is-dark`,
+      `is-black`,
+      `is-text`,
+      `is-ghost`,
+    ]
+    const key5 = `optionClass`
+    let value5 = localStorage.getItem(key5)
+    if (!classes.includes(value5)) {
+      const fix = this.defaults.get(key5)
+      if (fix === ``) handleError(`Initialise.checks() ${key5} = "${value5}"`)
+      localStore(`${key5}`, `${fix}`)
+      value5 = fix
+    }
+    this._colorTheme(value5)
   }
   /**
    * Applies a group of Options modifiers and adjustments.
@@ -780,6 +838,35 @@ class Initialise extends CheckBox {
       case `textRenderEffect`:
         return this._selectEffect()
     }
+  }
+  /**
+   * Select a background and button color for the Options tab.
+   */
+  async _colorTheme(value = ``) {
+    let arr = [`button`, `option-theme`]
+    if (arr.includes(value)) {
+      return
+    }
+    const hero = document.getElementById(`heroSection`),
+      src = document.getElementById(`getTheSource`)
+    hero.classList.forEach(function (heroValue) {
+      if (heroValue === `is-fullheight`) {
+        return
+      }
+      if (!heroValue.startsWith(`is-`)) {
+        return
+      }
+      hero.classList.replace(heroValue, value)
+    })
+    src.classList.forEach(function (heroValue) {
+      if (heroValue === `is-inverted`) {
+        return
+      }
+      if (!heroValue.startsWith(`is-`)) {
+        return
+      }
+      src.classList.replace(heroValue, value)
+    })
   }
   /**
    * Selects a colour palette radio option.

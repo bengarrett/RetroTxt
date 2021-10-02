@@ -1,32 +1,32 @@
 @font-face {
-  font-family: "ibm_bios";
-  src: url("../fonts/WebPlus_IBM_BIOS.woff2") format("woff2");
+  font-family: "ibm_bios-2y";
+  src: url("../fonts/WebPlus_IBM_BIOS-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-ibm_bios {
-  font-family: ibm_bios;
-  font-size: 8px;
-  line-height: 8px;
+.font-ibm_bios-2y {
+  font-family: ibm_bios-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "ibm_cga";
-  src: url("../fonts/WebPlus_IBM_CGA.woff2") format("woff2");
+  font-family: "ibm_cga-2y";
+  src: url("../fonts/WebPlus_IBM_CGA-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-ibm_cga {
-  font-family: ibm_cga;
-  font-size: 8px;
-  line-height: 8px;
+.font-ibm_cga-2y {
+  font-family: ibm_cga-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "ibm_cgathin";
-  src: url("../fonts/WebPlus_IBM_CGAthin.woff2") format("woff2");
+  font-family: "ibm_cgathin-2y";
+  src: url("../fonts/WebPlus_IBM_CGAthin-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-ibm_cgathin {
-  font-family: ibm_cgathin;
-  font-size: 8px;
-  line-height: 8px;
+.font-ibm_cgathin-2y {
+  font-family: ibm_cgathin-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "ibm_mda";
@@ -149,14 +149,14 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "ibm_conv";
-  src: url("../fonts/Web437_IBM_Conv.woff2") format("woff2");
+  font-family: "ibm_conv-2y";
+  src: url("../fonts/Web437_IBM_Conv-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-ibm_conv {
-  font-family: ibm_conv;
-  font-size: 8px;
-  line-height: 8px;
+.font-ibm_conv-2y {
+  font-family: ibm_conv-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "ibm_model30r0";
@@ -399,14 +399,14 @@
   line-height: 19px;
 }
 @font-face {
-  font-family: "acer710_cga";
-  src: url("../fonts/Web437_Acer710_CGA.woff2") format("woff2");
+  font-family: "acer710_cga-2y";
+  src: url("../fonts/Web437_Acer710_CGA-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-acer710_cga {
-  font-family: acer710_cga;
-  font-size: 8px;
-  line-height: 8px;
+.font-acer710_cga-2y {
+  font-family: acer710_cga-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "acer710_mono";
@@ -419,14 +419,14 @@
   line-height: 14px;
 }
 @font-face {
-  font-family: "amstrad_pc";
-  src: url("../fonts/WebPlus_Amstrad_PC.woff2") format("woff2");
+  font-family: "amstrad_pc-2y";
+  src: url("../fonts/WebPlus_Amstrad_PC-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-amstrad_pc {
-  font-family: amstrad_pc;
-  font-size: 8px;
-  line-height: 8px;
+.font-amstrad_pc-2y {
+  font-family: amstrad_pc-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "ast_premiumexec";
@@ -509,16 +509,6 @@
   line-height: 32px;
 }
 @font-face {
-  font-family: "dg_one";
-  src: url("../fonts/Web437_DG_One.woff2") format("woff2");
-  font-display: auto;
-}
-.font-dg_one {
-  font-family: dg_one;
-  font-size: 8px;
-  line-height: 8px;
-}
-@font-face {
   font-family: "dg_one_bold";
   src: url("../fonts/Web437_DG_One_bold.woff2") format("woff2");
   font-display: auto;
@@ -529,12 +519,12 @@
   line-height: 8px;
 }
 @font-face {
-  font-family: "dg_one-2y_bold";
-  src: url("../fonts/Web437_DG_One-2y_bold.woff2") format("woff2");
+  font-family: "dg_one-2y";
+  src: url("../fonts/Web437_DG_One-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-dg_one-2y_bold {
-  font-family: dg_one-2y_bold;
+.font-dg_one-2y {
+  font-family: dg_one-2y;
   font-size: 16px;
   line-height: 16px;
 }
@@ -579,34 +569,34 @@
   line-height: 12px;
 }
 @font-face {
-  font-family: "itt_xtra";
-  src: url("../fonts/Web437_ITT_Xtra.woff2") format("woff2");
+  font-family: "itt_xtra-2y";
+  src: url("../fonts/Web437_ITT_Xtra-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-itt_xtra {
-  font-family: itt_xtra;
-  font-size: 8px;
-  line-height: 8px;
+.font-itt_xtra-2y {
+  font-family: itt_xtra-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "kaypro2k_g";
-  src: url("../fonts/Web437_Kaypro2K_G.woff2") format("woff2");
+  font-family: "kaypro2k_g-2y";
+  src: url("../fonts/Web437_Kaypro2K_G-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-kaypro2k_g {
-  font-family: kaypro2k_g;
-  font-size: 8px;
-  line-height: 8px;
+.font-kaypro2k_g-2y {
+  font-family: kaypro2k_g-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "le_model_d_cga";
-  src: url("../fonts/Web437_LE_Model_D_CGA.woff2") format("woff2");
+  font-family: "le_model_d_cga-2y";
+  src: url("../fonts/Web437_LE_Model_D_CGA-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-le_model_d_cga {
-  font-family: le_model_d_cga;
-  font-size: 8px;
-  line-height: 8px;
+.font-le_model_d_cga-2y {
+  font-family: le_model_d_cga-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "le_model_d_mono";
@@ -619,14 +609,14 @@
   line-height: 14px;
 }
 @font-face {
-  font-family: "mbytepc230_cga";
-  src: url("../fonts/Web437_MBytePC230_CGA.woff2") format("woff2");
+  font-family: "mbytepc230_cga-2y";
+  src: url("../fonts/Web437_MBytePC230_CGA-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-mbytepc230_cga {
-  font-family: mbytepc230_cga;
-  font-size: 8px;
-  line-height: 8px;
+.font-mbytepc230_cga-2y {
+  font-family: mbytepc230_cga-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "mbytepc230_ega";
@@ -679,16 +669,6 @@
   line-height: 8px;
 }
 @font-face {
-  font-family: "nec_multispeed-2x_bold";
-  src: url("../fonts/Web437_NEC_MultiSpeed-2x_bold.woff2") format("woff2");
-  font-display: auto;
-}
-.font-nec_multispeed-2x_bold {
-  font-family: nec_multispeed-2x_bold;
-  font-size: 8px;
-  line-height: 8px;
-}
-@font-face {
   font-family: "nix8810_m15";
   src: url("../fonts/Web437_Nix8810_M15.woff2") format("woff2");
   font-display: auto;
@@ -709,24 +689,24 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "nix8810_m35";
-  src: url("../fonts/Web437_Nix8810_M35.woff2") format("woff2");
+  font-family: "nix8810_m35-2y";
+  src: url("../fonts/Web437_Nix8810_M35-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-nix8810_m35 {
-  font-family: nix8810_m35;
-  font-size: 8px;
-  line-height: 8px;
+.font-nix8810_m35-2y {
+  font-family: nix8810_m35-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "olivetti_m15";
-  src: url("../fonts/Web437_Olivetti_M15.woff2") format("woff2");
+  font-family: "olivetti_m15-2y";
+  src: url("../fonts/Web437_Olivetti_M15-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-olivetti_m15 {
-  font-family: olivetti_m15;
-  font-size: 8px;
-  line-height: 8px;
+.font-olivetti_m15-2y {
+  font-family: olivetti_m15-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "olivettithin_8x14";
@@ -769,44 +749,44 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "sanyombc55x";
-  src: url("../fonts/Web437_SanyoMBC55x.woff2") format("woff2");
+  font-family: "sanyombc55x-2y";
+  src: url("../fonts/Web437_SanyoMBC55x-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-sanyombc55x {
-  font-family: sanyombc55x;
-  font-size: 8px;
-  line-height: 8px;
+.font-sanyombc55x-2y {
+  font-family: sanyombc55x-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "sanyombc775";
-  src: url("../fonts/Web437_SanyoMBC775.woff2") format("woff2");
+  font-family: "sanyombc775-2y";
+  src: url("../fonts/Web437_SanyoMBC775-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-sanyombc775 {
-  font-family: sanyombc775;
-  font-size: 8px;
-  line-height: 8px;
+.font-sanyombc775-2y {
+  font-family: sanyombc775-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "sanyombc16";
-  src: url("../fonts/Web437_SanyoMBC16.woff2") format("woff2");
+  font-family: "sanyombc16-2y";
+  src: url("../fonts/Web437_SanyoMBC16-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-sanyombc16 {
-  font-family: sanyombc16;
-  font-size: 8px;
-  line-height: 8px;
+.font-sanyombc16-2y {
+  font-family: sanyombc16-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "europc_cga";
-  src: url("../fonts/Web437_EuroPC_CGA.woff2") format("woff2");
+  font-family: "europc_cga-2y";
+  src: url("../fonts/Web437_EuroPC_CGA-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-europc_cga {
-  font-family: europc_cga;
-  font-size: 8px;
-  line-height: 8px;
+.font-europc_cga-2y {
+  font-family: europc_cga-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "europc_mono";
@@ -819,14 +799,14 @@
   line-height: 14px;
 }
 @font-face {
-  font-family: "seequacm";
-  src: url("../fonts/Web437_SeequaCm.woff2") format("woff2");
+  font-family: "seequacm-2y";
+  src: url("../fonts/Web437_SeequaCm-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-seequacm {
-  font-family: seequacm;
-  font-size: 8px;
-  line-height: 8px;
+.font-seequacm-2y {
+  font-family: seequacm-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "sharp_pc3k";
@@ -849,14 +829,14 @@
   line-height: 8px;
 }
 @font-face {
-  font-family: "sperrypc_cga";
-  src: url("../fonts/Web437_SperryPC_CGA.woff2") format("woff2");
+  font-family: "sperrypc_cga-2y";
+  src: url("../fonts/Web437_SperryPC_CGA-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-sperrypc_cga {
-  font-family: sperrypc_cga;
-  font-size: 8px;
-  line-height: 8px;
+.font-sperrypc_cga-2y {
+  font-family: sperrypc_cga-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "sperrypc_8x16";
@@ -869,14 +849,14 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "tandy1k-i_200l";
-  src: url("../fonts/Web437_Tandy1K-I_200L.woff2") format("woff2");
+  font-family: "tandy1k-i_200l-2y";
+  src: url("../fonts/Web437_Tandy1K-I_200L-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-tandy1k-i_200l {
-  font-family: tandy1k-i_200l;
-  font-size: 8px;
-  line-height: 8px;
+.font-tandy1k-i_200l-2y {
+  font-family: tandy1k-i_200l-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "tandy1k-i_225l";
@@ -889,14 +869,14 @@
   line-height: 9px;
 }
 @font-face {
-  font-family: "tandy1k-ii_200l";
-  src: url("../fonts/WebPlus_Tandy1K-II_200L.woff2") format("woff2");
+  font-family: "tandy1k-ii_200l-2y";
+  src: url("../fonts/WebPlus_Tandy1K-II_200L-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-tandy1k-ii_200l {
-  font-family: tandy1k-ii_200l;
-  font-size: 8px;
-  line-height: 8px;
+.font-tandy1k-ii_200l-2y {
+  font-family: tandy1k-ii_200l-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "tandy1k-ii_225l";
@@ -1029,54 +1009,54 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "copam_bios";
-  src: url("../fonts/Web437_Copam_BIOS.woff2") format("woff2");
+  font-family: "copam_bios-2y";
+  src: url("../fonts/Web437_Copam_BIOS-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-copam_bios {
-  font-family: copam_bios;
-  font-size: 8px;
-  line-height: 8px;
+.font-copam_bios-2y {
+  font-family: copam_bios-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "dtk_bios";
-  src: url("../fonts/Web437_DTK_BIOS.woff2") format("woff2");
+  font-family: "dtk_bios-2y";
+  src: url("../fonts/Web437_DTK_BIOS-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-dtk_bios {
-  font-family: dtk_bios;
-  font-size: 8px;
-  line-height: 8px;
+.font-dtk_bios-2y {
+  font-family: dtk_bios-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "phoenix_bios";
-  src: url("../fonts/Web437_Phoenix_BIOS.woff2") format("woff2");
+  font-family: "phoenix_bios-2y";
+  src: url("../fonts/Web437_Phoenix_BIOS-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-phoenix_bios {
-  font-family: phoenix_bios;
-  font-size: 8px;
-  line-height: 8px;
+.font-phoenix_bios-2y {
+  font-family: phoenix_bios-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "vtech_bios";
-  src: url("../fonts/Web437_VTech_BIOS.woff2") format("woff2");
+  font-family: "vtech_bios-2y";
+  src: url("../fonts/Web437_VTech_BIOS-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-vtech_bios {
-  font-family: vtech_bios;
-  font-size: 8px;
-  line-height: 8px;
+.font-vtech_bios-2y {
+  font-family: vtech_bios-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "acer_vga_8x8";
-  src: url("../fonts/Web437_Acer_VGA_8x8.woff2") format("woff2");
+  font-family: "acer_vga_8x8-2y";
+  src: url("../fonts/Web437_Acer_VGA_8x8-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-acer_vga_8x8 {
-  font-family: acer_vga_8x8;
-  font-size: 8px;
-  line-height: 8px;
+.font-acer_vga_8x8-2y {
+  font-family: acer_vga_8x8-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "acer_vga_9x8";
@@ -1089,14 +1069,14 @@
   line-height: 8px;
 }
 @font-face {
-  font-family: "ami_ega_8x8";
-  src: url("../fonts/Web437_AMI_EGA_8x8.woff2") format("woff2");
+  font-family: "ami_ega_8x8-2y";
+  src: url("../fonts/Web437_AMI_EGA_8x8-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-ami_ega_8x8 {
-  font-family: ami_ega_8x8;
-  font-size: 8px;
-  line-height: 8px;
+.font-ami_ega_8x8-2y {
+  font-family: ami_ega_8x8-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "ami_ega_8x14";
@@ -1119,14 +1099,14 @@
   line-height: 14px;
 }
 @font-face {
-  font-family: "ati_8x8";
-  src: url("../fonts/Web437_ATI_8x8.woff2") format("woff2");
+  font-family: "ati_8x8-2y";
+  src: url("../fonts/Web437_ATI_8x8-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-ati_8x8 {
-  font-family: ati_8x8;
-  font-size: 8px;
-  line-height: 8px;
+.font-ati_8x8-2y {
+  font-family: ati_8x8-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "ati_9x8";
@@ -1269,54 +1249,54 @@
   line-height: 19px;
 }
 @font-face {
-  font-family: "eaglespcga_alt1";
-  src: url("../fonts/Web437_EagleSpCGA_Alt1.woff2") format("woff2");
+  font-family: "eaglespcga_alt1-2y";
+  src: url("../fonts/Web437_EagleSpCGA_Alt1-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-eaglespcga_alt1 {
-  font-family: eaglespcga_alt1;
-  font-size: 8px;
-  line-height: 8px;
+.font-eaglespcga_alt1-2y {
+  font-family: eaglespcga_alt1-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "eaglespcga_alt2";
-  src: url("../fonts/Web437_EagleSpCGA_Alt2.woff2") format("woff2");
+  font-family: "eaglespcga_alt2-2y";
+  src: url("../fonts/Web437_EagleSpCGA_Alt2-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-eaglespcga_alt2 {
-  font-family: eaglespcga_alt2;
-  font-size: 8px;
-  line-height: 8px;
+.font-eaglespcga_alt2-2y {
+  font-family: eaglespcga_alt2-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "eaglespcga_alt3";
-  src: url("../fonts/Web437_EagleSpCGA_Alt3.woff2") format("woff2");
+  font-family: "eaglespcga_alt3-2y";
+  src: url("../fonts/Web437_EagleSpCGA_Alt3-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-eaglespcga_alt3 {
-  font-family: eaglespcga_alt3;
-  font-size: 8px;
-  line-height: 8px;
+.font-eaglespcga_alt3-2y {
+  font-family: eaglespcga_alt3-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "epsonmga";
-  src: url("../fonts/Web437_EpsonMGA.woff2") format("woff2");
+  font-family: "epsonmga-2y";
+  src: url("../fonts/Web437_EpsonMGA-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-epsonmga {
-  font-family: epsonmga;
-  font-size: 8px;
-  line-height: 8px;
+.font-epsonmga-2y {
+  font-family: epsonmga-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "epsonmga_alt";
-  src: url("../fonts/Web437_EpsonMGA_Alt.woff2") format("woff2");
+  font-family: "epsonmga_alt-2y";
+  src: url("../fonts/Web437_EpsonMGA_Alt-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-epsonmga_alt {
-  font-family: epsonmga_alt;
-  font-size: 8px;
-  line-height: 8px;
+.font-epsonmga_alt-2y {
+  font-family: epsonmga_alt-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "epsonmga_mono";
@@ -1399,14 +1379,14 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "phoenixega_8x8";
-  src: url("../fonts/Web437_PhoenixEGA_8x8.woff2") format("woff2");
+  font-family: "phoenixega_8x8-2y";
+  src: url("../fonts/Web437_PhoenixEGA_8x8-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-phoenixega_8x8 {
-  font-family: phoenixega_8x8;
-  font-size: 8px;
-  line-height: 8px;
+.font-phoenixega_8x8-2y {
+  font-family: phoenixega_8x8-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "phoenixega_8x14";
@@ -1499,14 +1479,14 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "verite_8x8";
-  src: url("../fonts/Web437_Verite_8x8.woff2") format("woff2");
+  font-family: "verite_8x8-2y";
+  src: url("../fonts/Web437_Verite_8x8-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-verite_8x8 {
-  font-family: verite_8x8;
-  font-size: 8px;
-  line-height: 8px;
+.font-verite_8x8-2y {
+  font-family: verite_8x8-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "verite_9x8";
@@ -1879,16 +1859,6 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "master_512";
-  src: url("../fonts/Web437_Master_512.woff2") format("woff2");
-  font-display: auto;
-}
-.font-master_512 {
-  font-family: master_512;
-  font-size: 8px;
-  line-height: 8px;
-}
-@font-face {
   font-family: "master_512_bold";
   src: url("../fonts/Web437_Master_512_bold.woff2") format("woff2");
   font-display: auto;
@@ -1899,12 +1869,12 @@
   line-height: 8px;
 }
 @font-face {
-  font-family: "master_512-2y_bold";
-  src: url("../fonts/Web437_Master_512-2y_bold.woff2") format("woff2");
+  font-family: "master_512-2y";
+  src: url("../fonts/Web437_Master_512-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-master_512-2y_bold {
-  font-family: master_512-2y_bold;
+.font-master_512-2y {
+  font-family: master_512-2y;
   font-size: 16px;
   line-height: 16px;
 }
@@ -1939,14 +1909,14 @@
   line-height: 16px;
 }
 @font-face {
-  font-family: "apricot_200l";
-  src: url("../fonts/Web437_Apricot_200L.woff2") format("woff2");
+  font-family: "apricot_200l-2y";
+  src: url("../fonts/Web437_Apricot_200L-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-apricot_200l {
-  font-family: apricot_200l;
-  font-size: 8px;
-  line-height: 8px;
+.font-apricot_200l-2y {
+  font-family: apricot_200l-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "apricot_256l";
@@ -2059,24 +2029,24 @@
   line-height: 28px;
 }
 @font-face {
-  font-family: "mindset";
-  src: url("../fonts/Web437_Mindset.woff2") format("woff2");
+  font-family: "mindset-2y";
+  src: url("../fonts/Web437_Mindset-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-mindset {
-  font-family: mindset;
-  font-size: 8px;
-  line-height: 8px;
+.font-mindset-2y {
+  font-family: mindset-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
-  font-family: "nec_apc3_8x8";
-  src: url("../fonts/Web437_NEC_APC3_8x8.woff2") format("woff2");
+  font-family: "nec_apc3_8x8-2y";
+  src: url("../fonts/Web437_NEC_APC3_8x8-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-nec_apc3_8x8 {
-  font-family: nec_apc3_8x8;
-  font-size: 8px;
-  line-height: 8px;
+.font-nec_apc3_8x8-2y {
+  font-family: nec_apc3_8x8-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "nec_apc3_8x16";
@@ -2189,14 +2159,14 @@
   line-height: 12px;
 }
 @font-face {
-  font-family: "toshibat300_8x8";
-  src: url("../fonts/Web437_ToshibaT300_8x8.woff2") format("woff2");
+  font-family: "toshibat300_8x8-2y";
+  src: url("../fonts/Web437_ToshibaT300_8x8-2y.woff2") format("woff2");
   font-display: auto;
 }
-.font-toshibat300_8x8 {
-  font-family: toshibat300_8x8;
-  font-size: 8px;
-  line-height: 8px;
+.font-toshibat300_8x8-2y {
+  font-family: toshibat300_8x8-2y;
+  font-size: 16px;
+  line-height: 16px;
 }
 @font-face {
   font-family: "toshibat300_8x16";
