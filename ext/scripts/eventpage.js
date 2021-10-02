@@ -557,23 +557,23 @@ class ToolbarButton {
   }
   disable() {
     if (this.id === 0) return
-    chrome.browserAction.setBadgeText({ text: `` })
-    chrome.browserAction.setTitle({
+    chrome.action.setBadgeText({ text: `` })
+    chrome.action.setTitle({
       title: `RetroTxt${this.title}`,
       tabId: this.id,
     })
-    chrome.browserAction.enable(this.id)
+    chrome.action.enable(this.id)
   }
   enable() {
     if (this.id === 0) return
     // alternative checkmark styles: ✓ ✔ 🗹 ✅
     const checkMark = `✓`
-    chrome.browserAction.setBadgeText({ text: `${checkMark}` })
-    chrome.browserAction.setTitle({
+    chrome.action.setBadgeText({ text: `${checkMark}` })
+    chrome.action.setTitle({
       title: `RetroTxt${this.title}`,
       tabId: this.id,
     })
-    chrome.browserAction.enable(this.id)
+    chrome.action.enable(this.id)
   }
 }
 
@@ -1403,7 +1403,7 @@ class Extension {
     switch (darkMode) {
       case true:
         console.log(`Chrome thinks the ${os()} system theme is in dark mode.`)
-        return chrome.browserAction.setIcon({
+        return chrome.action.setIcon({
           path: {
             16: "assets/retrotxt_16-light.png",
             19: "assets/retrotxt_19-light.png",
@@ -1415,7 +1415,7 @@ class Extension {
         })
       default:
         console.log(`Chrome thinks the ${os()} system theme is in light mode.`)
-        return chrome.browserAction.setIcon({
+        return chrome.action.setIcon({
           path: {
             16: "assets/retrotxt_16.png",
             19: "assets/retrotxt_19.png",
@@ -1746,8 +1746,7 @@ class Menu {
           )
         return
       case `darkMode`:
-        console.log(`HONK VALUE`, value)
-        chrome.browserAction.setIcon({
+        chrome.action.setIcon({
           path: {
             16: "assets/retrotxt_16-light.png",
             19: "assets/retrotxt_19-light.png",
@@ -1819,7 +1818,7 @@ class Menu {
     })
   })
   // browser action (tool bar button) click event
-  chrome.browserAction.onClicked.addListener((tab) => {
+  chrome.action.onClicked.addListener((tab) => {
     new Action(tab.id, tab).browserAction()
   })
   // file downloads event listeners
