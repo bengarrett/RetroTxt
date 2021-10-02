@@ -1,5 +1,9 @@
 # RetroTxt Changes
 
+## 5.0
+
+### Migration to Manifest v3
+
 ## 4.2
 
 ### October 2021

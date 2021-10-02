@@ -72,7 +72,7 @@
     "*://*.retrotxt.com/*"
   ],
   "short_name": "RetroTxt",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "web_accessible_resources": [
     "css/*.css",
     "fonts/*.woff2",
