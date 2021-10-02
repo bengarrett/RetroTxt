@@ -240,11 +240,11 @@ class DOM {
       palette.set()
       toggle.textContent = `${palette.key}`
       // update link
-      const link = chrome.extension.getURL(palette.savedFilename())
+      const link = chrome.runtime.getURL(palette.savedFilename())
       document.getElementById(`retrotxt-4bit`).href = link
       // update ice colors link
       if (css !== null)
-        css.href = chrome.extension.getURL(palette.savedFilename(true))
+        css.href = chrome.runtime.getURL(palette.savedFilename(true))
     }
   }
   /**
@@ -382,7 +382,7 @@ class DOM {
     ansi.set()
     const link = document.getElementById(`retrotxt-4bit`),
       elm = document.getElementById(`colorPaletteToggle`)
-    if (link !== null) link.href = chrome.extension.getURL(ansi.savedFilename())
+    if (link !== null) link.href = chrome.runtime.getURL(ansi.savedFilename())
     if (elm !== null && ecma48.colorDepth === 4) elm.textContent = `${ansi.key}`
   }
   /**
@@ -613,7 +613,7 @@ class DOM {
   async linkAnsiColorPalette() {
     const path = `../css`,
       depth = this.ecma48.colorDepth,
-      url = chrome.extension.getURL,
+      url = chrome.runtime.getURL,
       link4bit = `retrotxt-4bit`
     ecma48.colorDepth = depth
     switch (depth) {
@@ -1947,7 +1947,7 @@ class Information extends Output {
     const a = document.createElement(`a`)
     a.id = `moreSettings`
     a.textContent = `Options`
-    a.href = `${chrome.extension.getURL(`html/options.html#display`)}`
+    a.href = `${chrome.runtime.getURL(`html/options.html#display`)}`
     a.onclick = () => {
       localStorage.setItem(`optionTab`, `6`)
     }

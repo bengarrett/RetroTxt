@@ -141,7 +141,7 @@ class HTML {
     if (location.hash.includes(`#display`)) {
       document.getElementById(`hero5`).click()
       // drop the #display in the url which conflict with the option tabs
-      location.replace(`${chrome.extension.getURL(`html/options.html`)}`)
+      location.replace(`${chrome.runtime.getURL(`html/options.html`)}`)
     }
   }
   /**

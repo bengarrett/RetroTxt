@@ -1462,7 +1462,7 @@ function CreateLink(path = ``, id = ``) {
     )
   const link = document.createElement(`link`)
   if (id.length > 0) link.id = id
-  link.href = chrome.extension.getURL(path)
+  link.href = chrome.runtime.getURL(path)
   link.type = `text/css`
   link.rel = `stylesheet`
   return link
