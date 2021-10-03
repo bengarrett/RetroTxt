@@ -12,9 +12,15 @@
   },
   "author": "Ben Garrett",
   "background": {
-    "scripts": ["scripts/functions.js", "scripts/eventpage.js"],
-    "persistent": false
+    "service_worker": "scripts/background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "js": ["scripts/functions.js", "scripts/content-script.js"]
+    }
+  ],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
@@ -61,9 +67,9 @@
   "short_name": "RetroTxt",
   "version": "5.0.0",
   "web_accessible_resources": [
-    { "resources": ["css/*.css"], "matches": ["*"] },
-    { "resources": ["fonts/*.woff2"], "matches": ["*"] },
-    { "resources": ["html/options.html"], "matches": ["*"] },
-    { "resources": ["test/tests_browser.js"], "matches": ["*"] }
+    { "resources": ["css/*.css"], "matches": ["<all_urls>"] },
+    { "resources": ["fonts/*.woff2"], "matches": ["<all_urls>"] },
+    { "resources": ["html/options.html"], "matches": ["<all_urls>"] },
+    { "resources": ["test/tests_browser.js"], "matches": ["<all_urls>"] }
   ]
 }

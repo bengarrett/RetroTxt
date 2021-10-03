@@ -1318,7 +1318,7 @@ class Extension {
       return false
     }
     // execute RetroTxt
-    chrome.tabs.executeScript(
+    chrome.scripting.executeScript(
       tabId,
       {
         file: `/scripts/functions.js`,
@@ -1328,7 +1328,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
         // this automatic invocation will be run after the `scripts/eventpage.js`
         // page is loaded and at the start of the document
-        chrome.tabs.executeScript(
+        chrome.scripting.executeScript(
           tabId,
           {
             code: `BusySpinner()`,
@@ -1340,7 +1340,7 @@ class Extension {
         )
       }
     )
-    chrome.tabs.executeScript(
+    chrome.scripting.executeScript(
       tabId,
       {
         file: `/scripts/parse_ansi.js`,
@@ -1350,7 +1350,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
       }
     )
-    chrome.tabs.executeScript(
+    chrome.scripting.executeScript(
       tabId,
       {
         file: `/scripts/parse_dos.js`,
@@ -1360,7 +1360,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
       }
     )
-    chrome.tabs.executeScript(
+    chrome.scripting.executeScript(
       tabId,
       {
         file: `/scripts/retrotxt.js`,
@@ -1370,7 +1370,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
         // automatic execute,
         // but has to be run after `scripts/retrotxt.js` is loaded
-        chrome.tabs.executeScript(
+        chrome.scripting.executeScript(
           tabId,
           {
             code: `Execute(${tabId},"${pageEncoding.toUpperCase()}")`,
