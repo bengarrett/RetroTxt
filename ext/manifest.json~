@@ -1,13 +1,5 @@
 {
-  "author": "Ben Garrett",
-  "background": {
-    "scripts": [
-      "scripts/functions.js",
-      "scripts/eventpage.js"
-    ],
-    "persistent": false
-  },
-  "browser_action": {
+  "action": {
     "default_title": "RetroTxt",
     "default_icon": {
       "16": "assets/retrotxt_16.png",
@@ -18,6 +10,21 @@
       "128": "assets/retrotxt_128.png"
     }
   },
+  "author": "Ben Garrett",
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "js": [
+        "scripts/helpers/consts.js",
+        "scripts/helpers/functions.js",
+        "scripts/content-script.js"
+      ]
+    }
+  ],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
@@ -29,25 +36,8 @@
   "default_locale": "en_US",
   "description": "Turn pieces of ANSI based text art and ASCII, NFO plain text into HTML.",
   "homepage_url": "https://retrotxt.com",
-  "icons": {
-    "16": "assets/retrotxt_16.png",
-    "19": "assets/retrotxt_19.png",
-    "32": "assets/retrotxt_32.png",
-    "38": "assets/retrotxt_38.png",
-    "48": "assets/retrotxt_48.png",
-    "128": "assets/retrotxt_128.png"
-  },
-  "incognito": "split",
-  "manifest_version": 2,
-  "minimum_chrome_version": "72",
-  "name": "RetroTxt",
-  "omnibox": {
-    "keyword": "rt"
-  },
-  "optional_permissions": [
-    "downloads",
-    "downloads.open",
-    "tabs",
+  "host_permissions": [
+    "*://*.retrotxt.com/*",
     "file:///*/",
     "*://*/*",
     "*://*.16colo.rs/*",
@@ -57,23 +47,33 @@
     "*://*.textfiles.com/*",
     "*://*.uncreativelabs.net/*"
   ],
+  "icons": {
+    "16": "assets/retrotxt_16.png",
+    "19": "assets/retrotxt_19.png",
+    "32": "assets/retrotxt_32.png",
+    "38": "assets/retrotxt_38.png",
+    "48": "assets/retrotxt_48.png",
+    "128": "assets/retrotxt_128.png"
+  },
+  "incognito": "split",
+  "manifest_version": 3,
+  "minimum_chrome_version": "88",
+  "name": "RetroTxt",
+  "omnibox": {
+    "keyword": "rt"
+  },
+  "optional_permissions": ["downloads", "downloads.open", "tabs"],
   "options_ui": {
     "page": "html/options.html",
-    "chrome_style": false,
     "open_in_tab": true
   },
-  "permissions": [
-    "activeTab",
-    "contextMenus",
-    "storage",
-    "*://*.retrotxt.com/*"
-  ],
+  "permissions": ["activeTab", "contextMenus", "storage"],
   "short_name": "RetroTxt",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "web_accessible_resources": [
-    "css/*.css",
-    "fonts/*.woff2",
-    "html/options.html",
-    "test/tests_browser.js"
+    { "resources": ["css/*.css"], "matches": ["<all_urls>"] },
+    { "resources": ["fonts/*.woff2"], "matches": ["<all_urls>"] },
+    { "resources": ["html/options.html"], "matches": ["<all_urls>"] },
+    { "resources": ["test/tests_browser.js"], "matches": ["<all_urls>"] }
   ]
 }

@@ -557,23 +557,23 @@ class ToolbarButton {
   }
   disable() {
     if (this.id === 0) return
-    chrome.action.setBadgeText({ text: `` })
-    chrome.action.setTitle({
+    chrome.browserAction.setBadgeText({ text: `` })
+    chrome.browserAction.setTitle({
       title: `RetroTxt${this.title}`,
       tabId: this.id,
     })
-    chrome.action.enable(this.id)
+    chrome.browserAction.enable(this.id)
   }
   enable() {
     if (this.id === 0) return
     // alternative checkmark styles: ✓ ✔ 🗹 ✅
     const checkMark = `✓`
-    chrome.action.setBadgeText({ text: `${checkMark}` })
-    chrome.action.setTitle({
+    chrome.browserAction.setBadgeText({ text: `${checkMark}` })
+    chrome.browserAction.setTitle({
       title: `RetroTxt${this.title}`,
       tabId: this.id,
     })
-    chrome.action.enable(this.id)
+    chrome.browserAction.enable(this.id)
   }
 }
 
@@ -1318,7 +1318,7 @@ class Extension {
       return false
     }
     // execute RetroTxt
-    chrome.scripting.executeScript(
+    chrome.tabs.executeScript(
       tabId,
       {
         file: `/scripts/functions.js`,
@@ -1328,7 +1328,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
         // this automatic invocation will be run after the `scripts/eventpage.js`
         // page is loaded and at the start of the document
-        chrome.scripting.executeScript(
+        chrome.tabs.executeScript(
           tabId,
           {
             code: `BusySpinner()`,
@@ -1340,7 +1340,7 @@ class Extension {
         )
       }
     )
-    chrome.scripting.executeScript(
+    chrome.tabs.executeScript(
       tabId,
       {
         file: `/scripts/parse_ansi.js`,
@@ -1350,7 +1350,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
       }
     )
-    chrome.scripting.executeScript(
+    chrome.tabs.executeScript(
       tabId,
       {
         file: `/scripts/parse_dos.js`,
@@ -1360,7 +1360,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
       }
     )
-    chrome.scripting.executeScript(
+    chrome.tabs.executeScript(
       tabId,
       {
         file: `/scripts/retrotxt.js`,
@@ -1370,7 +1370,7 @@ class Extension {
         if (lastErrorCallback(persistent)) return
         // automatic execute,
         // but has to be run after `scripts/retrotxt.js` is loaded
-        chrome.scripting.executeScript(
+        chrome.tabs.executeScript(
           tabId,
           {
             code: `Execute(${tabId},"${pageEncoding.toUpperCase()}")`,
@@ -1403,7 +1403,7 @@ class Extension {
     switch (darkMode) {
       case true:
         console.log(`Chrome thinks the ${os()} system theme is in dark mode.`)
-        return chrome.action.setIcon({
+        return chrome.browserAction.setIcon({
           path: {
             16: "assets/retrotxt_16-light.png",
             19: "assets/retrotxt_19-light.png",
@@ -1415,7 +1415,7 @@ class Extension {
         })
       default:
         console.log(`Chrome thinks the ${os()} system theme is in light mode.`)
-        return chrome.action.setIcon({
+        return chrome.browserAction.setIcon({
           path: {
             16: "assets/retrotxt_16.png",
             19: "assets/retrotxt_19.png",
@@ -1746,7 +1746,8 @@ class Menu {
           )
         return
       case `darkMode`:
-        chrome.action.setIcon({
+        console.log(`HONK VALUE`, value)
+        chrome.browserAction.setIcon({
           path: {
             16: "assets/retrotxt_16-light.png",
             19: "assets/retrotxt_19-light.png",
@@ -1818,7 +1819,7 @@ class Menu {
     })
   })
   // browser action (tool bar button) click event
-  chrome.action.onClicked.addListener((tab) => {
+  chrome.browserAction.onClicked.addListener((tab) => {
     new Action(tab.id, tab).browserAction()
   })
   // file downloads event listeners
