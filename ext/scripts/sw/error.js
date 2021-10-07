@@ -1,7 +1,11 @@
 // filename: sw/error.js
 //
-/*global CheckLastError Developer */
+/*global CheckLastError ConsoleLoad Developer */
 /*exported CheckError */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`error.js`)
+})
 
 /**
  * Error handler for this `scripts/eventpage.js`.

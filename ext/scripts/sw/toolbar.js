@@ -1,6 +1,11 @@
 // filename: sw/toolbar.js
 //
-/*global */
+/*global ConsoleLoad */
+/*exported ToolbarButton */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`toolbar.js`)
+})
 
 /**
  * Handle toolbar button display.

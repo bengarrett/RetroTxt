@@ -2,7 +2,7 @@
 //
 // These functions and classes are exclusively used by the Options tab.
 //
-/*global CheckLastError Chrome Firefox RetroTxt*/
+/*global CheckLastError CheckRange Chrome Configuration Console Firefox OptionsReset WebBrowser */
 "use strict"
 
 /**
@@ -87,13 +87,13 @@ function localStore(key = ``, value = ``) {
     case ``:
       localStorage.removeItem(`${key}`)
       chrome.storage.local.remove(`${key}`)
-      if (RetroTxt.developer) console.log(`localStore('${key}', removed)`)
+      Console(`localStore('${key}', removed)`)
       return
     default:
       localStorage.setItem(`${key}`, `${value}`)
       // Extension storage requires a key/value pair object
       chrome.storage.local.set({ [key]: `${value}` })
-      if (RetroTxt.developer) console.log(`localStore('${key}', '${value}')`)
+      Console(`localStore('${key}', '${value}')`)
   }
 }
 
@@ -354,7 +354,7 @@ class Security {
     document.getElementById(`submitHost`).addEventListener(`click`, () => {
       if (this.type !== `http`) return
       const askAllWeb = this.domains === `textarea.value`
-      if (RetroTxt.developer) console.log(`Hostnames have been updated`)
+      Console(`Hostnames have been updated`)
       if (askAllWeb) {
         // text area has been reset
         this.origins.pop()
@@ -364,8 +364,7 @@ class Security {
       chrome.permissions.contains(this.allWebPermissions, (result) => {
         const catchallScheme = `*://*/*`
         if (result === false) {
-          if (RetroTxt.developer)
-            console.log(`${catchallScheme} permission has not been granted`)
+          Console(`${catchallScheme} permission has not been granted`)
           if (!this.origins.includes(catchallScheme)) {
             // append `*://*/*` to the permissions origins and then ask the
             // user to toggle the checkbox input to apply the new permission.
@@ -376,14 +375,13 @@ class Security {
                 `websiteViewerOff`
               ).style.display = `inline`
             toggle.checked = false
-            if (RetroTxt.developer) console.log(`pushed permissions to origins`)
+            Console(`pushed permissions to origins`)
             return this.origins.push(catchallScheme)
           }
-          if (RetroTxt.developer) console.log(`permissions are to be ignored`)
+          Console(`permissions are to be ignored`)
           return
         }
-        if (RetroTxt.developer)
-          console.log(`${catchallScheme} permission has been granted`)
+        Console(`${catchallScheme} permission has been granted`)
       })
     })
     // options theme buttons listeners
@@ -498,8 +496,7 @@ class Security {
       case true:
         return chrome.permissions.request(testResult, (result) => {
           if (CheckLastError(`security permissionSet "${result}"`)) return
-          if (RetroTxt.developer)
-            console.log(`%s: request to set permissions [%s]`, result, items)
+          Console(`%s: request to set permissions [%s]`, result, items)
           if (result !== true) this._checkedInitialise(false)
           else
             document.getElementById(`websiteViewerOff`).style.display = `none`
@@ -509,8 +506,7 @@ class Security {
         chrome.permissions.remove(testResult, (result) => {
           if (CheckLastError(`security remove permissionSet "${result}"`))
             return
-          if (RetroTxt.developer)
-            console.log(`%s: request to remove permissions [%s]`, result, items)
+          Console(`%s: request to remove permissions [%s]`, result, items)
         })
         // `Tabs` should normally be listed under the `permission` key in the
         // manifest.json but instead it is placed under `optional_permission`.
@@ -522,8 +518,7 @@ class Security {
         chrome.permissions.request(workaround, (result) => {
           if (CheckLastError(`security wordaround permissionSet "${result}"`))
             return
-          if (RetroTxt.developer)
-            console.log(`%s: workaround set permission [tabs]`, result)
+          Console(`%s: workaround set permission [tabs]`, result)
         })
     }
   }
@@ -532,8 +527,7 @@ class Security {
    * @returns `permissions.Permissions` object
    */
   _test() {
-    if (RetroTxt.developer)
-      console.log(`Security test request for '${this.type}'.`)
+    Console(`Security test request for '${this.type}'.`)
     const permissionsToRequest = {
       permissions: this.permissions,
       origins: this.origins,
@@ -572,9 +566,9 @@ class CheckBox {
    */
   async listen() {
     this.boxes.forEach((item, id) => {
-      if (RetroTxt.developer) console.log(`forEach id: ${id}`)
+      Console(`forEach id: ${id}`)
       document.getElementById(id).addEventListener(`change`, () => {
-        if (RetroTxt.developer) console.log(`change id: ${id}`)
+        Console(`change id: ${id}`)
         const value = document.getElementById(id).checked
         localStorage.setItem(item, value)
         chrome.storage.local.set({ [item]: `${value}` })

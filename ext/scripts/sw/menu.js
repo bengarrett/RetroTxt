@@ -1,6 +1,10 @@
 // filename: sw/menu.js
 //
-/*global UseCharSet Windows_1252_English ISO8859_5 OutputCP1252 OutputISO8859_15 OutputUS_ASCII openOptions CheckLastError */
+/*global ConsoleLoad UseCharSet Windows_1252_English ISO8859_5 OutputCP1252 OutputISO8859_15 OutputUS_ASCII openOptions CheckLastError */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`menu.js`)
+})
 
 chrome.contextMenus.onClicked.addListener((info) => {
   console.log(`context menus click!`, info)

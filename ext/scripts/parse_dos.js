@@ -28,6 +28,11 @@ DOS_437_English DOS_865 Windows_1252_English ISO8859_1 ISO8859_5 ISO8859_10 ISO8
 /*exported BBS Controls DOSText Transcode*/
 "use strict"
 
+// TEMP:
+const RetroTxt = {
+  developer: true,
+}
+
 const empty = `\u0020`,
   nbsp = `\u00A0`,
   softHyphen = `\u00AD`

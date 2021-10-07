@@ -1,14 +1,16 @@
 // filename: sw/action.js
 //
-/*global CheckError CheckLastError Developer Extension Security Tab ToolbarButton*/
+/*global CheckError CheckLastError ConsoleLoad Developer Extension Security Tab ToolbarButton*/
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`action.js`)
+})
 
 chrome.runtime.onInstalled.addListener(() => {
   if (typeof qunit !== `undefined`) return
 
   // TODO: replace session storage with local.store
   // simulate session by removing the two existing stores when oninstall
-
-  console.log(`RetroTxt action service worker installed`)
 })
 
 // browser action (tool bar button) click event

@@ -2,14 +2,14 @@
 //
 // These functions are used to apply and clear RetroTxt from the browser tabs.
 //
-/*global ecma48 BBS CheckLastError Controls CheckError Chrome DOSText RetroTxt Transcode TranscodeArrow
+/*global Developer ecma48 BBS CheckLastError Controls CheckError Chrome DOSText RetroTxt Transcode TranscodeArrow
 ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText
 DOS_437_English Windows_1252_English ISO8859_5 OutputCP1252 OutputUS_ASCII Shift_JIS UseCharSet*/
 /*exported DOM*/
 "use strict"
 
-RetroTxt.developer = false // verbose console output
-RetroTxt.dump = false // Input SauceMeta and Output classes
+// RetroTxt.developer = false // verbose console output
+// RetroTxt.dump = false // Input SauceMeta and Output classes
 
 // SAUCE fonts, these must be kept current to the font families in fonts_ibm.css & fonts_home.css
 const atascii = `candyantics`,
@@ -2204,6 +2204,8 @@ function handleMessages(message, sender) {
   // `chrome.tabs.sendMessage` method which includes the `tabId`. Responding to
   // these messages from the event page requires the `chrome.runtime.sendMessage`
   // method without the `tabId`.
+  console.log(`>>>>`, message, sender)
+
   const unexpected = () => {
     if (typeof qunit !== `undefined`) return false
     if (!RetroTxt.developer) return
@@ -2212,7 +2214,13 @@ function handleMessages(message, sender) {
     console.log(sender)
     console.groupEnd()
   }
-  if (!(`id` in message)) return unexpected()
+
+  //if (!(`id` in message)) return unexpected()
+
+  if (message.id === `executeNOW`) {
+    Execute(sender.tab.id)
+    return
+  }
   if (!RetroTxt.developer)
     console.log(`✉ Received '%s' for handleMessages().`, message.id)
   const invoke = new Invoke()
@@ -2254,6 +2262,7 @@ function handleMessages(message, sender) {
       return unexpected()
   }
 }
+
 /**
  * Execute RetroTxt, used by the chrome.tabs `executeScript` method.
  * @param [tabId=0] Browser tab id to execute RetroTxt
@@ -2288,7 +2297,11 @@ RetroTxt will not be able to work with this page.
     guess = new Guess()
   // text data objects
   let ecma48 = {}
-  if (RetroTxt.dump) console.log(`Execute('${tabId}', '${tabEncode}')`)
+
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) console.log(`Execute('${tabId}', '${tabEncode}')`)
+  })
+
   if (typeof dom.rawText === `undefined`)
     return CheckError(
       `RetroTxt failed to load and has been aborted. Were you trying to load an empty file?`
@@ -2296,11 +2309,17 @@ RetroTxt will not be able to work with this page.
   if ([`UTF-16BE`, `UTF-16LE`].includes(document.characterSet))
     DisplayEncodingAlert()
   const input = new Input(tabEncode, `${dom.rawText.textContent}`)
-  if (RetroTxt.dump) console.log(input)
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) console.log(input)
+  })
   const sauce = new SauceMeta(input)
-  if (RetroTxt.dump) console.log(sauce)
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) console.log(sauce)
+  })
   const output = new Output(sauce, dom)
-  if (RetroTxt.dump) console.log(output)
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) console.log(output)
+  })
   // copy user settings to the localStorage of the active browser tab
   config.setLocalStorage(`ansiColumnWrap`)
   config.setLocalStorage(`ansiPageWrap`)

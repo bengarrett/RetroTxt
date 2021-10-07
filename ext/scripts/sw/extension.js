@@ -1,7 +1,11 @@
 // filename: sw/extension.js
 //
-/*global LocalStore Menu ToolbarButton Linux MacOS Windows OptionsReset BrowserOS */
+/*global ConsoleLoad LocalStore Menu ToolbarButton Linux MacOS Windows OptionsReset BrowserOS */
 /*exported Extension */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`extension.js`)
+})
 
 /**
  * Extension initialisation, defaults and activation.
@@ -80,21 +84,23 @@ class Extension {
    * @param [tab={}] Tab object
    */
   activateTab(data, tab = {}) {
+    console.log(`activeTab triggered!`)
     if (data === null || !(`type` in data)) data = { type: `unknown` }
     // is the tab hosting a text file and what is the tab page encoding?
-    sessionStorage.setItem(`tab${tab.tabid}textfile`, true)
-    sessionStorage.setItem(`tab${tab.tabid}encoding`, data.type)
-    sessionStorage.removeItem(`tab${tab.tabid}update`)
+    chrome.storage.local.set({ [`tab${tab.tabid}textfile`]: true })
+    chrome.storage.local.set({ [`tab${tab.tabid}encoding`]: data.type })
+    chrome.storage.local.remove(`tab${tab.tabid}update`)
     // update the browser tab interface
     new ToolbarButton(tab.tabid).enable()
     new Menu().enableTranscode()
     // if the tab has previously been flagged as 'do not autorun' then finish up
-    if (sessionStorage.getItem(`tab${tab.tabid}execute`) === `false`) return
-    // otherwise execute RetroTxt on the tab
-    const execute = localStorage.getItem(`settingsWebsiteDomains`)
-    // if unchecked
-    if (typeof execute !== `string` || execute === `false`) return
-    this.invoke(tab.tabid, data.type)
+    chrome.storage.local.get(`tab${tab.tabid}execute`, (store) => {
+      if (Object.values(store)[0] === `false`) return
+      chrome.storage.local.get(`settingsWebsiteDomains`, (store) => {
+        if (Object.values(store)[0] === `false`) return
+        this.invoke(tab.tabid, data.type)
+      })
+    })
   }
   /**
    * Invokes RetroTxt for the first time in the browser tab.
@@ -127,21 +133,108 @@ class Extension {
       return false
     }
     // execute RetroTxt
-    chrome.tabs.executeScript(
-      tabId,
+    chrome.scripting.executeScript(
       {
-        file: `/scripts/functions.js`,
-        runAt: `document_start`,
+        target: { tabId: tabId },
+        files: [`scripts/helpers.js`], // TODO: oct-2020, only one file is supported
+      },
+      () => {
+        console.log(`Executed helpers.js`)
+
+        /**
+         * Display a large loading spinner on the active tab.
+         * @param [display=true] Display spinner
+         */
+        async function BusySpinner(display = true) {
+          // TODO apply a timeout timer that will look for any uncaught errors and if
+          // detected, display them in the tab?
+          const spin = globalThis.document.getElementById(`spinLoader`)
+          switch (display) {
+            case true:
+              if (spin === null) {
+                const div = document.createElement(`div`)
+                div.id = `spinLoader`
+                div.classList.add(`loader`)
+                document.body.append(div)
+                const stylesheet = CreateLink(
+                  `../css/retrotxt_loader.css`,
+                  `retrotxt-loader`
+                )
+                return document.querySelector(`head`).append(stylesheet)
+              }
+              return spin.classList.remove(`is-hidden`)
+            case false:
+              if (spin !== null) spin.classList.add(`is-hidden`)
+          }
+        }
+
+        chrome.scripting.executeScript(
+          { target: { tabId: tabId }, func: BusySpinner },
+          () => {
+            console.log(`Requested BusySpinner to run`)
+          }
+        )
+      }
+    )
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabId },
+        files: [`scripts/encoding.js`],
       },
       () => {
         if (lastErrorCallback(persistent)) return
-        // this automatic invocation will be run after the `scripts/eventpage.js`
-        // page is loaded and at the start of the document
-        chrome.tabs.executeScript(
-          tabId,
+      }
+    )
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabId },
+        files: [`scripts/checks.js`],
+      },
+      () => {
+        if (lastErrorCallback(persistent)) return
+      }
+    )
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabId },
+        files: [`scripts/parse_ansi.js`],
+      },
+      () => {
+        if (lastErrorCallback(persistent)) return
+      }
+    )
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabId },
+        files: [`scripts/parse_dos.js`],
+      },
+      () => {
+        if (lastErrorCallback(persistent)) return
+      }
+    )
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabId },
+        files: [`scripts/retrotxt.js`],
+      },
+      () => {
+        if (lastErrorCallback(persistent)) return
+
+        function invok(tabId = ``, page = ``) {
+          // this is a content script
+          // if (typeof chrome.runtime.sendMessage === `undefined`)
+          //   throw `invok cannot be used as a service worker`
+          // chrome.runtime.sendMessage({ id: `executeNOW` })
+          console.log(window)
+          window.Execute(tabId, page)
+        }
+
+        chrome.scripting.executeScript(
           {
-            code: `BusySpinner()`,
-            runAt: `document_start`,
+            target: { tabId: tabId },
+            func: invok,
+            args: [tabId, pageEncoding.toUpperCase()],
+            //args: [tabId, pageEncoding.toUpperCase()], // TODO implement pageEncoding arg
           },
           () => {
             if (lastErrorCallback(persistent)) return
@@ -149,48 +242,28 @@ class Extension {
         )
       }
     )
-    chrome.tabs.executeScript(
-      tabId,
-      {
-        file: `/scripts/parse_ansi.js`,
-        runAt: `document_start`,
-      },
-      () => {
-        if (lastErrorCallback(persistent)) return
-      }
-    )
-    chrome.tabs.executeScript(
-      tabId,
-      {
-        file: `/scripts/parse_dos.js`,
-        runAt: `document_start`,
-      },
-      () => {
-        if (lastErrorCallback(persistent)) return
-      }
-    )
-    chrome.tabs.executeScript(
-      tabId,
-      {
-        file: `/scripts/retrotxt.js`,
-        runAt: `document_start`,
-      },
-      () => {
-        if (lastErrorCallback(persistent)) return
-        // automatic execute,
-        // but has to be run after `scripts/retrotxt.js` is loaded
-        chrome.tabs.executeScript(
-          tabId,
-          {
-            code: `Execute(${tabId},"${pageEncoding.toUpperCase()}")`,
-            runAt: `document_idle`,
-          },
-          () => {
-            if (lastErrorCallback(persistent)) return
-          }
-        )
-      }
-    )
+    // chrome.tabs.executeScript(
+    //   tabId,
+    //   {
+    //     file: `/scripts/retrotxt.js`,
+    //     runAt: `document_start`,
+    //   },
+    //   () => {
+    //     if (lastErrorCallback(persistent)) return
+    //     // automatic execute,
+    //     // but has to be run after `scripts/retrotxt.js` is loaded
+    //     chrome.tabs.executeScript(
+    //       tabId,
+    //       {
+    //         code: `Execute(${tabId},"${pageEncoding.toUpperCase()}")`,
+    //         runAt: `document_idle`,
+    //       },
+    //       () => {
+    //         if (lastErrorCallback(persistent)) return
+    //       }
+    //     )
+    //   }
+    // )
   }
   /**
    * Changes the Extension icon in the toolbar of Chrome.

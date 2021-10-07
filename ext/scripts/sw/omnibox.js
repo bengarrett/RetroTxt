@@ -2,9 +2,13 @@
 //
 
 /*exported Omnibox */
-/*global openOptions */
+/*global ConsoleLoad openOptions */
 
 // NOTE: THIS IS CURRENTLY BROKEN IN MV3
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`omnibox.js`)
+})
 
 /**
  * Handle browser address bar omnibox commands.

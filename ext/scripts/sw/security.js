@@ -1,7 +1,11 @@
 // filename: sw/security.js
 //
-/*global CheckError Developer */
+/*global CheckError ConsoleLoad Developer */
 /*exported Security */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`security.js`)
+})
 
 /**
  * Extension permissions interface.

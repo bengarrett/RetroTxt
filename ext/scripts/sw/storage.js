@@ -1,7 +1,11 @@
 // filename: sw/storage.js
 //
-/*global CheckLastError Developer Extension */
+/*global CheckLastError ConsoleLoad Developer Extension */
 /*exported openOptions */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`storage.js`)
+})
 
 // monitor saved changes to Options so the context menu can be updated
 chrome.storage.onChanged.addListener((changes, areaName) => {

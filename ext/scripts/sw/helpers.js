@@ -1,10 +1,40 @@
-// Replacement for function.js with no DOM access.
+// Replacement for function.js with no DOM or Chrome API access.
 
 /*global CheckError */
-/*exported WebBrowser Configuration Characters CheckLastError FindControlSequences RemoveTextPairs BBSText PlainText UnknownText
+/*exported ConsoleLoad WebBrowser Configuration Characters CheckLastError FindControlSequences RemoveTextPairs BBSText PlainText UnknownText
 UseCharSet DOS_437_English DOS_865 ISO8859_5 ISO8859_10 Macintosh Shift_JIS Windows_1250 Windows_1251
-UnicodeStandard OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII OutputUFT8
+UnicodeStandard OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII OutputUFT8 Console
 */
+
+/*
+Content scripts can access Chrome APIs used by their parent extension by exchanging messages with the extension. They can also access the URL of an extension's file with chrome.runtime.getURL() and use the result the same as other URLs.
+
+// Code for displaying <extensionDir>/images/myimage.png:
+var imgURL = chrome.runtime.getURL("images/myimage.png");
+document.getElementById("someImage").src = imgURL;
+Additionally, content scripts can access the following chrome APIs directly:
+
+i18n
+storage
+runtime:
+  connect
+  getManifest
+  getURL
+  id
+  onConnect
+  onMessage
+  sendMessage
+
+https://developer.chrome.com/docs/extensions/mv3/content_scripts/
+*/
+
+// IIFE
+;(() => {
+  ConsoleLoad(`helpers`)
+})()
+
+// RetroTxt developer verbose feedback store name
+const Developer = `developer`
 
 // enums like consts
 // these cannot use ES6 Symbols as their unique values are not shared between scripts
@@ -49,16 +79,18 @@ const // Character set key values
   OutputUFT8 = `utf_8${TranscodeArrow}`
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
-const web = {
+const Web = {
+  // Google Chrome, Microsoft Edge, Brave browser
   Chrome: 0,
+  // Mozilla Firefox
   Firefox: 1,
 }
-const os = {
+const OS = {
   Linux: 0,
   MacOS: 1,
   Windows: 2,
 }
-Object.freeze([web, os])
+Object.freeze([Web, OS])
 
 const persistent = chrome.runtime.getManifest().background.persistent || false
 
@@ -356,4 +388,38 @@ function WebBrowser() {
       firefoxID = manifest.startsWith(`moz-extension`, 0)
     return firefoxID ? Firefox : Chrome
   }
+}
+
+/**
+ * Takes a string and converts it to a primitive boolean value,
+ * or return null if the string is not a boolean representation.
+ * @param [string=``] Boolean represented as a string
+ * @returns boolean
+ */
+function StringToBool(string = ``) {
+  switch (`${string}`.trim()) {
+    case `true`:
+    case `yes`:
+    case `on`:
+    case `1`:
+      return true
+    case `false`:
+    case `no`:
+    case `off`:
+    case `0`:
+      return false
+    default:
+      return null
+  }
+}
+
+function Console(string = ``) {
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) console.log(`${string}`)
+  })
+}
+
+function ConsoleLoad(page = ``) {
+  if (page === ``) return
+  console.info(`🖫 ${page} service worker installed.`)
 }

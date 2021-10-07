@@ -1,9 +1,13 @@
 // filename: sw/downloads.js
 //
-/*global CheckLastError Developer Extension Firefox Security */
+/*global CheckLastError Configuration ConsoleLoad Developer Extension Firefox Security WebBrowser */
 /*exported Downloads */
 
 // TODO: remove window.session.storage etc.
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`downloads.js`)
+})
 
 /**
  * Apply RetroTxt to any downloaded text files.

@@ -1,6 +1,12 @@
 // filename: sw/tabs.js
 //
-/*global Developer Configuration Security Extension Downloads LocalStore CheckError Firefox WebBrowser */
+/*global Developer ConsoleLoad Configuration Security Extension Downloads Firefox WebBrowser */
+
+// any local storage item beginning with `tab` ie `tab{this.id}` is a session var.
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`tabs.js`)
+})
 
 chrome.tabs.onCreated.addListener((tab) => {
   const tabs = new Tabs()
@@ -207,10 +213,14 @@ class Tab {
     chrome.storage.local.get(Developer, (store) => {
       if (Developer in store) console.log(`🗙 Closed tab #${this.id}.`)
     })
-    const keys = Object.keys(sessionStorage)
-    for (const key of keys) {
-      if (key.includes(`tab${this.id}`)) sessionStorage.removeItem(key)
-    }
+    chrome.storage.local.get(null, (store) => {
+      const keys = Object.keys(store)
+      for (const key of keys) {
+        if (key.includes(`tab${this.id}`)) {
+          chrome.storage.local.remove(key)
+        }
+      }
+    })
   }
   update() {
     chrome.tabs.query(
@@ -220,20 +230,24 @@ class Tab {
         status: `complete`,
       },
       () => {
-        // `sessionStorage` clean up
-        const updateCount = sessionStorage.getItem(`tab${this.id}update`)
-        if (updateCount === null)
-          sessionStorage.setItem(`tab${this.id}update`, 1)
-        else
-          sessionStorage.setItem(
-            `tab${this.id}update`,
-            parseInt(updateCount) + 1
-          )
-        if (updateCount >= 3) {
-          sessionStorage.removeItem(`tab${this.id}encoding`)
-          sessionStorage.removeItem(`tab${this.id}textfile`)
-          sessionStorage.removeItem(`tab${this.id}update`)
-        }
+        chrome.storage.local.get(`tab${this.id}update`, (store) => {
+          if (store === null) {
+            chrome.storage.local.set({ [`tab${this.id}update`]: 1 })
+            return
+          }
+          const updateCount = Object.values(store)[0]
+          chrome.storage.local.set({ [`tab${this.id}update`]: updateCount + 1 })
+          if (updateCount >= 3) {
+            const keys = [
+              `tab${this.id}encoding`,
+              `tab${this.id}textfile`,
+              `tab${this.id}update`,
+            ]
+            for (const key of keys) {
+              chrome.storage.local.remove(key)
+            }
+          }
+        })
         // browser specific cases
         // IMPORTANT: if there are multiple instances of RetroTxt being invoked
         // within the same browser tab, then the logic in the code below is a
@@ -274,37 +288,30 @@ class Tab {
       scheme: this.url.split(`:`)[0],
     }
     // Option `Run RetroTxt on files hosted on these domains`
-    let domains = `${localStorage.getItem(`settingsWebsiteDomains`)}`,
+    let domains = ``,
       approved = false
-    if (domains.length === 0) {
-      chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
-        const value = `${result.settingsWebsiteDomains}`
-        if (value.length < 1) {
-          new LocalStore().scan()
-          return CheckError(
-            `Could not obtain the required settingsWebsiteDomains setting requested by eventUrl().`,
-            false
-          )
-        }
-        localStorage.setItem(`settingsWebsiteDomains`, value)
-      })
-      domains = `${localStorage.getItem(`settingsWebsiteDomains`)}`
+    chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
+      domains = `${result.settingsWebsiteDomains}`
       if (domains.length === 0) {
-        // redundancy in case localStorage doesn't work
         domains = new Extension().defaults.get(`settingsWebsiteDomains`)
       }
-    }
-    // insert the RetroTxt URL into the approved list
-    // see `_locales/en_US/messages.json` URL for the http address
-    domains = `${chrome.i18n.getMessage(`url`)};${domains}`
-    // list of approved website domains
-    approved = domains.includes(uri.domain)
-    // if the URL domain is not apart of the user approved list then RetroTxt is
-    // aborted for the tab
-    if (uri.scheme !== `file` && approved !== true) return
-    // if the URL domain is apart of the user approved list then we then test
-    // the filename or body content
-    this.compatibleURL()
+      // insert the RetroTxt URL into the approved list
+      // see `_locales/en_US/messages.json` URL for the http address
+      // TODO: Oct-2021; chrome.i18n doesn't work in MV3
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=1159438
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=1175053
+      //domains = `${chrome.i18n.getMessage(`url`)};${domains}`
+      domains = `https://retrotxt.com;${domains}`
+
+      // list of approved website domains
+      approved = domains.includes(uri.domain)
+      // if the URL domain is not apart of the user approved list then RetroTxt is
+      // aborted for the tab
+      if (uri.scheme !== `file` && approved !== true) return
+      // if the URL domain is apart of the user approved list then we then test
+      // the filename or body content
+      this.compatibleURL()
+    })
   }
   /**
    * Returns a URL without any sub-domains, ports or schemes.

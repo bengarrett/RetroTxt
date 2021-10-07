@@ -1,6 +1,10 @@
 // filename: sw/message.js
 //
-/*global CheckLastError Developer Downloads Extension ToolbarButton */
+/*global ConsoleLoad CheckLastError Developer Downloads Extension ToolbarButton */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`message.js`)
+})
 
 // runtime onMessage ... TODO move to message.js
 // listen to and handle messages from content scripts

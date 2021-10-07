@@ -1,287 +1,56 @@
-// filename: functions.js
+// filename: encoding.js
 //
-// These functions are shared between all scripts
-// - scripts/eventpage.js
-// - scripts/options.js
-// - scripts/parse_ansi.js, scripts/parse_dos.js
-// - scripts/retrotxt.js
-//
-// To make the code in those pages easier to read, functions listed here use the
-// Global naming convention.
-//
-/*eslint no-redeclare: ["error", { "builtinGlobals": false }]*/
-/*global DOM RetroTxt*/
-/*exported Characters CheckLastError FindControlSequences RemoveTextPairs BBSText PlainText UnknownText
-UseCharSet*/
-"use strict"
-
-// enums like consts
-// these cannot use ES6 Symbols as their unique values are not shared between scripts
-/*
-const // browsers
-  Chrome = 0,
-  Firefox = 1,
-  */
-/*
-  // operating systems
-  Linux = 0,
-  MacOS = 1,
-  Windows = 2,
-  */
-// text type, using control codes or sequences
-const UnknownText = -1,
-  PlainText = 0,
-  PCBoardText = 1,
-  CelerityText = 2,
-  RenegadeText = 3,
-  TelegardText = 4,
-  WildcatText = 5,
-  WWIVHashText = 6,
-  WWIVHeartText = 7,
-  BBSText = 98,
-  ANSIText = 99
-
-// const // Character set key values
-//   // The keys and their values should be distinct from any IANA character set names
-//   DOS_437_English = `cp_437`, // IBM PC English legacy text
-//   DOS_865 = `cp_865`, // IBM PC Nordic legacy text
-//   ISO8859_1 = `iso_8859_1`, // Unix English legacy text
-//   ISO8859_5 = `iso_8859_5`, // Cyrillic legacy text
-//   ISO8859_10 = `iso_8859_10`, // Nordic legacy text
-//   ISO8859_15 = `iso_8859_15`, // ISO-8859-1 update to include € and 7 other character swaps
-//   Macintosh = `mac_roman`, // Apple Macintosh legacy text
-//   Shift_JIS = `shift_jis`, // Japanese legacy text that requires speciality decoding and fonts
-//   Windows_1250 = `cp_1250`, // Microsoft Windows Central/Eastern European legacy text
-//   Windows_1251 = `cp_1251`, // Microsoft Windows Cyrillic legacy text
-//   Windows_1252_English = `cp_1252`, // Microsoft Windows English legacy text
-//   UnicodeStandard = `utf_8`, // Unicode, 8-bit multi-byte text
-//   US_ASCII = `us_ascii`, // 7-bit, ARPANET/Internet legacy text
-//   // changing the values of these consts can break application functionality
-//   TranscodeArrow = `➡`,
-//   // use the browser choosen document character set
-//   UseCharSet = `useCharSet${TranscodeArrow}`,
-//   // transcode text into Windows legacy CP-1252 before Unicode
-//   OutputCP1252 = `${Windows_1252_English}${TranscodeArrow}`,
-//   // transcode text into Unix legacy ISO-8859-1 before Unicode
-//   // this is required and used by SAUCE metadata
-//   OutputISO8859_1 = `${ISO8859_1}${TranscodeArrow}`,
-//   // transcode text into Internet legacy ISO-8859-15 before Unicode
-//   OutputISO8859_15 = `${ISO8859_15}${TranscodeArrow}`,
-//   // transcode text into legacy 7-bit US-ASCII before Unicode
-//   OutputUS_ASCII = `${US_ASCII}${TranscodeArrow}`,
-//   // transcode text into Unicode, 23-Oct-20, not sure if this gets used, see unit test.
-//   OutputUFT8 = `utf_8${TranscodeArrow}`
+/*global Developer */
 
 /**
- * Argument checker for functions and classes.
- * @param {string} [name=``] The argument name that failed
- * @param {string} [expecteparam {*} actual The actual argument used
+ * Capitalizes the first letter of a word while applying lowercasing to the others.
+ * @param [word=``] Word to capitalize
  */
-function CheckArguments(name = ``, expected = ``, actual) {
-  let msg = ``
-  switch (expected) {
-    case `boolean`:
-      msg = `argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof actual}'`
-      break
-    case `number`:
-      msg = `argument '${name}' should be a 'number' (unsigned) instead of a '${typeof actual}'`
-      break
-    case `string`:
-      msg = `argument '${name}' should be a 'string' of text instead of a '${typeof actual}'`
-      break
-    default:
-      msg = `argument '${name}' needs to be a '${expected}' instead of a '${typeof actual}'`
-      break
-  }
-  if (typeof qunit !== `undefined`) return msg
-  CheckError(msg)
+function Capitalize(word = ``) {
+  word = word.replaceAll(`_`, ` `).toLowerCase()
+  return `${word.charAt(0).toUpperCase()}${word.slice(1)}`
 }
 
 /**
- * Out of range handler for functions and classes.
- * @param {string} [name=``] The argument name that failed
- * @param {string} [issue=``] The type of error
- * @param {*} expected The expected value
- * @param {*} actual The actual value
+ * Capitalizes the first letter of each word in a sentence.
+ * It applies all-caps to known acronyms and also removes hyphens.
+ * @param [word=``] Word to capitalize
  */
-function CheckRange(name = ``, issue = ``, expected, actual) {
-  let msg = ``
-  switch (issue) {
-    case `length`:
-      msg = `the number of characters '${actual}' used for the argument '${name}' is too short, it needs to be at least '${expected}' character`
-      if (expected !== `1` && expected !== 1) msg += `s`
-      break
-    case `range`:
-      msg = `the value '${actual}' for the argument '${name}' is out of range, it needs to be either '${expected.join(
-        `, `
-      )}'`
-      break
-    case `small`:
-      msg = `the value '${actual}' for the argument '${name}' is too small, it needs to be at least '${expected}' or greater`
-      break
-    case `large`:
-      msg = `the value '${actual}' for the argument '${name}' is too large, it needs to be at most '${expected}' or less`
-      break
-    default:
-  }
-  if (typeof qunit !== `undefined`) return msg
-  CheckError(msg)
-}
-
-/**
- * Error handler for functions and classes.
- * @param {*} errorMessage Description of the error
- * @param {boolean} [log=false] Should the error be logged to the browser
- * console otherwise an exception is thrown
- */
-function CheckError(errorMessage, log = false) {
-  if (errorMessage !== undefined) {
-    BusySpinner(false)
-    if (globalThis.checkedErr !== undefined) globalThis.checkedErr = true
-    if (typeof qunit === `undefined`) DisplayAlert()
-    else throw new Error(errorMessage)
-    if (log === true) return console.warn(errorMessage)
-    try {
-      throw new Error(errorMessage)
-    } catch (e) {
-      console.error(e)
-    }
-  }
-}
-
-/**
- * Creates a red coloured alert message box at the top of the active browser page.
- * @param {boolean} [show=true] Reveal or hide the box
- */
-function DisplayAlert(show = true) {
-  // div element containing the error alert
-  let div = globalThis.document.getElementById(`displayAlert`)
-  const link = globalThis.document.getElementById(`retrotxt-styles`)
-  if (div === null) {
-    let ext = `reloading RetroTxt on the `
-    switch (WebBrowser()) {
-      case Chrome:
-        ext += ` Extensions page (chrome://extensions)`
-        break
-      case Firefox:
-        ext += ` Add-ons manager page (about:addons)`
-        break
-    }
-    const keyboard = new Map()
-      .set(`console`, `J`)
-      .set(`reload`, `F5`)
-      .set(`ctrl`, `Control`)
-      .set(`shift`, `Shift`)
-    if (BrowserOS() === MacOS)
-      keyboard.set(`reload`, `R`).set(`ctrl`, `⌘`).set(`shift`, `⌥`)
-    if (WebBrowser() == Firefox) keyboard.set(`console`, `I`)
-    // build error as a html node
-    const alert = {
-      div: document.createElement(`div`),
-      f5: document.createElement(`kbd`),
-      ctrl: document.createElement(`kbd`),
-      shift: document.createElement(`kbd`),
-      ikey: document.createElement(`kbd`),
-      cons: document.createElement(`strong`),
-      br1: document.createElement(`br`),
-      br2: document.createElement(`br`),
-      issue: document.createElement(`a`),
-      p1: document.createElement(`p`),
-      p2: document.createElement(`p`),
-    }
-    alert.f5.append(`${keyboard.get(`reload`)}`)
-    alert.ctrl.append(keyboard.get(`ctrl`))
-    alert.shift.append(keyboard.get(`shift`))
-    alert.ikey.append(keyboard.get(`console`))
-    alert.cons.append(`Console`)
-    alert.issue.href = chrome.i18n.getMessage(`url_issues`)
-    alert.issue.title = `On the RetroTxt GitHub repository`
-    alert.issue.append(`see if it has an issue report`)
-    alert.div.append(`Sorry, RetroTxt has run into a problem.`, alert.p1)
-    alert.p1.append(`Please reload `)
-    if (BrowserOS() !== MacOS) alert.p1.append(alert.f5)
-    alert.p1.append(` this tab to attempt to fix the problem.`)
-    alert.div.append(alert.p2)
-    alert.p2.append(
-      `For more information press `,
-      alert.ctrl,
-      alert.shift,
-      alert.ikey,
-      ` to open the `,
-      alert.cons,
-      `.`
-    )
-    alert.div.append(
-      `If the problem continues, try ${ext}`,
-      alert.br2,
-      `or `,
-      alert.issue,
-      `.`
-    )
-    div = alert.div
-    alert.div = null
-    div.id = `displayAlert`
-    const dom = new DOM()
-    // add CSS link elements into the page
-    if (link === null) {
-      dom.head.append(CreateLink(`../css/retrotxt.css`, `retrotxt-styles`))
-      dom.head.append(CreateLink(`../css/layout.css`, `retrotxt-layout`))
-    }
-    // inject div
-    dom.body.insertBefore(div, dom.pre0)
-  }
-  // display error alert
-  if (show === false) return div.classList.add(`is-hidden`)
-  div.classList.remove(`is-hidden`)
-}
-/**
- * Creates an alert for unsupported page character sets.
- */
-function DisplayEncodingAlert() {
-  let div = globalThis.document.getElementById(`CheckEncoding`)
-  if (div !== null) return (div.style.display = `block`)
-  const alert = {
-    br1: document.createElement(`br`),
-    br2: document.createElement(`br`),
-    div: document.createElement(`div`),
-    code: document.createElement(`strong`),
-    fix1: document.createElement(`code`),
-    fix2: document.createElement(`code`),
-    p1: document.createElement(`p`),
-    p2: document.createElement(`p`),
-  }
-  const endian = () => {
-    switch (document.characterSet) {
-      case `UTF-16LE`:
-        return `LE`
-      default:
-        return `BE`
-    }
-  }
-  alert.div.append(`RetroTxt: The page encoding of this document `)
-  alert.code.append(`${document.characterSet}`)
-  alert.div.append(alert.code, ` is not supported by the browser.`)
-  alert.code.style.color = `red`
-  alert.p1.append(`To convert the document to UTF-8 in Linux or macOS: `)
-  // for examples: https://www.gnu.org/software/libiconv
-  alert.fix1.append(
-    `iconv file.txt --from-code=UTF-16${endian()} --to-code=UTF-8 > file-fixed.txt`
-  )
-  alert.p2.append(`In PowerShell or Windows: `)
-  alert.fix2.append(
-    `Get-Content file.txt -raw | Set-Content file-fixed.txt -Encoding UTF8`
-  )
-  alert.p1.insertAdjacentElement(`beforeend`, alert.br1)
-  alert.p1.insertAdjacentElement(`beforeend`, alert.fix1)
-  alert.div.insertAdjacentElement(`beforeend`, alert.p1)
-  alert.p2.insertAdjacentElement(`beforeend`, alert.br2)
-  alert.p2.insertAdjacentElement(`beforeend`, alert.fix2)
-  alert.div.insertAdjacentElement(`beforeend`, alert.p2)
-  div = alert.div
-  alert.div = null
-  div.id = `CheckEncoding`
-  const dom = new DOM()
-  dom.body.insertBefore(div, dom.pre0)
+function Titleize(sentence = ``) {
+  if (sentence === ``) return ``
+  const acronyms = [
+    `AI`,
+    `APC`,
+    `AST`,
+    `ATI`,
+    `BIOS`,
+    `CGA`,
+    `DOS`,
+    `DTK`,
+    `EGA`,
+    `IBM`,
+    `ITT`,
+    `ISO`,
+    `MDA`,
+    `MGA`,
+    `NEC`,
+    `PC`,
+    `PGC`,
+    `PPC`,
+    `PS`,
+    `VGA`,
+    `XGA`,
+  ]
+  sentence = sentence.replaceAll(`_`, ` `)
+  const words = sentence.split(/[` `/-]/), // split both spaces and hyphens
+    nonAlphabet = new RegExp(/[^A-Z]+/g)
+  words.forEach((word, i) => {
+    word = word.toUpperCase()
+    words[i] = acronyms.includes(word.replace(nonAlphabet, ``))
+      ? word.toUpperCase()
+      : Capitalize(word)
+  })
+  return words.join(` `)
 }
 
 /**
@@ -352,8 +121,13 @@ class BrowserEncodings {
    */
   support() {
     const result = this.encodings.has(this.encoding)
-    if (RetroTxt.developer)
-      console.log(`BrowserEncodings('${this.encoding}').support() = ${result}`)
+    chrome.storage.local.get(Developer, (store) => {
+      if (Developer in store) {
+        console.log(
+          `BrowserEncodings('${this.encoding}').support() = ${result}`
+        )
+      }
+    })
     return result
   }
   /**
@@ -1138,398 +912,3 @@ class FontFamily {
     return title
   }
 }
-
-/**
- * Capitalizes the first letter of a word while applying lowercasing to the others.
- * @param [word=``] Word to capitalize
- */
-function Capitalize(word = ``) {
-  word = word.replaceAll(`_`, ` `).toLowerCase()
-  return `${word.charAt(0).toUpperCase()}${word.slice(1)}`
-}
-
-/**
- * Capitalizes the first letter of each word in a sentence.
- * It applies all-caps to known acronyms and also removes hyphens.
- * @param [word=``] Word to capitalize
- */
-function Titleize(sentence = ``) {
-  if (sentence === ``) return ``
-  const acronyms = [
-    `AI`,
-    `APC`,
-    `AST`,
-    `ATI`,
-    `BIOS`,
-    `CGA`,
-    `DOS`,
-    `DTK`,
-    `EGA`,
-    `IBM`,
-    `ITT`,
-    `ISO`,
-    `MDA`,
-    `MGA`,
-    `NEC`,
-    `PC`,
-    `PGC`,
-    `PPC`,
-    `PS`,
-    `VGA`,
-    `XGA`,
-  ]
-  sentence = sentence.replaceAll(`_`, ` `)
-  const words = sentence.split(/[` `/-]/), // split both spaces and hyphens
-    nonAlphabet = new RegExp(/[^A-Z]+/g)
-  words.forEach((word, i) => {
-    word = word.toUpperCase()
-    words[i] = acronyms.includes(word.replace(nonAlphabet, ``))
-      ? word.toUpperCase()
-      : Capitalize(word)
-  })
-  return words.join(` `)
-}
-
-/**
- * Creates a `<link>` element to load a CSS stylesheet.
- * @param [path=``] File path to the CSS stylesheet
- * @param [id=``] Id name to apply to the `<link>` element
- * @returns html element
- */
-function CreateLink(path = ``, id = ``) {
-  if (typeof path !== `string`) CheckArguments(`path`, `string`, path)
-  if (typeof chrome.extension === `undefined`)
-    return console.error(
-      `RetroTxt cannot continue as the Extension API is inaccessible.`
-    )
-  const link = document.createElement(`link`)
-  if (id.length > 0) link.id = id
-  link.href = chrome.runtime.getURL(path)
-  link.type = `text/css`
-  link.rel = `stylesheet`
-  return link
-}
-/**
- * Uses CSS3 styles to emulate retro CRT monitor scanlines.
- * @param [toggle=true] Show `true` or `false` to remove scanlines
- * @param [dom={}] HTML DOM element to receive the scanline effect
- * @param [colorClass=``] Optional CSS class that overrides light or dark
- * scanlines
- */
-async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
-  const effect = StringToBool(toggle)
-  if (effect === null) CheckArguments(`toggle`, `boolean`, toggle)
-  if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
-  if (dom.classList === null) return // error
-  // applies scanline classes to the DOM
-  const applyNewClass = (newClass) => {
-    if (typeof newClass === `string`) {
-      // remove existing scan lines classes
-      dom.classList.remove(`scanlines-light`, `scanlines-dark`)
-      if (
-        newClass.endsWith(`-on-white`) ||
-        [`theme-windows`, `theme-appleii`].includes(newClass)
-      )
-        dom.classList.add(`scanlines-light`)
-      else dom.classList.add(`scanlines-dark`)
-    }
-  }
-  // disable scanlines
-  if (effect === false)
-    return dom.classList.remove(`scanlines-light`, `scanlines-dark`)
-  // apply colours provided by the `colorClass` parameter
-  if (typeof color === `string`) return applyNewClass(colorClass)
-  // apply colours fetched from the browser `localStorage` (default)
-  const result = localStorage.getItem(`colorsTextPairs`)
-  if (typeof result !== `string`) {
-    chrome.storage.local.get([`colorsTextPairs`], (result) => {
-      if (result.colorsTextPairs === undefined)
-        return CheckError(
-          `Could not obtain the required colorsTextPairs setting to apply the scanlines effect`,
-          true
-        )
-      return applyNewClass(result.colorsTextPairs)
-    })
-  }
-  return applyNewClass(result)
-}
-/**
- * Uses CSS3 styles to manipulate font effects.
- * @param [effect=`normal`] Font effect name to apply
- * @param [dom={}] Required HTML DOM element object to apply shadow effect to
- * @param [colorClass=``] Optional CSS colour class when we already know the new
- * colour values
- */
-async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
-  if (typeof effect !== `string`) CheckArguments(`effect`, `string`, effect)
-  if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
-  if (dom.classList === null) return // error
-  // this removes any pre-existing text effect class names from the element
-  for (const item of dom.classList) {
-    if (item.endsWith(`-shadowed`) === true) dom.classList.remove(item)
-  }
-  const result = localStorage.getItem(`colorsTextPairs`)
-  switch (effect) {
-    case `shadowed`:
-      // use colours provided by the colour parameter
-      if (typeof color === `string`)
-        return dom.classList.add(`${colorClass}-shadowed`)
-      // use colours fetched from chrome storage (default)
-      if (typeof result !== `string`) {
-        chrome.storage.local.get([`colorsTextPairs`], (result) => {
-          if (result.colorsTextPairs === undefined)
-            CheckError(
-              `Could not obtain the required colorsTextPairs setting to apply the text shadow effect`,
-              true
-            )
-          else dom.classList.add(`${result.colorsTextPairs}-shadowed`)
-        })
-      } else dom.classList.add(`${result}-shadowed`)
-      break
-    default:
-      // 'normal, auto' do nothing as the text effects have been removed
-      break
-  }
-  const textRender = document.getElementById(`renderToggle`)
-  if (textRender !== null)
-    textRender.textContent = `${effect.charAt(0).toUpperCase()}${effect.slice(
-      1
-    )}`
-}
-/**
- * Scans a body of text for special control codes.
- * Returns a numeric text enum-like value.
- * @param [text=``] Text to scan
- * @returns string
- */
-function FindControlSequences(text = ``) {
-  if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
-  const inRange = (a = -1, b = -1) => {
-    if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return true
-    return false
-  }
-  // remove `@CLS@` BBS control that was sometimes inserted by TheDraw
-  // only need the first 5 characters for testing
-  const clearScreen = `@CLS@`
-  let cleaned = text.trim().slice(0, 5)
-  if (cleaned.startsWith(clearScreen)) cleaned = text.trim().slice(5, 10)
-  const slice = cleaned.toUpperCase()
-  // ECMA-48 control sequences
-  // Despite the performance hit trim is needed for some ANSI art to avoid false
-  // detections
-  const escape = 27,
-    leftSquareBracket = 91
-  if (
-    text.trim().charCodeAt(0) === escape &&
-    text.trim().charCodeAt(1) === leftSquareBracket
-  )
-    return ANSIText
-  // `indexOf` is the fastest form of string search
-  const sequence = text.indexOf(
-    `${String.fromCharCode(27)}${String.fromCharCode(91)}`
-  )
-  if (sequence > 0) return ANSIText
-  // detect pipe codes for WWIV
-  // needs to be checked before other forms of pipe-codes
-  if (slice.charAt(0) === `|` && slice.charAt(1) === `#`) {
-    const a = parseInt(`${slice.charAt(2)}`)
-    if (a >= 0 && a <= 9) return WWIVHashText
-    return PlainText
-  }
-  // detect pipe-codes for Renegade, Telegard and Celerity
-  if (slice.charAt(0) === `|`) {
-    // renegade and telegard
-    const a = parseInt(`${slice.charAt(1)}${slice.charAt(2)}`, 10)
-    if (a >= 0 && a <= 23) return RenegadeText
-    const celerityCodes = new Set([
-      `B`,
-      `C`,
-      `D`,
-      `G`,
-      `K`,
-      `M`,
-      `R`,
-      `S`,
-      `Y`,
-      `W`,
-    ])
-    if (celerityCodes.has(slice.charAt(1))) return CelerityText
-    return PlainText
-  }
-  // detect Telegard grave accent codes
-  if (slice.charAt(0) === `\``) {
-    const a = parseInt(`${slice.charAt(1)}${slice.charAt(2)}`, 10)
-    if (a >= 0 && a <= 23) return TelegardText
-    return PlainText
-  }
-  const atCode = `@`
-  // detect @-codes for Wildcat & PCBoard
-  if (slice.charAt(0) === atCode) {
-    // match PCBoard `@Xxx` codes
-    if (slice.charAt(1) === `X`) {
-      // get Unicode indexes of 2nd + 3rd chars
-      const a = slice.charCodeAt(2),
-        b = slice.charCodeAt(3)
-      // index range 48-70 equals 0-9 A-F
-      if (inRange(a, b)) return PCBoardText
-    }
-    if (slice.charAt(3) === atCode) {
-      // match wildcat `@xx@` codes
-      // get Unicode indexes of 1st + 2nd chars
-      const a = slice.charCodeAt(1),
-        b = slice.charCodeAt(2)
-      if (inRange(a, b)) return WildcatText
-    }
-    return PlainText
-  }
-  // detect heart codes for WVIV
-  if (slice.charCodeAt(0) === 3) {
-    const a = parseInt(`${slice.charAt(1)}`)
-    if (a >= 0 && a <= 9) return WWIVHeartText
-    return PlainText
-  }
-  // plain or unsupported text
-  return PlainText
-}
-/**
- * Humanises numeric values of bytes into a useful string.
- * @param [bytes=0] A numeric value of bytes
- * @param [si=1024] Decimal (filesize) `1000` or `1024` binary (RAM) conversion
- * @returns string
- */
-function HumaniseFS(bytes = 0, si = 1024) {
-  // Based on http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
-  if (typeof bytes !== `number`) CheckArguments(`bytes`, `number`, bytes)
-  if (typeof si !== `number`) CheckArguments(`si`, `number`, si)
-  const decimal = 1000,
-    binary = 1024,
-    thresh = si === decimal ? decimal : binary,
-    units = si === decimal ? [`kB`, `MB`] : [`KiB`, `MiB`]
-  if (Math.abs(bytes) < thresh) return `${bytes}B`
-  let u = -1
-  do {
-    bytes /= thresh
-    ++u
-  } while (Math.abs(bytes) >= thresh && u < units.length - 1)
-  // round decimal value when the result is 10 or larger
-  const result = Math.round(bytes * 10) / 10,
-    value = result >= 10 ? Math.round(result) : result
-  return `${value}${units[u]}`
-}
-/**
- * Injects text into a DOM node object to be used with `append()`.
- * This is to avoid lint errors `UNSAFE_VAR_ASSIGNMENT`
- * "Unsafe assignment to innerHTML".
- * @param [text=``] Text to scan
- * @returns element
- */
-function ParseToChildren(text = ``) {
-  if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
-  // `parseFromString()` creates a `<body>` element which we don't need,
-  // so create a `<div>` container, and as a work-around return its content
-  text = `<div>${text}</div>`
-  const tag = new DOMParser()
-    .parseFromString(text, `text/html`)
-    .getElementsByTagName(`div`)
-  if (tag.length === 0)
-    return CheckError(
-      `DOMParser.parseFromString('${text}','text/html') did not build a HTML object containing a <div> tag`
-    )
-  return tag[0]
-}
-/**
- * Removes text pair related CSS class names from the element.
- * @param {*} elm HTML element
- */
-function RemoveTextPairs(elm = HTMLElement) {
-  const classes = elm.className.split(` `)
-  // loop through and remove any *-bg and *-fg classes
-  let i = classes.length
-  while (i--) {
-    if (classes[i].endsWith(`-bg`)) elm.classList.remove(classes[i])
-    if (classes[i].endsWith(`-fg`)) elm.classList.remove(classes[i])
-  }
-}
-/**
- * Takes a string and converts it to a primitive boolean value,
- * or return null if the string is not a boolean representation.
- * @param [string=``] Boolean represented as a string
- * @returns boolean
- */
-function StringToBool(string = ``) {
-  switch (`${string}`.trim()) {
-    case `true`:
-    case `yes`:
-    case `on`:
-    case `1`:
-      return true
-    case `false`:
-    case `no`:
-    case `off`:
-    case `0`:
-      return false
-    default:
-      return null
-  }
-}
-/**
- * Display a large loading spinner on the active tab.
- * @param [display=true] Display spinner
- */
-async function BusySpinner(display = true) {
-  if (typeof display !== `boolean`)
-    CheckArguments(`display`, `boolean`, display)
-  // TODO apply a timeout timer that will look for any uncaught errors and if
-  // detected, display them in the tab?
-  const spin = globalThis.document.getElementById(`spinLoader`)
-  switch (display) {
-    case true:
-      if (spin === null) {
-        const div = document.createElement(`div`)
-        div.id = `spinLoader`
-        div.classList.add(`loader`)
-        document.body.append(div)
-        const stylesheet = CreateLink(
-          `../css/retrotxt_loader.css`,
-          `retrotxt-loader`
-        )
-        return document.querySelector(`head`).append(stylesheet)
-      }
-      return spin.classList.remove(`is-hidden`)
-    case false:
-      if (spin !== null) spin.classList.add(`is-hidden`)
-  }
-}
-// error flag used by `CheckError()`
-// we need to prefix `globalThis.` to the variable name when in strict mode
-globalThis.checkedErr = false
-// detect developer mode
-if (typeof RetroTxt === `undefined`) {
-  globalThis.RetroTxt = {}
-  globalThis.RetroTxt.developer = false
-  if (typeof chrome.management !== `undefined`) {
-    chrome.management.getSelf((info) => {
-      switch (info.installType) {
-        case `development`:
-          globalThis.RetroTxt.developer = true
-          break
-      }
-    })
-  }
-}
-
-// eslint no-undef/no-unused-vars work around
-if (typeof TagBlockCharacters === `undefined`) eslintUndef
-if (typeof ToggleTextEffect === `undefined`) eslintUndef
-if (typeof ToggleScanlines === `undefined`) eslintUndef
-if (typeof CheckArguments === `undefined`) eslintUndef
-if (typeof CheckRange === `undefined`) eslintUndef
-if (typeof HumaniseFS === `undefined`) eslintUndef
-if (typeof Configuration === `undefined`) eslintUndef
-if (typeof Contrast === `undefined`) eslintUndef
-if (typeof FontFamily === `undefined`) eslintUndef
-if (typeof Guess === `undefined`) eslintUndef
-if (typeof HardwarePalette === `undefined`) eslintUndef
-if (typeof ParseToChildren === `undefined`) eslintUndef
-if (typeof DisplayEncodingAlert === `undefined`) eslintUndef
-function eslintUndef() {}

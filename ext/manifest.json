@@ -18,7 +18,7 @@
     {
       "matches": ["<all_urls>"],
       "all_frames": true,
-      "js": ["scripts/sw/helper.js", "scripts/mv3_content-script.js"]
+      "js": ["scripts/sw/helpers.js", "scripts/mv3_content-script.js"]
     }
   ],
   "commands": {
@@ -63,7 +63,7 @@
     "page": "html/options.html",
     "open_in_tab": true
   },
-  "permissions": ["activeTab", "contextMenus", "storage"],
+  "permissions": ["activeTab", "contextMenus", "scripting", "storage"],
   "short_name": "RetroTxt",
   "version": "5.0.0",
   "version_name": "5.0 protype",

@@ -1,5 +1,5 @@
 // Replacement service worker with no DOM access
-/*global CheckError Downloads Extension Menu WebBrowser
+/*global CheckError ConsoleLoad Downloads Extension Menu WebBrowser Developer
 Chrome Firefox */
 
 importScripts(
@@ -7,7 +7,7 @@ importScripts(
   "downloads.js",
   "error.js",
   "extension.js",
-  "helper.js",
+  "helpers.js",
   "message.js",
   "menu.js",
   //"omnibox.js", todo: This is currently broken
@@ -17,8 +17,9 @@ importScripts(
   "toolbar.js"
 )
 
-// RetroTxt developer verbose feedback store name
-const Developer = `developer`
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`background`)
+})
 
 // Listeners must be registered synchronously from the start of the page.
 
