@@ -9,23 +9,23 @@
  * @param {string} [expecteparam {*} actual The actual argument used
  */
 function CheckArguments(name = ``, expected = ``, actual) {
-  let msg = ``
+  let err = ``
   switch (expected) {
     case `boolean`:
-      msg = `argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof actual}'`
+      err = `argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof actual}'`
       break
     case `number`:
-      msg = `argument '${name}' should be a 'number' (unsigned) instead of a '${typeof actual}'`
+      err = `argument '${name}' should be a 'number' (unsigned) instead of a '${typeof actual}'`
       break
     case `string`:
-      msg = `argument '${name}' should be a 'string' of text instead of a '${typeof actual}'`
+      err = `argument '${name}' should be a 'string' of text instead of a '${typeof actual}'`
       break
     default:
-      msg = `argument '${name}' needs to be a '${expected}' instead of a '${typeof actual}'`
+      err = `argument '${name}' needs to be a '${expected}' instead of a '${typeof actual}'`
       break
   }
-  if (typeof qunit !== `undefined`) return msg
-  CheckError(msg)
+  if (typeof qunit !== `undefined`) return err
+  CheckError(err)
 }
 
 /**
@@ -57,27 +57,27 @@ function CheckError(errorMessage, log = false) {
  * @param {*} actual The actual value
  */
 function CheckRange(name = ``, issue = ``, expected, actual) {
-  let msg = ``
+  let err = ``
   switch (issue) {
     case `length`:
-      msg = `the number of characters '${actual}' used for the argument '${name}' is too short, it needs to be at least '${expected}' character`
-      if (expected !== `1` && expected !== 1) msg += `s`
+      err = `the number of characters '${actual}' used for the argument '${name}' is too short, it needs to be at least '${expected}' character`
+      if (expected !== `1` && expected !== 1) err += `s`
       break
     case `range`:
-      msg = `the value '${actual}' for the argument '${name}' is out of range, it needs to be either '${expected.join(
+      err = `the value '${actual}' for the argument '${name}' is out of range, it needs to be either '${expected.join(
         `, `
       )}'`
       break
     case `small`:
-      msg = `the value '${actual}' for the argument '${name}' is too small, it needs to be at least '${expected}' or greater`
+      err = `the value '${actual}' for the argument '${name}' is too small, it needs to be at least '${expected}' or greater`
       break
     case `large`:
-      msg = `the value '${actual}' for the argument '${name}' is too large, it needs to be at most '${expected}' or less`
+      err = `the value '${actual}' for the argument '${name}' is too large, it needs to be at most '${expected}' or less`
       break
     default:
   }
-  if (typeof qunit !== `undefined`) return msg
-  CheckError(msg)
+  if (typeof qunit !== `undefined`) return err
+  CheckError(err)
 }
 
 /**
@@ -165,6 +165,7 @@ function DisplayAlert(show = true) {
   if (show === false) return div.classList.add(`is-hidden`)
   div.classList.remove(`is-hidden`)
 }
+
 /**
  * Creates an alert for unsupported page character sets.
  */
