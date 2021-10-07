@@ -1,6 +1,6 @@
 // filename: sw/downloads.js
 //
-/*global CheckError CheckLastError Configuration ConsoleLoad Developer Extension Firefox Security WebBrowser */
+/*global CheckError CheckLastError Configuration ConsoleLoad Developer Extension Os Security WebBrowser */
 /*exported Downloads */
 
 // TODO: remove window.session.storage etc.
@@ -45,7 +45,7 @@ CHROME NOTES:
    * Monitor file downloads.
    */
   async startup() {
-    if (WebBrowser() === Firefox) return
+    if (WebBrowser() === Os.firefox) return
     // exit when chrome.downloads is inaccessible due Extensions configurations
     if (`downloads` in chrome === false)
       return CheckError(

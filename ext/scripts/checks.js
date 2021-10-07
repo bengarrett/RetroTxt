@@ -91,10 +91,10 @@ function DisplayAlert(show = true) {
   if (div === null) {
     let ext = `reloading RetroTxt on the `
     switch (WebBrowser()) {
-      case Chrome:
+      case Engine.chrome:
         ext += ` Extensions page (chrome://extensions)`
         break
-      case Firefox:
+      case Engine.firefox:
         ext += ` Add-ons manager page (about:addons)`
         break
     }
@@ -103,9 +103,9 @@ function DisplayAlert(show = true) {
       .set(`reload`, `F5`)
       .set(`ctrl`, `Control`)
       .set(`shift`, `Shift`)
-    if (BrowserOS() === MacOS)
+    if (BrowserOS() === Os.macOS)
       keyboard.set(`reload`, `R`).set(`ctrl`, `⌘`).set(`shift`, `⌥`)
-    if (WebBrowser() == Firefox) keyboard.set(`console`, `I`)
+    if (WebBrowser() == Engine.firefox) keyboard.set(`console`, `I`)
     // build error as a html node
     const alert = {
       div: document.createElement(`div`),

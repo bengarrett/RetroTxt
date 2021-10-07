@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 /**
- * Error handler for this `scripts/eventpage.js`.
+ * Error handler for the service workers.
  * @param [error=``] Error feedback
  * @param [log=false] Log errors `false` are logged to the browser Console
  * otherwise a JavaScript exception is thrown

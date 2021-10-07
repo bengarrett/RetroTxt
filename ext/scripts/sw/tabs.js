@@ -1,6 +1,6 @@
 // filename: sw/tabs.js
 //
-/*global Developer ConsoleLoad Configuration Security Extension Downloads Firefox WebBrowser */
+/*global Developer ConsoleLoad Configuration Security Extension Downloads Os WebBrowser */
 
 // any local storage item beginning with `tab` ie `tab{this.id}` is a session var.
 
@@ -367,7 +367,7 @@ class Tab {
     return false
   }
   _ignoreEdgecase() {
-    if (WebBrowser() === Firefox) {
+    if (WebBrowser() === Os.firefox) {
       // look for filenames with extensions
       const path = this.url.split(`/`).slice(-1)
       // otherwise assume it's a directory

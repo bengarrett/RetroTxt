@@ -655,7 +655,7 @@ FIREFOX NOTES:
   So the results of chrome.extension.isAllowedFileSchemeAccess is ALWAYS false.
   The `file://` optional permission is the only access requirement.
     */
-    if (WebBrowser() === Firefox) {
+    if (WebBrowser() === Engine.firefox) {
       const id = `downloadViewer`,
         files = new Security(`files`)
       document.getElementById(id).disabled = true
@@ -913,7 +913,7 @@ class Initialise extends CheckBox {
   async _browser() {
     switch (WebBrowser()) {
       // Firefox
-      case Firefox:
+      case Engine.firefox:
         return
       // Chrome, Chromium, Brave, Vivaldi, Edge
       default:
@@ -964,13 +964,13 @@ class Initialise extends CheckBox {
         case linux:
         case unix:
         case windows:
-          if (WebBrowser() === Chrome) {
+          if (WebBrowser() === Engine.chrome) {
             hr.style.display = `block`
             blocks.style.display = `inline`
           }
         // fallthrough
         case macOS:
-          if (WebBrowser() === Firefox) {
+          if (WebBrowser() === Engine.firefox) {
             hr.style.display = `none`
             blocks.style.display = `none`
           }

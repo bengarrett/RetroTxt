@@ -15,7 +15,7 @@
   "globals": {
     "BrowserEncoding": "readonly",
     "BrowserEncodings": "readonly",
-    "BusySpinner": "readonly",
+    //"BusySpinner": "readonly",
     "Characters": "readonly",
     //"CheckArguments": "readonly",
     //"CheckRange": "readonly",

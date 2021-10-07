@@ -1,7 +1,12 @@
-// Replacement service worker with no DOM access
-/*global CheckError ConsoleLoad Downloads Extension Menu Omnibox WebBrowser
-Chrome Developer Firefox */
+// filename: sw/background.js
+//
+// Service workers replace background pages.
+// They are event based, and like event pages they do not persist between invocations.
 
+/*global CheckError ConsoleLoad Developer Downloads Engine Extension Menu Omnibox Os WebBrowser */
+
+// Service worker helpers that make the code more modular.
+// Each of these helpers have their own event listeners.
 importScripts(
   "action.js",
   "downloads.js",
@@ -40,7 +45,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 
   if (`management` in chrome) devMode()
 
-  new Extension().initialize(details)
+  new Extension().install(details)
 
   startup()
 })
@@ -49,8 +54,10 @@ chrome.runtime.onInstalled.addListener((details) => {
 // This event is not fired when an incognito profile is started.
 chrome.runtime.onStartup.addListener(startup)
 
-// Startup RetroTxt for both onStartup and onInstalled.
+// Startup RetroTxt for both onStartup and onInstalled events.
 function startup() {
+  setPlatform()
+
   new Menu().startup()
 
   new Omnibox().startup()
@@ -58,10 +65,10 @@ function startup() {
   new Downloads().startup()
 
   switch (WebBrowser()) {
-    case Chrome:
+    case Engine.chrome:
       console.info(`RetroTxt startup for the Chromium engine.`)
       break
-    case Firefox:
+    case Engine.firefox:
       console.info(`RetroTxt startup for the Firefox engine.`)
       break
   }
@@ -81,5 +88,28 @@ function devMode() {
       case `other`: // the add-on was installed in some other way
         return chrome.storage.local.remove(Developer)
     }
+  })
+}
+
+// Save the platform code so it can be used with content-scripts.
+// Previously the deprecated `Navigator.platform` method was used.
+function setPlatform() {
+  chrome.runtime.getPlatformInfo((info) => {
+    let store = -1
+    switch (info.os) {
+      case `win`:
+        // Windows
+        store = Os.windows
+        break
+      case `mac`:
+        // macOS
+        store = Os.macOS
+        break
+      default:
+        // Android, ChromeOS, Linux, FreeBSD
+        store = Os.linux
+        break
+    }
+    chrome.storage.local.set({ [`platform`]: store })
   })
 }

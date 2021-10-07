@@ -323,3 +323,13 @@ async function BusySpinner(display = true) {
       if (spin !== null) spin.classList.add(`is-hidden`)
   }
 }
+
+// TODO: requires window access
+// dark mode icons for Chrome
+// in firefox, dark icons are handled by the manifest.json
+// if (WebBrowser() === Chrome) {
+//   // this isn't reliable in Linux
+//   const pcs = matchMedia(`(prefers-color-scheme: dark)`)
+//   if (pcs.matches) this.setToolbarIcon(true)
+//   pcs.addEventListener(`change`, this.setToolbarIcon(pcs.matches))
+// }

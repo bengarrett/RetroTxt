@@ -4,6 +4,7 @@
 /*exported ConsoleLoad WebBrowser Configuration Characters CheckLastError FindControlSequences RemoveTextPairs BBSText PlainText UnknownText
 UseCharSet DOS_437_English DOS_865 ISO8859_5 ISO8859_10 Macintosh Shift_JIS Windows_1250 Windows_1251
 UnicodeStandard OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII OutputUFT8 Console
+Engine
 */
 
 /*
@@ -28,19 +29,13 @@ runtime:
 https://developer.chrome.com/docs/extensions/mv3/content_scripts/
 */
 
-// IIFE
+// Use an IIFE as this file is also as a content-script.
 ;(() => {
   ConsoleLoad(`helpers`)
 })()
 
 // RetroTxt developer verbose feedback store name
 const Developer = `developer`
-
-// enums like consts
-// these cannot use ES6 Symbols as their unique values are not shared between scripts
-const // browsers
-  Chrome = 0,
-  Firefox = 1
 
 const // operating systems
   Linux = 0,
@@ -78,19 +73,18 @@ const // Character set key values
   // transcode text into Unicode, 23-Oct-20, not sure if this gets used, see unit test.
   OutputUFT8 = `utf_8${TranscodeArrow}`
 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
-const Web = {
+const Engine = {
   // Google Chrome, Microsoft Edge, Brave browser
-  Chrome: 0,
+  chrome: 0,
   // Mozilla Firefox
-  Firefox: 1,
+  firefox: 1,
 }
-const OS = {
-  Linux: 0,
-  MacOS: 1,
-  Windows: 2,
+const Os = {
+  linux: 0,
+  macOS: 1,
+  windows: 2,
 }
-Object.freeze([Web, OS])
+Object.freeze([Engine, Os])
 
 const persistent = chrome.runtime.getManifest().background.persistent || false
 
@@ -172,7 +166,10 @@ class OptionsReset {
       .set(`textDOSControlGlyphs`, false)
       .set(`textLineHeight`, `1`)
       .set(`textRenderEffect`, `normal`)
-      .set(`textSmearBlockCharacters`, BrowserOS() === Windows ? true : false)
+      .set(
+        `textSmearBlockCharacters`,
+        BrowserOS() === Os.windows ? true : false
+      )
       // permitted domains, these MUST also be listed as `hosts` in the
       // `manifest.json` under the `optional_permissions` key.
       .set(`settingsWebsiteDomains`, [
@@ -197,6 +194,7 @@ class OptionsReset {
     return `error: not found`
   }
 }
+
 /**
  * Configurations used by Options and the extension manifest.
  * @class Configuration
@@ -362,23 +360,14 @@ class Configuration extends OptionsReset {
  * @returns string
  */
 function BrowserOS() {
-  // navigator.platform is a deprecatedacy value, in the future it may need to be replaced
-  // with chrome.runtime.getPlatformInfo((info) => {}
-  const os = globalThis.navigator.platform.slice(0, 3).toLowerCase()
-  switch (os) {
-    case `win`: // Win32, Win64
-      return Windows
-    case `mac`: // MacIntel, MacArm
-      return MacOS
-    default:
-      // Android, Linux, FreeBSD
-      return Linux
-  }
+  chrome.storage.local.get(`platform`, (store) => {
+    return store
+  })
 }
 
 /**
  * Determines the browser render engine.
- * Returns either `0` for Chrome, Chromium, Brave and Microsoft Edge or `1` for Firefox.
+ * Returns either a `0` for Chrome, Chromium and Edge or a `1` for Firefox.
  * @returns string
  */
 function WebBrowser() {
@@ -386,7 +375,7 @@ function WebBrowser() {
   if (ui !== undefined && ui.page !== undefined) {
     const manifest = ui.page,
       firefoxID = manifest.startsWith(`moz-extension`, 0)
-    return firefoxID ? Firefox : Chrome
+    return firefoxID ? Engine.firefox : Engine.chrome
   }
 }
 

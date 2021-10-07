@@ -6,16 +6,10 @@ chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`action.js`)
 })
 
-chrome.runtime.onInstalled.addListener(() => {
-  if (typeof qunit !== `undefined`) return
-
-  // TODO: replace session storage with local.store
-  // simulate session by removing the two existing stores when oninstall
-})
-
 // browser action (tool bar button) click event
 chrome.action.onClicked.addListener((tab) => {
-  new Action(tab.id, tab).browserAction()
+  if (typeof qunit !== `undefined`) return
+  new Action(tab.id, tab).click()
 })
 
 /**
@@ -85,7 +79,7 @@ class Action {
   /**
    * Event sanity check after the toolbar button is clicked.
    */
-  browserAction() {
+  click() {
     if (this._validateScheme() === true) return this._clicked() // pass
     return // fail
   }
@@ -93,17 +87,20 @@ class Action {
    * Event handler for the clicking of the toolbar button.
    */
   _clicked() {
+    let DeveloperMode = false
+    chrome.storage.local.get(Developer, (store) => {
+      if (Developer in store) DeveloperMode = true
+    })
+
     if (!(`url` in this.info) || this.info.url.length === 0)
       return console.warn(
         `RetroTxt could not determine the URL of the active tab #%s.`,
         this.id
       )
-    if (this.id === 0) return
 
-    chrome.storage.local.get(Developer, (store) => {
-      if (Developer in store)
-        console.log(`↩ Toolbar button click registered for tab #%s.`, this.id)
-    })
+    if (DeveloperMode)
+      console.log(`↩ Toolbar button click registered for tab #%s.`, this.id)
+
     // sessionStorage only saves strings
     const session = {
       state: sessionStorage.getItem(`tab${this.id}textfile`),
@@ -141,16 +138,13 @@ class Action {
       })
     }
     if (session.state === `true`) {
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store) {
-          console.log(
-            `RetroTxt has detected the active tab #%s is a text file encoded as %s.\n%s`,
-            this.id,
-            session.type,
-            this.info.url
-          )
-        }
-      })
+      if (DeveloperMode)
+        console.log(
+          `RetroTxt has detected the active tab #%s is a text file encoded as %s.\n%s`,
+          this.id,
+          session.type,
+          this.info.url
+        )
       chrome.tabs.sendMessage(this.id, { id: `invoked` }, () => {
         if (CheckLastError(`action click invoked send message`)) return
       })

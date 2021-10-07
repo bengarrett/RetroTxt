@@ -315,7 +315,8 @@ class DOM {
       this.pre.classList.remove(hide)
       // temporary workaround for a Blink engine issue where the previous
       // background colour of the <body> element is cached and not removed
-      if (WebBrowser() === Chrome) this.pre.style.backgroundColor = `white`
+      if (WebBrowser() === Engine.chrome)
+        this.pre.style.backgroundColor = `white`
     } else if (typeof this.rawText !== `undefined`)
       this.rawText.classList.remove(hide)
     // hide links
@@ -350,7 +351,7 @@ class DOM {
     })
     // temporary workaround for issue where the previous
     // background colour of <body> is cached and not removed
-    if (WebBrowser() === Chrome)
+    if (WebBrowser() === Engine.chrome)
       this.pre.style.removeProperty(`background-color`)
     this.pre.classList.add(`is-hidden`)
     this.rawText.classList.remove(`is-hidden`)
@@ -1226,7 +1227,10 @@ class SauceMeta {
       return (this.configs.codePage = fonts.get(fontName))
     if (fontName === `IBM`) {
       // Chrome special case for when it confuses CP437 ANSI as ISO-8859-5
-      if (WebBrowser() === Chrome && document.characterSet === `ISO-8859-5`)
+      if (
+        WebBrowser() === Engine.chrome &&
+        document.characterSet === `ISO-8859-5`
+      )
         this.configs.codePage = fonts.get(`special`)
       const iso8859_1 = `819`
       if (split[2] === iso8859_1) codePage = fonts.get(`Amiga`)
@@ -2272,6 +2276,12 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   if (typeof tabId !== `number`) CheckArguments(`tabId`, `number`, tabId)
   if (typeof tabEncode !== `string`)
     CheckArguments(`tabEncode`, `string`, tabEncode)
+
+  let DeveloperMode = false
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) DeveloperMode = true
+  })
+
   tabEncode = tabEncode.toLowerCase()
   // clean-up session items, in case the tab was previously used by RetroTxt
   //sessionStorage.removeItem(`fontOverride`)
@@ -2298,9 +2308,7 @@ RetroTxt will not be able to work with this page.
   // text data objects
   let ecma48 = {}
 
-  chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store) console.log(`Execute('${tabId}', '${tabEncode}')`)
-  })
+  if (DeveloperMode) console.log(`Execute('${tabId}', '${tabEncode}')`)
 
   if (typeof dom.rawText === `undefined`)
     return CheckError(
@@ -2308,18 +2316,16 @@ RetroTxt will not be able to work with this page.
     )
   if ([`UTF-16BE`, `UTF-16LE`].includes(document.characterSet))
     DisplayEncodingAlert()
+
   const input = new Input(tabEncode, `${dom.rawText.textContent}`)
-  chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store) console.log(input)
-  })
+  if (DeveloperMode) console.log(input)
+
   const sauce = new SauceMeta(input)
-  chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store) console.log(sauce)
-  })
+  if (DeveloperMode) console.log(sauce)
+
   const output = new Output(sauce, dom)
-  chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store) console.log(output)
-  })
+  if (DeveloperMode) console.log(output)
+
   // copy user settings to the localStorage of the active browser tab
   config.setLocalStorage(`ansiColumnWrap`)
   config.setLocalStorage(`ansiPageWrap`)

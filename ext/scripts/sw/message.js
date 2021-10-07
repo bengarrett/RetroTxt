@@ -9,9 +9,12 @@ chrome.runtime.onInstalled.addListener(() => {
 // runtime onMessage ... TODO move to message.js
 // listen to and handle messages from content scripts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  let DeveloperMode = false
   chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store)
+    if (Developer in store) {
+      DeveloperMode = true
       console.log(`✉ Received by runtime.onMessage.addListener().\n`, sender)
+    }
   })
   const button = new ToolbarButton(),
     extension = new Extension(),
@@ -21,12 +24,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   switch (key) {
     case `askForSettings`:
       sendResponse({ response: extension.defaults })
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
-          console.log(
-            `✉ 'askForSettings' message request Extension().defaults response sent.`
-          )
-      })
+      if (DeveloperMode)
+        console.log(
+          `✉ 'askForSettings' message request Extension().defaults response sent.`
+        )
       return
     case `darkMode`:
       chrome.action.setIcon({
@@ -39,22 +40,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           128: "assets/retrotxt_128-light.png",
         },
       })
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
-          console.log(
-            `✉ 'darkMode' Received Chrome specific, dark mode set icon request.`
-          )
-      })
+      if (DeveloperMode)
+        console.log(
+          `✉ 'darkMode' Received Chrome specific, dark mode set icon request.`
+        )
       return
     case `invoked`:
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
-          console.log(`✉ Received invoke %s request.`, value)
-      })
+      if (DeveloperMode) console.log(`✉ Received invoke %s request.`, value)
       if (!(`tab` in sender)) return
       if (value === false) {
         const extension = new Extension()
-        extension.invoke(
+        extension.invokeOnTab(
           tabId,
           `${sessionStorage.getItem(`tab${tabId}encoding`)}`
         )
@@ -65,38 +61,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         })
       return
     case `monitorDownloads`:
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
-          console.log(`✉ Received invoke %s request.`, value)
-      })
+      if (DeveloperMode) console.log(`✉ Received invoke %s request.`, value)
       return new Downloads().startup(value)
     case `retroTxtified`:
       if (!(`tab` in sender)) return
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
-          console.log(`✉ Received retroTxtified %s request.`, value)
-      })
+      if (DeveloperMode)
+        console.log(`✉ Received retroTxtified %s request.`, value)
       button.id = tabId
       if (value === true) button.enable()
       if (value === false) button.disable()
       return
     case `transcode`:
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
-          console.log(
-            `✉ Received transcode request to select '$%s'.`,
-            message.transcode
-          )
-      })
+      if (DeveloperMode)
+        console.log(
+          `✉ Received transcode request to select '$%s'.`,
+          message.transcode
+        )
       return chrome.contextMenus.update(message.transcode, { checked: true })
     default:
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store) {
-          console.group(`✉ Unexpected message.`)
-          console.log(message)
-          console.log(sender)
-          return console.groupEnd()
-        }
-      })
+      if (DeveloperMode) {
+        console.group(`✉ Unexpected message.`)
+        console.log(message)
+        console.log(sender)
+        return console.groupEnd()
+      }
   }
 })

@@ -661,7 +661,7 @@ class FontFamily {
       .set(`UNSCII8`, `Unscii 8`)
     this.fonts.set(
       `MONOSPACE`,
-      WebBrowser() === Chrome ? `Fixed-width` : `Monospace`
+      WebBrowser() === Engine.chrome ? `Fixed-width` : `Monospace`
     )
     this.key = key.toUpperCase()
     this.family = ``
