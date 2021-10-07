@@ -60,9 +60,8 @@ class Security {
    */
   test() {
     chrome.storage.local.get(Developer, (store) => {
-      if (Developer in store) {
+      if (Developer in store)
         console.trace(`⚿ Security test request for '${this.type}'.`)
-      }
     })
     if (this.type === `http`) this.origins = this._httpToOrigins()
     const permissionsToRequest = {

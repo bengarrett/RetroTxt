@@ -8,12 +8,34 @@ chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`tabs.js`)
 })
 
+// tabs.onActivated fires when the active tab in a window changes.
+// Note that the tab's URL may not be set at the time this event fired,
+// but you can listen to onUpdated events so as to be notified when a URL is set.
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  if (typeof activeInfo.tabId === `undefined`) return
+  chrome.tabs.get(activeInfo.tabId, (tab) => {
+    if (
+      typeof chrome.runtime.lastError === `object` &&
+      chrome.runtime.lastError.message !== ``
+    )
+      console.log(chrome.runtime.lastError.message)
+    if (typeof tab === `undefined`) return
+    //new Action(tab.id, tab).activated()
+  })
+})
+
+// tabs.onCreated fires when a tab is created.
+// Note that the tab's URL and tab group membership may not be set at the time this event is fired,
+// but you can listen to onUpdated events so as to be notified when a URL is set or the tab is added to a tab group.
 chrome.tabs.onCreated.addListener((tab) => {
   const tabs = new Tabs()
   tabs.tabId = tab.id
   if (!(`url` in tab)) return tabs._permissionDenied(true, `created`)
   new Tab(tab.id, tab.url, tab).create()
 })
+
+// tabs.onHighlighted fires when the highlighted or selected tabs in a window changes.
+//chrome.tabs.onActivated.addListener((highlighted) => {})
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
   const tabs = new Tabs()
@@ -27,25 +49,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
   if (tabInfo.active) new Tab(tabId, tabInfo.url, changeInfo).update()
 })
 
+// tabs.onRemoved fires when a tab is closed.
 chrome.tabs.onRemoved.addListener((tabId) => {
   new Tab(tabId).remove()
 })
 
-//
-// tabs onActivated
-// browser tab activated listener
-chrome.tabs.onActivated.addListener((activeInfo) => {
-  if (typeof activeInfo.tabId === `undefined`) return
-  chrome.tabs.get(activeInfo.tabId, (tab) => {
-    if (
-      typeof chrome.runtime.lastError === `object` &&
-      chrome.runtime.lastError.message !== ``
-    )
-      console.log(chrome.runtime.lastError.message)
-    if (typeof tab === `undefined`) return
-    //new Action(tab.id, tab).activated()
-  })
-})
+// tabs.onUpdated fires when a tab is updated.
+//chrome.tabs.onUpdated.addListener((updated) => {})
 
 /**
  * Handle event listeners for browser tabs.
@@ -125,6 +135,7 @@ class Tab {
       ignore: !config.validateFilename(this.url),
       scheme: this.url.split(`:`)[0],
     }
+    Object.freeze(config, fetchInit, tab, uri)
     // check against the hard coded black list of domains & schemes to skip any
     // false positives or conflicts
     if (config.validateDomain(uri.domain))
@@ -231,10 +242,9 @@ class Tab {
       },
       () => {
         chrome.storage.local.get(`tab${this.id}update`, (store) => {
-          if (store === null) {
-            chrome.storage.local.set({ [`tab${this.id}update`]: 1 })
-            return
-          }
+          if (store === null)
+            return chrome.storage.local.set({ [`tab${this.id}update`]: 1 })
+
           const updateCount = Object.values(store)[0]
           chrome.storage.local.set({ [`tab${this.id}update`]: updateCount + 1 })
           if (updateCount >= 3) {
@@ -297,6 +307,7 @@ class Tab {
       }
       // insert the RetroTxt URL into the approved list
       // see `_locales/en_US/messages.json` URL for the http address
+
       // TODO: Oct-2021; chrome.i18n doesn't work in MV3
       // https://bugs.chromium.org/p/chromium/issues/detail?id=1159438
       // https://bugs.chromium.org/p/chromium/issues/detail?id=1175053
@@ -319,7 +330,7 @@ class Tab {
    */
   _hostname() {
     if (this.url === ``) return ``
-    var url = ``
+    let url = ``
     try {
       const u = new URL(`${this.url}`)
       url = u.hostname

@@ -1,16 +1,17 @@
 // Replacement for function.js with no DOM or Chrome API access.
 
 /*global CheckError */
-/*exported ConsoleLoad WebBrowser Configuration Characters CheckLastError FindControlSequences RemoveTextPairs BBSText PlainText UnknownText
-UseCharSet DOS_437_English DOS_865 ISO8859_5 ISO8859_10 Macintosh Shift_JIS Windows_1250 Windows_1251
-UnicodeStandard OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII OutputUFT8 Console
-Engine
+/*exported ConsoleLoad WebBrowser Configuration Characters CheckLastError
+FindControlSequences RemoveTextPairs BBSText PlainText UnknownText
+UseCharSet DOS_437_English DOS_865 ISO8859_5 ISO8859_10 Macintosh Shift_JIS
+Windows_1250 Windows_1251 UnicodeStandard OutputCP1252 OutputISO8859_1
+OutputISO8859_15 OutputUS_ASCII OutputUFT8 Console Engine
 */
 
 /*
 Content scripts can access Chrome APIs used by their parent extension by exchanging messages with the extension. They can also access the URL of an extension's file with chrome.runtime.getURL() and use the result the same as other URLs.
 
-// Code for displaying <extensionDir>/images/myimage.png:
+Code for displaying <extensionDir>/images/myimage.png:
 var imgURL = chrome.runtime.getURL("images/myimage.png");
 document.getElementById("someImage").src = imgURL;
 Additionally, content scripts can access the following chrome APIs directly:
@@ -29,18 +30,20 @@ runtime:
 https://developer.chrome.com/docs/extensions/mv3/content_scripts/
 */
 
-// Use an IIFE as this file is also as a content-script.
+// onInstalled only works with service workers.
+if (typeof chrome.runtime.onInstalled !== `undefined`) {
+  chrome.runtime.onInstalled.addListener(() => {
+    ConsoleLoad(`shared helpers`)
+  })
+}
+
+// The IIFE serves as an onStartup method for content-scripts.
 ;(() => {
-  ConsoleLoad(`helpers`)
+  // placeholder
 })()
 
 // RetroTxt developer verbose feedback store name
 const Developer = `developer`
-
-const // operating systems
-  Linux = 0,
-  MacOS = 1,
-  Windows = 2
 
 const // Character set key values
   // The keys and their values should be distinct from any IANA character set names
@@ -299,11 +302,10 @@ class Configuration extends OptionsReset {
     // get saved item from browser storage
     chrome.storage.local.get([`${key}`], (result) => {
       const value = result[`${key}`]
-      if (StringToBool(value) === null) {
+      if (StringToBool(value) === null)
         return CheckError(
           `Could not obtain the requested chrome.storage ${key} setting`
         )
-      }
       localStorage.setItem(`${key}`, value)
     })
   }

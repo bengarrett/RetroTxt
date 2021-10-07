@@ -2,7 +2,7 @@
 //
 
 /*exported Omnibox */
-/*global CheckError ConsoleLoad openOptions */
+/*global CheckError ConsoleLoad OpenOptions */
 
 // NOTE: THIS IS CURRENTLY BROKEN IN MV3
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1186804
@@ -20,7 +20,7 @@ class Omnibox {
   constructor() {
     this.keys = []
     const suggestions = new Map()
-      .set(`version`, `RetroTxt version information.`)
+      .set(`version`, `RetroTxt version information`)
       .set(`fonts`, `RetroTxt font selections`)
       .set(`display`, `RetroTxt text, ansi and color display options`)
       .set(`settings`, `RetroTxt settings`)
@@ -28,10 +28,6 @@ class Omnibox {
       .set(`credits`, `RetroTxt credits`)
       .set(`samples`, `RetroTxt sample ANSI and ASCII artwork links`)
       .set(`useful`, `RetroTxt useful and related links`)
-    // .set(
-    //   `wipe`,
-    //   `Wipe all your RetroTxt configurations to reset to the defaults`
-    // )
     this.suggestions = suggestions
     this._keys()
   }
@@ -49,12 +45,11 @@ class Omnibox {
         false
       )
     }
-
     chrome.omnibox.onInputChanged.addListener((text, addSuggestions) => {
       addSuggestions(this._getMatchingProperties(text))
     })
     chrome.omnibox.onInputEntered.addListener((text, disposition) => {
-      if (disposition === `currentTab`) return openOptions(text)
+      if (disposition === `currentTab`) return OpenOptions(text)
     })
   }
   _getMatchingProperties(input) {

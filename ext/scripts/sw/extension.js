@@ -1,6 +1,6 @@
 // filename: sw/extension.js
 //
-/*global BrowserOS ConsoleLoad LocalStore Menu ToolbarButton OptionsReset Os */
+/*global ConsoleLoad LocalStore Menu ToolbarButton OptionsReset SetToolbarIcon */
 /*exported Extension */
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -186,61 +186,5 @@ class Extension {
         )
       }
     )
-  }
-}
-
-/**
- * Changes the Extension icon in the toolbar of Chrome.
- * @param {*} darkMode Use the icon set intended for dark system themes
- */
-function SetToolbarIcon(darkMode = false) {
-  // Oct 2020: chrome.action.setIcon currently breaks.
-  // Uncaught (in promise) TypeError: failureCallback is not a function
-  //  at extensions::setIcon:35
-  if (darkMode || !darkMode) return
-
-  const os = () => {
-    switch (BrowserOS()) {
-      case Os.windows:
-        return `Windows`
-      case Os.macOS:
-        return `macOS`
-      case Os.linux:
-        return `Linux/Unix`
-      default:
-        return `unknown`
-    }
-  }
-  switch (darkMode) {
-    case true:
-      console.log(`Chrome thinks the ${os()} system theme is in dark mode.`)
-      chrome.action.setIcon(
-        {
-          path: {
-            16: "assets/retrotxt_16-light.png",
-            19: "assets/retrotxt_19-light.png",
-            32: "assets/retrotxt_32-light.png",
-            38: "assets/retrotxt_38-light.png",
-            48: "assets/retrotxt_48-light.png",
-            128: "assets/retrotxt_128-light.png",
-          },
-        },
-        (x) => {
-          console.warn(x)
-        }
-      )
-      return
-    default:
-      console.log(`Chrome thinks the ${os()} system theme is in light mode.`)
-      chrome.action.setIcon({
-        path: {
-          16: "assets/retrotxt_16.png",
-          19: "assets/retrotxt_19.png",
-          32: "assets/retrotxt_32.png",
-          38: "assets/retrotxt_38.png",
-          48: "assets/retrotxt_48.png",
-          128: "assets/retrotxt_128.png",
-        },
-      })
   }
 }

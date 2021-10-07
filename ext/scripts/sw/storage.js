@@ -1,7 +1,7 @@
 // filename: sw/storage.js
 //
 /*global CheckLastError ConsoleLoad Developer Extension */
-/*exported openOptions RemoveSearch */
+/*exported OpenOptions RemoveSearch */
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`storage.js`)
@@ -69,7 +69,7 @@ class LocalStore {
       const oldValue = changes[item].oldValue,
         newValue = `${changes[item].newValue}`
       chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store) {
+        if (Developer in store)
           console.log(
             `🖫 RetroTxt %sStorage %s change: %s 🡒 %s (%s).`,
             areaName,
@@ -78,7 +78,6 @@ class LocalStore {
             newValue,
             typeof newValue
           )
-        }
       })
       if (`${oldValue}` === `undefined`) return
     }
@@ -93,8 +92,9 @@ class LocalStore {
   }
 }
 
-function openOptions(page = ``) {
+function OpenOptions(page = ``) {
   const key = `optionTab`
+  // the page aliases used by the omnibox input
   switch (page) {
     case `v`:
     case `ver`:

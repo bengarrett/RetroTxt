@@ -47,7 +47,7 @@
     https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
 */
 /*eslint no-useless-escape: "warn"*/
-/*global CheckError MacOS*/
+/*global CheckError */
 /*exported Controls*/
 "use strict"
 
@@ -1286,7 +1286,7 @@ class Markup {
    * @param [html=``] string
    */
   _tagBlockCharacters(html = ``) {
-    if (BrowserOS() === MacOS) return html
+    if (BrowserOS() === Os.macOS) return html
     const config = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     if (config !== `true`) return html
     return html.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)

@@ -1,6 +1,6 @@
 // filename: checks.js
 //
-/*global BrowserOS Chrome DOM Firefox MacOS WebBrowser */
+/*global BusySpinner BrowserOS DOM Engine Os WebBrowser */
 /*exported CheckArguments CheckError CheckRange DisplayAlert DisplayEncodingAlert */
 
 /**
@@ -130,7 +130,7 @@ function DisplayAlert(show = true) {
     alert.issue.append(`see if it has an issue report`)
     alert.div.append(`Sorry, RetroTxt has run into a problem.`, alert.p1)
     alert.p1.append(`Please reload `)
-    if (BrowserOS() !== MacOS) alert.p1.append(alert.f5)
+    if (BrowserOS() !== Os.macOS) alert.p1.append(alert.f5)
     alert.p1.append(` this tab to attempt to fix the problem.`)
     alert.div.append(alert.p2)
     alert.p2.append(
