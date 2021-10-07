@@ -29,8 +29,8 @@ function CheckError(error = ``, log = false) {
     })
     if (log !== true) {
       chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store) return console.trace(error)
-        else console.log(error)
+        if (Developer in store) return console.warn(error)
+        console.log(error)
       })
       return
     }

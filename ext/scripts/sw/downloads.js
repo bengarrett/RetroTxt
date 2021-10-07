@@ -1,6 +1,6 @@
 // filename: sw/downloads.js
 //
-/*global CheckLastError Configuration ConsoleLoad Developer Extension Firefox Security WebBrowser */
+/*global CheckError CheckLastError Configuration ConsoleLoad Developer Extension Firefox Security WebBrowser */
 /*exported Downloads */
 
 // TODO: remove window.session.storage etc.
@@ -44,13 +44,17 @@ CHROME NOTES:
   /**
    * Monitor file downloads.
    */
-  async listen() {
+  async startup() {
     if (WebBrowser() === Firefox) return
     // exit when chrome.downloads is inaccessible due Extensions configurations
     if (`downloads` in chrome === false)
-      return console.log(`chrome.downloads API is inaccessible`)
+      return CheckError(
+        `Downloads startup error, chrome.downloads API is inaccessible.`
+      )
     if (`onCreated` in chrome.downloads === false)
-      return console.log(`chrome.downloads API onCreated event is inaccessible`)
+      return CheckError(
+        `Downloads startup error, chrome.downloads API onCreated event is inaccessible.`
+      )
     const downloads = new Downloads(),
       security = new Security(`downloads`, `downloads`),
       test = security.test()

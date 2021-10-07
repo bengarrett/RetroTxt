@@ -48,7 +48,7 @@ class Menu {
   /**
    * Creates the context menus used on pages and on the task bar button.
    */
-  async create() {
+  async startup() {
     // each separator requires a unique id
     const id1 = 1,
       id2 = 2

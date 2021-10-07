@@ -69,7 +69,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         if (Developer in store)
           console.log(`✉ Received invoke %s request.`, value)
       })
-      return new Downloads().listen(value)
+      return new Downloads().startup(value)
     case `retroTxtified`:
       if (!(`tab` in sender)) return
       chrome.storage.local.get(Developer, (store) => {

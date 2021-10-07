@@ -1,6 +1,6 @@
 // Replacement service worker with no DOM access
-/*global CheckError ConsoleLoad Downloads Extension Menu WebBrowser Developer
-Chrome Firefox */
+/*global CheckError ConsoleLoad Downloads Extension Menu Omnibox WebBrowser
+Chrome Developer Firefox */
 
 importScripts(
   "action.js",
@@ -10,7 +10,7 @@ importScripts(
   "helpers.js",
   "message.js",
   "menu.js",
-  //"omnibox.js", todo: This is currently broken
+  "omnibox.js",
   "security.js",
   "storage.js",
   "tabs.js",
@@ -21,53 +21,65 @@ chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`background`)
 })
 
-// Listeners must be registered synchronously from the start of the page.
-
-// runtime onInstall ...
+// runtime.onInstalled is fired when the extension is first installed,
+// when the extension is updated to a new version,
+// and when Chrome is updated to a new version.
+//
+// details.id indicates the ID of the imported shared module extension.
+// details.previousVersion indicates the previous version of the extension.
+// details.reason is the reason the event is dispatched.
 chrome.runtime.onInstalled.addListener((details) => {
   if (typeof qunit !== `undefined`) return
+
   if (chrome === undefined)
-    CheckError(
-      `RetroTxt failed to run because the Extension API did not load! Please close this browser and try again.`
+    return CheckError(
+      `RetroTxt failed to run because the Extension API did not load!` +
+        ` Please close this browser and try again.`,
+      true
     )
 
-  // detect developer mode
-  if (`management` in chrome) {
-    chrome.management.getSelf((info) => {
-      switch (info.installType) {
-        // the add-on was installed unpacked from disk
-        case `development`:
-          console.info(`Development RetroTxt method detected.`)
-          return chrome.storage.local.set({ [Developer]: true })
-        case `admin`: // the add-on was installed because of an administrative policy
-        case `normal`: // the add-on was installed normally from an install package
-        case `sideload`: // the add-on was installed by some other software on the user's computer
-        case `other`: // the add-on was installed in some other way
-          return chrome.storage.local.remove(Developer)
-      }
-    })
-  }
+  if (`management` in chrome) devMode()
 
-  new Menu().create()
-
-  // omnibox
-  // new Omnibox().initialize()
-
-  // post install behaviour
   new Extension().initialize(details)
 
-  // TODO: break into events?
-  // file downloads event listeners
-  new Downloads().listen()
+  startup()
+})
 
-  // initialisation of storage plus generate context menu on browser launch and
-  // extension load
+// runtime.onStartup is fired when a profile that has this extension installed first starts up.
+// This event is not fired when an incognito profile is started.
+chrome.runtime.onStartup.addListener(startup)
+
+// Startup RetroTxt for both onStartup and onInstalled.
+function startup() {
+  new Menu().startup()
+
+  new Omnibox().startup()
+
+  new Downloads().startup()
+
   switch (WebBrowser()) {
     case Chrome:
-      console.info(`RetroTxt initialisation for the Chromium engine.`)
+      console.info(`RetroTxt startup for the Chromium engine.`)
       break
     case Firefox:
-      console.info(`RetroTxt initialisation for the Firefox engine.`)
+      console.info(`RetroTxt startup for the Firefox engine.`)
       break
   }
-})
+}
+
+// Detect the browser Developer mode.
+function devMode() {
+  chrome.management.getSelf((info) => {
+    switch (info.installType) {
+      // the add-on was installed unpacked from disk
+      case `development`:
+        console.info(`Development RetroTxt method detected.`)
+        return chrome.storage.local.set({ [Developer]: true })
+      case `admin`: // the add-on was installed because of an administrative policy
+      case `normal`: // the add-on was installed normally from an install package
+      case `sideload`: // the add-on was installed by some other software on the user's computer
+      case `other`: // the add-on was installed in some other way
+        return chrome.storage.local.remove(Developer)
+    }
+  })
+}

@@ -2,9 +2,10 @@
 //
 
 /*exported Omnibox */
-/*global ConsoleLoad openOptions */
+/*global CheckError ConsoleLoad openOptions */
 
 // NOTE: THIS IS CURRENTLY BROKEN IN MV3
+// https://bugs.chromium.org/p/chromium/issues/detail?id=1186804
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`omnibox.js`)
@@ -37,10 +38,18 @@ class Omnibox {
   /**
    * Add event listeners for the omnibox.
    */
-  async initialize() {
-    chrome.omnibox.setDefaultSuggestion({
-      description: `RetroTxt commands: ${this.keys.join(`, `)}`,
-    })
+  async startup() {
+    try {
+      chrome.omnibox.setDefaultSuggestion({
+        description: `RetroTxt commands: ${this.keys.join(`, `)}`,
+      })
+    } catch (e) {
+      return CheckError(
+        `RetroTxt failed to load the Omnibox due to a Chromium bug in Manifest V3.`,
+        false
+      )
+    }
+
     chrome.omnibox.onInputChanged.addListener((text, addSuggestions) => {
       addSuggestions(this._getMatchingProperties(text))
     })
