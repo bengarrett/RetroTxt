@@ -2,7 +2,7 @@
 //
 // These functions and classes are exclusively used by the Options tab.
 //
-/*global CheckLastError CheckRange Chrome Configuration Console Firefox OptionsReset WebBrowser */
+/*global CheckLastError CheckRange Configuration Console Engine FontFamily OptionsReset WebBrowser */
 "use strict"
 
 /**
