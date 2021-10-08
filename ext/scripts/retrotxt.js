@@ -1,15 +1,14 @@
 // filename: retrotxt.js
 //
-// These functions are used to apply and clear RetroTxt from the browser tabs.
+// These functions are used to apply RetroTxt to a browser tab.
+// Or restore it to its original raw or plain-text state.
 //
-/*global Developer ecma48 BBS CheckLastError Controls CheckError Chrome DOSText RetroTxt Transcode TranscodeArrow
-ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText
-DOS_437_English Windows_1252_English ISO8859_5 OutputCP1252 OutputUS_ASCII Shift_JIS UseCharSet*/
+/*global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console Cs Developer CheckLastError Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FontFamily Guess HardwarePalette StringToBool Transcode WebBrowser
+
+ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText TranscodeArrow WildcatText WWIVHashText WWIVHeartText
+ OutputUS_ASCII UseCharSet*/
 /*exported DOM*/
 "use strict"
-
-// RetroTxt.developer = false // verbose console output
-// RetroTxt.dump = false // Input SauceMeta and Output classes
 
 // SAUCE fonts, these must be kept current to the font families in fonts_ibm.css & fonts_home.css
 const atascii = `candyantics`,
@@ -718,7 +717,7 @@ class DOM {
   }
   async _restoreFont() {
     // Shift_JIS requires the Mono font family and overrides the user's font selection
-    if (document.characterSet.toLowerCase() === Shift_JIS) {
+    if (document.characterSet.toLowerCase() === Cs.Shift_JIS) {
       const fonts = new FontFamily(`MONA`)
       return fonts.swap(this.rawText)
     }
@@ -1216,10 +1215,10 @@ class SauceMeta {
   _fontCodePage() {
     const font = `${this.configs.fontName}`,
       fonts = new Map()
-        .set(`Amiga`, OutputCP1252)
-        .set(`Atari`, Windows_1252_English)
-        .set(`DOS`, DOS_437_English)
-        .set(`special`, ISO8859_5),
+        .set(`Amiga`, Cs.OutputCP1252)
+        .set(`Atari`, Cs.Windows_1252_English)
+        .set(`DOS`, Cs.DOS_437_English)
+        .set(`special`, Cs.ISO8859_5),
       split = this._clean(font).split(` `),
       fontName = split[0]
     let codePage = ``
@@ -1545,7 +1544,7 @@ class Output {
     }
     // SAUCE code page override
     const scp = this.sauce.configs.codePage
-    if (scp !== `` && scp !== DOS_437_English) {
+    if (scp !== `` && scp !== Cs.DOS_437_English) {
       transcode.rebuild(scp)
       this.data.html = transcode.text
       return (this.rows = rowCount())
@@ -1617,13 +1616,13 @@ class Output {
       // i.e CP1252 → CP1252
       if (chrs.outputs.has(newLabel) && newLabel.slice(0, -1) !== label)
         chrs.key = out.label()
-      else chrs.key = DOS_437_English
+      else chrs.key = Cs.DOS_437_English
       stored.text = chrs.compactOut()
       text.out = chrs.compactOut()
       return chrs.titleOut()
     }
     // matches `Characters.labels` Map that is supplied by SAUCE metadata
-    // i.e DOS_437_English
+    // i.e Cs.DOS_437_English
     if (chrs.support()) {
       stored.text = chrs.compactOut()
       text.out = chrs.compactOut()
@@ -1635,8 +1634,8 @@ class Output {
     const old = document.createElement(`span`)
     switch (stored.item) {
       // transcode text `CP-1252 ↻` and `ISO 8859-5 ↻` selections
-      case Windows_1252_English:
-      case ISO8859_5:
+      case Cs.Windows_1252_English:
+      case Cs.ISO8859_5:
         if (text.in === stored.text) {
           elm.in.classList.add(`has-text-underline`)
           elm.in.textContent = text.in
@@ -1763,7 +1762,7 @@ class Information extends Output {
    */
   createFontname() {
     const fonts = new FontFamily()
-    if (this.input.characterSet.toLowerCase() === Shift_JIS) {
+    if (this.input.characterSet.toLowerCase() === Cs.Shift_JIS) {
       fonts.key = `mona`
       fonts.set()
       return this._setFontname(fonts)
@@ -1980,7 +1979,7 @@ class Invoke {
     this.hide()
   }
   show() {
-    if (RetroTxt.developer) console.log(`Invoke.show()`)
+    Console(`Invoke.show()`)
     const defaultBG = `theme-msdos-bg`,
       defaultFG = `theme-msdos-fg`
     let body = sessionStorage.getItem(`bodyClass`)
@@ -1999,7 +1998,7 @@ class Invoke {
     return BusySpinner(false)
   }
   hide() {
-    if (RetroTxt.developer) console.log(`Invoke.hide()`)
+    Console(`Invoke.hide()`)
     const body = this.dom.body
     this._removeBackground(body)
     sessionStorage.setItem(`bodyClass`, body.classList.value)
@@ -2070,14 +2069,16 @@ function handleChanges(change) {
     smearBlockCharacters: change.textSmearBlockCharacters,
     useIceColors: change.ansiUseIceColors,
   }
-  if (RetroTxt.developer) {
-    console.log(`🖫 handleChanges(change)`)
-    Object.entries(changes).forEach(([key, value]) => {
-      if (typeof value === `undefined`) return
-      console.log(`🡲 ${key}`)
-      console.log(value)
-    })
-  }
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) {
+      console.log(`🖫 handleChanges(change)`)
+      Object.entries(changes).forEach(([key, value]) => {
+        if (typeof value === `undefined`) return
+        console.log(`🡲 ${key}`)
+        console.log(value)
+      })
+    }
+  })
   const dom = new DOM()
   if (changes.accurate9pxFonts) {
     dom.results = { textAccurate9pxFonts: changes.accurate9pxFonts.newValue }
@@ -2212,11 +2213,14 @@ function handleMessages(message, sender) {
 
   const unexpected = () => {
     if (typeof qunit !== `undefined`) return false
-    if (!RetroTxt.developer) return
-    console.group(`✉ Unexpected message.`)
-    console.log(message)
-    console.log(sender)
-    console.groupEnd()
+    chrome.storage.local.get(Developer, (store) => {
+      if (Developer in store) {
+        console.group(`✉ Unexpected message.`)
+        console.log(message)
+        console.log(sender)
+        console.groupEnd()
+      }
+    })
   }
 
   //if (!(`id` in message)) return unexpected()
@@ -2225,8 +2229,10 @@ function handleMessages(message, sender) {
     Execute(sender.tab.id)
     return
   }
-  if (!RetroTxt.developer)
-    console.log(`✉ Received '%s' for handleMessages().`, message.id)
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store === false)
+      console.log(`✉ Received '%s' for handleMessages().`, message.id)
+  })
   const invoke = new Invoke()
   switch (message.id) {
     case `invoked`:
@@ -2234,30 +2240,26 @@ function handleMessages(message, sender) {
         chrome.runtime.sendMessage({ invoked: false }, () => {
           if (CheckLastError(`handle messages invoked false send`)) return
         })
-        if (RetroTxt.developer)
-          console.log(`✉ 'invoked' message request 'false' response sent.`)
+        Console(`✉ 'invoked' message request 'false' response sent.`)
         return
       }
       chrome.runtime.sendMessage({ invoked: true }, () => {
         if (CheckLastError(`handle messages invoked true send`)) return
       })
-      if (RetroTxt.developer)
-        console.log(`✉ 'invoked' message request 'true' response sent.`)
+      Console(`✉ 'invoked' message request 'true' response sent.`)
       return
     case `toggle`:
-      if (RetroTxt.developer === true)
-        console.log(`✉ 'toggle' message received.`)
+      Console(`✉ 'toggle' message received.`)
       return invoke.toggle()
     case `transcode`:
       if (message.action === UseCharSet) sessionStorage.removeItem(`transcode`)
       else sessionStorage.setItem(`transcode`, message.action)
       // reload the active tab
       globalThis.location.reload()
-      if (RetroTxt.developer)
-        console.log(`✉ 'transcode' message '%s' received.`, message.action)
+      Console(`✉ 'transcode' message '%s' received.`, message.action)
       return
     case `CheckError`:
-      if (RetroTxt.developer) console.log(`✉ 'CheckError' message received.`)
+      Console(`✉ 'CheckError' message received.`)
       // display an error alert box on the active tab
       return DisplayAlert()
     case `qunit`:
