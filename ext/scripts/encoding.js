@@ -1,6 +1,7 @@
 // filename: encoding.js
 //
-/*global Developer */
+/*global CheckArguments Cs Developer Engine TranscodeArrow WebBrowser */
+/*exported Characters FontFamily Guess HardwarePalette*/
 
 /**
  * Capitalizes the first letter of a word while applying lowercasing to the others.
@@ -100,20 +101,20 @@ class BrowserEncodings {
   constructor(encoding = ``) {
     this.encoding = encoding.toUpperCase()
     this.encodings = new Map()
-      .set(`CP-437`, DOS_437_English)
-      .set(`IBM437`, DOS_437_English)
-      .set(`IBM865`, DOS_865)
-      .set(`ISO-8859-1`, ISO8859_1)
-      .set(`ISO-8859-5`, ISO8859_5)
-      .set(`ISO-8859-10`, ISO8859_10)
-      .set(`ISO-8859-15`, ISO8859_15)
-      .set(`MACINTOSH`, Macintosh)
-      .set(`SHIFT_JIS`, Shift_JIS)
-      .set(`WINDOWS-1250`, Windows_1250)
-      .set(`WINDOWS-1251`, Windows_1251)
-      .set(`WINDOWS-1252`, Windows_1252_English)
-      .set(`US-ASCII`, US_ASCII)
-      .set(`UTF-8`, UnicodeStandard)
+      .set(`CP-437`, Cs.DOS_437_English)
+      .set(`IBM437`, Cs.DOS_437_English)
+      .set(`IBM865`, Cs.DOS_865)
+      .set(`ISO-8859-1`, Cs.ISO8859_1)
+      .set(`ISO-8859-5`, Cs.ISO8859_5)
+      .set(`ISO-8859-10`, Cs.ISO8859_10)
+      .set(`ISO-8859-15`, Cs.ISO8859_15)
+      .set(`MACINTOSH`, Cs.Macintosh)
+      .set(`SHIFT_JIS`, Cs.Shift_JIS)
+      .set(`WINDOWS-1250`, Cs.Windows_1250)
+      .set(`WINDOWS-1251`, Cs.Windows_1251)
+      .set(`WINDOWS-1252`, Cs.Windows_1252_English)
+      .set(`US-ASCII`, Cs.US_ASCII)
+      .set(`UTF-8`, Cs.UnicodeStandard)
   }
   /**
    * Does the browser character encoding support RetroTxt?
@@ -167,31 +168,34 @@ class Characters extends BrowserEncodings {
     super()
     this.labels = new Map()
       // key, [formal name, informal name]
-      .set(DOS_437_English, [`Code Page 437`, `MS-DOS Latin`])
-      .set(DOS_865, [`Code Page 865`, `MS-DOS Nordic`])
-      .set(ISO8859_1, [
+      .set(Cs.DOS_437_English, [`Code Page 437`, `MS-DOS Latin`])
+      .set(Cs.DOS_865, [`Code Page 865`, `MS-DOS Nordic`])
+      .set(Cs.ISO8859_1, [
         `ISO-8859 Part 1`,
         `Latin alphabet No. 1 alternatively referenced as ECMA-94`,
       ])
-      .set(ISO8859_5, [`ISO-8859 Part 5`, `Latin/Cyrillic alphabet`])
-      .set(ISO8859_10, [`ISO-8859 Part 10`, `Latin alphabet No. 6`])
-      .set(ISO8859_15, [`ISO-8859 Part 15`, `Latin alphabet No. 9`])
-      .set(Macintosh, [`Mac OS Roman`, `Macintosh (OS 9 and prior)`])
-      .set(Shift_JIS, [`Shift JIS`, `Japanese text art`])
-      .set(Windows_1250, [`Code Page 1250`, `Windows Latin 2 (Central Europe)`])
-      .set(Windows_1251, [`Code Page 1251`, `Windows Cyrillic (Slavic)`])
-      .set(Windows_1252_English, [
+      .set(Cs.ISO8859_5, [`ISO-8859 Part 5`, `Latin/Cyrillic alphabet`])
+      .set(Cs.ISO8859_10, [`ISO-8859 Part 10`, `Latin alphabet No. 6`])
+      .set(Cs.ISO8859_15, [`ISO-8859 Part 15`, `Latin alphabet No. 9`])
+      .set(Cs.Macintosh, [`Mac OS Roman`, `Macintosh (OS 9 and prior)`])
+      .set(Cs.Shift_JIS, [`Shift JIS`, `Japanese text art`])
+      .set(Cs.Windows_1250, [
+        `Code Page 1250`,
+        `Windows Latin 2 (Central Europe)`,
+      ])
+      .set(Cs.Windows_1251, [`Code Page 1251`, `Windows Cyrillic (Slavic)`])
+      .set(Cs.Windows_1252_English, [
         `Code Page 1252`,
         `Windows Latin 1 (incorrectly called ANSI)`,
       ])
-      .set(US_ASCII, [`US-ASCII`, `Alternatively referenced as ECMA-6`])
-      .set(UnicodeStandard, [`UTF 8-bit`, `Unicode Transformation Format`])
+      .set(Cs.US_ASCII, [`US-ASCII`, `Alternatively referenced as ECMA-6`])
+      .set(Cs.UnicodeStandard, [`UTF 8-bit`, `Unicode Transformation Format`])
     // key, `BrowserEncodings.encoding`
     this.outputs = new Map()
-      .set(OutputCP1252, `CP-1252`)
-      .set(OutputISO8859_1, `ISO-8859-1`)
-      .set(OutputISO8859_15, `ISO-8859-15`)
-      .set(OutputUS_ASCII, `US-ASCII`)
+      .set(Cs.OutputCP1252, `CP-1252`)
+      .set(Cs.OutputISO8859_1, `ISO-8859-1`)
+      .set(Cs.OutputISO8859_15, `ISO-8859-15`)
+      .set(Cs.OutputUS_ASCII, `US-ASCII`)
     this.key = key
     this.encoding = this.getEncoding()
     this.label = [``, ``]
@@ -231,12 +235,12 @@ class Characters extends BrowserEncodings {
     switch (this.key) {
       // display formal names for these sets
       case `MACINTOSH`: {
-        this.key = Macintosh
+        this.key = Cs.Macintosh
         this._setLabel()
         return this.label[0]
       }
       case `SHIFT_JIS`: {
-        this.key = Shift_JIS
+        this.key = Cs.Shift_JIS
         this._setLabel()
         return this.label[0]
       }
@@ -324,14 +328,14 @@ class Guess extends BrowserEncodings {
   constructor(text = ``) {
     super()
     this.characterSets = [
-      OutputISO8859_1,
-      OutputISO8859_15,
-      OutputCP1252,
-      OutputUS_ASCII,
-      OutputUFT8,
-      ISO8859_5,
-      Windows_1252_English,
-      DOS_437_English,
+      Cs.OutputISO8859_1,
+      Cs.OutputISO8859_15,
+      Cs.OutputCP1252,
+      Cs.OutputUS_ASCII,
+      Cs.OutputUFT8,
+      Cs.ISO8859_5,
+      Cs.Windows_1252_English,
+      Cs.DOS_437_English,
     ]
     this.table_cp1252 = () => {
       // prettier-ignore

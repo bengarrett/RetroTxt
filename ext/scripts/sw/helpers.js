@@ -1,11 +1,13 @@
-// Replacement for function.js with no DOM or Chrome API access.
+// filename: sw/helpers.js
+//
+// This is a replacement for RetroTxt v4's function.js.
+// It is used as both a service worker and a container-script.
+//
+// All functions and methods cannot access the browser DOM API or the Chrome extension API.
 
 /*global CheckError */
-/*exported ConsoleLoad WebBrowser Configuration Characters CheckLastError
-FindControlSequences RemoveTextPairs BBSText PlainText UnknownText
-UseCharSet DOS_437_English DOS_865 ISO8859_5 ISO8859_10 Macintosh Shift_JIS
-Windows_1250 Windows_1251 UnicodeStandard OutputCP1252 OutputISO8859_1
-OutputISO8859_15 OutputUS_ASCII OutputUFT8 Console Engine
+/*exported CheckLastError Console ConsoleLoad Configuration Engine WebBrowser
+TranscodeArrow UseCharSet OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII OutputUFT8
 */
 
 /*
@@ -45,49 +47,52 @@ if (typeof chrome.runtime.onInstalled !== `undefined`) {
 // RetroTxt developer verbose feedback store name
 const Developer = `developer`
 
-const // Character set key values
-  // The keys and their values should be distinct from any IANA character set names
-  DOS_437_English = `cp_437`, // IBM PC English legacy text
-  DOS_865 = `cp_865`, // IBM PC Nordic legacy text
-  ISO8859_1 = `iso_8859_1`, // Unix English legacy text
-  ISO8859_5 = `iso_8859_5`, // Cyrillic legacy text
-  ISO8859_10 = `iso_8859_10`, // Nordic legacy text
-  ISO8859_15 = `iso_8859_15`, // ISO-8859-1 update to include € and 7 other character swaps
-  Macintosh = `mac_roman`, // Apple Macintosh legacy text
-  Shift_JIS = `shift_jis`, // Japanese legacy text that requires speciality decoding and fonts
-  Windows_1250 = `cp_1250`, // Microsoft Windows Central/Eastern European legacy text
-  Windows_1251 = `cp_1251`, // Microsoft Windows Cyrillic legacy text
-  Windows_1252_English = `cp_1252`, // Microsoft Windows English legacy text
-  UnicodeStandard = `utf_8`, // Unicode, 8-bit multi-byte text
-  US_ASCII = `us_ascii`, // 7-bit, ARPANET/Internet legacy text
-  // changing the values of these consts can break application functionality
-  TranscodeArrow = `➡`,
-  // use the browser choosen document character set
-  UseCharSet = `useCharSet${TranscodeArrow}`,
-  // transcode text into Windows legacy CP-1252 before Unicode
-  OutputCP1252 = `${Windows_1252_English}${TranscodeArrow}`,
-  // transcode text into Unix legacy ISO-8859-1 before Unicode
-  // this is required and used by SAUCE metadata
-  OutputISO8859_1 = `${ISO8859_1}${TranscodeArrow}`,
-  // transcode text into Internet legacy ISO-8859-15 before Unicode
-  OutputISO8859_15 = `${ISO8859_15}${TranscodeArrow}`,
-  // transcode text into legacy 7-bit US-ASCII before Unicode
-  OutputUS_ASCII = `${US_ASCII}${TranscodeArrow}`,
-  // transcode text into Unicode, 23-Oct-20, not sure if this gets used, see unit test.
-  OutputUFT8 = `utf_8${TranscodeArrow}`
-
+// Browser rendering engine.
 const Engine = {
-  // Google Chrome, Microsoft Edge, Brave browser
   chrome: 0,
-  // Mozilla Firefox
   firefox: 1,
 }
+// Browser host operating system.
 const Os = {
   linux: 0,
   macOS: 1,
   windows: 2,
 }
-Object.freeze([Engine, Os])
+// Character sets keys and values.
+// The keys and their values should be distinct from any IANA character set names.
+const Cs = {
+  DOS_437_English: `cp_437`, // IBM PC English legacy text
+  DOS_865: `cp_865`, // IBM PC Nordic legacy text
+  ISO8859_1: `iso_8859_1`, // Unix English legacy text
+  ISO8859_5: `iso_8859_5`, // Cyrillic legacy text
+  ISO8859_10: `iso_8859_10`, // Nordic legacy text
+  ISO8859_15: `iso_8859_15`, // ISO-8859-1 update to include € and 7 other character swaps
+  Macintosh: `mac_roman`, // Apple Macintosh legacy text
+  Shift_JIS: `shift_jis`, // Japanese legacy text that requires speciality decoding and fonts
+  Windows_1250: `cp_1250`, // Microsoft Windows Central/Eastern European legacy text
+  Windows_1251: `cp_1251`, // Microsoft Windows Cyrillic legacy text
+  Windows_1252_English: `cp_1252`, // Microsoft Windows English legacy text
+  UnicodeStandard: `utf_8`, // Unicode, 8-bit multi-byte text
+  US_ASCII: `us_ascii`, // 7-bit, ARPANET/Internet legacy text
+}
+Object.freeze([Engine, Os, Cs])
+
+const // Character set key values
+  // changing the values of these consts can break application functionality
+  TranscodeArrow = `➡`,
+  // use the browser choosen document character set
+  UseCharSet = `useCharSet${TranscodeArrow}`,
+  // transcode text into Windows legacy CP-1252 before Unicode
+  OutputCP1252 = `${Cs.Windows_1252_English}${TranscodeArrow}`,
+  // transcode text into Unix legacy ISO-8859-1 before Unicode
+  // this is required and used by SAUCE metadata
+  OutputISO8859_1 = `${Cs.ISO8859_1}${TranscodeArrow}`,
+  // transcode text into Internet legacy ISO-8859-15 before Unicode
+  OutputISO8859_15 = `${Cs.ISO8859_15}${TranscodeArrow}`,
+  // transcode text into legacy 7-bit US-ASCII before Unicode
+  OutputUS_ASCII = `${Cs.US_ASCII}${TranscodeArrow}`,
+  // transcode text into Unicode, 23-Oct-20, not sure if this gets used, see unit test.
+  OutputUFT8 = `utf_8${TranscodeArrow}`
 
 const persistent = chrome.runtime.getManifest().background.persistent || false
 

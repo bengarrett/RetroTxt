@@ -1,7 +1,6 @@
 // filename: sw/menu.js
 //
-/*global ConsoleLoad UseCharSet Windows_1252_English ISO8859_5 OutputCP1252 OutputISO8859_15
- OutputUS_ASCII OpenOptions CheckLastError */
+/*global ConsoleLoad CheckLastError Cs OpenOptions */
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`menu.js`)
@@ -31,19 +30,19 @@ class Menu {
     // context menu titles
     this.titles = new Map()
       .set(`codeOrder`, [
-        UseCharSet,
-        OutputCP1252,
-        OutputISO8859_15,
-        OutputUS_ASCII,
-        Windows_1252_English,
-        ISO8859_5,
+        Cs.UseCharSet,
+        Cs.OutputCP1252,
+        Cs.OutputISO8859_15,
+        Cs.OutputUS_ASCII,
+        Cs.Windows_1252_English,
+        Cs.ISO8859_5,
       ])
-      .set(UseCharSet, `Automatic charset`)
-      .set(Windows_1252_English, `CP-1252 ↻`)
-      .set(OutputCP1252, `CP-1252`)
-      .set(ISO8859_5, `ISO 8859-5 ↻`)
-      .set(OutputISO8859_15, `ISO 8859-15`)
-      .set(OutputUS_ASCII, `US-ASCII`)
+      .set(Cs.UseCharSet, `Automatic charset`)
+      .set(Cs.Windows_1252_English, `CP-1252 ↻`)
+      .set(Cs.OutputCP1252, `CP-1252`)
+      .set(Cs.ISO8859_5, `ISO 8859-5 ↻`)
+      .set(Cs.OutputISO8859_15, `ISO 8859-15`)
+      .set(Cs.OutputUS_ASCII, `US-ASCII`)
   }
   /**
    * Creates the context menus used on pages and on the task bar button.
@@ -83,12 +82,12 @@ class Menu {
       case `settings`:
       case `documentation`:
         return OpenOptions(`${id}`)
-      case Windows_1252_English:
-      case ISO8859_5:
-      case UseCharSet:
-      case OutputISO8859_15:
-      case OutputUS_ASCII:
-      case OutputCP1252: {
+      case Cs.Windows_1252_English:
+      case Cs.ISO8859_5:
+      case Cs.UseCharSet:
+      case Cs.OutputISO8859_15:
+      case Cs.OutputUS_ASCII:
+      case Cs.OutputCP1252: {
         // see `handleMessages()` in `scripts/retrotxt.js` for the event handler
         return chrome.tabs.query(
           { active: true, currentWindow: true },
