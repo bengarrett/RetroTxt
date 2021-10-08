@@ -4,15 +4,15 @@
 // into the text.
 //
 // The common online name is ANSI but it is an ambiguous term.
-// ANSI (American National Standards Institute) is just a standards body who
+// ANSI (American National Standards Institute) was a standards body who
 // published numerous computer text standards.
 //
 // The term 'ANSI art' probably came about thanks to Microsoft misnaming their
-// limited MS-DOS driver ANSI.SYS.
+// limited MS-DOS driver as `ANSI.SYS`.
 //
 // ANSI art usually refers to these identical standards.
 // ISO 6429 - "Control functions for 7-bit and 8-bit coded character sets"
-// ECMA 48 - "Control Functions for Coded Character Sets"
+// ECMA-48  - "Control Functions for Coded Character Sets"
 //
 // ISO/IEC 6429
 // http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
@@ -25,27 +25,17 @@
 // XTerm Control Sequences
 // https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 
-/*
-  JavaScript Performance Tips:
-  + Prefer switch over if-then-else conditionals as they can be optimised during
-    compile time.
-  + Don't initialise ES6 `let` and `const` within loops,
-    see https://github.com/vhf/v8-bailout-reasons/pull/10
-  + To permit compile-time optimisation `const` declarations need to be at the
-    top of the function.
-  + Use x = `${x}newText` instead of x.concat(`newText`),
-    see http://jsperf.com/concat-vs-plus-vs-join
-  + Use reference types (arrays, objects) instead of 'primitive' strings, bool,
-    integers variable for large values. As it can save on browser RAM usage, the
-    use of domObject{html:``} instead of ecma48HTML = `` saw a 5-20%(!)
-    reduction for the BuildEcma48() memory footprint.
-    https://www.linkedin.com/pulse/25-techniques-javascript-performance-optimization-steven-de-salas
-  + Don't combine different datatypes in large sets such as arrays.
-    If an array contains number elements do not mix-in null or undefined values,
-    instead use -1 or NaN. The same goes for an array of strings, use an empty
-    element `` instead of null or undefined values.
-    https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
-*/
+// ES6 performance tips
+// Prefer `switch` over if-then-else conditionals as they can be optimised during compile time.
+// Prefer reference types instead of primitive types.
+//   For large sets, arrays and objects use less resources than strings, integers etc.
+//   https://www.linkedin.com/pulse/25-techniques-javascript-performance-optimization-steven-de-salas
+// Do not combine reference types with primitive types in large sets such as arrays.
+//   An array with exclusive number elements should only use -1 or NaN for the absence of a value.
+//   An array with exclusive string elements should only use `` as empty values.
+//   Never include `undefined` or `null` as they are reference types.
+//   https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
+
 /*eslint no-useless-escape: "warn"*/
 /*global BrowserOS CheckArguments CheckError CheckRange Os */
 /*exported Controls*/
