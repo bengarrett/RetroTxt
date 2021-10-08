@@ -26,7 +26,7 @@
 // Objects are much faster than `Maps`.
 
 /*eslint no-control-regex: "off"*/
-/*global BrowserOS CheckArguments Console Cs Windows
+/*global BrowserOS CheckArguments Console Cs FindControlSequences Windows
 CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText
 OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII*/
 /*exported BBS Controls DOSText Transcode*/

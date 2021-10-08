@@ -1,22 +1,9 @@
 // filename: helpers.js
+//
+// Helpers used by content-scripts.
 
-// error flag used by `CheckError()`
-// we need to prefix `globalThis.` to the variable name when in strict mode
-// globalThis.checkedErr = false
-// // detect developer mode
-// if (typeof RetroTxt === `undefined`) {
-//   globalThis.RetroTxt = {}
-//   globalThis.RetroTxt.developer = false
-//   if (typeof chrome.management !== `undefined`) {
-//     chrome.management.getSelf((info) => {
-//       switch (info.installType) {
-//         case `development`:
-//           globalThis.RetroTxt.developer = true
-//           break
-//       }
-//     })
-//   }
-// }
+/*global CheckArguments CheckError StringToBool */
+/*exported BusySpinner BBSText FindControlSequences HumaniseFS ParseToChildren RemoveTextPairs ToggleScanlines ToggleTextEffect UnknownText */
 
 // text type, using control codes or sequences
 const UnknownText = -1,

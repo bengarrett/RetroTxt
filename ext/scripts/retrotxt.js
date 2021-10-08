@@ -3,7 +3,7 @@
 // These functions are used to apply RetroTxt to a browser tab.
 // Or restore it to its original raw or plain-text state.
 //
-/*global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console Cs Developer CheckLastError Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FontFamily Guess HardwarePalette StringToBool Transcode WebBrowser
+/*global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer CheckLastError Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
 
 ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText TranscodeArrow WildcatText WWIVHashText WWIVHeartText
  OutputUS_ASCII UseCharSet*/

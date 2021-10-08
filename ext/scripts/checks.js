@@ -1,6 +1,6 @@
 // filename: checks.js
 //
-/*global BusySpinner BrowserOS DOM Engine Os WebBrowser */
+/*global BusySpinner BrowserOS CreateLink DOM Engine Os WebBrowser */
 /*exported CheckArguments CheckError CheckRange DisplayAlert DisplayEncodingAlert */
 
 /**

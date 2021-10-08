@@ -11,32 +11,5 @@
   "ignorePatterns": ["**/*.html", ".github"],
   "rules": {
     "prettier/prettier": "error"
-  },
-  "globals": {
-    "BrowserEncoding": "readonly",
-    //"BrowserEncodings": "readonly",
-    //"BusySpinner": "readonly",
-    //"Characters": "readonly",
-    //"CheckArguments": "readonly",
-    //"CheckRange": "readonly",
-    //"Configuration": "readonly",
-    "Contrast": "readonly",
-    "CreateLink": "readonly",
-    //"DisplayAlert": "readonly",
-    //"DisplayEncodingAlert": "readonly",
-    "FindControlSequences": "readonly",
-    //"WebBrowser": "readonly",
-    //"BrowserOS": "readonly",
-    //"FontFamily": "readonly",
-    //"Guess": "readonly",
-    //"HardwarePalette": "readonly",
-    "HumaniseCamelCase": "readonly",
-    "HumaniseFS": "readonly",
-    //"OptionsReset": "readonly",
-    "ParseToChildren": "readonly",
-    "RemoveTextPairs": "readonly",
-    //"StringToBool": "readonly",
-    "ToggleTextEffect": "readonly",
-    "ToggleScanlines": "readonly"
   }
 }
