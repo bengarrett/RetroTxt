@@ -3,19 +3,16 @@
 /*global CheckError CheckLastError Configuration ConsoleLoad Developer Extension Os Security WebBrowser */
 /*exported Downloads */
 
-// TODO: remove window.session.storage etc.
+/*
+CHROME NOTES:
+  Chrome is aggressive with its sanity checks and will refuse to open any file in
+  a tab that it deems a binary or a dangerous file. A text file with control codes
+  may be forcefully closed by the browser, even if the host server's HTTP information
+  declares it's text.
+*/
 
-chrome.runtime.onInstalled.addListener(() => {
-  ConsoleLoad(`downloads.js`)
-})
-
-/**
- * Apply RetroTxt to any downloaded text files.
- * @class Downloads
- */
-class Downloads {
-  /*
-FIREFOX NOTES:
+/*
+FIREFOX (disabled) NOTES:
   Firefox supports the API functionality needed to implement this feature,
   except it still fails due to a security design choice at Mozilla.
   1. `file:///` access is a requirement to view any downloads in the browser.
@@ -26,12 +23,17 @@ FIREFOX NOTES:
   4. Instead, one of the following errors will return:
   ↳ "Error: downloads.open may only be called from a user input handler"
   ↳ "Error: Illegal URL"
-CHROME NOTES:
-  Chrome is aggressive with its sanity checks and will refuse to open any file in
-  a tab that it deems a binary or a dangerous file. A text file with control codes
-  may be forcefully closed by the browser, even if the host server's HTTP information
-  declares it's text.
 */
+
+chrome.runtime.onInstalled.addListener(() => {
+  ConsoleLoad(`downloads.js`)
+})
+
+/**
+ * Apply RetroTxt to any downloaded text files.
+ * @class Downloads
+ */
+class Downloads {
   /**
    * Creates an instance of Downloads.
    * @param [monitor=true] Monitor downloads `true` or `false` to ignore
@@ -189,7 +191,7 @@ CHROME NOTES:
         return false
       }
       // note: some browsers and sites leave the filename as an property empty
-      // so as an alternative monitor method, the sessionStorage may ALSO be set in this.update()
+      // so as an alternative monitor method, the chrome.storage.local might also be set in this.update()
       if (this.item.filename.length < 1) {
         console.log(
           `${error} filename cannot be determined\n(${this.item.url})`
@@ -211,22 +213,24 @@ CHROME NOTES:
     // check filename extension isn't an obvious non-text file
     if (!config.validateFilename(this.item.filename)) return
     // location of saved local file
-    sessionStorage.setItem(
-      `download${this.item.id}-localpath`,
-      `${this.item.filename}`
-    )
+    chrome.storage.local.set({
+      [`download${this.item.id}-localpath`]: `${this.item.filename}`,
+    })
   }
   _setFilename() {
     if (!(`filename` in this.delta)) return false
     if (!(`current` in this.delta.filename)) return false
     const filename = this.delta.filename.current
     if (filename.length < 1) return false
+
     const valid = new Configuration().validateFilename(filename)
     console.log(
       `Update download #${this.delta.id} determined the filename of the download.\n"${filename}", and ${valid}, it is a text based file.`
     )
     if (!valid) return false
-    sessionStorage.setItem(`download${this.delta.id}-localpath`, `${filename}`)
+    chrome.storage.local.set({
+      [`download${this.delta.id}-localpath`]: `${filename}`,
+    })
     return true
   }
   /**
@@ -240,23 +244,29 @@ CHROME NOTES:
       if (!(`id` in this.delta)) return
     }
     if (valid() === false) return
+
     this._setFilename()
-    const itemName = `download${this.delta.id}-localpath`,
-      item = sessionStorage.getItem(itemName)
-    if (item === null) return
-    // handle all errors including cancelled downloads
-    if (`error` in this.delta && `current` in this.delta.error)
-      return sessionStorage.removeItem(itemName)
-    // completed downloads
-    if (`state` in this.delta && `current` in this.delta.state) {
-      if (this.delta.state.current === `complete`) {
-        sessionStorage.removeItem(itemName)
-        // Windows friendly path conversion
-        const path = item.replace(/\\/g, `/`),
-          url = `file:///${path}`
-        // note: see notes in class Downloads on why this may fail
-        chrome.tabs.create({ active: false, url: url })
-      }
-    }
+    const itemName = `download${this.delta.id}-localpath`
+
+    chrome.storage.local.get(itemName, (item) => {
+      if (item === null) return
+
+      // handle errors, including cancelled downloads
+      if (`error` in this.delta && `current` in this.delta.error)
+        return chrome.storage.local.remove(itemName)
+
+      // completed downloads
+      if (`state` in this.delta === false) return
+      if (`current` in this.delta.state === false) return
+      if (this.delta.state.current !== `complete`) return
+
+      chrome.storage.local.remove(itemName)
+
+      // Windows friendly path conversion
+      const path = item.replace(/\\/g, `/`),
+        url = `file:///${path}`
+      // note: see notes in class Downloads on why this may fail
+      chrome.tabs.create({ active: false, url: url })
+    })
   }
 }
