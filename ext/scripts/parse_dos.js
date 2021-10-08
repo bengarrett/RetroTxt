@@ -1,37 +1,36 @@
 // filename: parse_dos.js
 //
-// JavaScript converts all the text it handles from the original encoding into
-// UTF-16. The functions on this page attempts to convert text encodings
-// commonly used on legacy PC/MS-DOS systems to be JavaScript UTF-16 friendly.
+// JavaScript converts all plain-text it parses into UTF-16.
+// The functions on this page attempts to convert the text encodings
+// commonly used by legacy micro computer, PC and MS-DOS systems to
+// be JavaScript UTF-16 friendly.
 //
-// See parse_ansi.js for ANSI art conversion functions.
+// For ANSI control conversion functions see `parse_ansi.js`.
 //
-// Characters 0…31 commonly are bits for C0 control functions,
-// but in PC/MS-DOS they were also used for the display of characters.
+// In plain-text the ...
+//
+// Characters 0…31 are commonly bits for ASCII C0 control functions.
+// But with the IBM PC and MS-DOS they were also used for the display of characters.
+//
 // Characters 32…126 are skipped as they are based on the US-ASCII/ECMA-43
 // near-universal character set.
 //
 // "8-Bit Coded Character Set Structure and Rules"
 // ECMA-43 (US-ASCII)
 // ecma-international.org/publications/standards/Ecma-043.htm
-// ECMA-48 (contains C0)
+// ECMA-48 (includes C0 controls)
 // ecma-international.org/publications/standards/Ecma-048.htm
-//
-// JavaScript performance notes:
-// Normal objects use less memory than typed arrays (Uint8Array())
-// Normal objects are much faster than Maps
+
+// ES6 performance notes:
+// Objects use less memory than typed arrays, ie `Uint8Array()`.
+// Objects are much faster than `Maps`.
 
 /*eslint no-control-regex: "off"*/
-/*global RetroTxt Windows
+/*global BrowserOS CheckArguments Console Cs Windows
 CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText
-DOS_437_English DOS_865 Windows_1252_English ISO8859_1 ISO8859_5 ISO8859_10 ISO8859_15 Macintosh OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII Windows_1250 Windows_1251*/
+OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII*/
 /*exported BBS Controls DOSText Transcode*/
 "use strict"
-
-// TEMP:
-const RetroTxt = {
-  developer: true,
-}
 
 const empty = `\u0020`,
   nbsp = `\u00A0`,
@@ -58,23 +57,23 @@ class CharacterSet {
     switch (this.set) {
       case `cp437_C0`:
         return this._cp437_C0()
-      case DOS_437_English:
-      case DOS_865:
+      case Cs.DOS_437_English:
+      case Cs.DOS_865:
         return this._cp437()
-      case Windows_1250:
+      case Cs.Windows_1250:
         return this._cp1250()
-      case Windows_1251:
+      case Cs.Windows_1251:
         return this._cp1251()
-      case Windows_1252_English:
+      case Cs.Windows_1252_English:
         return this._cp437()
-      case ISO8859_1:
-      case ISO8859_15:
+      case Cs.ISO8859_1:
+      case Cs.ISO8859_15:
         return this._iso8859_1()
-      case ISO8859_5:
+      case Cs.ISO8859_5:
         return this._iso8859_5()
-      case ISO8859_10:
+      case Cs.ISO8859_10:
         return this._iso8859_10()
-      case Macintosh:
+      case Cs.Macintosh:
         return this._macRoman()
       default:
         return this._cp437()
@@ -292,7 +291,6 @@ class Transcode extends CharacterSet {
     this.session = sessionStorage.getItem(`transcode`)
     super.set = set
     this.text = text
-    this.verbose = RetroTxt.developer
   }
   /**
    * Discover if the supplied code page supported by RetroTxt.
@@ -306,7 +304,7 @@ class Transcode extends CharacterSet {
    * the transcode context menus.
    */
   rebuild(codepage = ``) {
-    if (this.verbose) console.log(`rebuild() = ${codepage}`)
+    Console(`rebuild() = ${codepage}`)
     switch (codepage) {
       case OutputCP1252:
         this._input_cp1252()
@@ -340,8 +338,7 @@ class Transcode extends CharacterSet {
       encodedText = this.text
     while (i--) {
       const code = i + 128
-      if (this.verbose)
-        console.log(`${i} ${String.fromCharCode(code)} ↣ ${table[i]}`)
+      Console(`${i} ${String.fromCharCode(code)} ↣ ${table[i]}`)
       encodedText = encodedText.replace(
         RegExp(String.fromCharCode(code), `g`),
         table[i]
@@ -436,8 +433,7 @@ class DOSText {
    * @returns {(Array|void)} Characters
    */
   _characterTable() {
-    if (RetroTxt.developer)
-      console.log(`DOSText(codepage=%s)._characterTable()`, this.codepage)
+    Console(`DOSText(codepage=%s)._characterTable()`, this.codepage)
     // ascii C0 controls are either ignored or are common between all tables
     this.asciiTable = new CharacterSet(`cp437_C0`).get()
     // extended character tables
@@ -445,7 +441,7 @@ class DOSText {
     this.extendedTable = table.get()
     switch (this.codepage) {
       case `moduleExport`:
-      case DOS_437_English:
+      case Cs.DOS_437_English:
       case OutputUS_ASCII:
       case `input_UTF16`:
         this.extendedTable = table.get()
@@ -458,15 +454,15 @@ class DOSText {
    * @returns {string} Unicode symbol
    */
   _fromCharCode(number) {
-    if (RetroTxt.developer && number > 127)
-      console.log(
+    if (number > 127)
+      Console(
         `DOSText()._fromCharCode(%s) String.fromCharCode = %s \\u%s`,
         number,
         String.fromCharCode(number),
         String.fromCharCode(number).codePointAt(0).toString(16)
       )
     switch (this.codepage) {
-      case Windows_1251: {
+      case Cs.Windows_1251: {
         if (number === 0xad) return `\u00A1`
       }
     }
@@ -494,7 +490,7 @@ class DOSText {
           // return as an ASCII C0 control
           case horizontalTab:
             // some ANSI/DOS art expect the ○ character
-            if (this.codepage === Windows_1252_English)
+            if (this.codepage === Cs.Windows_1252_English)
               return this.asciiTable[9]
             else return `\t`
           case lineFeed:
@@ -528,23 +524,23 @@ class DOSText {
     // an 8-bit set. All MS-DOS code pages are 8-bit and support the additional
     // 128 characters, between 8_0 (128)...F_F (255)
     switch (this.codepage) {
-      case DOS_865:
+      case Cs.DOS_865:
         return this._lookupCp865(number)
-      case Windows_1250:
-      case Windows_1251:
+      case Cs.Windows_1250:
+      case Cs.Windows_1251:
         return this._lookupCp437(number)
-      case DOS_437_English:
-      case Windows_1252_English:
+      case Cs.DOS_437_English:
+      case Cs.Windows_1252_English:
         return this._lookupCp1252(number)
-      case ISO8859_1:
+      case Cs.ISO8859_1:
         return this._lookupIso8859_1(number)
-      case ISO8859_5:
+      case Cs.ISO8859_5:
         return this._lookupCp437(number, space)
-      case ISO8859_10:
+      case Cs.ISO8859_10:
         return this._lookupCp437(number, 0, space)
-      case ISO8859_15:
+      case Cs.ISO8859_15:
         return this._lookupIso8859_15(number)
-      case Macintosh:
+      case Cs.Macintosh:
         return this._lookupCp437(number)
       default:
         return this._lookupUtf16(number)
@@ -580,7 +576,7 @@ class DOSText {
     // Latin/Cyrillic (legacy ISO) https://en.wikipedia.org/wiki/ISO/IEC_8859-5
     // Cyrillic (Unicode block) https://en.wikipedia.org/wiki/Cyrillic_(Unicode_block)
     // OEM-US (legacy MS-DOS, CP-437) https://en.wikipedia.org/wiki/Code_page_437
-    if (this.codepage === ISO8859_5) {
+    if (this.codepage === Cs.ISO8859_5) {
       // handle inconsistencies where Unicode Cyrillic characters
       // are not found in ISO 8859-5
       const numeroSign = 8470, // №
@@ -605,8 +601,8 @@ class DOSText {
       `${String.fromCharCode(number + offsetInput)}`
     )
     const deleted = 127
-    if (RetroTxt.developer && number >= deleted)
-      console.log(
+    if (number >= deleted)
+      Console(
         `DOSText()._lookupCp437(${number}) number: %s character: %s @index: %s`,
         number + offsetInput,
         String.fromCharCode(number + offsetInput),
@@ -631,16 +627,15 @@ class DOSText {
     }
     // fetch the CP-437 table
     const table = new CharacterSet(`cp437`).get()
-    if (RetroTxt.developer)
-      console.log(
-        `extendedTable.indexOf(%s) character success: \\u%s '%s' %s`,
-        number + offsetInput,
-        String.fromCharCode(number + offsetInput)
-          .codePointAt(0)
-          .toString(16),
-        String.fromCharCode(number + offsetInput),
-        table[index + offsetOutput]
-      )
+    Console(
+      `extendedTable.indexOf(%s) character success: \\u%s '%s' %s`,
+      number + offsetInput,
+      String.fromCharCode(number + offsetInput)
+        .codePointAt(0)
+        .toString(16),
+      String.fromCharCode(number + offsetInput),
+      table[index + offsetOutput]
+    )
     // swap out the character from Macintosh with a matching decimal from the CP437 table
     return table[index + offsetOutput]
   }
