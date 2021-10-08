@@ -47,7 +47,7 @@
     https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
 */
 /*eslint no-useless-escape: "warn"*/
-/*global CheckError */
+/*global BrowserOS CheckArguments CheckError CheckRange Os */
 /*exported Controls*/
 "use strict"
 
