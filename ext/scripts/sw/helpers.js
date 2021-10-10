@@ -97,6 +97,25 @@ const // Character set key values
 const persistent = chrome.runtime.getManifest().background.persistent || false
 
 /**
+ * Prints the string to the console when Developer mode is enabled.
+ * @param {*} string
+ */
+function Console(string = ``) {
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) console.log(`${string}`)
+  })
+}
+
+/**
+ * Prints the service worker installed to the console when Developer mode is enabled.
+ * @param {*} string
+ */
+function ConsoleLoad(page = ``) {
+  if (page === ``) return
+  console.info(`🖫 ${page} service worker installed.`)
+}
+
+/**
  * Handle `chrome.runtime.lastError` callback errors.
  * @param {string} [errorFor=``] Source description of the error
  */
@@ -146,7 +165,6 @@ function lastError(errorFor = ``) {
   return true
 }
 
-// TODO: NOTE localstorage does not work with service workers
 /**
  * Options values for when RetroTxt is first initialised or reset.
  * @class OptionsReset
@@ -296,7 +314,7 @@ class Configuration extends OptionsReset {
     return this.triggers.get(`domains`).join(`${separator}`)
   }
   /**
-   * Copies a `chrome.storage.local` item to the browser's localStorage.
+   * Sets the missing `chrome.storage.local` item to the reset value.
    * @param [key=``] Storage item name
    */
   setLocalStorage(key = ``) {
@@ -307,11 +325,14 @@ class Configuration extends OptionsReset {
     // get saved item from browser storage
     chrome.storage.local.get([`${key}`], (result) => {
       const value = result[`${key}`]
-      if (StringToBool(value) === null)
-        return CheckError(
-          `Could not obtain the requested chrome.storage ${key} setting`
-        )
-      localStorage.setItem(`${key}`, value)
+      if (StringToBool(value) === null) {
+        const defValue = this.options.get(key)
+        if (defValue === null)
+          return CheckError(
+            `Could not obtain the requested chrome.storage ${key} setting`
+          )
+        chrome.storage.local.set({ [key]: defValue })
+      }
     })
   }
   /**
@@ -407,15 +428,4 @@ function StringToBool(string = ``) {
     default:
       return null
   }
-}
-
-function Console(string = ``) {
-  chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store) console.log(`${string}`)
-  })
-}
-
-function ConsoleLoad(page = ``) {
-  if (page === ``) return
-  console.info(`🖫 ${page} service worker installed.`)
 }
