@@ -107,19 +107,15 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
     return dom.classList.remove(`scanlines-light`, `scanlines-dark`)
   // apply colours provided by the `colorClass` parameter
   if (typeof color === `string`) return applyNewClass(colorClass)
-  // apply colours fetched from the browser `localStorage` (default)
-  const result = localStorage.getItem(`colorsTextPairs`)
-  if (typeof result !== `string`) {
-    chrome.storage.local.get([`colorsTextPairs`], (result) => {
-      if (result.colorsTextPairs === undefined)
-        return CheckError(
-          `Could not obtain the required colorsTextPairs setting to apply the scanlines effect`,
-          true
-        )
-      return applyNewClass(result.colorsTextPairs)
-    })
-  }
-  return applyNewClass(result)
+  // apply colours from local storage
+  chrome.storage.local.get([`colorsTextPairs`], (result) => {
+    if (result.colorsTextPairs === undefined)
+      return CheckError(
+        `Could not obtain the required colorsTextPairs setting to apply the scanlines effect`,
+        true
+      )
+    return applyNewClass(result.colorsTextPairs)
+  })
 }
 /**
  * Uses CSS3 styles to manipulate font effects.
@@ -136,33 +132,36 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   for (const item of dom.classList) {
     if (item.endsWith(`-shadowed`) === true) dom.classList.remove(item)
   }
-  const result = localStorage.getItem(`colorsTextPairs`)
-  switch (effect) {
-    case `shadowed`:
-      // use colours provided by the colour parameter
-      if (typeof color === `string`)
-        return dom.classList.add(`${colorClass}-shadowed`)
-      // use colours fetched from chrome storage (default)
-      if (typeof result !== `string`) {
-        chrome.storage.local.get([`colorsTextPairs`], (result) => {
-          if (result.colorsTextPairs === undefined)
-            CheckError(
-              `Could not obtain the required colorsTextPairs setting to apply the text shadow effect`,
-              true
-            )
-          else dom.classList.add(`${result.colorsTextPairs}-shadowed`)
-        })
-      } else dom.classList.add(`${result}-shadowed`)
-      break
-    default:
-      // 'normal, auto' do nothing as the text effects have been removed
-      break
+
+  const apply = (result) => {
+    switch (effect) {
+      case `shadowed`:
+        // use colours provided by the colour parameter
+        if (typeof color === `string`)
+          return dom.classList.add(`${colorClass}-shadowed`)
+        // use colours fetched from chrome storage (default)
+        if (typeof result !== `string`) {
+          chrome.storage.local.get([`colorsTextPairs`], (result) => {
+            if (result.colorsTextPairs === undefined)
+              CheckError(
+                `Could not obtain the required colorsTextPairs setting to apply the text shadow effect`,
+                true
+              )
+            else dom.classList.add(`${result.colorsTextPairs}-shadowed`)
+          })
+        } else dom.classList.add(`${result}-shadowed`)
+        break
+      default:
+        // 'normal, auto' do nothing as the text effects have been removed
+        break
+    }
+    const textRender = document.getElementById(`renderToggle`)
+    if (textRender !== null)
+      textRender.textContent = `${effect.charAt(0).toUpperCase()}${effect.slice(
+        1
+      )}`
   }
-  const textRender = document.getElementById(`renderToggle`)
-  if (textRender !== null)
-    textRender.textContent = `${effect.charAt(0).toUpperCase()}${effect.slice(
-      1
-    )}`
+  chrome.storage.local.get(`colorsTextPairs`, apply)
 }
 
 /**
