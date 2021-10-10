@@ -42,6 +42,7 @@ function Titleize(sentence = ``) {
     `VGA`,
     `XGA`,
   ]
+  Object.freeze(acronyms)
   sentence = sentence.replaceAll(`_`, ` `)
   const words = sentence.split(/[` `/-]/), // split both spaces and hyphens
     nonAlphabet = new RegExp(/[^A-Z]+/g)
@@ -167,7 +168,7 @@ class Characters extends BrowserEncodings {
   constructor(key = ``) {
     super()
     this.labels = new Map()
-      // key, [formal name, informal name]
+      // key, [formal, informal names]
       .set(Cs.DOS_437_English, [`Code Page 437`, `MS-DOS Latin`])
       .set(Cs.DOS_865, [`Code Page 865`, `MS-DOS Nordic`])
       .set(Cs.ISO8859_1, [
@@ -285,7 +286,7 @@ class Characters extends BrowserEncodings {
   titleOut() {
     let newKey = ``
     if (this.support() === false) return `error1`
-    else if (this.outputs.has(this.key)) newKey = this.outputs.get(this.key)
+    if (this.outputs.has(this.key)) newKey = this.outputs.get(this.key)
     else {
       super.encoding = this.key
       newKey = super.findLabel()
@@ -415,9 +416,7 @@ class Guess extends BrowserEncodings {
     }
     const findArt = (codePoint = -1) => {
       for (let i = 0; i < artChars.length; i++) {
-        if (artChars[i] === codePoint) {
-          return true
-        }
+        if (artChars[i] === codePoint) return true
       }
       return false
     }
