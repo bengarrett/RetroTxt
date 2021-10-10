@@ -84,6 +84,7 @@ class C0Controls {
       carriageReturn,
       endOfFile,
     ])
+    Object.freeze(this.specials)
   }
   /**
    * Is the character a C0 control code that matches HTML text formatting functionality?
@@ -116,6 +117,7 @@ class BrowserEncodings {
       .set(`WINDOWS-1252`, Cs.Windows_1252_English)
       .set(`US-ASCII`, Cs.US_ASCII)
       .set(`UTF-8`, Cs.UnicodeStandard)
+    Object.freeze(this.encodings)
   }
   /**
    * Does the browser character encoding support RetroTxt?
@@ -191,12 +193,14 @@ class Characters extends BrowserEncodings {
       ])
       .set(Cs.US_ASCII, [`US-ASCII`, `Alternatively referenced as ECMA-6`])
       .set(Cs.UnicodeStandard, [`UTF 8-bit`, `Unicode Transformation Format`])
+    Object.freeze(this.labels)
     // key, `BrowserEncodings.encoding`
     this.outputs = new Map()
       .set(Cs.OutputCP1252, `CP-1252`)
       .set(Cs.OutputISO8859_1, `ISO-8859-1`)
       .set(Cs.OutputISO8859_15, `ISO-8859-15`)
       .set(Cs.OutputUS_ASCII, `US-ASCII`)
+    Object.freeze(this.outputs)
     this.key = key
     this.encoding = this.getEncoding()
     this.label = [``, ``]
@@ -338,6 +342,7 @@ class Guess extends BrowserEncodings {
       Cs.Windows_1252_English,
       Cs.DOS_437_English,
     ]
+    Object.freeze(this.characterSets)
     this.table_cp1252 = () => {
       // prettier-ignore
       this.set_8 = [`€`,``,`‚`,`ƒ`,`„`,`…`,`†`,`‡`,`ˆ`,`‰`,`Š`,`‹`,`Œ`,``,`Ž`,``]
@@ -378,9 +383,12 @@ class Guess extends BrowserEncodings {
     if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
     // if there was no useful SAUCE data then use the transcode setting
     if (sauceSet === ``) {
-      sauceSet = sessionStorage.getItem(`transcode`)
-      if (sauceSet !== null)
-        console.log(`Using saved transcode setting: "${sauceSet}"`)
+      chrome.storage.local.get(`transcode`, (result) => {
+        if (result !== null) {
+          sauceSet = result
+          console.log(`Using saved transcode setting: "${sauceSet}"`)
+        }
+      })
     }
     // user override set by the transcode context menu
     // match sauceSet arrow values such as OutputCP1252, OutputUS_ASCII
@@ -453,6 +461,7 @@ class Guess extends BrowserEncodings {
       ...range(lightUpLeft, upperHalfBlock),
       ...[bulletOperator, middleDot, blackSquare],
     ]
+    Object.freeze(artChars)
     let i = length
     while (i--) {
       if (i < length - limit) break
@@ -563,6 +572,7 @@ class HardwarePalette {
       `Workbench`,
       this.gray,
     ]
+    Object.freeze(this.palettes)
     this.filenames = [
       `vga`,
       `xterm`,
@@ -573,6 +583,7 @@ class HardwarePalette {
       `workbench`,
       `gray`,
     ]
+    Object.freeze(this.filenames)
     // set initial palette to IBM VGA
     this.active = 0
     // initialise
@@ -666,6 +677,7 @@ class FontFamily {
       `MONOSPACE`,
       WebBrowser() === Engine.chrome ? `Fixed-width` : `Monospace`
     )
+    Object.freeze(this.fonts)
     this.key = key.toUpperCase()
     this.family = ``
     this.set()
@@ -696,6 +708,18 @@ class FontFamily {
    * @param [dom={}] HTML document object model
    */
   async swap(dom = {}) {
+    if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
+    // ignore swap request if `fontOverride` is true
+    chrome.storage.local.get(`fontOverride`, (override) => {
+      if (override === `true`)
+        return console.log(
+          `Cannot refresh font as sessionStorage.fontOverride is set to true.`,
+          `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`
+        )
+      this._swap(dom)
+    })
+  }
+  _swap(dom = {}) {
     const replaceFont = (fontClass = ``, elm = HTMLElement) => {
       const classes = elm.className.split(` `)
       // loop through and remove any `font-*` classes
@@ -705,14 +729,6 @@ class FontFamily {
       }
       return elm.classList.add(fontClass)
     }
-    if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
-    // ignore swap request if `sessionStorage` `fontOverride` is true
-    const override = `${sessionStorage.getItem(`fontOverride`)}`
-    if (override === `true`)
-      return console.log(
-        `Cannot refresh font as sessionStorage.fontOverride is set to true.`,
-        `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`
-      )
     // change the font
     if (typeof dom.className === `undefined`)
       return console.error(
@@ -734,6 +750,7 @@ class FontFamily {
       replaceFont(fontClass, header)
     }
   }
+
   /**
    * Font family title or mini description.
    * @param family Font family
