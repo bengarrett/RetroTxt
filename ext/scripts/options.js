@@ -70,9 +70,11 @@ async function localizeWord(word = ``, className = ``) {
   for (const element of elements) {
     const text = element.textContent
     // if the original word is capitalised then apply it to the new word
-    if (text.slice(0, 1).toUpperCase() === text.slice(0, 1))
-      element.textContent = `${message[0].toUpperCase()}${message.slice(1)}`
-    else element.textContent = message
+    if (text.slice(0, 1).toUpperCase() !== text.slice(0, 1)) {
+      element.textContent = message
+      continue
+    }
+    element.textContent = `${message[0].toUpperCase()}${message.slice(1)}`
   }
 }
 
@@ -113,7 +115,8 @@ class HTML {
         ? (document.title = `[··] ${m.version_name} update`)
         : (document.title = `[··] ${m.short_name} update`)
       document.getElementById(`hero0`).click()
-      return (document.getElementById(`updateNotice`).style.display = `inline`)
+      document.getElementById(`updateNotice`).style.display = `inline`
+      return
     }
     if (location.hash.includes(`#newinstall`)) {
       document.getElementById(`newInstallNotice`).style.display = `inline`
@@ -132,11 +135,12 @@ class HTML {
         .addEventListener(`click`, () => {
           document.getElementById(`hero5`).click()
         })
-      return document
+      document
         .getElementById(`newInstallSettings`)
         .addEventListener(`click`, () => {
           document.getElementById(`hero6`).click()
         })
+      return
     }
     if (location.hash.includes(`#display`)) {
       document.getElementById(`hero5`).click()
@@ -322,10 +326,10 @@ class Security {
             files.disabled = true
             files.checked = false
             notice.style.display = `inline`
-          } else {
-            files.disabled = false
-            notice.style.display = `none`
+            break
           }
+          files.disabled = false
+          notice.style.display = `none`
           break
       }
     }
@@ -390,27 +394,17 @@ class Security {
       theme.addEventListener(`click`, () => {
         theme.classList.forEach(function (value, key) {
           let arr = [`button`, `option-theme`]
-          if (arr.includes(value)) {
-            return
-          }
+          if (arr.includes(value)) return
           const hero = document.getElementById(`heroSection`),
             src = document.getElementById(`getTheSource`)
           hero.classList.forEach(function (heroValue) {
-            if (heroValue === `is-fullheight`) {
-              return
-            }
-            if (!heroValue.startsWith(`is-`)) {
-              return
-            }
+            if (heroValue === `is-fullheight`) return
+            if (!heroValue.startsWith(`is-`)) return
             hero.classList.replace(heroValue, value)
           })
           src.classList.forEach(function (heroValue) {
-            if (heroValue === `is-inverted`) {
-              return
-            }
-            if (!heroValue.startsWith(`is-`)) {
-              return
-            }
+            if (heroValue === `is-inverted`) return
+            if (!heroValue.startsWith(`is-`)) return
             src.classList.replace(heroValue, value)
           })
           localStorage.setItem(`optionClass`, `${value}`)
@@ -426,27 +420,20 @@ class Security {
    */
   _allWeb(request = false) {
     if (this.type !== `http`) return
-    switch (request) {
-      case true:
-        return // do nothing
-      case false:
-        chrome.permissions.contains(this.allWebPermissions, (result) => {
-          if (result === true) {
-            chrome.permissions.remove(this.allWebPermissions, (result) => {
-              if (
-                CheckLastError(`security allwebpermissions remove "${result}"`)
-              )
-                return
-              if (result === false)
-                console.warn(
-                  `Could not remove the permissions %s %s`,
-                  this.allWebPermissions.origins,
-                  this.allWebPermissions.permissions
-                )
-            })
-          }
-        })
-    }
+    if (request === true) return
+    chrome.permissions.contains(this.allWebPermissions, (result) => {
+      if (result !== true) return
+      chrome.permissions.remove(this.allWebPermissions, (result) => {
+        if (CheckLastError(`security allwebpermissions remove "${result}"`))
+          return
+        if (result === false)
+          console.warn(
+            `Could not remove the permissions %s %s`,
+            this.allWebPermissions.origins,
+            this.allWebPermissions.permissions
+          )
+      })
+    })
   }
   /**
    * Checkbox onChanged event that updates a permission.
@@ -497,9 +484,11 @@ class Security {
         return chrome.permissions.request(testResult, (result) => {
           if (CheckLastError(`security permissionSet "${result}"`)) return
           Console(`%s: request to set permissions [%s]`, result, items)
-          if (result !== true) this._checkedInitialise(false)
-          else
-            document.getElementById(`websiteViewerOff`).style.display = `none`
+          if (result !== true) {
+            this._checkedInitialise(false)
+            return
+          }
+          document.getElementById(`websiteViewerOff`).style.display = `none`
         })
       default:
         this._allWeb(false)
@@ -838,27 +827,17 @@ class Initialise extends CheckBox {
    */
   async _colorTheme(value = ``) {
     let arr = [`button`, `option-theme`]
-    if (arr.includes(value)) {
-      return
-    }
+    if (arr.includes(value)) return
     const hero = document.getElementById(`heroSection`),
       src = document.getElementById(`getTheSource`)
     hero.classList.forEach(function (heroValue) {
-      if (heroValue === `is-fullheight`) {
-        return
-      }
-      if (!heroValue.startsWith(`is-`)) {
-        return
-      }
+      if (heroValue === `is-fullheight`) return
+      if (!heroValue.startsWith(`is-`)) return
       hero.classList.replace(heroValue, value)
     })
     src.classList.forEach(function (heroValue) {
-      if (heroValue === `is-inverted`) {
-        return
-      }
-      if (!heroValue.startsWith(`is-`)) {
-        return
-      }
+      if (heroValue === `is-inverted`) return
+      if (!heroValue.startsWith(`is-`)) return
       src.classList.replace(heroValue, value)
     })
   }
@@ -912,10 +891,10 @@ class Initialise extends CheckBox {
    */
   async _browser() {
     switch (WebBrowser()) {
-      // Firefox
+      case Engine.chrome:
+        return
       case Engine.firefox:
         return
-      // Chrome, Chromium, Brave, Vivaldi, Edge
       default:
         return
     }
@@ -1208,7 +1187,7 @@ class ColorCustomPair {
     } else this.valid = colorTest(this.sampleText.style[this.property])
     if (this.valid === false)
       return (this.sampleText.style[this.property] = previousColor)
-    else if (save === true) {
+    if (save === true) {
       localStore(`${this.mapId}`, `${this.input.value}`)
       localStore(`colorsTextPairs`, `theme-custom`)
     }
