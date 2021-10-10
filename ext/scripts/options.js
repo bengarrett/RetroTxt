@@ -1733,132 +1733,8 @@ class Hosts {
     localStore(`settingsWebsiteDomains`, `${this.hostnames}`)
   }
 }
-/**
- * Import RetroTxt legacy configurations.
- * @class Import
- */
-class Import {
-  constructor() {
-    const keys = new Map()
-      // display tab
-      .set(`textLineHeight`, `lineHeight`)
-      .set(`textSmearBlockCharacters`, `textSmearBlocks`)
-      .set(`textBackgroundScanlines`, `textBgScanlines`)
-      .set(`textBlinkingCursor`, `textBlinkAnimation`)
-      .set(`textCenterAlign`, `textCenterAlignment`)
-      .set(`textDOSControlGlyphs`, `textDosCtrlCodes`)
-      .set(`textRenderEffect`, `textEffect`)
-      .set(`ansiColumnWrap`, `textAnsiWrap80c`)
-      .set(`ansiUseIceColors`, `textAnsiIceColors`)
-      .set(`colorsTextPairs`, `retroColor`)
-      .set(`colorsCustomForeground`, `customForeground`)
-      .set(`colorsCustomBackground`, `customBackground`)
-      .set(`colorsAnsiColorPalette`, `colorPalette`)
-      // settings tab
-      .set(`settingsWebsiteViewer`, `runWebUrls`)
-      .set(`settingsWebsiteDomains`, `runWebUrlsPermitted`)
-      .set(`settingsInformationHeader`, `textFontInformation`)
-      .set(`settingsNewUpdateNotice`, `updatedNotice`)
-    this.keys = keys
-    this.found = 0
-    this.modal = document.getElementById(`modalImport`)
-    this.counter = document.getElementById(`modalCounter`)
-    this.yesImport = document.getElementById(`modalYesImport`)
-    this.askAgain = document.getElementsByName(`modalAskAgain`)
-  }
-  /**
-   * Initialize RetroTxt version 3 imports.
-   */
-  initialize() {
-    this.keys.forEach((v3Key) => {
-      this._find(v3Key)
-    })
-    for (const button of document.getElementsByName(`modalAskAgain`)) {
-      if (typeof button === `undefined`) return
-      button.addEventListener(`click`, () => {
-        this._modalAskAgain()
-      })
-    }
-    document.getElementById(`modalDelete`).addEventListener(`click`, () => {
-      this._modalNoDelete()
-    })
-    document.getElementById(`modalYesImport`).addEventListener(`click`, () => {
-      this._modalYesImport()
-    })
-  }
-  _find(v3Key = ``) {
-    chrome.storage.local.get(`${v3Key}`, (store) => {
-      const len = Object.keys(store).length
-      if (len > 0) {
-        this.found++
-        this._modalShow()
-      }
-    })
-  }
-  _importHeader(value = ``) {
-    const show = `on`,
-      hide = `close`
-    switch (`${value}`) {
-      case `true`:
-        return show
-      case `false`:
-        return hide
-      default:
-        return show
-    }
-  }
-  _importLineHeight(value = ``) {
-    switch (`${value}`) {
-      case `normal`:
-        return `1`
-      case `1.1`:
-      case `1.25`:
-      case `1.5`:
-      case `1.75`:
-      case `2`:
-      case `3`:
-      case `4`:
-        return `${value}`
-      default:
-        return `1`
-    }
-  }
-  _modalAskAgain() {
-    sessionStorage.setItem(`pauseV3Import`, `true`)
-    document.getElementById(`modalImport`).classList.remove(`is-active`)
-  }
-  _modalNoDelete() {
-    this._modalAskAgain()
-    this.keys.forEach((v3Key) => {
-      localStorage.removeItem(`${v3Key}`)
-      chrome.storage.local.remove(`${v3Key}`)
-    })
-  }
-  _modalShow() {
-    if (sessionStorage.getItem(`pauseV3Import`))
-      return console.log(`Paused the import of RetroTxt v3 settings.`)
-    this.modal.classList.add(`is-active`)
-    this.counter.textContent = `${this.found}`
-  }
-  _modalYesImport() {
-    this.keys.forEach((v3Key, v4Key) => {
-      chrome.storage.local.get(`${v3Key}`, (store) => {
-        const len = Object.keys(store).length
-        if (len < 1) return
-        let value = store[v3Key]
-        if (v3Key === `textFontInformation`) value = this._importHeader(value)
-        if (v3Key === `lineHeight`) value = this._importLineHeight(value)
-        chrome.storage.local.set({ [v4Key]: value })
-        localStorage.setItem(`${v4Key}`, `${value}`)
-        localStorage.removeItem(`${v3Key}`)
-        chrome.storage.local.remove(`${v3Key}`)
-      })
-    })
-    this._modalAskAgain()
-    alert(`Settings import is done.`)
-  }
-}
-// Self-invoking expression that runs whenever the Options dialogue is opened.
+
+// IIFE, self-invoking anonymous function that runs whenever the Options dialogue is opened.
 ;(() => {
   if (typeof qunit !== `undefined`) return
   const init = new Initialise()
@@ -1866,9 +1742,6 @@ class Import {
   document.addEventListener(`DOMContentLoaded`, init.checks())
   // modifies `html/options.html`
   init.updates()
-  // migrate RetroTxt V3 settings
-  const im = new Import()
-  im.initialize()
   // restore any saved options and apply event listeners
   const cb = new CheckBox()
   cb.storageLoad()
