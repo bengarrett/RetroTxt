@@ -18,6 +18,45 @@ const UnknownText = -1,
   BBSText = 98,
   ANSIText = 99
 
+// TODO: requires window access
+// dark mode icons for Chrome
+// in firefox, dark icons are handled by the manifest.json
+// if (WebBrowser() === Chrome) {
+//   // this isn't reliable in Linux
+//   const pcs = matchMedia(`(prefers-color-scheme: dark)`)
+//   if (pcs.matches) this.setToolbarIcon(true)
+//   pcs.addEventListener(`change`, this.setToolbarIcon(pcs.matches))
+// }
+
+/**
+ * Display a large loading spinner on the active tab.
+ * @param [display=true] Display spinner
+ */
+async function BusySpinner(display = true) {
+  if (typeof display !== `boolean`)
+    CheckArguments(`display`, `boolean`, display)
+  // TODO apply a timeout timer that will look for any uncaught errors and if
+  // detected, display them in the tab?
+  const spin = globalThis.document.getElementById(`spinLoader`)
+  switch (display) {
+    case true:
+      if (spin === null) {
+        const div = document.createElement(`div`)
+        div.id = `spinLoader`
+        div.classList.add(`loader`)
+        document.body.append(div)
+        const stylesheet = CreateLink(
+          `../css/retrotxt_loader.css`,
+          `retrotxt-loader`
+        )
+        return document.querySelector(`head`).append(stylesheet)
+      }
+      return spin.classList.remove(`is-hidden`)
+    case false:
+      if (spin !== null) spin.classList.add(`is-hidden`)
+  }
+}
+
 /**
  * Creates a `<link>` element to load a CSS stylesheet.
  * @param [path=``] File path to the CSS stylesheet
@@ -281,42 +320,3 @@ function RemoveTextPairs(elm = HTMLElement) {
     if (classes[i].endsWith(`-fg`)) elm.classList.remove(classes[i])
   }
 }
-
-/**
- * Display a large loading spinner on the active tab.
- * @param [display=true] Display spinner
- */
-async function BusySpinner(display = true) {
-  if (typeof display !== `boolean`)
-    CheckArguments(`display`, `boolean`, display)
-  // TODO apply a timeout timer that will look for any uncaught errors and if
-  // detected, display them in the tab?
-  const spin = globalThis.document.getElementById(`spinLoader`)
-  switch (display) {
-    case true:
-      if (spin === null) {
-        const div = document.createElement(`div`)
-        div.id = `spinLoader`
-        div.classList.add(`loader`)
-        document.body.append(div)
-        const stylesheet = CreateLink(
-          `../css/retrotxt_loader.css`,
-          `retrotxt-loader`
-        )
-        return document.querySelector(`head`).append(stylesheet)
-      }
-      return spin.classList.remove(`is-hidden`)
-    case false:
-      if (spin !== null) spin.classList.add(`is-hidden`)
-  }
-}
-
-// TODO: requires window access
-// dark mode icons for Chrome
-// in firefox, dark icons are handled by the manifest.json
-// if (WebBrowser() === Chrome) {
-//   // this isn't reliable in Linux
-//   const pcs = matchMedia(`(prefers-color-scheme: dark)`)
-//   if (pcs.matches) this.setToolbarIcon(true)
-//   pcs.addEventListener(`change`, this.setToolbarIcon(pcs.matches))
-// }
