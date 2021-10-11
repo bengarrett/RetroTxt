@@ -4,9 +4,9 @@
 
 https://github.com/bengarrett/RetroTxt/projects/2
 
-**Why?** The malevolent Google is forcibly ending Chrome compatibility with all V2 web extensions at the end of 2022. In typical Google fashion, the replacement API is not backward compatible, not feature complete, and some parts are outright broken.
+**Why?** The malevolent Google is forcibly ending Chrome compatibility with all Manifest V2 web extensions at the end of 2022. This means RetroTxt v4.x will stop working. In typical Google fashion, the replacement API is not backward compatible, not feature complete, and some parts are outright broken.
 
-This branch intends to have ready a Manifest V3 compatible edition of RetroTxt available by the deadline. It will be released as RetroTxt version 5.0 even though there will be no new features. The `minimum_chrome_version` value of the manifest.json will be set to the initial release of Chrome (V109?) that does not support MV2. Thus allowing the use of RetroTxt v4.x as long as possible for those who want it.
+This branch intends to have ready a Manifest V3 compatible edition of RetroTxt available by the deadline. It will be released as RetroTxt version 5.0 even though there will be no new features. The `minimum_chrome_version` value of the manifest.json will be set to the first release of Chrome (V109?) that does not support Manifest V2. Thus allowing the use of RetroTxt v4.x as long as possible for those who want it.
 
 ---
 
