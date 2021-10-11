@@ -1,5 +1,13 @@
 // filename: sw/storage.js
 //
+// chrome.storage.local.set()
+// Primitive values will serialize as expected.
+// string, number, bigint, boolean, undefined, symbol and null
+//
+// `Array`, `Date` and `Regex` serialize as expected.
+//
+// Values with a `typeof` "object" and "function" will typically serialize to `{}`.
+
 /*global CheckLastError ConsoleLoad Developer Extension */
 /*exported OpenOptions RemoveSearch */
 
