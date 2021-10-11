@@ -1,5 +1,15 @@
 # RetroTxt
 
+### 5.0, Manifest V3 prototype
+
+https://github.com/bengarrett/RetroTxt/projects/2
+
+**Why?** The malevolent Google is forcibly ending Chrome compatibility with all V2 web extensions at the end of 2022. In typical Google fashion, the replacement API is not backward compatible, not feature complete, and some parts are outright broken.
+
+This branch intends to have ready a Manifest V3 compatible edition of RetroTxt available by the deadline. It will be released as RetroTxt version 5.0 even though there will be no new features. The `minimum_chrome_version` value of the manifest.json will be set to the initial release of Chrome (V109?) that does not support MV2. Thus allowing the use of RetroTxt v4.x as long as possible for those who want it.
+
+---
+
 ![GitHub](https://img.shields.io/github/license/bengarrett/retrotxt?style=flat-square)
 ![GitHub manifest version](https://img.shields.io/github/manifest-json/v/bengarrett/retrotxt?filename=ext%2Fmanifest.json&style=flat-square)
 ![Lines of code](https://img.shields.io/tokei/lines/github/bengarrett/RetroTxt?style=flat-square)
@@ -12,7 +22,7 @@ Turn pieces of ANSI text art and ASCII, NFO documents into HTML using RetroTxt. 
 
 #### ☕ [Enjoying RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
 
-### Install from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt), or [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog).
+### ~~Install from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt), or [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog).~~
 
 - View ANSI, ASCII, NFO, Shift JIS text art as HTML
 - View server and dev-op logs styled with colored text
@@ -39,21 +49,21 @@ Turn pieces of ANSI text art and ASCII, NFO documents into HTML using RetroTxt. 
 
 ## Install
 
-### [Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) · [Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) · [Brave](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
+### ~~[Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) · [Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) · [Brave](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)~~
 
 ### [Or use the source code](https://docs.retrotxt.com/source_code).
 
 ### Requirements
 
-**Chrome, Chromium 72**, or **Firefox 69** or newer browsers.
+**Chrome, Edge, ~~Firefox~~ or Chromium compatible.**
 
 ## Post-installation
 
-You can test the RetroTxt install by clicking on one of the many sample artworks found in the <em>Samples</em> tab from RetroTxt options or typing `rt samples` in the browser address bar.
+You can test the RetroTxt install by clicking on one of the many sample artworks found in the <em>Samples</em> tab from RetroTxt options ~~or typing `rt samples` in the browser address bar.~~
 
 ## Configuration
 
-Out of the box, some useful features of RetroTxt are off as most browsers require you to grant permission before RetroTxt can [access the specific browser data](https://docs.retrotxt.com/privacy) it needs. These are in the <em>Settings</em> tab from RetroTxt options or typing `rt settings` in the browser address bar.
+Out of the box, some useful features of RetroTxt are off as most browsers require you to grant permission before RetroTxt can [access the specific browser data](https://docs.retrotxt.com/privacy) it needs. These are in the <em>Settings</em> tab from RetroTxt options ~~or typing `rt settings` in the browser address bar~~.
 
 ![Config tab in Options](assets/readme-permissions.png)
 
@@ -69,7 +79,7 @@ Then download one of the fantastic text art packs found at [16 colors](https://1
 
 ### Permissions
 
-Chrome, Brave, and Edge require the **Allow access to file URLs** Extension setting enabled if you wish to use RetroTxt with text files stored on your computer.
+Chrome, Chromium and Edge require the **Allow access to file URLs** Extension setting enabled if you wish to use RetroTxt with text files stored on your computer.
 
 ## Privacy
 
