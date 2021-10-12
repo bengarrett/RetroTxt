@@ -75,11 +75,11 @@ class LocalStore {
     for (const item of Object.keys(changes)) {
       // newValue must be a string otherwise context menu errors will occur
       const oldValue = changes[item].oldValue,
-        newValue = `${changes[item].newValue}`
+        newValue = changes[item].newValue
       chrome.storage.local.get(Developer, (store) => {
         if (Developer in store)
           console.log(
-            `🖫 RetroTxt %sStorage %s change: %s 🡒 %s (%s).`,
+            "RetroTxt storage.%s %s change: %s 🡒 %s (%s).",
             areaName,
             item,
             oldValue,

@@ -2,7 +2,7 @@
 //
 // Helpers used by content-scripts.
 
-/*global CheckArguments CheckError StringToBool */
+/*global CheckArguments CheckError */
 /*exported BusySpinner BBSText FindControlSequences HumaniseFS ParseToChildren RemoveTextPairs ToggleScanlines ToggleTextEffect UnknownText */
 
 // text type, using control codes or sequences
@@ -85,8 +85,7 @@ function CreateLink(path = ``, id = ``) {
  * scanlines
  */
 async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
-  const effect = StringToBool(toggle)
-  if (effect === null) CheckArguments(`toggle`, `boolean`, toggle)
+  if (toggle === null) CheckArguments(`toggle`, `boolean`, toggle)
   if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
   if (dom.classList === null) return // error
   // applies scanline classes to the DOM
@@ -103,7 +102,7 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
     }
   }
   // disable scanlines
-  if (effect === false)
+  if (toggle === false)
     return dom.classList.remove(`scanlines-light`, `scanlines-dark`)
   // apply colours provided by the `colorClass` parameter
   if (typeof color === `string`) return applyNewClass(colorClass)

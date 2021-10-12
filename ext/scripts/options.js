@@ -15,7 +15,6 @@ function localGet(key, result) {
       `Failed to obtain the '${key}' setting so using default: "${value}"`
     )
   }
-  Console(`stoage local get: ${key}=${value}`)
   return value
 }
 
@@ -106,8 +105,10 @@ function localStore(key = ``, value = ``) {
       return
     default:
       // Extension storage requires a key/value pair object
-      chrome.storage.local.set({ [key]: `${value}` })
-      Console(`storage.local localStore('${key}', '${value}')`)
+      chrome.storage.local.set({ [key]: value })
+      Console(
+        `RetroTxt storage.local options localStore('${key}', ${value}) ${typeof value}`
+      )
   }
 }
 
@@ -441,7 +442,7 @@ class Security {
           return
         if (result === false)
           console.warn(
-            `Could not remove the permissions %s %s`,
+            "Could not remove the permissions %s %s",
             this.allWebPermissions.origins,
             this.allWebPermissions.permissions
           )
@@ -471,8 +472,7 @@ class Security {
     const checkbox = document.getElementById(`${this.elementId}`)
     if (!(`checked` in checkbox))
       return console.warn(
-        `Checkbox element <input id="%s" type="checkbox"> is missing.`,
-        this.elementId
+        `Checkbox element <input id="${this.elementId}" type="checkbox"> is missing.`
       )
     checkbox.checked = granted
   }
@@ -496,7 +496,7 @@ class Security {
       case true:
         return chrome.permissions.request(testResult, (result) => {
           if (CheckLastError(`security permissionSet "${result}"`)) return
-          Console(`%s: request to set permissions [%s]`, result, items)
+          Console(`${result}: request to set permissions [${items}]`)
           if (result !== true) {
             this._checkedInitialise(false)
             return
@@ -505,10 +505,11 @@ class Security {
         })
       default:
         this._allWeb(false)
-        chrome.permissions.remove(testResult, (result) => {
-          if (CheckLastError(`security remove permissionSet "${result}"`))
+        console.log(`removing permission?`, testResult)
+        chrome.permissions.remove(testResult, (removed) => {
+          if (CheckLastError(`security remove permissionSet "${removed}"`))
             return
-          Console(`%s: request to remove permissions [%s]`, result, items)
+          Console(`${removed}: request to remove permissions [${items}]`)
         })
         // `Tabs` should normally be listed under the `permission` key in the
         // manifest.json but instead it is placed under `optional_permission`.
@@ -520,7 +521,7 @@ class Security {
         chrome.permissions.request(workaround, (result) => {
           if (CheckLastError(`security wordaround permissionSet "${result}"`))
             return
-          Console(`%s: workaround set permission [tabs]`, result)
+          Console(`${result}: workaround set permission [tabs]`)
         })
     }
   }
@@ -568,13 +569,13 @@ class CheckBox {
    */
   async listen() {
     this.boxes.forEach((item, id) => {
-      Console(`forEach id: ${id}`)
+      Console(`initialize checkbox listener: ${id}`)
       document.getElementById(id).addEventListener(`change`, () => {
-        Console(`change id: ${id}`)
+        Console(`checkbox listener triggered: ${id}`)
         const value = document.getElementById(id).checked
-        chrome.storage.local.set({ [item]: `${value}` })
+        chrome.storage.local.set({ [item]: value })
         this.id = `${id}`
-        this.value = `${value}`
+        this.value = value
         // special cases that have permission dependencies
         switch (id) {
           case `downloadViewer`:
@@ -599,8 +600,7 @@ class CheckBox {
     switch (this.id) {
       case `backgroundScanlines`: {
         const element = document.getElementById(`sampleTerminal`)
-        if (`${this.value}` === `true`) return ToggleScanlines(true, element)
-        return ToggleScanlines(false, element)
+        return ToggleScanlines(this.value, element)
       }
       case `centerAlignText`: {
         const element = document.getElementById(`sampleTerminal`)
@@ -736,14 +736,14 @@ class Initialise extends CheckBox {
       chrome.storage.local.get(key, (result) => {
         const value = localGet(key, result)
         this.value = value
+        this._checkBoolean(id, key, value)
+        switch (this.key) {
+          case `settingsWebsiteViewer`:
+          case `textDOSControlGlyphs`:
+          case `textBlinkingCursor`:
+            return this.preview()
+        }
       })
-      this._checkBoolean()
-      switch (this.key) {
-        case `settingsWebsiteViewer`:
-        case `textDOSControlGlyphs`:
-        case `textBlinkingCursor`:
-          return this.preview()
-      }
     })
     // check #3 - options tab
     let key = `optionTab`
@@ -795,18 +795,24 @@ class Initialise extends CheckBox {
   /**
    * Finds and toggles checkbox boolean values.
    */
-  _checkBoolean() {
-    const input = document.getElementById(`${this.id}`),
-      fix = this.defaults.get(`${this.key}`)
-    switch (`${this.value}`) {
-      case `true`:
-        return (input.checked = true)
+  _checkBoolean(id = ``, key = ``, value) {
+    const input = document.getElementById(`${id}`),
+      fix = this.defaults.get(`${key}`)
+    switch (value) {
       case `false`:
+        chrome.storage.local.set({ [key]: false })
+        return (input.checked = true)
+      case `true`:
+        chrome.storage.local.set({ [key]: true })
+        return (input.checked = true)
+      case true:
+        return (input.checked = true)
+      case false:
         return (input.checked = false)
       default:
         if (fix === ``)
-          handleError(`Initialise._checkBoolean(${this.id}) = "${this.value}"`)
-        chrome.storage.local.set({ [`${this.key}`]: `${fix}` })
+          handleError(`Initialise._checkBoolean(${id}) = "${value}"`)
+        chrome.storage.local.set({ [`${key}`]: `${fix}` })
         input.checked = fix === true ? true : false
     }
   }
@@ -821,7 +827,7 @@ class Initialise extends CheckBox {
       if (value === null) value = localGet(key, null)
       else if (`${value}`.length < minLength) value = localGet(key, null)
       this.value = value
-      switch (this.key) {
+      switch (key) {
         case `colorsAnsiColorPalette`:
           return this._colorPalette()
         case `settingsInformationHeader`:
@@ -832,6 +838,7 @@ class Initialise extends CheckBox {
           return this._selectFont()
         case `textRenderEffect`:
           return this._selectEffect()
+        default:
       }
     })
   }
