@@ -5,10 +5,18 @@
 /*global CheckLastError CheckRange Configuration Console Engine FontFamily OptionsReset RemoveTextPairs ToggleScanlines ToggleTextEffect WebBrowser */
 "use strict"
 
-function failedGet(key, value = ``) {
-  console.warn(
-    `Failed to obtain the '${key}' setting so using default: "${value}"`
-  )
+function localGet(key, result) {
+  const name = Object.getOwnPropertyNames(result)[0]
+  let value = result[name]
+  if (typeof name === `undefined`) {
+    value = new OptionsReset().get(key)
+    localStore(key, value)
+    console.warn(
+      `Failed to obtain the '${key}' setting so using default: "${value}"`
+    )
+  }
+  Console(`stoage local get: ${key}=${value}`)
+  return value
 }
 
 /**
@@ -620,13 +628,7 @@ class CheckBox {
   async storageLoad() {
     this.boxes.forEach((key, id) => {
       chrome.storage.local.get(key, (result) => {
-        const name = Object.getOwnPropertyNames(result)[0]
-        let value = result[name]
-        if (typeof name === `undefined`) {
-          value = new OptionsReset().get(key)
-          localStore(key, value)
-          failedGet(key, value)
-        }
+        const value = localGet(key, result)
         this.id = `${id}`
         this.value = `${value}`
         this.preview()
@@ -716,11 +718,11 @@ class Initialise extends CheckBox {
    * Checks for and executes run-once Options.
    */
   checks() {
-    const checkTabs = (value = -1) => {
-      if (Number.isNaN(value)) return true
-      if (value < this.optionMin) return true
-      if (value > this.optionMax) return true
-      return false
+    const validTab = (value = -1) => {
+      if (Number.isNaN(value)) return false
+      if (value < this.optionMin) return false
+      if (value > this.optionMax) return false
+      return true
     }
     // check #1 - html radio and select groups
     for (const key of this.lengths) {
@@ -732,13 +734,7 @@ class Initialise extends CheckBox {
       this.id = `${id}`
       this.key = `${key}`
       chrome.storage.local.get(key, (result) => {
-        const name = Object.getOwnPropertyNames(result)[0]
-        let value = result[name]
-        if (typeof name === `undefined`) {
-          value = new OptionsReset().get(key)
-          localStore(key, value)
-          failedGet(key, value)
-        }
+        const value = localGet(key, result)
         this.value = value
       })
       this._checkBoolean()
@@ -750,38 +746,21 @@ class Initialise extends CheckBox {
       }
     })
     // check #3 - options tab
-    chrome.storage.local.get(`optionTab`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `optionTab`
-      let value = result[name]
-      if (typeof name === `undefined`) {
-        value = new OptionsReset().get(key)
-        failedGet(key, value)
-      }
-      value = parseInt(value, 10)
-      if (checkTabs(key)) {
-        const fix = this.defaults.get(key)
-        if (fix === ``) handleError(`Initialise.checks() ${key} = "${value}"`)
-        localStore(key, fix)
-        failedGet(key, fix)
+    let key = `optionTab`
+    chrome.storage.local.get(key, (result) => {
+      let value = localGet(key, result)
+      if (validTab(value) === false) {
+        localGet(key, null)
       }
     })
     // check #4 - text area
-    chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `settingsWebsiteDomains`
-      let value = result[name]
-      if (typeof value === `undefined`) {
-        const fix = this.defaults.get(key)
-        if (fix === ``) handleError(`Initialise.checks() ${key} = "${value}"`)
-        localStore(key, `${fix.join(";")}`)
-        failedGet(key, fix)
-      }
+    key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      localGet(key, result)
     })
     // check #5 - option theme button
-    chrome.storage.local.get(`optionClass`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `optionClass`
+    key = `optionClass`
+    chrome.storage.local.get(key, (result) => {
       const classes = [
         `is-primary`,
         `is-link`,
@@ -797,13 +776,9 @@ class Initialise extends CheckBox {
         `is-ghost`,
       ]
       Object.freeze(classes)
-      let value = result[name]
+      let value = localGet(key, result)
       if (!classes.includes(value)) {
-        const fix = this.defaults.get(key)
-        if (fix === ``) handleError(`Initialise.checks() ${key} = "${value}"`)
-        value = fix
-        localStore(key, value)
-        failedGet(key, fix)
+        value = localGet(key, null)
       }
       this._colorTheme(value)
     })
@@ -840,20 +815,12 @@ class Initialise extends CheckBox {
    * @param {number} [minLength=1] Minimum value length required before the value is stored
    */
   _checkLength(minLength = 1) {
-    chrome.storage.local.get(`${this.key}`, (result) => {
-      const key = Object.getOwnPropertyNames(result)[0]
-      this.value = result[key]
-      if (this.value === null || `${this.value}`.length < minLength) {
-        const fix = this.defaults.get(`${this.key}`)
-        if (fix === ``)
-          return handleError(
-            `Initialise.checkLen(${this.key}) = '${this.value}'`
-          )
-        chrome.storage.local.set({ [`${this.key}`]: `${fix}` })
-        this.value = `${fix}`
-        localStore(key, fix)
-        failedGet(key, fix)
-      }
+    const key = `${this.key}`
+    chrome.storage.local.get(key, (result) => {
+      let value = localGet(key, result)
+      if (value === null) value = localGet(key, null)
+      else if (`${value}`.length < minLength) value = localGet(key, null)
+      this.value = value
       switch (this.key) {
         case `colorsAnsiColorPalette`:
           return this._colorPalette()
@@ -1065,15 +1032,9 @@ class ColorPair {
    * Choose a theme from the menu of the Colour Pair options.
    */
   async storageLoad() {
-    chrome.storage.local.get(`colorsTextPairs`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `colorsTextPairs`
-      let value = result[name]
-      if (typeof name === `undefined`) {
-        value = new OptionsReset().get(key)
-        localStore(key, value)
-        failedGet(key, value)
-      }
+    const key = `colorsTextPairs`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
       this.value = value
       this._sample()
     })
@@ -1171,15 +1132,9 @@ class ColorCustomPair {
    * Apply text effects on the sample text.
    */
   async storageLoad() {
-    chrome.storage.local.get(`${this.mapId}`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `${this.mapId}`
-      let value = result[name]
-      if (typeof name === `undefined`) {
-        value = new OptionsReset().get(`${this.mapId}`)
-        localStore(key, value)
-        failedGet(key, value)
-      }
+    const key = `${this.mapId}`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
       this.input.value = `${value}`
       const custom = this._value() === `theme-custom`
       this._previewColor(custom)
@@ -1371,18 +1326,9 @@ class Radios {
    * Load and preview the saved radio selection.
    */
   async storageLoad() {
-    chrome.storage.local.get(`${this.storageId}`, (result) => {
-      console.log(`Radio result "${this.storageId}"`, result)
-      const name = Object.getOwnPropertyNames(result),
-        key = `${this.storageId}`
-      let value = result[name]
-      console.log(`name:`, name)
-      if (name.length === 0) {
-        value = new OptionsReset().get(`${this.storageId}`)
-        console.log(` -> reset value: ${value}`)
-        localStore(key, value)
-        failedGet(key, value)
-      }
+    const key = `${this.storageId}`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
       this.value = `${value}`
       this.preview()
     })
@@ -1526,15 +1472,9 @@ class LineHeight {
    * Loads and selects the saved line height setting.
    */
   async storageLoad() {
-    chrome.storage.local.get(`textLineHeight`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `textLineHeight`
-      let value = result[name]
-      if (typeof name === `undefined`) {
-        value = new OptionsReset().get(`${this.mapId}`)
-        localStore(key, value)
-        failedGet(key, value)
-      }
+    const key = `textLineHeight`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
       this.lineHeight.value = value
       document.getElementById(`lineHeightOutput`).textContent = this.m.get(
         this.lineHeight.value
@@ -1658,17 +1598,10 @@ class Hero {
    * Load and apply the active tab selection.
    */
   async storageLoad() {
-    chrome.storage.local.get(`optionTab`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `optionTab`
-      let value = result[name]
-      if (typeof name === `undefined`) {
-        value = 0
-        localStore(key, value)
-        failedGet(key, value)
-      }
-      value = parseInt(value, 10)
-      this.reveal(value)
+    const key = `optionTab`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.reveal(parseInt(value, 10))
     })
   }
   /**
@@ -1719,15 +1652,9 @@ class Hosts {
    * Load and display host tags.
    */
   async storageLoad() {
-    chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0],
-        key = `settingsWebsiteDomains`
-      let value = result[name]
-      if (typeof name === `undefined`) {
-        value = new OptionsReset().get(`${this.mapId}`)
-        localStore(key, value)
-        failedGet(key, value)
-      }
+    const key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
       this.hostnames = value
       const hosts = this.hostnames.split(`;`)
       for (let host of hosts) {
@@ -1844,7 +1771,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     )
   switch (key) {
     case `optionTab`:
-      new Hero().reveal(`${event.newValue}`)
+      new Hero().reveal(`${changes[key].newValue}`)
   }
 })
 

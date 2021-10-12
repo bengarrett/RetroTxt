@@ -433,7 +433,7 @@ class DOSText {
    * @returns {(Array|void)} Characters
    */
   _characterTable() {
-    Console(`DOSText(codepage=%s)._characterTable()`, this.codepage)
+    Console(`DOSText(codepage=${this.codepage})._characterTable()`)
     // ascii C0 controls are either ignored or are common between all tables
     this.asciiTable = new CharacterSet(`cp437_C0`).get()
     // extended character tables
@@ -456,10 +456,9 @@ class DOSText {
   _fromCharCode(number) {
     if (number > 127)
       Console(
-        `DOSText()._fromCharCode(%s) String.fromCharCode = %s \\u%s`,
-        number,
-        String.fromCharCode(number),
-        String.fromCharCode(number).codePointAt(0).toString(16)
+        `DOSText()._fromCharCode(${number}) String.fromCharCode = ${String.fromCharCode(
+          number
+        )} \\u${String.fromCharCode(number).codePointAt(0).toString(16)}`
       )
     switch (this.codepage) {
       case Cs.Windows_1251: {
