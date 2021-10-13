@@ -11,7 +11,7 @@ function localGet(key, result) {
   if (typeof name === `undefined`) {
     value = new OptionsReset().get(key)
     localStore(key, value)
-    console.warn(
+    console.info(
       `Failed to obtain the '${key}' setting so using default: "${value}"`
     )
   }
@@ -569,9 +569,9 @@ class CheckBox {
    */
   async listen() {
     this.boxes.forEach((item, id) => {
-      Console(`initialize checkbox listener: ${id}`)
+      Console(`Initialize checkbox listener, ${id}.`)
       document.getElementById(id).addEventListener(`change`, () => {
-        Console(`checkbox listener triggered: ${id}`)
+        Console(`Checkbox listener triggered, ${id}.`)
         const value = document.getElementById(id).checked
         chrome.storage.local.set({ [item]: value })
         this.id = `${id}`

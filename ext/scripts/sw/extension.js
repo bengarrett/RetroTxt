@@ -20,7 +20,7 @@ class Extension {
    * @param details
    */
   install(details) {
-    console.log(`🖫 Reticulating splines.`)
+    console.log(`Reticulating splines.`)
 
     const checks = [`settingsNewUpdateNotice`]
     const store = new LocalStore()
