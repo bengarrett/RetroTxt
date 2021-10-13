@@ -699,7 +699,6 @@ class Initialise extends CheckBox {
   constructor() {
     super()
     this.defaults = new OptionsReset()
-    //
     this.lengths = new Set([
       `colorsAnsiColorPalette`,
       `settingsInformationHeader`,
@@ -708,6 +707,7 @@ class Initialise extends CheckBox {
       `textSmearBlockCharacters`,
       `textRenderEffect`,
     ])
+    Object.freeze(this.lengths)
     this.id = ``
     this.key = ``
     this.value = ``
