@@ -26,7 +26,7 @@
 // Objects are much faster than `Maps`.
 
 /*eslint no-control-regex: "off"*/
-/*global BrowserOS CheckArguments Console Cs FindControlSequences Windows
+/*global BrowserOS CheckArguments Console Cs FindControlSequences Os
 CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText
 OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII*/
 /*exported BBS Controls DOSText Transcode*/
@@ -915,7 +915,7 @@ class BBS {
       config = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     // To avoid line artefacts in Windows, surround all block characters
     // with <b></b> elements and apply a CSS style fix.
-    if (BrowserOS() === Windows && config === `true`) {
+    if (BrowserOS() === Os.windows && config === `true`) {
       const rows = replaced.split(`\n`)
       for (const row of rows) {
         const div = this._BBlocks(row)
