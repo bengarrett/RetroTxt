@@ -109,6 +109,7 @@ body {
 
 header {
   background-color: black;
+  border-radius: 0.25rem;
   color: var(--has-text-grey-lighter);
   display: block;
   font-family: var(--header-font-family);
@@ -129,7 +130,7 @@ header strong {
 }
 
 header#headerMinimal {
-  border-radius: 1rem;
+  border-radius: 0.25rem;
   margin: 0;
   padding: 0;
   width: 3rem;
