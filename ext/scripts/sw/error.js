@@ -1,6 +1,6 @@
 // filename: sw/error.js
 //
-/*global CheckLastError ConsoleLoad Developer */
+/*global CheckLastError ConsoleLoad Developer DeveloperModeDebug */
 /*exported CheckError */
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -14,7 +14,6 @@ chrome.runtime.onInstalled.addListener(() => {
  * otherwise a JavaScript exception is thrown
  */
 function CheckError(error = ``, log = false) {
-  const debug = false
   if (error !== undefined) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0] === undefined) return
@@ -23,7 +22,7 @@ function CheckError(error = ``, log = false) {
         { error: error, id: `CheckError` },
         (result) => {
           if (CheckLastError(`check error send message`)) return
-          if (debug && result !== undefined) console.log(result)
+          if (DeveloperModeDebug && result !== undefined) console.log(result)
         }
       )
     })

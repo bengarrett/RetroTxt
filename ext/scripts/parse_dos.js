@@ -26,7 +26,7 @@
 // Objects are much faster than `Maps`.
 
 /*eslint no-control-regex: "off"*/
-/*global BrowserOS CheckArguments Console Cs FindControlSequences Os
+/*global BrowserOS CheckArguments Console Cs DeveloperModeDebug FindControlSequences Os
 CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText
 OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII*/
 /*exported BBS Controls DOSText Transcode*/
@@ -454,7 +454,7 @@ class DOSText {
    * @returns {string} Unicode symbol
    */
   _fromCharCode(number) {
-    if (number > 127)
+    if (DeveloperModeDebug && number > 127)
       Console(
         `DOSText()._fromCharCode(${number}) String.fromCharCode = ${String.fromCharCode(
           number
