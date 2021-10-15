@@ -6,7 +6,7 @@
 // All functions and methods cannot access the browser DOM API or the Chrome extension API.
 
 /*global CheckError */
-/*exported CheckLastError Console ConsoleLoad Configuration Engine WebBrowser
+/*exported CheckLastError Console ConsoleLoad Configuration DeveloperModeDebug Engine WebBrowser
 TranscodeArrow UseCharSet OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII OutputUFT8
 */
 
@@ -44,8 +44,10 @@ if (typeof chrome.runtime.onInstalled !== `undefined`) {
   // placeholder
 })()
 
-// RetroTxt developer verbose feedback store name
-const Developer = `developer`
+// Developer is the verbose feedback store name.
+// DeveloperModeDebug gives additional Console log feedback when running in Developer mode.
+const Developer = `developer`,
+  DeveloperModeDebug = false
 
 // Browser rendering engine.
 const Engine = {
@@ -307,11 +309,10 @@ class Configuration extends OptionsReset {
   }
   /**
    * A list of domains that RetroTxt can monitor.
-   * @param [separator=`;`] Character to use as a separator
-   * @returns string
+   * @returns array
    */
-  domainsString(separator = `;`) {
-    return this.triggers.get(`domains`).join(`${separator}`)
+  domains() {
+    return this.triggers.get(`domains`)
   }
   /**
    * Sets the missing `chrome.storage.local` item to the reset value.

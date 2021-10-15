@@ -3,7 +3,7 @@
 // Helpers used by content-scripts.
 
 /*global CheckArguments CheckError */
-/*exported BusySpinner BBSText DeveloperModeDebug FindControlSequences HumaniseFS ParseToChildren RemoveTextPairs ToggleScanlines ToggleTextEffect UnknownText */
+/*exported BusySpinner BBSText FindControlSequences HumaniseFS ParseToChildren RemoveTextPairs ToggleScanlines ToggleTextEffect UnknownText */
 
 // text type, using control codes or sequences
 const UnknownText = -1,
@@ -17,9 +17,6 @@ const UnknownText = -1,
   WWIVHeartText = 7,
   BBSText = 98,
   ANSIText = 99
-
-// DeveloperModeDebug gives additional Console log feedback when running in Developer mode.
-const DeveloperModeDebug = false
 
 // TODO: requires window access
 // dark mode icons for Chrome
