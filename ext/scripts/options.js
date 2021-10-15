@@ -281,7 +281,8 @@ class Security {
    * @param [type=``] Checkbox type, either `downloads`, `files` or `http`
    */
   constructor(type = ``) {
-    this.domains = new Configuration().domainsString()
+    this.domains = new Configuration().domains()
+    Object.freeze(this.domains)
     // IMPORTANT
     // these Map values must sync to those in the Security class found in `scripts/eventpage.js`
     const permissions = new Map()
@@ -1628,21 +1629,29 @@ class Hero {
 class Hosts {
   constructor() {
     this.minLength = 4
-    this.hostnames = ``
+    this.hostnames = []
     this.status = document.getElementById(`status`)
     this.template = document.getElementById(`templateHost`)
     this.submit = document.getElementById(`submitHost`)
     this.input = document.getElementById(`newHost`)
-    this.domains = new Configuration().domainsString()
+    this.domains = new Configuration().domains()
+    Object.freeze(this.domains)
   }
   /**
    * Input and button listeners.
    */
   async listen() {
+    // add button
     this.submit.addEventListener(`click`, () => {
       this._add(this.input.value)
       this._storageSave()
     })
+    // hostname press enter key
+    this.input.addEventListener(`keypress`, (e) => {
+      if (e.key !== `Enter`) return
+      this.submit.click()
+    })
+    // hostname input
     this.input.addEventListener(`input`, () => {
       try {
         // when URLs are pasted, attempt to return just the host
@@ -1661,10 +1670,8 @@ class Hosts {
   async storageLoad() {
     const key = `settingsWebsiteDomains`
     chrome.storage.local.get(key, (result) => {
-      const value = localGet(key, result)
-      this.hostnames = value
-      const hosts = this.hostnames.split(`;`)
-      for (let host of hosts) {
+      const hosts = localGet(key, result)
+      for (const host of hosts) {
         this._add(host, true)
       }
     })
@@ -1677,7 +1684,7 @@ class Hosts {
     const tags = document.getElementById(`hostTags`),
       tag = this.template.cloneNode(true),
       anchor = tag.childNodes[1].childNodes[1],
-      urls = this.hostnames.split(`;`),
+      urls = this.hostnames,
       isDomain = this._domainHost(hostname)
     anchor.textContent = hostname
     switch (hostname) {
@@ -1695,10 +1702,7 @@ class Hosts {
     tag.removeAttribute(`id`)
     tags.append(tag)
     urls.push(hostname)
-    if (!init) {
-      this.hostnames = urls.join(`;`)
-      this.status.textContent = `Added ${hostname}`
-    }
+    if (!init) this.status.textContent = `Added ${hostname}`
     tag.childNodes[1].childNodes[2].nextSibling.addEventListener(
       `click`,
       (e) => {
@@ -1711,9 +1715,8 @@ class Hosts {
    */
   async _check(hostname = ``) {
     if (hostname.length < this.minLength) return (this.submit.disabled = true)
-    let duplicates = this.hostnames.split(`;`)
-    duplicates = [...duplicates, `retrotxt.com`]
-    for (let dupe of duplicates) {
+    let duplicates = [...this.hostnames, `retrotxt.com`]
+    for (const dupe of duplicates) {
       if (dupe === hostname) return (this.submit.disabled = true)
     }
     if (hostname.includes(`/`)) return (this.submit.disabled = true)
@@ -1729,8 +1732,7 @@ class Hosts {
    * Is the hostname one of the default domains supplied by RetroTxt?
    */
   _domainHost(hostname = ``) {
-    const domains = this.domains.split(`;`)
-    for (let domain of domains) {
+    for (let domain of this.domains) {
       if (hostname == domain) return true
     }
     return false
@@ -1740,10 +1742,8 @@ class Hosts {
    */
   _delete(e) {
     const v = e.target.previousSibling.previousSibling.textContent,
-      urls = this.hostnames.split(`;`),
-      filtered = urls.filter((url) => url !== v),
       reset = 1
-    this.hostnames = filtered.join(`;`)
+    this.hostnames = this.hostnames.filter((url) => url !== v)
     if (this.hostnames.length < reset) this._reset()
     this._storageSave()
     e.target.parentNode.parentNode.remove()
@@ -1754,17 +1754,17 @@ class Hosts {
    */
   _reset() {
     this.status.textContent = `Reset hostnames to defaults`
-    this.hostnames = new Configuration().domainsString()
-    const domains = this.domains.split(`;`)
-    for (let domain of domains) {
-      this._add(domain, true)
+    this.hostnames = []
+    const hosts = new Configuration().domains()
+    for (let host of hosts) {
+      this._add(host, true)
     }
   }
   /**
    * Save the hostnames to local storage.
    */
   _storageSave() {
-    localStore(`settingsWebsiteDomains`, `${this.hostnames}`)
+    localStore(`settingsWebsiteDomains`, this.hostnames)
   }
 }
 
