@@ -4,6 +4,15 @@
 
 ### Migration to Manifest v3
 
+- **Some Options settings may be lost in this update.**<br>
+  Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`. This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
+
+* Replaced the `scripts/eventpage.js` background page with modular service workers.
+* Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
+
+- Tweaked the Information header CSS to use very slight rounded corners.
+- Documentation tab in Options shares the same layout and formatting as the other menus.
+
 ## 4.2
 
 ### October 2021
