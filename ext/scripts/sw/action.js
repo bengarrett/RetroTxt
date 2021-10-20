@@ -1,6 +1,6 @@
 // filename: sw/action.js
 //
-/*global CheckError CheckLastError ConsoleLoad Developer Extension Security Tab ToolbarButton*/
+/*global CheckError CheckLastError ConsoleLoad Developer Extension ToolbarButton*/
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`action.js`)
@@ -29,9 +29,9 @@ class Action {
     this.state = false
     if (`url` in this.info)
       this.scheme = `${this.info.url.split(`:`)[0].toLowerCase()}`
-    else this.info.url = `tabs.Tab.url permission denied`
+    else this.info.url = `activeTab.Tab.url permission denied`
     if (!(`title` in this.info))
-      this.info.title = `tabs.Tab.title permission denied`
+      this.info.title = `activeTab.Tab.title permission denied`
   }
   /**
    * Browser tab selected and activated.
@@ -101,54 +101,9 @@ class Action {
     if (DeveloperMode)
       console.log(`↩ Toolbar button click registered for tab #%s.`, this.id)
 
-    // sessionStorage only saves strings
-    const session = {
-      state: sessionStorage.getItem(`tab${this.id}textfile`),
-      type: sessionStorage.getItem(`tab${this.id}encoding`),
-    }
-    // determine if active tab is a text file and save the results to the
-    // sessionStore to reduce any expensive, future HTTP HEAD requests
-    if (typeof session.state !== `string`) {
-      const security = new Security(`action`),
-        test = security.test()
-      chrome.permissions.contains(test, (containsResult) => {
-        if (containsResult === false) {
-          chrome.permissions.request(test, (requestResult) => {
-            if (CheckLastError(`action clicked permission "${requestResult}"`))
-              return
-            if (requestResult === true) console.log(`Permission was granted`)
-            else return console.log(`Permission was refused`)
-          })
-        }
-        // check the tab and then refetch the session storage
-        const scheme = this.info.url.split(`:`)[0]
-        if (scheme === `file`) {
-          const security = new Security(`files`)
-          if (containsResult === false) {
-            chrome.permissions.request(security.test(), (requestResult) => {
-              if (CheckLastError(`files clicked permission "${requestResult}"`))
-                return
-              if (requestResult === true) console.log(`Permission was granted`)
-              else return console.log(`Permission was refused`)
-            })
-          }
-        }
-        new Tab(this.id, this.info.url, this.info).compatibleURL()
-        session.state = sessionStorage.getItem(`tab${this.id}textfile`)
-      })
-    }
-    if (session.state === `true`) {
-      if (DeveloperMode)
-        console.log(
-          `RetroTxt has detected the active tab #%s is a text file encoded as %s.\n%s`,
-          this.id,
-          session.type,
-          this.info.url
-        )
-      chrome.tabs.sendMessage(this.id, { id: `invoked` }, () => {
-        if (CheckLastError(`action click invoked send message`)) return
-      })
-    }
+    chrome.tabs.sendMessage(this.id, { id: `invoked` }, () => {
+      if (CheckLastError(`action click invoked send message`)) return
+    })
   }
   /**
    * Update context menus to reflect a tab's suitability for RetroTxt.

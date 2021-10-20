@@ -60,6 +60,24 @@ const Os = {
   macOS: 1,
   windows: 2,
 }
+// Browser platform operating system.
+const PlatformOS = {
+  mac: `macOS`,
+  win: `Windows`,
+  android: `Android`,
+  cros: `ChromeOS`,
+  linux: `Linux`,
+  openbsd: `OpenBSD`,
+}
+// Browser platform architecture.
+const PlatformArch = {
+  arm: `ARM`,
+  arm64: `ARM64`,
+  "x86-32": `Intel x86`,
+  "x86-64": `Intel x64`,
+  mips: `MIPS`,
+  mips64: `MIPS64`,
+}
 // Character sets keys and values.
 // The keys and their values should be distinct from any IANA character set names.
 const Cs = {
@@ -77,7 +95,7 @@ const Cs = {
   UnicodeStandard: `utf_8`, // Unicode, 8-bit multi-byte text
   US_ASCII: `us_ascii`, // 7-bit, ARPANET/Internet legacy text
 }
-Object.freeze([Engine, Os, Cs])
+Object.freeze([Engine, Os, PlatformOS, PlatformArch, Cs])
 
 const // Character set key values
   // changing the values of these consts can break application functionality

@@ -3,7 +3,7 @@
 // Helpers used by content-scripts.
 
 /*global CheckArguments CheckError */
-/*exported BusySpinner BBSText FindControlSequences HumaniseFS ParseToChildren RemoveTextPairs ToggleScanlines ToggleTextEffect UnknownText */
+/*exported BusySpinner BBSText FindControlSequences HumaniseFS LinkDetails ParseToChildren RemoveTextPairs ToggleScanlines ToggleTextEffect UnknownText */
 
 // text type, using control codes or sequences
 const UnknownText = -1,
@@ -116,6 +116,26 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
     return applyNewClass(result.colorsTextPairs)
   })
 }
+
+/**
+ * Create a link to the extension Details tab.
+ * This link is unique for each browser brand, irrespective of the render engine.
+ * Brave and Vivaldi report themselves as Chrome and will return the wrong URL.
+ * Firefox doesn't use a Details tab and will return an empty string.
+ * @returns URL or an empty string.
+ */
+function LinkDetails() {
+  const extensionId = chrome.runtime.id,
+    ua = navigator.userAgent
+  if (extensionId.length === 0) return ``
+  if (ua.includes(`Firefox/`)) return ``
+  const url = `://extensions?id=${extensionId}`
+  if (ua.includes(`Edg/`)) return `edge${url}`
+  if (ua.includes(`OPR/`)) return `opera${url}`
+  // brave, vivaldi do not modify the user agent and cannot be detected
+  return `chrome${url}`
+}
+
 /**
  * Uses CSS3 styles to manipulate font effects.
  * @param [effect=`normal`] Font effect name to apply

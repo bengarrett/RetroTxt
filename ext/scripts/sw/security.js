@@ -19,20 +19,20 @@ class Security {
    */
   constructor(type = ``, origin = ``) {
     // IMPORTANT!
-    // These Map values must match those in the `scripts/options.js` Security class.
+    // These Map values must match those in the `scripts/options.js` Permission class.
     // Firefox REQUIRES tabs permission to access URL in the queryInfo
     // parameter to tabs.query().
     const permissions = new Map()
-      .set(`action`, [`tabs`])
-      .set(`downloads`, [`downloads`, `downloads.open`, `tabs`])
-      .set(`files`, [`tabs`])
+      .set(`action`, [])
+      .set(`downloads`, [`downloads`, `downloads.open`])
+      .set(`files`, [])
       // http must be `activeTab` instead of `tabs`, otherwise URLs listed
       // in `permissions` will not toggle
       .set(`http`, [`activeTab`])
     const origins = new Map()
       .set(`action`, [])
-      .set(`downloads`, [`file:///*/`])
-      .set(`files`, [`file:///*/`])
+      .set(`downloads`, [])
+      .set(`files`, [])
       .set(`http`, this._httpToOrigins())
     if (typeof type === `undefined`)
       return CheckError(

@@ -2,21 +2,8 @@
 //
 // These functions and classes are exclusively used by the Options tab.
 //
-/*global CheckLastError CheckRange Configuration Console Engine FontFamily OptionsReset RemoveTextPairs ToggleScanlines ToggleTextEffect WebBrowser */
+/*global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs ToggleScanlines ToggleTextEffect WebBrowser */
 "use strict"
-
-function localGet(key, result) {
-  const name = Object.getOwnPropertyNames(result)[0]
-  let value = result[name]
-  if (typeof name === `undefined`) {
-    value = new OptionsReset().get(key)
-    localStore(key, value)
-    console.info(
-      `Failed to obtain the '${key}' setting so using default: "${value}"`
-    )
-  }
-  return value
-}
 
 /**
  * Argument checker.
@@ -89,6 +76,25 @@ async function localizeWord(word = ``, className = ``) {
     }
     element.textContent = `${message[0].toUpperCase()}${message.slice(1)}`
   }
+}
+
+/**
+ * Returns the value of a chrome.storage.local.get request or a default value if result is undefined.
+ * @param {string} key Key name of the local storage item.
+ * @param {*} result Result from the chrome.storage.local.get request.
+ * @returns A result or default value.
+ */
+function localGet(key, result) {
+  const name = Object.getOwnPropertyNames(result)[0]
+  let value = result[name]
+  if (typeof name === `undefined`) {
+    value = new OptionsReset().get(key)
+    localStore(key, value)
+    console.info(
+      `Failed to obtain the '${key}' setting so using default: "${value}"`
+    )
+  }
+  return value
 }
 
 /**
@@ -266,57 +272,36 @@ class HTML {
   async _gotBrowserInfo(browser = {}) {
     const txt = ` on ${browser.vendor} ${browser.name} ${browser.version}`
     document.getElementById(`program`).textContent = txt
+    chrome.runtime.getPlatformInfo((info) => {
+      let text = ``
+      if (info.os === `mac` && info.arch === `arm`) text = `macOS M series`
+      else text = `${PlatformOS[info.os]} with ${PlatformArch[info.arch]}`
+      document.getElementById(`os`).textContent = text
+    })
   }
 }
 
 /**
- * Grants and removes Extension access permissions.
- * see: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/permissions
- * match patterns: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns
- * @class Security
+ * Grants and removes access permissions.
+ * @class Permission
  */
-class Security {
+class Permission {
   /**
-   * Creates an instance of Security.
+   * Creates an instance of Permission.
    * @param [type=``] Checkbox type, either `downloads`, `files` or `http`
    */
   constructor(type = ``) {
     this.domains = new Configuration().domains()
     Object.freeze(this.domains)
-    // IMPORTANT
-    // these Map values must sync to those in the Security class found in `scripts/eventpage.js`
-    const permissions = new Map()
-      .set(`downloads`, [`downloads`, `downloads.open`, `tabs`])
-      .set(`files`, [`tabs`])
-      .set(`http`, [`tabs`])
-    const origins = new Map()
-      .set(`downloads`, [`file:///*`])
-      .set(`files`, [`file:///*`])
-      .set(`http`, this._httpOrigins())
-    const elements = new Map()
-      .set(`downloads`, `downloadViewer`)
-      .set(`files`, `textfileViewer`)
-      .set(`http`, `websiteViewer`)
-    this.customHttp = origins.get(`http`)
+    // IMPORTANT: these Map values must sync to those in the Security class found in `scripts/sw/security.js`
+    const permissions = new Map().set(`downloads`, [
+      `downloads`,
+      `downloads.open`,
+    ])
+    const elements = new Map().set(`downloads`, `downloadViewer`)
     this.permissions = permissions.get(`${type}`)
-    this.origins = origins.get(`${type}`)
     this.elementId = elements.get(`${type}`)
     this.type = type
-    // special case for user edited text area
-    chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
-      const name = Object.getOwnPropertyNames(result)[0]
-      const askAllWeb = this.domains !== result[name],
-        catchallScheme = `*://*/*`
-      if (type === `http` && askAllWeb) {
-        if (!origins.get(`http`).includes(catchallScheme))
-          origins.get(`http`).push(catchallScheme)
-      }
-      // permissions needed for user supplied websites
-      this.allWebPermissions = {
-        origins: [catchallScheme],
-        permissions: [`tabs`],
-      }
-    })
   }
   /**
    * Initialise onChange event listeners for checkboxes and the `<textarea>`.
@@ -324,90 +309,42 @@ class Security {
   listen() {
     // checkbox toggles
     const toggles = () => {
-      const files = document.getElementById(`textfileViewer`),
-        notice = document.getElementById(`textfileViewerOff`),
-        value = document.getElementById(`${this.elementId}`).checked
+      const value = document.getElementById(`${this.elementId}`).checked
       let monitor = false // for downloadViewer
       // special cases that have permission dependencies
       switch (this.elementId) {
         case `downloadViewer`:
+          Console(`toggled downloadViewer: ${value}`)
           if (value === true) monitor = true
-          // send message to `scripts/eventpage.js` listener
           chrome.runtime.sendMessage({ monitorDownloads: monitor }, () => {
             if (CheckLastError(`monitor downloads send message`)) return
           })
-          // disable `textfileViewer` checkboxes with duplicate functionality
-          if (value === true) {
-            files.disabled = true
-            files.checked = false
-            notice.style.display = `inline`
-            break
-          }
-          files.disabled = false
-          notice.style.display = `none`
           break
       }
     }
-    // this is only run once when the `Security.listen()` is initialised.
-    // we cannot ask for `permissions.request()` here as the API requires
-    // a user interaction beforehand such as a checkbox toggle.
-    chrome.permissions.contains(this._test(), (result) => {
-      // `this._checkedInitialise()` cannot request permissions
-      this._checkedInitialise(result)
-      toggles()
-    })
     // checkbox event listeners
     const checkbox = document.getElementById(`${this.elementId}`)
-    checkbox.addEventListener(`change`, () => {
-      const value = document.getElementById(`${this.elementId}`).checked
-      this._allWeb(false)
-      this._checkedEvent(value)
-      toggles()
-    })
-    switch (this.elementId) {
-      case `downloadViewer`:
-      case `textfileViewer`:
-        return
+    if (checkbox !== null) {
+      checkbox.addEventListener(`change`, () => {
+        const value = document.getElementById(`${this.elementId}`).checked
+        Console(`checkbox change event: ${value}`)
+        this._checkedEvent(value)
+        toggles()
+      })
+      this._check()
     }
     // text area event listeners
     document.getElementById(`submitHost`).addEventListener(`click`, () => {
       if (this.type !== `http`) return
-      const askAllWeb = this.domains === `textarea.value`
       Console(`Hostnames have been updated`)
-      if (askAllWeb) {
-        // text area has been reset
-        this.origins.pop()
-        return this._allWeb(false)
-      }
-      // text area has been modified
-      chrome.permissions.contains(this.allWebPermissions, (result) => {
-        const catchallScheme = `*://*/*`
-        if (result === false) {
-          Console(`${catchallScheme} permission has not been granted`)
-          if (!this.origins.includes(catchallScheme)) {
-            // append `*://*/*` to the permissions origins and then ask the
-            // user to toggle the checkbox input to apply the new permission.
-            // Extensions can only ask for new permissions using user toggles.
-            const toggle = document.getElementById(`websiteViewer`)
-            if (toggle.checked === true)
-              document.getElementById(
-                `websiteViewerOff`
-              ).style.display = `inline`
-            toggle.checked = false
-            Console(`pushed permissions to origins`)
-            return this.origins.push(catchallScheme)
-          }
-          Console(`permissions are to be ignored`)
-          return
-        }
-        Console(`${catchallScheme} permission has been granted`)
-      })
+      const reset = this.domains === `textarea.value`
+      if (reset) return this.origins.pop()
     })
     // options theme buttons listeners
     const themes = document.getElementsByClassName(`option-theme`)
     for (let theme of themes) {
       theme.addEventListener(`click`, () => {
-        theme.classList.forEach(function (value, key) {
+        theme.classList.forEach(function (value) {
           let arr = [`button`, `option-theme`]
           if (arr.includes(value)) return
           const hero = document.getElementById(`heroSection`),
@@ -423,31 +360,22 @@ class Security {
             src.classList.replace(heroValue, value)
           })
           chrome.storage.local.set({ [`optionClass`]: `${value}` })
-          console.log(theme.textContent, key, value)
         })
       })
     }
   }
   /**
-   * Textarea onChanged event that updates the `this.allWebPermissions`
-   * permission.
-   * @param [request=true] Request `true` or remove `false` permission
+   * Set the checkbox checked state based on the permission grant.
    */
-  _allWeb(request = false) {
-    if (this.type !== `http`) return
-    if (request === true) return
-    chrome.permissions.contains(this.allWebPermissions, (result) => {
-      if (result !== true) return
-      chrome.permissions.remove(this.allWebPermissions, (result) => {
-        if (CheckLastError(`security allwebpermissions remove "${result}"`))
-          return
-        if (result === false)
-          console.warn(
-            "Could not remove the permissions %s %s",
-            this.allWebPermissions.origins,
-            this.allWebPermissions.permissions
-          )
-      })
+  _check() {
+    const checkbox = document.getElementById(`${this.elementId}`)
+    if (!(`checked` in checkbox))
+      return console.warn(
+        `Checkbox element <input id="${this.elementId}" type="checkbox"> is missing.`
+      )
+    chrome.permissions.contains({ permissions: this.permissions }, (result) => {
+      if (result) return (checkbox.checked = true)
+      return (checkbox.checked = false)
     })
   }
   /**
@@ -455,88 +383,26 @@ class Security {
    * @param [request=true] Request `true` or remove `false` permission
    * @param testResult A collection of permissions
    */
-  _checkedEvent(request = true, testResult = this._test()) {
+  _checkedEvent(
+    request = true,
+    testResult = { permissions: this.permissions }
+  ) {
     switch (this.type) {
       case `downloads`:
-      case `http`:
-        return this._permissionSet(request, testResult)
-      case `files`:
-        if (request === false) testResult.permissions = []
-        return this._permissionSet(request, testResult)
-    }
-  }
-  /**
-   * Set the checkbox checked state.
-   * @param [granted=false] Checked `true` or `false` unchecked
-   */
-  _checkedInitialise(granted = false) {
-    const checkbox = document.getElementById(`${this.elementId}`)
-    if (!(`checked` in checkbox))
-      return console.warn(
-        `Checkbox element <input id="${this.elementId}" type="checkbox"> is missing.`
-      )
-    checkbox.checked = granted
-  }
-  /**
-   * Creates a collection of origins from a predetermined list of domains.
-   * @returns origins collection
-   */
-  _httpOrigins() {
-    const domains = chrome.runtime.getManifest().optional_permissions
-    return domains.filter((domain) => domain.slice(0, 6) === `*://*.`)
-  }
-  /**
-   * Requests or removes a checked permission.
-   * @param [request=true] Request `true` or remove `false` permission
-   * @param testResult A collection of permissions
-   */
-  _permissionSet(request = true, testResult) {
-    const items = testResult.permissions.concat(testResult.origins).join(`, `),
-      workaround = { permissions: [`tabs`] }
-    switch (request) {
-      case true:
-        return chrome.permissions.request(testResult, (result) => {
-          if (CheckLastError(`security permissionSet "${result}"`)) return
-          Console(`${result}: request to set permissions [${items}]`)
-          if (result !== true) {
-            this._checkedInitialise(false)
-            return
-          }
-          document.getElementById(`websiteViewerOff`).style.display = `none`
-        })
-      default:
-        this._allWeb(false)
-        console.log(`removing permission?`, testResult)
-        chrome.permissions.remove(testResult, (removed) => {
+        Console(`checked download event: ${request}`)
+        if (request === true) {
+          return chrome.permissions.request(testResult, (result) => {
+            if (CheckLastError(`security permissionSet "${result}"`)) return
+            this._check()
+          })
+        }
+        return chrome.permissions.remove(testResult, (removed) => {
           if (CheckLastError(`security remove permissionSet "${removed}"`))
             return
-          Console(`${removed}: request to remove permissions [${items}]`)
-        })
-        // `Tabs` should normally be listed under the `permission` key in the
-        // manifest.json but instead it is placed under `optional_permission`.
-        //
-        // This is a workaround as host permissions (origins) cannot be
-        // requested without a corresponding named permission. So Tabs acts as a
-        // named permission placeholder for whenever the host permissions are
-        // removed.
-        chrome.permissions.request(workaround, (result) => {
-          if (CheckLastError(`security wordaround permissionSet "${result}"`))
-            return
-          Console(`${result}: workaround set permission [tabs]`)
+          Console(`${removed}: request to remove permissions []`)
+          this._check()
         })
     }
-  }
-  /**
-   * Creates a collection of permissions.
-   * @returns `permissions.Permissions` object
-   */
-  _test() {
-    Console(`Security test request for '${this.type}'.`)
-    const permissionsToRequest = {
-      permissions: this.permissions,
-      origins: this.origins,
-    }
-    return permissionsToRequest
   }
 }
 /**
@@ -577,22 +443,11 @@ class CheckBox {
         chrome.storage.local.set({ [item]: value })
         this.id = `${id}`
         this.value = value
-        // special cases that have permission dependencies
-        switch (id) {
-          case `downloadViewer`:
-            if (value === true)
-              document.getElementById(`textfileViewer`).checked = true
-            break
-          case `textfileViewer`:
-            if (value === false)
-              document.getElementById(`downloadViewer`).checked = false
-            break
-        }
         this.preview()
       })
     })
-    new Security(`http`).listen()
-    this._isAllowed()
+    new Permission().listen()
+    this._fileSchemeAccess()
   }
   /**
    * Code to run after a checkbox has been clicked.
@@ -652,42 +507,54 @@ class CheckBox {
    * Event listeners for options.
    * These require `extension.isAllowedFileSchemeAccess`.
    */
-  _isAllowed() {
-    /*
-FIREFOX NOTES:
-  Firefox does not offer a user Extension setting to toggle Allowed File Scheme Access.
-  So the results of chrome.extension.isAllowedFileSchemeAccess is ALWAYS false.
-  The `file://` optional permission is the only access requirement.
-    */
+  _fileSchemeAccess() {
+    // FIREFOX NOTES:
+    //   Firefox does not offer a user Extension setting to toggle Allowed File Scheme Access.
+    //   So the results of chrome.extension.isAllowedFileSchemeAccess is ALWAYS false.
+    //   The `file://` optional permission is the only access requirement.
     if (WebBrowser() === Engine.firefox) {
-      const id = `downloadViewer`,
-        files = new Security(`files`)
+      const id = `downloadViewer`
       document.getElementById(id).disabled = true
       document.getElementById(`${id}HR`).style.display = `none`
       document.getElementById(`${id}Container`).style.display = `none`
-      document.getElementById(`textfileViewerOff`).style.display = `none`
-      return files.listen()
+      return
     }
     chrome.extension.isAllowedFileSchemeAccess((allowed) => {
-      // show checkbox state
-      const files = new Security(`files`),
-        downloads = new Security(`downloads`)
-      if (allowed !== true) {
-        // the textfileViewerOff notice is redundant
-        document.getElementById(`textfileViewerOff`).style.display = `none`
-        this.id = `textfileViewer`
-        this._disable()
-        // as isAllowedFileSchemeAccess() is false, downloads.test() will also be false
-        this.id = `downloadViewer`
-        this._disable()
-        const elements = document.getElementsByName(`is-allowed`)
-        for (const element of elements) {
-          element.style.display = `inline`
+      const offs = document.getElementsByName(`is-off`),
+        ons = document.getElementsByName(`is-on`)
+      // link to the extension details tab
+      const details = document.getElementById(`linkToDetails`),
+        link = LinkDetails()
+      if (link.length > 0) {
+        details.parentElement.classList.remove(`is-hidden`)
+        details.textContent = `${LinkDetails()}`
+      } else {
+        const urls = document.getElementsByName(`is-details-url`)
+        for (const element of urls) {
+          element.classList.add(`is-hidden`)
+        }
+      }
+      // show feature state
+      // allow access to file URLs is active
+      if (allowed === true) {
+        new Permission(`downloads`).listen()
+        for (const element of offs) {
+          element.classList.add(`is-hidden`)
+        }
+        for (const element of ons) {
+          element.classList.remove(`is-hidden`)
         }
         return
       }
-      files.listen()
-      downloads.listen()
+      // allow access to file URLs is inactive
+      this.id = `downloadViewer`
+      this._disable()
+      for (const element of offs) {
+        element.classList.remove(`is-hidden`)
+      }
+      for (const element of ons) {
+        element.classList.add(`is-hidden`)
+      }
     })
   }
 }
@@ -1634,8 +1501,10 @@ class Hosts {
     this.template = document.getElementById(`templateHost`)
     this.submit = document.getElementById(`submitHost`)
     this.input = document.getElementById(`newHost`)
-    this.domains = new Configuration().domains()
-    Object.freeze(this.domains)
+    this.remove = document.getElementById(`removeSuggestedDomains`)
+    this.include = document.getElementById(`includeSuggestedDomains`)
+    this.suggestions = new Configuration().domains()
+    Object.freeze(this.suggestions)
   }
   /**
    * Input and button listeners.
@@ -1663,6 +1532,50 @@ class Hosts {
         this._check(this.input.value)
       }
     })
+    // domain suggestions
+    this.remove.addEventListener(`click`, () => {
+      new Hosts().removeSuggestions()
+    })
+    this.include.addEventListener(`click`, () => {
+      new Hosts().restoreSuggestions()
+    })
+  }
+  /**
+   * Remove all suggested hostnames.
+   */
+  removeSuggestions() {
+    this.status.textContent = `Removed domains suggestions`
+    const hosts = new Configuration().domains(),
+      key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      let keep = []
+      for (const host of result[key]) {
+        if (!hosts.includes(host)) {
+          keep = keep.concat(host)
+        }
+      }
+      localStore(`settingsWebsiteDomains`, keep)
+      this._clear()
+      for (let host of keep) {
+        this._add(host, false)
+      }
+    })
+  }
+  /**
+   * Reset and restore all suggested hostnames.
+   */
+  restoreSuggestions() {
+    this.status.textContent = `Reset hostnames to defaults`
+    const hosts = new Configuration().domains(),
+      key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      const mergeNoDupes = [...new Set([...result[key], ...hosts])]
+      localStore(`settingsWebsiteDomains`, mergeNoDupes)
+      this._clear()
+      for (let host of mergeNoDupes) {
+        this._add(host, false)
+      }
+    })
   }
   /**
    * Load and display host tags.
@@ -1679,13 +1592,14 @@ class Hosts {
   /**
    * Adds a hostname tag with a working link and delete button.
    */
+
   async _add(hostname = ``, init = false) {
     if (hostname.length < this.minLength) return
     const tags = document.getElementById(`hostTags`),
       tag = this.template.cloneNode(true),
       anchor = tag.childNodes[1].childNodes[1],
       urls = this.hostnames,
-      isDomain = this._domainHost(hostname)
+      suggestion = this._isSuggestion(hostname)
     anchor.textContent = hostname
     switch (hostname) {
       case `textfiles.com`:
@@ -1695,7 +1609,7 @@ class Hosts {
       default:
         anchor.href = `https://${hostname}`
     }
-    if (!isDomain) anchor.classList.add(`is-light`)
+    if (!suggestion) anchor.classList.add(`is-light`)
     this.input.value = ``
     this.submit.disabled = true
     tag.style.display = `inline`
@@ -1729,10 +1643,25 @@ class Hosts {
     }
   }
   /**
+   * Clear the hostname tags except for the locked retrotxt.com tag.
+   */
+  _clear() {
+    const parent = document.getElementById(`hostTags`)
+    Array.from(parent.children).forEach((child, index) => {
+      switch (child.id) {
+        case `retrotxtCom`:
+        case `templateHost`:
+          return
+      }
+      Console(`remove element child #${index}: ${child.textContent.trim()}`)
+      child.remove()
+    })
+  }
+  /**
    * Is the hostname one of the default domains supplied by RetroTxt?
    */
-  _domainHost(hostname = ``) {
-    for (let domain of this.domains) {
+  _isSuggestion(hostname = ``) {
+    for (let domain of this.suggestions) {
       if (hostname == domain) return true
     }
     return false
@@ -1741,24 +1670,11 @@ class Hosts {
    * Deletes a hostname tag and button.
    */
   _delete(e) {
-    const v = e.target.previousSibling.previousSibling.textContent,
-      reset = 1
+    const v = e.target.previousSibling.previousSibling.textContent
     this.hostnames = this.hostnames.filter((url) => url !== v)
-    if (this.hostnames.length < reset) this._reset()
     this._storageSave()
     e.target.parentNode.parentNode.remove()
     this.status.textContent = `Removed ${v}`
-  }
-  /**
-   * Reset all hostnames.
-   */
-  _reset() {
-    this.status.textContent = `Reset hostnames to defaults`
-    this.hostnames = []
-    const hosts = new Configuration().domains()
-    for (let host of hosts) {
-      this._add(host, true)
-    }
   }
   /**
    * Save the hostnames to local storage.

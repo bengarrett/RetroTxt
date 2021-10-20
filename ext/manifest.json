@@ -16,7 +16,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": [
+        "*://*.retrotxt.com/*",
+        "https://*/*",
+        "http://*/*",
+        "file:///*"
+      ],
       "all_frames": true,
       "js": ["scripts/sw/helpers.js"]
     }
@@ -34,14 +39,9 @@
   "homepage_url": "https://retrotxt.com",
   "host_permissions": [
     "*://*.retrotxt.com/*",
-    "file:///*/",
-    "*://*/*",
-    "*://*.16colo.rs/*",
-    "*://*.defacto2.net/*",
-    "*://*.gutenberg.org/*",
-    "*://*.scene.org/*",
-    "*://*.textfiles.com/*",
-    "*://*.uncreativelabs.net/*"
+    "https://*/",
+    "http://*/",
+    "file://*/"
   ],
   "icons": {
     "16": "assets/retrotxt_16.png",
@@ -58,7 +58,7 @@
   "omnibox": {
     "keyword": "rt"
   },
-  "optional_permissions": ["downloads", "downloads.open", "tabs"],
+  "optional_permissions": ["downloads", "downloads.open"],
   "options_ui": {
     "page": "html/options.html",
     "open_in_tab": true
@@ -68,9 +68,23 @@
   "version": "5.0.0",
   "version_name": "5.0 MV3 prototype",
   "web_accessible_resources": [
-    { "resources": ["css/*.css"], "matches": ["<all_urls>"] },
-    { "resources": ["fonts/*.woff2"], "matches": ["<all_urls>"] },
-    { "resources": ["html/options.html"], "matches": ["<all_urls>"] },
-    { "resources": ["test/tests_browser.js"], "matches": ["<all_urls>"] }
+    {
+      "resources": ["css/*.css"],
+      "matches": [
+        "*://*.retrotxt.com/*",
+        "https://*/*",
+        "http://*/*",
+        "file://*/*"
+      ]
+    },
+    {
+      "resources": ["fonts/*.woff2"],
+      "matches": [
+        "*://*.retrotxt.com/*",
+        "https://*/*",
+        "http://*/*",
+        "file://*/*"
+      ]
+    }
   ]
 }

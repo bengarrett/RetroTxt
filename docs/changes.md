@@ -12,6 +12,12 @@
 
 - Tweaked the Information header CSS to use very slight rounded corners.
 - Documentation tab in Options shares the same layout and formatting as the other menus.
+- Settings - Run RetroTxt on files hosted on these domains<br>
+  The on/off toggle has been removed for code simplification.<br>
+  Created a button to remove and restore website suggestions.<br>
+  Hostname input form responds to <kbd>Enter ↵</kbd> key presses.
+- Settings - Monitor downloads, toggles the optional `download` and `downloads.open` permissions.
+- Dropped the permissions requirement for `tabs`.
 
 ## 4.2
 

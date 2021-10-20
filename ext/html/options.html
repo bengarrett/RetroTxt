@@ -84,13 +84,13 @@
             <h1 class="title is-size-1">
               RetroTxt
             </h1>
-            <h2 class="subtitle">
+            <h2 class="subtitle mb-2">
               v<span id="manifest">0.0.0</span>
               <span id="technobabble">
                 <span id="program"></span>
-                <span id="os"></span>
               </span>
             </h2>
+            <p class="is-size-7" id="os"></p>
             <div class="notice" style="display: none;" id="updateNotice">
               <div class="notification is-info">
                 <button id="updateNoticeBtn" class="delete" title="Close update tab"></button>
@@ -538,7 +538,7 @@
             <div class="box">
               <h1 class="title has-text-black-ter is-size-3 mt-4">Useful</h1>
               <hr>
-              <h2 class="subtitle has-text-black-ter is-size-4">Sites and videos that cover the ANSI art
+              <h2 class="subtitle has-text-black-ter is-size-6">Sites and videos that cover the ANSI art
                 communities</h2>
               <aside class="menu">
                 <p class="menu-label">
@@ -3843,8 +3843,6 @@
                   </div>
                 </div>
                 <hr>
-                <p class="is-size-7 m-0 mb-2"><a href="https://docs.retrotxt.com/privacy">Privacy policy for the
-                    browser API permission requests</a></p>
                 <!-- run retrotxt on files hosted -->
                 <div>
                   <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">
@@ -3862,9 +3860,7 @@
                       <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
                         Runs in the background and applies RetroTxt to text files
                         hosted on these websites.</p>
-                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-success">on</span></p>
-                      <div class="field is-grouped is-grouped-multiline" id="hostTags">
+                      <div class="field is-grouped is-grouped-multiline mt-2" id="hostTags">
                         <div class="control" style="display: none;" id="templateHost">
                           <div class="tags has-addons">
                             <a class="tag is-link">example.com</a>
@@ -3891,12 +3887,15 @@
                           </div>
                           <p class="help">Only the hostname is saved</p>
                         </div>
-                      </div>
-                    </div>
-                    <div class="column is-2">
-                      <div class="toggleswitch">
-                        <input type="checkbox" id="websiteViewer" tabindex="0" checked>
-                        <label class="toggleswitch-label" for="websiteViewer"></label>
+                        <div class="field">
+                          <button id="removeSuggestedDomains" class="button is-small">
+                            remove
+                          </button>
+                          <button id="includeSuggestedDomains" class="button is-success is-small">
+                            restore
+                          </button>
+                          <p class="help">Website suggestions</p>
+                        </div>
                       </div>
                     </div>
                   </h2>
@@ -3904,38 +3903,26 @@
                 <hr>
                 <!--use retrotxt as a local text file viewer -->
                 <div>
-                  <article class="message is-info is-small" style="display: none;" id="textfileViewerOff">
-                    <div class="message-header">
-                      <p>Setting disabled</p>
-                    </div>
-                    <div class="message-body">
-                      As the <em>Monitor downloads</em> feature duplicates this functionality,
-                      this setting is unavailable.
-                    </div>
-                  </article>
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
                       Use RetroTxt as a local text file viewer
                       <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
-                        Your browser can display text files stored on your PC using the file URL scheme.
-                        <br><code>file:///</code><br>
-                        With this option, RetroTxt renders all text files using file URLs,
-                        allowing you to use this browser as a text file viewer.
+                        A browser can display text files stored on your PC using the <code>file:///</code> scheme.
+                        RetroTxt renders these files allowing you to use this browser as a text file viewer.
                       </p>
-                      <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
-                          class="has-text-grey">off</span> <span class="has-text-weight-normal">(unless
-                          this feature is wanted)</span></p>
-                      <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
-                        style="display: none;">
-                        This feature is blocked as the extension browser configuration <em>Allow access to file
-                          URLs</em> is off.
+                      <p name="is-off" class="is-hidden has-text-warning-dark has-text-weight-normal mt-2 is-size-7">
+                        This feature is off as the
+                        <span class="has-text-weight-bold">Allow access to file URLs</span>
+                        in the extension details is disabled.<span name="is-details-url"> This requirement can be
+                          changed using the
+                          the URL below.</span>
                       </p>
-                    </div>
-                    <div class="column is-2">
-                      <div class="toggleswitch">
-                        <input type="checkbox" id="textfileViewer" tabindex="0" checked>
-                        <label class="toggleswitch-label" for="textfileViewer"></label>
-                      </div>
+                      <p name="is-on" class="is-hidden has-text-weight-normal mt-2 is-size-7">To turn off is feature,
+                        disable the
+                        <span class="has-text-weight-bold">Allow access to file URLs</span>
+                        option in the extension details<span name="is-details-url"> using the URL below</span>.
+                      </p>
+                      <p class="mt-2 is-size-7 is-hidden"><code id="linkToDetails"></code></p>
                     </div>
                   </h2>
                 </div>
@@ -3966,7 +3953,6 @@
                         </div>
                       </form>
                     </div>
-                    <div class="column is-2"></div>
                   </h2>
                 </div>
                 <hr>
@@ -3993,20 +3979,20 @@
                 <div id="downloadViewerContainer">
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
-                      Monitor downloads,<br>Use RetroTxt as a local text file viewer
+                      Monitor downloads
                       <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
-                        When enabled, RetroTxt will monitor all downloads to open saved text files.
-                        It is the browser that decides which are text.
+                        RetroTxt will monitor all downloads to open saved text files.
+                        The browser decides which files are text.
                         Firefox does not support the feature.
-                        <br><span class="has-text-danger">The feature may display duplicate ghost transfers in
-                          Downloads.</span>
+                        <span class="has-text-warning-dark"> The feature may display
+                          duplicate ghost transfers in the Downloads tab.</span>
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
                           class="has-text-grey">off</span></p>
-                      <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
-                        style="display: none;">
-                        This feature is blocked as the extension browser configuration <em>Allow access to file
-                          URLs</em> is off.
+                      <p name="is-off" class="is-hidden has-text-warning-dark has-text-weight-normal mt-2 is-size-7">
+                        This feature is locked and off as the
+                        <span class="has-text-weight-bold">Allow access to file URLs</span>
+                        in the extension details is disabled.
                       </p>
                     </div>
                     <div class="column is-2">
