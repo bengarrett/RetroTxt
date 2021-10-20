@@ -144,7 +144,7 @@ class Tab {
         uri.domain,
         this.url
       )
-    const files = new Security(`files`)
+    //const files = new Security(`files`)
     switch (uri.scheme) {
       // note there is a `URI` object and `URL` string
       case `file`:
@@ -152,11 +152,13 @@ class Tab {
         if (this._ignoreURL(uri.ignore)) return
         if (this._ignoreEdgecase()) return
         console.info(`Loading local file ${this.url}.`)
-        return chrome.permissions.contains(files.test(), (result) => {
-          result === true
-            ? new Extension().activateTab(null, tab)
-            : files.fail()
-        })
+        new Extension().activateTab(null, tab)
+        return
+      // return chrome.permissions.contains(files.test(), (result) => {
+      //   result === true
+      //     ? new Extension().activateTab(null, tab)
+      //     : files.fail()
+      // })
       case `http`:
       case `https`:
         // use Fetch API to download tab
@@ -201,21 +203,22 @@ class Tab {
             // Chrome fix:
             // when a tab is not active & tab.status is stuck at loading
             if (this.url.startsWith(`file:///`) && !this.info.active) {
-              const test = new Security(`files`).test()
-              chrome.permissions.contains(test, (result) => {
-                if (result === true) return this._checkURL()
-                this._permissionDenied(test)
-              })
+              //const test = new Security(`files`).test()
+              return this._checkURL()
+              // chrome.permissions.contains(test, (result) => {
+              //   if (result === true) return this._checkURL()
+              //   this._permissionDenied(test)
+              // })
             }
         }
       }
       // handle file protocol
-      if (this.url.startsWith(`file:///`)) {
-        const test = new Security(`files`).test()
-        return chrome.permissions.contains(test, (result) => {
-          result === true ? validate() : this._permissionDenied(test)
-        })
-      }
+      // if (this.url.startsWith(`file:///`)) {
+      //   const test = new Security(`files`).test()
+      //   return chrome.permissions.contains(test, (result) => {
+      //     result === true ? validate() : this._permissionDenied(test)
+      //   })
+      // }
       // handle http protocol
       return validate()
     })
@@ -266,16 +269,20 @@ class Tab {
         if (this.info.status === `complete`) {
           // handle file protocol
           if (this.url.startsWith(`file:///`)) {
-            const test = new Security(`files`).test()
-            return chrome.permissions.contains(test, (result) => {
-              result === true ? this._checkURL() : this._permissionDenied(test)
-            })
+            this._checkURL()
+            return
+            // const test = new Security(`files`).test()
+            // return chrome.permissions.contains(test, (result) => {
+            //   result === true ? this._checkURL() : this._permissionDenied(test)
+            // })
           }
           // handle http protocol
-          const test = new Security(`http`, this.url).test()
-          chrome.permissions.contains(test, (result) => {
-            result === true ? this._checkURL() : this._permissionDenied(test)
-          })
+          //const test = new Security(`http`, this.url).test()
+          this._checkURL()
+          // chrome.permissions.contains(test, (result) => {
+          //   console.log(`handle http protocol`, test, result)
+          //   result === true ? this._checkURL() : this._permissionDenied(test)
+          // })
         }
       }
     )
