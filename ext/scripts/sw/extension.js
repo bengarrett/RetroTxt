@@ -1,6 +1,6 @@
 // filename: sw/extension.js
 //
-/*global ConsoleLoad LocalStore Menu ToolbarButton OptionsReset SetToolbarIcon */
+/*global ConsoleLoad LocalStore Menu ToolbarButton OptionsReset */
 /*exported Extension */
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -109,7 +109,6 @@ class Extension {
       )
       return false
     }
-    SetToolbarIcon(true)
     // NOTE: As of Oct-2020, scripting.executeScript files[] only support a single entry.
     chrome.scripting.executeScript(
       {

@@ -8,25 +8,29 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // runtime onMessage to listen for and handle command messages from content scripts.
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  const key = Object.entries(message)[0][0]
   let DeveloperMode = false
   chrome.storage.local.get(Developer, (store) => {
     if (Developer in store) {
       DeveloperMode = true
-      console.log(`✉ Received by runtime.onMessage.addListener().\n`, sender)
+      console.log(
+        `✉ Received by runtime.onMessage.addListener(). key: ${key}
+message: `,
+        message
+      )
     }
   })
-  const key = Object.entries(message)[0][0]
   switch (key) {
     case `askForSettings`:
       return askForSettings(DeveloperMode, sendResponse)
-    case `darkMode`:
-      return darkMode(DeveloperMode)
     case `invoked`:
       return invoked(DeveloperMode, message, sender)
     case `monitorDownloads`:
       return monitorDownloads(DeveloperMode, message)
     case `retroTxtified`:
       return retroTxtified(DeveloperMode, message, sender)
+    case `setIcon`:
+      return SetToolbarIcon(message[key])
     case `transcode`:
       return transcode(DeveloperMode, message)
     default:
@@ -40,14 +44,6 @@ function askForSettings(developerMode, sendResponse) {
   if (developerMode)
     console.log(
       `✉ 'askForSettings' message request Extension().defaults response sent.`
-    )
-}
-
-function darkMode(developerMode) {
-  SetToolbarIcon({ darkMode: true })
-  if (developerMode)
-    console.log(
-      `✉ 'darkMode' Received Chrome specific, dark mode set icon request.`
     )
 }
 

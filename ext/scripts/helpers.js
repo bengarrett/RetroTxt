@@ -2,8 +2,8 @@
 //
 // Helpers used by content-scripts.
 
-/*global CheckArguments CheckError */
-/*exported BusySpinner BBSText FindControlSequences HumaniseFS LinkDetails ParseToChildren RemoveTextPairs ToggleScanlines ToggleTextEffect UnknownText */
+/*global CheckArguments CheckError CheckLastError */
+/*exported BusySpinner BBSText FindControlSequences HumaniseFS LinkDetails ParseToChildren RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect UnknownText */
 
 // text type, using control codes or sequences
 const UnknownText = -1,
@@ -17,16 +17,6 @@ const UnknownText = -1,
   WWIVHeartText = 7,
   BBSText = 98,
   ANSIText = 99
-
-// TODO: requires window access
-// dark mode icons for Chrome
-// in firefox, dark icons are handled by the manifest.json
-// if (WebBrowser() === Chrome) {
-//   // this isn't reliable in Linux
-//   const pcs = matchMedia(`(prefers-color-scheme: dark)`)
-//   if (pcs.matches) this.setToolbarIcon(true)
-//   pcs.addEventListener(`change`, this.setToolbarIcon(pcs.matches))
-// }
 
 /**
  * Display a large loading spinner on the active tab.
@@ -338,3 +328,19 @@ function RemoveTextPairs(elm = HTMLElement) {
     if (classes[i].endsWith(`-fg`)) elm.classList.remove(classes[i])
   }
 }
+
+function SetIcon() {
+  // matchMedia prefers-color-scheme isn't reliable in Linux
+  const preferDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+
+  chrome.runtime.sendMessage({ setIcon: preferDark }, () => {
+    if (CheckLastError(`setIcon false send message`)) return
+  })
+}
+
+// IIFE, self-invoking anonymous function
+;(() => {
+  SetIcon()
+})()

@@ -1,6 +1,6 @@
 // filename: sw/toolbar.js
 //
-/*global BrowserOS ConsoleLoad Os */
+/*global ConsoleLoad */
 /*exported SetToolbarIcon ToolbarButton */
 
 /*
@@ -60,51 +60,27 @@ class ToolbarButton {
  * @param {*} darkMode Use the icon set intended for dark system themes
  */
 function SetToolbarIcon(darkMode = false) {
-  // Oct 2020: chrome.action.setIcon currently breaks.
-  // Uncaught (in promise) TypeError: failureCallback is not a function
-  //  at extensions::setIcon:35
-  if (darkMode || !darkMode) return
-
-  const os = () => {
-    switch (BrowserOS()) {
-      case Os.windows:
-        return `Windows`
-      case Os.macOS:
-        return `macOS`
-      case Os.linux:
-        return `Linux/Unix`
-      default:
-        return `unknown`
-    }
-  }
   switch (darkMode) {
     case true:
-      console.log(
-        `Set the toolbar icon to match the ${os()} dark mode system theme.`
-      )
-      chrome.action.setIcon({
+      console.log(`Set the toolbar icon to match the dark mode system theme.`)
+      return chrome.action.setIcon({
         path: {
-          16: "assets/retrotxt_16-light.png",
-          19: "assets/retrotxt_19-light.png",
-          32: "assets/retrotxt_32-light.png",
-          38: "assets/retrotxt_38-light.png",
-          48: "assets/retrotxt_48-light.png",
-          128: "assets/retrotxt_128-light.png",
+          16: "/assets/retrotxt_16-light.png",
+          19: "/assets/retrotxt_19-light.png",
+          32: "/assets/retrotxt_32-light.png",
+          48: "/assets/retrotxt_48-light.png",
+          128: "/assets/retrotxt_128-light.png",
         },
       })
-      return
     default:
-      console.log(
-        `Set the toolbar icon to match the ${os()} light mode system theme.`
-      )
-      chrome.action.setIcon({
+      console.log(`Set the toolbar icon to match the light mode system theme.`)
+      return chrome.action.setIcon({
         path: {
-          16: "assets/retrotxt_16.png",
-          19: "assets/retrotxt_19.png",
-          32: "assets/retrotxt_32.png",
-          38: "assets/retrotxt_38.png",
-          48: "assets/retrotxt_48.png",
-          128: "assets/retrotxt_128.png",
+          16: "/assets/retrotxt_16.png",
+          19: "/assets/retrotxt_19.png",
+          32: "/assets/retrotxt_32.png",
+          48: "/assets/retrotxt_48.png",
+          128: "/assets/retrotxt_128.png",
         },
       })
   }

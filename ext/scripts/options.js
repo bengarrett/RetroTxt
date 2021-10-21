@@ -2,7 +2,7 @@
 //
 // These functions and classes are exclusively used by the Options tab.
 //
-/*global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs ToggleScanlines ToggleTextEffect WebBrowser */
+/*global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
 "use strict"
 
 /**
@@ -1701,6 +1701,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 // IIFE, self-invoking anonymous function that runs whenever the Options dialogue is opened.
 ;(() => {
   if (typeof qunit !== `undefined`) return
+  SetIcon()
   const init = new Initialise()
   // lookup and applies checked, selections, active, once the HTML is loaded and parsed
   document.addEventListener(`DOMContentLoaded`, init.checks())
