@@ -1,6 +1,6 @@
 // filename: sw/tabs.js
 //
-/*global Developer ConsoleLoad Configuration Security Extension Downloads Os WebBrowser */
+/*global Action Console Developer ConsoleLoad Configuration Security Extension Downloads Os WebBrowser */
 
 // any local storage item beginning with `tab` ie `tab{this.id}` is a session var.
 
@@ -20,7 +20,11 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
     )
       console.log(chrome.runtime.lastError.message)
     if (typeof tab === `undefined`) return
-    //new Action(tab.id, tab).activated()
+    if (typeof tab.url === `undefined`) return
+    Console(
+      `️★ Tab ID ${tab.id} activated for window ${tab.windowId}: ${tab.url}`
+    )
+    new Action(tab.id, tab).activated()
   })
 })
 
