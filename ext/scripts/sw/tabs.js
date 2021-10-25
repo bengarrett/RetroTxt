@@ -246,7 +246,8 @@ class Tab {
             return NewSessionUpdate(this.id)
           const updateCounts = result[key].update
           if (updateCounts >= 3) return RemoveSession(this.id)
-          chrome.storage.local.set({ [key]: { update: updateCounts + 1 } })
+          result["update"] = updateCounts + 1
+          chrome.storage.local.set({ [key]: result[key] })
         })
         // browser specific cases
         // IMPORTANT: if there are multiple instances of RetroTxt being invoked
