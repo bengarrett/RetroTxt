@@ -1,6 +1,6 @@
 // filename: sw/message.js
 //
-/*global ConsoleLoad CheckLastError Developer Downloads Extension SetToolbarIcon ToolbarButton */
+/*global ConsoleLoad CheckLastError Developer Downloads Extension SessionKey SetToolbarIcon ToolbarButton */
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`message.js`)
@@ -53,11 +53,11 @@ function invoked(developerMode, message, sender) {
   if (developerMode) console.log(`✉ Received invoke %s request.`, value)
   if (!(`tab` in sender)) return
   if (value === false) {
-    const extension = new Extension()
-    extension.invokeOnTab(
-      tabId,
-      `${sessionStorage.getItem(`tab${tabId}encoding`)}`
-    )
+    const extension = new Extension(),
+      key = `${SessionKey}${tabId}`
+    chrome.storage.local.get(key, (result) => {
+      extension.invokeOnTab(tabId, `${result.encoding}`)
+    })
   }
   if (value === true)
     chrome.tabs.sendMessage(tabId, { id: `toggle` }, () => {

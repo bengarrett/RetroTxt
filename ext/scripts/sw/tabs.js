@@ -1,6 +1,6 @@
 // filename: sw/tabs.js
 //
-/*global Action Console Developer ConsoleLoad Configuration Security Extension Downloads Os WebBrowser */
+/*global Action Console Developer ConsoleLoad Configuration Security Extension Downloads NewSessionUpdate Os RemoveSession SessionKey WebBrowser */
 
 // any local storage item beginning with `tab` ie `tab{this.id}` is a session var.
 
@@ -156,11 +156,11 @@ class Tab {
         if (this._ignoreURL(uri.ignore)) return
         if (this._ignoreEdgecase()) return
         console.info(`Loading local file ${this.url}.`)
-        new Extension().activateTab(null, tab)
+        new Extension().activateTab(tab)
         return
       // return chrome.permissions.contains(files.test(), (result) => {
       //   result === true
-      //     ? new Extension().activateTab(null, tab)
+      //     ? new Extension().activateTab(tab)
       //     : files.fail()
       // })
       case `http`:
@@ -228,17 +228,8 @@ class Tab {
     })
   }
   remove() {
-    chrome.storage.local.get(Developer, (store) => {
-      if (Developer in store) console.log(`🗙 Closed tab #${this.id}.`)
-    })
-    chrome.storage.local.get(null, (store) => {
-      const keys = Object.keys(store)
-      for (const key of keys) {
-        if (key.includes(`tab${this.id}`)) {
-          chrome.storage.local.remove(key)
-        }
-      }
-    })
+    Console(`🗙 Closed tab #${this.id}.`)
+    RemoveSession(this.id)
   }
   update() {
     chrome.tabs.query(
@@ -248,22 +239,14 @@ class Tab {
         status: `complete`,
       },
       () => {
-        chrome.storage.local.get(`tab${this.id}update`, (store) => {
-          if (store === null)
-            return chrome.storage.local.set({ [`tab${this.id}update`]: 1 })
-
-          const updateCount = Object.values(store)[0]
-          chrome.storage.local.set({ [`tab${this.id}update`]: updateCount + 1 })
-          if (updateCount >= 3) {
-            const keys = [
-              `tab${this.id}encoding`,
-              `tab${this.id}textfile`,
-              `tab${this.id}update`,
-            ]
-            for (const key of keys) {
-              chrome.storage.local.remove(key)
-            }
-          }
+        const key = `${SessionKey}${this.id}`
+        chrome.storage.local.get(key, (result) => {
+          if (result === null) return NewSessionUpdate(this.id)
+          if (Object.entries(result).length === 0)
+            return NewSessionUpdate(this.id)
+          const updateCounts = result[key].update
+          if (updateCounts >= 3) return RemoveSession(this.id)
+          chrome.storage.local.set({ [key]: { update: updateCounts + 1 } })
         })
         // browser specific cases
         // IMPORTANT: if there are multiple instances of RetroTxt being invoked

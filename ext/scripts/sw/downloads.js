@@ -156,7 +156,7 @@ class Downloads {
                     )
                   }
                 })
-                new Extension().activateTab(data, tab)
+                new Extension().activateTab(tab, data)
               }
             }
             if (test === false) return reader.readAsText(data.slice(0, 2))

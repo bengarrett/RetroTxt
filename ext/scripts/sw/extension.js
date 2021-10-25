@@ -1,6 +1,6 @@
 // filename: sw/extension.js
 //
-/*global ConsoleLoad LocalStore Menu ToolbarButton OptionsReset */
+/*global ConsoleLoad LocalStore Menu NewSession OptionsReset SessionKey ToolbarButton */
 /*exported Extension */
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -58,21 +58,21 @@ class Extension {
   }
   /**
    * Activates and prepares browser tab to invoke RetroTxt.
-   * @param [data] Optional fetch API data blob
    * @param [tab={}] Tab object
+   * @param [data] Optional fetch API data blob
    */
-  activateTab(data, tab = {}) {
+  activateTab(tab = {}, data) {
     if (data === null || !(`type` in data)) data = { type: `unknown` }
     // is the tab hosting a text file and what is the tab page encoding?
-    chrome.storage.local.set({ [`tab${tab.tabid}textfile`]: true })
-    chrome.storage.local.set({ [`tab${tab.tabid}encoding`]: data.type })
-    chrome.storage.local.remove(`tab${tab.tabid}update`)
+    NewSession(tab.tabid, data)
     // update the browser tab interface
     new ToolbarButton(tab.tabid).enable()
     new Menu().enableTranscode()
     // if the tab has previously been flagged as 'do not autorun' then finish up
-    chrome.storage.local.get(`tab${tab.tabid}execute`, (store) => {
-      if (Object.values(store)[0] === `false`) return
+    const key = `${SessionKey}${tab.tabid}`
+    chrome.storage.local.get(`${key}`, (store) => {
+      const execute = Object.values(store)[0].execute
+      if (execute === false) return
       chrome.storage.local.get(`settingsWebsiteDomains`, (store) => {
         if (Object.values(store)[0] === `false`) return
         this.invokeOnTab(tab.tabid, data.type)

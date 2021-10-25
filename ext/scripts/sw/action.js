@@ -1,6 +1,6 @@
 // filename: sw/action.js
 //
-/*global CheckError CheckLastError ConsoleLoad Developer Extension ToolbarButton*/
+/*global CheckError CheckLastError Console ConsoleLoad Developer Extension SessionKey ToolbarButton*/
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`action.js`)
@@ -11,6 +11,8 @@ chrome.action.onClicked.addListener((tab) => {
   if (typeof qunit !== `undefined`) return
   new Action(tab.id, tab).click()
 })
+
+// TODO: remove  constructor(tabId = 0, info = {}) .. tabId is redundant.
 
 /**
  * Handle toolbar button clicks and user tab selections.
@@ -37,44 +39,40 @@ class Action {
    * Browser tab selected and activated.
    */
   activated() {
-    //const item = sessionStorage.getItem(`tab${this.id}textfile`)
-    const item = ``
-    chrome.storage.local.get(Developer, (store) => {
-      if (Developer in store) {
-        console.log(
-          `↩ Activated tab #%s with a stored item = %s.\n%s\n%s`,
-          this.id,
-          item,
-          this.info.url,
-          this.info.title
-        )
+    if (this.id === ``) return console.warn(`action actived tab ID is empty.`)
+    const key = `${SessionKey}${this.id}`
+    chrome.storage.local.get(`${key}`, (store) => {
+      if (Object.entries(store).length === 0)
+        return Console(`Ignore tab ID ${this.id}: ${this.info.title}`)
+      Console(`★ Activated tab ID ${this.id}: ${this.info.title}`)
+      const button = new ToolbarButton(this.id),
+        textfile = store[key].textfile
+      this.state = false
+      switch (textfile) {
+        case true:
+          this.state = true
+          button.enable()
+          return this._contextMenus()
+        case false:
+          this.state = false
+          button.enable()
+          return this._contextMenus()
+        case null:
+          // null is intended for incompatible tabs, but it can also catch a dead
+          // state after the Extension is reloaded and all the tab event
+          // listeners are removed
+          button.disable()
+          this.state = false
+          return this._contextMenus()
+        default:
+          button.disable()
+          this.state = false
+          this._contextMenus()
+          return CheckError(
+            `Could not run button.update() as the ${key}.textfile value '${textfile}' is not a boolean.`
+          )
       }
     })
-    const button = new ToolbarButton(this.id)
-    button.enable()
-    this.state = false
-    switch (`${item}`) {
-      case `true`:
-        this.state = true
-        return this._contextMenus()
-      case `false`:
-        this.state = false
-        return this._contextMenus()
-      case `null`:
-        // null is intended for incompatible tabs, but it can also catch a dead
-        // state after the Extension is reloaded and all the tab event
-        // listeners are removed
-        button.disable()
-        this.state = false
-        return this._contextMenus()
-      default:
-        button.disable()
-        this.state = false
-        this._contextMenus()
-        return CheckError(
-          `Could not run button.update() as the sessionStorage tab#${this.id}textfile value '${item}' != Boolean.`
-        )
-    }
   }
   /**
    * Event sanity check after the toolbar button is clicked.

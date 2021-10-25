@@ -17,6 +17,7 @@ importScripts(
   "menu.js",
   "omnibox.js",
   "security.js",
+  "session.js",
   "storage.js",
   "tabs.js",
   "toolbar.js"
