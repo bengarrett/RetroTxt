@@ -2209,8 +2209,6 @@ function handleMessages(message, sender) {
   // `chrome.tabs.sendMessage` method which includes the `tabId`. Responding to
   // these messages from the event page requires the `chrome.runtime.sendMessage`
   // method without the `tabId`.
-  console.log(`>>>>`, message, sender)
-
   const unexpected = () => {
     if (typeof qunit !== `undefined`) return false
     chrome.storage.local.get(Developer, (store) => {
@@ -2223,16 +2221,11 @@ function handleMessages(message, sender) {
     })
   }
 
-  //if (!(`id` in message)) return unexpected()
-
   if (message.id === `executeNOW`) {
     Execute(sender.tab.id)
     return
   }
-  chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store === false)
-      console.log(`✉ Received '%s' for handleMessages().`, message.id)
-  })
+  Console(`✉ Received '${message.id}' for handleMessages().`)
   const invoke = new Invoke()
   switch (message.id) {
     case `invoked`:

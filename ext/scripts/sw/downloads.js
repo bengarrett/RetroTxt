@@ -1,6 +1,6 @@
 // filename: sw/downloads.js
 //
-/*global CheckError CheckLastError Configuration ConsoleLoad Developer Extension Os Security WebBrowser */
+/*global CheckError CheckLastError Configuration Console ConsoleLoad Developer Extension Os Security WebBrowser */
 /*exported Downloads */
 
 /*
@@ -147,15 +147,7 @@ class Downloads {
               const markUpCheck = [`<!`, `<?`].includes(text.substring(0, 2))
               if (test === true) return markUpCheck
               if (markUpCheck === false) {
-                chrome.storage.local.get(Developer, (store) => {
-                  if (Developer in store) {
-                    console.log(
-                      `Retrotxt activated on tab #%s.\n%s`,
-                      tab.tabid,
-                      tab.url
-                    )
-                  }
-                })
+                Console(`Retrotxt activated on tab #${tab.tabid}.\n${tab.url}`)
                 new Extension().activateTab(tab, data)
               }
             }
@@ -165,16 +157,8 @@ class Downloads {
       }
     }
     if (test === true) return false
-    chrome.storage.local.get(Developer, (store) => {
-      if (Developer in store) {
-        console.log(
-          `Skipped Retrotxt execution on tab #%s.\n%s`,
-          tab.tabid,
-          tab.url
-        )
-      }
-    })
     // if tab is not holding a text file
+    Console(`Skipped Retrotxt execution on tab #${tab.tabid}.\n${tab.url}`)
     return
   }
   /**

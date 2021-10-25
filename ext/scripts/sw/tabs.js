@@ -88,13 +88,9 @@ class Tabs {
    */
   _permissionDenied(consoleLog = false, listener = ``) {
     if (consoleLog !== true) return
-    chrome.storage.local.get(Developer, (store) => {
-      if (Developer in store)
-        console.log(
-          `⚠ Permission denied, cannot read the URL of %s tab #${this.tabId}.`,
-          listener
-        )
-    })
+    Console(
+      `⚠ Permission denied, cannot read the URL of ${listener} tab #${this.tabId}.`
+    )
   }
 }
 
@@ -184,13 +180,9 @@ class Tab {
             )
           })
       default:
-        chrome.storage.local.get(Developer, (store) => {
-          if (Developer in store)
-            console.log(
-              `Tab URL '%s' is not known so ignoring onClick action.`,
-              this.url
-            )
-        })
+        Console(
+          `Tab URL '${this.url}' is not known so ignoring onClick action.`
+        )
     }
   }
   create() {
@@ -344,14 +336,7 @@ class Tab {
   _ignoreDir() {
     const directory = `/`
     if (this.url.substring(this.url.length - 1) === directory) {
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
-          console.log(
-            `Directory detected so ignoring tab #%s.\n%s`,
-            this.id,
-            this.url
-          )
-      })
+      Console(`Directory detected so ignoring tab #${this.id}.\n${this.url}`)
       return true
     }
     return false
@@ -359,15 +344,9 @@ class Tab {
   _ignoreURL(ignore = false) {
     // compare the filename extension to the ignore list
     if (ignore === true) {
-      chrome.storage.local.get(Developer, (store) => {
-        // compare the filename extension to the ignore list
-        if (Developer in store)
-          console.log(
-            `Invalid filename extension detected so ignoring tab #%s.\n%s`,
-            this.id,
-            this.url
-          )
-      })
+      Console(
+        `Invalid filename extension detected so ignoring tab #${this.id}.\n${this.url}`
+      )
       return true
     }
     return false

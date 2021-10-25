@@ -1,6 +1,6 @@
 // filename: encoding.js
 //
-/*global CheckArguments Cs Developer Engine TranscodeArrow WebBrowser */
+/*global CheckArguments Console Cs Engine TranscodeArrow WebBrowser */
 /*exported Characters FontFamily Guess HardwarePalette*/
 
 /**
@@ -125,13 +125,7 @@ class BrowserEncodings {
    */
   support() {
     const result = this.encodings.has(this.encoding)
-    chrome.storage.local.get(Developer, (store) => {
-      if (Developer in store) {
-        console.log(
-          `BrowserEncodings('${this.encoding}').support() = ${result}`
-        )
-      }
-    })
+    Console(`BrowserEncodings('${this.encoding}').support() = ${result}`)
     return result
   }
   /**

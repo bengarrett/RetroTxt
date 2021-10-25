@@ -77,7 +77,7 @@ class LocalStore {
       const oldValue = changes[item].oldValue,
         newValue = changes[item].newValue
       chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store)
+        if (Developer in store) {
           console.log(
             "RetroTxt storage.%s %s change: %s 🡒 %s (%s).",
             areaName,
@@ -86,6 +86,8 @@ class LocalStore {
             newValue,
             typeof newValue
           )
+          if (typeof newValue === `object`) console.log(newValue)
+        }
       })
       if (`${oldValue}` === `undefined`) return
     }
