@@ -9,10 +9,8 @@ chrome.runtime.onInstalled.addListener(() => {
 // browser action (tool bar button) click event
 chrome.action.onClicked.addListener((tab) => {
   if (typeof qunit !== `undefined`) return
-  new Action(tab.id, tab).click()
+  new Action(tab).click()
 })
-
-// TODO: remove  constructor(tabId = 0, info = {}) .. tabId is redundant.
 
 /**
  * Handle toolbar button clicks and user tab selections.
@@ -21,13 +19,12 @@ chrome.action.onClicked.addListener((tab) => {
 class Action {
   /**
    * Creates an instance of Action.
-   * @param [tabId=0] Id of the tab
-   * @param [info={}] Tab object
+   * @param [tab={}] Tab object
    */
-  constructor(tabId = 0, info = {}) {
+  constructor(tab = {}) {
     this.scheme = ``
-    this.id = tabId
-    this.info = info
+    this.id = tab.id
+    this.info = tab
     this.state = false
     if (`url` in this.info)
       this.scheme = `${this.info.url.split(`:`)[0].toLowerCase()}`

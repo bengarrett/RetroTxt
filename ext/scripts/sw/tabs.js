@@ -24,7 +24,7 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
     Console(
       `️★ Tab ID ${tab.id} activated for window ${tab.windowId}: ${tab.url}`
     )
-    new Action(tab.id, tab).activated()
+    new Action(tab).activated()
   })
 })
 
