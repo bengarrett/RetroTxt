@@ -234,7 +234,7 @@ class Downloads {
 
     chrome.storage.local.get(itemName, (item) => {
       if (item === null) return
-
+      const filepath = item[itemName]
       // handle errors, including cancelled downloads
       if (`error` in this.delta && `current` in this.delta.error)
         return chrome.storage.local.remove(itemName)
@@ -247,7 +247,7 @@ class Downloads {
       chrome.storage.local.remove(itemName)
 
       // Windows friendly path conversion
-      const path = item.replace(/\\/g, `/`),
+      const path = filepath.replace(/\\/g, `/`),
         url = `file:///${path}`
       // note: see notes in class Downloads on why this may fail
       chrome.tabs.create({ active: false, url: url })
