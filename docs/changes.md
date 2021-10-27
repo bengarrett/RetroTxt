@@ -10,6 +10,8 @@
 * Replaced the `scripts/eventpage.js` background page with modular service workers.
 * Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
 
+- Unfocused tabs can run RetroTxt in the background.
+- Transcode context menu is disabled by default except for textfile tabs.
 - Tweaked the Information header CSS to use very slight rounded corners.
 - Documentation tab in Options shares the same layout and formatting as the other menus.
 - Settings - Run RetroTxt on files hosted on these domains<br>
