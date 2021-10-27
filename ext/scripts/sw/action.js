@@ -24,47 +24,41 @@ class Action {
   constructor(tab = {}) {
     this.scheme = ``
     this.tab = tab
-    this.state = false
     if (`url` in this.tab)
       this.scheme = `${this.tab.url.split(`:`)[0].toLowerCase()}`
-    else this.tab.url = `activeTab.Tab.url permission denied`
+    else this.tab.url = `Action.tab.url permission denied`
     if (!(`title` in this.tab))
-      this.tab.title = `activeTab.Tab.title permission denied`
+      this.tab.title = `Action.tab.title permission denied`
   }
   /**
    * Browser tab selected and activated.
    */
   activated() {
     if (this.tab.id === ``)
-      return console.warn(`action actived tab ID is empty.`)
+      return console.warn(`Action.tab.id, the actived tab ID is empty.`)
     const key = `${SessionKey}${this.tab.id}`
-    chrome.storage.local.get(`${key}`, (store) => {
-      if (Object.entries(store).length === 0)
+    chrome.storage.local.get(key, (store) => {
+      const button = new ToolbarButton(this.tab.id)
+      if (Object.entries(store).length === 0) {
+        button.disable()
+        this._contextMenus()
         return Console(`Ignore tab ID ${this.tab.id}: ${this.tab.title}`)
-      Console(`★ Activated tab ID ${this.tab.id}: ${this.tab.title}`)
-      const button = new ToolbarButton(this.tab.id),
-        textfile = store[key].textfile
-      this.state = false
+      }
+      const textfile = store[key].textfile
+      Console(
+        `★ Activated tab ID ${this.tab.id} (${textfile}): ${this.tab.title}`
+      )
       switch (textfile) {
         case true:
-          this.state = true
           button.enable()
-          return this._contextMenus()
+          return this.menuOn()
         case false:
-          this.state = false
-          button.enable()
-          return this._contextMenus()
         case null:
-          // null is intended for incompatible tabs, but it can also catch a dead
-          // state after the Extension is reloaded and all the tab event
-          // listeners are removed
           button.disable()
-          this.state = false
-          return this._contextMenus()
+          return this.menuOff()
         default:
           button.disable()
-          this.state = false
-          this._contextMenus()
+          this.menuOff()
           return CheckError(
             `Could not run button.update() as the ${key}.textfile value '${textfile}' is not a boolean.`
           )
@@ -78,6 +72,12 @@ class Action {
     if (this._validateScheme() === true) return this._clicked() // pass
     return // fail
   }
+  menuOff() {
+    return this._contextMenus(false)
+  }
+  menuOn() {
+    return this._contextMenus(true)
+  }
   /**
    * Event handler for the clicking of the toolbar button.
    */
@@ -86,16 +86,13 @@ class Action {
     chrome.storage.local.get(Developer, (store) => {
       if (Developer in store) DeveloperMode = true
     })
-
     if (!(`url` in this.tab) || this.tab.url.length === 0)
       return console.warn(
         `RetroTxt could not determine the URL of the active tab #%s.`,
         this.tab.id
       )
-
     if (DeveloperMode)
       console.log(`↩ Toolbar button click registered for tab #%s.`, this.tab.id)
-
     chrome.tabs.sendMessage(this.tab.id, { id: `invoked` }, () => {
       if (CheckLastError(`action click invoked send message`)) return
     })
@@ -103,10 +100,10 @@ class Action {
   /**
    * Update context menus to reflect a tab's suitability for RetroTxt.
    */
-  _contextMenus() {
+  _contextMenus(enable = false) {
     const update = [`transcode`]
     for (const id of Object.values(update)) {
-      chrome.contextMenus.update(id, { enabled: this.state })
+      chrome.contextMenus.update(id, { enabled: enable })
     }
   }
   /**
