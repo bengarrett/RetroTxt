@@ -1,6 +1,6 @@
 // filename: sw/tabs.js
 //
-/*global Action Console Developer ConsoleLoad Configuration Security Extension Downloads NewSessionUpdate Os RemoveSession SessionKey WebBrowser */
+/*global Action Console Developer ConsoleLoad Configuration Security Extension Downloads NewSessionUpdate Os RemoveSession SessionKey ToolbarButton WebBrowser */
 
 // any local storage item beginning with `tab` ie `tab{this.id}` is a session var.
 
@@ -19,14 +19,20 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
       chrome.runtime.lastError.message !== ``
     )
       console.log(chrome.runtime.lastError.message)
-    if (typeof tab === `undefined`) return
-    if (typeof tab.url === `undefined`) return
+    if (typeof tab === `undefined`) return ignoreTab(activeInfo.tabId)
+    if (typeof tab.url === `undefined`) return ignoreTab(activeInfo.tabId)
     Console(
       `️★ Tab ID ${tab.id} activated for window ${tab.windowId}: ${tab.url}`
     )
     new Action(tab).activated()
   })
 })
+
+function ignoreTab(tabId = 0) {
+  const button = new ToolbarButton(tabId)
+  button.disable()
+  console.log(`Toolbar button disabled for tab #${tabId}.`)
+}
 
 // tabs.onCreated fires when a tab is created.
 // Note that the tab's URL and tab group membership may not be set at the time this event is fired,
@@ -49,8 +55,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
       `status` in changeInfo && changeInfo.status === `complete` ? true : false
     return tabs._permissionDenied(consoleLog, `updated`)
   }
-  // don't run the update when the tab isn't 'active'
-  if (tabInfo.active) new Tab(tabId, tabInfo.url, changeInfo).update()
+  // REMOVED: 27/10/21 don't run the update when the tab isn't 'active'
+  //if (tabInfo.active) new Tab(tabId, tabInfo.url, changeInfo).update()
+  // Replacement, always run in a background
+  new Tab(tabId, tabInfo.url, changeInfo).update()
 })
 
 // tabs.onRemoved fires when a tab is closed.
