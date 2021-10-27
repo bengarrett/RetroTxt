@@ -64,6 +64,7 @@ function CreateLink(path = ``, id = ``) {
   link.href = chrome.runtime.getURL(path)
   link.type = `text/css`
   link.rel = `stylesheet`
+  link.crossOrigin = ``
   return link
 }
 
