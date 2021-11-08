@@ -55,7 +55,8 @@ async function BusySpinner(display = true) {
  */
 function CreateLink(path = ``, id = ``) {
   if (typeof path !== `string`) CheckArguments(`path`, `string`, path)
-  if (typeof chrome.extension === `undefined`)
+  const manifestKeys = Object.keys(chrome.runtime.getManifest()).length
+  if (manifestKeys === 0)
     return console.error(
       `RetroTxt cannot continue as the Extension API is inaccessible.`
     )
