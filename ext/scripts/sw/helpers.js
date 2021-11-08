@@ -216,8 +216,7 @@ class OptionsReset {
         `textSmearBlockCharacters`,
         BrowserOS() === Os.windows ? true : false
       )
-      // permitted domains, these MUST also be listed as `hosts` in the
-      // `manifest.json` under the `optional_permissions` key.
+      // permitted domains.
       .set(`settingsWebsiteDomains`, [
         `16colo.rs`,
         `defacto2.net`,
@@ -226,8 +225,8 @@ class OptionsReset {
         `textfiles.com`,
         `uncreativelabs.net`,
       ])
-      // permitted url schemes, these MUST also be listed as `hosts` in the
-      // `manifest.json` under the `optional_permissions` key.
+      // permitted url schemes, these MUST also be listed in the
+      // `manifest.json` file under the `host_permissions` key.
       .set(`schemesPermitted`, [`file`, `http`, `https`])
   }
   /**
