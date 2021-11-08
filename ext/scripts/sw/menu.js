@@ -22,11 +22,13 @@ class Menu {
   constructor() {
     this.support = chrome.contextMenus.onClicked !== undefined
     // contexts types for the RetroTxt context menus
-    // browser_action: is the tool bar button
-    // page: is found by right clicking the body of a page or text file
-    this.contexts = [`browser_action`, `page`]
+    const toolbarButton = `browser_action`,
+      insecure = `http://*/*`,
+      secure = `https://*/*`,
+      localFiles = `file:///*`
+    this.contexts = [toolbarButton, `page`]
     // URL patterns to trigger the menus, to avoid inappropriate reveals
-    this.urlPatterns = [`http://*/*`, `https://*/*`, `file:///*`]
+    this.urlPatterns = [insecure, secure, localFiles]
     // context menu titles
     this.titles = new Map()
       .set(`codeOrder`, [
