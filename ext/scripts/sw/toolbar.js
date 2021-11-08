@@ -29,8 +29,7 @@ class ToolbarButton {
    */
   constructor(tabId = 0) {
     this.id = tabId
-    // note: the manifest.json=browser_action.default_title
-    // key contains an initial title
+    // note: the `action.default_title` key in the manifest.json contains the initial title
     this.title = ``
   }
   disable() {
