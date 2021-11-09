@@ -21,7 +21,12 @@ function CheckError(error = ``, log = false) {
         tabs[0].id,
         { error: error, id: `CheckError` },
         (result) => {
-          if (CheckLastError(`check error send message`)) return
+          if (
+            CheckLastError(
+              `check error send message to tab #${tabs[0].id}: ${error}`
+            )
+          )
+            return
           if (DeveloperModeDebug && result !== undefined) console.log(result)
         }
       )
