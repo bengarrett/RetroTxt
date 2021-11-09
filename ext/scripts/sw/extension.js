@@ -85,29 +85,14 @@ class Extension {
    * @param [pageEncoding=``] Optional text character encoding
    */
   invokeOnTab(tabId = 0, pageEncoding = ``) {
-    const persistent =
-      chrome.runtime.getManifest().background.persistent || false
     const lastErrorCallback = () => {
-      // Chrome lastError callback
-      if (persistent) {
-        if (chrome.runtime.lastError === `undefined`) return false
-        console.error(
-          `Extension.invokeOnTab() aborted for tab #%s\nReason: %s`,
-          tabId,
-          chrome.runtime.lastError.mess
-        )
-        return true
-      }
-      // Firefox specific lastError callback
-      if (typeof chrome.runtime.lastError === `undefined`) return false
-      if (chrome.runtime.lastError === null) return false
-      if (typeof chrome.runtime.lastError.mess === `undefined`) return false
-      console.warn(
-        `Extension.invokeOnTab() warning for tab #%s\nReason: %s`,
+      if (chrome.runtime.lastError === `undefined`) return false
+      console.error(
+        `Extension.invokeOnTab() aborted for tab #%s\nReason: %s`,
         tabId,
         chrome.runtime.lastError.mess
       )
-      return false
+      return true
     }
     // NOTE: As of Oct-2020, scripting.executeScript files[] only support a single entry.
     chrome.scripting.executeScript(
@@ -122,7 +107,7 @@ class Extension {
         chrome.scripting.executeScript(
           { target: { tabId: tabId }, func: spin },
           () => {
-            if (lastErrorCallback(persistent)) return
+            if (lastErrorCallback()) return
           }
         )
       }
@@ -133,7 +118,7 @@ class Extension {
         files: [`scripts/encoding.js`],
       },
       () => {
-        if (lastErrorCallback(persistent)) return
+        if (lastErrorCallback()) return
       }
     )
     chrome.scripting.executeScript(
@@ -142,7 +127,7 @@ class Extension {
         files: [`scripts/checks.js`],
       },
       () => {
-        if (lastErrorCallback(persistent)) return
+        if (lastErrorCallback()) return
       }
     )
     chrome.scripting.executeScript(
@@ -151,7 +136,7 @@ class Extension {
         files: [`scripts/parse_ansi.js`],
       },
       () => {
-        if (lastErrorCallback(persistent)) return
+        if (lastErrorCallback()) return
       }
     )
     chrome.scripting.executeScript(
@@ -160,7 +145,7 @@ class Extension {
         files: [`scripts/parse_dos.js`],
       },
       () => {
-        if (lastErrorCallback(persistent)) return
+        if (lastErrorCallback()) return
       }
     )
     chrome.scripting.executeScript(
@@ -169,7 +154,7 @@ class Extension {
         files: [`scripts/retrotxt.js`],
       },
       () => {
-        if (lastErrorCallback(persistent)) return
+        if (lastErrorCallback()) return
         function execute(tabId = ``, page = ``) {
           window.Execute(tabId, page)
         }
@@ -180,7 +165,7 @@ class Extension {
             args: [tabId, pageEncoding.toUpperCase()],
           },
           () => {
-            if (lastErrorCallback(persistent)) return
+            if (lastErrorCallback()) return
           }
         )
       }
