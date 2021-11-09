@@ -7,6 +7,7 @@
 
 // Service worker helpers that make the code more modular.
 // Each of these helpers have their own event listeners.
+// Gotchas: Service workers must be registered at root level: they cannot be in a nested directory.
 importScripts(
   "action.js",
   "downloads.js",
