@@ -114,8 +114,6 @@ const // Character set key values
   // transcode text into Unicode, 23-Oct-20, not sure if this gets used, see unit test.
   OutputUFT8 = `utf_8${TranscodeArrow}`
 
-const persistent = chrome.runtime.getManifest().background.persistent || false
-
 /**
  * Prints the string to the console when Developer mode is enabled.
  * @param {*} string
@@ -157,24 +155,9 @@ function CheckLastError(errorFor = ``) {
    * - chrome.fileSystem
    * - chrome.tabs.sendMessage+
    */
-  // Firefox does not support `background.persistent`
-  // runtime.lastError checks are only needed when the `background.persistent` value is true.
-  // Otherwise checking this value will cause false positive errors.
-  // Example: Unchecked lastError value: Error: Script '<anonymous code>' result is non-structured-clonable data
-  //
-  // Chrome lastError callback
-  if (persistent) return lastError(errorFor)
-  // Firefox specific lastError callback
-  if (typeof chrome.runtime.lastError === `undefined`) return false
-  if (chrome.runtime.lastError === null) return false
-  if (typeof chrome.runtime.lastError.mess === `undefined`) return false
-  console.warn(
-    `Last error warning for %s\nReason: %s`,
-    errorFor,
-    chrome.runtime.lastError.mess
-  )
-  return false
+  return lastError(errorFor)
 }
+
 function lastError(errorFor = ``) {
   if (chrome.runtime.lastError === `undefined`) return false
   console.error(
