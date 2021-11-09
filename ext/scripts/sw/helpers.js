@@ -159,11 +159,13 @@ function CheckLastError(errorFor = ``) {
 }
 
 function lastError(errorFor = ``) {
-  if (chrome.runtime.lastError === `undefined`) return false
+  if (typeof chrome.runtime.lastError === `undefined`) return false
+  if (typeof chrome.runtime.lastError.message === `undefined`) return false
+  if (chrome.runtime.lastError.message === ``) return false
   console.error(
     `Last error for %s\nReason: %s`,
     errorFor,
-    chrome.runtime.lastError.mess
+    chrome.runtime.lastError.message
   )
   return true
 }
