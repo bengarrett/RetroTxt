@@ -150,13 +150,16 @@ function CheckLastError(errorFor = ``) {
 
 function lastError(errorFor = ``) {
   if (typeof chrome.runtime.lastError === `undefined`) return false
-  if (typeof chrome.runtime.lastError.message === `undefined`) return false
-  if (chrome.runtime.lastError.message === ``) return false
-  console.error(
-    `Last error for %s\nReason: %s`,
-    errorFor,
-    chrome.runtime.lastError.message
-  )
+  const message = chrome.runtime.lastError.message
+  if (typeof message === `undefined`) return false
+  if (message === ``) return false
+  if (
+    message.startsWith(`The message port closed before a response was received`)
+  ) {
+    console.warn(`Last error for %s\nReason: %s`, errorFor, message)
+    return false
+  }
+  console.error(`Last error for %s\nReason: %s`, errorFor, message)
   return true
 }
 
