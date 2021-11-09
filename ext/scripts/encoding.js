@@ -331,7 +331,6 @@ class Guess extends BrowserEncodings {
       Cs.OutputISO8859_15,
       Cs.OutputCP1252,
       Cs.OutputUS_ASCII,
-      Cs.OutputUFT8,
       Cs.ISO8859_5,
       Cs.Windows_1252_English,
       Cs.DOS_437_English,
