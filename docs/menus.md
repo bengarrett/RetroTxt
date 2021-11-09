@@ -35,10 +35,10 @@ Force the active tab to display the text using [**ISO-8859-15**](https://en.wiki
 Force the active tab not to transcode and can help to make documents encoded in
 [**UTF-8**](https://en.wikipedia.org/wiki/UTF-8) or [**ISO-8859-1**](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) to display.
 
-### CP-1252 ↻
+### CP-1252 ⇉
 
 Force the active tab to display the text using **CP-1252**, a familiar legacy Microsoft Windows encoding instead of the default MS-DOS [_CP-437_](https://en.wikipedia.org/wiki/Code_page_437).
 
-### ISO 8859-5 ↻
+### ISO 8859-5 ⇉
 
 Force the active tab to parse the source text using [**ISO 8895-5**](https://en.wikipedia.org/wiki/ISO/IEC_8859-5) encoding.

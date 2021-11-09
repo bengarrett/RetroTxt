@@ -1632,7 +1632,7 @@ class Output {
   _headerTranscode(stored, elm, text) {
     const old = document.createElement(`span`)
     switch (stored.item) {
-      // transcode text `CP-1252 ↻` and `ISO 8859-5 ↻` selections
+      // transcode text `CP-1252 ⇉` and `ISO 8859-5 ⇉` selections
       case Cs.Windows_1252_English:
       case Cs.ISO8859_5:
         if (text.in === stored.text) {
@@ -1643,7 +1643,7 @@ class Output {
         old.textContent = text.in
         elm.in.append(old)
         elm.in.textContent = stored.text
-        elm.in.title = `Unable to transcode this text using '${stored.text} ↻'`
+        elm.in.title = `Unable to transcode this text using '${stored.text} ⇉'`
         elm.in.classList.add(`has-text-strike`)
         return
       // transcode text is set to `Browser default`

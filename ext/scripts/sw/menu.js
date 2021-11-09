@@ -40,9 +40,9 @@ class Menu {
         Cs.ISO8859_5,
       ])
       .set(Cs.UseCharSet, `Automatic charset`)
-      .set(Cs.Windows_1252_English, `CP-1252 ↻`)
+      .set(Cs.Windows_1252_English, `CP-1252 ⇉`)
       .set(Cs.OutputCP1252, `CP-1252`)
-      .set(Cs.ISO8859_5, `ISO 8859-5 ↻`)
+      .set(Cs.ISO8859_5, `ISO 8859-5 ⇉`)
       .set(Cs.OutputISO8859_15, `ISO 8859-15`)
       .set(Cs.OutputUS_ASCII, `US-ASCII`)
   }
