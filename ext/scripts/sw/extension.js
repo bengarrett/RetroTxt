@@ -86,11 +86,13 @@ class Extension {
    */
   invokeOnTab(tabId = 0, pageEncoding = ``) {
     const lastErrorCallback = () => {
-      if (chrome.runtime.lastError === `undefined`) return false
+      if (typeof chrome.runtime.lastError === `undefined`) return false
+      if (typeof chrome.runtime.lastError.message === `undefined`) return false
+      if (chrome.runtime.lastError.message === ``) return false
       console.error(
         `Extension.invokeOnTab() aborted for tab #%s\nReason: %s`,
         tabId,
-        chrome.runtime.lastError.mess
+        chrome.runtime.lastError.message
       )
       return true
     }
