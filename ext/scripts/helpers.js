@@ -338,7 +338,7 @@ function SetIcon() {
     window.matchMedia("(prefers-color-scheme: dark)").matches
 
   chrome.runtime.sendMessage({ setIcon: preferDark }, () => {
-    if (CheckLastError(`setIcon false send message`)) return
+    if (CheckLastError(`setIcon preferDark send message`)) return
   })
 }
 
