@@ -15,6 +15,13 @@ chrome.runtime.onInstalled.addListener(() => {
  */
 function CheckError(error = ``, log = false) {
   if (error !== undefined) {
+    if (log !== true) {
+      chrome.storage.local.get(Developer, (store) => {
+        if (Developer in store) return console.warn(error)
+        console.log(error)
+      })
+      return
+    }
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0] === undefined) return
       chrome.tabs.sendMessage(
@@ -31,13 +38,6 @@ function CheckError(error = ``, log = false) {
         }
       )
     })
-    if (log !== true) {
-      chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store) return console.warn(error)
-        console.log(error)
-      })
-      return
-    }
     try {
       throw new Error(error)
     } catch (result) {
