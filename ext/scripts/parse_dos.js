@@ -27,8 +27,7 @@
 
 /*eslint no-control-regex: "off"*/
 /*global BrowserOS CheckArguments Console Cs DeveloperModeDebug FindControlSequences Os
-CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText
-OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII*/
+CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText */
 /*exported BBS Controls DOSText Transcode*/
 "use strict"
 
@@ -306,16 +305,16 @@ class Transcode extends CharacterSet {
   rebuild(codepage = ``) {
     Console(`rebuild() = ${codepage}`)
     switch (codepage) {
-      case OutputCP1252:
+      case Cs.OutputCP1252:
         this._input_cp1252()
         break
-      case OutputISO8859_15:
+      case Cs.OutputISO8859_15:
         this._input_iso8859_15()
         break
-      case OutputISO8859_1:
+      case Cs.OutputISO8859_1:
         // supplied by SAUCE metadata
         break
-      case OutputUS_ASCII:
+      case Cs.OutputUS_ASCII:
         // nothing needs to be done
         break
       default:
@@ -442,7 +441,7 @@ class DOSText {
     switch (this.codepage) {
       case `moduleExport`:
       case Cs.DOS_437_English:
-      case OutputUS_ASCII:
+      case Cs.OutputUS_ASCII:
       case `input_UTF16`:
         this.extendedTable = table.get()
         break

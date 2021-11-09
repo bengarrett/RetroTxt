@@ -1,6 +1,6 @@
 // filename: encoding.js
 //
-/*global CheckArguments Console Cs Engine TranscodeArrow WebBrowser */
+/*global CheckArguments Console Cs Engine WebBrowser */
 /*exported Characters FontFamily Guess HardwarePalette*/
 
 /**
@@ -311,7 +311,7 @@ class Characters extends BrowserEncodings {
    */
   _setLabel() {
     if (this.outputs.has(this.key)) {
-      // drop the TranscodeArrow `➡` from this.key
+      // drop the Cs.TranscodeToggle `➡` from this.key
       const newKey = this.key.slice(0, -1)
       return (this.label = this.labels.get(newKey))
     }
@@ -385,11 +385,11 @@ class Guess extends BrowserEncodings {
       })
     }
     // user override set by the transcode context menu
-    // match sauceSet arrow values such as OutputCP1252, OutputUS_ASCII
+    // match sauceSet arrow values such as Cs.OutputCP1252, Cs.OutputUS_ASCII
     const override = () => {
       if (typeof sauceSet !== `string`) return false
       if (sauceSet.length < 2) return false
-      if (sauceSet.slice(-1) !== TranscodeArrow) return false
+      if (sauceSet.slice(-1) !== Cs.TranscodeToggle) return false
       return true
     }
     if (override()) return sauceSet

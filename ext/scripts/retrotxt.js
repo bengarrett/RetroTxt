@@ -5,8 +5,7 @@
 //
 /*global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer CheckLastError Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
 
-ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText TranscodeArrow WildcatText WWIVHashText WWIVHeartText
- OutputUS_ASCII UseCharSet*/
+ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
 /*exported DOM*/
 "use strict"
 
@@ -1538,7 +1537,7 @@ class Output {
       // US-ASCII transcode value simply returns the input text.
       // Other transcode selections require the text to be rebuilt based on the
       // sessionItem value.
-      if (sessionItem !== OutputUS_ASCII) transcode.rebuild(sessionItem)
+      if (sessionItem !== Cs.OutputUS_ASCII) transcode.rebuild(sessionItem)
       this.data.html = transcode.text
       return (this.rows = rowCount())
     }
@@ -1550,7 +1549,7 @@ class Output {
       return (this.rows = rowCount())
     }
     let newCodePage = characterSet
-    if (characterSet.slice(-1) === TranscodeArrow)
+    if (characterSet.slice(-1) === Cs.TranscodeToggle)
       newCodePage = characterSet.slice(0, -1)
     // Characters() class is found in functions.js
     const characters = new Characters(newCodePage)
@@ -1611,7 +1610,7 @@ class Output {
     // i.e ISO-8859-1, UTF-8, WINDOWS-1252, etc
     if (out.support()) {
       // append an arrow to label, i.e iso-8859-1➡
-      const newLabel = `${out.label()}${TranscodeArrow}`
+      const newLabel = `${out.label()}${Cs.TranscodeToggle}`
       // make sure input encoding doesn't match output encoding
       // i.e CP1252 → CP1252
       if (chrs.outputs.has(newLabel) && newLabel.slice(0, -1) !== label)
@@ -2245,7 +2244,8 @@ function handleMessages(message, sender) {
       Console(`✉ 'toggle' message received.`)
       return invoke.toggle()
     case `transcode`:
-      if (message.action === UseCharSet) sessionStorage.removeItem(`transcode`)
+      if (message.action === Cs.UseCharSet)
+        sessionStorage.removeItem(`transcode`)
       else sessionStorage.setItem(`transcode`, message.action)
       // reload the active tab
       globalThis.location.reload()

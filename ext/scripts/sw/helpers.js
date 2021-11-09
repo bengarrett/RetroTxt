@@ -7,8 +7,7 @@
 
 /*global CheckError */
 /*exported CheckLastError Console ConsoleLoad Configuration DeveloperModeDebug Engine WebBrowser
-TranscodeArrow UseCharSet OutputCP1252 OutputISO8859_1 OutputISO8859_15 OutputUS_ASCII OutputUFT8
-*/
+ */
 
 /*
 Content scripts can access Chrome APIs used by their parent extension by exchanging messages with the extension. They can also access the URL of an extension's file with chrome.runtime.getURL() and use the result the same as other URLs.
@@ -94,25 +93,17 @@ const Cs = {
   Windows_1252_English: `cp_1252`, // Microsoft Windows English legacy text
   UnicodeStandard: `utf_8`, // Unicode, 8-bit multi-byte text
   US_ASCII: `us_ascii`, // 7-bit, ARPANET/Internet legacy text
+  // Changing the value of TranscodeToggle must be applied to the Menu character sets listed below.
+  TranscodeToggle: `➡`,
+  // Menu character sets. These must be suffixed with the TranscodeToggle character.
+  UseCharSet: `useCharSet➡`, // use the browser choosen document character set
+  OutputCP1252: `cp_1252➡`, // transcode text into Windows legacy CP-1252 before Unicode
+  OutputISO8859_1: `iso_8859_1➡`, // transcode text into Unix legacy ISO-8859-1 before Unicode (required by SAUCE metadata)
+  OutputISO8859_15: `iso_8859_15➡`, // transcode text into Internet legacy ISO-8859-15 before Unicode
+  OutputUS_ASCII: `us_ascii➡`, // transcode text into legacy 7-bit US-ASCII before Unicode
+  OutputUFT8: `utf_8➡`,
 }
 Object.freeze([Engine, Os, PlatformOS, PlatformArch, Cs])
-
-const // Character set key values
-  // changing the values of these consts can break application functionality
-  TranscodeArrow = `➡`,
-  // use the browser choosen document character set
-  UseCharSet = `useCharSet${TranscodeArrow}`,
-  // transcode text into Windows legacy CP-1252 before Unicode
-  OutputCP1252 = `${Cs.Windows_1252_English}${TranscodeArrow}`,
-  // transcode text into Unix legacy ISO-8859-1 before Unicode
-  // this is required and used by SAUCE metadata
-  OutputISO8859_1 = `${Cs.ISO8859_1}${TranscodeArrow}`,
-  // transcode text into Internet legacy ISO-8859-15 before Unicode
-  OutputISO8859_15 = `${Cs.ISO8859_15}${TranscodeArrow}`,
-  // transcode text into legacy 7-bit US-ASCII before Unicode
-  OutputUS_ASCII = `${Cs.US_ASCII}${TranscodeArrow}`,
-  // transcode text into Unicode, 23-Oct-20, not sure if this gets used, see unit test.
-  OutputUFT8 = `utf_8${TranscodeArrow}`
 
 /**
  * Prints the string to the console when Developer mode is enabled.
