@@ -1,40 +1,55 @@
 // filename: sw/message.js
 //
-/*global ConsoleLoad CheckLastError Developer Downloads Extension SessionKey SetToolbarIcon ToolbarButton */
+/*global ConsoleLoad CheckLastError Downloads Extension SessionKey SetToolbarIcon ToolbarButton */
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`message.js`)
 })
 
-// runtime onMessage to listen for and handle command messages from content scripts.
+// Service worker listener to handle long-lived connections for updates sent from the content scripts.
+chrome.runtime.onConnect.addListener((port) => {
+  console.log(`on connect:`)
+  console.log(port)
+})
+
+// Service worker listener to handle one-time commands sent from the content scripts.
+// Each key will only toggle once, afterwards a 'The message port closed before a response was received'
+// message will be returned.
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  const key = Object.entries(message)[0][0]
-  let DeveloperMode = false
-  chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store) {
-      DeveloperMode = true
-      console.log(
-        `✉ Received by runtime.onMessage.addListener(). key: ${key}
-message: `,
-        message
-      )
-    }
-  })
+  const key = Object.entries(message)[0][0],
+    value = Object.entries(message)[0][1],
+    asynchronous = true,
+    synchronous = false,
+    developerMode = true // for performance, do not use chrome.storage.local.get(Developer)
+  if (developerMode)
+    console.log(`✉ one-time command received: ${key}, request: ${value}`)
   switch (key) {
     case `askForSettings`:
-      return askForSettings(DeveloperMode, sendResponse)
+      askForSettings(developerMode, sendResponse)
+      return synchronous
     case `invoked`:
-      return invoked(DeveloperMode, message, sender)
+      // TODO: not working?
+      // This needs to be replaced by a long-lived connection?
+      invoked(developerMode, message, sender)
+      return asynchronous
     case `monitorDownloads`:
-      return monitorDownloads(DeveloperMode, message)
+      monitorDownloads(developerMode, message)
+      return asynchronous
     case `retroTxtified`:
-      return retroTxtified(DeveloperMode, message, sender)
+      retroTxtified(developerMode, message, sender)
+      return synchronous
     case `setIcon`:
-      return SetToolbarIcon(message[key])
+      SetToolbarIcon(value)
+      sendResponse(`Toolbar icon applied`)
+      return asynchronous
     case `transcode`:
-      return transcode(DeveloperMode, message)
+      // TODO: not working?
+      // This needs to be replaced by a long-lived connection?
+      transcode(developerMode, message)
+      return asynchronous
     default:
-      return defaultCase(DeveloperMode, message, sender)
+      unexpected(developerMode, message, sender)
+      return synchronous
   }
 })
 
@@ -42,15 +57,14 @@ function askForSettings(developerMode, sendResponse) {
   const extension = new Extension()
   sendResponse({ response: extension.defaults })
   if (developerMode)
-    console.log(
-      `✉ 'askForSettings' message request Extension().defaults response sent.`
-    )
+    console.log(`✉ ask-for-settings extension defaults response sent.`)
 }
 
 function invoked(developerMode, message, sender) {
   const tabId = sender.tab.id,
     value = Object.entries(message)[0][1]
-  if (developerMode) console.log(`✉ Received invoke %s request.`, value)
+  if (developerMode)
+    console.log(`✉ invoked tab #%s is %s command.`, tabId, value)
   if (!(`tab` in sender)) return
   if (value === false) {
     const extension = new Extension(),
@@ -67,8 +81,8 @@ function invoked(developerMode, message, sender) {
 
 function monitorDownloads(developerMode, message) {
   const value = Object.entries(message)[0][1]
-  if (developerMode) console.log(`✉ Received invoke %s request.`, value)
-  return new Downloads().startup(value)
+  if (developerMode) console.log(`✉ monitor-downloads %s command.`, value)
+  new Downloads().startup(value)
 }
 
 function retroTxtified(developerMode, message, sender) {
@@ -76,7 +90,8 @@ function retroTxtified(developerMode, message, sender) {
     tabId = sender.tab.id,
     value = Object.entries(message)[0][1]
   if (!(`tab` in sender)) return
-  if (developerMode) console.log(`✉ Received retroTxtified %s request.`, value)
+  if (developerMode)
+    console.log(`✉ retroTxtified tab #%s is %s command.`, tabId, value)
   button.id = tabId
   if (value === true) button.enable()
   if (value === false) button.disable()
@@ -85,16 +100,16 @@ function retroTxtified(developerMode, message, sender) {
 function transcode(developerMode, message) {
   if (developerMode)
     console.log(
-      `✉ Received transcode request to select '$%s'.`,
+      `✉ transcode context menu update command '$%s'.`,
       message.transcode
     )
-  return chrome.contextMenus.update(message.transcode, { checked: true })
+  chrome.contextMenus.update(message.transcode, { checked: true })
 }
 
-function defaultCase(developerMode, message, sender) {
+function unexpected(developerMode, message, sender) {
   if (!developerMode) return
-  console.group(`✉ Unexpected message.`)
+  console.group(`✉ Unexpected message?`)
   console.log(message)
   console.log(sender)
-  return console.groupEnd()
+  console.groupEnd()
 }
