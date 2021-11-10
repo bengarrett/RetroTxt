@@ -62,7 +62,7 @@ function SetToolbarIcon(darkMode = false) {
   switch (darkMode) {
     case true:
       console.log(`Set the toolbar icon to match the dark mode system theme.`)
-      return chrome.action.setIcon({
+      chrome.action.setIcon({
         path: {
           16: "/assets/retrotxt_16-light.png",
           19: "/assets/retrotxt_19-light.png",
@@ -71,9 +71,10 @@ function SetToolbarIcon(darkMode = false) {
           128: "/assets/retrotxt_128-light.png",
         },
       })
+      return
     default:
       console.log(`Set the toolbar icon to match the light mode system theme.`)
-      return chrome.action.setIcon({
+      chrome.action.setIcon({
         path: {
           16: "/assets/retrotxt_16.png",
           19: "/assets/retrotxt_19.png",
