@@ -2220,6 +2220,15 @@ function handleConnections(message) {
     new Invoke().toggle()
     return
   }
+  if (typeof message[`tabTranscode`] === `string`) {
+    const value = message[`tabTranscode`]
+    Console(`✉ tabTranscode ${value} message received.`)
+    if (value === Cs.UseCharSet) sessionStorage.removeItem(`transcode`)
+    else sessionStorage.setItem(`transcode`, value)
+    // reload the active tab
+    globalThis.location.reload()
+    return
+  }
   console.group(`✉ Unexpected long-lived message.`)
   console.log(message)
   console.groupEnd()
@@ -2252,14 +2261,6 @@ function handleMessages(message, sender) {
   }
   Console(`✉ Received '${message.id}' for handleMessages().`)
   switch (message.id) {
-    case `transcode`:
-      if (message.action === Cs.UseCharSet)
-        sessionStorage.removeItem(`transcode`)
-      else sessionStorage.setItem(`transcode`, message.action)
-      // reload the active tab
-      globalThis.location.reload()
-      Console(`✉ 'transcode' message '%s' received.`, message.action)
-      return
     case `CheckError`:
       Console(`✉ 'CheckError' message received.`)
       // display an error alert box on the active tab

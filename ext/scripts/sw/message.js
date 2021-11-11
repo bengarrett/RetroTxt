@@ -1,16 +1,10 @@
 // filename: sw/message.js
 //
-/*global ConsoleLoad Downloads Extension SessionKey SetToolbarIcon ToolbarButton */
+/*global ConsoleLoad Downloads Extension GetCurrentTab SessionKey SetToolbarIcon ToolbarButton */
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`message.js`)
 })
-
-async function getCurrentTab() {
-  let queryOptions = { active: true, currentWindow: true }
-  let [tab] = await chrome.tabs.query(queryOptions)
-  return tab
-}
 
 // Service worker listener to handle long-lived connections for updates sent from the content scripts.
 chrome.runtime.onConnect.addListener((port) => {
@@ -80,7 +74,7 @@ function monitorDownloads(developerMode, message) {
 function buttonInvoke(developerMode, message) {
   const button = new ToolbarButton(),
     value = message.tabModified
-  getCurrentTab().then((result) => {
+  GetCurrentTab().then((result) => {
     if (developerMode)
       console.log(`✉ tabModified tab #%s is %s command.`, result.id, value)
     if (typeof result.id !== `number`) return

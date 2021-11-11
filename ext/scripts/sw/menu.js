@@ -1,6 +1,6 @@
 // filename: sw/menu.js
 //
-/*global ConsoleLoad CheckLastError Cs OpenOptions */
+/*global ConsoleLoad CheckLastError Cs GetCurrentTab OpenOptions */
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`menu.js`)
@@ -90,30 +90,13 @@ class Menu {
       case Cs.OutputISO8859_15:
       case Cs.OutputUS_ASCII:
       case Cs.OutputCP1252: {
-        // see `handleMessages()` in `scripts/retrotxt.js` for the event handler
-        return chrome.tabs.query(
-          { active: true, currentWindow: true },
-          (tabs) => {
-            chrome.tabs.sendMessage(
-              tabs[0].id,
-              {
-                action: id,
-                id: `transcode`,
-              },
-              () => {
-                if (
-                  CheckLastError(
-                    `transcode tab ID #${tabs[0].id} send message: ${id}`
-                  )
-                )
-                  return
-                // save a session item to tell RetroTxt how to render the text
-                // for this tab, session storage is isolated to the one active tab
-                sessionStorage.setItem(`transcode`, id)
-              }
-            )
-          }
-        )
+        // see `handleConnections` in `scripts/retrotxt.js` for the event handler
+        GetCurrentTab().then((result) => {
+          if (typeof result.id !== `number`) return
+          const port = chrome.tabs.connect(result.id, { name: `menuTranscode` })
+          port.postMessage({ tabTranscode: `${id}` })
+        })
+        return
       }
       default:
         return console.error(`an unknown Menu event id "${id}" was requested`)
