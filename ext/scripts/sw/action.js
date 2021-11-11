@@ -1,6 +1,6 @@
 // filename: sw/action.js
 //
-/*global CheckError CheckLastError Console ConsoleLoad Developer Extension SessionKey ToolbarButton*/
+/*global CheckError Console ConsoleLoad Developer Extension SessionKey ToolbarButton*/
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`action.js`)
@@ -93,9 +93,8 @@ class Action {
       )
     if (DeveloperMode)
       console.log(`↩ Toolbar button click registered for tab #%s.`, this.tab.id)
-    chrome.tabs.sendMessage(this.tab.id, { id: `invoked` }, () => {
-      if (CheckLastError(`action click invoked send message`)) return
-    })
+    const port = chrome.tabs.connect(this.tab.id, { name: `_clicked` })
+    port.postMessage({ initTab: this.tab.id })
   }
   /**
    * Update context menus to reflect a tab's suitability for RetroTxt.

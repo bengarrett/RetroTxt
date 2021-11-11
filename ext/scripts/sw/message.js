@@ -1,6 +1,6 @@
 // filename: sw/message.js
 //
-/*global ConsoleLoad CheckLastError Downloads Extension SessionKey SetToolbarIcon ToolbarButton */
+/*global ConsoleLoad Downloads Extension SessionKey SetToolbarIcon ToolbarButton */
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`message.js`)
@@ -8,8 +8,17 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Service worker listener to handle long-lived connections for updates sent from the content scripts.
 chrome.runtime.onConnect.addListener((port) => {
-  console.log(`on connect:`)
-  console.log(port)
+  const developerMode = true
+  port.onMessage.addListener((message) => {
+    if (typeof message.tabID === `number`) {
+      if (developerMode)
+        console.log(
+          `✉ long-lived message received to toggle tab ID #${message.tabID}.`
+        )
+      tabInvoke(developerMode, message)
+      return
+    }
+  })
 })
 
 // Service worker listener to handle one-time commands sent from the content scripts.
@@ -27,11 +36,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case `askForSettings`:
       askForSettings(developerMode, sendResponse)
       return synchronous
-    case `invoked`:
-      // TODO: not working?
-      // This needs to be replaced by a long-lived connection?
-      invoked(developerMode, message, sender)
-      return asynchronous
     case `monitorDownloads`:
       monitorDownloads(developerMode, message)
       return asynchronous
@@ -60,25 +64,6 @@ function askForSettings(developerMode, sendResponse) {
     console.log(`✉ ask-for-settings extension defaults response sent.`)
 }
 
-function invoked(developerMode, message, sender) {
-  const tabId = sender.tab.id,
-    value = Object.entries(message)[0][1]
-  if (developerMode)
-    console.log(`✉ invoked tab #%s is %s command.`, tabId, value)
-  if (!(`tab` in sender)) return
-  if (value === false) {
-    const extension = new Extension(),
-      key = `${SessionKey}${tabId}`
-    chrome.storage.local.get(key, (result) => {
-      extension.invokeOnTab(tabId, `${result.encoding}`)
-    })
-  }
-  if (value === true)
-    chrome.tabs.sendMessage(tabId, { id: `toggle` }, () => {
-      if (CheckLastError(`invoked tabs send message`)) return
-    })
-}
-
 function monitorDownloads(developerMode, message) {
   const value = Object.entries(message)[0][1]
   if (developerMode) console.log(`✉ monitor-downloads %s command.`, value)
@@ -95,6 +80,24 @@ function retroTxtified(developerMode, message, sender) {
   button.id = tabId
   if (value === true) button.enable()
   if (value === false) button.disable()
+}
+
+function tabInvoke(developerMode, message) {
+  if (developerMode)
+    console.log(`✉ invoked tab #%s is %s command.`, message.tabID, message.init)
+  if (!(`init` in message)) return
+  if (message.init === false) {
+    const extension = new Extension(),
+      key = `${SessionKey}${message.tabID}`
+    chrome.storage.local.get(key, (result) => {
+      extension.invokeOnTab(message.tabID, `${result.encoding}`)
+    })
+  }
+  if (message.init === true) {
+    const port = chrome.tabs.connect(message.tabID, { name: `tabInvoke` })
+    port.postMessage({ toggleTab: message.tabID })
+    return
+  }
 }
 
 function transcode(developerMode, message) {

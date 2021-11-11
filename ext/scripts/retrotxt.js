@@ -91,6 +91,9 @@ class DOM {
    * Initialises runtime and storage listeners.
    */
   async initialize() {
+    chrome.runtime.onConnect.addListener((port) => {
+      port.onMessage.addListener(handleConnections)
+    })
     // context menu, on-click listener
     chrome.runtime.onMessage.addListener(handleMessages)
     // monitor for any changed Options set by the user
@@ -101,14 +104,10 @@ class DOM {
       if (this.cssLink.disabled === false) this._constructPre()
       // end Execute() function, then tell an event listener in eventpage.js
       // that the body of this browser tab is modified
-      return chrome.runtime.sendMessage(
-        {
-          retroTxtified: false,
-        },
-        () => {
-          if (CheckLastError(`retroTxtified false send message`)) return
-        }
-      )
+      chrome.runtime.sendMessage({ retroTxtified: false }, () => {
+        if (CheckLastError(`retroTxtified false send message`)) return
+      })
+      return
     }
     // fetch and apply saved Options
     chrome.storage.local.get(this.storage, (result) => {
@@ -2199,8 +2198,37 @@ function handleChanges(change) {
     return dom.clickIceColors()
   }
 }
+
 /**
- * Handle messages passed on by functions in `eventpage.js`.
+ * Handle long-lived messages passed on by service workers.
+ * @param message OnMessage event for the `chrome.runtime` object
+ */
+function handleConnections(message) {
+  if (typeof message[`initTab`] === `number`) {
+    const tabID = message[`initTab`],
+      port = chrome.runtime.connect({ name: `invoker` })
+    Console(`✉ initTab #${tabID} message received.`)
+    if (document.getElementById(`retrotxt-styles`) === null) {
+      port.postMessage({ tabID: tabID, init: false })
+      Console(`✉ initTab is false post message.`)
+      return
+    }
+    port.postMessage({ tabID: tabID, init: true })
+    Console(`✉ initTab is true post message.`)
+    return
+  }
+  if (typeof message[`toggleTab`] === `number`) {
+    Console(`✉ toggleTab #${message[`toggleTab`]} message received.`)
+    new Invoke().toggle()
+    return
+  }
+  console.group(`✉ Unexpected long-lived message.`)
+  console.log(message)
+  console.groupEnd()
+}
+
+/**
+ * Handle one-time messages passed on by service workers.
  * @param message OnMessage event for the `chrome.runtime` object
  */
 function handleMessages(message, sender) {
@@ -2212,7 +2240,7 @@ function handleMessages(message, sender) {
     if (typeof qunit !== `undefined`) return false
     chrome.storage.local.get(Developer, (store) => {
       if (Developer in store) {
-        console.group(`✉ Unexpected message.`)
+        console.group(`✉ Unexpected one-time message.`)
         console.log(message)
         console.log(sender)
         console.groupEnd()
@@ -2225,24 +2253,7 @@ function handleMessages(message, sender) {
     return
   }
   Console(`✉ Received '${message.id}' for handleMessages().`)
-  const invoke = new Invoke()
   switch (message.id) {
-    case `invoked`:
-      if (document.getElementById(`retrotxt-styles`) === null) {
-        chrome.runtime.sendMessage({ invoked: false }, () => {
-          if (CheckLastError(`handle messages invoked false send`)) return
-        })
-        Console(`✉ 'invoked' message request 'false' response sent.`)
-        return
-      }
-      chrome.runtime.sendMessage({ invoked: true }, () => {
-        if (CheckLastError(`handle messages invoked true send`)) return
-      })
-      Console(`✉ 'invoked' message request 'true' response sent.`)
-      return
-    case `toggle`:
-      Console(`✉ 'toggle' message received.`)
-      return invoke.toggle()
     case `transcode`:
       if (message.action === Cs.UseCharSet)
         sessionStorage.removeItem(`transcode`)
