@@ -101,7 +101,12 @@ class Menu {
                 id: `transcode`,
               },
               () => {
-                if (CheckLastError(`transcode tabs send message`)) return
+                if (
+                  CheckLastError(
+                    `transcode tab ID #${tabs[0].id} send message: ${id}`
+                  )
+                )
+                  return
                 // save a session item to tell RetroTxt how to render the text
                 // for this tab, session storage is isolated to the one active tab
                 sessionStorage.setItem(`transcode`, id)
