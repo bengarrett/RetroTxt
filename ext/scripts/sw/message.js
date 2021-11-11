@@ -6,6 +6,12 @@ chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`message.js`)
 })
 
+async function getCurrentTab() {
+  let queryOptions = { active: true, currentWindow: true }
+  let [tab] = await chrome.tabs.query(queryOptions)
+  return tab
+}
+
 // Service worker listener to handle long-lived connections for updates sent from the content scripts.
 chrome.runtime.onConnect.addListener((port) => {
   const developerMode = true
@@ -16,6 +22,10 @@ chrome.runtime.onConnect.addListener((port) => {
           `✉ long-lived message received to toggle tab ID #${message.tabID}.`
         )
       tabInvoke(developerMode, message)
+      return
+    }
+    if (typeof message.tabModified === `boolean`) {
+      buttonInvoke(developerMode, message)
       return
     }
   })
@@ -39,9 +49,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     case `monitorDownloads`:
       monitorDownloads(developerMode, message)
       return asynchronous
-    case `retroTxtified`:
-      retroTxtified(developerMode, message, sender)
-      return synchronous
     case `setIcon`:
       SetToolbarIcon(value)
       sendResponse(`Toolbar icon applied`)
@@ -70,16 +77,17 @@ function monitorDownloads(developerMode, message) {
   new Downloads().startup(value)
 }
 
-function retroTxtified(developerMode, message, sender) {
+function buttonInvoke(developerMode, message) {
   const button = new ToolbarButton(),
-    tabId = sender.tab.id,
-    value = Object.entries(message)[0][1]
-  if (!(`tab` in sender)) return
-  if (developerMode)
-    console.log(`✉ retroTxtified tab #%s is %s command.`, tabId, value)
-  button.id = tabId
-  if (value === true) button.enable()
-  if (value === false) button.disable()
+    value = message.tabModified
+  getCurrentTab().then((result) => {
+    if (developerMode)
+      console.log(`✉ tabModified tab #%s is %s command.`, result.id, value)
+    if (typeof result.id !== `number`) return
+    button.id = result.id
+    if (value === true) button.enable()
+    else button.disable()
+  })
 }
 
 function tabInvoke(developerMode, message) {

@@ -3,7 +3,7 @@
 // These functions are used to apply RetroTxt to a browser tab.
 // Or restore it to its original raw or plain-text state.
 //
-/*global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer CheckLastError Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
+/*global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
 
 ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
 /*exported DOM*/
@@ -90,6 +90,7 @@ class DOM {
   /**
    * Initialises runtime and storage listeners.
    */
+
   async initialize() {
     chrome.runtime.onConnect.addListener((port) => {
       port.onMessage.addListener(handleConnections)
@@ -99,14 +100,13 @@ class DOM {
     // monitor for any changed Options set by the user
     chrome.storage.onChanged.addListener(handleChanges)
     // switch between the original plain text and the HTML conversion
+    const port = chrome.runtime.connect({ name: `tabModified` })
     if (this.cssLink !== null) {
       if (this.cssLink.disabled === true) this._constructRawText()
       if (this.cssLink.disabled === false) this._constructPre()
       // end Execute() function, then tell an event listener in eventpage.js
       // that the body of this browser tab is modified
-      chrome.runtime.sendMessage({ retroTxtified: false }, () => {
-        if (CheckLastError(`retroTxtified false send message`)) return
-      })
+      port.postMessage({ tabModified: false })
       return
     }
     // fetch and apply saved Options
@@ -116,9 +116,7 @@ class DOM {
       dom.restore()
     })
     // tells the eventpage.js listener that the body of this tab is modified
-    chrome.runtime.sendMessage({ retroTxtified: true }, () => {
-      if (CheckLastError(`retroTxtified true send message`)) return
-    })
+    port.postMessage({ tabModified: true })
   }
   /**
    * Constructs the Document Object Model needed to display RetroTxt.
