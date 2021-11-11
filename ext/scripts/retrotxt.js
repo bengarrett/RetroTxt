@@ -48,6 +48,12 @@ class DOM {
     this.pre = document.getElementsByTagName(`pre`)[1]
     this.preCount = document.getElementsByTagName(`pre`).length
     this.rawText = document.getElementsByTagName(`pre`)[0]
+    if (typeof this.rawText === `undefined`) {
+      console.warn(`The active tab is a blank page with no text.`)
+      this.rawText = document.createElement(`pre`)
+      this.body.append(this.rawText)
+      this.preCount = document.getElementsByTagName(`pre`).length
+    }
     // fetch Options stored values to be usable here
     this.storage = [
       `ansiPageWrap`,
