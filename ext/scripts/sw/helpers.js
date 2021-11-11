@@ -6,7 +6,7 @@
 // All functions and methods cannot access the browser DOM API or the Chrome extension API.
 
 /*global CheckError */
-/*exported CheckLastError Console ConsoleLoad Configuration DeveloperModeDebug Engine WebBrowser
+/*exported CheckLastError Console ConsoleLoad Configuration DeveloperModeDebug Engine GetCurrentTab WebBrowser
  */
 
 /*
@@ -36,6 +36,13 @@ if (typeof chrome.runtime.onInstalled !== `undefined`) {
   chrome.runtime.onInstalled.addListener(() => {
     ConsoleLoad(`shared helpers`)
   })
+}
+
+// Get the active tab information of the current window.
+async function GetCurrentTab() {
+  let queryOptions = { active: true, currentWindow: true }
+  let [tab] = await chrome.tabs.query(queryOptions)
+  return tab
 }
 
 // The IIFE serves as an onStartup method for content-scripts.
