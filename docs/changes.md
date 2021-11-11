@@ -9,6 +9,8 @@
 
 * Replaced the `scripts/eventpage.js` background page with modular service workers.
 * Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
+* Replaced simple one-time message requests with long-lived connections where needed.
+  This should fix some strange behaviour and failures that occurred in previous versions.
 
 - Unfocused tabs can run RetroTxt in the background.
 - Transcode context menu is disabled by default except for textfile tabs.
@@ -20,6 +22,7 @@
   Hostname input form responds to <kbd>Enter ↵</kbd> key presses.
 - Settings - Monitor downloads, toggles the optional `download` and `downloads.open` permissions.
 - Dropped the permissions requirement for `tabs`.
+- Manifest v3 has much better error handling and there should be less uncaptured errors.
 
 ## 4.2
 

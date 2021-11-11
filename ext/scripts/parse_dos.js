@@ -315,6 +315,8 @@ class Transcode extends CharacterSet {
         // supplied by SAUCE metadata
         break
       case Cs.OutputUS_ASCII:
+      case Cs.ISO8859_5:
+      case Cs.Windows_1252_English:
         // nothing needs to be done
         break
       default:
