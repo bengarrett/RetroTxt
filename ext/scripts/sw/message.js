@@ -22,6 +22,11 @@ chrome.runtime.onConnect.addListener((port) => {
       buttonInvoke(developerMode, message)
       return
     }
+    if (typeof message.openOptionsPage === `boolean`) {
+      if (message.openOptionsPage) chrome.runtime.openOptionsPage()
+      return
+    }
+    unexpected(developerMode, message)
   })
 })
 
@@ -48,7 +53,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse(`Toolbar icon applied`)
       return asynchronous
     case `transcode`:
-      // TODO: not working?
       // This needs to be replaced by a long-lived connection?
       transcode(developerMode, message)
       return asynchronous
@@ -115,6 +119,6 @@ function unexpected(developerMode, message, sender) {
   if (!developerMode) return
   console.group(`✉ Unexpected message?`)
   console.log(message)
-  console.log(sender)
+  if (typeof sender !== `undefined`) console.log(sender)
   console.groupEnd()
 }

@@ -124,7 +124,8 @@ header {
   top: 0em;
 }
 
-header strong {
+header strong,
+header #moreSettings {
   cursor: default;
   user-select: none;
 }
@@ -151,7 +152,7 @@ header #fontnameInUse {
 header strong#colorPaletteToggle,
 header strong#renderToggle,
 header strong#sizeToggle,
-header a#moreSettings {
+header #moreSettings {
   color: var(--has-text-info);
 }
 

@@ -39,7 +39,7 @@ class Extension {
             // if any of the redundant checks are set to true, then show the
             // option page
             if (results[result] === true) {
-              localStorage.setItem(`optionTab`, `0`)
+              chrome.storage.local.set({ [`optionTab`]: `0` })
               chrome.tabs.create({
                 url: chrome.runtime.getURL(`html/options.html`),
               })

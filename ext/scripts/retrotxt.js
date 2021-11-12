@@ -49,7 +49,7 @@ class DOM {
     this.preCount = document.getElementsByTagName(`pre`).length
     this.rawText = document.getElementsByTagName(`pre`)[0]
     if (typeof this.rawText === `undefined`) {
-      console.warn(`The active tab is a blank page with no text.`)
+      console.info(`The active tab is a blank page with no text.`)
       this.rawText = document.createElement(`pre`)
       this.body.append(this.rawText)
       this.preCount = document.getElementsByTagName(`pre`).length
@@ -1949,14 +1949,16 @@ class Information extends Output {
     return bold
   }
   _setSettings() {
-    const a = document.createElement(`a`)
-    a.id = `moreSettings`
-    a.textContent = `Options`
-    a.href = `${chrome.runtime.getURL(`html/options.html#display`)}`
-    a.onclick = () => {
-      localStorage.setItem(`optionTab`, `6`)
+    const span = super.newSpan(),
+      port = chrome.runtime.connect({ name: `openOptionsPage` })
+    span.id = `moreSettings`
+    span.textContent = `Settings`
+    span.onclick = () => {
+      const settingsTab = `6`
+      chrome.storage.local.set({ [`optionTab`]: settingsTab })
+      port.postMessage({ openOptionsPage: true })
     }
-    return a
+    return span
   }
   _setWarningBBS() {
     const div = super.newDiv(),
