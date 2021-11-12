@@ -2,18 +2,20 @@
 //
 /*global ConsoleLoad Downloads Extension GetCurrentTab SessionKey SetToolbarIcon ToolbarButton */
 
+// for performance, do not use chrome.storage.local.get(Developer)
+const developerMode = false
+
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`message.js`)
 })
 
 // Service worker listener to handle long-lived connections for updates sent from the content scripts.
 chrome.runtime.onConnect.addListener((port) => {
-  const developerMode = true
   port.onMessage.addListener((message) => {
     if (typeof message.tabID === `number`) {
       if (developerMode)
         console.log(
-          `✉ long-lived message received to toggle tab ID #${message.tabID}.`
+          `✉ Long-lived message received to toggle tab ID #${message.tabID}.`
         )
       tabInvoke(developerMode, message)
       return
@@ -37,10 +39,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const key = Object.entries(message)[0][0],
     value = Object.entries(message)[0][1],
     asynchronous = true,
-    synchronous = false,
-    developerMode = true // for performance, do not use chrome.storage.local.get(Developer)
+    synchronous = false
   if (developerMode)
-    console.log(`✉ one-time command received: ${key}, request: ${value}`)
+    console.log(`✉ One-time command received: ${key}, request: ${value}`)
   switch (key) {
     case `askForSettings`:
       askForSettings(developerMode, sendResponse)
