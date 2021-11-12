@@ -1757,6 +1757,10 @@ class Information extends Output {
    */
   createCharacterCount() {
     this.size.title = `Number of characters contained in the text`
+    if (this.input.length === 0) {
+      this.size.textContent = `None`
+      return
+    }
     this.size.textContent = HumaniseFS(this.input.length, 1000)
   }
   /**
