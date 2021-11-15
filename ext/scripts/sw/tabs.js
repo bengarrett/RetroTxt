@@ -44,9 +44,6 @@ chrome.tabs.onCreated.addListener((tab) => {
   new Tab(tab.id, tab.url, tab).create()
 })
 
-// tabs.onHighlighted fires when the highlighted or selected tabs in a window changes.
-//chrome.tabs.onActivated.addListener((highlighted) => {})
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
   const tabs = new Tabs()
   tabs.tabId = tabId
@@ -65,9 +62,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
 chrome.tabs.onRemoved.addListener((tabId) => {
   new Tab(tabId).remove()
 })
-
-// tabs.onUpdated fires when a tab is updated.
-//chrome.tabs.onUpdated.addListener((updated) => {})
 
 /**
  * Handle event listeners for browser tabs.
@@ -152,7 +146,6 @@ class Tab {
         uri.domain,
         this.url
       )
-    //const files = new Security(`files`)
     switch (uri.scheme) {
       // note there is a `URI` object and `URL` string
       case `file`:
@@ -162,11 +155,6 @@ class Tab {
         console.info(`Loading local file ${this.url}.`)
         new Extension().activateTab(tab)
         return
-      // return chrome.permissions.contains(files.test(), (result) => {
-      //   result === true
-      //     ? new Extension().activateTab(tab)
-      //     : files.fail()
-      // })
       case `http`:
       case `https`:
         // use Fetch API to download tab
@@ -207,22 +195,10 @@ class Tab {
             // Chrome fix:
             // when a tab is not active & tab.status is stuck at loading
             if (this.url.startsWith(`file:///`) && !this.info.active) {
-              //const test = new Security(`files`).test()
               return this._checkURL()
-              // chrome.permissions.contains(test, (result) => {
-              //   if (result === true) return this._checkURL()
-              //   this._permissionDenied(test)
-              // })
             }
         }
       }
-      // handle file protocol
-      // if (this.url.startsWith(`file:///`)) {
-      //   const test = new Security(`files`).test()
-      //   return chrome.permissions.contains(test, (result) => {
-      //     result === true ? validate() : this._permissionDenied(test)
-      //   })
-      // }
       // handle http protocol
       return validate()
     })
@@ -259,18 +235,9 @@ class Tab {
           if (this.url.startsWith(`file:///`)) {
             this._checkURL()
             return
-            // const test = new Security(`files`).test()
-            // return chrome.permissions.contains(test, (result) => {
-            //   result === true ? this._checkURL() : this._permissionDenied(test)
-            // })
           }
           // handle http protocol
-          //const test = new Security(`http`, this.url).test()
           this._checkURL()
-          // chrome.permissions.contains(test, (result) => {
-          //   console.log(`handle http protocol`, test, result)
-          //   result === true ? this._checkURL() : this._permissionDenied(test)
-          // })
         }
       }
     )
@@ -387,7 +354,10 @@ class Tab {
     chrome.storage.local.get(Developer, (store) => {
       // compare the filename extension to the ignore list
       if (Developer in store)
-        console.trace(`⚠ Permission denied for the following request\n`, result)
+        console.trace(
+          `⚠ Permission denied for the following request.\n`,
+          result
+        )
     })
   }
   /**

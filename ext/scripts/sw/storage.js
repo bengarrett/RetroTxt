@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`storage.js`)
 })
 
-// monitor saved changes to Options so the context menu can be updated
+// Monitor saved changes to Options so the context menu can be updated.
 chrome.storage.onChanged.addListener((changes, areaName) => {
   new LocalStore().onChanged(changes, areaName)
 })

@@ -228,24 +228,19 @@ class Downloads {
       if (!(`id` in this.delta)) return
     }
     if (valid() === false) return
-
     this._setFilename()
     const itemName = `download${this.delta.id}-localpath`
-
     chrome.storage.local.get(itemName, (item) => {
       if (item === null) return
       const filepath = item[itemName]
       // handle errors, including cancelled downloads
       if (`error` in this.delta && `current` in this.delta.error)
         return chrome.storage.local.remove(itemName)
-
       // completed downloads
       if (`state` in this.delta === false) return
       if (`current` in this.delta.state === false) return
       if (this.delta.state.current !== `complete`) return
-
       chrome.storage.local.remove(itemName)
-
       // Windows friendly path conversion
       const path = filepath.replace(/\\/g, `/`),
         url = `file:///${path}`

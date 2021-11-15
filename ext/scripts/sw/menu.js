@@ -10,10 +10,6 @@ chrome.contextMenus.onClicked.addListener((info) => {
   new Menu().event(info.menuItemId)
 })
 
-// chrome.contextMenus.onClicked.addListener(() => {
-//   new Menu().create()
-// })
-
 /**
  * Manage RetroTxt context menus.
  * @class Menu
@@ -110,7 +106,6 @@ class Menu {
       enabled: true,
     })
   }
-
   _itemVersion() {
     chrome.contextMenus.create(
       {

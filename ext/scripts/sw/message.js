@@ -67,12 +67,12 @@ function askForSettings(developerMode, sendResponse) {
   const extension = new Extension()
   sendResponse({ response: extension.defaults })
   if (developerMode)
-    console.log(`✉ ask-for-settings extension defaults response sent.`)
+    console.log(`✉ Ask-for-settings extension defaults response sent.`)
 }
 
 function monitorDownloads(developerMode, message) {
   const value = Object.entries(message)[0][1]
-  if (developerMode) console.log(`✉ monitor-downloads %s command.`, value)
+  if (developerMode) console.log(`✉ Monitor-downloads %s command.`, value)
   new Downloads().startup(value)
 }
 
@@ -81,7 +81,7 @@ function buttonInvoke(developerMode, message) {
     value = message.tabModified
   GetCurrentTab().then((result) => {
     if (developerMode)
-      console.log(`✉ tabModified tab #%s is %s command.`, result.id, value)
+      console.log(`✉ Tab-modified tab #%s is %s command.`, result.id, value)
     if (typeof result.id !== `number`) return
     button.id = result.id
     if (value === true) button.enable()
@@ -91,7 +91,7 @@ function buttonInvoke(developerMode, message) {
 
 function tabInvoke(developerMode, message) {
   if (developerMode)
-    console.log(`✉ invoked tab #%s is %s command.`, message.tabID, message.init)
+    console.log(`✉ Invoked tab #%s is %s command.`, message.tabID, message.init)
   if (!(`init` in message)) return
   if (message.init === false) {
     const extension = new Extension(),
@@ -110,7 +110,7 @@ function tabInvoke(developerMode, message) {
 function transcode(developerMode, message) {
   if (developerMode)
     console.log(
-      `✉ transcode context menu update command '$%s'.`,
+      `✉ Transcode context menu update command '$%s'.`,
       message.transcode
     )
   chrome.contextMenus.update(message.transcode, { checked: true })

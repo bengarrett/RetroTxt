@@ -21,11 +21,9 @@ class Extension {
    */
   install(details) {
     console.log(`Reticulating splines.`)
-
     const checks = [`settingsNewUpdateNotice`]
     const store = new LocalStore()
     store.startup()
-
     switch (details.reason) {
       case `install`:
         chrome.storage.local.set({ [`optionTab`]: `0` })
