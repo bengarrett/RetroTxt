@@ -91,14 +91,14 @@ function devMode() {
 // Previously the deprecated `Navigator.platform` method was used.
 function setPlatform() {
   chrome.runtime.getPlatformInfo((info) => {
+    const windows = `win`,
+      macOS = `mac`
     let store = -1
     switch (info.os) {
-      case `win`:
-        // Windows
+      case windows:
         store = Os.windows
         break
-      case `mac`:
-        // macOS
+      case macOS:
         store = Os.macOS
         break
       default:

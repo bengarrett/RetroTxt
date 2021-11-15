@@ -39,7 +39,9 @@ class ToolbarButton {
       title: `RetroTxt${this.title}`,
       tabId: this.id,
     })
-    chrome.action.enable(this.id)
+    //  This only affects whether the popup (if any) or action.onClicked event is
+    //  dispatched to your extension; it does not affect the action's presence in the toolbar.
+    chrome.action.disable(this.id)
   }
   enable() {
     if (this.id === 0) return
