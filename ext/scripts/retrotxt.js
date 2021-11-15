@@ -2465,6 +2465,11 @@ RetroTxt will not be able to work with this page.
     const m = document.getElementsByTagName(`main`)[0],
       w = document.getElementById(`widthOfText`),
       h = document.getElementById(`lengthOfText`)
+    if (input.length === 0) {
+      h.textContent = 0
+      w.textContent = 0
+      return
+    }
     h.textContent = m.clientHeight
     w.textContent = m.clientWidth
   }, 500)
