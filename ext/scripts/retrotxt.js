@@ -1428,16 +1428,19 @@ class Output {
           bold.textContent = `2x`
           pre.classList.add(two)
           pre.classList.remove(one, three)
+          pixels()
           break
         case `2x`:
           bold.textContent = `3x`
           pre.classList.add(three)
           pre.classList.remove(one, two)
+          pixels()
           break
         case `3x`:
           bold.textContent = `1x`
           pre.classList.add(one)
           pre.classList.remove(two, three)
+          pixels()
           break
       }
     }
@@ -2468,7 +2471,7 @@ RetroTxt will not be able to work with this page.
 }
 
 function pixels() {
-  const m = document.getElementsByTagName(`main`)[0],
+  const m = document.getElementsByTagName(`pre`)[0],
     w = document.getElementById(`widthOfText`),
     h = document.getElementById(`lengthOfText`)
   h.textContent = m.clientHeight
