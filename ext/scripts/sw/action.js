@@ -26,7 +26,7 @@ class Action {
     this.tab = tab
     if (`url` in this.tab)
       this.scheme = `${this.tab.url.split(`:`)[0].toLowerCase()}`
-    else this.tab.url = `Action.tab.url permission denied`
+    if (this.scheme === ``) this.tab.url = `Action.tab.url permission denied`
     if (!(`title` in this.tab))
       this.tab.title = `Action.tab.title permission denied`
   }

@@ -1,12 +1,12 @@
 /* eslint-env qunit:true */
-/*global QUnit C0Controls Cs PCBoardText PlainText WildcatText
-  Capitalize Titleize*/
+/*global QUnit BrowserEncodings Characters CheckArguments CheckRange Configuration C0Controls CreateLink Cs
+FindControlSequences FontFamily Guess HardwarePalette HumaniseFS OptionsReset PCBoardText PlainText WildcatText Capitalize
+ParseToChildren StringToBool Titleize WebBrowser*/
 "use strict"
-
-QUnit.module(`functions.js`, {
+QUnit.module(`helper`, {
   before: () => {
     // prepare something once for all tests
-    console.info(`☑ New QUnit functions.js test`)
+    console.info(`☑ New QUnit helper tests`)
   },
   beforeEach: () => {
     // prepare something before each test
@@ -16,7 +16,7 @@ QUnit.module(`functions.js`, {
   },
   after: () => {
     // clean up once after all tests are done
-    console.info(`☑ QUnit functions.js tests are complete`)
+    console.info(`☑ QUnit helper tests are complete`)
   },
 })
 
