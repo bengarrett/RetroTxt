@@ -108,6 +108,7 @@ const Cs = {
   OutputISO8859_1: `iso_8859_1➡`, // transcode text into Unix legacy ISO-8859-1 before Unicode (required by SAUCE metadata)
   OutputISO8859_15: `iso_8859_15➡`, // transcode text into Internet legacy ISO-8859-15 before Unicode
   OutputUS_ASCII: `us_ascii➡`, // transcode text into legacy 7-bit US-ASCII before Unicode
+  OutputUFT8: `utf_8➡`, // keep as Unicode, this is used by the Guess() class.
 }
 Object.freeze([Engine, Os, PlatformOS, PlatformArch, Cs])
 

@@ -326,11 +326,13 @@ class Characters extends BrowserEncodings {
 class Guess extends BrowserEncodings {
   constructor(text = ``) {
     super()
+    // note: All these character sets need _characterSet().
     this.characterSets = [
       Cs.OutputISO8859_1,
       Cs.OutputISO8859_15,
       Cs.OutputCP1252,
       Cs.OutputUS_ASCII,
+      Cs.OutputUFT8,
       Cs.ISO8859_5,
       Cs.Windows_1252_English,
       Cs.DOS_437_English,
