@@ -21,7 +21,7 @@ QUnit.module(`retrotxt`, {
   },
 })
 
-QUnit.test(`DOM() class`, (assert) => {
+QUnit.test(`DOM class`, (assert) => {
   const dom = new DOM()
   assert.equal(dom.head.nodeName, `HEAD`, `Should be a <head> element`)
   assert.equal(dom.cssLink, null, `Should be null element doesn't exist`)
@@ -38,7 +38,7 @@ QUnit.test(`DOM() class`, (assert) => {
   )
 })
 
-QUnit.test(`Input() class`, (assert) => {
+QUnit.test(`Input class`, (assert) => {
   const input = new Input(`text/plain`, `Hello world.`)
   assert.equal(input.characterSet, `UTF-8`, `Document should be UYTF-8`)
   assert.equal(input.encoding, `text/plain`, `Text is text/plain`)
@@ -50,7 +50,7 @@ QUnit.test(`Input() class`, (assert) => {
   assert.equal(bom.BOM, `UTF-16, big endian`, `Text has a  BOM`)
 })
 
-QUnit.test(`SauceMeta() class`, (assert) => {
+QUnit.test(`SauceMeta class`, (assert) => {
   let sauce = new SauceMeta()
   assert.equal(sauce.configs.fontFamily, ``, `Sauce should be invalid`)
   sauce.version = `00`
@@ -104,7 +104,7 @@ QUnit.test(`SauceMeta() class`, (assert) => {
   )
 })
 
-QUnit.test(`Output() class`, (assert) => {
+QUnit.test(`Output class`, (assert) => {
   const input = {
     text: `${loremIpsum};
  COMNTAny comments go here.                                           SAUCE00Sauce title                        Sauce author        Sauce group         20161126�`,
@@ -132,7 +132,7 @@ QUnit.test(`Output() class`, (assert) => {
   )
 })
 
-QUnit.test(`Information() class`, (assert) => {
+QUnit.test(`Information class`, (assert) => {
   const information = new Information()
   information.createPixels()
   assert.equal(information.area.nodeName, `SPAN`, `Should be a <span> element`)
@@ -180,7 +180,7 @@ QUnit.test(`Information() class`, (assert) => {
   )
 })
 
-QUnit.test(`handleMessages() function`, (assert) => {
+QUnit.test(`handleMessages function`, (assert) => {
   const message = { id: `qunit` }
   assert.equal(handleMessages(message), true, `Test message should be handled`)
   message.id = `test unexpected`

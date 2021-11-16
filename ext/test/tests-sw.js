@@ -38,14 +38,14 @@ try {
   }
 }
 
-QUnit.test(`Tabs() class`, (assert) => {
+QUnit.test(`Tabs class`, (assert) => {
   let tabs = new Tabs()
   assert.equal(tabs.tabId, 0, `Tab Id should return 0`)
   tabs.listen()
   if (WebBrowser() === Engine.chrome) tabs.remove()
 })
 
-QUnit.test(`Tab() class`, (assert) => {
+QUnit.test(`Tab class`, (assert) => {
   let info = { status: `complete`, title: `Example dot com` }
   let tab = new Tab(5, `https://example.com`, info, `onCreated`)
   assert.equal(tab.id, 5, `Mock tab id should be 5`)
@@ -86,12 +86,12 @@ QUnit.test(`Tab() class`, (assert) => {
   assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
 })
 
-QUnit.test(`ToolbarButton() class`, (assert) => {
+QUnit.test(`ToolbarButton class`, (assert) => {
   const bar = new ToolbarButton(0)
   assert.equal(bar.id, 0, `Tab id should return 0`)
 })
 
-QUnit.test(`Action() class`, (assert) => {
+QUnit.test(`Action class`, (assert) => {
   const tab = {
     id: 0,
     title: "",
@@ -115,7 +115,7 @@ QUnit.test(`Action() class`, (assert) => {
   assert.equal(action._validateScheme(), false, `URL scheme is invalid`)
 })
 
-QUnit.test(`Security() class`, (assert) => {
+QUnit.test(`Security class`, (assert) => {
   const blank = new Security()
   assert.equal(blank.permissions, undefined, `This is an invalid declaration`)
   const dls = new Security(`downloads`)
@@ -150,9 +150,9 @@ QUnit.test(`Security() class`, (assert) => {
 })
 
 // Removed storage tests as it deletes existing settings.
-// QUnit.test(`Storage() class`, () => {})
+// QUnit.test(`Storage class`, () => {})
 
-QUnit.test(`Downloads() class`, (assert) => {
+QUnit.test(`Downloads class`, (assert) => {
   const path = `retrotxt.com/e`
   let downloads = new Downloads(false)
   assert.equal(downloads.monitor, false, `Downloads monitor should be false`)
@@ -213,7 +213,7 @@ QUnit.test(`Downloads() class`, (assert) => {
   )
 })
 
-QUnit.test(`Extension() class`, (assert) => {
+QUnit.test(`Extension class`, (assert) => {
   const extension = new Extension()
   assert.equal(
     extension.defaults.get(`textBackgroundScanlines`),
@@ -227,7 +227,7 @@ QUnit.test(`Extension() class`, (assert) => {
   )
 })
 
-QUnit.test(`Menu() class`, (assert) => {
+QUnit.test(`Menu class`, (assert) => {
   const menu = new Menu()
   assert.deepEqual(
     menu.contexts,

@@ -19,7 +19,7 @@ QUnit.module(`dos`, {
   },
 })
 
-QUnit.test(`CharacterSet() class`, (assert) => {
+QUnit.test(`CharacterSet class`, (assert) => {
   const cs = new CharacterSet(Cs.DOS_437_English)
   assert.equal(cs.set, Cs.DOS_437_English, `Set should be a character set name`)
   assert.equal(cs.get().length, 128, `Set should be an array of 128 characters`)
@@ -58,7 +58,7 @@ QUnit.test(`CharacterSet() class`, (assert) => {
   assert.equal(cs._cp437()[50], `▓`, `Should be \`▓\``)
 })
 
-QUnit.test(`Transcode() class`, (assert) => {
+QUnit.test(`Transcode class`, (assert) => {
   const tc1 = new Transcode(null, `Can I pay in \u0080?`)
   tc1._input_cp1252()
   let expected = `Can I pay in €?`
@@ -101,7 +101,7 @@ QUnit.test(`Transcode() class`, (assert) => {
   assert.equal(transcode.set_8[0], `€`, `First character should be a €`)
 })
 
-QUnit.test(`DOSText() class`, (assert) => {
+QUnit.test(`DOSText class`, (assert) => {
   // textDosCtrlCodes can effect the results of these tests
   // input cp-865
   let dos = new DOSText(`ÉæÆôöòûùÿÖÜø£Ø₧ƒ`, { codepage: Cs.DOS_865 })
@@ -519,7 +519,8 @@ QUnit.test(`DOSText() class`, (assert) => {
   dos = new DOSText(`\u00C7`, { displayControls: true })
   assert.equal(dos.normalize(), `Ç`, `Should return Ç c with cedilla`)
 })
-QUnit.test(`DOSText() class lookup functions`, (assert) => {
+
+QUnit.test(`DOSText class lookup`, (assert) => {
   const dos = new DOSText(``, { displayControls: true })
   dos._characterTable()
   assert.equal(dos.asciiTable[1], `☺`, `Should return a ☺`)
@@ -536,7 +537,7 @@ QUnit.test(`DOSText() class lookup functions`, (assert) => {
   assert.equal(dos._fromCharCode(176), `░`, `Should return a ░`)
 })
 
-QUnit.test(`BBS() class`, (assert) => {
+QUnit.test(`BBS class`, (assert) => {
   let bbs = new BBS(`plain text string`)._detect(),
     content = bbs
   assert.equal(content, ``, `Should return an empty result`)
