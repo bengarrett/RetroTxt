@@ -1,6 +1,6 @@
 /* eslint-env qunit:true */
-/*global QUnit C0Controls PCBoardText PlainText WildcatText
-DOS_437_English Windows_1252_English OutputUS_ASCII OutputISO8859_1 Shift_JIS UnicodeStandard Capitalize Titleize*/
+/*global QUnit C0Controls Cs PCBoardText PlainText WildcatText
+  Capitalize Titleize*/
 "use strict"
 
 QUnit.module(`functions.js`, {
@@ -71,7 +71,7 @@ QUnit.test(`BrowserEncodings() class`, (assert) => {
   assert.equal(encoding.label(), undefined, `UTF-32 is unsupported`)
   encoding = new BrowserEncodings(`SHIFT_JIS`)
   assert.equal(encoding.support(), true, `Shift_JIS is supported`)
-  assert.equal(encoding.label(), Shift_JIS, `Shift_JIS is supported`)
+  assert.equal(encoding.label(), Cs.Shift_JIS, `Shift_JIS is supported`)
   assert.equal(
     encoding.compactEncoding(),
     `SHIFT_JIS`,
@@ -86,10 +86,10 @@ QUnit.test(`BrowserEncodings() class`, (assert) => {
 })
 
 QUnit.test(`Characters() class`, (assert) => {
-  let characters = new Characters(DOS_437_English)
+  let characters = new Characters(Cs.DOS_437_English)
   assert.equal(
     characters.key,
-    DOS_437_English,
+    Cs.DOS_437_English,
     `DOS_437_English key should be DOS_437_English`
   )
   assert.equal(
@@ -107,10 +107,10 @@ QUnit.test(`Characters() class`, (assert) => {
     `MS-DOS Latin`,
     `DOS_437_English informal should be MS-DOS Latin`
   )
-  characters = new Characters(OutputUS_ASCII)
+  characters = new Characters(Cs.OutputUS_ASCII)
   assert.equal(
     characters.key,
-    OutputUS_ASCII,
+    Cs.OutputUS_ASCII,
     `OutputUS_ASCII key should be OutputUS_ASCII`
   )
   assert.equal(
@@ -131,7 +131,7 @@ QUnit.test(`Characters() class`, (assert) => {
 
   characters = new Characters(`utf_32`)
   assert.equal(characters.support(), false, `utf_32 is unsupported`)
-  characters = new Characters(UnicodeStandard)
+  characters = new Characters(Cs.UnicodeStandard)
   assert.equal(characters.support(), true, `UnicodeStandard is supported`)
   characters = new Characters(`UTF-32`)
   assert.equal(characters.supportedEncoding(), false, `UTF-32 is unsupported`)
@@ -139,7 +139,7 @@ QUnit.test(`Characters() class`, (assert) => {
   assert.equal(characters.supportedEncoding(), true, `UTF-8 is supported`)
   characters = new Characters(`utf_32`)
   assert.equal(characters._getLabel(), `?`, `UTF-32 is unsupported`)
-  characters = new Characters(UnicodeStandard)
+  characters = new Characters(Cs.UnicodeStandard)
   assert.equal(
     characters._getLabel(),
     `UTF 8-bit: Unicode Transformation Format`,
@@ -148,22 +148,26 @@ QUnit.test(`Characters() class`, (assert) => {
   characters = new Characters(`UTF-32`)
   assert.equal(characters.getEncoding(), undefined, `UTF-32 is unsupported`)
   characters = new Characters(`UTF-8`)
-  assert.equal(characters.getEncoding(), UnicodeStandard, `UTF-8 is supported`)
+  assert.equal(
+    characters.getEncoding(),
+    Cs.UnicodeStandard,
+    `UTF-8 is supported`
+  )
   characters = new Characters(`UTF-8`)
   assert.equal(characters.compactIn(), `UTF8`, `UTF-8 is supported`)
   characters = new Characters(`SHIFT_JIS`)
   assert.equal(characters.compactIn(), `Shift JIS`, `Shift_JIS is supported`)
   characters = new Characters(`MACINTOSH`)
   assert.equal(characters.compactIn(), `Mac OS Roman`, `MACINTOSH is supported`)
-  characters = new Characters(UnicodeStandard)
+  characters = new Characters(Cs.UnicodeStandard)
   assert.equal(characters.compactOut(), `UTF8`, `UTF-8 is unsupported`)
-  characters = new Characters(OutputUS_ASCII)
+  characters = new Characters(Cs.OutputUS_ASCII)
   assert.equal(
     characters.compactOut(),
     `USASCII`,
     `OutputUS_ASCII is supported`
   )
-  characters = new Characters(OutputUS_ASCII)
+  characters = new Characters(Cs.OutputUS_ASCII)
   assert.equal(
     characters.titleOut().slice(-7),
     `Unicode`,
@@ -171,7 +175,7 @@ QUnit.test(`Characters() class`, (assert) => {
   )
   characters = new Characters(`utf_32`)
   assert.equal(characters.titleIn().slice(-1), `?`, `UTF-32 is unsupported`)
-  characters = new Characters(UnicodeStandard)
+  characters = new Characters(Cs.UnicodeStandard)
   assert.equal(
     characters.titleIn().slice(0, 17),
     `Document encoding`,
@@ -204,7 +208,7 @@ QUnit.test(`Guess() class`, (assert) => {
   div.append(`div`)
   assert.equal(
     guess._characterSet(),
-    OutputUS_ASCII,
+    Cs.OutputUS_ASCII,
     `Result should be us_ascii`
   )
   assert.equal(
@@ -235,22 +239,17 @@ QUnit.test(`Guess() class`, (assert) => {
   let result = guess._characterSet()
   assert.equal(
     result,
-    Windows_1252_English,
+    Cs.Windows_1252_English,
     `Should be \`Windows_1252_English\``
   )
   guess = new Guess(`Hello world`)
   result = guess._characterSet(`Hello world`)
-  assert.equal(result, OutputISO8859_1, `Should be \`OutputISO8859_1\``)
+  assert.equal(result, Cs.OutputISO8859_1, `Should be \`OutputISO8859_1\``)
 })
 
 QUnit.test(`Configuration() class`, (assert) => {
   const cfg = new Configuration()
   assert.equal(cfg.cssWidth(), `100%`, `Configuration should be 100%`)
-  assert.equal(
-    cfg.domainsString(),
-    `16colo.rs;defacto2.net;gutenberg.org;scene.org;textfiles.com;uncreativelabs.net`,
-    `Domains are incorrect`
-  )
   assert.equal(
     cfg._fileExtsError()[0],
     `css`,
