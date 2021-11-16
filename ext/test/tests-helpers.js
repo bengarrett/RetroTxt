@@ -6,7 +6,7 @@ ParseToChildren StringToBool Titleize WebBrowser*/
 QUnit.module(`helper`, {
   before: () => {
     // prepare something once for all tests
-    console.info(`☑ New QUnit helper tests`)
+    console.info(`☑ New QUnit helper tests.`)
   },
   beforeEach: () => {
     // prepare something before each test
@@ -16,7 +16,7 @@ QUnit.module(`helper`, {
   },
   after: () => {
     // clean up once after all tests are done
-    console.info(`☑ QUnit helper tests are complete`)
+    console.info(`☑ QUnit helper tests are complete.`)
   },
 })
 

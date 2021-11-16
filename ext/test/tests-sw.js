@@ -5,7 +5,7 @@ try {
   QUnit.module(`service worker`, {
     before: () => {
       // prepare something once for all tests
-      console.info(`☑ New QUnit service worker tests`)
+      console.info(`☑ New QUnit service worker tests.`)
       chrome.storage.local.clear(() => {
         const error = chrome.runtime.lastError
         if (error) console.error(error)
@@ -21,7 +21,7 @@ try {
     },
     after: () => {
       // clean up once after all tests are done
-      console.info(`☑ QUnit service worker tests are complete`)
+      console.info(`☑ QUnit service worker tests are complete.`)
     },
   })
 } catch (e) {
@@ -98,7 +98,6 @@ QUnit.test(`Action() class`, (assert) => {
     url: "",
   }
   let action = new Action(tab)
-  console.log(action)
   assert.equal(action.scheme, ``, `Scheme should be empty`)
   assert.equal(action.tab.id, 0, `Tab id should return 0`)
   assert.equal(

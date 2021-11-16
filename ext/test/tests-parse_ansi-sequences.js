@@ -2,11 +2,11 @@
 /*global QUnit Controls domObject reset resetCursor resetECMA resetSGR*/
 "use strict"
 
-QUnit.module(`parse_ansi.js`, {
+QUnit.module(`ansi sequence`, {
   before: () => {
     // prepare something once for all tests
     console.info(
-      `☑ New QUnit parse_ansi.js ←[ sequences test, data containers have been reset`
+      `☑ New QUnit ansi sequence ←[ tests, data containers have been reset.`
     )
     reset(resetCursor)
     reset(resetSGR)
@@ -26,7 +26,7 @@ QUnit.module(`parse_ansi.js`, {
     reset(resetECMA)
     reset(resetSGR)
     domObject.html = ``
-    console.info(`☑ QUnit parse_ansi.js ←[ sequences tests are complete`)
+    console.info(`☑ QUnit ansi sequence ←[ tests are complete.`)
   },
 })
 

@@ -2,10 +2,10 @@
 /*global QUnit CharacterSet Cs BBS DOSText PCBoardText Transcode WildcatText */
 "use strict"
 
-QUnit.module(`parse_dos.js`, {
+QUnit.module(`dos`, {
   before: () => {
     // prepare something once for all tests
-    console.info(`☑ New QUnit parse_dos.js test`)
+    console.info(`☑ New QUnit dos test.`)
   },
   beforeEach: () => {
     // prepare something before each test
@@ -15,7 +15,7 @@ QUnit.module(`parse_dos.js`, {
   },
   after: () => {
     // clean up once after all tests are done
-    console.info(`☑ QUnit parse_dos.js tests are complete`)
+    console.info(`☑ QUnit dos tests are complete.`)
   },
 })
 

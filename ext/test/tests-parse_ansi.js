@@ -3,12 +3,10 @@
 Build CharacterAttributes Cursor Markup Metadata Scan SGR Statistics */
 "use strict"
 
-QUnit.module(`parse_ansi.js`, {
+QUnit.module(`ansi`, {
   before: () => {
     // prepare something once for all tests
-    console.info(
-      `☑ New QUnit parse_ansi.js test, data containers have been reset`
-    )
+    console.info(`☑ New QUnit ansi test, data containers have been reset.`)
     reset(resetCursor)
     reset(resetECMA)
     reset(resetSGR)
@@ -34,7 +32,7 @@ QUnit.module(`parse_ansi.js`, {
     reset(resetECMA)
     reset(resetSGR)
     domObject.html = ``
-    console.info(`☑ QUnit parse_ansi.js tests are complete`)
+    console.info(`☑ QUnit ansi tests are complete.`)
   },
 })
 
