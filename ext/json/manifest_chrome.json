@@ -1,13 +1,5 @@
 {
-  "author": "Ben Garrett",
-  "background": {
-    "scripts": [
-      "scripts/functions.js",
-      "scripts/eventpage.js"
-    ],
-    "persistent": false
-  },
-  "browser_action": {
+  "action": {
     "default_title": "RetroTxt",
     "default_icon": {
       "16": "assets/retrotxt_16.png",
@@ -18,6 +10,22 @@
       "128": "assets/retrotxt_128.png"
     }
   },
+  "author": "Ben Garrett",
+  "background": {
+    "service_worker": "scripts/sw/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.retrotxt.com/*",
+        "https://*/*",
+        "http://*/*",
+        "file:///*"
+      ],
+      "all_frames": true,
+      "js": ["scripts/sw/helpers.js"]
+    }
+  ],
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
@@ -29,6 +37,12 @@
   "default_locale": "en_US",
   "description": "Turn pieces of ANSI based text art and ASCII, NFO plain text into HTML.",
   "homepage_url": "https://retrotxt.com",
+  "host_permissions": [
+    "*://*.retrotxt.com/*",
+    "https://*/",
+    "http://*/",
+    "file://*/"
+  ],
   "icons": {
     "16": "assets/retrotxt_16.png",
     "19": "assets/retrotxt_19.png",
@@ -38,42 +52,39 @@
     "128": "assets/retrotxt_128.png"
   },
   "incognito": "split",
-  "manifest_version": 2,
-  "minimum_chrome_version": "72",
+  "manifest_version": 3,
+  "minimum_chrome_version": "92",
   "name": "RetroTxt",
   "omnibox": {
     "keyword": "rt"
   },
-  "optional_permissions": [
-    "downloads",
-    "downloads.open",
-    "tabs",
-    "file:///*/",
-    "*://*/*",
-    "*://*.16colo.rs/*",
-    "*://*.defacto2.net/*",
-    "*://*.gutenberg.org/*",
-    "*://*.scene.org/*",
-    "*://*.textfiles.com/*",
-    "*://*.uncreativelabs.net/*"
-  ],
+  "optional_permissions": ["downloads", "downloads.open"],
   "options_ui": {
     "page": "html/options.html",
-    "chrome_style": false,
     "open_in_tab": true
   },
-  "permissions": [
-    "activeTab",
-    "contextMenus",
-    "storage",
-    "*://*.retrotxt.com/*"
-  ],
+  "permissions": ["activeTab", "contextMenus", "scripting", "storage"],
   "short_name": "RetroTxt",
-  "version": "4.2.0",
+  "version": "5.0.0",
+  "version_name": "5.0 MV3 prototype",
   "web_accessible_resources": [
-    "css/*.css",
-    "fonts/*.woff2",
-    "html/options.html",
-    "test/tests_browser.js"
+    {
+      "resources": ["css/*.css"],
+      "matches": [
+        "*://*.retrotxt.com/*",
+        "https://*/*",
+        "http://*/*",
+        "file://*/*"
+      ]
+    },
+    {
+      "resources": ["fonts/*.woff2"],
+      "matches": [
+        "*://*.retrotxt.com/*",
+        "https://*/*",
+        "http://*/*",
+        "file://*/*"
+      ]
+    }
   ]
 }
