@@ -1,6 +1,6 @@
 {
   "name": "retrotxt",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "description": "Turn many pieces of ANSI text art and ASCII, NFO, Shift-JIS, plain text into HTML5.",
   "keywords": [
     "ascii",
@@ -33,9 +33,9 @@
     "semi": false
   },
   "devDependencies": {
-    "ajv": "8.6.3",
+    "ajv": "8.8.1",
     "dot-json": "*",
-    "eslint": "7.x",
+    "eslint": "8.2.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.x",
     "prettier": "2.x",
