@@ -60,7 +60,8 @@ class Extension {
    * @param [data] Optional fetch API data blob
    */
   activateTab(tab = {}, data) {
-    if (data === null || !(`type` in data)) data = { type: `unknown` }
+    if (typeof data === `undefined` || data === null || !(`type` in data))
+      data = { type: `unknown` }
     // is the tab hosting a text file and what is the tab page encoding?
     NewSession(tab.tabid, data)
     // update the browser tab interface
