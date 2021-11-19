@@ -24,6 +24,7 @@
 - Dropped the permissions requirement for `tabs`.
 - Manifest v3 has much better error handling and there should be less uncaptured errors.
 - Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.
+- Fixed Options reloading the page when a new tab was selected.
 
 ## 4.2
 
