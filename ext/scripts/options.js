@@ -345,19 +345,23 @@ class Permission {
     for (let theme of themes) {
       theme.addEventListener(`click`, () => {
         theme.classList.forEach(function (value) {
-          let arr = [`button`, `option-theme`]
+          let arr = [`button`, `option-theme`, `notification`]
           if (arr.includes(value)) return
           const hero = document.getElementById(`heroSection`),
-            src = document.getElementById(`getTheSource`)
+            src = document.getElementById(`getTheSource`),
+            upd = document.getElementById(`enjoyRetroTxt`)
           hero.classList.forEach(function (heroValue) {
             if (heroValue === `is-fullheight`) return
             if (!heroValue.startsWith(`is-`)) return
             hero.classList.replace(heroValue, value)
           })
-          src.classList.forEach(function (heroValue) {
-            if (heroValue === `is-inverted`) return
-            if (!heroValue.startsWith(`is-`)) return
-            src.classList.replace(heroValue, value)
+          src.classList.forEach(function (srcValue) {
+            if (srcValue === `is-inverted`) return
+            if (!srcValue.startsWith(`is-`)) return
+            src.classList.replace(srcValue, value)
+          })
+          upd.classList.forEach(function (updValue) {
+            upd.classList.replace(updValue, value)
           })
           chrome.storage.local.set({ [`optionClass`]: `${value}` })
         })
@@ -714,19 +718,23 @@ class Initialise extends CheckBox {
    * Select a background and button color for the Options tab.
    */
   async _colorTheme(value = ``) {
-    let arr = [`button`, `option-theme`]
+    let arr = [`button`, `option-theme`, `notification`]
     if (arr.includes(value)) return
     const hero = document.getElementById(`heroSection`),
-      src = document.getElementById(`getTheSource`)
+      src = document.getElementById(`getTheSource`),
+      upd = document.getElementById(`enjoyRetroTxt`)
     hero.classList.forEach(function (heroValue) {
       if (heroValue === `is-fullheight`) return
       if (!heroValue.startsWith(`is-`)) return
       hero.classList.replace(heroValue, value)
     })
-    src.classList.forEach(function (heroValue) {
-      if (heroValue === `is-inverted`) return
-      if (!heroValue.startsWith(`is-`)) return
-      src.classList.replace(heroValue, value)
+    src.classList.forEach(function (srcValue) {
+      if (srcValue === `is-inverted`) return
+      if (!srcValue.startsWith(`is-`)) return
+      src.classList.replace(srcValue, value)
+    })
+    upd.classList.forEach(function (updValue) {
+      upd.classList.replace(updValue, value)
     })
   }
   /**
