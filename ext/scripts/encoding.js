@@ -378,12 +378,9 @@ class Guess extends BrowserEncodings {
     if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
     // if there was no useful SAUCE data then use the transcode setting
     if (sauceSet === ``) {
-      chrome.storage.local.get(`transcode`, (result) => {
-        if (result !== null) {
-          sauceSet = result
-          console.log(`Using saved transcode setting: "${sauceSet}"`)
-        }
-      })
+      sauceSet = sessionStorage.getItem(`lockTranscode`)
+      if (sauceSet !== null)
+        console.log(`Using saved lock-transcode setting: "${sauceSet}"`)
     }
     // user override set by the transcode context menu
     // match sauceSet arrow values such as Cs.OutputCP1252, Cs.OutputUS_ASCII
@@ -707,7 +704,7 @@ class FontFamily {
     const lockFont = `${sessionStorage.getItem(`lockFont`)}`
     if (lockFont === `true`)
       return console.log(
-        `Cannot refresh font as sessionStorage.lockFont is set to true.`,
+        `Cannot refresh font as lock-font is set to true.`,
         `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`
       )
     this._swap(dom)

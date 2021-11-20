@@ -1466,7 +1466,7 @@ class Output {
       stored = { item: null, text: `` },
       vs = ` → `
     // obtain transcode setting
-    stored.item = sessionStorage.getItem(`transcode`)
+    stored.item = sessionStorage.getItem(`lockTranscode`)
     // ==============================================
     // 'Document encoding determined by this browser'
     // ==============================================
@@ -1529,7 +1529,7 @@ class Output {
    */
   rebuildCharacterSet() {
     const characterSet = `${this.data.cs}`,
-      sessionItem = sessionStorage.getItem(`transcode`)
+      sessionItem = sessionStorage.getItem(`lockTranscode`)
     // The Transcode() class is found in parse_dos.js
     const transcode = new Transcode(`${characterSet}`, `${this.slice}`)
     this.slice = ``
@@ -2238,8 +2238,8 @@ function handleConnections(message) {
   if (typeof message[`tabTranscode`] === `string`) {
     const value = message[`tabTranscode`]
     Console(`✉ tabTranscode ${value} message received.`)
-    if (value === Cs.UseCharSet) sessionStorage.removeItem(`transcode`)
-    else sessionStorage.setItem(`transcode`, value)
+    if (value === Cs.UseCharSet) sessionStorage.removeItem(`lockTranscode`)
+    else sessionStorage.setItem(`lockTranscode`, value)
     // reload the active tab
     globalThis.location.reload()
     return

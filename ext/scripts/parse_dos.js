@@ -287,7 +287,7 @@ class Transcode extends CharacterSet {
    */
   constructor(set = ``, text = ``) {
     super()
-    this.session = sessionStorage.getItem(`transcode`)
+    this.session = sessionStorage.getItem(`lockTranscode`)
     super.set = set
     this.text = text
   }
@@ -321,7 +321,7 @@ class Transcode extends CharacterSet {
         break
       default:
         console.log(
-          `Transcode.rebuild() doesn't know sessionStorage.transcode item '${codepage}'`
+          `Transcode.rebuild() doesn't know lock-transcode item '${codepage}'`
         )
     }
     // Handle character 1B to inject EMCA-48/ANSI control function support.
