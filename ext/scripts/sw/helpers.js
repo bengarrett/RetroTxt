@@ -204,6 +204,7 @@ class OptionsReset {
       )
       // permitted domains.
       .set(`settingsWebsiteDomains`, [
+        `localhost`,
         `16colo.rs`,
         `defacto2.net`,
         `gutenberg.org`,
