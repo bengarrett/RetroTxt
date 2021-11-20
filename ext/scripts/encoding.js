@@ -704,15 +704,13 @@ class FontFamily {
    */
   async swap(dom = {}) {
     if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
-    // ignore swap request if `fontOverride` is true
-    chrome.storage.local.get(`fontOverride`, (override) => {
-      if (override === `true`)
-        return console.log(
-          `Cannot refresh font as sessionStorage.fontOverride is set to true.`,
-          `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`
-        )
-      this._swap(dom)
-    })
+    const lockFont = `${sessionStorage.getItem(`lockFont`)}`
+    if (lockFont === `true`)
+      return console.log(
+        `Cannot refresh font as sessionStorage.lockFont is set to true.`,
+        `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`
+      )
+    this._swap(dom)
   }
   _swap(dom = {}) {
     const replaceFont = (fontClass = ``, elm = HTMLElement) => {

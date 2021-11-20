@@ -1355,7 +1355,7 @@ class Output {
     this.ecma48.parse()
     this._ecma48Statistics()
     // font override
-    sessionStorage.removeItem(`fontOverride`)
+    sessionStorage.removeItem(`lockFont`)
     const font = this.ecma48.font
     if (font === undefined)
       CheckError(
@@ -1365,7 +1365,7 @@ class Output {
       const family = new FontFamily(font)
       // fonts.swap() needs to run before setting the sessionStorage
       family.swap(this.pre)
-      sessionStorage.setItem(`fontOverride`, `true`)
+      sessionStorage.setItem(`lockFont`, `true`)
     }
     // colour palette
     this.dom.ecma48 = this.ecma48
@@ -1787,7 +1787,7 @@ class Information extends Output {
     switch (this.sauce.version) {
       case `00`: {
         // use the font name contained in SAUCE metadata
-        sessionStorage.removeItem(`fontOverride`)
+        sessionStorage.removeItem(`lockFont`)
         const sauceFont = this.sauce.configs.fontFamily
         if (sauceFont === ``)
           return console.warn(
@@ -1796,7 +1796,7 @@ class Information extends Output {
         fonts.key = sauceFont.toUpperCase()
         fonts.set()
         fonts.swap(this.output.pre)
-        sessionStorage.setItem(`fontOverride`, `true`)
+        sessionStorage.setItem(`lockFont`, `true`)
         return this._setFontname(fonts)
       }
       default:
@@ -2304,9 +2304,8 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
 
   tabEncode = tabEncode.toLowerCase()
   // clean-up session items, in case the tab was previously used by RetroTxt
-  //sessionStorage.removeItem(`fontOverride`)
   try {
-    sessionStorage.removeItem(`fontOverride`)
+    sessionStorage.removeItem(`lockFont`)
   } catch (e) {
     console.error(
       `
