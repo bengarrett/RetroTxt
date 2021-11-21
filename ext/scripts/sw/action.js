@@ -1,12 +1,12 @@
-// filename: sw/action.js
+// File: scripts/sw/action.js
 //
-/*global CheckError Console ConsoleLoad Developer Extension SessionKey ToolbarButton*/
+// Toolbar button actions.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`action.js`)
 })
 
-// browser action (tool bar button) click event
+// Browser action (toolbar button) click event.
 chrome.action.onClicked.addListener((tab) => {
   if (typeof qunit !== `undefined`) return
   new Action(tab).click()
@@ -116,3 +116,5 @@ class Action {
     return result
   }
 }
+
+/* global CheckError Console ConsoleLoad Developer Extension SessionKey ToolbarButton */

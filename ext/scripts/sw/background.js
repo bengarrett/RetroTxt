@@ -1,13 +1,11 @@
-// filename: sw/background.js
+// File: scripts/sw/background.js
 //
-// Service workers replace background pages.
+// Service workers replace background pages that make the code more modular.
 // They are event based, and like event pages they do not persist between invocations.
-
-/*global CheckError ConsoleLoad Developer Downloads Engine Extension Menu Omnibox Os WebBrowser */
-
-// Service worker helpers that make the code more modular.
 // Each of these helpers have their own event listeners.
-// Gotchas: Service workers must be registered at root level: they cannot be in a nested directory.
+// Gotchas: Service workers must be registered at root level:
+// they cannot be in a nested directory.
+
 importScripts(
   "action.js",
   "downloads.js",
@@ -28,9 +26,10 @@ chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`background`)
 })
 
-// runtime.onInstalled is fired when the extension is first installed,
-// when the extension is updated to a new version,
-// and when Chrome is updated to a new version.
+// runtime.onInstalled is fired when
+// 1) the extension is first installed
+// 2) the extension is updated to a new version
+// 3) Chrome is updated to a new version
 //
 // details.id indicates the ID of the imported shared module extension.
 // details.previousVersion indicates the previous version of the extension.
@@ -109,3 +108,5 @@ function setPlatform() {
     chrome.storage.local.set({ [`platform`]: store })
   })
 }
+
+/* global CheckError ConsoleLoad Developer Downloads Engine Extension Menu Omnibox Os WebBrowser */

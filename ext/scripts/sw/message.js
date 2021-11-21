@@ -1,8 +1,8 @@
-// filename: sw/message.js
+// File: scripts/sw/message.js
 //
-/*global ConsoleLoad Downloads Extension GetCurrentTab SessionKey SetToolbarIcon ToolbarButton */
+// Make service worker connections that can receive commands from the container-scripts.
 
-// for performance, do not use chrome.storage.local.get(Developer)
+// For performance a bool const is used instead of chrome.storage.local.
 const developerMode = false
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -123,3 +123,5 @@ function unexpected(developerMode, message, sender) {
   if (typeof sender !== `undefined`) console.log(sender)
   console.groupEnd()
 }
+
+/* global ConsoleLoad Downloads Extension GetCurrentTab SessionKey SetToolbarIcon ToolbarButton */

@@ -1,6 +1,6 @@
-// filename: sw/menu.js
+// File: scripts/sw/menu.js
 //
-/*global ConsoleLoad CheckLastError Cs GetCurrentTab OpenOptions */
+// RetroTxt (right-click) context menus.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`menu.js`)
@@ -262,3 +262,5 @@ class Menu {
     }
   }
 }
+
+/* global ConsoleLoad CheckLastError Cs GetCurrentTab OpenOptions */

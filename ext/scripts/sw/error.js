@@ -1,7 +1,6 @@
-// filename: sw/error.js
+// File: scripts/sw/error.js
 //
-/*global CheckLastError ConsoleLoad Developer DeveloperModeDebug */
-/*exported CheckError */
+// Service worker error handlers.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`error.js`)
@@ -45,3 +44,6 @@ function CheckError(error = ``, log = false) {
     }
   }
 }
+
+/*global CheckLastError ConsoleLoad Developer DeveloperModeDebug */
+/*exported CheckError */

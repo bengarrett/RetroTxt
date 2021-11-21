@@ -1,29 +1,22 @@
-// filename: sw/downloads.js
+// File: scripts/sw/downloads.js
 //
-/*global CheckError CheckLastError Configuration Console ConsoleLoad Developer Extension Os Security WebBrowser */
-/*exported Downloads */
-
-/*
-CHROME NOTES:
-  Chrome is aggressive with its sanity checks and will refuse to open any file in
-  a tab that it deems a binary or a dangerous file. A text file with control codes
-  may be forcefully closed by the browser, even if the host server's HTTP information
-  declares it's text.
-*/
-
-/*
-FIREFOX (disabled) NOTES:
-  Firefox supports the API functionality needed to implement this feature,
-  except it still fails due to a security design choice at Mozilla.
-  1. `file:///` access is a requirement to view any downloads in the browser.
-  2. Firefox refuses to open privileged URLs such as `file:///` without a user
-  input handler, such as a button click.
-  3. Such access is initially granted but is lost by the time
-  chrome.tabs.create({ active: false, url: url }) is run at the end of this._update().
-  4. Instead, one of the following errors will return:
-  ↳ "Error: downloads.open may only be called from a user input handler"
-  ↳ "Error: Illegal URL"
-*/
+// Apply RetroTxt transformations to text file downloads.
+//
+// Chrome is aggressive with its sanity checks and will refuse to open any file in
+// a tab that it deems a binary or a dangerous file. A text file with control codes
+// may be forcefully closed by the browser, even if the host server's HTTP information
+// declares it's text.
+//
+// Firefox supports the API functionality needed to implement this feature,
+// except it still fails due to a security design choice at Mozilla.
+// 1. `file:///` access is a requirement to view any downloads in the browser.
+// 2. Firefox refuses to open privileged URLs such as `file:///` without a user
+// input handler, such as a button click.
+// 3. Such access is initially granted but is lost by the time
+// chrome.tabs.create({ active: false, url: url }) is run at the end of this._update().
+// 4. Instead, one of the following errors will return:
+//     ↳ "Error: downloads.open may only be called from a user input handler"
+//     ↳ "Error: Illegal URL"
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`downloads.js`)
@@ -249,3 +242,6 @@ class Downloads {
     })
   }
 }
+
+/*global CheckError CheckLastError Configuration Console ConsoleLoad Developer Extension Os Security WebBrowser */
+/*exported Downloads */

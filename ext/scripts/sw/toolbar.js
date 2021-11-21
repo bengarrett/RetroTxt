@@ -1,18 +1,11 @@
-// filename: sw/toolbar.js
+// filename: scripts/sw/toolbar.js
 //
-/*global ConsoleLoad */
-/*exported SetToolbarIcon ToolbarButton */
-
-/*
-Icon formats
-For packed extensions (installed from a .crx file), images can be in most formats that the Blink rendering engine can display, including PNG, JPEG, BMP, ICO, and others (SVG is not supported). Unpacked extensions must use images in the PNG format.
-
-Tooltip titles
-The tooltip, or title, appears when the user hovers the mouse on the extension's icon in the toolbar. It is also included in the accessible text spoken by screenreaders when the button gets focus.
-
-Badge
-Actions can optionally display a "badge" — a bit of text layered over the icon. This makes it easy to update the action to display a small amount of information about the state of the extension, such as a counter. The badge has a text component and a background color.
-*/
+// Toolbar button icon and badge.
+// See `scripts/sw/action.js` for the button interactions.
+//
+// For packed extensions images can be in most formats that the Blink rendering engine can display,
+// including PNG, JPEG, BMP, ICO, and others (SVG is not supported).
+// Unpacked extensions must use images in the PNG format.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`toolbar.js`)
@@ -87,3 +80,6 @@ function SetToolbarIcon(darkMode = false) {
       })
   }
 }
+
+/*global ConsoleLoad */
+/*exported SetToolbarIcon ToolbarButton */

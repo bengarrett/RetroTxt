@@ -1,7 +1,6 @@
-// filename: sw/extension.js
+// File: scripts/sw/extension.js
 //
-/*global ConsoleLoad LocalStore Menu NewSession OptionsReset SessionKey ToolbarButton */
-/*exported Extension */
+// RetroTxt initialisation, defaults and activation.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`extension.js`)
@@ -173,3 +172,6 @@ class Extension {
     )
   }
 }
+
+/*global ConsoleLoad LocalStore Menu NewSession OptionsReset SessionKey ToolbarButton */
+/*exported Extension */

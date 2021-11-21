@@ -1,7 +1,6 @@
-// filename: sw/security.js
+// File: scripts/sw/security.js
 //
-/*global CheckError ConsoleLoad Developer */
-/*exported Security */
+// Web extension API restriction checks and permission grants.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`security.js`)
@@ -19,8 +18,8 @@ class Security {
    */
   constructor(type = ``, origin = ``) {
     // IMPORTANT!
-    // These Map values must match those in the `scripts/options.js` Permission class.
-    // Firefox REQUIRES tabs permission to access URL in the queryInfo
+    // These mapped values must match the Permission class of `scripts/options.js`.
+    // Firefox MV2 REQUIRES tabs permission to access URL in the queryInfo
     // parameter to tabs.query().
     const permissions = new Map()
       .set(`action`, [])
@@ -87,3 +86,6 @@ class Security {
     return [`*://${url.hostname}/*`]
   }
 }
+
+/*global CheckError ConsoleLoad Developer */
+/*exported Security */

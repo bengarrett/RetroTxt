@@ -1,16 +1,14 @@
-// filename: sw/tabs.js
+// File: scripts/sw/tabs.js
 //
-/*global Action Console Developer ConsoleLoad Configuration Security Extension Downloads NewSessionUpdate Os RemoveSession SessionKey ToolbarButton WebBrowser */
-
-// any local storage item beginning with `tab` ie `tab{this.id}` is a session var.
+// Monitors and handles the interactions with new and closed browser tabs.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`tabs.js`)
 })
 
 // tabs.onActivated fires when the active tab in a window changes.
-// Note that the tab's URL may not be set at the time this event fired,
-// but you can listen to onUpdated events so as to be notified when a URL is set.
+// Note that the URL may not be set at the time this event fires;
+// but an onUpdated event can be used to notify when the URL is set.
 chrome.tabs.onActivated.addListener((activeInfo) => {
   if (typeof activeInfo.tabId === `undefined`) return
   chrome.tabs.get(activeInfo.tabId, (tab) => {
@@ -374,3 +372,5 @@ class Tab {
     return false
   }
 }
+
+/* global Action Console Developer ConsoleLoad Configuration Security Extension Downloads NewSessionUpdate Os RemoveSession SessionKey ToolbarButton WebBrowser */

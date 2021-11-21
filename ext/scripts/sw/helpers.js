@@ -1,35 +1,12 @@
-// filename: sw/helpers.js
+// File: scripts/sw/helpers.js
 //
-// This is a replacement for RetroTxt v4's function.js.
-// It is used as both a service worker and a container-script.
+// Service worker "helper" shared functions.
+// These are shared between both service workers and container-scripts.
+// This is a replacement for the previous RetroTxt function JS file.
 //
-// All functions and methods cannot access the browser DOM API or the Chrome extension API.
-
-/*global CheckError */
-/*exported CheckLastError Console ConsoleLoad Configuration DeveloperModeDebug Engine GetCurrentTab WebBrowser
- */
-
-/*
-Content scripts can access Chrome APIs used by their parent extension by exchanging messages with the extension. They can also access the URL of an extension's file with chrome.runtime.getURL() and use the result the same as other URLs.
-
-Code for displaying <extensionDir>/images/myimage.png:
-var imgURL = chrome.runtime.getURL("images/myimage.png");
-document.getElementById("someImage").src = imgURL;
-Additionally, content scripts can access the following chrome APIs directly:
-
-i18n
-storage
-runtime:
-  connect
-  getManifest
-  getURL
-  id
-  onConnect
-  onMessage
-  sendMessage
-
-https://developer.chrome.com/docs/extensions/mv3/content_scripts/
-*/
+// The contained functions and methods cannot access the APIs
+// for the browser DOM or web extensions* (there are some exceptions).
+// See: https://developer.chrome.com/docs/extensions/mv3/content_scripts
 
 // onInstalled only works with service workers.
 if (typeof chrome.runtime.onInstalled !== `undefined`) {
@@ -434,3 +411,6 @@ function StringToBool(string = ``) {
       return null
   }
 }
+
+/* global CheckError */
+/* exported CheckLastError Console ConsoleLoad Configuration DeveloperModeDebug Engine GetCurrentTab WebBrowser */

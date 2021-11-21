@@ -1,15 +1,14 @@
-// filename: sw/storage.js
+// File: script/sw/storage.js
 //
-// chrome.storage.local.set()
-// Primitive values will serialize as expected.
-// string, number, bigint, boolean, undefined, symbol and null
+// RetroTxt settings and configurations store.
 //
-// `Array`, `Date` and `Regex` serialize as expected.
-//
-// Values with a `typeof` "object" and "function" will typically serialize to `{}`.
-
-/*global CheckLastError ConsoleLoad Developer Extension */
-/*exported OpenOptions RemoveSearch */
+// When using the local storage API.
+// Primitive values will serialize as expected:
+//   string, number, bigint, boolean, undefined, symbol and null.
+// Some complex values will also serialize as expected such as:
+//   array, date and regex.
+// But values with a typeof:
+//   object or function will typically serialize to `{}`.
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`storage.js`)
@@ -41,7 +40,7 @@ class LocalStore {
     this.redundant = new Set().add(`runFileDownloads`).add(`runFileUrls`)
 
     // NOTE: The following MUST be disabled in production as it erases all the
-    // storage objects whenever the Extension is reloaded
+    // storage objects whenever the Extension is reloaded.
     this.storageReset = false
     this.redundantTest = false
   }
@@ -171,3 +170,6 @@ function OpenOptions(page = ``) {
     if (CheckLastError(`open options page "${page}"`)) return
   })
 }
+
+/* global CheckLastError ConsoleLoad Developer Extension */
+/* exported OpenOptions RemoveSearch */

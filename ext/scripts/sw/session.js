@@ -1,9 +1,7 @@
-// filename: sw/session.js
+// File: scripts/sw/session.js
 //
-// This is replicates the feature set that previously used sessionStorage in MV2.
-//
-/*global CheckError CheckLastError Console ConsoleLoad */
-/*exported NewSession NewSessionUpdate RemoveSession SessionKey */
+// Uses the local storage API to simulate a session storage store.
+// Session storage is not available to service workers.
 
 const SessionKey = `_tabSession`
 
@@ -75,3 +73,6 @@ function removeSessions() {
     }
   })
 }
+
+/* global CheckError CheckLastError Console ConsoleLoad */
+/* exported NewSession NewSessionUpdate RemoveSession SessionKey */

@@ -1,11 +1,9 @@
-// filename: omnibox.js
+// File: scripts/sw/omnibox.js
 //
-
-/*exported Omnibox */
-/*global CheckError ConsoleLoad OpenOptions */
-
+// Browser address bar omnibox input to handle terminal like commands.
+//
 // NOTE: THIS IS CURRENTLY BROKEN IN MV3
-// https://bugs.chromium.org/p/chromium/issues/detail?id=1186804
+// See the open issue: https://bugs.chromium.org/p/chromium/issues/detail?id=1186804
 
 chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`omnibox.js`)
@@ -13,7 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 /**
  * Handle browser address bar omnibox commands.
- * To trigger type `rt ` &nbsp; (rt space).
+ * To trigger type `rt ` (rt space).
  * @class Omnibox
  */
 class Omnibox {
@@ -80,3 +78,6 @@ class Omnibox {
     })
   }
 }
+
+/*exported Omnibox */
+/*global CheckError ConsoleLoad OpenOptions */
