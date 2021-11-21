@@ -1,7 +1,6 @@
-// filename: checks.js
+// filename: scripts/checks.js
 //
-/*global BusySpinner BrowserOS CreateLink DOM Engine Os WebBrowser */
-/*exported CheckArguments CheckError CheckRange DisplayAlert DisplayEncodingAlert */
+// Error, argument checkers and alerts for the container-scripts.
 
 /**
  * Argument checker for functions and classes.
@@ -215,3 +214,6 @@ function DisplayEncodingAlert() {
   const dom = new DOM()
   dom.body.insertBefore(div, dom.pre0)
 }
+
+/*global BusySpinner BrowserOS CreateLink DOM Engine Os WebBrowser */
+/*exported CheckArguments CheckError CheckRange DisplayAlert DisplayEncodingAlert */

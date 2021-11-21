@@ -1,4 +1,4 @@
-// filename: scripts/sw/toolbar.js
+// File: scripts/sw/toolbar.js
 //
 // Toolbar button icon and badge.
 // See `scripts/sw/action.js` for the button interactions.

@@ -1,15 +1,10 @@
-// filename: retrotxt.js
+// File: script/retrotxt.js
 //
-// These functions are used to apply RetroTxt to a browser tab.
-// Or restore it to its original raw or plain-text state.
-//
-/*global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
+// Content-script to apply RetroTxt to a browser tab DOM,
+// or restore the tab to its original raw text state.
 
-ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
-/*exported DOM*/
-"use strict"
-
-// SAUCE fonts, these must be kept current to the font families in fonts_ibm.css & fonts_home.css
+// SAUCE fonts.
+// These must be kept current to the font families in fonts_ibm.css & fonts_home.css.
 const atascii = `candyantics`,
   commodore64 = `petme64`,
   ibmVGA = `ibm_vga_9x16`,
@@ -2551,3 +2546,8 @@ function textType(format = ``) {
 }
 // eslint no-unused-variable fix
 if (typeof Execute !== `undefined`) void 0
+
+/* global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
+
+ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
+/*exported DOM*/

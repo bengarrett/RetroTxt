@@ -1,11 +1,9 @@
-// filename: helpers.js
+// File: scripts/helpers.js
 //
-// Helpers used by content-scripts.
+// Content-scripts "helper" shared functions.
+// There is an IIFE, self-invoking anonymous function at the end of the document.
 
-/*global CheckArguments CheckError CheckLastError */
-/*exported BusySpinner BBSText FindControlSequences HumaniseFS LinkDetails ParseToChildren RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect UnknownText */
-
-// text type, using control codes or sequences
+// Text type globals, using control codes or sequences.
 const UnknownText = -1,
   PlainText = 0,
   PCBoardText = 1,
@@ -346,3 +344,6 @@ function SetIcon() {
 ;(() => {
   SetIcon()
 })()
+
+/*global CheckArguments CheckError CheckLastError */
+/*exported BusySpinner BBSText FindControlSequences HumaniseFS LinkDetails ParseToChildren RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect UnknownText */

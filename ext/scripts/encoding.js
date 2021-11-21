@@ -1,7 +1,7 @@
-// filename: encoding.js
+// File: scripts/encoding.js
 //
-/*global CheckArguments Console Cs Engine WebBrowser */
-/*exported Characters FontFamily Guess HardwarePalette*/
+// Character sets, browser encodings, code page handlers.
+// Also font selection and palette colour hardware emulation.
 
 /**
  * Capitalizes the first letter of a word while applying lowercasing to the others.
@@ -922,3 +922,6 @@ class FontFamily {
     return title
   }
 }
+
+/* global CheckArguments Console Cs Engine WebBrowser */
+/* exported Characters FontFamily Guess HardwarePalette */

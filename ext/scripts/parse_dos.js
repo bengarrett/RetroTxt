@@ -1,35 +1,27 @@
-// filename: parse_dos.js
+// File: scripts/parse_dos.js
 //
-// JavaScript converts all plain-text it parses into UTF-16.
-// The functions on this page attempts to convert the text encodings
-// commonly used by legacy micro computer, PC and MS-DOS systems to
+// Content-script to handle legacy text codepages and character sets.
+//
+// JavaScript parses all text as UTF-16.
+// The functions on this page attempt to convert the text encodings
+// commonly used by legacy microcomputer, PC and MS-DOS systems to
 // be JavaScript UTF-16 friendly.
 //
-// For ANSI control conversion functions see `parse_ansi.js`.
+// For ANSI controls conversion functions see `parse_ansi.js`.
 //
-// In plain-text the ...
-//
+// ASCII text notes:
 // Characters 0…31 are commonly bits for ASCII C0 control functions.
-// But with the IBM PC and MS-DOS they were also used for the display of characters.
-//
+// But for the IBM PC and MS-DOS they were also used for the display of characters.
 // Characters 32…126 are skipped as they are based on the US-ASCII/ECMA-43
 // near-universal character set.
 //
 // "8-Bit Coded Character Set Structure and Rules"
-// ECMA-43 (US-ASCII)
-// ecma-international.org/publications/standards/Ecma-043.htm
-// ECMA-48 (includes C0 controls)
-// ecma-international.org/publications/standards/Ecma-048.htm
+// ECMA-43 (US-ASCII): https://ecma-international.org/publications/standards/Ecma-043.htm
+// ECMA-48 (includes C0 controls): https://ecma-international.org/publications/standards/Ecma-048.htm
 
 // ES6 performance notes:
 // Objects use less memory than typed arrays, ie `Uint8Array()`.
 // Objects are much faster than `Maps`.
-
-/*eslint no-control-regex: "off"*/
-/*global BrowserOS CheckArguments Console Cs DeveloperModeDebug FindControlSequences Os
-CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText */
-/*exported BBS Controls DOSText Transcode*/
-"use strict"
 
 const empty = `\u0020`,
   nbsp = `\u00A0`,
@@ -1140,3 +1132,8 @@ if (typeof Transcode === `undefined`) eslintUndef
 function eslintUndef() {
   return
 }
+
+/*eslint no-control-regex: "off"*/
+/*global BrowserOS CheckArguments Console Cs DeveloperModeDebug FindControlSequences Os
+CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText */
+/*exported BBS Controls DOSText Transcode*/

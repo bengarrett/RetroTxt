@@ -1,31 +1,22 @@
-// filename: parse_ansi.js
+// File: scripts/parse_ansi.js
 //
-// These functions are to handle ANSI and ECMA-48 control functions embedded
-// into the text.
+// Handle ANSI and ECMA-48 control codes embedded into text.
+
+// ANSI it is an ambiguous term. The American National Standards Institute was a
+// standards body who published numerous computer text standards.
 //
-// The common online name is ANSI but it is an ambiguous term.
-// ANSI (American National Standards Institute) was a standards body who
-// published numerous computer text standards.
-//
-// The term 'ANSI art' probably came about thanks to Microsoft misnaming their
-// limited MS-DOS driver as `ANSI.SYS`.
+// The term ANSI art is probably derived from Microsoft misnaming their DOS driver `ANSI.SYS`.
 //
 // ANSI art usually refers to these identical standards.
 // ISO 6429 - "Control functions for 7-bit and 8-bit coded character sets"
 // ECMA-48  - "Control Functions for Coded Character Sets"
 //
-// ISO/IEC 6429
-// http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
-// ECMA-48
-// http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf (free)
-// ANSI X3.64 (withdrawn in 1997)
-// https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf
-// Microsoft ANSI.SYS (MS-DOS implementation with selective compliance)
-// https://msdn.microsoft.com/en-us/library/cc722862.aspx
-// XTerm Control Sequences
-// https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+// ISO/IEC 6429: http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
+// ECMA-48: http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf (free)
+// Microsoft ANSI.SYS: https://msdn.microsoft.com/en-us/library/cc722862.aspx
+// XTerm Control Sequences: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 
-// ES6 performance tips
+// ES6 performance tips:
 // Prefer `switch` over if-then-else conditionals as they can be optimised during compile time.
 // Prefer reference types instead of primitive types.
 //   For large sets, arrays and objects use less resources than strings, integers etc.
@@ -35,11 +26,6 @@
 //   An array with exclusive string elements should only use `` as empty values.
 //   Never include `undefined` or `null` as they are reference types.
 //   https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
-
-/*eslint no-useless-escape: "warn"*/
-/*global BrowserOS CheckArguments CheckError CheckRange Os */
-/*exported Controls*/
-"use strict"
 
 const resetCursor = Symbol(`reset cursor position`),
   resetECMA = Symbol(`reset ECMA48/ANSI`),
@@ -2305,3 +2291,7 @@ class Build extends Scan {
     return decimals
   }
 }
+
+/*eslint no-useless-escape: "warn"*/
+/*global BrowserOS CheckArguments CheckError CheckRange Os */
+/*exported Controls*/
