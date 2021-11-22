@@ -1,9 +1,7 @@
-// filename: options.js
+// File: scripts/options.js
 //
-// These functions and classes are exclusively used by the Options tab.
-//
-/*global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
-"use strict"
+// Functions and classes exclusive to the RetroTxt Options tab.
+// These run in isolation to the other context-scripts.
 
 /**
  * Argument checker.
@@ -1540,12 +1538,12 @@ class Hosts {
         this._check(this.input.value)
       }
     })
-    // domain suggestions
+    // website suggestions
     this.remove.addEventListener(`click`, () => {
-      new Hosts().removeSuggestions()
+      this.removeSuggestions()
     })
     this.include.addEventListener(`click`, () => {
-      new Hosts().restoreSuggestions()
+      this.restoreSuggestions()
     })
   }
   /**
@@ -1564,9 +1562,10 @@ class Hosts {
       }
       localStore(`settingsWebsiteDomains`, keep)
       this._clear()
-      for (let host of keep) {
+      for (const host of keep) {
         this._add(host, false)
       }
+      this.hostnames = keep
     })
   }
   /**
@@ -1580,8 +1579,9 @@ class Hosts {
       const mergeNoDupes = [...new Set([...result[key], ...hosts])]
       localStore(`settingsWebsiteDomains`, mergeNoDupes)
       this._clear()
-      for (let host of mergeNoDupes) {
+      for (const host of mergeNoDupes) {
         this._add(host, false)
+        this.hostnames = [...this.hostnames, host]
       }
     })
   }
@@ -1637,7 +1637,7 @@ class Hosts {
    */
   async _check(hostname = ``) {
     if (hostname.length < this.minLength) return (this.submit.disabled = true)
-    let duplicates = [...this.hostnames, `retrotxt.com`]
+    const duplicates = [...this.hostnames, `retrotxt.com`]
     for (const dupe of duplicates) {
       if (dupe === hostname) return (this.submit.disabled = true)
     }
@@ -1661,7 +1661,7 @@ class Hosts {
         case `templateHost`:
           return
       }
-      Console(`remove element child #${index}: ${child.textContent.trim()}`)
+      Console(`Remove element child #${index}: ${child.textContent.trim()}`)
       child.remove()
     })
   }
@@ -1669,7 +1669,7 @@ class Hosts {
    * Is the hostname one of the default domains supplied by RetroTxt?
    */
   _isSuggestion(hostname = ``) {
-    for (let domain of this.suggestions) {
+    for (const domain of this.suggestions) {
       if (hostname == domain) return true
     }
     return false
@@ -1688,7 +1688,10 @@ class Hosts {
    * Save the hostnames to local storage.
    */
   _storageSave() {
-    localStore(`settingsWebsiteDomains`, this.hostnames)
+    const uniqueHosts = this.hostnames.filter((data, index) => {
+      return this.hostnames.indexOf(data) === index
+    })
+    localStore(`settingsWebsiteDomains`, uniqueHosts)
   }
 }
 
@@ -1768,3 +1771,5 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   customColorText.textContent = customColorText.textContent.toLowerCase()
   //handleError(`false positive test`)
 })()
+
+/* global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
