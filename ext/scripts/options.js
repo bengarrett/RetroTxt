@@ -753,7 +753,6 @@ class Initialise extends CheckBox {
   async _toolbarIcon() {
     const icons = document.getElementsByName(`toolbaricon`)
     for (const icon of icons) {
-      console.log(`icon`, icon, `val`, this.value)
       if (icon.value === this.value) return (icon.checked = true)
     }
   }
