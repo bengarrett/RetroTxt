@@ -572,6 +572,7 @@ class Initialise extends CheckBox {
     this.lengths = new Set([
       `colorsAnsiColorPalette`,
       `settingsInformationHeader`,
+      `settingsToolbarIcon`,
       `colorsTextPairs`,
       `fontFamilyName`,
       `textSmearBlockCharacters`,
@@ -702,6 +703,8 @@ class Initialise extends CheckBox {
           return this._colorPalette()
         case `settingsInformationHeader`:
           return this._infoHeader()
+        case `settingsToolbarIcon`:
+          return this._toolbarIcon()
         case `colorsTextPairs`:
           return this._selectColor()
         case `fontFamilyName`:
@@ -742,6 +745,16 @@ class Initialise extends CheckBox {
     const palettes = document.getElementsByName(`palette`)
     for (const palette of palettes) {
       if (palette.value === this.value) return (palette.checked = true)
+    }
+  }
+  /**
+   * Selects a toolbar icon radio option.
+   */
+  async _toolbarIcon() {
+    const icons = document.getElementsByName(`toolbaricon`)
+    for (const icon of icons) {
+      console.log(`icon`, icon, `val`, this.value)
+      if (icon.value === this.value) return (icon.checked = true)
     }
   }
   /**
@@ -1127,6 +1140,11 @@ class Radios {
         this.formId = `info-form`
         this.formName = `infoheader`
         return (this.skip = true)
+      case `settingsToolbarIcon`:
+        this.feedback = `icon`
+        this.formId = `toolbarForm`
+        this.formName = `toolbaricon`
+        return (this.skip = true)
       case `fontFamilyName`:
         this.feedback = `font selection`
         this.formId = `fontSuggestions`
@@ -1222,12 +1240,24 @@ class Radios {
   }
 }
 /**
- * Information header
+ * Information header.
  * @class Header
  */
 class Header extends Radios {
   constructor() {
     super(`settingsInformationHeader`)
+  }
+  async preview() {
+    // do not remove
+  }
+}
+/**
+ * Toolbar icon.
+ * @class Header
+ */
+class Toolbar extends Radios {
+  constructor() {
+    super(`settingsToolbarIcon`)
   }
   async preview() {
     // do not remove
@@ -1737,6 +1767,9 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   const head = new Header()
   head.storageLoad()
   head.listen()
+  const tb = new Toolbar()
+  tb.storageLoad()
+  tb.listen()
   const pal = new Palette()
   pal.storageLoad()
   pal.listen()

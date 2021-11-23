@@ -167,6 +167,7 @@ class OptionsReset {
       .set(`optionClass`, `is-primary`) // new in v4.2
       .set(`settingsInformationHeader`, `on`) // formerly textFontInformation
       .set(`settingsNewUpdateNotice`, true)
+      .set(`settingsToolbarIcon`, `auto`)
       .set(`settingsWebsiteViewer`, true)
       .set(`textAccurate9pxFonts`, false)
       .set(`textBackgroundScanlines`, false)

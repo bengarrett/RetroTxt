@@ -11,6 +11,19 @@ chrome.runtime.onInstalled.addListener(() => {
   ConsoleLoad(`toolbar.js`)
 })
 
+chrome.storage.onChanged.addListener((changes) => {
+  const icon = changes.settingsToolbarIcon
+  if (!icon) return
+  switch (`${icon.newValue}`) {
+    case `auto`:
+      return // do nothing
+    case `dark`:
+      return SetToolbarIcon(true)
+    case `light`:
+      return SetToolbarIcon(false)
+  }
+})
+
 /**
  * Handle toolbar button display.
  * @class ToolbarButton

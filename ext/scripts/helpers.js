@@ -330,13 +330,31 @@ function RemoveTextPairs(elm = HTMLElement) {
 }
 
 function SetIcon() {
-  // matchMedia prefers-color-scheme isn't reliable in Linux
+  // matchMedia prefers-color-scheme isn't always reliable in Linux
   const preferDark =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
-
-  chrome.runtime.sendMessage({ setIcon: preferDark }, () => {
-    if (CheckLastError(`setIcon preferDark send message`)) return
+  const key = `settingsToolbarIcon`
+  chrome.storage.local.get(key, (store) => {
+    if (key in store) {
+      switch (store.settingsToolbarIcon) {
+        case `dark`:
+          chrome.runtime.sendMessage({ setIcon: true }, () => {
+            if (CheckLastError(`setIcon dark send message`)) return
+          })
+          break
+        case `light`:
+          chrome.runtime.sendMessage({ setIcon: false }, () => {
+            if (CheckLastError(`setIcon light send message`)) return
+          })
+          break
+        default:
+          chrome.runtime.sendMessage({ setIcon: preferDark }, () => {
+            if (CheckLastError(`setIcon preferDark send message`)) return
+          })
+          break
+      }
+    }
   })
 }
 
