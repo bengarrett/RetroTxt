@@ -1,15 +1,6 @@
-# RetroTxt - Limitations and known issues
+# Limitations and known issues
 
 These are known unfixable problems due to restrictions with the browser or operating system.
-
-- [Preferred operating system and browser](#platform)
-- [BBS era ANSI](#bbs)
-- [MIME sniffing](#mime)
-- [Unsupported text formats](#unsupported)
-- [Missing or invalid characters](#invalid)
-- [Fonts and styling accuracy](#fonts)
-
-<a id="platform"></a>
 
 ## Preferred operating system and browser?
 
@@ -36,16 +27,11 @@ Regardless of the browser, Windows suffers from artifacts and distortions caused
  `████`<br>
 <small>An example of characters that introduce artifacts</small>
 
-<a id="bbs"></a>
-
 ## BBS era ANSI
 
 A lot of [Bulletin Board System](https://spectrum.ieee.org/tech-history/cyberspace/social-medias-dialup-ancestor-the-bulletin-board-system) era ANSI art relied on an 80x25 fixed terminal with the cursor positioning to create motion and animations that do not convert using RetroTxt.
 
 Fixing this would require a considerable amount of programming work for little reward. It would be a massive hit to browser performance, and most larger and complicated ANSI would probably never render as the browser would flag the tab as unresponsive.
-
-<a id="mime"></a>
-
 ## MIME sniffing
 
 Browser [MIME sniffing](https://en.wikipedia.org/wiki/Content_sniffing) will often override RetroTxt, forcing text files to download rather than display in a tab.
@@ -53,16 +39,11 @@ Browser [MIME sniffing](https://en.wikipedia.org/wiki/Content_sniffing) will oft
 - Firefox will usually produce incorrect MIME sniffing results with the `http(s)://` protocol.
 
 - Chromium-based browsers can produce incorrect MIME sniffing results with the `file:///` protocol.
-
-<a id="unsupported"></a>
-
 ## Unsupported text formats
 
 - Non-standard home computer ASCII such as **Atari ATASCII** and **Commodore PETSCII** texts, are not supported.
 
 - Binary formats such as **.xbin** and **.bin** are not supported as browsers refuse to render unknown file data on a page.
-
-<a id="invalid"></a>
 
 ## Missing or invalid characters
 
@@ -77,8 +58,6 @@ For example, fünf German for five is a legitimate word in CP-437 (OEM-US) but b
 ![fünf viewed as CP-437/OEM-US](assets/limitations-funf-1.png)
 
 ![fünf viewed as Windows-1252](assets/limitations-funf-2.png)
-
-<a id="fonts"></a>
 
 ## Fonts and styling accuracy
 

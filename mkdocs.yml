@@ -1,0 +1,92 @@
+site_name: RetroTxt
+copyright: RetroTxt &copy; 2022 Ben Garrett
+repo_url: https://github.com/bengarrett/RetroTxt
+
+theme:
+  name: material
+  language: en
+  logo: assets/retrotxt_128.svg
+  favicon: assets/retrotxt_128.svg
+  palette:
+    primary: teal
+    accent: indigo
+  font:
+    #text: IBM Plex
+    code: IBM Plex Mono
+  features:
+    # - navigation.instant
+    # - navigation.tracking
+    #   navigation.tabs
+    # - navigation.tabs.sticky
+    -  #navigation.sections
+    -  #navigation.expand
+    -  #navigation.indexes
+      #navigation.top
+    -  #toc.integrate
+
+nav:
+  - Install: index.md
+  - Usage:
+      - First time usage: usage/walk.md
+      - Configuration: usage/settings.md
+      - Font size: usage/font_size.md
+      - Local files: usage/local.md
+      - Garbled text: usage/garbled.md
+      - Commands: usage/omnibar.md
+      - Menus: usage/menus.md
+  - Limitations: limitations.md
+  - Supported standards:
+      - Control sequences: specs/controls.md
+      - Codepages: specs/cp.md
+      - ANSI (ECMA48): specs/ansi.md
+      - ANSI.SYS: specs/ansi_sys.md
+      - BBS colors: specs/bbs.md
+      - Non-standard: specs/misc.md
+      - SAUCE (metadata): specs/sauce.md
+  - Source code:
+      - Install & usage: src/index.md
+      - Building tips: src/build.md
+      - Files & directories: src/files.md
+      - Fonts: src/font.md
+  - Hosting on the web:
+      - Nginx: host/nginx.md
+  - Privacy: privacy.md
+  - Policies: policies.md
+
+# nav:
+#   - Section:
+#       - section/index.md
+#       - Page 1: section/page-1.md
+#       - Page 2: section/page-2.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  # Python Markdown
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  # Formatting
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  # Icons + Emojis
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true

@@ -1,4 +1,4 @@
-# RetroTxt - Context menu, Transcode this text
+# Context menus
 
 The context menu can be found by right-clicking on the active tab (web page) content and in Chrome by right-clicking the RetroTxt toolbar button.
 

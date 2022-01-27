@@ -8,6 +8,12 @@
   "[js]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[markdown]": {
+    "editor.formatOnSave": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": false
+  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -30,15 +36,5 @@
     "**/qunit.js": true,
     "**/manifest_v2": true
   },
-  "spellright.documentTypes": [
-    "markdown",
-    "latex",
-    "plaintext",
-    "html",
-    "css",
-    "yaml"
-  ],
-  "spellright.language": ["en"],
-  "spellright.notificationClass": "hint",
   "typescript.format.enable": false
 }

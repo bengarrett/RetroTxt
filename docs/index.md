@@ -1,36 +1,30 @@
-## RetroTxt
+---
+hide:
+  - toc
+---
+# Install
 
-Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 text using
-RetroTxt. The browser agnostic Extension that takes retro text files and
-stylises them into a more pleasing, useful format to view and copy in a web browser.
+Turn pieces of ANSI text art and ASCII, NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, useful format to view or copy from a web browser tab.
 
-#### Available for installation from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) and [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog).
+- [x] View ANSI, ASCII, NFO, Shift JIS text art as HTML
+- [x] View server, system and devop logs styled with colored text
+- [x] View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
-### Support
+[:material-google-chrome: Install to Chrome ](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install to Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install to Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
 
-- [The readme with installation instructions](https://github.com/bengarrett/RetroTxt#readme)
-- [Limitations and known issues](limitations)
-- [FAQ - Common questions and fixes](SUPPORT)
+[Or use the GNU LGPLv3 source code.](src)
 
-### Documentation
+---
 
-- [Context menu, Transcode this text](menus)
-- [Source code and how to use it](source_code)
+## Features
 
-* [Technical specifications on supported formats](technical)
-* [Version changes](changes)
-
-### Dev-ops
-
-- [Configure NGINX to serve ASCII & ASCII art](nginx)
-
-### Policies
-
-- [Privacy policy](privacy) / [Security policy](SECURITY)
-- [Code of conduct](https://github.com/bengarrett/RetroTxt/blob/master/docs/CODE_OF_CONDUCT.md)
-
-* [Contributing documentation or code](https://github.com/bengarrett/RetroTxt/blob/master/docs/CONTRIBUTING.md)
-* [License](https://choosealicense.com/licenses/lgpl-3.0)
+* Swappable palettes; VGA, CGA, xterm, monochrome, Apple IIgs, Commodore 64 and switchable iCE Colors
+* Customizable font and background colors
+* SAUCE metadata parsing
+* Multiple text encodings support including CP-437, ISO-8959-1, Windows-1252, Shift JIS
+* Automatic block character, line artifact fixes
+* Hundreds of IBM PC font choices such as VGA, PS/2, EGA, CGA, MDA plus variants, and more
+* Various Amiga and home computer system fonts; Commodore, Atari, Apple, and more
 
 ---
 
