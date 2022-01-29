@@ -29,9 +29,10 @@ nav:
   - Usage:
       - First time usage: usage/walk.md
       - Configuration: usage/settings.md
-      - Font size: usage/font_size.md
       - Local files: usage/local.md
+      - Font size: usage/font_size.md
       - Garbled text: usage/garbled.md
+      - Preferences: usage/preference.md
       - Commands: usage/omnibar.md
       - Menus: usage/menus.md
   - Limitations: limitations.md
@@ -50,7 +51,6 @@ nav:
       - Fonts: src/font.md
   - Hosting on the web:
       - Nginx: host/nginx.md
-  - Privacy: privacy.md
   - Policies: policies.md
 
 # nav:
