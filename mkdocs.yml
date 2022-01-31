@@ -50,6 +50,7 @@ nav:
       - Manifest V3: src/mv3.md
       - Files & directories: src/files.md
       - Fonts: src/font.md
+  - Changes: changes.md
   - Hosting on the web:
       - Nginx: host/nginx.md
   - Policies:

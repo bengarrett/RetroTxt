@@ -1,11 +1,14 @@
-# Changes
-
+---
+hide:
+  - toc
+---
 ## 5.0
 
-### Migration to Manifest v3
+### [Migration to Manifest v3](/src/mv3)
 
 - **Some Options settings may be lost in this update.**<br>
-  Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`. This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
+  Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.
+  This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
 
 * Replaced the `scripts/eventpage.js` background page with modular service workers.
 * Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
@@ -344,7 +347,6 @@
 ### June 2017
 
 - There are new clickable toggles in the information header for ANSI art.
-- - ![ANSI header](assets/changes-22-header.png)
 - - **Normal** switches the active tab text rendering between _Normal_, _Smeared_ and _Shadowed_.
 - - **IBM** switches the ANSI 16 color palette between _IBM_ VGA, Unix _xterm_ and _gray_ scale.
 - - **On** toggles between iCE background colors and blinking text.
