@@ -12,36 +12,38 @@ The samples are also browsable using: [retrotxt.com/e](https://retrotxt.com/e)
 
 [There are instructions to browse local files on your computer](../local).
 
-Or you could run a simple, local web server on your computer.
+!!! example
 
-=== "NPM"
-    ```bash
-    # an example path
-    cd yourfiles
+    ### Or you could run a simple, local web server on your computer
 
-    npx http-server
-    ```
+    === "NPM"
+        ```bash
+        # an example path
+        cd yourfiles
 
-=== "Python3"
-    ```bash
-    # an example path
-    cd yourfiles
+        npx http-server
+        ```
 
-    python3 -m http.server
-    ```
+    === "Python3"
+        ```bash
+        # an example path
+        cd yourfiles
 
-=== "Python2"
-    ```bash
-    # an example path
-    cd yourfiles
+        python3 -m http.server
+        ```
 
-    python -m SimpleHTTPServer
-    ```
+    === "Python2"
+        ```bash
+        # an example path
+        cd yourfiles
 
-=== "PHP"
-    ```bash
-    # an example path
-    cd yourfiles
+        python -m SimpleHTTPServer
+        ```
 
-    php -S localhost:8000
-    ```
+    === "PHP"
+        ```bash
+        # an example path
+        cd yourfiles
+
+        php -S localhost:8000
+        ```

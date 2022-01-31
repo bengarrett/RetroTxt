@@ -17,20 +17,23 @@ hide:
 | FileSize | No | | |
 | DataType | No | | |
 | FileType | No | | |
-| TInfo1 | Partial | Yes | When it exists it is used to set _Character width_ (columns of text) |
+| TInfo1 | Partial | Yes | When found, is used to set the character width[^1] |
 | TInfo2 | No | | |
 | TInfo3 | No | | |
 | TInfo4 | No | | |
 | Comments | Yes | Yes | |
-| TFlags | Partial | Yes | See **ANSiFlags** below |
-| TInfoS | Partial | Yes | See **FontName** below |
+| TFlags | Partial | Yes | See **ANSI flags** below |
+| TInfoS | Partial | Yes | |
 
-## ANSiFlags
+## ANSI flags
 
 _ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer/editor how to render the image_.
 
-| Flag | Name | Used | Notes |
-| -- | -- | -- | -- |
-| B | Non-blink mode | Yes | Also known as iCE colors |
-| LS | Letter-spacing | Yes | |
-| AR | Aspect Ratio | No | |
+| Flag | Name | Used |
+| -- | -- | -- |
+| B | Non-blink mode[^2] | Yes |
+| LS | Letter-spacing | Yes |
+| AR | Aspect Ratio | No |
+
+[^1]: Columns of text.
+[^2]: Also known as iCE colors.

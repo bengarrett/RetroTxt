@@ -38,14 +38,14 @@ These are the directories and files that comprise of RetroTxt source code.
 |  ↳ `svg/material-icons.svg` | SVG icons for the Options tab |
 | **`ext/css/`** | Extension Cascading Style Sheets in CSS3 syntax |
 | ↳ `bulma.min.css` | [Bulma CSS framework](https://bulma.io) used by the Options tab |
-| ↳ `fonts_home.css` | Font faces and classes for the \_Home computers_fonts |
-| ↳ `fonts_ibm.css` | Font faces and classes for the _IBM PC & family_ fonts |
-| ↳ `fonts_modern.css` | Font faces and classes for the _Modern_ fonts |
+| ↳ `fonts_home.css` | Font faces and classes for the **Home computers** fonts |
+| ↳ `fonts_ibm.css` | Font faces and classes for the **IBM PC & family** fonts |
+| ↳ `fonts_modern.css` | Font faces and classes for the **Modern** fonts |
 | ↳ `layout.css` | Base elements styles |
 | ↳ `options.css` | Styles specific for the Options tab |
 | ↳ `retrotxt_loader.css` | An animated spinner to display during the RetroTxt processing |
 | ↳ `retrotxt.css` | Scanlines, text size, the Mona font face and cursor stylings |
-| ↳ `text_animation-off.css` | For the _Blinking cursor and text_ off Option |
+| ↳ `text_animation-off.css` | For the **Blinking cursor and text** off Option |
 | ↳ `text_colors_4bit-ice.css` | ANSI Select Graphic Rendition iCE Color classes |
 | ↳ `text_colors_4bit.css` | ANSI Select Graphic Rendition colour classes |
 | ↳ `text_colors_8bit.css` | Xterm 256 colours for ANSI colour classes |
@@ -62,9 +62,9 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `text_colors_workbench.css` | Amiga Workbench ANSI color pallete |
 | ↳ `text_colors_wviv-pipe.css` | WVIV BBS and other BBS software colours |
 | ↳ `text_colors_xterm.css` | Xterm ANSI color pallete |
-| ↳ `text_colors.css` | Colours, _text pair_ classes |
+| ↳ `text_colors.css` | Colours, **text pair** classes |
 | ↳ `text_ecma_48.css` | ANSI Select Graphic Rendition function classes |
-| ↳ `text_pagewrap.css` | For the _ANSI Page wrap_ on option |
+| ↳ `text_pagewrap.css` | For the **ANSI Page wrap** on option |
 | **`ext/fonts/`** | [Compressed fonts](https://developer.mozilla.org/en-US/docs/Web/Guide/WOFF) used in RetroTxt |
 | **`ext/html/`** | HTML5 assets |
 | ↳ `options.html` | Template for the Options page |

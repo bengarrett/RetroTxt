@@ -20,10 +20,12 @@ Make sure the **Retina Display Scale** is exactly half your screen resolution fo
 
 Desktop Linux complicates things due to the varying components used by different distributions.
 
-Firefox (at least on GNOME with Wayland), has no artifacts, so it is the preferred browser on Linux.
+Firefox[^1] has no artifacts, so it is the preferred browser on Linux.
 
 Chrome and ChromeOS use their internal font rendering, which suffers from the same artifacts as Chrome on Windows.
 
 ### Average: Windows
 
 Windows suffers from artifacts and distortions caused by its system-wide font hinting regardless of the browser.
+
+[^1]: At least on GNOME with Wayland.

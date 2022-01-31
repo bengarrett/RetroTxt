@@ -52,18 +52,22 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 | positive image | SGR | `27` | Yes | Not inverse |
 | revealed characters | SGR | `28` | Yes | Not concealed |
 | not crossed out | SGR | `29` | Yes | |
-| foreground colours | SGR | `30`…`37` | Yes | |
-| foreground 256 colours | SGR | `38;5;0`…`255` | Yes | Known as [xterm 256](http://web.archive.org/web/20130125000058/http://www.frexx.de/xterm-256-notes/) but not an ECMA-48 standard |
-| foreground RGB colours | SGR | `38;2;R;G;B;` | Yes | ISO-8613-3 24-bit colour support, not an ECMA-48 standard |
+| foreground colors | SGR | `30`…`37` | Yes | |
+| foreground 256 colors[^1] | SGR | `38;5;0`…`255` | Yes | |
+| foreground RGB colors[^2] | SGR | `38;2;R;G;B;` | Yes | |
 | revert to default foreground | SGR | `39` | Yes | |
-| background colours | SGR | `40`…`47` | Yes | |
-| background 256 colours | SGR | `48;5;0`…`255` | Yes | Known as [xterm 256](http://web.archive.org/web/20130125000058/http://www.frexx.de/xterm-256-notes/) but not an ECMA-48 standard |
-| background RGB colours | SGR | `48;2;R;G;B;` | Yes | ISO-8613-3 24-bit colour support, not an ECMA-48 standard |
+| background colors | SGR | `40`…`47` | Yes | |
+| background 256 colors[^1] | SGR | `48;5;0`…`255` | Yes | |
+| background RGB colors[^2] | SGR | `48;2;R;G;B;` | Yes | |
 | revert to default background | SGR | `49` | Yes | |
 | framed | SGR | `51` | Yes | |
 | encircled | SGR | `52` | Yes | |
 | overlined | SGR | `53` | Yes | |
 | not framed nor encircled | SGR | `54` | Yes | |
 | not overlined | SGR | `55` | Yes | |
-| bold foreground colours | SGR | `90`…`97` | Yes | Non-standard IBM AIX terminal |
-| bright background colours | SGR | `100`…`107` | Yes | Non-standard IBM AIX terminal<br>\*requires iCE colours to be enabled |
+| bold foreground colors[^3] | SGR | `90`…`97` | Yes | |
+| bright background colors[^3] | SGR | `100`…`107` | Yes | Requires iCE colors to be enabled |
+
+[^1]: Known as [xterm 256](http://web.archive.org/web/20130125000058/http://www.frexx.de/xterm-256-notes/) but it is not an ECMA-48 standard.
+[^2]: Allows for ISO-8613-3 24-bit color support but it is not an ECMA-48 standard.
+[^3]: Non-standard aixterm, [IBM AIX terminal support](https://www.ibm.com/docs/en/aix/7.1?topic=aixterm-command)
