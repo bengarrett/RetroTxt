@@ -14,8 +14,8 @@ Manifest V3 comes with several benefits for RetroTxt but some significant issues
 
 1. MV3 uses service workers that make the source code easier to layout and debug. RetroTxt v5 is now more resilient, and the migration managed to fix some previously hard to trace behavior bugs.
 1. Service workers also mean future features will be simpler to implement and test.
+1. Unfocused tabs can run RetroTxt in the background.
 1. MV3 has an improved and safer permissions system, which means RetroTxt can work out of the box without any scary-looking permissions requests.
-
 ### The bad
 
 1. Firefox has no support for MV3, and there is no timeline for its implementation.
