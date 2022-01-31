@@ -1,0 +1,2344 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/retrotxt_128.svg">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.8">
+    
+    
+      
+        <title>Changes - RetroTxt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6e60f8b8.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=:300,400,400i,700%7CIBM+Plex+Mono&display=fallback">
+        <style>:root{--md-text-font:"";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="RetroTxt" class="md-header__button md-logo" aria-label="RetroTxt" data-md-component="logo">
+      
+  <img src="../assets/retrotxt_128.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RetroTxt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/bengarrett/RetroTxt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="RetroTxt" class="md-nav__button md-logo" aria-label="RetroTxt" data-md-component="logo">
+      
+  <img src="../assets/retrotxt_128.svg" alt="logo">
+
+    </a>
+    RetroTxt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bengarrett/RetroTxt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Install
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Usage" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Usage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/first/" class="md-nav__link">
+        First-time usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/cfg/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/local/" class="md-nav__link">
+        Local files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/font_size/" class="md-nav__link">
+        Font size
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/garbled/" class="md-nav__link">
+        Garbled text
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/pref/" class="md-nav__link">
+        Preferences
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/omnibar/" class="md-nav__link">
+        Commands
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/menus/" class="md-nav__link">
+        Menus
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../limitations/" class="md-nav__link">
+        Limitations
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Supported standards
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Supported standards" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Supported standards
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specs/controls/" class="md-nav__link">
+        Control sequences
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specs/cp/" class="md-nav__link">
+        Codepages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specs/ansi/" class="md-nav__link">
+        ANSI (ECMA48)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specs/ansi_sys/" class="md-nav__link">
+        ANSI.SYS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specs/bbs/" class="md-nav__link">
+        BBS colors
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specs/misc/" class="md-nav__link">
+        Non-standard
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../specs/sauce/" class="md-nav__link">
+        SAUCE (metadata)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Source code
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Source code" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Source code
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/" class="md-nav__link">
+        Install & usage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/build/" class="md-nav__link">
+        Building tips
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/mv3/" class="md-nav__link">
+        Manifest V3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/files/" class="md-nav__link">
+        Files & directories
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../src/font/" class="md-nav__link">
+        Fonts
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Changes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Changes
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#50" class="md-nav__link">
+    5.0
+  </a>
+  
+    <nav class="md-nav" aria-label="5.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration-to-manifest-v3" class="md-nav__link">
+    Migration to Manifest v3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#october-2021" class="md-nav__link">
+    October 2021
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#june-2021" class="md-nav__link">
+    June 2021
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#40" class="md-nav__link">
+    4.0
+  </a>
+  
+    <nav class="md-nav" aria-label="4.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#highlights" class="md-nav__link">
+    Highlights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#october-2020" class="md-nav__link">
+    October 2020
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    3.5
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#march-2020" class="md-nav__link">
+    March 2020
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#342" class="md-nav__link">
+    3.4.2
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#october-2019" class="md-nav__link">
+    October 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    3.4
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#august-2019" class="md-nav__link">
+    August 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    3.3
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#june-2019" class="md-nav__link">
+    June 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#february-2019" class="md-nav__link">
+    February 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#december-2018" class="md-nav__link">
+    December 2018
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#30" class="md-nav__link">
+    3.0
+  </a>
+  
+    <nav class="md-nav" aria-label="3.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#highlights_1" class="md-nav__link">
+    Highlights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#november-2018" class="md-nav__link">
+    November 2018
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-issues" class="md-nav__link">
+    Known issues
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#march-2018" class="md-nav__link">
+    March 2018
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    2.4
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#september-2017" class="md-nav__link">
+    September 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#august-2017" class="md-nav__link">
+    August 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#june-2017" class="md-nav__link">
+    June 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#march-2017" class="md-nav__link">
+    March 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20" class="md-nav__link">
+    2.0
+  </a>
+  
+    <nav class="md-nav" aria-label="2.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#november-2016" class="md-nav__link">
+    November 2016
+  </a>
+  
+    <nav class="md-nav" aria-label="November 2016">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firefox-specific-fixes" class="md-nav__link">
+    Firefox specific fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#125" class="md-nav__link">
+    1.25
+  </a>
+  
+    <nav class="md-nav" aria-label="1.25">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-july-2016" class="md-nav__link">
+    2 July 2016
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#22-june-2016" class="md-nav__link">
+    22 June 2016
+  </a>
+  
+    <nav class="md-nav" aria-label="22 June 2016">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#differences-between-using-firefox-and-chrome" class="md-nav__link">
+    Differences between using Firefox and Chrome
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-june-2016" class="md-nav__link">
+    21 June 2016
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Hosting on the web
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hosting on the web" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Hosting on the web
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../host/nginx/" class="md-nav__link">
+        Nginx
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Policies
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Policies" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Policies
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        Privacy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/MV3/.github/SECURITY.md" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CODE_OF_CONDUCT.md" class="md-nav__link">
+        Code of conduct
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CONTRIBUTING.md" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/MV3/LICENSE" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#50" class="md-nav__link">
+    5.0
+  </a>
+  
+    <nav class="md-nav" aria-label="5.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration-to-manifest-v3" class="md-nav__link">
+    Migration to Manifest v3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#october-2021" class="md-nav__link">
+    October 2021
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#june-2021" class="md-nav__link">
+    June 2021
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#40" class="md-nav__link">
+    4.0
+  </a>
+  
+    <nav class="md-nav" aria-label="4.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#highlights" class="md-nav__link">
+    Highlights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#october-2020" class="md-nav__link">
+    October 2020
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    3.5
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#march-2020" class="md-nav__link">
+    March 2020
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#342" class="md-nav__link">
+    3.4.2
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#october-2019" class="md-nav__link">
+    October 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    3.4
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#august-2019" class="md-nav__link">
+    August 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    3.3
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#june-2019" class="md-nav__link">
+    June 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#february-2019" class="md-nav__link">
+    February 2019
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#december-2018" class="md-nav__link">
+    December 2018
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#30" class="md-nav__link">
+    3.0
+  </a>
+  
+    <nav class="md-nav" aria-label="3.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#highlights_1" class="md-nav__link">
+    Highlights
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#november-2018" class="md-nav__link">
+    November 2018
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-issues" class="md-nav__link">
+    Known issues
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#march-2018" class="md-nav__link">
+    March 2018
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    2.4
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#september-2017" class="md-nav__link">
+    September 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#august-2017" class="md-nav__link">
+    August 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#june-2017" class="md-nav__link">
+    June 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#march-2017" class="md-nav__link">
+    March 2017
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20" class="md-nav__link">
+    2.0
+  </a>
+  
+    <nav class="md-nav" aria-label="2.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#november-2016" class="md-nav__link">
+    November 2016
+  </a>
+  
+    <nav class="md-nav" aria-label="November 2016">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firefox-specific-fixes" class="md-nav__link">
+    Firefox specific fixes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#125" class="md-nav__link">
+    1.25
+  </a>
+  
+    <nav class="md-nav" aria-label="1.25">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-july-2016" class="md-nav__link">
+    2 July 2016
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#22-june-2016" class="md-nav__link">
+    22 June 2016
+  </a>
+  
+    <nav class="md-nav" aria-label="22 June 2016">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#differences-between-using-firefox-and-chrome" class="md-nav__link">
+    Differences between using Firefox and Chrome
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-june-2016" class="md-nav__link">
+    21 June 2016
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/bengarrett/RetroTxt/edit/master/docs/changes.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="changes">Changes</h1>
+<h2 id="50">5.0</h2>
+<h3 id="migration-to-manifest-v3">Migration to Manifest v3</h3>
+<ul>
+<li>
+<p><strong>Some Options settings may be lost in this update.</strong><br>
+  Removed the use of <code>Window.localStorage</code> and <code>Window.sessionStorage</code> which held Options settings and replaced it with <code>chrome.storage.local</code>. This was needed as the <code>Window</code> interface is not accessible by service workers which are required by Manifest v3.</p>
+</li>
+<li>
+<p>Replaced the <code>scripts/eventpage.js</code> background page with modular service workers.</p>
+</li>
+<li>Replaced and split the <code>scripts/functions.js</code> shared functions page with <code>scripts/helpers.js</code> for content-scripts and <code>scripts/sw/helpers.js</code> for service workers.</li>
+<li>
+<p>Replaced simple one-time message requests with long-lived connections where needed.
+  This should fix some strange behaviour and failures that occurred in previous versions.</p>
+</li>
+<li>
+<p>Unfocused tabs can run RetroTxt in the background.</p>
+</li>
+<li>Transcode context menu is disabled by default except for textfile tabs.</li>
+<li>Tweaked the Information header CSS to use very slight rounded corners.</li>
+<li>Documentation tab in Options shares the same layout and formatting as the other menus.</li>
+<li>Settings - Run RetroTxt on files hosted on these domains<br>
+  The on/off toggle has been removed for code simplification.<br>
+  Created a button to remove and restore website suggestions.<br>
+  Hostname input form responds to <kbd>Enter ↵</kbd> key presses.</li>
+<li>Settings - Monitor downloads, toggles the optional <code>download</code> and <code>downloads.open</code> permissions.</li>
+<li>Dropped the permissions requirement for <code>tabs</code>.</li>
+<li>Manifest v3 has much better error handling and there should be less uncaptured errors.</li>
+<li>Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.</li>
+<li>Fixed Options reloading the page when a new tab was selected.</li>
+<li>New Toolbar icon setting to select dark or light mode button.</li>
+</ul>
+<h2 id="42">4.2</h2>
+<h3 id="october-2021">October 2021</h3>
+<ul>
+<li>Squared 1:1, 8x8 pixel PC fonts now use their <code>-2y</code> variants when available.
+  The 2y variants are 16x16 in size, meaning they're easier to read and look better.</li>
+<li>11 new color themes for the Options tab under Settings.</li>
+<li>Replaced deprecated API function, <code>extension.getURL()</code>.</li>
+<li>Fixed broken elements in <code>options.html</code>.</li>
+</ul>
+<h2 id="41">4.1</h2>
+<h3 id="june-2021">June 2021</h3>
+<ul>
+<li>Updated PC and MS-DOS fonts to Ultimate Oldschool PC Font Pack v2.2.</li>
+<li>Support for custom ports in URLs such as <code>http://localhost:8080</code> or <code>https://example.com:9999</code>.</li>
+<li>Replaced all the <code>woff</code> fonts with <code>woff2</code> fonts to offer better file compression.
+  This reduces the overall file size of RetroTxt and system resource usage.</li>
+<li>The Options Fonts tab Jump to menu now always remains on the tab.</li>
+<li>Reduced page flicker when switching Options tabs.</li>
+<li>Fixed broken Apple Lisa fonts.</li>
+<li>Fixed the local file viewer toggling on non-text file tabs when the file's extension is in uppercase.</li>
+<li>Fixed certain fonts that use spaces within their names, breaking the loading text files.</li>
+<li>Fixed broken SAUCE IBM VGA50 font.</li>
+<li>Improved support and display of multiline SAUCE comments.</li>
+<li>Improve the positioning of the error alert box.</li>
+<li>Spelling and typo fixes for both UK and US English.</li>
+<li>Using Task for the build process.</li>
+<li>Dropped the use of the convoluted Node.createTextNode() and Node.appendChild() methods.</li>
+</ul>
+<h2 id="40">4.0</h2>
+<h3 id="highlights">Highlights</h3>
+<ul>
+<li>Complete Options redesign, it loads in a tab and is identical across all browsers.</li>
+<li>Welcome tab features is merged into the Options tab.</li>
+<li>Refreshed the information header.</li>
+<li>200+ PC/MS-DOS system fonts.</li>
+<li>Numerous new fonts for home computers.</li>
+<li>Improved the font representation for SAUCE fontname matching.</li>
+<li>Dropped the context menu functionality and replaced it with Option tab links.</li>
+<li>Omnibox support, type <code>rt</code> <kbd>space</kbd> in the browser address bar to see the list of commands.</li>
+</ul>
+<h3 id="october-2020">October 2020</h3>
+<ul>
+<li>
+<p>The font choice save is reset.</p>
+</li>
+<li>
+<p>Minimum Chrome requirement v72, minimum Firefox requirement v69.</p>
+</li>
+<li>
+<p>Improved compatibility with Amiga ANSI.</p>
+</li>
+<li>
+<p>Added Unscii fonts fantasy and MCR.</p>
+</li>
+<li>Added PR Number 3 (Apple II).</li>
+<li>Added Apple IIGS Shaston system fonts.</li>
+<li>Added Apple GEOS Berkelium fonts.</li>
+<li>Added Pet Me Commodore 64 fonts.</li>
+<li>Added Tandy TRS-80 and CoCo fonts.</li>
+<li>Added IBM 3270 font.</li>
+<li>
+<p>Added new Workbench ANSI theme.</p>
+</li>
+<li>
+<p>Updated Print Char 21 font (Apple II).</p>
+</li>
+<li>Updated Unscii fonts to v2.0.</li>
+<li>
+<p>Updated Plex Mono fonts plus new weights.</p>
+</li>
+<li>
+<p>Changed references to web-extension, web extension, WebExtension to Extension, with a capital E.</p>
+</li>
+<li>
+<p>Moved documentation from the barebones Wiki into <code>/docs</code> and https://docs.retrotxt.com.</p>
+</li>
+<li>
+<p>Options in Chrome uses a dedicated browser tab.</p>
+</li>
+<li>Options in Chrome implements Bulma as a CSS framework for a larger and improved layout.</li>
+<li>Added <code>content-visibility</code> CSS attribute for Chrome 85+ to help improve large screen rendering, see issue <a href="https://github.com/bengarrett/RetroTxt/issues/91">#91</a>.</li>
+<li>Added showBrowser(), links to the Edge Add-ons page, issue <a href="https://github.com/bengarrett/RetroTxt/issues/78">#78</a>.</li>
+<li>Replaced all Material Design Icon fonts with individual SVG images. This improves icon resize scalability and user accessibility, see issue <a href="https://github.com/bengarrett/RetroTxt/issues/92">#92</a>.</li>
+<li>Fixed eventpage.js <code>invoke()</code>, checks the <code>lastError</code> value, this also fixes issue <a href="https://github.com/bengarrett/RetroTxt/issues/93">#93</a>.</li>
+<li>Fixed the broken toolbar icon swap when Chrome detects a system dark mode theme.</li>
+<li>Updated dev dependencies and libraries.</li>
+<li>Moved the programming code and assets of the Extension into <code>/ext</code>.</li>
+<li>Removed Windows PowerShell source code support, instead Windows users can use WSL.</li>
+<li>Removed 'API permissions granted' from the Options as it duplicates included browser features.</li>
+<li>Renamed <code>Storage</code> class to <code>LocalStore</code> to avoid browser API conflicts.</li>
+<li>Context menus code were difficult to maintain and inconsistent between browsers.</li>
+<li>Unified pages to use LF instead of CRLF.</li>
+<li>Added support for ECMA48 SGR20 Fraktur font.</li>
+</ul>
+<h2 id="35">3.5</h2>
+<h3 id="march-2020">March 2020</h3>
+<ul>
+<li>Added Spleen font support.</li>
+<li>Added Microsoft Edge browser support.</li>
+<li>Added Microsoft Edge Addons links.</li>
+<li>Improved compatibility with Blocktronics Blocky Horror &amp; dsotb packs.</li>
+<li>Added labels to for() loops.</li>
+<li>Added <code>hidepassed</code> argument to QUnit test links.</li>
+<li>Added Chrome and Edge browser version info to welcome.html.</li>
+<li>isNum() now intentionally points to either to the Number function.</li>
+<li>Fixed stylesheets not being loaded for BBS coloured text formats.</li>
+<li>Fixed broken DOM() class unit test.</li>
+<li>Fixed <em>New width byte sequence 80</em> console message.</li>
+<li>Fixed colorpalette() causing errors with non-ANSI art.</li>
+<li>Fixed missing Unscii credit on the Firefox Options About tab.</li>
+<li>Fixed 'Font family used for display' title mislabelling some fonts.</li>
+<li>Reduced the width of the Options menu buttons to better fit with Edge.</li>
+</ul>
+<h2 id="342">3.4.2</h2>
+<h3 id="october-2019">October 2019</h3>
+<ul>
+<li>Created an ANSI tab in the options.</li>
+<li>Created <code>Default color palette</code> selection option.</li>
+<li>Added links in the welcome page for extension-app store reviews.</li>
+<li>Replaced Download API console warnings on startup with logs.</li>
+</ul>
+<h2 id="34">3.4</h2>
+<h3 id="august-2019">August 2019</h3>
+<ul>
+<li>Improved compatibility with wide, 80+ column ANSI art.</li>
+<li>Improved compatibility with narrow, -80 column ANSI art.</li>
+<li>Much improved compatibility with late 1990s, 80 column ANSI art.</li>
+<li>Added new Display Option "Smear block characters" that applies CSS text-shadowing specifically on CP-437 block characters to reduce line artefacts on Windows operating systems.</li>
+<li>Added Celerity BBS | color codes support.</li>
+<li>Added Renegade BBS | color codes support.</li>
+<li>Added Telegard BBS ` color codes support.</li>
+<li>Added WVIV BBS |# pipe code support.</li>
+<li>Added WVIV BBS ♥ heart code support.</li>
+<li>Added Apple IIgs and Commodore 64 palettes for 4-bit ANSI.</li>
+<li>Blinking text now works properly on non-black backgrounds.</li>
+<li>Change minimum Chromium version to 58.</li>
+<li>Simplified some of the JS source code.</li>
+<li>Horizontal tab C0 codes in ANSI art now always display the <code>○</code> character when <em>DOS control glyphs</em> is enabled.</li>
+<li>
+<ul>
+<li>Test case <code>blocktronics_block_n_roll/die-already.ans</code></li>
+</ul>
+</li>
+<li>Improved the accuracy of parsing of iCE color ANSIflags.</li>
+<li>Changed the ANSI slow blink timing (SGR5) to 500ms and fast blink (SGR6) to 300ms.</li>
+<li>Default CSS line-height value switched from <code>100%</code> to <code>normal</code> for better compatibility with alt-fonts.</li>
+<li>Consolidated iCE Colors and VGA CSS classes to reduce duplication.</li>
+<li><a href="https://github.com/bengarrett/RetroTxt/issues/71">Fixed issue 71</a> with the incorrect colour rendering of some RGB values.</li>
+<li>Fixed ultrawide ANSI art wrapping to the browser tab instead of overflowing with scrollbars.</li>
+<li>Fixed critical issue where a corrupt SAUCE font value breaks the ANSI render.</li>
+<li>
+<ul>
+<li>Test case <code>blocktronics_block_n_roll/nu-ninja_cat.ans</code></li>
+</ul>
+</li>
+<li>Fixed welcome page not displaying <em>Configure RetroTxt</em> and <em>Permissions Request</em> example images.</li>
+<li>Fixed <code>@CLS@</code>, it now does not automatically assume a PCBoard @-code file.</li>
+<li>Fixed <code>&gt;</code> <code>&lt;</code> and <code>&amp;</code> characters breaking the end-of-line character count in ANSI text.</li>
+<li>Fixed RetroTxt unintentionally triggering when the browser plays audio/video media using <code>file:///</code> URLs.</li>
+<li>Fixed Firefox Options sample text displaying a white shadow effect in <em>Normal render mode</em>.</li>
+<li>Renamed <code>/docs/</code> directory to <code>/md/</code>, most of the documentation is now located at the <a href="https://github.com/bengarrett/RetroTxt/wiki">Wiki</a>.</li>
+<li>Replaced non-working <code>textmod.es/crew</code> links with <code>16colo.rs/tags/group</code>.</li>
+<li>Removed the <em>Smeared</em> text render toggle as it has been replaced with the Smear block characters setting.</li>
+<li>Removed the Focus mode as the technical debt to maintain was too high.</li>
+<li>Removed theme and display adjustments from the context menus to simplify the code.</li>
+</ul>
+<h2 id="33">3.3</h2>
+<h3 id="june-2019">June 2019</h3>
+<ul>
+<li>Added a <em>Focus mode</em> toggle.</li>
+<li>Added <em>Unscii 8</em> and <em>Unscii 16</em> font support.</li>
+<li>Added <em>Line wrap</em> toggle to the information header when displaying ANSI/ECMA-48 text.</li>
+<li>Added preferred dark mode support for Chrome/Chromium 67+ browsers.</li>
+<li>Significantly reduced the tab memory usage after rendering ANSI/ECMA-48 text.</li>
+<li>Dropped the use of <code>null</code> in all large, internal arrays which should slightly improve performance with the JavaScript V8 engine.</li>
+<li>Significantly reduced the console spam when undetected ANSI control sequences are found.</li>
+<li>Refactored <code>scripts\parse_ansi.sys</code> to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">ES5 Class expressions</a> so the source code easier to follow.</li>
+<li>Added support for the following ECMA-48 controls.</li>
+<li>
+<ul>
+<li><em>CHT</em> Cursor Forward Tabulation, it acts as 4 forward space movements.</li>
+</ul>
+</li>
+<li>Changed the horizontal behaviour of the ECMA-48 <em>HVP</em> command, it will now wrap to the maximum columns limit and then continue on the new row.</li>
+<li>Greatly expanded the unit test coverage of parse_ansi.js.</li>
+<li>Fixed, duplicate downloads are triggering with some binary file types such as woff fonts.</li>
+<li>Fixed, <em>Save link as</em> accidentally creating a new, empty <code>file:///</code> tab.</li>
+<li>Fixed ECMA-48 CUD bug where there were too many rows created.</li>
+<li>An error is now displayed when trying to load a <code>file:///</code> with no content.</li>
+</ul>
+<h2 id="32">3.2</h2>
+<h3 id="february-2019">February 2019</h3>
+<ul>
+<li>Added IBM AIX terminal bright and bold colour support.</li>
+<li>Improved <em>Allow access to file URLs is disabled</em> notification to be more prominent.</li>
+<li>Added npm run scripts to the package.json.</li>
+<li>
+<ul>
+<li><code>npm run build</code></li>
+</ul>
+</li>
+<li>
+<ul>
+<li><code>npm run firefox</code></li>
+</ul>
+</li>
+<li>
+<ul>
+<li><code>npm run lint</code></li>
+</ul>
+</li>
+<li>
+<ul>
+<li><code>npm run version</code></li>
+</ul>
+</li>
+<li>Fixed <code>Downloads.listen()</code> causing an endless download loop (issue #56).</li>
+<li>Fixed <code>hideEntities()</code> not catching <code>&lt;&gt;</code> character combinations that broke ANSI rendering (issue #58).</li>
+<li>Fixed the Options <em>Apply RetroTxt to any local text files file:///</em> link pointing to the <code>C:</code> drive on Linux and macOS.</li>
+</ul>
+<h2 id="31">3.1</h2>
+<h3 id="december-2018">December 2018</h3>
+<ul>
+<li>Re-added the ability to make additions to the <em>Apply RetroTxt to text files hosted on these websites</em> list that was disabled in v3.0.</li>
+<li>Fixed the Zeus II logo for the welcome screen breaking on Linux.</li>
+<li>Fixed <em>Homepage URL</em> in the Firefox addon tab.</li>
+<li>Fixed incorrect links in <code>README.md</code>.</li>
+</ul>
+<h2 id="30">3.0</h2>
+<h3 id="highlights_1">Highlights</h3>
+<ul>
+<li>User interface improvements and bug fixes.</li>
+<li>Much improved legacy code page detection and support.</li>
+<li>New progressive permissions for enhanced security.</li>
+<li>New redesign of the Options menu.</li>
+<li>New ASCII text theme for your own custom background/foreground colours.</li>
+</ul>
+<h3 id="november-2018">November 2018</h3>
+<ul>
+<li>Rewrote the Code Page 437 normaliser, the character conversions are more accurate.</li>
+<li>RetroTxt gracefully recovers after the unintentional deletion of storage items.</li>
+<li>RetroTxt out of the box is locked down with gradual permission privileges requests when features are enabled.
+  Previously RetroTxt always had access to downloads, http/ftp tabs, etc. regardless of whether they were needed or not. However, these are moving to <code>optional_permissions</code> which grant access on an associated Option.</li>
+<li>Broad <code>http://*/</code> and <code>https://*/</code> read permissions are gone in favour of domain-specific access such as <code>https://retrotxt.com/*</code> and <code>http://retrotxt.com/*</code>.
+  RetroTxt never read more than the first two characters of any HTML tab that is active, but it was not a good look for new users
+  seeing <em>Read and change all your data on the websites that you visit</em> in the add-ons menu.</li>
+<li>Redesigned the Options menu to better match the new user interface introduced in Chrome v69. This required the disabling of the
+  <code>chrome_style</code> manifest UI option which hasn't been updated since early 2016.</li>
+<li>Added a <a href="https://github.com/bengarrett/RetroTxt/wiki/privacy">privacy policy</a> with API permission requirements.</li>
+<li>Added Option to use a customised colour set for the text foreground and background.</li>
+<li>Added IBM's 2017 <a href="https://www.ibm.com/plex/">Plex Mono font</a>.</li>
+<li>Added Macintosh-Roman, ISO8859-10 code page support.</li>
+<li>Mouse hovering on the information header font name reveals more descriptive font information.</li>
+<li>Added Option to toggle blinking text and cursor animations.</li>
+<li>Added a <code>textmod.es/crew</code> link to SAUCE header data for some ANSI groups when their group data are matches in the SAUCE metadata.</li>
+<li>Added new icons for Firefox dark themes.</li>
+<li>Firefox uses SVG icons.</li>
+<li><em>Center align text</em> now previews in the sample text.</li>
+<li>RetroTxt browser toolbar button now behaves differently to avoid occasional false positives. Instead of disabling itself when an invalid page is detected, the button now shows a ✔ checkmark whenever a compatible tab is active. The compatibility results vary based on the Extension permissions grants.</li>
+<li>Fixed PCBoard &amp; Wildcat BBS colour inaccuracies in the CSS.</li>
+<li>Remapped CGA palettes so black is less frequent.</li>
+<li>Text that lack line breaks now wrap to the browser tab.</li>
+<li>CSS variables are more frequently in use.</li>
+<li>Added install type detection that enables a verbose mode when the type is <code>development</code>.</li>
+<li>Source code uses <a href="https://github.com/prettier/prettier">Prettier</a> for opinionated formatting.</li>
+<li>Refactored most of the JS to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">ES5 Class expressions</a> so the source code easier to follow.
+  It is still a TODO item for <code>parse_ansi.js</code>.</li>
+<li>Using separate manifest.json and options.html for Firefox and Chrome. The Chrome Extension API hasn't been updated since early 2016 and is now the legacy implementation.</li>
+<li>Saves the Options last active tab.</li>
+<li>Expanded the number of unit tests to cover more of the application.</li>
+<li>Fixed incorrect keyboard keys displayed on alerts with macOS.</li>
+<li>Fixed Options icons links with underlined artefacts in Chrome.</li>
+<li>Fixed Options now gracefully handle the removal of localStorage items.</li>
+<li>Fixed broken Options links when in <code>development</code> install type.</li>
+</ul>
+<h3 id="known-issues">Known issues</h3>
+<ul>
+<li>Currently, you cannot make additions to the <em>Apply RetroTxt to text files hosted on these websites</em> list. The problem is due to
+  new permissions API implementation that requires all sites to be listed in the <code>manifest.json</code>.</li>
+<li>On Firefox 63 the Options fonts menu sprawls across the screen, this is fixed in version 64.</li>
+<li>On Firefox Linux the Zeus II logo for the welcome screen is broken.</li>
+<li>For some distributions with Firefox on Linux the select menus have extra large, unreadable fonts.</li>
+</ul>
+<h2 id="25">2.5</h2>
+<h3 id="march-2018">March 2018</h3>
+<ul>
+<li>Added Shift JIS support that will toggle the use of the Mona font when encountered.</li>
+<li>Added an <em>ANSI 80 column wrap</em> checkbox option that lets you disable this feature.</li>
+<li>Added 2-bit IBM CGA palette 0 (brown/yellow).</li>
+<li><code>Welcome.html</code> has been reworked and uses tooltips on links.</li>
+<li>Improved CSS font-stack for system fonts that should look better on all operating systems.</li>
+<li>Context menu now uses radio buttons instead of tick glyphs.</li>
+<li>Console output is now grouped and collapsed by default to reduce message spam.</li>
+<li>Improved rendering of PCBoard art with alternative fonts.</li>
+<li>Regenerated internal fonts to the <code>woff2</code> format to reduce the download and install size of the Extension.</li>
+<li>Fixed context menu issues.</li>
+<li>Fixed unsupported ECMA-48 controls reported as unknown.</li>
+<li>Fixed blinking cursor not positioning correctly on small ANSI documents.</li>
+<li>Fixed <em>text render</em> methods not applied to ANSI documents.</li>
+<li>Fixed white background themes that were not showing ECMA-48 bold text due to foreground and backgrounds colours being the same.</li>
+</ul>
+<h2 id="24">2.4</h2>
+<h3 id="september-2017">September 2017</h3>
+<ul>
+<li>Added <em>Linux</em> and <em>IBM PS/2</em> context menu themes.</li>
+<li>Added <em>Browser monospace</em> font (called fixed-width in Chrome).</li>
+<li>ASCII documents now obey SAUCE fontName value.</li>
+<li>Redesigned some of the context menus.</li>
+<li>Added a ▲ hide ▼ show toggle for the header.</li>
+<li>Added 1x and 2x font size adjust toggle in the header.</li>
+<li>Welcome page displays a RetroTxt updated banner that can also be turned off.</li>
+<li>Requires Firefox 55.</li>
+<li>Links in the header are not selectable to stop accidental selection when clicked.</li>
+<li>Replaced columns/lines statistics in the header with total pixel width/length.</li>
+<li>Fixed Blink engine handling of ANSI when it mistakenly sees it as ISO-8859-5 instead of Windows-1252.</li>
+<li>Fixed broken preview images in <code>welcome.html</code>.</li>
+<li>Fixed SAUCE font issue where it requests Amiga <em>Plus</em> fonts but uses standard.</li>
+<li>Fixed <em>Some wider fonts break the ASCII text document layout</em>.</li>
+<li>Fixed SAUCE font <em>P0T-NOoDLE</em> value not registering.</li>
+<li>ANSI maximum columns are now uncapped when SAUCE <code>TInfo1</code> data is corrupted by the browser.</li>
+<li>Internal optimisations.</li>
+<li>
+<ul>
+<li>Replaced <code>XMLHttpRequest()</code> with <em>FetchAPI</em>.</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Dropped the generation of elements using <code>dom.innerHTML</code> = text (except in <code>parse_ansi.js</code>).</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Removed all remaining <code>var</code> usage.</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Replaced many <code>let</code> variables with <code>const</code> objects.</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Renamed some variables, so they are clearer in their purpose.</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>Removed some unused functions and objects.</li>
+</ul>
+</li>
+</ul>
+<h2 id="23">2.3</h2>
+<h3 id="august-2017">August 2017</h3>
+<ul>
+<li>Added 24-bit RGB colour support for ANSI/ECMA-48 text. That gives a choice of over 16 million colours to play with.</li>
+<li>New fonts, a complete set of Amiga and ATASCII (Atari 8-bit).</li>
+<li>Complete SAUCE FontName support.</li>
+<li>Added 2-bit IBM CGA magenta palette.</li>
+<li>Added Option checkbox, 'ANSI iCE colors'.</li>
+<li>Fixed some CP437 characters not displaying as intended.</li>
+<li>Fixed issue where 'DOS control glyphs' changes required two tab refreshes to apply.</li>
+<li>Any discovered SAUCE configurations are sent to the browser console.</li>
+<li>Browser tab titles running RetroTxt are marked with <code>[··]</code>.</li>
+</ul>
+<h2 id="22">2.2</h2>
+<h3 id="june-2017">June 2017</h3>
+<ul>
+<li>There are new clickable toggles in the information header for ANSI art.</li>
+<li>
+<ul>
+<li><strong>Normal</strong> switches the active tab text rendering between <em>Normal</em>, <em>Smeared</em> and <em>Shadowed</em>.</li>
+</ul>
+</li>
+<li>
+<ul>
+<li><strong>IBM</strong> switches the ANSI 16 color palette between <em>IBM</em> VGA, Unix <em>xterm</em> and <em>gray</em> scale.</li>
+</ul>
+</li>
+<li>
+<ul>
+<li><strong>On</strong> toggles between iCE background colors and blinking text.</li>
+</ul>
+</li>
+<li>
+<p>Added a new <a href="https://github.com/bengarrett/RetroTxt/wiki/options">Option, Text render</a>, choices are <em>Normal</em>, <em>Smeared</em>, <em>Shadowed</em>.</p>
+</li>
+<li>Increased minimum version requirements for both Chrome and Firefox to 51.</li>
+<li>Added support for CP-1250 and CP-1251 text encodings that are occasionally used by Chrome over the expected CP-1252.</li>
+<li>Fixed header not displaying when using white background themes.</li>
+<li>To improve performance <code>&lt;links&gt;</code> to CSS files are disabled instead of removed when toggling between plain text and HTML displays.</li>
+<li>The shortcut key combination has been switched from ALT+T to ALT+R to stop Firefox conflicts.</li>
+<li>Fixed ECMA48 SGR2 and SGR3 controls using the wrong CSS properties.</li>
+</ul>
+<h2 id="21">2.1</h2>
+<h3 id="march-2017">March 2017</h3>
+<ul>
+<li>Performance optimisations to reduce the memory footprint and improve rendering speed.</li>
+<li>ECMA48/ANSI iCE colors support.</li>
+<li>Automatic parsing and execution of <a href="http://www.acid.org/info/sauce/sauce.htm#ANSiFlags">SAUCE ANSiFlags</a>.</li>
+<li>Added Atari ST TOS font and theme.</li>
+<li>Text and font information header now conveys more information and uses CSS <code>position: sticky;</code>.</li>
+<li>JavaScript refactor to be <a href="http://eslint.org/">ESlint compliant</a>.</li>
+<li>
+<p>Uses more <a href="http://es6-features.org">ES6 features</a> such as arrow functions and for-of loops.</p>
+</li>
+<li>
+<p>Improved error handling and user feedback when the addon or Extension API fails.</p>
+</li>
+<li>
+<p>Improved embedded <a href="http://www.acid.org/info/sauce/sauce.htm">SAUCE detection</a>.</p>
+</li>
+<li>
+<p>Fixed ECMA48/ANSI bug that dropped the first row of text.</p>
+</li>
+<li>Fixed mixed ANSI/ASCII documents issue that didn't parse the ECMA48 control characters.</li>
+<li>Fixed <code>&lt;</code> <code>&gt;</code> and <code>&amp;</code> characters breaking ANSI display thanks to browser HTML entity conversions.</li>
+<li>Fixed <code>@CLS@</code> bug in PCBoard detection.</li>
+<li>Fixed <code>HVP</code> and <code>CUP</code> execution.</li>
+</ul>
+<h2 id="20">2.0</h2>
+<h3 id="november-2016">November 2016</h3>
+<ul>
+<li>Detects and converts many <a href="https://en.wikipedia.org/wiki/ANSI.SYS">ANSI Control Sequence Introduces</a> used by MS-DOS ANSI.SYS to display ANSI art.</li>
+<li>Detects and converts legacy BBS colour codes for <a href="http://wiki.synchro.net/custom:colors#pcboard_wildcat_format">PCBoard and Wildcat!</a>.</li>
+<li><strong><em>Apply RetroTxt to any text files hosted on these websites</em></strong> will only run on a user supplied whitelist of website domains. This will stop it from conflicting with secure login sessions used by some websites.</li>
+<li>Options have been reworked with a refresh to its look including the use of the <a href="https://design.google.com/icons/">Google Material Icons</a>.</li>
+<li>Introduced a new, charcoal coloured icon that should clash less with most browser themes.</li>
+<li>Context menu now allows you to control the page transcoding, currently CP-487, CP-865, ISO-8959-15, CP-1252 character sets are supported.</li>
+<li>The about encoding content menu has been removed and replaced by the Transcode None option, that works with UTF-8, UTF-16 and ISO-8959-1 text.</li>
+<li><strong><em>Automatic detect &amp; run RetroTxt on text files feature</em></strong> has been renamed to <strong><em>Apply RetroTxt to any text files hosted on these websites</em></strong>.</li>
+<li>Options, font samples now reset when the user's mouse leaves the font selection form.</li>
+<li><strong><em>Display formatting control codes as DOS CP-437 glyphs</em></strong> has been renamed to <strong><em>DOS control glyphs</em></strong>.</li>
+<li>When checked <strong><em>DOS control glyphs</em></strong> will show a few ASCII control characters in the sample text.</li>
+<li>Refactored much of the JavaScript source to use <a href="http://es6-features.org">ECMAScript 6</a> specific features.</li>
+<li>Improved handling of <a href="file:///">file:///</a> domains.</li>
+<li>Uses asynchronous <code>XMLHttpRequest.open()</code> functionality as browser support of synchronous requests may end.</li>
+<li>Context menus now use checkmarks for active options.</li>
+<li>Context menus code in <code>eventpages.js</code> has been redesigned so it is now easier to add new themes and Display options.</li>
+<li>The toolbar button should now be more intuitive by more accurately changing its enabled state and refreshing its tip where appropriate.</li>
+</ul>
+<h4 id="firefox-specific-fixes">Firefox specific fixes</h4>
+<ul>
+<li>Requires Firefox 50+.</li>
+<li>Options dialogue is better themed to Firefox's style guides. (Unfortunately Firefox on Linux still has some strange <code>input</code> style quirks)</li>
+<li>Fixed Options not supporting UK locales.</li>
+<li>Fixed first time run bugs that required RetroTxt to reload for it to work correctly.</li>
+<li>Fixed RetroTxt trying to run on about: URIs.</li>
+<li>RetroTxt should be slightly less resource intensive as previously there were some event filters that Firefox was ignoring.</li>
+</ul>
+<h2 id="125">1.25</h2>
+<h3 id="2-july-2016">2 July 2016</h3>
+<ul>
+<li><strong><em>Automatic detect &amp; run RetroTxt on text files feature</em></strong> <strong>is now more reliable and intuitive</strong>. Its (experimental) tag has been dropped and can now be considered stable.</li>
+<li><em>Automatic detect &amp; run RetroTxt...</em> also has a hardcoded blacklist of domains to ignore which previously this feature conflicted with.</li>
+<li>Added <a href="https://qunitjs.com/">QUnit</a> testing. A <em>Tests</em> link to the results page will show up with Chrome in Options when using a <em>development</em> install.</li>
+<li>Fixed vertical lines artefacts issue with block fonts with most colour combinations.</li>
+<li>Firefox specific bugs fixed including incorrect <code>normal</code> line height and weird toolbar button behaviour.</li>
+<li>Refactored a number of function names to be more descriptive of their purpose.</li>
+<li>Started the transition of replacing <code>var</code> with <code>let</code> and <code>const</code>.</li>
+<li>Some functions now return more meaningful errors when missing required parameters.</li>
+</ul>
+<h2 id="12">1.2</h2>
+<h3 id="22-june-2016">22 June 2016</h3>
+<ul>
+<li><strong>Now works in Firefox</strong> but requires at least Firefox (Gecko) 48.</li>
+<li>Tested in Opera (Blink) and works great.</li>
+</ul>
+<h4 id="differences-between-using-firefox-and-chrome">Differences between using Firefox and Chrome</h4>
+<ul>
+<li>Chrome uses event pages while Firefox uses the less desirable persistent background pages. Event pages only load when needed so in theory they should be less resource intensive.</li>
+<li>Firefox and the Gecko engine renders multiple block characters better than the Blink engine used in Chrome. The Blink engine adds light but distracting vertical lines.</li>
+<li>Firefox's Options UI does not support the unified <code>chrome_style</code>.</li>
+<li>The toolbar button in Firefox does not support right-click context menus.</li>
+<li>Context menus in Firefox are not filtered by URL types as it doesn't support the <code>documentUrlPatterns</code> property.</li>
+<li>When loading RetroTxt both Chrome and Firefox will throw warnings about unrecognised items in the manifest.</li>
+</ul>
+<h2 id="11">1.1</h2>
+<h3 id="21-june-2016">21 June 2016</h3>
+<ul>
+<li><strong>Added ability to increase the whitespace between rows of text (line space)</strong>.</li>
+<li><strong>Rearranged the Options menu to be more compact</strong>.</li>
+<li>Changed the sample text found in the Options menu.</li>
+<li>Removed the Options, font selection mouse out event to make the font samples more stable.</li>
+<li>Added IBM BIOS font (only 2y and 2x were previously included).</li>
+<li>Created this file.</li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../src/font/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Fonts" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Fonts
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../host/nginx/" class="md-footer__link md-footer__link--next" aria-label="Next: Nginx" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Nginx
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      RetroTxt &copy; 2022 Ben Garrett
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [null, null, null, null], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.960e086b.min.js"></script>
+      
+    
+  </body>
+</html>
