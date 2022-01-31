@@ -27,12 +27,12 @@ theme:
 nav:
   - Install: index.md
   - Usage:
-      - First time usage: usage/walk.md
-      - Configuration: usage/settings.md
+      - First-time usage: usage/first.md
+      - Configuration: usage/cfg.md
       - Local files: usage/local.md
       - Font size: usage/font_size.md
       - Garbled text: usage/garbled.md
-      - Preferences: usage/preference.md
+      - Preferences: usage/pref.md
       - Commands: usage/omnibar.md
       - Menus: usage/menus.md
   - Limitations: limitations.md
@@ -47,17 +47,17 @@ nav:
   - Source code:
       - Install & usage: src/index.md
       - Building tips: src/build.md
+      - Manifest V3: src/mv3.md
       - Files & directories: src/files.md
       - Fonts: src/font.md
   - Hosting on the web:
       - Nginx: host/nginx.md
-  - Policies: policies.md
-
-# nav:
-#   - Section:
-#       - section/index.md
-#       - Page 1: section/page-1.md
-#       - Page 2: section/page-2.md
+  - Policies:
+      - Privacy: privacy.md
+      - Security: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/SECURITY.md
+      - Code of conduct: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CODE_OF_CONDUCT.md
+      - Contributing: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CONTRIBUTING.md
+      - License: https://github.com/bengarrett/RetroTxt/blob/MV3/LICENSE
 
 plugins:
   - search

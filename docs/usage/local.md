@@ -1,26 +1,8 @@
-
+---
+hide:
+  - toc
+---
 # View files stored on your computer
-
-!!! tip "Chrome, Edge &amp; Brave"
-
-    Chrome, Chromium, Edge and Brave require the **Allow access to file URLs** Extension setting enabled if you wish to use RetroTxt to view files stored on your computer.
-
-    This can be found in the browser Extensions tab, in the **Details** section of the RetroTxt installation.
-
-    === "Chrome"
-        ``` title="Extensions address"
-        chrome://extensions/
-        ```
-
-    === "Edge"
-        ``` title="Extensions address"
-        edge://extensions/
-        ```
-
-    === "Brave"
-        ``` title="Extensions address"
-        brave://extensions/
-        ```
 
 Browsers are quite happy to read files and directories stored locally on your computer by typing a path into the address bar.
 
@@ -32,7 +14,7 @@ Browsers are quite happy to read files and directories stored locally on your co
     C:\Users\Ben\Downloads\myfile.txt
     ```
 
-    You can paste this path into a browser tab address and it will convert it into a browser friendly file URI and render the document.
+    You can paste this path into a browser tab address, and it will convert it into a browser-friendly file URI and render the document.
 
     ``` title="Browser address"
     file:///C:/Users/Ben/Downloads/myfile.txt
@@ -52,7 +34,7 @@ Browsers are quite happy to read files and directories stored locally on your co
     /home/ben/myfile.txt
     ```
 
-    You can paste this path into a browser tab address and it will convert it into a browser friendly file URI and render the document.
+    You can paste this path into a browser tab address and it will convert it into a browser-friendly file URI and render the document.
 
     ``` title="Browser address"
     file:///home/ben/myfile.txt
@@ -63,3 +45,22 @@ Browsers are quite happy to read files and directories stored locally on your co
     ``` title="Browser address for the hard drive"
     file:///
     ```
+
+!!! tip "Chrome, Edge &amp; Brave"
+
+    Chrome, Chromium, Edge, and Brave require the **Allow access to file URLs** Extension setting enabled if you wish to use RetroTxt to view files stored on your computer. In the browser Extensions tab, in the **Details** section of the RetroTxt installation.
+
+    === "Chrome"
+        ``` title="Extensions address"
+        chrome://extensions/
+        ```
+
+    === "Edge"
+        ``` title="Extensions address"
+        edge://extensions/
+        ```
+
+    === "Brave"
+        ``` title="Extensions address"
+        brave://extensions/
+        ```

@@ -10,14 +10,14 @@
 gh repo clone bengarrett/RetroTxt
 ```
 
-```bash title="Initialize"
+```bash title="Initialize the build"
 cd RetroTxt
 task init
 ```
 
 ## Branching and pull request
 
-```bash title="Create a dev branch"
+```bash title="Create a new branch named dev"
 git checkout -b dev
 ```
 
@@ -36,7 +36,7 @@ yarn upgrade-interactive --latest
 
 ## Update version stamp
 
-!!! warning
+!!! error
 
     This information is out of date
 
@@ -52,18 +52,17 @@ vars:
 ```sh
 # apply VERSION stamp to the manifest and package json files.
 task version-set
+
 # or set the VERSION and then submit to GitHub
 task commit
 ```
 
 ## Browser addon stores
 
-``` title="Task artifacts location"
-web-ext-artifacts/
+``` title="Complete builds location"
+RetroTxt/web-ext-artifacts/
 ```
 
-[Chrome developer dashboard](https://chrome.google.com/webstore/devconsole/g00502785627994558074?hl=en_GB)
-
-[Microsoft Edge Developer](https://developer.microsoft.com/en-us/microsoft-edge/extensions)
-
-[Firefox Add-on developer hub](https://addons.mozilla.org/en-US/developers/addons)
++ [Chrome developer dashboard](https://chrome.google.com/webstore/devconsole/g00502785627994558074?hl=en_GB) for the Chrome Web Store
++ [Microsoft Edge Developer](https://developer.microsoft.com/en-us/microsoft-edge/extensions) for Microsoft Edge Add-ons
++ [Firefox Add-on developer hub](https://addons.mozilla.org/en-US/developers/addons) for Firefox Add-ons

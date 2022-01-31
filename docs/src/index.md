@@ -1,12 +1,12 @@
 # Install and usage
 
-RetroTxt employs an [open sourced, GNU LGPLv3 license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs on how to use the source in both Chromium based and Firefox web browsers.
+RetroTxt employs an [open-sourced GNU LGPLv3 license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs how to use the source in Chromium-based and Firefox web browsers.
 
-[Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package such as workspace settings and extension recommendations.
+[Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package, such as workspace settings and extension recommendations.
 
 There are also [Node.js](https://nodejs.org) with [yarn](https://yarnpkg.com/) or npm packages for the programming and build tools.
 
-The source code is linted with [ESLint](https://eslint.org/) and stylised using [Prettier](https://prettier.io/), an opinionated formatter.
+The source code get lint with [ESLint](https://eslint.org/) and stylized using [Prettier](https://prettier.io/), an opinionated formatter.
 
 ## Clone the repo
 
@@ -66,13 +66,13 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
 
 === "Chrome"
 
-    ### Use on Chrome, Edge and Brave
+    ### Use on Chrome, Edge, and Brave
 
-    I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) for use and to edit the Extension.
+    I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) and edit the Extension.
 
     === "Chrome"
 
-        Open a new tab with in the address of the Extensions feature.
+        Open a new tab with the address of the Extensions feature.
 
         ``` title="Extensions address"
         chrome://extensions
@@ -110,13 +110,13 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
         1.  Click the **Load unpacked** button
         1.  Navigate to the local directory containing the RetroTxt source code and select OK
 
-    RetroTxt should load. The Options link behind the **Details** button and allows you to configure RetroTxt styling and behaviour.
+    RetroTxt should load. The Options link behind the **Details** button allows you to configure RetroTxt styling and behavior.
 
 === "Firefox"
 
     ### Use on Firefox
 
-    Firefox is locked down and doesn't permit the loading of extensions outside of the Firefox Add-ons page. Mozilla's [web-ext](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext) tool is the easiest method to bypass this.
+    Firefox is locked down and doesn't permit the loading of extensions outside of the Firefox Add-ons page, and Mozilla's [web-ext](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext) tool is the easiest method to bypass this.
 
     ```bash title="Copy the Firefox manifest"
     cd RetroTxt
@@ -150,7 +150,7 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
 
     ### Linting with Firefox
 
-    Mozilla's web-ext tool can be used to analyse the source code for any syntax or logic errors.
+    Mozilla's web-ext tool can be used to analyze the source code for any syntax or logic errors.
 
     ```bash title="Linting the source code"
     cp ext/json/manifest_firefox.json ext/manifest.json

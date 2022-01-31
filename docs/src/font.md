@@ -1,19 +1,16 @@
-# Fonts
+## Web Open Font Format 2
 
-## WOFF2
+RetroTxt relies on Truetype or OpenType web fonts in the [Web Open Font Format 2.0](https://www.w3.org/TR/WOFF2/) (WOFF2). The format offers the best compression to reduce the overall download and memory-use size of RetroTxt.
 
-Convert and compact a Truetype font into WOFF2 for use by RetroTxt.
+The WOFF2 format is relatively new, and most font distributions do not offer it. To add these fonts into RetroTxt older formats must first go through a conversion.
 
-!!! TODO
-    - woff2 offers the best compression to reduce the download size of RT.
-    - woff2 is supported by all browsers that RT uses.
-    - woff2 fonts are too new and not usually included with font packages.
-    - woff2 is basically woff with a different compression method (* lookup name)
+### [WebAssembly TTF to WOFF2](https://github.com/fontello/wawoff2)
 
-[woff2 for node.js](https://github.com/fontello/wawoff2).
 
-```bash title="Convert example"
-yarn run font mona.ttf mona.woff2
+```bash title="Convert a Truetype font into WOFF2"
+cd RetroTxt
+yarn
+yarn run font fontname.ttf fontname.woff2
 ```
 
 !!! Tip "Tip for Windows"
@@ -36,21 +33,21 @@ yarn run font mona.ttf mona.woff2
         },
         ```
 
-## Encoding fonts
+## Font tools
 
-#### Online conversion
+### Online generators
 
-- [font squirrel](https://www.fontsquirrel.com/tools/webfont-generator)
-- [transfonter](https://transfonter.org)
+- [Font Squirrel Webfont Generator](https://www.fontsquirrel.com/tools/webfont-generator)
+- [transfonter Webfont generator](https://transfonter.org)
 
-#### Online metadata
+### Online metadata
 
-- [font drop](https://fontdrop.info)
+- [FontDrop!](https://fontdrop.info)
 
-#### Offline conversion
+### Universal font conversion
 
-- [transtype](https://www.fontlab.com/font-converter/transtype)
+- [TransType](https://www.fontlab.com/font-converter/transtype)
 
-#### Woff2 batch conversion
+### WOFF2 font conversion
 
-- [woff2](https://github.com/google/woff2)
+- [google/woff2](https://github.com/google/woff2)
