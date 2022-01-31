@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#changes" class="md-skip">
+        <a href="#50" class="md-skip">
           Skip to content
         </a>
       
@@ -164,6 +164,8 @@
         <div class="md-main__inner md-grid">
           
             
+              
+                
               
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
@@ -621,8 +623,6 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Changes
@@ -638,8 +638,6 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -1263,7 +1261,9 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1271,8 +1271,6 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -1745,13 +1743,15 @@
 </a>
 
 
-<h1 id="changes">Changes</h1>
+  <h1>Changes</h1>
+
 <h2 id="50">5.0</h2>
-<h3 id="migration-to-manifest-v3">Migration to Manifest v3</h3>
+<h3 id="migration-to-manifest-v3"><a href="/src/mv3">Migration to Manifest v3</a></h3>
 <ul>
 <li>
 <p><strong>Some Options settings may be lost in this update.</strong><br>
-  Removed the use of <code>Window.localStorage</code> and <code>Window.sessionStorage</code> which held Options settings and replaced it with <code>chrome.storage.local</code>. This was needed as the <code>Window</code> interface is not accessible by service workers which are required by Manifest v3.</p>
+  Removed the use of <code>Window.localStorage</code> and <code>Window.sessionStorage</code> which held Options settings and replaced it with <code>chrome.storage.local</code>.
+  This was needed as the <code>Window</code> interface is not accessible by service workers which are required by Manifest v3.</p>
 </li>
 <li>
 <p>Replaced the <code>scripts/eventpage.js</code> background page with modular service workers.</p>
