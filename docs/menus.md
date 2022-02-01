@@ -1,20 +1,25 @@
-# RetroTxt - Context menu, Transcode this text
-
 The context menu can be found by right-clicking on the active tab (web page) content and in Chrome by right-clicking the RetroTxt toolbar button.
 
-![Context menu transcode text](assets/menus-transcode.png)
+<figure markdown>
+  ![Context menu transcode text](assets/menus-transcode.png)
+  <figcaption>Context menu</figcaption>
+</figure>
 
 ## Transcode this text
 
+![Transcode text submenu](assets/menus-transcode-small.png){ align=left }
+
 Character encoding is complicated, and the execution not always precise. If you encounter a page that is not displaying as expected, you can transcode the text to show a different set of characters. Transcode text selections only apply to the active browser tab.
 
-![Transcode text submenu](assets/menus-transcode-small.png)
+<figure markdown>
+  ![A working example of transcoding](assets/menus-transcode-ok.png)
+  <figcaption>Here is a text document with the correct character encoding</figcaption>
+</figure>
 
-![A working example of transcoding](assets/menus-transcode-ok.png)
-<br>Here is a text document with the correct character encoding.
-
-![Nonworking example of transcoding](assets/menus-transcode-x.png)
-<br>Here is the same document with the incorrect transcoding.
+<figure markdown>
+  ![Nonworking example of transcoding](assets/menus-transcode-x.png)
+  <figcaption>Here is the same document with the incorrect transcoding</figcaption>
+</figure>
 
 ### Automatic
 

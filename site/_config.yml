@@ -1,0 +1,12 @@
+title: RetroTxt Documentation
+author: bengarrett
+email: code.by.ben@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  RetroTxt is the Extension that turns ANSI, ASCII, NFO text into in-browser HTML.
+
+# social links
+twitter_username: bens_zone # DO NOT include the @ character, or else the build will fail!
+github_username: bengarrett # DO NOT include the @ character, or else the build will fail!
+
+show_excerpts: true # set to false to remove excerpts on the homepage
+theme: jekyll-theme-modernist

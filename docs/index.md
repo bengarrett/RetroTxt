@@ -1,37 +1,82 @@
-## RetroTxt
+---
+hide:
+  - toc
+---
 
-Turn many pieces of ANSI text art and ASCII/NFO plain text into HTML5 text using
-RetroTxt. The browser agnostic Extension that takes retro text files and
-stylises them into a more pleasing, useful format to view and copy in a web browser.
+# Install
 
-#### Available for installation from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) and [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog).
+Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
 
-### Support
-
-- [The readme with installation instructions](https://github.com/bengarrett/RetroTxt#readme)
-- [Limitations and known issues](limitations)
-- [FAQ - Common questions and fixes](SUPPORT)
-
-### Documentation
-
-- [Context menu, Transcode this text](menus)
-- [Source code and how to use it](source_code)
-
-* [Technical specifications on supported formats](technical)
-* [Version changes](changes)
-
-### Dev-ops
-
-- [Configure NGINX to serve ASCII & ASCII art](nginx)
-
-### Policies
-
-- [Privacy policy](privacy) / [Security policy](SECURITY)
-- [Code of conduct](https://github.com/bengarrett/RetroTxt/blob/master/docs/CODE_OF_CONDUCT.md)
-
-* [Contributing documentation or code](https://github.com/bengarrett/RetroTxt/blob/master/docs/CONTRIBUTING.md)
-* [License](https://choosealicense.com/licenses/lgpl-3.0)
+- [x] View ANSI, ASCII, NFO, Shift JIS text art as HTML
+- [x] View server, system, and dev-op logs styled with colored text
+- [x] View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
 ---
 
-![RetroTxt showcase](assets/readme-retrotxt.png)
+[Install to Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install to Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install to Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
+
+[Or use the GNU LGPLv3 source code.](source_code)
+
+---
+
+=== "Showcase"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-clean.png)
+      <figcaption>View ANSI colored text in a browser</figcaption>
+    </figure>
+
+=== "Raw text"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-raw.png)
+      <figcaption>Toggle back to the raw text view</figcaption>
+    </figure>
+
+=== "Fonts"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-fonts.png)
+      <figcaption>Choose from hundreds of fonts to style ASCII texts</figcaption>
+    </figure>
+
+=== "Display"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-display.png)
+      <figcaption>Descriptive and simple to use options</figcaption>
+    </figure>
+
+=== "Extra info"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-info.png)
+      <figcaption>Optional, extra details for each text file</figcaption>
+    </figure>
+
+=== "Text editor"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-textedit.png)
+      <figcaption>Copy the output of RetroTxt and paste it into a standard text editor</figcaption>
+    </figure>
+
+---
+
+# Features
+
+- [x] Swappable palettes for different color simulations<br>VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
+
+- [x] Customizable font and background colors
+
+- [x] SAUCE metadata parsing
+
+- [x] Support for multiple text encodings<br>MS-DOS CP-437, Amiga ISO-8959-1, Windows 1252, Japanese Shift-JIS
+
+- [x] Automatic fixes for block character and line artifacts
+
+- [x] Hundreds of IBM PC font choices<br>VGA, EGA, CGA, MDA, PS/2, and more
+
+- [x] Various Amiga and microcomputer fonts<br>From Commodore, Atari, Apple, Tandy, and more
+
+- [x] Open-source

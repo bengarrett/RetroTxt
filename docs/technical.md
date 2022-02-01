@@ -1,15 +1,6 @@
-# RetroTxt - Technical specifications on supported text
+# Technical specifications on supported text
 
-- [Input code pages and text encoding](#input-cp)
-- [BBS colour codes](#input-bbs)
-- [Input control sequences](#input-cs)
-- [ANSI.SYS support](#ansi-sys)
-- [SAUCE support](#sauce)
-- [ECMA-48 support](#ecma48)
-
-<a id="input-cp"></a>
-
-# Input code pages and text encoding
+## Input code pages and text encoding
 
 Regardless of the source, JavaScript converts all the text it handles into UTF-16.
 UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatible with ISO-8859-1 and US-ASCII. But otherwise, all other loaded text needs to be transcoded to display all characters accurately.
@@ -26,9 +17,7 @@ UTF-16 is based on Unicode and is compatible with UTF-8, and backwards compatibl
 | [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1)        | Browser | The Unicode implementation used by JavaScript and many documents not written in the Latin alphabet                                         |
 | CP-1250, CP-1251, ISO-8859-5                                 | Yes     | Encodings that are mistakenly used by Chromium when viewing ANSI and ASCII art                                                             |
 
-<a id="input-bbs"></a>
-
-# BBS colour codes
+## BBS colour codes
 
 BBS colour codes from the early 1990s were a natural means of applying colour to text served in bulletin board system user interfaces.
 
@@ -44,9 +33,7 @@ BBS colour codes from the early 1990s were a natural means of applying colour to
 | [WWIV pipe \|# codes](http://docs.wwivbbs.org/en/latest/displaying_text/)                  | Yes     |           |
 | [WWIV pipe \| colors](http://docs.wwivbbs.org/en/latest/displaying_text/#pipe-colors)      | Yes     |           |
 
-<a id="input-cs"></a>
-
-# Input control sequences
+## Input control sequences
 
 Control sequences are strings of characters embedded into the text as cursor, display and presentation functions. ANSI art uses control sequences for both its colourisation and cursor positioning, as do remote terminals used by many Linux and Unix systems such as [_xterm_](http://invisible-island.net/xterm/).
 
@@ -56,9 +43,7 @@ Control sequences are strings of characters embedded into the text as cursor, di
 | [ECMA-6](http://www.ecma-international.org/publications/standards/Ecma-006.htm)  | Partial | Also known as US-ASCII or ANSI X3.4 C0 controls                 |
 | [ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) | Partial | Also known as _ANSI escape codes_, ANSI X3.64, VT-100, ISO 6429 |
 
-<a id="ansi-sys"></a>
-
-# ANSI.SYS support
+## ANSI.SYS support
 
 Microsoft's MS-DOS [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) driver supported a limited subset of ANSI X3.64 control sequences and introduced some non-standard functions. Most _ANSI art_ uses sequences that target the ANSI.SYS implementation of text controls.
 
@@ -80,9 +65,7 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 | Set Mode / Reset Mode 7 | Yes     | Set and disable line wrapping                                                                          |
 | Set Keyboard Strings    | No      |                                                                                                        |
 
-<a id="sauce"></a>
-
-# SAUCE support
+## SAUCE support
 
 [SAUCE](http://www.acid.org/info/sauce/sauce.htm) created by Olivier "Tasmaniac" Reubens of ACiD is a metadata protocol for scene artworks. These are parsed by RetroTxt to determine text formatting and also authorship results shown in the _Text & font information_ header.
 
@@ -103,9 +86,9 @@ RetroTxt recognises all ANSI.SYS control sequences but skips those that it doesn
 | TInfo4   | No      |           |                                                                      |
 | Comments | Yes     | Yes       |                                                                      |
 | TFlags   | Partial | Yes       | See **ANSiFlags** below                                              |
-| TInfoS   | Partial | Yes       | See **FontName** below                                               |
+| TInfoS   | Partial | Yes       |                                                                      |
 
-## ANSiFlags
+### ANSiFlags
 
 _ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer/editor how to render the image_.
 
@@ -115,9 +98,7 @@ _ANSiFlags allow an author of ANSi and similar files to provide a clue to a view
 | LS   | Letter-spacing | Yes  |            |
 | AR   | Aspect Ratio   | No   |            |
 
-<a id="ecma48"></a>
-
-# ECMA-48 support
+## ECMA-48 support
 
 [ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) forms the basis of ISO 6429, both of which are the current and acceptable standards for text control sequences. ECMA-48 expands on ANSI X3.64 [_(withdrawn 1997)_](https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf) which first popularised escape sequences in the late 1970s with the [DEC VT100](https://en.wikipedia.org/wiki/VT100) computer.
 
@@ -183,7 +164,7 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 | bold foreground colours      | SGR     | 90…97       | Yes     | Non-standard IBM AIX terminal                                                                                                                             |
 | bright background colours    | SGR     | 100…107     | Yes     | Non-standard IBM AIX terminal (\* requires iCE colours to be enabled)                                                                                     |
 
-# Miscellaneous support
+## Miscellaneous support
 
 Other common non-standard sequences agreed to by the ANSI art community
 

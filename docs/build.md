@@ -1,6 +1,8 @@
 # Building RetroTxt
 
-Please note: [Tasks do not run on PowerShell](https://github.com/go-task/task/issues/319), Windows users should use WSL.
+!!! note "Windows"
+
+      [Tasks do not run on PowerShell](https://github.com/go-task/task/issues/319), Windows users should use Windows Subsystem for Linux.
 
 ### Clone, initialize and branch the repo
 
@@ -49,10 +51,12 @@ task commit
 
 ## Store submissions
 
-### Build artifacts location `/retrotxt-daily/web-ext-artifacts/`
+```title="Build artifacts location"
+RetroTxt/web-ext-artifacts/
+```
 
-### [Chrome developer dashboard](https://chrome.google.com/webstore/devconsole/g00502785627994558074?hl=en_GB)
+#### [Chrome developer dashboard](https://chrome.google.com/webstore/devconsole/g00502785627994558074?hl=en_GB)
 
-### [Firefox Add-on developer hub](https://addons.mozilla.org/en-US/developers/addons)
+#### [Firefox Add-on developer hub](https://addons.mozilla.org/en-US/developers/addons)
 
-### [Microsoft Edge Developer](https://developer.microsoft.com/en-us/microsoft-edge/extensions)
+#### [Microsoft Edge Developer](https://developer.microsoft.com/en-us/microsoft-edge/extensions)

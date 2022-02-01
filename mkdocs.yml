@@ -1,0 +1,66 @@
+site_name: RetroTxt
+copyright: RetroTxt &copy; 2022 Ben Garrett
+repo_url: https://github.com/bengarrett/RetroTxt
+
+theme:
+  name: material
+  language: en
+  logo: assets/retrotxt_128.svg
+  favicon: assets/retrotxt_128.svg
+  palette:
+    primary: teal
+    accent: indigo
+
+plugins:
+  - search
+
+markdown_extensions:
+  # Python Markdown
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  # Formatting
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  # Icons + Emojis
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  # Footnote
+  - footnotes
+
+nav:
+  - Install: index.md
+  - Limitations: limitations.md
+  - FAQ: SUPPORT.md
+  - Context menus: menus.md
+  - Supported standards: technical.md
+  - Source code:
+      - How to use: source_code.md
+      - Building: build.md
+      - Encoding fonts: encoding.md
+  - Changes: changes.md
+  - Hosting on the web:
+      - Nginx: nginx.md
+  - Policies:
+      - Privacy: privacy.md
+      - Security: https://github.com/bengarrett/RetroTxt/blob/main/.github/SECURITY.md
+      - Code of conduct: https://github.com/bengarrett/RetroTxt/blob/main/.github/CODE_OF_CONDUCT.md
+      - Contributing: https://github.com/bengarrett/RetroTxt/blob/main/.github/CONTRIBUTING.md
+      - License: https://github.com/bengarrett/RetroTxt/blob/main/LICENSE

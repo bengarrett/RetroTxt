@@ -1,13 +1,4 @@
-# RetroTxt - Source code
-
 RetroTxt employs an [open sourced license](https://choosealicense.com/licenses/lgpl-3.0/) with the complete source code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs on how to use the source in both Chromium based and Firefox web browsers.
-
-- [Download](#download)
-- [Install programming and build tools with Yarn](#install-yarn)
-- [Use on Chrome and Chromium](#chrome)
-- [Use on Firefox](#firefox)
-- [Use on Firefox Developer Edition](#firefox-dev)
-- [Directory and file structure](#directories)
 
 [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package such as workspace settings and extension recommendations.
 
@@ -15,24 +6,23 @@ There are also [Node.js](https://nodejs.org) with [yarn](https://yarnpkg.com/) (
 
 The source code is linted with [ESLint](https://eslint.org/) and stylised using [Prettier](https://prettier.io/), an opinionated formatter.
 
-<a id="download"></a>
-
 ## Download
 
 Download the RetroTxt source code onto your local computer.
 
-Either by using [this GitHub link](https://github.com/bengarrett/RetroTxt/archive/master.zip) and decompress the saved `RetroTxt-master.zip`.
+Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) command in a terminal.
 
-Or run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) command in a terminal.
+=== "git"
 
-```sh
-# git command
-git clone https://github.com/bengarrett/RetroTxt.git
-# or github's cli tool
-gh repo clone bengarrett/RetroTxt
-```
+      ```bash
+      git clone https://github.com/bengarrett/RetroTxt.git
+      ```
 
-<a id="install-yarn"></a>
+=== "gh"
+
+      ```bash
+      gh repo clone bengarrett/RetroTxt
+      ```
 
 ## Install build dependencies with yarn
 
@@ -51,13 +41,19 @@ yarn run web-ext --version
 
 ### Convert and compact a Truetype font into WOFF2 for use by RetroTxt.
 
-[woff2 for node.js](https://github.com/fontello/wawoff2).
+[wawoff2 tool](https://github.com/fontello/wawoff2).
 
-_Windows users may need to edit `package.json` and update `"scripts": { "font": "woff2_compress.js.cmd" }`_
-
-```sh
+```bash
 yarn run font mona.ttf mona.woff2
 ```
+
+!!! note "Windows"
+
+      Windows users may need to edit `package.json`
+
+      ```json
+      "scripts": { "font": "woff2_compress.js.cmd" }
+      ```
 
 ### Run RetroTxt in **Firefox** with automatic extension reloading.
 
@@ -77,29 +73,49 @@ cp ext/json/manifest_firefox.json ext/manifest.json
 yarn run web-ext lint -s=ext
 ```
 
-<a id="chrome"></a>
-
 ## Use on Chrome, Edge, Brave and Chromium
 
 I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) for use and to edit the Extension.
 
 Open a new tab and type in the address of the Extension.
 
-- Chrome and Chromium: `chrome://extensions`
-- Edge: `edge://extensions`
-- Brave: `brave://extensions`
+=== "Chrome"
+
+      ```
+      chrome://extensions
+      ```
+
+=== "Edge"
+
+      ```
+      edge://extensions
+      ```
+
+=== "Brave"
+
+      ```
+      brave://extensions
+      ```
 
 1.  In the Extensions tab, toggle **Developer mode**
 1.  Click the **Load unpacked** button
 1.  Navigate to the local directory containing the RetroTxt source code and select OK
 
-![Chrome extensions developer mode](assets/source_code-chrome.png)
-
-![Edge extensions developer mode](assets/source_code-edge.png)
-
 RetroTxt should load. The Options link behind the **Details** button and allows you to configure RetroTxt styling and behaviour.
 
-<a id="firefox"></a>
+=== "Chrome"
+
+    <figure markdown>
+      ![Chrome extensions developer mode](assets/source_code-chrome.png)
+      <figcaption>Chrome Extensions developer mode</figcaption>
+    </figure>
+
+=== "Edge"
+
+    <figure markdown>
+      ![Edge extensions developer mode](assets/source_code-edge.png)
+      <figcaption>Edge Extensions developer mode</figcaption>
+    </figure>
 
 ## Use on Firefox
 
@@ -114,9 +130,11 @@ Mozilla's `web-ext` tool is the easiest method to bypass this with a [dedicated 
 1. `yarn` to install web-ext and dependencies
 1. `yarn run web-ext run -s=ext` to load RetroTxt in Firefox with automatic extension reloading
 
-```sh
+```bash
 yarn run web-ext run -s=ext
+```
 
+```
 Applying config file: ./package.json
 Running web extension from /RetroTxt/ext
 Use --verbose or open Tools > Web Developer > Browser Console to see logging
@@ -126,17 +144,22 @@ Press R to reload (and Ctrl-C to quit)
 ```
 
 To restore the the Chrome manifest after you have quit Firefox.<br>
-`cp ext/json/manifest_chrome.json ext/manifest.json`
 
-<a id="firefox-dev"></a>
+```bash
+cp ext/json/manifest_chrome.json ext/manifest.json
+```
 
 ## Use on Firefox Developer Edition
 
 1. Edit `ext/.web-ext-firefox.js`
-1. Update `"run": { "firefox": "firefox" }` and change it to `"run": { "firefox": "firefoxdeveloperedition" }`
+1. Update
+   ```js title="Original"
+   "run": { "firefox": "firefox" }
+   ```
+   ```js title="Replacement"
+   "run": { "firefox": "firefoxdeveloperedition" }
+   ```
 1. Follow the above **Use on Firefox** instructions
-
-<a id="directories"></a>
 
 ## Directory and file structure
 
@@ -144,7 +167,7 @@ These are the directories and files that comprise of RetroTxt.
 
 - `.github/` [Github repo](https://github.com/bengarrett/RetroTxt) settings.
 - `.vscode/` Workspace settings for [Visual Studio Code](https://code.visualstudio.com).
-- `docs/` Documentation in [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown).
+- `docs/` Documentation in [Material for MkDocs](https://squidfunk.github.io/mkdocs-material) markdown.
 - `fonts/` Original font packages with documentation and licences.
 - `.eslintrc.json` [ESLint configuration file](https://eslint.org/docs/user-guide/configuring).
 - `.gitattributes` The [Git](https://git-scm.com) settings file for this repository.

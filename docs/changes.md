@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # RetroTxt Changes
 
 ## 4.2
@@ -317,7 +322,6 @@
 ### June 2017
 
 - There are new clickable toggles in the information header for ANSI art.
-- - ![ANSI header](assets/changes-22-header.png)
 - - **Normal** switches the active tab text rendering between _Normal_, _Smeared_ and _Shadowed_.
 - - **IBM** switches the ANSI 16 color palette between _IBM_ VGA, Unix _xterm_ and _gray_ scale.
 - - **On** toggles between iCE background colors and blinking text.

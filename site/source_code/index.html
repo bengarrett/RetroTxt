@@ -1,0 +1,1032 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/retrotxt_128.svg">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.8">
+    
+    
+      
+        <title>How to use - RetroTxt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6e60f8b8.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#download" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="RetroTxt" class="md-header__button md-logo" aria-label="RetroTxt" data-md-component="logo">
+      
+  <img src="../assets/retrotxt_128.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RetroTxt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How to use
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/bengarrett/RetroTxt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="RetroTxt" class="md-nav__button md-logo" aria-label="RetroTxt" data-md-component="logo">
+      
+  <img src="../assets/retrotxt_128.svg" alt="logo">
+
+    </a>
+    RetroTxt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bengarrett/RetroTxt/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Install
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../limitations/" class="md-nav__link">
+        Limitations
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUPPORT/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../menus/" class="md-nav__link">
+        Context menus
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical/" class="md-nav__link">
+        Supported standards
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Source code
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Source code" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Source code
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          How to use
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        How to use
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-build-dependencies-with-yarn" class="md-nav__link">
+    Install build dependencies with yarn
+  </a>
+  
+    <nav class="md-nav" aria-label="Install build dependencies with yarn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convert-and-compact-a-truetype-font-into-woff2-for-use-by-retrotxt" class="md-nav__link">
+    Convert and compact a Truetype font into WOFF2 for use by RetroTxt.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-retrotxt-in-firefox-with-automatic-extension-reloading" class="md-nav__link">
+    Run RetroTxt in Firefox with automatic extension reloading.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyse-the-source-code-for-any-errors-using-mozillas-web-ext-lint-tool" class="md-nav__link">
+    Analyse the source code for any errors using Mozilla's web-ext lint tool.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-on-chrome-edge-brave-and-chromium" class="md-nav__link">
+    Use on Chrome, Edge, Brave and Chromium
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-on-firefox" class="md-nav__link">
+    Use on Firefox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-on-firefox-developer-edition" class="md-nav__link">
+    Use on Firefox Developer Edition
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-and-file-structure" class="md-nav__link">
+    Directory and file structure
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build/" class="md-nav__link">
+        Building
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../encoding/" class="md-nav__link">
+        Encoding fonts
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changes/" class="md-nav__link">
+        Changes
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          Hosting on the web
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hosting on the web" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          Hosting on the web
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nginx/" class="md-nav__link">
+        Nginx
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Policies
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Policies" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Policies
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privacy/" class="md-nav__link">
+        Privacy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/main/.github/SECURITY.md" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/main/.github/CODE_OF_CONDUCT.md" class="md-nav__link">
+        Code of conduct
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/main/.github/CONTRIBUTING.md" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/bengarrett/RetroTxt/blob/main/LICENSE" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-build-dependencies-with-yarn" class="md-nav__link">
+    Install build dependencies with yarn
+  </a>
+  
+    <nav class="md-nav" aria-label="Install build dependencies with yarn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convert-and-compact-a-truetype-font-into-woff2-for-use-by-retrotxt" class="md-nav__link">
+    Convert and compact a Truetype font into WOFF2 for use by RetroTxt.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-retrotxt-in-firefox-with-automatic-extension-reloading" class="md-nav__link">
+    Run RetroTxt in Firefox with automatic extension reloading.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analyse-the-source-code-for-any-errors-using-mozillas-web-ext-lint-tool" class="md-nav__link">
+    Analyse the source code for any errors using Mozilla's web-ext lint tool.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-on-chrome-edge-brave-and-chromium" class="md-nav__link">
+    Use on Chrome, Edge, Brave and Chromium
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-on-firefox" class="md-nav__link">
+    Use on Firefox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-on-firefox-developer-edition" class="md-nav__link">
+    Use on Firefox Developer Edition
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#directory-and-file-structure" class="md-nav__link">
+    Directory and file structure
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/bengarrett/RetroTxt/edit/master/docs/source_code.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+  <h1>How to use</h1>
+
+<p>RetroTxt employs an <a href="https://choosealicense.com/licenses/lgpl-3.0/">open sourced license</a> with the complete source code available on <a href="https://github.com/bengarrett/RetroTxt">GitHub</a>. This page instructs on how to use the source in both Chromium based and Firefox web browsers.</p>
+<p><a href="https://code.visualstudio.com">Visual Studio Code</a> is used to create RetroTxt, and so it has some <code>.vscode</code> conveniences included in the package such as workspace settings and extension recommendations.</p>
+<p>There are also <a href="https://nodejs.org">Node.js</a> with <a href="https://yarnpkg.com/">yarn</a> (or npm) dependencies for the programming and build tools.</p>
+<p>The source code is linted with <a href="https://eslint.org/">ESLint</a> and stylised using <a href="https://prettier.io/">Prettier</a>, an opinionated formatter.</p>
+<h2 id="download">Download</h2>
+<p>Download the RetroTxt source code onto your local computer.</p>
+<p>Run the following <a href="https://git-scm.com">Git</a> or <a href="https://cli.github.com">gh</a> command in a terminal.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">git</label><label for="__tabbed_1_2">gh</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone https://github.com/bengarrett/RetroTxt.git
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>gh repo clone bengarrett/RetroTxt
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="install-build-dependencies-with-yarn">Install build dependencies with yarn</h2>
+<p><a href="https://yarnpkg.com">Yarn package manager</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span> RetroTxt
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>yarn
+</code></pre></div>
+<p>If the installation of the tools is successful, this command should return the <code>web-ext</code> version number.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>yarn run web-ext --version
+</code></pre></div>
+<h3 id="convert-and-compact-a-truetype-font-into-woff2-for-use-by-retrotxt">Convert and compact a Truetype font into WOFF2 for use by RetroTxt.</h3>
+<p><a href="https://github.com/fontello/wawoff2">wawoff2 tool</a>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>yarn run font mona.ttf mona.woff2
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Windows</p>
+<p>Windows users may need to edit <code>package.json</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">&quot;scripts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;font&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;woff2_compress.js.cmd&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</div>
+<h3 id="run-retrotxt-in-firefox-with-automatic-extension-reloading">Run RetroTxt in <strong>Firefox</strong> with automatic extension reloading.</h3>
+<p><a href="https://github.com/mozilla/web-ext">Web-ext command line tool</a> to help build, run, and test WebExtensions.</p>
+<p>For this to work <a href="https://www.mozilla.org/en-US/firefox/">Firefox needs to be installed</a> on your computer and then RetroTxt on Firefox will reload whenever a change is made to this source code.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cp ext/json/manifest_firefox.json ext/manifest.json
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>yarn run web-ext run -s<span class="o">=</span>ext
+</code></pre></div>
+<h3 id="analyse-the-source-code-for-any-errors-using-mozillas-web-ext-lint-tool">Analyse the source code for any errors using Mozilla's web-ext lint tool.</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cp ext/json/manifest_firefox.json ext/manifest.json
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>yarn run web-ext lint -s<span class="o">=</span>ext
+</code></pre></div>
+<h2 id="use-on-chrome-edge-brave-and-chromium">Use on Chrome, Edge, Brave and Chromium</h2>
+<p>I suggest that you create a <a href="https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&amp;hl=en">new user profile</a> for use and to edit the Extension.</p>
+<p>Open a new tab and type in the address of the Extension.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Chrome</label><label for="__tabbed_2_2">Edge</label><label for="__tabbed_2_3">Brave</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>chrome://extensions
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>edge://extensions
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>brave://extensions
+</code></pre></div>
+</div>
+</div>
+</div>
+<ol>
+<li>In the Extensions tab, toggle <strong>Developer mode</strong></li>
+<li>Click the <strong>Load unpacked</strong> button</li>
+<li>Navigate to the local directory containing the RetroTxt source code and select OK</li>
+</ol>
+<p>RetroTxt should load. The Options link behind the <strong>Details</strong> button and allows you to configure RetroTxt styling and behaviour.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Chrome</label><label for="__tabbed_3_2">Edge</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><figure markdown>
+  <img alt="Chrome extensions developer mode" src="../assets/source_code-chrome.png" />
+  <figcaption>Chrome Extensions developer mode</figcaption>
+</figure></p>
+</div>
+<div class="tabbed-block">
+<p><figure markdown>
+  <img alt="Edge extensions developer mode" src="../assets/source_code-edge.png" />
+  <figcaption>Edge Extensions developer mode</figcaption>
+</figure></p>
+</div>
+</div>
+</div>
+<h2 id="use-on-firefox">Use on Firefox</h2>
+<p>Firefox is locked down and doesn't permit the loading of extensions outside of the Firefox Add-ons page.</p>
+<p>Mozilla's <code>web-ext</code> tool is the easiest method to bypass this with a <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting_started_with_web-ext">dedicated web page</a> but requires Node.js.</p>
+<ol>
+<li><a href="https://nodejs.org">Install Node.js if needed</a></li>
+<li><code>cd RetroTxt</code> into the cloned RetroTxt directory</li>
+<li>Copy the Firefox manifest<br>
+   <code>cp ext/json/manifest_firefox.json ext/manifest.json</code></li>
+<li><code>yarn</code> to install web-ext and dependencies</li>
+<li><code>yarn run web-ext run -s=ext</code> to load RetroTxt in Firefox with automatic extension reloading</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>yarn run web-ext run -s<span class="o">=</span>ext
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Applying config file: ./package.json
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Running web extension from /RetroTxt/ext
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>Use --verbose or open Tools &gt; Web Developer &gt; Browser Console to see logging
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>Installed /RetroTxt/ext as a temporary add-on
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>The extension will reload if any source file changes
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>Press R to reload (and Ctrl-C to quit)
+</code></pre></div>
+<p>To restore the the Chrome manifest after you have quit Firefox.<br></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>cp ext/json/manifest_chrome.json ext/manifest.json
+</code></pre></div>
+<h2 id="use-on-firefox-developer-edition">Use on Firefox Developer Edition</h2>
+<ol>
+<li>Edit <code>ext/.web-ext-firefox.js</code></li>
+<li>Update
+   <div class="highlight"><span class="filename">Original</span><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="s2">&quot;run&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="s2">&quot;firefox&quot;</span><span class="o">:</span> <span class="s2">&quot;firefox&quot;</span> <span class="p">}</span>
+</code></pre></div>
+   <div class="highlight"><span class="filename">Replacement</span><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="s2">&quot;run&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="s2">&quot;firefox&quot;</span><span class="o">:</span> <span class="s2">&quot;firefoxdeveloperedition&quot;</span> <span class="p">}</span>
+</code></pre></div></li>
+<li>Follow the above <strong>Use on Firefox</strong> instructions</li>
+</ol>
+<h2 id="directory-and-file-structure">Directory and file structure</h2>
+<p>These are the directories and files that comprise of RetroTxt.</p>
+<ul>
+<li><code>.github/</code> <a href="https://github.com/bengarrett/RetroTxt">Github repo</a> settings.</li>
+<li><code>.vscode/</code> Workspace settings for <a href="https://code.visualstudio.com">Visual Studio Code</a>.</li>
+<li><code>docs/</code> Documentation in <a href="https://squidfunk.github.io/mkdocs-material">Material for MkDocs</a> markdown.</li>
+<li><code>fonts/</code> Original font packages with documentation and licences.</li>
+<li><code>.eslintrc.json</code> <a href="https://eslint.org/docs/user-guide/configuring">ESLint configuration file</a>.</li>
+<li><code>.gitattributes</code> The <a href="https://git-scm.com">Git</a> settings file for this repository.</li>
+<li><code>.gitignore</code> The Git file to exclude items from being checked into this repository.</li>
+<li><code>LICENSE</code> A copy of the <a href="http://www.gnu.org/licenses/lgpl-3.0.en.html">GNU Lesser General Public License</a>, Version 3.</li>
+<li><code>package.json</code> <a href="https://docs.npmjs.com/files/package.json">Yarn configuration file</a> (npm compatible).</li>
+</ul>
+<hr />
+<ul>
+<li>
+<p><strong><code>ext/</code></strong> The RetroTxt Extension root directory.</p>
+</li>
+<li>
+<p><code>ext/_locales/</code> Spelling differences for the UK and US English.</p>
+</li>
+<li><code>ext/_locales/en_US/messages.json</code> Also includes shared variables for remote URLs and BBS software names.</li>
+<li><code>ext/assets/snaps/</code> PNG screenshots used by the Options samples tab.</li>
+<li><code>ext/assets/svg/material-icons.svg</code> SVG icons for the Options tab.</li>
+<li>
+<p><code>ext/assets/</code> PNG icons for RetroTxt.</p>
+</li>
+<li>
+<p><strong><code>ext/css/</code></strong> Extension Cascading Style Sheets in CSS3 syntax.</p>
+</li>
+<li><code>bulma.min.css</code> <a href="https://bulma.io">Bulma CSS framework</a> used by the Options tab.</li>
+<li><code>fonts_home.css</code> Font faces and classes for the _Home computers_fonts.</li>
+<li><code>fonts_ibm.css</code> Font faces and classes for the <em>IBM PC &amp; family</em> fonts.</li>
+<li><code>fonts_modern.css</code> Font faces and classes for the <em>Modern</em> fonts.</li>
+<li><code>layout.css</code> Base elements styles.</li>
+<li><code>options.css</code> Styles specific for the Options tab.</li>
+<li><code>retrotxt_loader.css</code> An animated spinner to display during the RetroTxt processing.</li>
+<li><code>retrotxt.css</code> Scanlines, text size, the Mona font face and cursor stylings.</li>
+<li><code>text_animation-off.css</code> For the <em>Blinking cursor and text</em> off Option.</li>
+<li><code>text_colors_4bit-ice.css</code> ANSI Select Graphic Rendition iCE Color classes.</li>
+<li><code>text_colors_4bit.css</code> ANSI Select Graphic Rendition colour classes.</li>
+<li><code>text_colors_8bit.css</code> Xterm 256 colours for ANSI colour classes.</li>
+<li><code>text_colors_bbs.css</code> Shared BBS colours and font styles.</li>
+<li><code>text_colors_blink.css</code> Simulate terminal blinking text.</li>
+<li><code>text_colors_c64.css</code> Commodore 64 ANSI color pallete.</li>
+<li><code>text_colors_cga_0.css</code> CGA 0 ANSI color pallete.</li>
+<li><code>text_colors_cga_1.css</code> CGA 1 ANSI color pallete.</li>
+<li><code>text_colors_gray.css</code> Monochrome ANSI color pallete.</li>
+<li><code>text_colors_iigs.css</code> Apple IIGS ANSI color pallete.</li>
+<li><code>text_colors_pcboard.css</code> PCBoard BBS colour classes.</li>
+<li><code>text_colors_pipe.css</code> Renegade BBS and other BBS software colours.</li>
+<li><code>text_colors_vga.css</code> VGA ANSI color pallete.</li>
+<li><code>text_colors_workbench.css</code> Amiga Workbench ANSI color pallete.</li>
+<li><code>text_colors_wviv-pipe.css</code> WVIV BBS and other BBS software colours.</li>
+<li><code>text_colors_xterm.css</code> Xterm ANSI color pallete.</li>
+<li><code>text_colors.css</code> Colours, <em>text pair</em> classes.</li>
+<li><code>text_ecma_48.css</code> ANSI Select Graphic Rendition function classes.</li>
+<li>
+<p><code>text_pagewrap.css</code> For the <em>ANSI Page wrap</em> on option.</p>
+</li>
+<li>
+<p><code>ext/fonts/</code> <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/WOFF">Compressed fonts</a> used in RetroTxt.</p>
+</li>
+<li>
+<p><code>ext/html/options.html</code> HTML5 template for the Options page.</p>
+</li>
+<li>
+<p><strong><code>ext/json/</code></strong> JSON, human-readable data stores.</p>
+</li>
+<li><code>manifest_chrome.json</code> Extension manifest file for Chromium based browsers.</li>
+<li>
+<p><code>manifest_firefox.json</code> Extension manifest file for Firefox browsers.</p>
+</li>
+<li>
+<p><strong><code>ext/scripts/</code></strong> Extension JavaScripts in ES6+ (ES2015) syntax.</p>
+</li>
+<li><code>eventpage.js</code> Background functions and listeners that are completely isolated from all other scripts.</li>
+<li><code>functions.js</code> Shared functions accessible to non-isolated scripts.</li>
+<li><code>options.js</code> Isolated functions for the Options page located at <code>ext/html/options.html</code>.</li>
+<li><code>parse_ansi.js</code> Functions to handle ANSI and ECMA-48 controls.</li>
+<li><code>parse_dos.js</code> Functions to handle text encodings and DOS code pages.</li>
+<li>
+<p><code>retrotxt.js</code> Invokes RetroTxt, handles the browser page display and SAUCE metadata.</p>
+</li>
+<li>
+<p><strong><code>ext/test/</code></strong> Unit and sample test files.</p>
+</li>
+<li><code>example_files/</code> ASCII and ANSI text test cases for use with the <code>files:///</code> protocol.</li>
+<li><code>example_files/bbs_sheets/</code> BBS text test cases for use with the <code>files:///</code> protocol.</li>
+<li><code>index.html</code> Entry point for the QUnit tests.</li>
+<li><code>qunit.css</code> QUnit stylesheet.</li>
+<li><code>qunit.js</code> <a href="https://qunitjs.com">QUnit</a> JavaScript testing framework application.</li>
+<li><code>tests-eventpage.js</code> QUnit tests for <code>ext/scripts/eventpage.js</code>.</li>
+<li><code>tests-functions.js</code> QUnit tests for <code>ext/scripts/functions.js</code>.</li>
+<li><code>tests-options.js</code> QUnit tests for <code>ext/scripts/options.js</code>.</li>
+<li><code>tests-parse_ansi.js</code> QUnit tests for <code>ext/scripts/parse_ansi.js</code>.</li>
+<li><code>tests-parse_dos.js</code> QUnit tests for <code>ext/scripts/parse_dos.js</code>.</li>
+<li>
+<p><code>tests-retrotxt.js</code> QUnit tests for <code>ext/scripts/retrotxt.js</code>.</p>
+</li>
+<li>
+<p><code>ext/manifest.json</code> In use, <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json">Extension manifest file</a> containing read-only metadata and configuration options.</p>
+</li>
+<li><code>ext/.web-ext-chrome.js</code> <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext#Setting_option_defaults_in_a_configuration_file">web-ext configuration file</a> for packaging a Chrome distribution package.</li>
+<li><code>ext/.web-ext-firefox.js</code> web-ext configuration file for packaging a Firefox distribution and all other web-ext commands.</li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../technical/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Supported standards" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Supported standards
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../build/" class="md-footer__link md-footer__link--next" aria-label="Next: Building" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Building
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      RetroTxt &copy; 2022 Ben Garrett
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.960e086b.min.js"></script>
+      
+    
+  </body>
+</html>
