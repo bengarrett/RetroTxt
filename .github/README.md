@@ -2,40 +2,29 @@
 
 ![GitHub](https://img.shields.io/github/license/bengarrett/retrotxt?style=flat-square)
 ![GitHub manifest version](https://img.shields.io/github/manifest-json/v/bengarrett/retrotxt?filename=ext%2Fmanifest.json&style=flat-square)
-![Lines of code](https://img.shields.io/tokei/lines/github/bengarrett/RetroTxt?style=flat-square)
-&nbsp;
-![Chrome Web Store](https://img.shields.io/chrome-web-store/users/gkjkgilckngllkopkogcaiojfajanahn?color=rgb%280%2C%20153%2C%20255%29&label=Chrome%20installs&style=flat-square)
-&nbsp;
-![Mozilla Add-on](https://img.shields.io/amo/users/retrotxt?color=E66000&label=Firefox%20installs&style=flat-square)
 
 Turn pieces of ANSI text art and ASCII, NFO documents into HTML using RetroTxt. RetroTxt is the Extension that takes legacy and plain text files and stylizes them into a more acceptable, useful format to view or copy from a web browser tab.
 
-#### ☕ [Enjoying RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
-
-### Install from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt), or [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog).
+## Install from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt), or [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog).
 
 - View ANSI, ASCII, NFO, Shift JIS text art as HTML
 - View server and dev-op logs styled with colored text
 - 16.7 million, 256 and standard 16 color support
 - View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
-* Swappable palettes; VGA, CGA, xterm, monochrome, Apple IIgs, Commodore 64 and switchable iCE Colors
-* Customizable font and background colors
-* SAUCE metadata parsing
-* Multiple text encodings support including CP-437, ISO-8959-1, Windows-1252, Shift JIS
-* Automatic block character, line artifact fixes
-* Hundreds of IBM PC font choices such as VGA, PS/2, EGA, CGA, MDA plus variants, and more
-* Various Amiga and home computer system fonts; Commodore, Atari, Apple, and more
+- [x] Swappable palettes; VGA, CGA, xterm, monochrome, Apple IIgs, Commodore 64 and switchable iCE Colors
+- [x] Customizable font and background colors
+- [x] SAUCE metadata parsing
+- [x] Multiple text encodings support including CP-437, ISO-8959-1, Windows-1252, Shift JIS
+- [x] Automatic block character, line artifact fixes
+- [x] Hundreds of IBM PC font choices such as VGA, PS/2, EGA, CGA, MDA plus variants, and more
+- [x] Various Amiga and home computer system fonts; Commodore, Atari, Apple, and more
 
-![RetroTxt showcase](assets/readme-retrotxt.png)
+#### [Check out the documentation](https://docs.retrotxt.com)
 
-## Documentation
+![RetroTxt showcase](../docs/assets/showcase-clean.png)
 
-### [Read](https://docs.retrotxt.com/index)
-
-### [What is new?](https://docs.retrotxt.com/changes)
-
-### [Limitations](https://docs.retrotxt.com/limitations)
+#### ☕ [Support RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
 
 ## Install
 
@@ -55,13 +44,13 @@ You can test the RetroTxt install by clicking on one of the many sample artworks
 
 Out of the box, some useful features of RetroTxt are off as most browsers require you to grant permission before RetroTxt can [access the specific browser data](https://docs.retrotxt.com/privacy) it needs. These are in the <em>Settings</em> tab from RetroTxt options or typing `rt settings` in the browser address bar.
 
-![Config tab in Options](assets/readme-permissions.png)
+![Config tab in Options](../docs/assets/readme-permissions.png)
 
 ## Run RetroTxt
 
 Once configured, RetroTxt will run on any text or ANSI art file observed in a permitted browser tab and mark the toolbar icon with a check.
 
-![RetroTxt toolbar button in Chrome](assets/readme-button.png)
+![RetroTxt toolbar button in Chrome](../docs/assets/readme-button.png)
 
 Elsewhere there are thousands of text files hosted at [textfiles.com](http://textfiles.com/directory.html) or the [Project Gutenberg](https://www.gutenberg.org/catalog) plain-text books.
 Turn on the <em>Use RetroTxt as a local text file viewer</em> setting.
@@ -89,7 +78,7 @@ While RetroTxt uses a [GNU Lesser General Public License v3.0](https://chooseali
 
 ## Credits
 
-RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett) on [Twitter @bens_zone](https://twitter.com/bens_zone) or [mail](mailto:code.by.ben@gmail.com)
+RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett), [mail](mailto:code.by.ben@gmail.com)
 
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 
