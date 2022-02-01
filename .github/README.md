@@ -5,15 +5,15 @@
 
 Turn pieces of ANSI text art and ASCII, NFO documents into HTML using RetroTxt. RetroTxt is the Extension that takes legacy and plain text files and stylizes them into a more acceptable, useful format to view or copy from a web browser tab.
 
-## Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog), or [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt).
+## Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog), or [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
 
-##### View ANSI, ASCII, NFO, Shift JIS text art as HTML
+#### View ANSI, ASCII, NFO, Shift JIS text art as HTML
 
-##### View server and dev-op logs styled with colored text
+#### View server and dev-op logs styled with colored text
 
-##### 16.7 million, 256 and standard 16 color support
+#### 16.7 million, 256 and standard 16 color support
 
-##### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
+#### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
 - [x] Swappable palettes; VGA, CGA, xterm, monochrome, Apple IIgs, Commodore 64 and switchable iCE Colors
 - [x] Customizable font and background colors
