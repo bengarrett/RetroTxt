@@ -1,5 +1,7 @@
 # RetroTxt
 
+#### [Version 5 is underway!](https://github.com/bengarrett/RetroTxt/tree/MV3)
+
 ![GitHub](https://img.shields.io/github/license/bengarrett/retrotxt?style=flat-square)
 ![GitHub manifest version](https://img.shields.io/github/manifest-json/v/bengarrett/retrotxt?filename=ext%2Fmanifest.json&style=flat-square)
 
