@@ -205,13 +205,17 @@ class HTML {
         version: ``,
       }
     if (ua.includes(`Edg/`)) {
+      // example: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59
       b.vendor = `Microsoft`
       b.name = `Edge`
       const i = ua.indexOf(`Edg/`)
-      b.version = ua.substring(i + 4, i + 6)
+      const x = ua.substring(i + 4).split(".")
+      b.version = x[0]
     } else if (ua.includes(`Chrome/`)) {
+      // example: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
       const i = ua.indexOf(`Chrome/`)
-      b.version = ua.substring(i + 7, i + 9)
+      const x = ua.substring(i + 7).split(".")
+      b.version = x[0]
     } else {
       b.vendor = ``
       b.name = ``
