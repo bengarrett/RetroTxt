@@ -10,7 +10,7 @@ This branch intends to have ready a Manifest V3 compatible edition of RetroTxt a
 
 **Major issues:**
 
-RetroTxt v5 will not work in Firefox.
+RetroTxt v5 will not work in Firefox for the moment. <small>[There is planned partial MV3 support for the end of 2022](https://blog.mozilla.org/addons/2022/05/18/manifest-v3-in-firefox-recap-next-steps/)</small>.
 
 *Use RetroTxt as a local text file viewer* does not work.
 
