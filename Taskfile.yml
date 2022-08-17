@@ -35,7 +35,6 @@ tasks:
     silent: true
   set-ver-yarn:
     cmds:
-      - yarn version --new-version "{{.VERSION}}"
       - cmd: git tag "v{{.VERSION}}"
         ignore_error: true
       - cmd: git push --tags
@@ -43,6 +42,13 @@ tasks:
     silent: true
 
   # user commands that are displayed with `task --list`
+  bump:
+    desc: Bump the current version and print the result.
+    cmds:
+      - yarn version check --interactive
+      - echo ""
+      - yarn version apply --dry-run --prerelease --json
+    silent: true
   builds:
     desc: Creates submission packages for Chrome, Firefox is unsupported.
     summary: |

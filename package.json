@@ -1,6 +1,6 @@
 {
   "name": "retrotxt",
-  "version": "5.0.0",
+  "version": "5.0.0-rc.1",
   "private": true,
   "license": "LGPL-3.0",
   "os": [
@@ -25,5 +25,6 @@
   "dependencies": {
     "bulma": "^0.9.4",
     "qunit": "^2.19.1"
-  }
+  },
+  "stableVersion": "4.2.0"
 }
