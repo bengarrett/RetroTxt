@@ -30,7 +30,6 @@ These are the directories and files that comprise of RetroTxt source code.
 | -- | -- |
 | `ext/manifest.json` | Active [Extension manifest file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json) containing read-only metadata and configuration options |
 | `ext/.web-ext-chrome.js` | The [web-ext configuration file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext#Setting_option_defaults_in_a_configuration_file) for packaging a Chrome distribution package |
-| `ext/.web-ext-firefox.js` | The web-ext configuration file for packaging a Firefox distribution and all other web-ext commands |
 | **`ext/_locales/`** | Spelling differences for the UK and US English |
 |  ↳ `en_US/messages.json` | Shared variables for remote URLs and BBS software names |
 | **`ext/assets/`** | PNG icons for RetroTxt |

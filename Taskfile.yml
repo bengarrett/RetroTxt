@@ -62,30 +62,12 @@ tasks:
       - cmd: cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
       - cmd: cp -f "node_modules/qunit/qunit/qunit.css" "ext/test/qunit.css"
       - cmd: cp -f "node_modules/qunit/qunit/qunit.js" "ext/test/qunit.js"
-  lint:
-    desc: Lints this codebase against Mozilla's Extension specifications.
-    cmds:
-      - task: init-firefox
-      - cmd: yarn run --silent web-ext --config ext/.web-ext-firefox.js --source-dir ./ext --version
-      - cmd: yarn run --silent web-ext --config ext/.web-ext-firefox.js --source-dir ./ext lint
-        ignore_error: true
-      - task: init-chrome
   init:
     desc: Initialises this repository for first time use after being cloned.
     cmds:
       - task: init-chrome
       - cmd: yarn install
       - task: depends
-  serve-firefox:
-    desc: Launches Firefox with the codebase in this active directory.
-    cmds:
-      - task: init-firefox
-      - cmd: printf "\n\e[33mPlease always quit Firefox from its program menu\e[0m\n\n"
-        silent: true
-      - cmd: yarn run web-ext --config ext/.web-ext-firefox.js --source-dir ./ext run
-        silent: true
-        ignore_error: true
-      - task: init-chrome
   version-set:
     desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
     deps: [set-version, set-ver-yarn]
