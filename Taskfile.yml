@@ -1,14 +1,12 @@
 version: "3"
+# Task runner for Manifest V3 for Chromium browsers
+# =================================================
+# As of Aug. 2022 Firefox is not supported.
+#
 # This task runner requires Task to be installed.
 # https://taskfile.dev/#/installation
 #
-# `task` is a Go terminal application that runs in the RetroTxt root directory
-#
-# Rules
-# manifest.json is always a copy of manifest_chrome except when running Firefox specific tasks
-# some tasks require the use of yarn https://yarnpkg.com/en/docs/install
-#
-# Tasks do not run on PowerShell, Windows users should use WSL.
+# Tasks DO NOT RUN on PowerShell, Windows users should use WSL.
 #
 
 vars:
@@ -22,10 +20,6 @@ tasks:
     cmds:
       - cp -f "{{.SRC}}" "ext/manifest.json"
     silent: true
-  init-firefox:
-    cmds:
-      - task: copy-manifest
-        vars: { SRC: "ext/json/manifest_firefox.json" }
   init-chrome:
     cmds:
       - task: copy-manifest
@@ -39,10 +33,6 @@ tasks:
   set-ver-chrome:
     cmds:
       - yarn run dot-json ext/json/manifest_chrome.json version "{{.VERSION}}"
-    silent: true
-  set-ver-firefox:
-    cmds:
-      - yarn run dot-json ext/json/manifest_firefox.json version "{{.VERSION}}"
     silent: true
   set-ver-npm:
     cmds:
@@ -129,7 +119,7 @@ tasks:
       - task: init-chrome
   version-set:
     desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
-    deps: [set-ver-chrome, set-ver-firefox, set-ver-npm]
+    deps: [set-ver-chrome, set-ver-npm]
     cmds:
       - task: init-chrome
   version-purge:
@@ -140,12 +130,11 @@ tasks:
       - cmd: git push --tags
   commit:
     desc: Applies the VERSION variable to the JSON files and commits it to GitHub.
-    deps: [set-ver-chrome, set-ver-firefox, version-purge, builds]
+    deps: [set-ver-chrome, version-purge, builds]
     cmds:
       - task: version-purge
         ignore_error: true
       - task: set-ver-chrome
-      - task: set-ver-firefox
       - task: builds
       - cmd: git tag -a "v{{.VERSION}}" --message "Version {{.VERSION}}"
       - cmd: git push --tags

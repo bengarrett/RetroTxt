@@ -70,7 +70,6 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `options.html` | Template for the Options page |
 | **`ext/json/`** | JSON, human-readable data stores |
 | ↳ `manifest_chrome.json`| Extension manifest file for Chromium based browsers |
-| ↳ `manifest_firefox.json`| Extension manifest file for Firefox browsers |
 | **`ext/scripts/`** | Extension JavaScripts in ES6+ (ES2015) syntax |
 | ↳ `eventpage.js` | Background functions and listeners that are completely isolated from all other scripts. |
 | ↳ `functions.js` | Shared functions accessible to non-isolated scripts. |
