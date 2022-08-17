@@ -23,7 +23,9 @@
         "file:///*"
       ],
       "all_frames": true,
-      "js": ["scripts/sw/helpers.js"]
+      "js": [
+        "scripts/sw/helpers.js"
+      ]
     }
   ],
   "commands": {
@@ -58,18 +60,28 @@
   "omnibox": {
     "keyword": "rt"
   },
-  "optional_permissions": ["downloads", "downloads.open"],
+  "optional_permissions": [
+    "downloads",
+    "downloads.open"
+  ],
   "options_ui": {
     "page": "html/options.html",
     "open_in_tab": true
   },
-  "permissions": ["activeTab", "contextMenus", "scripting", "storage"],
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "scripting",
+    "storage"
+  ],
   "short_name": "RetroTxt",
   "version": "5.0.0",
-  "version_name": "5.0 MV3 prototype",
+  "version_name": "Manifest V3 beta",
   "web_accessible_resources": [
     {
-      "resources": ["css/*.css"],
+      "resources": [
+        "css/*.css"
+      ],
       "matches": [
         "*://*.retrotxt.com/*",
         "https://*/*",
@@ -78,7 +90,9 @@
       ]
     },
     {
-      "resources": ["fonts/*.woff2"],
+      "resources": [
+        "fonts/*.woff2"
+      ],
       "matches": [
         "*://*.retrotxt.com/*",
         "https://*/*",

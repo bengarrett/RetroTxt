@@ -8,6 +8,7 @@ version: "3"
 #
 # Tasks DO NOT RUN on PowerShell, Windows users should use WSL.
 #
+# NOTE: on new installs, yarn plugin import version
 
 vars:
   # The published version number of RetroTxt used in the manifest.json and GitHub commit
@@ -16,25 +17,17 @@ vars:
 
 tasks:
   # internal commands
-  copy-manifest:
-    cmds:
-      - cp -f "{{.SRC}}" "ext/manifest.json"
-    silent: true
-  init-chrome:
-    cmds:
-      - task: copy-manifest
-        vars: { SRC: "ext/json/manifest_chrome.json" }
   rename-build:
     dir: web-ext-artifacts
     cmds:
       - mv -f "retrotxt-{{.VERSION}}.zip" "retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
     status:
       - test -f "retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
-  set-ver-chrome:
+  set-version:
     cmds:
-      - yarn run dot-json ext/json/manifest_chrome.json version "{{.VERSION}}"
+      - yarn run dot-json ext/manifest.json version "{{.VERSION}}"
     silent: true
-  set-ver-npm:
+  set-ver-yarn:
     cmds:
       - yarn version --new-version "{{.VERSION}}"
       - cmd: git tag "v{{.VERSION}}"
@@ -45,10 +38,9 @@ tasks:
 
   # user commands that are displayed with `task --list`
   builds:
-    desc: Creates submission packages for both Chrome and Firefox add-ons.
+    desc: Creates submission packages for Chrome, Firefox is unsupported.
     cmds:
       - task: build-chrome
-      - task: build-firefox
   build-chrome:
     # edit web-ext-chrome.js to hide files and directories
     desc: Creates a package that is intended for submission to the Chrome Web Store.
@@ -59,35 +51,16 @@ tasks:
       Its filename will be retrotxt_for_chrome-{{.VERSION}}.zip
     cmds:
       - task: version-set
-      - task: init-chrome
       - task: depends
       - cmd: yarn run web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
         ignore_error: true
       - task: rename-build
         vars: { BROWSER: "chrome" }
         ignore_error: true
-  build-firefox:
-    # edit web-ext-config.js to hide files and directories
-    desc: Creates a package that is intended for submission to Firefox Add-ons.
-    summary: |
-      Creates a package that is intended for submission to the Firefox Add-ons website.
-
-      Packaged file will be located in /web-ext-artifacts
-      Its filename will be retrotxt_for_firefox-{{.VERSION}}.zip
-    cmds:
-      - task: version-set
-      - task: init-firefox
-      - task: depends
-      - cmd: yarn run web-ext --config ext/.web-ext-firefox.js --source-dir ./ext build
-        ignore_error: true
-      - task: rename-build
-        vars: { BROWSER: "firefox" }
-        ignore_error: true
-      - task: init-chrome
+    silent: true
   depends:
     desc: Copies the latest yarn dependencies over to the package.
     cmds:
-      #- cmd: cp -f "node_modules/bulma/css/bulma.css" "ext/css/bulma.css"
       - cmd: cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
       - cmd: cp -f "node_modules/qunit/qunit/qunit.css" "ext/test/qunit.css"
       - cmd: cp -f "node_modules/qunit/qunit/qunit.js" "ext/test/qunit.js"
@@ -105,8 +78,6 @@ tasks:
       - task: init-chrome
       - cmd: yarn install
       - task: depends
-  # serve-chrome:
-  # Chrome does not have a command line switch to enable the reloading of an Extension
   serve-firefox:
     desc: Launches Firefox with the codebase in this active directory.
     cmds:
@@ -119,7 +90,7 @@ tasks:
       - task: init-chrome
   version-set:
     desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
-    deps: [set-ver-chrome, set-ver-npm]
+    deps: [set-version, set-ver-yarn]
     cmds:
       - task: init-chrome
   version-purge:
@@ -130,11 +101,11 @@ tasks:
       - cmd: git push --tags
   commit:
     desc: Applies the VERSION variable to the JSON files and commits it to GitHub.
-    deps: [set-ver-chrome, version-purge, builds]
+    deps: [set-version, version-purge, builds]
     cmds:
       - task: version-purge
         ignore_error: true
-      - task: set-ver-chrome
+      - task: set-version
       - task: builds
       - cmd: git tag -a "v{{.VERSION}}" --message "Version {{.VERSION}}"
       - cmd: git push --tags
