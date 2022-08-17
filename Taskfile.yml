@@ -39,16 +39,15 @@ tasks:
   # user commands that are displayed with `task --list`
   builds:
     desc: Creates submission packages for Chrome, Firefox is unsupported.
-    cmds:
-      - task: build-chrome
-  build-chrome:
-    # edit web-ext-chrome.js to hide files and directories
-    desc: Creates a package that is intended for submission to the Chrome Web Store.
     summary: |
       Creates a package that is intended for submission to the Chrome Web Store.
 
       Packaged file will be located in /web-ext-artifacts
       Its filename will be retrotxt_for_chrome-{{.VERSION}}.zip
+    cmds:
+      - task: build-chrome
+  build-chrome:
+    # edit web-ext-chrome.js to hide files and directories
     cmds:
       - task: version-set
       - task: depends
@@ -57,7 +56,6 @@ tasks:
       - task: rename-build
         vars: { BROWSER: "chrome" }
         ignore_error: true
-    silent: true
   depends:
     desc: Copies the latest yarn dependencies over to the package.
     cmds:
