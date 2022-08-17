@@ -19,7 +19,8 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
-    "wawoff2": "^2.0.1"
+    "wawoff2": "^2.0.1",
+    "web-ext": "^7.2.0"
   },
   "dependencies": {
     "bulma": "^0.9.4",
