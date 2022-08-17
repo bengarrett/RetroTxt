@@ -5,9 +5,18 @@
 web-ext-artifacts
 *.xpi
 
-# Dependencies
+# yarn, NOT using Zero-Installs
+# see: https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# legacy dependencies
 node_modules
-yarn.lock
 
 # Other
 .env

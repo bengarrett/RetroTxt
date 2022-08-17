@@ -30,6 +30,8 @@ hide:
 - Fixed Options reloading the page when a new tab was selected.
 - New Toolbar icon setting to select dark or light mode button.
 
+* Using Yarn v3 as the dependencies manager.
+
 ## 4.2
 
 ### October 2021
