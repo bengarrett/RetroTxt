@@ -55,10 +55,10 @@
   },
   "incognito": "split",
   "manifest_version": 3,
-  "minimum_chrome_version": "92",
+  "minimum_chrome_version": "106",
   "name": "RetroTxt",
   "omnibox": {
-    "keyword": "rt"
+    "keyword": "txt"
   },
   "optional_permissions": [
     "downloads",
