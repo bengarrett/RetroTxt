@@ -6,6 +6,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "jock.svg",
-    "visualstudioexptteam.vscodeintellicode"
+    "visualstudioexptteam.vscodeintellicode",
+    "arcanis.vscode-zipfs"
   ]
 }

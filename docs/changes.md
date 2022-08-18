@@ -29,6 +29,8 @@ hide:
 - Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.
 - Fixed Options reloading the page when a new tab was selected.
 - New Toolbar icon setting to select dark or light mode button.
+- Mentions of the file scheme `file:///` will under Windows display as `file:///C:/`
+- Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
 
 * Using Yarn v3 as the dependencies manager.
 

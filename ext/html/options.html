@@ -90,11 +90,14 @@
                 <span id="program"></span>
               </span>
             </h2>
-            <p class="is-size-7 mb-2" id="os"></p>
+            <p class="is-size-7 mb-5" id="os"></p>
             <div class="notice" style="display: none;" id="updateNotice">
               <div class="notification is-info">
                 <button id="updateNoticeBtn" class="delete" title="Close update tab"></button>
                 RetroTxt is up to date! <a href="#top" id="changesLink">See what is new</a>
+                <p>RetroTxt v5 is using the new API, <a
+                    href="https://developer.chrome.com/blog/mv2-transition/">Manifest V3</a></p>
+                <p>Unfortunately, this mandatory change means <em>some prior settings might be lost</em>
               </div>
               <div class="notification is-primary" id="enjoyRetroTxt">
                 <p id="5starFirefox" style="display: none;">
@@ -116,16 +119,22 @@
             </div>
             <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
-                <p class="mb-2"><strong>Welcome</strong></p>
-                <p>
-                  <a id="newInstallSettings">To enhance functionality</a>, add new websites and enable <em>Run
-                    RetroTxt on files hosted on these domains</em> in the Settings
-                  tab.<br><a id="newInstallDisplay">The Display tab</a> contains the theming and style options.
-                  <br><a id="newInstallFonts">While Fonts lets you choose</a> one of many font families.
+                <p class="mb-2"><strong>Getting started with RetroTxt</strong></p>
+                <p class="mt-2"><a id="newInstallSamples">There are dozens of sample text art files</a> to try
+                  with this RetroTxt installation
                 </p>
+                <p class="mt-2"><a id="newInstallFonts">Choose a retro or modern font</a> for viewing text files</p>
                 <p class="mt-2">
-                  <a id="newInstallSamples">Also, the Samples tab</a> offers a small gallery of text art to get you
-                  started.
+                  You can use RetroTxt as a local text file viewer<span class="has-text-info">*</span><br>
+                  Either, drag-and-drop text files to this browser<br>
+                  Or use the <code class="file-url-scheme">file:///</code> URL scheme in a tab
+                </p>
+                <p class="mt-1" id="newInstallAsterisk"><small>* not all ANSI art files are usable</small></p>
+                <p class="mt-2" id="newInstallToUse">
+                  <span class="has-text-info">*</span> To use this feature, <em>Allow access to file URLs</em> needs
+                  to be enabled in the RetroTxt
+                  permissions<br>
+                  <code>chrome://extensions?id=lenecnejdllmdgbhegplikofelapmlhf</code>
                 </p>
               </div>
             </div>
@@ -3886,7 +3895,7 @@
                           </div>
                           <p class="help">Only the hostname is saved</p>
                         </div>
-                        <div class="field">
+                        <div class="field has-text-centered">
                           <button id="removeSuggestedDomains" class="button is-small">
                             remove
                           </button>
@@ -3905,21 +3914,19 @@
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
                       Use RetroTxt as a local text file viewer
-                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
-                        The browser can display text files stored on your PC using the <code>file:///</code> scheme.
-                        RetroTxt renders these files allowing you to use the browser as a text file viewer.
+                      <div class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
+                        <p>You can use RetroTxt as a local text file viewer (though some ANSI art may not load).</p>
+                        <p class="mt-2">Either, drag-and-drop text files to this browser.</p>
+                        <p>Or use the <code class="file-url-scheme">file:///</code> URL scheme in a
+                          tab.</p>
+                      </div>
+                      <p name="is-off" class="is-hidden has-text-info has-text-weight-normal mt-2 is-size-7">
+                        To use this feature, <span class="has-text-weight-bold">Allow
+                          access to file URLs</span> needs to be enabled in the RetroTxt permissions.
                       </p>
-                      <p name="is-off" class="is-hidden has-text-warning-dark has-text-weight-normal mt-2 is-size-7">
-                        This feature is off as the
-                        <span class="has-text-weight-bold">Allow access to file URLs</span>
-                        in the installed extensions details is disabled.<span name="is-details-url"> This requirement
-                          can be changed using the the URL below.</span>
-                      </p>
-                      <p name="is-on" class="is-hidden has-text-weight-normal mt-2 is-size-7">To turn off is feature,
-                        disable the
-                        <span class="has-text-weight-bold">Allow access to file URLs</span>
-                        option in the installed extensions details<span name="is-details-url"> using the URL
-                          below</span>.
+                      <p name="is-on" class="is-hidden has-text-weight-normal mt-2 is-size-7">
+                        To turn off this feature, <span class="has-text-weight-bold">Allow access to file URLs</span>
+                        needs to be disabled in the RetroTxt permissions.
                       </p>
                       <p class="mt-2 is-size-7 is-hidden"><code id="linkToDetails"></code></p>
                     </div>
@@ -4107,6 +4114,12 @@
                   <a href class="reload-link"><svg role="img" class="material-icons">
                       <use xlink:href="../assets/svg/material-icons.svg#autorenew"></use>
                     </svg> &nbsp;Reload</a>
+                </li>
+                <li id="">
+                  <a href="#newinstall">New install</a>
+                </li>
+                <li id="">
+                  <a href="#update">New update</a>
                 </li>
               </ul>
             </div>

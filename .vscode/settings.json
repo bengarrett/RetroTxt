@@ -38,7 +38,11 @@
   "javascript.format.enable": false,
   "search.exclude": {
     "**/qunit.js": true,
-    "**/manifest_v2": true
+    "**/manifest_v2": true,
+    "**/.yarn": true,
+    "**/.pnp.*": true
   },
-  "typescript.format.enable": false
+  "typescript.format.enable": false,
+  "eslint.nodePath": ".yarn/sdks",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js"
 }
