@@ -9,6 +9,7 @@ hide:
 - **Some Options settings may be lost in this update.**<br>
   Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.
   This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
+- The use of Manifest v3 with service workers is incompatible with Firefox.
 
 * Replaced the `scripts/eventpage.js` background page with modular service workers.
 * Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
@@ -33,6 +34,7 @@ hide:
 - Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
 
 * Using Yarn v3 as the dependencies manager.
+* Removed the Firefox specific build tools.
 
 ## 4.2
 

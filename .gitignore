@@ -1,7 +1,7 @@
 # Packages #
 ############
 
-# Firefox packages
+# build packages
 web-ext-artifacts
 *.xpi
 
@@ -18,7 +18,7 @@ web-ext-artifacts
 # legacy dependencies
 node_modules
 
-# Other
+# other
 .env
 .DS_Store
 

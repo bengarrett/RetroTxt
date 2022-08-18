@@ -151,11 +151,12 @@ main > section #jumpTo {
   height: 1em;
   fill: currentColor;
   text-rendering: geometricPrecision;
-  /* Support for all WebKit browsers. */
+  /* non-standard, WebKit on macOS only. */
   -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
+  /* Firefox and Chrome, but only on Windows and Linux */
+  /* Full support in Safari */
   text-rendering: optimizeLegibility;
-  /* Support for Firefox. */
+  /* non-standard, Firefox on macOS only. */
   -moz-osx-font-smoothing: grayscale;
 }
 
