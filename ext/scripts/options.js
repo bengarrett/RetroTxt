@@ -812,15 +812,31 @@ class Initialise extends CheckBox {
   async _management() {
     if (typeof chrome.management !== `undefined`) {
       const unit = document.getElementById(`unittest`),
-        reload = document.getElementById(`reload`)
+        reload = document.getElementById(`reload`),
+        install = document.getElementById(`newInstall`),
+        update = document.getElementById(`newUpdate`)
       chrome.management.getSelf((info) => {
         switch (info.installType) {
           // the add-on was installed unpacked from disk
           case `development`:
             // reveal developer links
             unit.style.display = `inline`
-            reload.addEventListener(`click`, () => chrome.runtime.reload())
             reload.style.display = `inline`
+            install.style.display = `inline`
+            update.style.display = `inline`
+            install.addEventListener(`click`, () => {
+              window.location.assign(
+                `${chrome.runtime.getURL(`html/options.html`)}#newinstall`
+              )
+              window.location.reload()
+            })
+            reload.addEventListener(`click`, () => chrome.runtime.reload())
+            update.addEventListener(`click`, () => {
+              window.location.assign(
+                `${chrome.runtime.getURL(`html/options.html`)}#update`
+              )
+              window.location.reload()
+            })
             return
           case `admin`: // the add-on was installed because of an administrative policy
           case `normal`: // the add-on was installed normally from an install package
