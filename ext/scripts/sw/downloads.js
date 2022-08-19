@@ -80,14 +80,16 @@ class Downloads {
           if (!(`mime` in downloads.item)) return
           // catch all mime types that use binary types such as
           // `application/octet-stream`, `application/x-font`
-          const type = downloads.item.mime.split(`/`)
-          if (type[0] === `application`) {
+          const config = new Configuration(),
+            sixColors =
+              downloads.item.finalUrl.startsWith(`https://16colo.rs/`),
+            textFile = config.validateFileExtension(downloads.item.finalUrl),
+            type = downloads.item.mime.split(`/`)
+          if (!sixColors && type[0] === `application`) {
             if (
               `state` in downloads.delta &&
               downloads.delta.state.current === `complete`
             ) {
-              const config = new Configuration(),
-                textFile = config.validateFileExtension(downloads.item.finalUrl)
               if (textFile === true)
                 console.warn(
                   `Downloaded filename looks to be a text file but the host server says it's a binary file: `,
@@ -96,6 +98,8 @@ class Downloads {
             }
             return
           }
+          // check intended for 16colo.rs
+          if (!textFile) return
           downloads._update()
         })
         break

@@ -32,6 +32,7 @@ hide:
 - New Toolbar icon setting to select dark or light mode button.
 - Mentions of the file scheme `file:///` will under Windows display as `file:///C:/`
 - Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
+- Monitor downloads works better with 16colo.rs by ignoring their incorrect `Content-Type` headers.
 
 * Using pnpm as the dependencies manager.
 * Removed the Firefox specific build tools.
