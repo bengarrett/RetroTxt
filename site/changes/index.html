@@ -1751,10 +1751,11 @@
 <h2 id="50">5.0</h2>
 <h3 id="migration-to-manifest-v3"><a href="/src/mv3">Migration to Manifest v3</a></h3>
 <ul>
-<li>
-<p><strong>Some Options settings may be lost in this update.</strong><br>
+<li><strong>Some Options settings may be lost in this update.</strong><br>
   Removed the use of <code>Window.localStorage</code> and <code>Window.sessionStorage</code> which held Options settings and replaced it with <code>chrome.storage.local</code>.
-  This was needed as the <code>Window</code> interface is not accessible by service workers which are required by Manifest v3.</p>
+  This was needed as the <code>Window</code> interface is not accessible by service workers which are required by Manifest v3.</li>
+<li>
+<p>The use of Manifest v3 with service workers is incompatible with Firefox.</p>
 </li>
 <li>
 <p>Replaced the <code>scripts/eventpage.js</code> background page with modular service workers.</p>
@@ -1779,12 +1780,15 @@
 <li>Manifest v3 has much better error handling and there should be less uncaptured errors.</li>
 <li>Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.</li>
 <li>Fixed Options reloading the page when a new tab was selected.</li>
+<li>New Toolbar icon setting to select dark or light mode button.</li>
+<li>Mentions of the file scheme <code>file:///</code> will under Windows display as <code>file:///C:/</code></li>
 <li>
-<p>New Toolbar icon setting to select dark or light mode button.</p>
+<p>Updated the Welcome, new install text to be a Getting started with RetroTxt brief.</p>
 </li>
 <li>
-<p>Using Yarn v3 as the dependencies manager.</p>
+<p>Using pnpm as the dependencies manager.</p>
 </li>
+<li>Removed the Firefox specific build tools.</li>
 </ul>
 <h2 id="42">4.2</h2>
 <h3 id="october-2021">October 2021</h3>

@@ -8,7 +8,6 @@ version: "3"
 #
 # Tasks DO NOT RUN on PowerShell, Windows users should use WSL.
 #
-# NOTE: on new installs, yarn plugin import version
 
 vars:
   # The published version number of RetroTxt used in the manifest.json and GitHub commit
@@ -31,9 +30,9 @@ tasks:
       - test -f "retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
   set-version:
     cmds:
-      - yarn run dot-json ext/manifest.json version "{{.VERSION}}"
+      - pmpn run dot-json ext/manifest.json version "{{.VERSION}}"
     silent: true
-  set-ver-yarn:
+  set-ver:
     cmds:
       - cmd: git tag "v{{.VERSION}}"
         ignore_error: true
@@ -42,13 +41,6 @@ tasks:
     silent: true
 
   # user commands that are displayed with `task --list`
-  bump:
-    desc: Bump the current version and print the result.
-    cmds:
-      - yarn version check --interactive
-      - echo ""
-      - yarn version apply --dry-run --prerelease --json
-    silent: true
   builds:
     desc: Creates submission packages for Chrome, Firefox is unsupported.
     summary: |
@@ -63,13 +55,13 @@ tasks:
     cmds:
       - task: version-set
       - task: depends
-      - cmd: yarn run web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
+      - cmd: pmpn run web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
         ignore_error: true
       - task: rename-build
         vars: { BROWSER: "chrome" }
         ignore_error: true
   depends:
-    desc: Copies the latest yarn dependencies over to the package.
+    desc: Copies the latest dependencies over to the package.
     cmds:
       - cmd: cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
       - cmd: cp -f "node_modules/qunit/qunit/qunit.css" "ext/test/qunit.css"
@@ -77,11 +69,11 @@ tasks:
   init:
     desc: Initialises this repository for first time use after being cloned.
     cmds:
-      - cmd: yarn install
+      - cmd: pmpn install
       - task: depends
   version-set:
     desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
-    deps: [set-version, set-ver-yarn]
+    deps: [set-version, set-ver]
   version-purge:
     desc: Removes the current VERSION variable value as a tag from the GitHub repository.
     cmds:
