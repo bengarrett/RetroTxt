@@ -1,17 +1,15 @@
 {
   "name": "retrotxt",
   "version": "5.0.0-rc.1",
+  "description": "",
+  "keywords": [],
+  "author": "Ben Garrett",
   "private": true,
   "license": "LGPL-3.0",
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ],
-  "scripts": {
-    "font": "woff2_compress.js"
+  "dependencies": {
+    "bulma": "^0.9.4",
+    "qunit": "^2.19.1"
   },
-  "packageManager": "yarn@3.2.2",
   "devDependencies": {
     "ajv": "^8.11.0",
     "dot-json": "^1.2.2",
@@ -22,9 +20,7 @@
     "wawoff2": "^2.0.1",
     "web-ext": "^7.2.0"
   },
-  "dependencies": {
-    "bulma": "^0.9.4",
-    "qunit": "^2.19.1"
-  },
-  "stableVersion": "4.2.0"
+  "scripts": {
+    "font": "woff2_compress.js"
+  }
 }

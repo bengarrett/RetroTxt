@@ -33,7 +33,7 @@ hide:
 - Mentions of the file scheme `file:///` will under Windows display as `file:///C:/`
 - Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
 
-* Using Yarn v3 as the dependencies manager.
+* Using pnpm as the dependencies manager.
 * Removed the Firefox specific build tools.
 
 ## 4.2
