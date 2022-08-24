@@ -2,8 +2,6 @@
 
 ### _for manifest version 3_
 
----
-
 ![GitHub](https://img.shields.io/github/license/bengarrett/retrotxt?style=flat-square)
 
 Turn pieces of ANSI text art and ASCII, NFO documents into HTML using RetroTxt. RetroTxt is the Extension that takes legacy and plain text files and stylizes them into a more acceptable, useful format to view or copy from a web browser tab.
@@ -12,17 +10,15 @@ Turn pieces of ANSI text art and ASCII, NFO documents into HTML using RetroTxt. 
 
 Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
 
-### View ANSI, ASCII, NFO, Shift JIS text art as HTML
+#### View ANSI, ASCII, NFO, Shift JIS text art as HTML
 
-### View server and dev-op logs styled with colored text
+#### View server and dev-op logs styled with colored text
 
-### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
+#### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
 ---
 
 ![RetroTxt showcase](../docs/assets/readme-retrotxt.png)
-
----
 
 ## Features
 
@@ -40,9 +36,7 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 - Open-source
 - No special browser permissions for general usage
 
----
-
-### [Check out the documentation](https://docs.retrotxt.com)
+## [Check out the documentation](https://docs.retrotxt.com)
 
 #### ☕ [Support RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
 
@@ -58,9 +52,7 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 \* Firefox support will continue once their [Manifest version 3 implementation reaches general availability](https://blog.mozilla.org/addons/2022/05/18/manifest-v3-in-firefox-recap-next-steps/).
 
----
-
-### Requirements
+## Requirements
 
 **Chrome or Edge 106** (or a compatible browser such as Brave, Chromium or Vivaldi)
 
@@ -86,7 +78,7 @@ While RetroTxt uses a [GNU Lesser General Public License v3.0](https://chooseali
 
 ## Credits
 
-RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett), [mail](mailto:code.by.ben@gmail.com)
+RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett) ([mail](mailto:code.by.ben@gmail.com))
 
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 
