@@ -46,15 +46,13 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 ## A legacy edition is available for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) *
 
-Firefox support will continue once their [Manifest version 3 implementation reaches general availability](https://blog.mozilla.org/addons/2022/05/18/manifest-v3-in-firefox-recap-next-steps/).
+Firefox support will resume once its [Manifest version 3 implementation reaches general availability](https://blog.mozilla.org/addons/2022/05/18/manifest-v3-in-firefox-recap-next-steps/).
 
-#### [Firefox legacy source code](https://github.com/bengarrett/RetroTxt/tree/MV2)
+#### [Firefox legacy source code](https://github.com/bengarrett/RetroTxt/tree/manifest-v2)
 
 ## Requirements
 
 **Chrome or Edge 106** (or a compatible browser such as Brave, Chromium or Vivaldi)
-
-**Firefox 69**
 
 **Or newer browsers**
 
