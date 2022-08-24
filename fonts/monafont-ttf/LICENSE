@@ -1,0 +1,41 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: monafont-ttf
+Source: http://monafont.sourceforge.net
+
+Files: *
+Copyright: Anonymous <s42335@excite.co.jp>
+License: Public Domain
+
+Files: debian/*
+Copyright: Copyright 2001 - 2006 NOKUBI Takatsugu <knok@daionet.gr.jp>
+           Copyright 2006 - 2015 Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+License: Public Domain
+
+License: Public Domain
+ Japanese version: 
+ ライセンスおよび配布条件
+ .
+ モナーフォントは無保証です。
+ .
+ モナーフォントのライセンスは東雲フォントのライセンスに準じます。 東雲フォント自
+ 体は実質的な public domain となっているため、 モナーフォントもこれにならいます。
+ .
+ このアーカイブ中に含まれるフォントおよびツール類の改変、再配布、雑誌や CD-ROM 等
+ への掲載はご自由にどうぞ。作者への連絡は不要です。 
+ .
+ English version: 
+ (NOTE: The original sentence is not only Japanese. This has been translated
+ into English by the package maintainer.)
+ .
+ License and distribution conditions
+ .
+ Mona font is no warranty.
+ .
+ Mona font of license according to the license of Shinonome font.
+ .
+ For Shinonome font itself has become a substantial public domain, we learned in
+ this is also Mona font.
+ .
+ Modification of fonts and tools that are included in this archive,
+ redistribution, publication of magazines and CD-ROM, etc is free. Contact
+ the author is not required.
