@@ -1,9 +1,14 @@
 # RetroTxt
 
-#### [Version 5 is underway!](https://github.com/bengarrett/RetroTxt/tree/MV3)
+### for manifest version 2
 
-![GitHub](https://img.shields.io/github/license/bengarrett/retrotxt?style=flat-square)
-![GitHub manifest version](https://img.shields.io/github/manifest-json/v/bengarrett/retrotxt?filename=ext%2Fmanifest.json&style=flat-square)
+> Welcome to the archived, legacy branch of RetroTxt that relies on the Manifest version 2 API. [The Chrome team discontinued its availability](https://developer.chrome.com/docs/extensions/mv3/mv2-sunset/) in Chrome v109 at the start of 2023, while Firefox maintains support for the API.
+
+> Users of Firefox v69+ can use this source, as can Chrome v72 through to v109 and compatible browsers.
+
+#### [The main branch of RetroTxt contains the current edition of RetroTxt.](https://github.com/bengarrett/RetroTxt/)
+
+---
 
 Turn pieces of ANSI text art and ASCII, NFO documents into HTML using RetroTxt. RetroTxt is the Extension that takes legacy and plain text files and stylizes them into a more acceptable, useful format to view or copy from a web browser tab.
 
