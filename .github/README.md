@@ -20,8 +20,8 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 ## Features
 
-- Swappable palettes for different color simulations
-- VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
+- Swappable palettes for different color simulations<br>
+VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
 - Customizable font and background colors
 - SAUCE metadata parsing
 - Support for multiple text encodings<br>
