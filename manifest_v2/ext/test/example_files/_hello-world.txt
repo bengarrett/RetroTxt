@@ -1,5 +1,0 @@
-Document encoding: Windows-1252
-'Transcode text' setting: Automatic
-File name: _hello-world.txt
-
-Hello world.

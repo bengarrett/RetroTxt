@@ -1,1 +1,0 @@
-[0;40;37;1mThis is a string of text that is longer than the standard 80 columns but has no imposed new lines.[1m It is to test the RetroTxt [4mANSI 80 column wrap option[4m under display. When wrapped there should be 3 rows of text.

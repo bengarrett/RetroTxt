@@ -1,7 +1,0 @@
-test    [0;40;37;1mSome text.[1m
-test    <meta data>
-test    <open tag />
-test    <closed></closed>
-test    <closed tag></closed tag>
-test    & More text.
-test    & <[0;40;37;1mansi[1m></[0;40;37;1mansi[1m>

@@ -1,8 +1,0 @@
-/*
-  filename: text_pagewrap.css
-*/
-
-pre {
-  white-space: pre-wrap;
-  word-break: keep-all;
-}

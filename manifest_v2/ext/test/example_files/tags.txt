@@ -1,6 +1,0 @@
-test    Some text.
-test    <meta data>
-test    <open tag />
-test    <closed></closed>
-test    <closed tag></closed tag>
-test    & More text.
