@@ -6,7 +6,7 @@ This page instructs how to use the source in Chrome-based and Firefox web browse
 
 [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package, such as workspace settings and extension recommendations.
 
-There are also [Node.js](https://nodejs.org) with [yarn](https://yarnpkg.com/) or npm packages for the programming and build tools.
+There are also [Node.js](https://nodejs.org) with [pnpm](https://pnpm.io) packages for the programming and build tools.
 
 The source code gets lint with [ESLint](https://eslint.org/) and stylized using [Prettier](https://prettier.io/) opinionated formatting.
 
