@@ -27,7 +27,7 @@ hide:
 
 ## ANSI flags
 
-_ANSiFlags allow an author of ANSi and similar files to provide a clue to a viewer/editor how to render the image_.
+_ANSIFlags allow an author of ANSI and similar files to provide a clue to a viewer/editor on how to render the image_.
 
 | Flag | Name | Used |
 | -- | -- | -- |
@@ -36,4 +36,4 @@ _ANSiFlags allow an author of ANSi and similar files to provide a clue to a view
 | AR | Aspect Ratio | No |
 
 [^1]: Columns of text.
-[^2]: Also known as iCE colors.
+[^2]: Also known as **iCE colors**.

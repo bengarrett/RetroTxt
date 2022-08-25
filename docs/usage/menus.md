@@ -1,6 +1,6 @@
 # Context menus
 
-The context menu can be found by right-clicking on the active tab (web page) content and in Chrome by right-clicking the RetroTxt toolbar button.
+The context menu is found by right-clicking on the active tab content (web page) and on Chrome by right-clicking the RetroTxt toolbar button.
 
 ![Context menu transcode text](../assets/menus-transcode.png)
 
@@ -24,7 +24,7 @@ Character encoding is complicated, and the execution is not always precise. If y
 
 The default behavior lets RetroTxt try to determine the base character encoding of the text and, when needed, apply any transcoding.
 
-**UTF-8** is the most common, contemporary code set to encoded Unicode text (including Emojis), and it is nearly always in use with HTML5. **ISO-8859-1** was the original code set used by Linux, the Commodore Amiga, and online during the 1990s. It is near identical to _ISO-8859-15_ but lacks a few European-centric characters, such as the `€` sign.
+[**UTF-8**](https://en.wikipedia.org/wiki/UTF-8) is the most common, contemporary code set to encoded Unicode text (including Emojis), and it is nearly always in use with HTML5. [**ISO-8859-1**](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) was the original code set used by Linux, the Commodore Amiga, and online during the 1990s. It is near identical to _ISO-8859-15_ but lacks a few European-centric characters, such as the `€` sign.
 
 ### CP-1252
 
@@ -41,7 +41,7 @@ Force the active tab not to transcode and can help to make documents encoded in
 
 ### ⇉ CP-1252
 
-Force the active tab to display the text using **CP-1252**, a familiar legacy Microsoft Windows encoding instead of the default MS-DOS [CP-437](https://en.wikipedia.org/wiki/Code_page_437).
+Force the active tab to display the text using **CP-1252**, a familiar legacy Microsoft Windows encoding, instead of the default, USA MS-DOS, [**CP-437**](https://en.wikipedia.org/wiki/Code_page_437).
 
 ### ⇉ ISO 8859-5
 

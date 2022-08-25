@@ -9,8 +9,7 @@ The WOFF2 format is relatively new, and most font distributions do not offer it.
 
 ```bash title="Convert a Truetype font into WOFF2"
 cd RetroTxt
-yarn
-yarn run font fontname.ttf fontname.woff2
+pnpm run font fontname.ttf fontname.woff2
 ```
 
 !!! Tip "Tip for Windows"

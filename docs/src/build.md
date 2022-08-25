@@ -2,13 +2,22 @@
 
 !!! tip
 
-    [The build tasks do not run on PowerShell](https://github.com/go-task/task/issues/319), instead Windows users should use [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
+    [The build tasks **do not run on PowerShell**](https://github.com/go-task/task/issues/319). Instead Windows users should use [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
 
 ## Initialize
 
-```bash title="Clone the repository"
-gh repo clone bengarrett/RetroTxt
-```
+Clone the repository.
+
+=== "git"
+    ```bash
+    git clone https://github.com/bengarrett/RetroTxt.git
+    ```
+
+=== "gh"
+     ```bash
+     gh repo clone bengarrett/RetroTxt
+     ```
+
 
 ```bash title="Initialize the build"
 cd RetroTxt
@@ -29,39 +38,43 @@ gh pr merge
 
 ## Update packages
 
+Use [pnpm update](https://pnpm.io/cli/update).
+
 ```bash
-yarn outdated
-yarn upgrade-interactive --latest
+pnpm update --interactive
+pnpm update --latest
+pnpm update --prod
+pnpm update --dev
+```
+
+Use [Task](https://taskfile.dev/) to update the RetroTxt dependencies.
+
+```bash
+task depends
 ```
 
 ## Update version stamp
 
-!!! error
-
-    This information is out of date
-
-```bash
-edit Taskfile.yml
-```
-
-```yml
+```yml title="Edit Taskfile.yml"
 vars:
-  VERSION: "0.0.0"
+  VERSION: "5.0.0"
 ```
 
-```sh
-# apply VERSION stamp to the manifest and package json files.
+```bash title="Apply VERSION stamp to the manifest file"
 task version-set
+```
 
-# or set the VERSION and then submit to GitHub
+```bash title="Or set the VERSION and then submit to GitHub"
 task commit
 ```
 
 ## Browser addon stores
 
-``` title="Complete builds location"
+``` title="Location of builds"
 RetroTxt/web-ext-artifacts/
 ```
+
+---
 
 + [Chrome developer dashboard](https://chrome.google.com/webstore/devconsole/g00502785627994558074?hl=en_GB) for the Chrome Web Store
 + [Microsoft Edge Developer](https://developer.microsoft.com/en-us/microsoft-edge/extensions) for Microsoft Edge Add-ons

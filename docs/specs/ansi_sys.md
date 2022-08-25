@@ -4,7 +4,7 @@ hide:
 ---
 # ANSI.SYS support
 
-Microsoft's MS-DOS [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) driver supported a limited subset of ANSI X3.64 control sequences and introduced non-standard functions. Most ANSI art uses sequences that target the ANSI.SYS implementation of text controls.
+Microsoft's MS-DOS [ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx) driver supported a limited subset of ANSI X3.64 control sequences and introduced non-standard functions. Most ANSI art uses sequences that target the ANSI and SYS implementation of text controls.
 
 RetroTxt recognizes all ANSI.SYS control sequences but skips those that it doesn't support.
 

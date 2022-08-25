@@ -18,5 +18,5 @@ BBS color codes from the 1980s and early 1990s were a means of applying color to
 | [WWIV pipe \|# codes](http://docs.wwivbbs.org/en/latest/displaying_text/) | Yes |
 | [WWIV pipe \| colors](http://docs.wwivbbs.org/en/latest/displaying_text/#pipe-colors) | Yes |
 
-[^1]: Uses the ASCII C0 `SOH` control, aka `/x01`
-[^2]: Uses the ASCII C0 `ETX` control, aka `/x03`
+[^1]: It uses the ASCII C0 `SOH` control, aka `/x01`
+[^2]: It uses the ASCII C0 `ETX` control, aka `/x03`

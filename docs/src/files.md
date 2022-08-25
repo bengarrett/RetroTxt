@@ -4,37 +4,35 @@ hide:
 ---
 # Files and directories
 
-!!! warning "TODO"
-    This document needs updating to RetroTxt v5, MV3.
-
 These are the directories and files that comprise of RetroTxt source code.
 
 !!! tip
     Items ending with a forward-slash `/` are directories<br>
     Items starting with a dot `.` are flagged as hidden
 
-| Item | Purpose |
+| Directory | Purpose |
 | -- | -- |
 | `.github/` | [Github repository](https://github.com/bengarrett/RetroTxt) configuration |
 | `.vscode/` | [Visual Studio Code](https://code.visualstudio.com) workspace settings |
-| `docs/` | This documentation |
+| `docs/` | This documentation written in [mkdocs Markdown](https://www.mkdocs.org/) |
 | **`ext/`** | The RetroTxt Extension root directory |
 | `fonts/` | Original font packages with documentation and licences
+| `site/` | This documentation built as a website |
+
+| File | Purpose |
+| -- | -- |
 | `.eslintrc.json` | [ESLint configuration file](https://eslint.org/docs/user-guide/configuring) |
 | `.gitattributes` | The [Git](https://git-scm.com) settings file for this repository |
 | `.gitignore` | The Git file to exclude items from being recorded |
+| `.prettierrc` | [Prettier configuration file](https://prettier.io/) |
 | `LICENSE` | A copy of the [GNU Lesser General Public License](http://www.gnu.org/licenses/lgpl-3.0.en.html), Version 3 |
-| `package.json` | [Yarn or npm configuration file](https://docs.npmjs.com/files/package.json) |
+| `mkdocs.yml` | [mkdocs configuration file](https://www.mkdocs.org/) |
+| `package.json` | [Pnpm configuration file](https://pnpm.io/) |
+| `pnpm-lock.yml` | Pnpm lockfile |
+| `Taskfile.yml` | [Task configuration file](https://taskfile.dev) |
 
-| Extension item | Purpose |
+| Stylesheet | Purpose |
 | -- | -- |
-| `ext/manifest.json` | Active [Extension manifest file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json) containing read-only metadata and configuration options |
-| `ext/.web-ext-chrome.js` | The [web-ext configuration file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext#Setting_option_defaults_in_a_configuration_file) for packaging a Chrome distribution package |
-| **`ext/_locales/`** | Spelling differences for the UK and US English |
-|  ↳ `en_US/messages.json` | Shared variables for remote URLs and BBS software names |
-| **`ext/assets/`** | PNG icons for RetroTxt |
-|  ↳ `snaps/` | PNG screenshots used by the Options samples tab |
-|  ↳ `svg/material-icons.svg` | SVG icons for the Options tab |
 | **`ext/css/`** | Extension Cascading Style Sheets in CSS3 syntax |
 | ↳ `bulma.min.css` | [Bulma CSS framework](https://bulma.io) used by the Options tab |
 | ↳ `fonts_home.css` | Font faces and classes for the **Home computers** fonts |
@@ -64,26 +62,50 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `text_colors.css` | Colours, **text pair** classes |
 | ↳ `text_ecma_48.css` | ANSI Select Graphic Rendition function classes |
 | ↳ `text_pagewrap.css` | For the **ANSI Page wrap** on option |
+
+| Script | Purpose |
+| -- | -- |
+| **`ext/scripts/`** | Manifest V3 Extension scripts |
+| ↳ `checks.js` | Error, argument checkers and alerts |
+| ↳ `encoding.js` | Character sets, browser encodings, code page handlers |
+| ↳ `helpers.js` | Content-scripts helper, shared functions |
+| ↳ `options.js` | Isolated functions for the Options page located at `ext/html/options.html` |
+| ↳ `parse_ansi.js` | Functions to handle ANSI and ECMA-48 controls |
+| ↳ `parse_dos.js` | Functions to handle text encodings and DOS code pages |
+| ↳ `retrotxt.js` | Content-script to apply RetroTxt to a browser tab DOM, or restore the tab to its original raw text state |
+| **`ext/scripts/sw/`** | Manifest V3 service workers |
+| ↳ `action.js` | Toolbar button actions |
+| ↳ `background.js` | Background service worker functions and `importScripts` |
+| ↳ `downloads.js` | Apply RetroTxt transformations to text file downloads |
+| ↳ `error.js` | Service worker error handlers |
+| ↳ `extension.js` | RetroTxt initialisation, defaults and activation |
+| ↳ `helpers.js` | Service worker helper, shared functions |
+| ↳ `menu.js` | RetroTxt _(right-click)_ context menus |
+| ↳ `message.js` | Make service worker connections that can receive commands from the container-scripts |
+| ↳ `security.js` | Web extension API restriction checks and permission grants |
+| ↳ `session.js` | Uses the local storage API to simulate a session storage store |
+| ↳ `tabs.js` | Monitors and handles the interactions with new and closed browser tabs |
+| ↳ `toolbar.js` | Toolbar button icon and badge |
+
+| Extension item | Purpose |
+| -- | -- |
+| `ext/.web-ext-chrome.js` | The [web-ext configuration file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext#Setting_option_defaults_in_a_configuration_file) for packaging a Chrome distribution package |
+| `ext/manifest.json` | An [Extension manifest file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json) containing read-only metadata and configuration options |
+| **`ext/_locales/`** | Spelling differences for the UK and US English |
+|  ↳ `en_GB/messages.json` | Shared variables British UK spelling and names |
+|  ↳ `en_US/messages.json` | Shared variables for remote URLs and BBS software names |
+| **`ext/assets/`** | PNG icons for RetroTxt |
+|  ↳ `snaps/` | PNG screenshots used by the Options samples tab |
+|  ↳ `svg/material-icons.svg` | SVG icons for the Options tab |
 | **`ext/fonts/`** | [Compressed fonts](https://developer.mozilla.org/en-US/docs/Web/Guide/WOFF) used in RetroTxt |
 | **`ext/html/`** | HTML5 assets |
 | ↳ `options.html` | Template for the Options page |
 | **`ext/json/`** | JSON, human-readable data stores |
-| **`ext/scripts/`** | Extension JavaScripts in ES6+ (ES2015) syntax |
-| ↳ `eventpage.js` | Background functions and listeners that are completely isolated from all other scripts. |
-| ↳ `functions.js` | Shared functions accessible to non-isolated scripts. |
-| ↳ `options.js` | Isolated functions for the Options page located at `ext/html/options.html`. |
-| ↳ `parse_ansi.js` | Functions to handle ANSI and ECMA-48 controls. |
-| ↳ `parse_dos.js` | Functions to handle text encodings and DOS code pages. |
-| ↳ `retrotxt.js` | Invokes RetroTxt, handles the browser page display and SAUCE metadata. |
+| ↳ `font_info.json` | Font metadata for [The Ultimate Oldschool PC Font Pack](https://int10h.org/oldschool-pc-fonts/) (v2.2)<br>Required by [retrotxt-fonts](https://github.com/bengarrett/retrotxt-fonts) |
 | **`ext/test/`** | Unit and sample test files |
 | ↳ `example_files/` | ASCII and ANSI text test cases for use with the `files:///` protocol |
 | ↳ `example_files/bbs_sheets/` | BBS text test cases for use with the `files:///` protocol |
 | ↳ `index.html` | Entry point for the QUnit tests |
 | ↳ `qunit.css` | QUnit stylesheet |
-| ↳ `qunit.js` | [QUnit](https://qunitjs.com) JavaScript testing framework application |
-| ↳ `tests-eventpage.js` | QUnit tests for `ext/scripts/eventpage.js`|
-| ↳ `tests-functions.js` | QUnit tests for `ext/scripts/functions.js` |
-| ↳ `tests-options.js` | QUnit tests for `ext/scripts/options.js` |
-| ↳ `tests-parse_ansi.js` | QUnit tests for `ext/scripts/parse_ansi.js` |
-| ↳ `tests-parse_dos.js` | QUnit tests for `ext/scripts/parse_dos.js` |
-| ↳ `tests-retrotxt.js` | QUnit tests for `ext/scripts/retrotxt.js` |
+| ↳ `qunit.js` | [QUnit](https://qunitjs.com) JS testing framework application |
+| ↳ `tests-*.js` | QUnit tests |

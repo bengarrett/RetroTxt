@@ -4,11 +4,11 @@ hide:
 ---
 # View files stored on your computer
 
-Browsers are quite happy to read files and directories stored locally on your computer by typing a path into the address bar.
+Browsers are happy to read files and directories stored locally on your computer by typing a file or directory path into the address bar.
 
 === "Windows"
 
-    On Windows, I may have a text file located in my downloads folder.
+    I may have a text file on Windows in my Downloads folder.
 
     ``` title="Windows file path"
     C:\Users\Ben\Downloads\myfile.txt
@@ -26,15 +26,15 @@ Browsers are quite happy to read files and directories stored locally on your co
     file:///C:/
     ```
 
-=== "macOS &amp; Linux"
+=== "macOS or Linux"
 
-    I may have a text file location in my home directory.
+    I may have a text file located in my home directory.
 
     ``` title="Computer file path"
     /home/ben/myfile.txt
     ```
 
-    You can paste this path into a browser tab address and it will convert it into a browser-friendly file URI and render the document.
+    You can paste this path into a browser tab address, and it will convert it into a browser-friendly file URI and render the document.
 
     ``` title="Browser address"
     file:///home/ben/myfile.txt
@@ -46,21 +46,26 @@ Browsers are quite happy to read files and directories stored locally on your co
     file:///
     ```
 
-!!! tip "Chrome, Edge &amp; Brave"
+!!! tip "Chrome, Edge, Brave, or Vivaldi"
 
-    Chrome, Chromium, Edge, and Brave require the **Allow access to file URLs** Extension setting enabled if you wish to use RetroTxt to view files stored on your computer. In the browser Extensions tab, in the **Details** section of the RetroTxt installation.
+    Chrome, Edge, Brave, Vivaldi, and other Chromium-based browsers require the **Allow access to file URLs** Extension Details setting enabled if you wish to use RetroTxt to view files stored on your computer.
 
     === "Chrome"
-        ``` title="Extensions address"
+        ``` title="Extension Details address"
         chrome://extensions/
         ```
 
     === "Edge"
-        ``` title="Extensions address"
+        ``` title="Extension Details address"
         edge://extensions/
         ```
 
     === "Brave"
-        ``` title="Extensions address"
+        ``` title="Extension Details address"
         brave://extensions/
+        ```
+
+    === "Vivaldi"
+        ``` title="Extension Details address"
+        vivaldi://extensions/
         ```

@@ -10,9 +10,11 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 - [x] View server, system, and dev-op logs styled with colored text
 - [x] View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
-[Install to Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install to Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install to Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
+---
 
-[Or use the GNU LGPLv3 source code.](src)
+[Install on Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install on Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install on Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
+
+### [Or use the GNU LGPLv3 source code](src)
 
 ---
 
@@ -21,15 +23,44 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 === "Showcase"
 
     <figure markdown>
-      ![RetroTxt showcase](assets/readme-retrotxt.png)
-      <figcaption>Image caption</figcaption>
+      ![RetroTxt showcase](assets/showcase-clean.png)
+      <figcaption>View ANSI colored text in a browser</figcaption>
+    </figure>
+
+=== "Raw text"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-raw.png)
+      <figcaption>Toggle back to the raw text view</figcaption>
     </figure>
 
 === "Fonts"
 
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-fonts.png)
+      <figcaption>Choose from hundreds of fonts to style ASCII texts</figcaption>
+    </figure>
+
 === "Display"
 
-=== "Settings"
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-display.png)
+      <figcaption>Descriptive and simple to use options</figcaption>
+    </figure>
+
+=== "Extra info"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-info.png)
+      <figcaption>Optional, extra details for each text file</figcaption>
+    </figure>
+
+=== "Text editor"
+
+    <figure markdown>
+      ![RetroTxt showcase](assets/showcase-textedit.png)
+      <figcaption>Copy the output of RetroTxt and paste it into a standard text editor</figcaption>
+    </figure>
 
 ---
 

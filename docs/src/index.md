@@ -1,12 +1,14 @@
 # Install and usage
 
-RetroTxt employs an [open-sourced GNU LGPLv3 license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt). This page instructs how to use the source in Chromium-based and Firefox web browsers.
+RetroTxt employs an [open-sourced GNU LGPLv3 license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).
+
+This page instructs how to use the source in Chrome-based and Firefox web browsers.
 
 [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package, such as workspace settings and extension recommendations.
 
 There are also [Node.js](https://nodejs.org) with [yarn](https://yarnpkg.com/) or npm packages for the programming and build tools.
 
-The source code get lint with [ESLint](https://eslint.org/) and stylized using [Prettier](https://prettier.io/), an opinionated formatter.
+The source code gets lint with [ESLint](https://eslint.org/) and stylized using [Prettier](https://prettier.io/) opinionated formatting.
 
 ## Clone the repo
 
@@ -26,47 +28,32 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
 
 ## Install the packages
 
-=== "yarn"
+=== "pnpm"
 
-    [Yarn package manager](https://yarnpkg.com).
-
-    ```bash title="Install packages"
-    cd RetroTxt
-    yarn
-    ```
-
-    If the installation of the tools is successful, the `web-ext` command should return a version number.
-
-    ```bash title="Test the tools"
-    yarn run web-ext --version
-    ```
-    ```
-    6.6.0 # your version might be newer
-    ```
-
-=== "npm"
-
-    Node Package Manager is included in [Node.js](https://nodejs.org).
+    Use the [pnpm package manager](https://pnpm.io/cli).
 
     ```bash title="Install packages"
     cd RetroTxt
-    npm install
+    pnpm install
     ```
 
-    If the installation of the tools is successful, the `web-ext` command should return a version number.
+## Use package dependencies
 
-    ```bash title="Test the tools"
-    npx web-ext --version
-    ```
-    ```
-    6.6.0 # your version might be newer
+=== "task"
+
+    Use [Task](https://taskfile.dev/), the task runner/build tool.
+
+    ```bash title="Update packages"
+    cd RetroTxt
+    pnpm update
+    task depends
     ```
 
 ## Run the source code
 
 === "Chrome"
 
-    ### Use on Chrome, Edge, and Brave
+    ### Use on Chrome, Edge, Brave, and Vivaldi
 
     I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) and edit the Extension.
 
@@ -74,13 +61,13 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
 
         Open a new tab with the address of the Extensions feature.
 
-        ``` title="Extensions address"
+        ``` title="Extensions Details address"
         chrome://extensions
         ```
 
         1.  In the Extensions tab, toggle **Developer mode**
-        1.  Click the **Load unpacked** button
-        1.  Navigate to the local directory containing the RetroTxt source code and select OK
+        2.  Click the **Load unpacked** button
+        3.  Navigate to the local directory containing the RetroTxt source code and select OK
 
         ![Chrome extensions developer mode](../assets/source_code-chrome.png)
 
@@ -88,13 +75,13 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
 
         Open a new tab with in the address of the Extensions feature.
 
-        ``` title="Extensions address"
+        ``` title="Extensions Details address"
         edge://extensions
         ```
 
         1.  In the Extensions tab, toggle **Developer mode**
-        1.  Click the **Load unpacked** button
-        1.  Navigate to the local directory containing the RetroTxt source code and select OK
+        2.  Click the **Load unpacked** button
+        3.  Navigate to the local directory containing the RetroTxt source code and select OK
 
         ![Edge extensions developer mode](../assets/source_code-edge.png)
 
@@ -102,12 +89,21 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
 
         Open a new tab with in the address of the Extensions feature.
 
-        ``` title="Extensions address"
+        ``` title="Extensions Details address"
         brave://extensions
         ```
 
         1.  In the Extensions tab, toggle **Developer mode**
-        1.  Click the **Load unpacked** button
-        1.  Navigate to the local directory containing the RetroTxt source code and select OK
+        2.  Click the **Load unpacked** button
+        3.  Navigate to the local directory containing the RetroTxt source code and select OK
+
+    === "Vivaldi"
+        ``` title="Extension Details address"
+        vivaldi://extensions/
+        ```
+
+        1.  In the Extensions tab, toggle **Developer mode**
+        2.  Click the **Load unpacked** button
+        3.  Navigate to the local directory containing the RetroTxt source code and select OK
 
     RetroTxt should load. The Options link behind the **Details** button allows you to configure RetroTxt styling and behavior.

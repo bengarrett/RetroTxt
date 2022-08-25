@@ -16,7 +16,7 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 ---
 
-![RetroTxt showcase](../docs/assets/readme-retrotxt.png)
+![RetroTxt showcase](../docs/assets/showcase-clean.png)
 
 ## Features
 
