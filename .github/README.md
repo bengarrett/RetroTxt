@@ -10,9 +10,9 @@
 
 The documentation for this branch is written in Markdown for [mkdocs](https://www.mkdocs.org/) but is mostly readable within GitHub. The README below is untouched so the links may be invalid.
 
----
-
 #### [The `main` branch of RetroTxt contains the current edition of RetroTxt.](https://github.com/bengarrett/RetroTxt/)
+
+---
 
 # RetroTxt
 
