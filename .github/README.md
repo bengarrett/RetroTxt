@@ -36,6 +36,8 @@ From Commodore, Atari, Apple, Tandy, and more
 
 ## [Check out the documentation](https://docs.retrotxt.com)
 
+#### [Changes and what is new](https://docs.retrotxt.com/changes/)
+
 #### ☕ [Support RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
 
 ## Install · suitable for all compatible browsers
