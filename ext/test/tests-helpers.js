@@ -312,7 +312,7 @@ QUnit.test(`OptionsReset class`, (assert) => {
     `Default value should be #3f3f3f`
   )
   assert.equal(
-    ro.get(`settingsWebsiteDomains`)[0],
+    ro.get(`settingsWebsiteDomains`)[1],
     `16colo.rs`,
     `Default value should be 16colo.rs`
   )
