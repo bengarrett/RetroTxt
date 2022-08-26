@@ -351,6 +351,7 @@ class Permission {
           if (arr.includes(value)) return
           const hero = document.getElementById(`heroSection`),
             src = document.getElementById(`getTheSource`),
+            doc = document.getElementById(`getTheDocs`),
             upd = document.getElementById(`enjoyRetroTxt`)
           hero.classList.forEach(function (heroValue) {
             if (heroValue === `is-fullheight`) return
@@ -361,6 +362,11 @@ class Permission {
             if (srcValue === `is-inverted`) return
             if (!srcValue.startsWith(`is-`)) return
             src.classList.replace(srcValue, value)
+          })
+          doc.classList.forEach(function (docValue) {
+            if (docValue === `is-inverted`) return
+            if (!docValue.startsWith(`is-`)) return
+            doc.classList.replace(docValue, value)
           })
           upd.classList.forEach(function (updValue) {
             upd.classList.replace(updValue, value)
@@ -724,6 +730,7 @@ class Initialise extends CheckBox {
     if (arr.includes(value)) return
     const hero = document.getElementById(`heroSection`),
       src = document.getElementById(`getTheSource`),
+      doc = document.getElementById(`getTheDocs`),
       upd = document.getElementById(`enjoyRetroTxt`)
     hero.classList.forEach(function (heroValue) {
       if (heroValue === `is-fullheight`) return
@@ -734,6 +741,11 @@ class Initialise extends CheckBox {
       if (srcValue === `is-inverted`) return
       if (!srcValue.startsWith(`is-`)) return
       src.classList.replace(srcValue, value)
+    })
+    doc.classList.forEach(function (docValue) {
+      if (docValue === `is-inverted`) return
+      if (!docValue.startsWith(`is-`)) return
+      doc.classList.replace(docValue, value)
     })
     upd.classList.forEach(function (updValue) {
       upd.classList.replace(updValue, value)
