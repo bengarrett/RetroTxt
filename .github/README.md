@@ -91,7 +91,7 @@ RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 * [_Multi Platform Fonts_](https://github.com/rewtnull/amigafonts) by TrueSchool Ascii
 * [_Plex_](https://github.com/IBM/plex) by IBM Corp.
 * [_Spleen_](https://github.com/fcambus/spleen) by Frederic Cambus
-* [_Unscii_](https://web.archive.org/web/20210205112011/http://pelulamu.net/unscii/) by Viznut
+* [_Unscii_](http://viznut.fi/unscii/) by Viznut
 
 CSS framework by [Bulma](https://bulma.io)
 
