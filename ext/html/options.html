@@ -46,9 +46,21 @@
                   <a class="navbar-item" id="hero6" href="#top">
                     Settings
                   </a>
-                  <a class="navbar-item" id="hero7" href="#top">
-                    Documentation
-                  </a>
+                  <a class="navbar-item" id="hero1" href="#top">Credits</a>
+                  <a class="navbar-item" id="hero2" href="#top">Samples</a>
+                  <a class="navbar-item" id="hero3" href="#top">Useful</a>
+                  <span>&nbsp;</span>
+                  <span class="navbar-item">
+                    <a class="button is-primary is-inverted" id="getTheDocs"
+                      href="https://docs.retrotxt.com/usage/first/" title="Read the documentation">
+                      <span class="icon">
+                        <svg role="img" class="material-icons">
+                          <use xlink:href="../assets/svg/material-icons.svg#info"></use>
+                        </svg>
+                      </span>
+                      <span>Documentation</span>
+                    </a>
+                  </span>
                   <span class="navbar-item">
                     <a class="button is-primary is-inverted" id="getTheSource"
                       href="https://github.com/bengarrett/RetroTxt" title="Get the source code hosted on GitHub">
@@ -94,13 +106,13 @@
             <div class="notice" style="display: none;" id="updateNotice">
               <div class="notification is-info">
                 <button id="updateNoticeBtn" class="delete" title="Close update tab"></button>
-                <p class="mb-2 is-size-2"><strong>RetroTxt is up to date</strong></p>
-                <p class="mt-2 is-size-5"><a href="#top" id="changesLink">See what is new</a></p>
+                <p class="mb-2 is-size-2">RetroTxt is up to date</p>
+                <p class="mt-2 is-size-4"><a href="#top" id="changesLink">See what is new</a></p>
                 <p class="mt-2 is-size-5">RetroTxt v5 is using the new <a
                     href="https://developer.chrome.com/blog/mv2-transition/">Manifest
                     V3</a> API</p>
                 <p class="mt-2 is-size-5">Unfortunately, this mandatory change means
-                  <em>some prior settings from RetroTxt v4 might be lost</em>
+                  some prior settings from RetroTxt v4 might be lost
               </div>
               <div class="notification is-primary" id="enjoyRetroTxt">
                 <p id="5starChrome" style="display: none;">
@@ -117,7 +129,8 @@
             </div>
             <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
-                <p class="mb-2 is-size-2"><strong>Getting started</strong></p>
+                <p class="mb-2 is-size-2">Getting started</p>
+                <hr>
                 <p class="mt-2 is-size-5"><a id="newInstallSamples">There are dozens of sample text art files</a> to try
                   with RetroTxt!
                 </p>
@@ -135,8 +148,7 @@
                 <p class="mt-1" id="newInstallAsterisk"><small>* not all ANSI art files are usable</small></p>
                 <p class="mt-2" id="newInstallToUse">
                   <span class="has-text-info">*</span> To use this feature, <em>Allow access to file URLs</em> needs
-                  to be enabled in the RetroTxt
-                  permissions<br>
+                  to be enabled in the Extensions, RetroTxt Details<br>
                   <code class="details-detail-url"></code>
                 </p>
               </div>
@@ -4048,68 +4060,11 @@
             </div>
           </div>
         </div>
-        <!-- Documentation content -->
-        <div class="tabcontent container" id="content7">
-          <div class="column">
-            <div class="box">
-              <h1 class="title has-text-black-ter is-size-3 mt-4">Documentation</h1>
-              <hr>
-              <aside class="menu">
-                <p class="menu-label">Support</p>
-                <ul class="menu-list">
-                  <li><a href="https://github.com/bengarrett/RetroTxt#readme">The readme with installation
-                      instructions</a>
-                  </li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/limitations.md">Limitations and
-                      known issues</a></li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/SUPPORT.md">FAQ, common questions
-                      and fixes</a></li>
-                </ul>
-                <hr>
-                <p class="menu-label">RetroTxt</p>
-                <ul class="menu-list">
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/menus.md">Context menu, Transcode
-                      this text</a></li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/main/docs/source_code.md">Source code and how
-                      to use it</a></li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/technical.md">Technical
-                      specifications on supported formats</a>
-                  </li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/changes.md">Version changes</a>
-                  </li>
-                </ul>
-                <hr>
-                <p class="menu-label">Dev-ops</p>
-                <ul class="menu-list">
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/nginx.md">Configure NGINX to
-                      serve ASCII & ASCII art</a></li>
-                </ul>
-                <hr>
-                <p class="menu-label">Policies</p>
-                <ul class="menu-list">
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/privacy.md">Privacy policy</a> <a
-                      href="https://github.com/bengarrett/RetroTxt/blob/master/docs/SECURITY.md">Security policy</a>
-                  </li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/CODE_OF_CONDUCT.md">Code of
-                      conduct</a></li>
-                </ul>
-                <ul class="menu-list mt-2 mb-2">
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/CONTRIBUTING.md">Contributing
-                      documentation or code</a></li>
-                  <li><a href="https://choosealicense.com/licenses/lgpl-3.0/">License</a></li>
-                </ul>
-              </aside>
-            </div>
-          </div>
-        </div>
         <!-- Hero footer: will stick at the bottom -->
         <div class="hero-foot">
           <nav class="tabs">
             <div class="container">
               <ul>
-                <li><a class="navbar-item" id="hero1" href="#top">Credits</a></li>
-                <li><a class="navbar-item" id="hero2" href="#top">Samples</a></li>
-                <li><a class="navbar-item" id="hero3" href="#top">Useful</a></li>
                 <li id="unittest" style="display: none;">
                   <a href="../test/index.html?hidepassed"><svg role="img" class="material-icons" target="_blank">
                       <use xlink:href="../assets/svg/material-icons.svg#bug_report"></use>
