@@ -1398,10 +1398,10 @@ class Output {
       }
       msg += ` found`
       // display as feedback
-      if (errorCount <= warning) return console.warn(msg)
+      if (errorCount <= warning) return console.info(msg)
       // display in console
       msg += `, the display of the ANSI is inaccurate`
-      console.error(msg)
+      console.info(msg)
     }
   }
   /**
