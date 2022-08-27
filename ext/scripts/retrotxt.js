@@ -360,7 +360,7 @@ class DOM {
    * Toggles the 'Accurate 9px EGA/VGA fonts' font replacements
    */
   async clickAccurate9pxFonts() {
-    if (this.results.textAccurate9pxFonts === `false`)
+    if (this.results.textAccurate9pxFonts === false)
       return this.head.append(
         CreateLink(`../css/fonts_ibm-scale-9x.css`, `retrotxt-scale-fonts`)
       )
