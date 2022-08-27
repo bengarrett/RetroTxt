@@ -2101,8 +2101,7 @@ function handleChanges(change) {
     return dom.clickBlinkingCursorText()
   }
   if (changes.centerAlign) {
-    if (changes.centerAlign.newValue == `true`)
-      return dom.clickCenterAlign(true)
+    if (changes.centerAlign.newValue == true) return dom.clickCenterAlign(true)
     else return dom.clickCenterAlign(false)
   }
   if (changes.colorPalette)
