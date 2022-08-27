@@ -386,7 +386,7 @@ class DOM {
    * Toggles the 'Blinking cursor and text' blinking animation
    */
   async clickBlinkingCursorText() {
-    if (this.results.textBlinkingCursor === `false`)
+    if (this.results.textBlinkingCursor === false)
       return this.head.append(
         CreateLink(`../css/text_animation-off.css`, `no-blinkingCursorText`)
       )
