@@ -44,10 +44,5 @@ The samples are also browsable using: [retrotxt.com/e](https://retrotxt.com/e)
         python -m SimpleHTTPServer
         ```
 
-    === "PHP"
-        ```bash
-        # an example path
-        cd yourfiles
-
-        php -S localhost:8000
-        ```
+    Please note, by default RetroTxt is only configured to use the `http://localhost` address.
+    Any additional local addresses or IPs such as `http://127.0.0.1` will need to be added to the **Run RetroTxt on files hosted on these domains** setting.
