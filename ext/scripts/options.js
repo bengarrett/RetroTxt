@@ -826,7 +826,8 @@ class Initialise extends CheckBox {
       const unit = document.getElementById(`unittest`),
         reload = document.getElementById(`reload`),
         install = document.getElementById(`newInstall`),
-        update = document.getElementById(`newUpdate`)
+        update = document.getElementById(`newUpdate`),
+        serve = document.getElementById(`testServe`)
       chrome.management.getSelf((info) => {
         switch (info.installType) {
           // the add-on was installed unpacked from disk
@@ -836,6 +837,7 @@ class Initialise extends CheckBox {
             reload.style.display = `inline`
             install.style.display = `inline`
             update.style.display = `inline`
+            serve.style.display = `inline`
             install.addEventListener(`click`, () => {
               window.location.assign(
                 `${chrome.runtime.getURL(`html/options.html`)}#newinstall`
@@ -1761,14 +1763,13 @@ class Hosts {
 chrome.storage.onChanged.addListener(function (changes, namespace) {
   if (typeof qunit !== `undefined`) return
   if (namespace !== `local`) return
-  const key = Object.getOwnPropertyNames(changes)[0]
-  if (typeof key === `undefined` || changes[key].newValue === undefined)
-    return console.error(
-      `triggered window onstorage remote event is missing a storage key`
-    )
-  switch (key) {
-    case `optionTab`:
-      new Hero().reveal(`${changes[key].newValue}`)
+  const changedItems = Object.keys(changes)
+  for (const item of changedItems) {
+    if (typeof changes[item].newValue === `undefined`) {
+      console.log(
+        `Local storage item ${item}: is now undefined, assumed the host tab was closed.`
+      )
+    }
   }
 })
 

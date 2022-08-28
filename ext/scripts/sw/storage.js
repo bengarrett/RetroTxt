@@ -79,20 +79,13 @@ class LocalStore {
         if (Developer in store) {
           if (typeof newValue === `undefined`)
             return console.log(
-              "RetroTxt storage.%s %s change: %s 🡒 [delete].",
+              "RetroTxt storage.%s %s change 🡒 [delete].",
               areaName,
-              item,
-              oldValue
+              item
             )
-          console.log(
-            "RetroTxt storage.%s %s change: %s 🡒 %s (%s).",
-            areaName,
-            item,
-            oldValue,
-            newValue,
-            typeof newValue
-          )
-          if (typeof newValue === `object`) console.log(newValue)
+          console.log(`RetroTxt storage.%s %s change:`, areaName, item)
+          if (typeof newValue === `object`) console.log(` 🡒 `, newValue)
+          else console.log("%s 🡒 %s (%s).", oldValue, newValue, typeof newValue)
         }
       })
       if (`${oldValue}` === `undefined`) return
