@@ -88,9 +88,11 @@ class LocalStore {
             console.log(
               `Storage.%s change 🡲 %s %c${oldValue}%c `,
               areaName,
-              item
+              item,
+              "text-decoration:line-through",
+              "text-decoration:none"
             )
-            console.log(newValue)
+            if (newValue.length) console.log(newValue)
           } else
             console.log(
               `Storage.%s change 🡲 %s %c${oldValue}%c ${newValue}`,
