@@ -372,6 +372,9 @@ class Configuration extends OptionsReset {
  */
 function BrowserOS() {
   chrome.storage.local.get(`platform`, (store) => {
+    if (typeof store === `undefined`) {
+      console.error(`BrowserOS() was requested but it is undefined`)
+    }
     return store
   })
 }
