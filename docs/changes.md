@@ -11,6 +11,12 @@ hide:
   This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
 - The use of Manifest v3 with service workers is incompatible with Firefox.
 
+### Highlights
+
+- Options interface should be more responsive with less jank.
+- Changing Options should apply to all open tabs, including background, foreground and tabs open in seperate browser windows.
+- Monitor Downloads is more reliable.
+
 * Replaced the `scripts/eventpage.js` background page with modular service workers.
 * Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
 * Replaced simple one-time message requests with long-lived connections where needed.
@@ -34,9 +40,8 @@ hide:
 - Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
 - Monitor downloads works better with 16colo.rs and defacto2.net by ignoring their incorrect `Content-Type` headers.
 - Smear block characters are applied to BBS texts.
-
-* Using pnpm as the dependencies manager.
-* Removed the Firefox specific build tools.
+- Using pnpm as the dependencies manager.
+- Removed the Firefox specific build tools.
 
 ## 4.2
 
