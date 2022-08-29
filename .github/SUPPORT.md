@@ -1,23 +1,16 @@
-# RetroTxt - Q.A.
+# F.A.Q. - Common questions and fixes
 
 To ask a question, report a bug, or request a feature, please feel free to
 [leave a new issue](https://github.com/bengarrett/RetroTxt//issues/new/choose) on the GitHub
-repository or get in contact with [@bens_zone](https://twitter.com/bens_zone) on
-Twitter and [mail](mailto:code.by.ben@gmail.com).
+repository or [mail](mailto:code.by.ben@gmail.com).
 
-- [Can I adjust the size of the font?](#font-size)
-- [Can I view files stored on my computer?](#view-files)
-- [What are the text encodings supported?](#text-encodings)
-- [Garbled text?](#garbled)
-- [Code page tables](#cp-tables)
-
-<a id="font-size"></a>
+---
 
 ## Can I adjust the size of the font?
 
 You can change the _zoom_ of the font by using the <kbd>Ctrl</kbd> <kbd>+</kbd> and <kbd>Ctrl</kbd> <kbd>-</kbd> keys.
 
-<a id="view-files"></a>
+---
 
 ## Can I view files stored on my computer?
 
@@ -34,13 +27,13 @@ The feature is enabled in the **Options**, **Settings** tab by either having the
 
 All browsers except Firefox will also need to **Allow access to the file URLs** permission enabled (`chrome://extensions/`) if you want it to work with local files.
 
-<a id="text-encodings"></a>
+---
 
 ## What are the text encodings supported?
 
-Please see the [Technical Specifications on the supported text](technical).
+Please see the [Supported standards document](../technical).
 
-<a id="garbled"></a>
+---
 
 ## Garbled text?
 
@@ -58,13 +51,7 @@ Without using a 3rd-party Extension, **Chrome**, **Brave**, and **Edge** cannot 
 
 You could also manually switch the transcoding RetroTxt applies by right-clicking on the page and select **Transcode text** from the RetroTxt context menu.
 
-![Context menu transcode text](assets/menus-transcode.png)
-
-<a id="cp-tables"></a>
-
-## Code page tables
-
-- [ASCII codes](https://www.ascii-codes.com)
-- [ASCII-1967/US-ASCII](https://web.archive.org/web/20161021054311/http://0x6a.org/ASCII)
-- [Microsoft Windows Bestfit](https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WindowsBestFit)
-- [Unicode](https://unicode-table.com)
+<figure markdown>
+  ![Context menu transcode text](assets/menus-transcode.png)
+  <figcaption>Context menu</figcaption>
+</figure>
