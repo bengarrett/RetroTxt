@@ -523,6 +523,7 @@ class DOM {
   async clickPageWrap() {
     const css = document.getElementById(`retrotxt-page-wrap`),
       elm = document.getElementById(`togglePageWrap`)
+    if (elm === null) return
     switch (elm.textContent.toLowerCase()) {
       case `off`: {
         this.head.append(
