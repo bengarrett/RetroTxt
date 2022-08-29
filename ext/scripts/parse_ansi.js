@@ -1065,10 +1065,13 @@ class Markup {
       items = item.split(`+`),
       item1 = parseInt(items[1], 10),
       item2 = parseItem()
+    // console log styles
+    const mark = `text-decoration:underline`,
+      unmark = `text-decoration:none;`
     switch (control) {
       case `CUD`: // cursor down
         if (item1 > 0) return cursor.rowElement(item1)
-        return console.log(`CUD ${item1} control is invalid`)
+        return console.log(`%cCUD-${item1}%c control is invalid.`, mark, unmark)
       case `CHT`: // horizontal forward tabulation
       case `CUF`: // cursor forward
         return this._parseCursorForward(control, item1)
@@ -1085,7 +1088,7 @@ class Markup {
         }
       case `SGR`: // character attributes
         if (row >= 1) return (domObject.html += `</i>${italicElement(item)}`)
-        return console.log(`SGR ${row} value is invalid`)
+        return console.log(`%cSGR-${row}%c value is invalid.`, mark, unmark)
       case `ED+`: // erase in page
         switch (item1) {
           case 0:
@@ -1108,11 +1111,17 @@ class Markup {
             return cursor.columnElement(0)
           case 1: // clear from cursor to the beginning of the line (-ANSI.SYS)
             return console.log(
-              `EL1, clear from cursor to the beginning of the line is not supported`
+              `%cEL1%c clear from cursor to the beginning of the line is not supported.`,
+              mark,
+              unmark
             )
           case 2: // erase line (-ANSI.SYS)
             if (cursor.row < 1)
-              return console.log(`EL2 ${cursor.row} is invalid`)
+              return console.log(
+                `%cEL2-${cursor.row}%c is invalid.`,
+                mark,
+                unmark
+              )
             return cursor.eraseLines.push(cursor.row - 1)
         }
         return
@@ -1123,10 +1132,13 @@ class Markup {
         ecma48.maxColumns = this.maxColumns
         return
       case `LW+`:
-        return console.log(`LW ${row} control is ignored`)
+        return console.log(`%cLW-${row}%c control is ignored.`, mark, unmark)
       default:
         console.log(
-          `_parseNamedSequence() tried to parse this unknown control '${item}'`
+          `%c%s%c parse-named-sequence tried to parse this unknown control`,
+          item,
+          mark,
+          unmark
         )
     }
   }
@@ -1329,7 +1341,7 @@ class Metadata {
         width = parseInt(data.configs.width, 10)
         // handle corrupted or missing width data
         if (Number.isNaN(width)) width = defaultWidth
-        console.log(`Determined column width`, width)
+        console.log(`Determined width, %s columns.`, width)
         cursor.maxColumns = width <= cappedWidth ? width : cappedWidth
         if (cursor.maxColumns === cappedWidth)
           console.info(`Maximum column width capped at ${cappedWidth}`)
@@ -2201,11 +2213,7 @@ class Build extends Scan {
     }
     // browser console parse error feedback
     if (issues.length > 0) {
-      console.groupCollapsed(
-        `EMCA-48/ANSI issues detected: `,
-        issues.length,
-        ` total`
-      )
+      console.groupCollapsed(`EMCA-48/ANSI issues, %s total:`, issues.length)
       for (const issue of issues) {
         console.info(issue)
       }
@@ -2215,7 +2223,8 @@ class Build extends Scan {
       let noun = `type`
       if (this.issues.length > 1) noun += `s`
       console.log(
-        `${this.issues.length} unsupported ${noun} of control sequence in use: ${this.issues}`
+        `%d unsupported ${noun} of control sequence in use: ${this.issues}.`,
+        this.issues.length
       )
     }
     ecma48.other = counts.err_msdos

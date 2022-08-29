@@ -125,7 +125,7 @@ class BrowserEncodings {
    */
   support() {
     const result = this.encodings.has(this.encoding)
-    Console(`BrowserEncodings('${this.encoding}').support() = ${result}`)
+    Console(`Check browser encoding support: ${this.encoding}, ${result}.`)
     return result
   }
   /**

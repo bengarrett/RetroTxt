@@ -426,7 +426,7 @@ class DOSText {
    * @returns {(Array|void)} Characters
    */
   _characterTable() {
-    Console(`DOSText(codepage=${this.codepage})._characterTable()`)
+    Console(`DOS text character table codepage: ${this.codepage}.`)
     // ascii C0 controls are either ignored or are common between all tables
     this.asciiTable = new CharacterSet(`cp437_C0`).get()
     // extended character tables

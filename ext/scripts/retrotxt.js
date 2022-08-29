@@ -1092,7 +1092,7 @@ class SauceMeta {
           this.configs.letterSpacing = this.configs.flags.slice(2, 4)
           this.configs.iceColors = this.configs.flags.charAt(4)
         } else if (!isNaN(Number(this.configs.flags)))
-          console.log(`New ANSiFlags`, this.configs.flags)
+          console.log(`New ANSiFlags found: '%s'.`, this.configs.flags)
     }
     // handle font name
     this.configs.fontName = this.TInfoS.replace(binaryZero, ``)
@@ -1396,11 +1396,11 @@ class Output {
         msg += `${errs} unknown control`
         if (errs > 1) msg += `s`
       }
-      msg += ` found`
+      msg += ` found.`
       // display as feedback
       if (errorCount <= warning) return console.info(msg)
       // display in console
-      msg += `, the display of the ANSI is inaccurate`
+      msg += `\nThe display of the ANSI is inaccurate!`
       console.info(msg)
     }
   }
