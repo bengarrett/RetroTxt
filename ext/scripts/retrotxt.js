@@ -2077,11 +2077,20 @@ function handleChanges(change) {
   }
   chrome.storage.local.get(Developer, (store) => {
     if (Developer in store) {
-      console.log(`🖫 handleChanges(change)`)
       Object.entries(changes).forEach(([key, value]) => {
-        if (typeof value === `undefined`) return
-        console.log(`🡲 ${key}`)
-        console.log(value)
+        const pref = `🖫 storage event handler`,
+          t = typeof value
+        if (t === `undefined`) return
+        if (t === `object`) {
+          console.log(
+            `${pref} 🡲 ${key} %c${value.oldValue}%c ${value.newValue}`,
+            "text-decoration:line-through",
+            "text-decoration:none"
+          )
+        } else {
+          console.log(`${pref} 🡲 ${key}`)
+          console.log(value)
+        }
       })
     }
   })
