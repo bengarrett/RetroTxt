@@ -1,52 +1,26 @@
 {
   "name": "retrotxt",
-  "version": "4.2.0",
-  "description": "Turn many pieces of ANSI text art and ASCII, NFO, Shift-JIS, plain text into HTML5.",
-  "keywords": [
-    "ascii",
-    "ansi",
-    "art",
-    "cli",
-    "html",
-    "nfo",
-    "pcboard",
-    "shift-jis",
-    "text",
-    "wildcat"
-  ],
-  "homepage": "https://retrotxt.com",
-  "bugs": {
-    "url": "https://github.com/bengarrett/RetroTxt/issues"
-  },
-  "license": "LGPL-3.0",
+  "version": "5.0.0-rc.1",
+  "description": "",
+  "keywords": [],
   "author": "Ben Garrett",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bengarrett/RetroTxt"
-  },
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ],
-  "prettier": {
-    "semi": false
+  "private": true,
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "bulma": "^0.9.4",
+    "qunit": "^2.19.1"
   },
   "devDependencies": {
-    "ajv": "8.6.3",
-    "dot-json": "*",
-    "eslint": "7.x",
-    "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-prettier": "4.x",
-    "prettier": "2.x",
-    "wawoff2": "2.0.0",
-    "web-ext": "*"
+    "ajv": "^8.11.0",
+    "dot-json": "^1.2.2",
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "wawoff2": "^2.0.1",
+    "web-ext": "^7.2.0"
   },
   "scripts": {
     "font": "woff2_compress.js"
-  },
-  "dependencies": {
-    "bulma": "0.x",
-    "qunit": "2.x"
   }
 }

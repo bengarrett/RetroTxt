@@ -2,11 +2,11 @@
 /*global QUnit Controls domObject reset resetCursor resetECMA resetSGR*/
 "use strict"
 
-QUnit.module(`parse_ansi.js`, {
+QUnit.module(`ansi sequence`, {
   before: () => {
     // prepare something once for all tests
     console.info(
-      `☑ New QUnit parse_ansi.js ←[ sequences test, data containers have been reset`
+      `☑ New QUnit ansi sequence ←[ tests, data containers have been reset.`
     )
     reset(resetCursor)
     reset(resetSGR)
@@ -26,7 +26,7 @@ QUnit.module(`parse_ansi.js`, {
     reset(resetECMA)
     reset(resetSGR)
     domObject.html = ``
-    console.info(`☑ QUnit parse_ansi.js ←[ sequences tests are complete`)
+    console.info(`☑ QUnit ansi sequence ←[ tests are complete.`)
   },
 })
 
@@ -184,7 +184,7 @@ const testErase = new Map()
     `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
   )
 
-QUnit.test(`ANSI.SYS Erase functions`, (assert) => {
+QUnit.test(`ANSI.SYS erase controls`, (assert) => {
   const ansi = new Controls()
   for (const [sample, result] of testErase.entries()) {
     ansi.text = sample
@@ -272,7 +272,7 @@ const testSGM = new Map()
     `<div id="row-1"><i class="SGR37 SGR40">Hello </i><i class="SGR31 SGR41">world.</i></div>`
   )
 
-QUnit.test(`ANSI.SYS SGM Set Graphics Mode`, (assert) => {
+QUnit.test(`ANSI.SYS SGM (set graphics mode)`, (assert) => {
   const ansi = new Controls()
   for (const [sample, result] of testSGM.entries()) {
     ansi.text = sample
@@ -280,7 +280,7 @@ QUnit.test(`ANSI.SYS SGM Set Graphics Mode`, (assert) => {
     assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
   }
 })
-QUnit.test(`ANSI.SYS SM Set Mode`, (assert) => {
+QUnit.test(`ANSI.SYS SM (set mode)`, (assert) => {
   const ansi = new Controls()
   // SM set mode
   let smReply = `should set to mode '40 x 148 x 25 monochrome (text)'`
@@ -398,7 +398,7 @@ const testSGR = new Map()
     `<div id="row-1"><i class="SGR37 SGR40">␛[6nHello world.</i></div>`
   )
 
-QUnit.test(`ECMA-48 SGR Select Graphic Rendition`, (assert) => {
+QUnit.test(`ECMA-48 SGR (select graphic rendition)`, (assert) => {
   const ansi = new Controls(),
     reply = `sequence into HTML.`
   // SGR Select Graphic Rendition
@@ -465,14 +465,17 @@ QUnit.test(`ECMA-48 SGR Select Graphic Rendition`, (assert) => {
       .set(`←[=18h${textIn}`, output18)
       .set(`←[>18h${textIn}`, output18)
 
-  QUnit.test(`ECMA-48 alternative Control Sequence Introducers`, (assert) => {
-    const ansi = new Controls()
-    for (const [sample, result] of testE48Alt.entries()) {
-      ansi.text = sample
-      ansi.parse()
-      assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+  QUnit.test(
+    `ECMA-48 CSI alternatives (control sequence introducer)`,
+    (assert) => {
+      const ansi = new Controls()
+      for (const [sample, result] of testE48Alt.entries()) {
+        ansi.text = sample
+        ansi.parse()
+        assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+      }
     }
-  })
+  )
 }
 
 const testiCE = new Map()
@@ -496,7 +499,7 @@ const testiCE = new Map()
     `<div id="row-1"><i class="SGR37 SGR47 SGR6">iCE iCE Baby Hello world.</i></div>`
   )
 
-QUnit.test(`iCE Colors`, (assert) => {
+QUnit.test(`iCE colors (non-blinking mode)`, (assert) => {
   const ansi = new Controls()
   for (const [sample, result] of testiCE.entries()) {
     ansi.text = sample

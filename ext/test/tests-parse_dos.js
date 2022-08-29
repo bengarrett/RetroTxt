@@ -1,12 +1,11 @@
 /* eslint-env qunit:true */
-/*global QUnit CharacterSet BBS DOSText PCBoardText Transcode WildcatText
-DOS_437_English DOS_865 Windows_1252_English ISO8859_1 ISO8859_15 Macintosh OutputCP1252 OutputISO8859_1 Windows_1250 Windows_1251*/
+/*global QUnit CharacterSet Cs BBS DOSText PCBoardText Transcode WildcatText */
 "use strict"
 
-QUnit.module(`parse_dos.js`, {
+QUnit.module(`dos`, {
   before: () => {
     // prepare something once for all tests
-    console.info(`☑ New QUnit parse_dos.js test`)
+    console.info(`☑ New QUnit dos test.`)
   },
   beforeEach: () => {
     // prepare something before each test
@@ -16,13 +15,13 @@ QUnit.module(`parse_dos.js`, {
   },
   after: () => {
     // clean up once after all tests are done
-    console.info(`☑ QUnit parse_dos.js tests are complete`)
+    console.info(`☑ QUnit dos tests are complete.`)
   },
 })
 
-QUnit.test(`CharacterSet() class`, (assert) => {
-  const cs = new CharacterSet(DOS_437_English)
-  assert.equal(cs.set, DOS_437_English, `Set should be a character set name`)
+QUnit.test(`CharacterSet class`, (assert) => {
+  const cs = new CharacterSet(Cs.DOS_437_English)
+  assert.equal(cs.set, Cs.DOS_437_English, `Set should be a character set name`)
   assert.equal(cs.get().length, 128, `Set should be an array of 128 characters`)
   assert.equal(cs.get()[0], `Ç`, `The first character should be Ç`)
   cs._cp437Table()
@@ -59,12 +58,12 @@ QUnit.test(`CharacterSet() class`, (assert) => {
   assert.equal(cs._cp437()[50], `▓`, `Should be \`▓\``)
 })
 
-QUnit.test(`Transcode() class`, (assert) => {
+QUnit.test(`Transcode class`, (assert) => {
   const tc1 = new Transcode(null, `Can I pay in \u0080?`)
   tc1._input_cp1252()
   let expected = `Can I pay in €?`
   assert.equal(tc1.text, expected, `Should be the string '${expected}'`)
-  const tc2 = new Transcode(OutputISO8859_1, `MS-DOS end of line?\u001B`)
+  const tc2 = new Transcode(Cs.OutputISO8859_1, `MS-DOS end of line?\u001B`)
   tc2.rebuild()
   expected = `MS-DOS end of line?←`
   assert.equal(tc2.text, expected, `Should be the string '${expected}'`)
@@ -76,14 +75,14 @@ QUnit.test(`Transcode() class`, (assert) => {
   tc4.rebuild()
   expected = `Smile 😁`
   assert.equal(tc4.text, expected, `Should be the string '${expected}'`)
-  let transcode = new Transcode(OutputCP1252, `Hello world!`)
-  assert.equal(transcode.set, OutputCP1252, `Should be a set`)
+  let transcode = new Transcode(Cs.OutputCP1252, `Hello world!`)
+  assert.equal(transcode.set, Cs.OutputCP1252, `Should be a set`)
   assert.equal(transcode.text, `Hello world!`, `Should be a string`)
-  assert.equal(transcode.hasSupport(), true, `OutputCP1252 is supported`)
+  assert.equal(transcode.hasSupport(), true, `Cs.OutputCP1252 is supported`)
   transcode.rebuild()
-  transcode = new Transcode(OutputCP1252, `!Hello world!\u001B`)
+  transcode = new Transcode(Cs.OutputCP1252, `!Hello world!\u001B`)
   transcode.rebuild()
-  assert.equal(transcode.text, `!Hello world!←`, `OutputCP1252 is supported`)
+  assert.equal(transcode.text, `!Hello world!←`, `Cs.OutputCP1252 is supported`)
   // _input_cp1252
   transcode = new Transcode(null, `${String.fromCharCode(128)}`)
   transcode._input_cp1252()
@@ -102,184 +101,184 @@ QUnit.test(`Transcode() class`, (assert) => {
   assert.equal(transcode.set_8[0], `€`, `First character should be a €`)
 })
 
-QUnit.test(`DOSText() class`, (assert) => {
+QUnit.test(`DOSText class`, (assert) => {
   // textDosCtrlCodes can effect the results of these tests
   // input cp-865
-  let dos = new DOSText(`ÉæÆôöòûùÿÖÜø£Ø₧ƒ`, { codepage: DOS_865 })
+  let dos = new DOSText(`ÉæÆôöòûùÿÖÜø£Ø₧ƒ`, { codepage: Cs.DOS_865 })
   assert.equal(
     dos.normalize(),
     `ÉæÆôöòûùÿÖÜ¢£¥₧ƒ`,
     `CP 865 set 9 input should return CP-437 set 9 output`
   )
-  dos = new DOSText(`áíóúñÑªº¿⌐¬½¼¡«¤`, { codepage: DOS_865 })
+  dos = new DOSText(`áíóúñÑªº¿⌐¬½¼¡«¤`, { codepage: Cs.DOS_865 })
   assert.equal(
     dos.normalize(),
     `áíóúñÑªº¿⌐¬½¼¡«»`,
     `CP 865 set A input should return CP-437 set A output`
   )
   // input cp-1250
-  dos = new DOSText(`€‚„…†‡‰Š‹ŚŤŽŹ`, { codepage: Windows_1250 }) // 13 chars
+  dos = new DOSText(`€‚„…†‡‰Š‹ŚŤŽŹ`, { codepage: Cs.Windows_1250 }) // 13 chars
   assert.equal(
     dos.normalize(),
     `ÇéäàåçëèïîìÄÅ`,
     `CP 1250 set 8 input should return CP-437 set 8 output`
   )
-  dos = new DOSText(`‘’“”•–—™š›śťžź`, { codepage: Windows_1250 })
+  dos = new DOSText(`‘’“”•–—™š›śťžź`, { codepage: Cs.Windows_1250 })
   assert.equal(
     dos.normalize(),
     `æÆôöòûùÖÜ¢£¥₧ƒ`,
     `CP 1250 set 9 input should return CP-437 set 9 output`
   )
-  dos = new DOSText(`\u00A0ˇ˘Ł¤Ą¦§¨©Ş«¬\u00AD®Ż`, { codepage: Windows_1250 })
+  dos = new DOSText(`\u00A0ˇ˘Ł¤Ą¦§¨©Ş«¬\u00AD®Ż`, { codepage: Cs.Windows_1250 })
   assert.equal(
     dos.normalize(),
     `áíóúñÑªº¿⌐¬½¼¡«»`,
     `CP 1250 set A input should return CP-437 set A output`
   )
-  dos = new DOSText(`°±˛ł´µ¶·¸ąş»Ľ˝ľż`, { codepage: Windows_1250 })
+  dos = new DOSText(`°±˛ł´µ¶·¸ąş»Ľ˝ľż`, { codepage: Cs.Windows_1250 })
   assert.equal(
     dos.normalize(),
     `░▒▓│┤╡╢╖╕╣║╗╝╜╛┐`,
     `CP 1250 set B input should return CP-437 set B output`
   )
-  dos = new DOSText(`ŔÁÂĂÄĹĆÇČÉĘËĚÍÎĎ`, { codepage: Windows_1250 })
+  dos = new DOSText(`ŔÁÂĂÄĹĆÇČÉĘËĚÍÎĎ`, { codepage: Cs.Windows_1250 })
   assert.equal(
     dos.normalize(),
     `└┴┬├─┼╞╟╚╔╩╦╠═╬╧`,
     `CP 1250 set C input should return CP-437 set C output`
   )
-  dos = new DOSText(`ĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢß`, { codepage: Windows_1250 })
+  dos = new DOSText(`ĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢß`, { codepage: Cs.Windows_1250 })
   assert.equal(
     dos.normalize(),
     `╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀`,
     `CP 1250 set D input should return CP-437 set D output`
   )
-  dos = new DOSText(`ŕáâăäĺćçčéęëěíîď`, { codepage: Windows_1250 })
+  dos = new DOSText(`ŕáâăäĺćçčéęëěíîď`, { codepage: Cs.Windows_1250 })
   assert.equal(
     dos.normalize(),
     `αßΓπΣσµτΦΘΩδ∞φε∩`,
     `CP 1250 set E input should return CP-437 set E output`
   )
-  dos = new DOSText(`đńňóôőö÷řůúűüýţ˙`, { codepage: Windows_1250 })
+  dos = new DOSText(`đńňóôőö÷řůúűüýţ˙`, { codepage: Cs.Windows_1250 })
   assert.equal(
     dos.normalize(),
     `≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u00A0`,
     `CP 1250 set F input should return CP-437 set F output`
   )
   // input cp-1251
-  dos = new DOSText(`ЂЃ‚ѓ„…†‡€‰Љ‹ЊЌЋЏ`, { codepage: Windows_1251 })
+  dos = new DOSText(`ЂЃ‚ѓ„…†‡€‰Љ‹ЊЌЋЏ`, { codepage: Cs.Windows_1251 })
   assert.equal(
     dos.normalize(),
     `ÇüéâäàåçêëèïîìÄÅ`,
     `CP 1251 set 8 input should return CP-437 set 8 output`
   )
-  dos = new DOSText(`ђ‘’“”•–—™љ›њќћџ`, { codepage: Windows_1251 })
+  dos = new DOSText(`ђ‘’“”•–—™љ›њќћџ`, { codepage: Cs.Windows_1251 })
   // position 0x98, chr ÿ has intentionally been dropped
   assert.equal(
     dos.normalize(),
     `ÉæÆôöòûùÖÜ¢£¥₧ƒ`,
     `CP 1251 set 9 input should return CP-437 set 9 output`
   )
-  dos = new DOSText(`\u00A0ЎўЈ¤Ґ¦§Ё©Є«¬\u00AD®Ї`, { codepage: Windows_1251 })
+  dos = new DOSText(`\u00A0ЎўЈ¤Ґ¦§Ё©Є«¬\u00AD®Ї`, { codepage: Cs.Windows_1251 })
   assert.equal(
     dos.normalize(),
     `áíóúñÑªº¿⌐¬½¼¡«»`,
     `CP 1251 set A input should return CP-437 set A output`
   )
-  dos = new DOSText(`°±Ііґµ¶·ё№є»јЅѕї`, { codepage: Windows_1251 })
+  dos = new DOSText(`°±Ііґµ¶·ё№є»јЅѕї`, { codepage: Cs.Windows_1251 })
   assert.equal(
     dos.normalize(),
     `░▒▓│┤╡╢╖╕╣║╗╝╜╛┐`,
     `CP 1251 set B input should return CP-437 set B output`
   )
-  dos = new DOSText(`АБВГДЕЖЗИЙКЛМНОП`, { codepage: Windows_1251 })
+  dos = new DOSText(`АБВГДЕЖЗИЙКЛМНОП`, { codepage: Cs.Windows_1251 })
   assert.equal(
     dos.normalize(),
     `└┴┬├─┼╞╟╚╔╩╦╠═╬╧`,
     `CP 1251 set C input should return CP-437 set C output`
   )
-  dos = new DOSText(`РСТУФХЦЧШЩЪЫЬЭЮЯ`, { codepage: Windows_1251 })
+  dos = new DOSText(`РСТУФХЦЧШЩЪЫЬЭЮЯ`, { codepage: Cs.Windows_1251 })
   assert.equal(
     dos.normalize(),
     `╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀`,
     `CP 1251 set D input should return CP-437 set D output`
   )
-  dos = new DOSText(`абвгдежзийклмноп`, { codepage: Windows_1251 })
+  dos = new DOSText(`абвгдежзийклмноп`, { codepage: Cs.Windows_1251 })
   assert.equal(
     dos.normalize(),
     `αßΓπΣσµτΦΘΩδ∞φε∩`,
     `CP 1251 set E input should return CP-437 set E output`
   )
-  dos = new DOSText(`рстуфхцчшщъыьэюя`, { codepage: Windows_1251 })
+  dos = new DOSText(`рстуфхцчшщъыьэюя`, { codepage: Cs.Windows_1251 })
   assert.equal(
     dos.normalize(),
     `≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u00A0`,
     `CP 1251 set F input should return CP-437 set F output`
   )
   // input iso-8859-1
-  dos = new DOSText(`\u00A0¡¢£¤¥¦§¨©ª«¬\u00AD®¯`, { codepage: ISO8859_1 })
+  dos = new DOSText(`\u00A0¡¢£¤¥¦§¨©ª«¬\u00AD®¯`, { codepage: Cs.ISO8859_1 })
   assert.equal(
     dos.normalize(),
     `áíóúñÑªº¿⌐¬½¼¡«»`,
     `ISO 8859-1 set A input should return CP-437 set A output`
   )
   // input iso-8859-15
-  dos = new DOSText(`\u00A0¡¢£€¥Š§š©ª«¬\u00AD®¯`, { codepage: ISO8859_15 })
+  dos = new DOSText(`\u00A0¡¢£€¥Š§š©ª«¬\u00AD®¯`, { codepage: Cs.ISO8859_15 })
   assert.equal(
     dos.normalize(),
     `áíóúñÑªº¿⌐¬½¼¡«»`,
     `ISO 8859-15 set A input should return CP-437 set A output`
   )
-  dos = new DOSText(`°±²³Žµ¶·ž¹º»ŒœŸ¿`, { codepage: ISO8859_15 })
+  dos = new DOSText(`°±²³Žµ¶·ž¹º»ŒœŸ¿`, { codepage: Cs.ISO8859_15 })
   assert.equal(
     dos.normalize(),
     `░▒▓│┤╡╢╖╕╣║╗╝╜╛┐`,
     `ISO 8859-15 set A input should return CP-437 set A output`
   )
   // input Macintosh Roman character set
-  dos = new DOSText(`ÄÅÇÉÑÖÜáàâäãåçéè`, { codepage: Macintosh })
+  dos = new DOSText(`ÄÅÇÉÑÖÜáàâäãåçéè`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `ÇüéâäàåçêëèïîìÄÅ`,
     `Mac set 8 input should return CP-437 set 8 output`
   )
-  dos = new DOSText(`êëíìîïñóòôöõúùûü`, { codepage: Macintosh })
+  dos = new DOSText(`êëíìîïñóòôöõúùûü`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `ÉæÆôöòûùÿÖÜ¢£¥₧ƒ`,
     `Mac set 9 input should return CP-437 set 9 output`
   )
-  dos = new DOSText(`†°¢£§•¶ß®©™´¨≠ÆØ`, { codepage: Macintosh })
+  dos = new DOSText(`†°¢£§•¶ß®©™´¨≠ÆØ`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `áíóúñÑªº¿⌐¬½¼¡«»`,
     `Mac set A input should return CP-437 set A output`
   )
-  dos = new DOSText(`∞±≤≥¥µ∂∑∏π∫ªºΩæø`, { codepage: Macintosh })
+  dos = new DOSText(`∞±≤≥¥µ∂∑∏π∫ªºΩæø`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `░▒▓│┤╡╢╖╕╣║╗╝╜╛┐`,
     `Mac set B input should return CP-437 set B output`
   )
-  dos = new DOSText(`¿¡¬√ƒ≈∆«»…\u00A0ÀÃÕŒœ`, { codepage: Macintosh })
+  dos = new DOSText(`¿¡¬√ƒ≈∆«»…\u00A0ÀÃÕŒœ`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `└┴┬├─┼╞╟╚╔╩╦╠═╬╧`,
     `Mac set C input should return CP-437 set C output`
   )
-  dos = new DOSText(`–—“”‘’÷◊ÿŸ⁄€‹›ﬁﬂ`, { codepage: Macintosh })
+  dos = new DOSText(`–—“”‘’÷◊ÿŸ⁄€‹›ﬁﬂ`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀`,
     `Mac set D input should return CP-437 set D output`
   )
-  dos = new DOSText(`‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔ`, { codepage: Macintosh })
+  dos = new DOSText(`‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔ`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `αßΓπΣσµτΦΘΩδ∞φε∩`,
     `Mac set E input should return CP-437 set E output`
   )
-  dos = new DOSText(`ÒÚÛÙıˆ˜¯˘˙˚¸˝˛ˇ`, { codepage: Macintosh })
+  dos = new DOSText(`ÒÚÛÙıˆ˜¯˘˙˚¸˝˛ˇ`, { codepage: Cs.Macintosh })
   assert.equal(
     dos.normalize(),
     `≡±≥≤⌠⌡÷≈°∙·√ⁿ²■\u00A0`,
@@ -293,7 +292,7 @@ QUnit.test(`DOSText() class`, (assert) => {
     `Text should remain unchanged`
   )
   dos = new DOSText(`\u0003\u0004\u0005\u0006`, {
-    codepage: Macintosh,
+    codepage: Cs.Macintosh,
     displayControls: true,
   })
   assert.equal(
@@ -520,16 +519,17 @@ QUnit.test(`DOSText() class`, (assert) => {
   dos = new DOSText(`\u00C7`, { displayControls: true })
   assert.equal(dos.normalize(), `Ç`, `Should return Ç c with cedilla`)
 })
-QUnit.test(`DOSText() class lookup functions`, (assert) => {
+
+QUnit.test(`DOSText class lookup`, (assert) => {
   const dos = new DOSText(``, { displayControls: true })
   dos._characterTable()
   assert.equal(dos.asciiTable[1], `☺`, `Should return a ☺`)
   assert.equal(dos.extendedTable[1], `ü`, `Should return a ü`)
-  dos.codepage = Windows_1251
+  dos.codepage = Cs.Windows_1251
   dos._characterTable()
   assert.equal(dos.asciiTable[1], `☺`, `Should return a ☺`)
   assert.equal(dos.extendedTable[0], `Ђ`, `Should return a Ђ`)
-  dos.codepage = Windows_1252_English
+  dos.codepage = Cs.Windows_1252_English
   dos._characterTable()
   assert.equal(dos._fromCharCode(1), `☺`, `Should return a ☺`)
   assert.equal(dos._fromCharCode(31), `▼`, `Should return a ▼`)
@@ -537,7 +537,7 @@ QUnit.test(`DOSText() class lookup functions`, (assert) => {
   assert.equal(dos._fromCharCode(176), `░`, `Should return a ░`)
 })
 
-QUnit.test(`BBS() class`, (assert) => {
+QUnit.test(`BBS class`, (assert) => {
   let bbs = new BBS(`plain text string`)._detect(),
     content = bbs
   assert.equal(content, ``, `Should return an empty result`)

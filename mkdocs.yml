@@ -10,6 +10,55 @@ theme:
   palette:
     primary: teal
     accent: indigo
+  font:
+    #text: IBM Plex
+    code: IBM Plex Mono
+  features:
+    # - navigation.instant
+    # - navigation.tracking
+    #   navigation.tabs
+    # - navigation.tabs.sticky
+    -  #navigation.sections
+    -  #navigation.expand
+    -  #navigation.indexes
+      #navigation.top
+    -  #toc.integrate
+
+nav:
+  - Install: index.md
+  - Usage:
+      - First-time usage: usage/first.md
+      - Configuration: usage/cfg.md
+      - Local files: usage/local.md
+      - Font size: usage/font_size.md
+      - Garbled text: usage/garbled.md
+      - Preferences: usage/pref.md
+      - Commands: usage/omnibar.md
+      - Menus: usage/menus.md
+  - Limitations: limitations.md
+  - Supported standards:
+      - Control sequences: specs/controls.md
+      - Codepages: specs/cp.md
+      - ANSI (ECMA48): specs/ansi.md
+      - ANSI.SYS: specs/ansi_sys.md
+      - BBS colors: specs/bbs.md
+      - Non-standard: specs/misc.md
+      - SAUCE (metadata): specs/sauce.md
+  - Source code:
+      - Install & usage: src/index.md
+      - Building tips: src/build.md
+      - Manifest V3: src/mv3.md
+      - Files & directories: src/files.md
+      - Fonts: src/font.md
+  - Changes: changes.md
+  - Hosting on the web:
+      - Nginx: host/nginx.md
+  - Policies:
+      - Privacy: privacy.md
+      - Security: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/SECURITY.md
+      - Code of conduct: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CODE_OF_CONDUCT.md
+      - Contributing: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CONTRIBUTING.md
+      - License: https://github.com/bengarrett/RetroTxt/blob/MV3/LICENSE
 
 plugins:
   - search
@@ -44,23 +93,3 @@ markdown_extensions:
       custom_checkbox: true
   # Footnote
   - footnotes
-
-nav:
-  - Install: index.md
-  - Limitations: limitations.md
-  - FAQ: SUPPORT.md
-  - Context menus: menus.md
-  - Supported standards: technical.md
-  - Source code:
-      - How to use: source_code.md
-      - Building: build.md
-      - Encoding fonts: encoding.md
-  - Changes: changes.md
-  - Hosting on the web:
-      - Nginx: nginx.md
-  - Policies:
-      - Privacy: privacy.md
-      - Security: https://github.com/bengarrett/RetroTxt/blob/main/.github/SECURITY.md
-      - Code of conduct: https://github.com/bengarrett/RetroTxt/blob/main/.github/CODE_OF_CONDUCT.md
-      - Contributing: https://github.com/bengarrett/RetroTxt/blob/main/.github/CONTRIBUTING.md
-      - License: https://github.com/bengarrett/RetroTxt/blob/main/LICENSE

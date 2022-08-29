@@ -1,17 +1,10 @@
-// filename: retrotxt.js
+// File: script/retrotxt.js
 //
-// These functions are used to apply and clear RetroTxt from the browser tabs.
-//
-/*global ecma48 BBS CheckLastError Controls CheckError Chrome DOSText RetroTxt Transcode TranscodeArrow
-ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText
-DOS_437_English Windows_1252_English ISO8859_5 OutputCP1252 OutputUS_ASCII Shift_JIS UseCharSet*/
-/*exported DOM*/
-"use strict"
+// Content-script to apply RetroTxt to a browser tab DOM,
+// or restore the tab to its original raw text state.
 
-RetroTxt.developer = false // verbose console output
-RetroTxt.dump = false // Input SauceMeta and Output classes
-
-// SAUCE fonts, these must be kept current to the font families in fonts_ibm.css & fonts_home.css
+// SAUCE fonts.
+// These must be kept current to the font families in fonts_ibm.css & fonts_home.css.
 const atascii = `candyantics`,
   commodore64 = `petme64`,
   ibmVGA = `ibm_vga_9x16`,
@@ -50,6 +43,12 @@ class DOM {
     this.pre = document.getElementsByTagName(`pre`)[1]
     this.preCount = document.getElementsByTagName(`pre`).length
     this.rawText = document.getElementsByTagName(`pre`)[0]
+    if (typeof this.rawText === `undefined`) {
+      console.info(`The active tab is a blank page with no text.`)
+      this.rawText = document.createElement(`pre`)
+      this.body.append(this.rawText)
+      this.preCount = document.getElementsByTagName(`pre`).length
+    }
     // fetch Options stored values to be usable here
     this.storage = [
       `ansiPageWrap`,
@@ -92,25 +91,24 @@ class DOM {
   /**
    * Initialises runtime and storage listeners.
    */
+
   async initialize() {
+    chrome.runtime.onConnect.addListener((port) => {
+      port.onMessage.addListener(handleConnections)
+    })
     // context menu, on-click listener
     chrome.runtime.onMessage.addListener(handleMessages)
     // monitor for any changed Options set by the user
     chrome.storage.onChanged.addListener(handleChanges)
     // switch between the original plain text and the HTML conversion
+    const port = chrome.runtime.connect({ name: `tabModified` })
     if (this.cssLink !== null) {
       if (this.cssLink.disabled === true) this._constructRawText()
       if (this.cssLink.disabled === false) this._constructPre()
       // end Execute() function, then tell an event listener in eventpage.js
       // that the body of this browser tab is modified
-      return chrome.runtime.sendMessage(
-        {
-          retroTxtified: false,
-        },
-        () => {
-          if (CheckLastError(`retroTxtified false send message`)) return
-        }
-      )
+      port.postMessage({ tabModified: false })
+      return
     }
     // fetch and apply saved Options
     chrome.storage.local.get(this.storage, (result) => {
@@ -119,9 +117,7 @@ class DOM {
       dom.restore()
     })
     // tells the eventpage.js listener that the body of this tab is modified
-    chrome.runtime.sendMessage({ retroTxtified: true }, () => {
-      if (CheckLastError(`retroTxtified true send message`)) return
-    })
+    port.postMessage({ tabModified: true })
   }
   /**
    * Constructs the Document Object Model needed to display RetroTxt.
@@ -315,7 +311,8 @@ class DOM {
       this.pre.classList.remove(hide)
       // temporary workaround for a Blink engine issue where the previous
       // background colour of the <body> element is cached and not removed
-      if (WebBrowser() === Chrome) this.pre.style.backgroundColor = `white`
+      if (WebBrowser() === Engine.chrome)
+        this.pre.style.backgroundColor = `white`
     } else if (typeof this.rawText !== `undefined`)
       this.rawText.classList.remove(hide)
     // hide links
@@ -350,7 +347,7 @@ class DOM {
     })
     // temporary workaround for issue where the previous
     // background colour of <body> is cached and not removed
-    if (WebBrowser() === Chrome)
+    if (WebBrowser() === Engine.chrome)
       this.pre.style.removeProperty(`background-color`)
     this.pre.classList.add(`is-hidden`)
     this.rawText.classList.remove(`is-hidden`)
@@ -363,7 +360,7 @@ class DOM {
    * Toggles the 'Accurate 9px EGA/VGA fonts' font replacements
    */
   async clickAccurate9pxFonts() {
-    if (this.results.textAccurate9pxFonts === `false`)
+    if (this.results.textAccurate9pxFonts === false)
       return this.head.append(
         CreateLink(`../css/fonts_ibm-scale-9x.css`, `retrotxt-scale-fonts`)
       )
@@ -389,7 +386,7 @@ class DOM {
    * Toggles the 'Blinking cursor and text' blinking animation
    */
   async clickBlinkingCursorText() {
-    if (this.results.textBlinkingCursor === `false`)
+    if (this.results.textBlinkingCursor === false)
       return this.head.append(
         CreateLink(`../css/text_animation-off.css`, `no-blinkingCursorText`)
       )
@@ -526,6 +523,7 @@ class DOM {
   async clickPageWrap() {
     const css = document.getElementById(`retrotxt-page-wrap`),
       elm = document.getElementById(`togglePageWrap`)
+    if (elm === null) return
     switch (elm.textContent.toLowerCase()) {
       case `off`: {
         this.head.append(
@@ -547,16 +545,15 @@ class DOM {
     const css = document.getElementById(`retrotxt-4bit-ice`),
       elm = document.getElementById(`toggleIceColors`),
       palette = new HardwarePalette()
+    if (elm === null) return
     switch (elm.textContent.toLowerCase()) {
       case `off`: {
         if (css !== null) return
-        if (elm !== null) {
-          palette.key = elm.textContent
-          const saved = palette.set()
-          if (saved === false) {
-            palette.key = `IBM`
-            palette.set()
-          }
+        palette.key = elm.textContent
+        const saved = palette.set()
+        if (saved === false) {
+          palette.key = `IBM`
+          palette.set()
         }
         this.head.append(
           CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`)
@@ -717,7 +714,7 @@ class DOM {
   }
   async _restoreFont() {
     // Shift_JIS requires the Mono font family and overrides the user's font selection
-    if (document.characterSet.toLowerCase() === Shift_JIS) {
+    if (document.characterSet.toLowerCase() === Cs.Shift_JIS) {
       const fonts = new FontFamily(`MONA`)
       return fonts.swap(this.rawText)
     }
@@ -1095,7 +1092,7 @@ class SauceMeta {
           this.configs.letterSpacing = this.configs.flags.slice(2, 4)
           this.configs.iceColors = this.configs.flags.charAt(4)
         } else if (!isNaN(Number(this.configs.flags)))
-          console.log(`New ANSiFlags`, this.configs.flags)
+          console.log(`New ANSiFlags found: '%s'.`, this.configs.flags)
     }
     // handle font name
     this.configs.fontName = this.TInfoS.replace(binaryZero, ``)
@@ -1215,10 +1212,10 @@ class SauceMeta {
   _fontCodePage() {
     const font = `${this.configs.fontName}`,
       fonts = new Map()
-        .set(`Amiga`, OutputCP1252)
-        .set(`Atari`, Windows_1252_English)
-        .set(`DOS`, DOS_437_English)
-        .set(`special`, ISO8859_5),
+        .set(`Amiga`, Cs.OutputCP1252)
+        .set(`Atari`, Cs.Windows_1252_English)
+        .set(`DOS`, Cs.DOS_437_English)
+        .set(`special`, Cs.ISO8859_5),
       split = this._clean(font).split(` `),
       fontName = split[0]
     let codePage = ``
@@ -1226,7 +1223,10 @@ class SauceMeta {
       return (this.configs.codePage = fonts.get(fontName))
     if (fontName === `IBM`) {
       // Chrome special case for when it confuses CP437 ANSI as ISO-8859-5
-      if (WebBrowser() === Chrome && document.characterSet === `ISO-8859-5`)
+      if (
+        WebBrowser() === Engine.chrome &&
+        document.characterSet === `ISO-8859-5`
+      )
         this.configs.codePage = fonts.get(`special`)
       const iso8859_1 = `819`
       if (split[2] === iso8859_1) codePage = fonts.get(`Amiga`)
@@ -1350,7 +1350,7 @@ class Output {
     this.ecma48.parse()
     this._ecma48Statistics()
     // font override
-    sessionStorage.removeItem(`fontOverride`)
+    sessionStorage.removeItem(`lockFont`)
     const font = this.ecma48.font
     if (font === undefined)
       CheckError(
@@ -1360,7 +1360,7 @@ class Output {
       const family = new FontFamily(font)
       // fonts.swap() needs to run before setting the sessionStorage
       family.swap(this.pre)
-      sessionStorage.setItem(`fontOverride`, `true`)
+      sessionStorage.setItem(`lockFont`, `true`)
     }
     // colour palette
     this.dom.ecma48 = this.ecma48
@@ -1396,12 +1396,12 @@ class Output {
         msg += `${errs} unknown control`
         if (errs > 1) msg += `s`
       }
-      msg += ` found`
+      msg += ` found.`
       // display as feedback
-      if (errorCount <= warning) return console.warn(msg)
+      if (errorCount <= warning) return console.info(msg)
       // display in console
-      msg += `, the display of the ANSI is inaccurate`
-      console.error(msg)
+      msg += `\nThe display of the ANSI is inaccurate!`
+      console.info(msg)
     }
   }
   /**
@@ -1423,16 +1423,19 @@ class Output {
           bold.textContent = `2x`
           pre.classList.add(two)
           pre.classList.remove(one, three)
+          pixels()
           break
         case `2x`:
           bold.textContent = `3x`
           pre.classList.add(three)
           pre.classList.remove(one, two)
+          pixels()
           break
         case `3x`:
           bold.textContent = `1x`
           pre.classList.add(one)
           pre.classList.remove(two, three)
+          pixels()
           break
       }
     }
@@ -1458,7 +1461,7 @@ class Output {
       stored = { item: null, text: `` },
       vs = ` → `
     // obtain transcode setting
-    stored.item = sessionStorage.getItem(`transcode`)
+    stored.item = sessionStorage.getItem(`lockTranscode`)
     // ==============================================
     // 'Document encoding determined by this browser'
     // ==============================================
@@ -1521,7 +1524,7 @@ class Output {
    */
   rebuildCharacterSet() {
     const characterSet = `${this.data.cs}`,
-      sessionItem = sessionStorage.getItem(`transcode`)
+      sessionItem = sessionStorage.getItem(`lockTranscode`)
     // The Transcode() class is found in parse_dos.js
     const transcode = new Transcode(`${characterSet}`, `${this.slice}`)
     this.slice = ``
@@ -1535,19 +1538,19 @@ class Output {
       // US-ASCII transcode value simply returns the input text.
       // Other transcode selections require the text to be rebuilt based on the
       // sessionItem value.
-      if (sessionItem !== OutputUS_ASCII) transcode.rebuild(sessionItem)
+      if (sessionItem !== Cs.OutputUS_ASCII) transcode.rebuild(sessionItem)
       this.data.html = transcode.text
       return (this.rows = rowCount())
     }
     // SAUCE code page override
     const scp = this.sauce.configs.codePage
-    if (scp !== `` && scp !== DOS_437_English) {
+    if (scp !== `` && scp !== Cs.DOS_437_English) {
       transcode.rebuild(scp)
       this.data.html = transcode.text
       return (this.rows = rowCount())
     }
     let newCodePage = characterSet
-    if (characterSet.slice(-1) === TranscodeArrow)
+    if (characterSet.slice(-1) === Cs.TranscodeToggle)
       newCodePage = characterSet.slice(0, -1)
     // Characters() class is found in functions.js
     const characters = new Characters(newCodePage)
@@ -1608,18 +1611,18 @@ class Output {
     // i.e ISO-8859-1, UTF-8, WINDOWS-1252, etc
     if (out.support()) {
       // append an arrow to label, i.e iso-8859-1➡
-      const newLabel = `${out.label()}${TranscodeArrow}`
+      const newLabel = `${out.label()}${Cs.TranscodeToggle}`
       // make sure input encoding doesn't match output encoding
       // i.e CP1252 → CP1252
       if (chrs.outputs.has(newLabel) && newLabel.slice(0, -1) !== label)
         chrs.key = out.label()
-      else chrs.key = DOS_437_English
+      else chrs.key = Cs.DOS_437_English
       stored.text = chrs.compactOut()
       text.out = chrs.compactOut()
       return chrs.titleOut()
     }
     // matches `Characters.labels` Map that is supplied by SAUCE metadata
-    // i.e DOS_437_English
+    // i.e Cs.DOS_437_English
     if (chrs.support()) {
       stored.text = chrs.compactOut()
       text.out = chrs.compactOut()
@@ -1630,9 +1633,9 @@ class Output {
   _headerTranscode(stored, elm, text) {
     const old = document.createElement(`span`)
     switch (stored.item) {
-      // transcode text `CP-1252 ↻` and `ISO 8859-5 ↻` selections
-      case Windows_1252_English:
-      case ISO8859_5:
+      // transcode text `CP-1252 ⇉` and `ISO 8859-5 ⇉` selections
+      case Cs.Windows_1252_English:
+      case Cs.ISO8859_5:
         if (text.in === stored.text) {
           elm.in.classList.add(`has-text-underline`)
           elm.in.textContent = text.in
@@ -1641,7 +1644,7 @@ class Output {
         old.textContent = text.in
         elm.in.append(old)
         elm.in.textContent = stored.text
-        elm.in.title = `Unable to transcode this text using '${stored.text} ↻'`
+        elm.in.title = `Unable to transcode this text using '${stored.text} ⇉'`
         elm.in.classList.add(`has-text-strike`)
         return
       // transcode text is set to `Browser default`
@@ -1752,6 +1755,10 @@ class Information extends Output {
    */
   createCharacterCount() {
     this.size.title = `Number of characters contained in the text`
+    if (this.input.length === 0) {
+      this.size.textContent = `None`
+      return
+    }
     this.size.textContent = HumaniseFS(this.input.length, 1000)
   }
   /**
@@ -1759,7 +1766,7 @@ class Information extends Output {
    */
   createFontname() {
     const fonts = new FontFamily()
-    if (this.input.characterSet.toLowerCase() === Shift_JIS) {
+    if (this.input.characterSet.toLowerCase() === Cs.Shift_JIS) {
       fonts.key = `mona`
       fonts.set()
       return this._setFontname(fonts)
@@ -1775,7 +1782,7 @@ class Information extends Output {
     switch (this.sauce.version) {
       case `00`: {
         // use the font name contained in SAUCE metadata
-        sessionStorage.removeItem(`fontOverride`)
+        sessionStorage.removeItem(`lockFont`)
         const sauceFont = this.sauce.configs.fontFamily
         if (sauceFont === ``)
           return console.warn(
@@ -1784,7 +1791,7 @@ class Information extends Output {
         fonts.key = sauceFont.toUpperCase()
         fonts.set()
         fonts.swap(this.output.pre)
-        sessionStorage.setItem(`fontOverride`, `true`)
+        sessionStorage.setItem(`lockFont`, `true`)
         return this._setFontname(fonts)
       }
       default:
@@ -1944,14 +1951,16 @@ class Information extends Output {
     return bold
   }
   _setSettings() {
-    const a = document.createElement(`a`)
-    a.id = `moreSettings`
-    a.textContent = `Options`
-    a.href = `${chrome.runtime.getURL(`html/options.html#display`)}`
-    a.onclick = () => {
-      localStorage.setItem(`optionTab`, `6`)
+    const span = super.newSpan(),
+      port = chrome.runtime.connect({ name: `openOptionsPage` })
+    span.id = `moreSettings`
+    span.textContent = `Settings`
+    span.onclick = () => {
+      const settingsTab = `6`
+      chrome.storage.local.set({ [`optionTab`]: settingsTab })
+      port.postMessage({ openOptionsPage: true })
     }
-    return a
+    return span
   }
   _setWarningBBS() {
     const div = super.newDiv(),
@@ -1976,7 +1985,7 @@ class Invoke {
     this.hide()
   }
   show() {
-    if (RetroTxt.developer) console.log(`Invoke.show()`)
+    Console(`Invoke.show()`)
     const defaultBG = `theme-msdos-bg`,
       defaultFG = `theme-msdos-fg`
     let body = sessionStorage.getItem(`bodyClass`)
@@ -1995,7 +2004,7 @@ class Invoke {
     return BusySpinner(false)
   }
   hide() {
-    if (RetroTxt.developer) console.log(`Invoke.hide()`)
+    Console(`Invoke.hide()`)
     const body = this.dom.body
     this._removeBackground(body)
     sessionStorage.setItem(`bodyClass`, body.classList.value)
@@ -2066,14 +2075,25 @@ function handleChanges(change) {
     smearBlockCharacters: change.textSmearBlockCharacters,
     useIceColors: change.ansiUseIceColors,
   }
-  if (RetroTxt.developer) {
-    console.log(`🖫 handleChanges(change)`)
-    Object.entries(changes).forEach(([key, value]) => {
-      if (typeof value === `undefined`) return
-      console.log(`🡲 ${key}`)
-      console.log(value)
-    })
-  }
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) {
+      Object.entries(changes).forEach(([key, value]) => {
+        const pref = `🖫 storage event handler`,
+          t = typeof value
+        if (t === `undefined`) return
+        if (t === `object`) {
+          console.log(
+            `${pref} 🡲 ${key} %c${value.oldValue}%c ${value.newValue}`,
+            "text-decoration:line-through",
+            "text-decoration:none"
+          )
+        } else {
+          console.log(`${pref} 🡲 ${key}`)
+          console.log(value)
+        }
+      })
+    }
+  })
   const dom = new DOM()
   if (changes.accurate9pxFonts) {
     dom.results = { textAccurate9pxFonts: changes.accurate9pxFonts.newValue }
@@ -2090,8 +2110,7 @@ function handleChanges(change) {
     return dom.clickBlinkingCursorText()
   }
   if (changes.centerAlign) {
-    if (changes.centerAlign.newValue == `true`)
-      return dom.clickCenterAlign(true)
+    if (changes.centerAlign.newValue == true) return dom.clickCenterAlign(true)
     else return dom.clickCenterAlign(false)
   }
   if (changes.colorPalette)
@@ -2195,8 +2214,46 @@ function handleChanges(change) {
     return dom.clickIceColors()
   }
 }
+
 /**
- * Handle messages passed on by functions in `eventpage.js`.
+ * Handle long-lived messages passed on by service workers.
+ * @param message OnMessage event for the `chrome.runtime` object
+ */
+function handleConnections(message) {
+  if (typeof message[`initTab`] === `number`) {
+    const tabID = message[`initTab`],
+      port = chrome.runtime.connect({ name: `invoker` })
+    Console(`✉ initTab #${tabID} message received.`)
+    if (document.getElementById(`retrotxt-styles`) === null) {
+      port.postMessage({ tabID: tabID, init: false })
+      Console(`✉ initTab is false post message.`)
+      return
+    }
+    port.postMessage({ tabID: tabID, init: true })
+    Console(`✉ initTab is true post message.`)
+    return
+  }
+  if (typeof message[`toggleTab`] === `number`) {
+    Console(`✉ toggleTab #${message[`toggleTab`]} message received.`)
+    new Invoke().toggle()
+    return
+  }
+  if (typeof message[`tabTranscode`] === `string`) {
+    const value = message[`tabTranscode`]
+    Console(`✉ tabTranscode ${value} message received.`)
+    if (value === Cs.UseCharSet) sessionStorage.removeItem(`lockTranscode`)
+    else sessionStorage.setItem(`lockTranscode`, value)
+    // reload the active tab
+    globalThis.location.reload()
+    return
+  }
+  console.group(`✉ Unexpected long-lived message.`)
+  console.log(message)
+  console.groupEnd()
+}
+
+/**
+ * Handle one-time messages passed on by service workers.
  * @param message OnMessage event for the `chrome.runtime` object
  */
 function handleMessages(message, sender) {
@@ -2206,46 +2263,24 @@ function handleMessages(message, sender) {
   // method without the `tabId`.
   const unexpected = () => {
     if (typeof qunit !== `undefined`) return false
-    if (!RetroTxt.developer) return
-    console.group(`✉ Unexpected message.`)
-    console.log(message)
-    console.log(sender)
-    console.groupEnd()
-  }
-  if (!(`id` in message)) return unexpected()
-  if (!RetroTxt.developer)
-    console.log(`✉ Received '%s' for handleMessages().`, message.id)
-  const invoke = new Invoke()
-  switch (message.id) {
-    case `invoked`:
-      if (document.getElementById(`retrotxt-styles`) === null) {
-        chrome.runtime.sendMessage({ invoked: false }, () => {
-          if (CheckLastError(`handle messages invoked false send`)) return
-        })
-        if (RetroTxt.developer)
-          console.log(`✉ 'invoked' message request 'false' response sent.`)
-        return
+    chrome.storage.local.get(Developer, (store) => {
+      if (Developer in store) {
+        console.group(`✉ Unexpected one-time message.`)
+        console.log(message)
+        console.log(sender)
+        console.groupEnd()
       }
-      chrome.runtime.sendMessage({ invoked: true }, () => {
-        if (CheckLastError(`handle messages invoked true send`)) return
-      })
-      if (RetroTxt.developer)
-        console.log(`✉ 'invoked' message request 'true' response sent.`)
-      return
-    case `toggle`:
-      if (RetroTxt.developer === true)
-        console.log(`✉ 'toggle' message received.`)
-      return invoke.toggle()
-    case `transcode`:
-      if (message.action === UseCharSet) sessionStorage.removeItem(`transcode`)
-      else sessionStorage.setItem(`transcode`, message.action)
-      // reload the active tab
-      globalThis.location.reload()
-      if (RetroTxt.developer)
-        console.log(`✉ 'transcode' message '%s' received.`, message.action)
-      return
+    })
+  }
+
+  if (message.id === `executeNOW`) {
+    Execute(sender.tab.id)
+    return
+  }
+  Console(`✉ Received '${message.id}' for handleMessages().`)
+  switch (message.id) {
     case `CheckError`:
-      if (RetroTxt.developer) console.log(`✉ 'CheckError' message received.`)
+      Console(`✉ 'CheckError' message received.`)
       // display an error alert box on the active tab
       return DisplayAlert()
     case `qunit`:
@@ -2254,6 +2289,7 @@ function handleMessages(message, sender) {
       return unexpected()
   }
 }
+
 /**
  * Execute RetroTxt, used by the chrome.tabs `executeScript` method.
  * @param [tabId=0] Browser tab id to execute RetroTxt
@@ -2263,11 +2299,16 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   if (typeof tabId !== `number`) CheckArguments(`tabId`, `number`, tabId)
   if (typeof tabEncode !== `string`)
     CheckArguments(`tabEncode`, `string`, tabEncode)
+
+  let DeveloperMode = false
+  chrome.storage.local.get(Developer, (store) => {
+    if (Developer in store) DeveloperMode = true
+  })
+
   tabEncode = tabEncode.toLowerCase()
   // clean-up session items, in case the tab was previously used by RetroTxt
-  //sessionStorage.removeItem(`fontOverride`)
   try {
-    sessionStorage.removeItem(`fontOverride`)
+    sessionStorage.removeItem(`lockFont`)
   } catch (e) {
     console.error(
       `
@@ -2288,19 +2329,25 @@ RetroTxt will not be able to work with this page.
     guess = new Guess()
   // text data objects
   let ecma48 = {}
-  if (RetroTxt.dump) console.log(`Execute('${tabId}', '${tabEncode}')`)
+
+  if (DeveloperMode) console.log(`Execute('${tabId}', '${tabEncode}')`)
+
   if (typeof dom.rawText === `undefined`)
     return CheckError(
       `RetroTxt failed to load and has been aborted. Were you trying to load an empty file?`
     )
   if ([`UTF-16BE`, `UTF-16LE`].includes(document.characterSet))
     DisplayEncodingAlert()
+
   const input = new Input(tabEncode, `${dom.rawText.textContent}`)
-  if (RetroTxt.dump) console.log(input)
+  if (DeveloperMode) console.log(input)
+
   const sauce = new SauceMeta(input)
-  if (RetroTxt.dump) console.log(sauce)
+  if (DeveloperMode) console.log(sauce)
+
   const output = new Output(sauce, dom)
-  if (RetroTxt.dump) console.log(output)
+  if (DeveloperMode) console.log(output)
+
   // copy user settings to the localStorage of the active browser tab
   config.setLocalStorage(`ansiColumnWrap`)
   config.setLocalStorage(`ansiPageWrap`)
@@ -2419,13 +2466,18 @@ RetroTxt will not be able to work with this page.
   // hide the spin loader
   BusySpinner(false)
   // delay calculating the element size as the received client values are incorrect
-  setTimeout(() => {
-    const m = document.getElementsByTagName(`main`)[0],
-      w = document.getElementById(`widthOfText`),
-      h = document.getElementById(`lengthOfText`)
-    h.textContent = m.clientHeight
-    w.textContent = m.clientWidth
-  }, 500)
+  const halfASecond = 500
+  setTimeout(pixels, halfASecond)
+  // create a window resize event to update the pixel values
+  window.addEventListener(`resize`, pixels)
+}
+
+function pixels() {
+  const m = document.getElementsByTagName(`pre`)[0],
+    w = document.getElementById(`widthOfText`),
+    h = document.getElementById(`lengthOfText`)
+  h.textContent = m.clientHeight
+  w.textContent = m.clientWidth
 }
 
 function cleanup(output) {
@@ -2502,3 +2554,8 @@ function textType(format = ``) {
 }
 // eslint no-unused-variable fix
 if (typeof Execute !== `undefined`) void 0
+
+/* global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
+
+ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
+/*exported DOM*/

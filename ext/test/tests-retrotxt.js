@@ -4,10 +4,10 @@
 
 const loremIpsum = `Cras sit amet purus urna. Phasellus in dapibus ex. Proin pretium eget leo ut gravida. Praesent egestas urna at tincidunt mollis. Vivamus nec urna lorem. Vestibulum molestie accumsan lectus, in egestas metus facilisis eget. Nam consectetur, metus et sodales aliquam, mi dui dapibus metus, non cursus libero felis ac nunc. Nulla euismod, turpis sed mollis faucibus, orci elit dapibus leo, vitae placerat diam eros sed velit. Fusce convallis, lorem ut vulputate suscipit, tortor risus rhoncus mauris, a mattis metus magna at lorem. Sed molestie velit ipsum, in vulputate metus consequat eget. Fusce quis dui lacinia, laoreet lectus et, luctus velit. Pellentesque ut nisi quis orci pulvinar placerat vel ac lorem. Maecenas finibus fermentum erat, a pulvinar augue dictum mattis. Aenean vulputate consectetur velit at dictum. Donec vehicula ante quis ante venenatis, eu ultrices lectus egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae`
 
-QUnit.module(`retrotxt.js`, {
+QUnit.module(`retrotxt`, {
   before: () => {
     // prepare something once for all tests
-    console.info(`☑ New QUnit retrotxt.js test`)
+    console.info(`☑ New QUnit retrotxt test.`)
   },
   beforeEach: () => {
     // prepare something before each test
@@ -17,11 +17,11 @@ QUnit.module(`retrotxt.js`, {
   },
   after: () => {
     // clean up once after all tests are done
-    console.info(`☑ QUnit retrotxt.js tests are complete`)
+    console.info(`☑ QUnit retrotxt tests are complete.`)
   },
 })
 
-QUnit.test(`DOM() class`, (assert) => {
+QUnit.test(`DOM class`, (assert) => {
   const dom = new DOM()
   assert.equal(dom.head.nodeName, `HEAD`, `Should be a <head> element`)
   assert.equal(dom.cssLink, null, `Should be null element doesn't exist`)
@@ -38,7 +38,7 @@ QUnit.test(`DOM() class`, (assert) => {
   )
 })
 
-QUnit.test(`Input() class`, (assert) => {
+QUnit.test(`Input class`, (assert) => {
   const input = new Input(`text/plain`, `Hello world.`)
   assert.equal(input.characterSet, `UTF-8`, `Document should be UYTF-8`)
   assert.equal(input.encoding, `text/plain`, `Text is text/plain`)
@@ -50,7 +50,7 @@ QUnit.test(`Input() class`, (assert) => {
   assert.equal(bom.BOM, `UTF-16, big endian`, `Text has a  BOM`)
 })
 
-QUnit.test(`SauceMeta() class`, (assert) => {
+QUnit.test(`SauceMeta class`, (assert) => {
   let sauce = new SauceMeta()
   assert.equal(sauce.configs.fontFamily, ``, `Sauce should be invalid`)
   sauce.version = `00`
@@ -104,7 +104,7 @@ QUnit.test(`SauceMeta() class`, (assert) => {
   )
 })
 
-QUnit.test(`Output() class`, (assert) => {
+QUnit.test(`Output class`, (assert) => {
   const input = {
     text: `${loremIpsum};
  COMNTAny comments go here.                                           SAUCE00Sauce title                        Sauce author        Sauce group         20161126�`,
@@ -132,7 +132,7 @@ QUnit.test(`Output() class`, (assert) => {
   )
 })
 
-QUnit.test(`Information() class`, (assert) => {
+QUnit.test(`Information class`, (assert) => {
   const information = new Information()
   information.createPixels()
   assert.equal(information.area.nodeName, `SPAN`, `Should be a <span> element`)
@@ -180,7 +180,7 @@ QUnit.test(`Information() class`, (assert) => {
   )
 })
 
-QUnit.test(`handleMessages() function`, (assert) => {
+QUnit.test(`handleMessages function`, (assert) => {
   const message = { id: `qunit` }
   assert.equal(handleMessages(message), true, `Test message should be handled`)
   message.id = `test unexpected`

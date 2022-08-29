@@ -17,7 +17,7 @@ module.exports = {
     `test`,
     `.web-ext-*.js`,
     `fonts/woff2.sh`,
-    `yarn.lock`,
+    `*.lock`,
     `*.yml`,
   ],
   verbose: false,

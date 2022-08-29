@@ -8,6 +8,16 @@
   "[js]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[markdown]": {
+    "editor.formatOnSave": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    }
+  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -28,18 +38,8 @@
   "javascript.format.enable": false,
   "search.exclude": {
     "**/qunit.js": true,
+    "**/manifest_v2": true,
+    "**/.pnp.*": true
   },
-  "spellright.documentTypes": [
-    "markdown",
-    "latex",
-    "plaintext",
-    "html",
-    "css",
-    "yaml"
-  ],
-  "spellright.language": [
-    "en"
-  ],
-  "spellright.notificationClass": "hint",
-  "typescript.format.enable": false
+  "typescript.format.enable": false,
 }

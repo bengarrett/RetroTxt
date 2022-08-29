@@ -1,55 +1,31 @@
-// filename: parse_ansi.js
+// File: scripts/parse_ansi.js
 //
-// These functions are to handle ANSI and ECMA-48 control functions embedded
-// into the text.
+// Handle ANSI and ECMA-48 control codes embedded into text.
+
+// ANSI it is an ambiguous term. The American National Standards Institute was a
+// standards body who published numerous computer text standards.
 //
-// The common online name is ANSI but it is an ambiguous term.
-// ANSI (American National Standards Institute) is just a standards body who
-// published numerous computer text standards.
-//
-// The term 'ANSI art' probably came about thanks to Microsoft misnaming their
-// limited MS-DOS driver ANSI.SYS.
+// The term ANSI art is probably derived from Microsoft misnaming their DOS driver `ANSI.SYS`.
 //
 // ANSI art usually refers to these identical standards.
 // ISO 6429 - "Control functions for 7-bit and 8-bit coded character sets"
-// ECMA 48 - "Control Functions for Coded Character Sets"
+// ECMA-48  - "Control Functions for Coded Character Sets"
 //
-// ISO/IEC 6429
-// http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
-// ECMA-48
-// http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf (free)
-// ANSI X3.64 (withdrawn in 1997)
-// https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf
-// Microsoft ANSI.SYS (MS-DOS implementation with selective compliance)
-// https://msdn.microsoft.com/en-us/library/cc722862.aspx
-// XTerm Control Sequences
-// https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+// ISO/IEC 6429: http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
+// ECMA-48: http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf (free)
+// Microsoft ANSI.SYS: https://msdn.microsoft.com/en-us/library/cc722862.aspx
+// XTerm Control Sequences: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 
-/*
-  JavaScript Performance Tips:
-  + Prefer switch over if-then-else conditionals as they can be optimised during
-    compile time.
-  + Don't initialise ES6 `let` and `const` within loops,
-    see https://github.com/vhf/v8-bailout-reasons/pull/10
-  + To permit compile-time optimisation `const` declarations need to be at the
-    top of the function.
-  + Use x = `${x}newText` instead of x.concat(`newText`),
-    see http://jsperf.com/concat-vs-plus-vs-join
-  + Use reference types (arrays, objects) instead of 'primitive' strings, bool,
-    integers variable for large values. As it can save on browser RAM usage, the
-    use of domObject{html:``} instead of ecma48HTML = `` saw a 5-20%(!)
-    reduction for the BuildEcma48() memory footprint.
-    https://www.linkedin.com/pulse/25-techniques-javascript-performance-optimization-steven-de-salas
-  + Don't combine different datatypes in large sets such as arrays.
-    If an array contains number elements do not mix-in null or undefined values,
-    instead use -1 or NaN. The same goes for an array of strings, use an empty
-    element `` instead of null or undefined values.
-    https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
-*/
-/*eslint no-useless-escape: "warn"*/
-/*global CheckError MacOS*/
-/*exported Controls*/
-"use strict"
+// ES6 performance tips:
+// Prefer `switch` over if-then-else conditionals as they can be optimised during compile time.
+// Prefer reference types instead of primitive types.
+//   For large sets, arrays and objects use less resources than strings, integers etc.
+//   https://www.linkedin.com/pulse/25-techniques-javascript-performance-optimization-steven-de-salas
+// Do not combine reference types with primitive types in large sets such as arrays.
+//   An array with exclusive number elements should only use -1 or NaN for the absence of a value.
+//   An array with exclusive string elements should only use `` as empty values.
+//   Never include `undefined` or `null` as they are reference types.
+//   https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
 
 const resetCursor = Symbol(`reset cursor position`),
   resetECMA = Symbol(`reset ECMA48/ANSI`),
@@ -1089,10 +1065,13 @@ class Markup {
       items = item.split(`+`),
       item1 = parseInt(items[1], 10),
       item2 = parseItem()
+    // console log styles
+    const mark = `text-decoration:underline`,
+      unmark = `text-decoration:none;`
     switch (control) {
       case `CUD`: // cursor down
         if (item1 > 0) return cursor.rowElement(item1)
-        return console.log(`CUD ${item1} control is invalid`)
+        return console.log(`%cCUD-${item1}%c control is invalid.`, mark, unmark)
       case `CHT`: // horizontal forward tabulation
       case `CUF`: // cursor forward
         return this._parseCursorForward(control, item1)
@@ -1109,7 +1088,7 @@ class Markup {
         }
       case `SGR`: // character attributes
         if (row >= 1) return (domObject.html += `</i>${italicElement(item)}`)
-        return console.log(`SGR ${row} value is invalid`)
+        return console.log(`%cSGR-${row}%c value is invalid.`, mark, unmark)
       case `ED+`: // erase in page
         switch (item1) {
           case 0:
@@ -1132,11 +1111,17 @@ class Markup {
             return cursor.columnElement(0)
           case 1: // clear from cursor to the beginning of the line (-ANSI.SYS)
             return console.log(
-              `EL1, clear from cursor to the beginning of the line is not supported`
+              `%cEL1%c clear from cursor to the beginning of the line is not supported.`,
+              mark,
+              unmark
             )
           case 2: // erase line (-ANSI.SYS)
             if (cursor.row < 1)
-              return console.log(`EL2 ${cursor.row} is invalid`)
+              return console.log(
+                `%cEL2-${cursor.row}%c is invalid.`,
+                mark,
+                unmark
+              )
             return cursor.eraseLines.push(cursor.row - 1)
         }
         return
@@ -1147,10 +1132,13 @@ class Markup {
         ecma48.maxColumns = this.maxColumns
         return
       case `LW+`:
-        return console.log(`LW ${row} control is ignored`)
+        return console.log(`%cLW-${row}%c control is ignored.`, mark, unmark)
       default:
         console.log(
-          `_parseNamedSequence() tried to parse this unknown control '${item}'`
+          `%c%s%c parse-named-sequence tried to parse this unknown control`,
+          item,
+          mark,
+          unmark
         )
     }
   }
@@ -1286,7 +1274,6 @@ class Markup {
    * @param [html=``] string
    */
   _tagBlockCharacters(html = ``) {
-    if (BrowserOS() === MacOS) return html
     const config = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     if (config !== `true`) return html
     return html.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
@@ -1353,7 +1340,7 @@ class Metadata {
         width = parseInt(data.configs.width, 10)
         // handle corrupted or missing width data
         if (Number.isNaN(width)) width = defaultWidth
-        console.log(`Determined column width`, width)
+        console.log(`Determined width, %s columns.`, width)
         cursor.maxColumns = width <= cappedWidth ? width : cappedWidth
         if (cursor.maxColumns === cappedWidth)
           console.info(`Maximum column width capped at ${cappedWidth}`)
@@ -2225,11 +2212,7 @@ class Build extends Scan {
     }
     // browser console parse error feedback
     if (issues.length > 0) {
-      console.groupCollapsed(
-        `EMCA-48/ANSI issues detected: `,
-        issues.length,
-        ` total`
-      )
+      console.groupCollapsed(`EMCA-48/ANSI issues, %s total:`, issues.length)
       for (const issue of issues) {
         console.info(issue)
       }
@@ -2239,7 +2222,8 @@ class Build extends Scan {
       let noun = `type`
       if (this.issues.length > 1) noun += `s`
       console.log(
-        `${this.issues.length} unsupported ${noun} of control sequence in use: ${this.issues}`
+        `%d unsupported ${noun} of control sequence in use: ${this.issues}.`,
+        this.issues.length
       )
     }
     ecma48.other = counts.err_msdos
@@ -2315,3 +2299,7 @@ class Build extends Scan {
     return decimals
   }
 }
+
+/*eslint no-useless-escape: "warn"*/
+/*global CheckArguments CheckError CheckRange */
+/*exported Controls*/

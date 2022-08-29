@@ -2,8 +2,46 @@
 hide:
   - toc
 ---
+## 5.0
 
-# RetroTxt Changes
+### [Migration to Manifest v3](/src/mv3)
+
+- **Some Options settings may be lost in this update.**<br>
+  Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.
+  This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
+- The use of Manifest v3 with service workers is incompatible with Firefox.
+
+### Highlights
+
+- Options interface should be more responsive with less jank.
+- Changing Options should apply to all open tabs, including background, foreground and tabs open in seperate browser windows.
+- Monitor Downloads is more reliable.
+
+* Replaced the `scripts/eventpage.js` background page with modular service workers.
+* Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
+* Replaced simple one-time message requests with long-lived connections where needed.
+  This should fix some strange behaviour and failures that occurred in previous versions.
+
+- Unfocused tabs can run RetroTxt in the background.
+- Transcode context menu is disabled by default except for textfile tabs.
+- Tweaked the Information header CSS to use very slight rounded corners.
+- Documentation tab in Options shares the same layout and formatting as the other menus.
+- Settings - Run RetroTxt on files hosted on these domains<br>
+  The on/off toggle has been removed for code simplification.<br>
+  Created a button to remove and restore website suggestions.<br>
+  Hostname input form responds to <kbd>Enter ↵</kbd> key presses.
+- Settings - Monitor downloads, toggles the optional `download` and `downloads.open` permissions.
+- Dropped the permissions requirement for `tabs`.
+- Manifest v3 has much better error handling and there should be less uncaptured errors.
+- Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.
+- Fixed Options reloading the page when a new tab was selected.
+- New Toolbar icon setting to select dark or light mode button.
+- Mentions of the file scheme `file:///` will under Windows display as `file:///C:/`
+- Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
+- Monitor downloads works better with 16colo.rs and defacto2.net by ignoring their incorrect `Content-Type` headers.
+- Smear block characters are applied to BBS texts.
+- Using pnpm as the dependencies manager.
+- Removed the Firefox specific build tools.
 
 ## 4.2
 

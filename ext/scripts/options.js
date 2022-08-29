@@ -1,9 +1,7 @@
-// filename: options.js
+// File: scripts/options.js
 //
-// These functions and classes are exclusively used by the Options tab.
-//
-/*global CheckLastError Chrome Firefox RetroTxt*/
-"use strict"
+// Functions and classes exclusive to the RetroTxt Options tab.
+// These run in isolation to the other context-scripts.
 
 /**
  * Argument checker.
@@ -43,7 +41,7 @@ function handleError(error) {
     console.error(`Failed to obtain the setting: ${e}`)
   }
   if (typeof qunit === `undefined`) {
-    document.getElementById(`error`).style.display = `inline`
+    document.getElementById(`error`).style.display = `inherit`
     document.getElementById(`status`).style.display = `none`
     document.getElementById(`errorReload`).addEventListener(`click`, () => {
       const result = confirm("Reload RetroTxt?")
@@ -70,14 +68,35 @@ async function localizeWord(word = ``, className = ``) {
   for (const element of elements) {
     const text = element.textContent
     // if the original word is capitalised then apply it to the new word
-    if (text.slice(0, 1).toUpperCase() === text.slice(0, 1))
-      element.textContent = `${message[0].toUpperCase()}${message.slice(1)}`
-    else element.textContent = message
+    if (text.slice(0, 1).toUpperCase() !== text.slice(0, 1)) {
+      element.textContent = message
+      continue
+    }
+    element.textContent = `${message[0].toUpperCase()}${message.slice(1)}`
   }
 }
 
 /**
- * Update a `localStorage` item with a new value.
+ * Returns the value of a chrome.storage.local.get request or a default value if result is undefined.
+ * @param {string} key Key name of the local storage item.
+ * @param {*} result Result from the chrome.storage.local.get request.
+ * @returns A result or default value.
+ */
+function localGet(key, result) {
+  const name = Object.getOwnPropertyNames(result)[0]
+  let value = result[name]
+  if (typeof name === `undefined`) {
+    value = new OptionsReset().get(key)
+    localStore(key, value)
+    console.info(
+      `Failed to obtain the '${key}' setting so using default: "${value}"`
+    )
+  }
+  return value
+}
+
+/**
+ * Update the local storage item with a new value.
  * When the value is left empty the local storage item is deleted.
  * @param {string} [key=``] Id of the storage item
  * @param {string} [value=``] Value to store
@@ -85,15 +104,15 @@ async function localizeWord(word = ``, className = ``) {
 function localStore(key = ``, value = ``) {
   switch (value) {
     case ``:
-      localStorage.removeItem(`${key}`)
       chrome.storage.local.remove(`${key}`)
-      if (RetroTxt.developer) console.log(`localStore('${key}', removed)`)
+      Console(`storage.local localStore('${key}', removed)`)
       return
     default:
-      localStorage.setItem(`${key}`, `${value}`)
       // Extension storage requires a key/value pair object
-      chrome.storage.local.set({ [key]: `${value}` })
-      if (RetroTxt.developer) console.log(`localStore('${key}', '${value}')`)
+      chrome.storage.local.set({ [key]: value })
+      Console(
+        `RetroTxt storage.local options localStore('${key}', ${value}) ${typeof value}`
+      )
   }
 }
 
@@ -113,7 +132,8 @@ class HTML {
         ? (document.title = `[··] ${m.version_name} update`)
         : (document.title = `[··] ${m.short_name} update`)
       document.getElementById(`hero0`).click()
-      return (document.getElementById(`updateNotice`).style.display = `inline`)
+      document.getElementById(`updateNotice`).style.display = `inline`
+      return
     }
     if (location.hash.includes(`#newinstall`)) {
       document.getElementById(`newInstallNotice`).style.display = `inline`
@@ -127,35 +147,35 @@ class HTML {
         .addEventListener(`click`, () => {
           document.getElementById(`hero4`).click()
         })
-      document
-        .getElementById(`newInstallDisplay`)
-        .addEventListener(`click`, () => {
-          document.getElementById(`hero5`).click()
-        })
-      return document
-        .getElementById(`newInstallSettings`)
-        .addEventListener(`click`, () => {
-          document.getElementById(`hero6`).click()
-        })
+      chrome.extension.isAllowedFileSchemeAccess((allowed) => {
+        const toUse = document.getElementById(`newInstallToUse`),
+          asterisk = document.getElementById(`newInstallAsterisk`)
+        if (allowed === true) {
+          toUse.classList.add("is-hidden")
+          return
+        }
+        asterisk.classList.add("is-hidden")
+      })
+      return
     }
     if (location.hash.includes(`#display`)) {
       document.getElementById(`hero5`).click()
       // drop the #display in the url which conflict with the option tabs
       location.replace(`${chrome.runtime.getURL(`html/options.html`)}`)
+      return
     }
   }
   /**
    * Hide future update notices for RetroTxt.
    */
   async hideNotice() {
-    const k = `updateNotice`
+    const key = `updateNotice`
     document.getElementById(`updateNoticeBtn`).addEventListener(`click`, () => {
       const result = confirm(
         "Stop this update tab from launching with future RetroTxt upgrades?"
       )
       if (!result) return
-      localStorage.setItem(k, false)
-      chrome.storage.local.set({ [k]: false })
+      chrome.storage.local.set({ [key]: false })
       globalThis.close()
     })
   }
@@ -185,13 +205,17 @@ class HTML {
         version: ``,
       }
     if (ua.includes(`Edg/`)) {
+      // example: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59
       b.vendor = `Microsoft`
       b.name = `Edge`
       const i = ua.indexOf(`Edg/`)
-      b.version = ua.substring(i + 4, i + 6)
+      const x = ua.substring(i + 4).split(".")
+      b.version = x[0]
     } else if (ua.includes(`Chrome/`)) {
+      // example: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
       const i = ua.indexOf(`Chrome/`)
-      b.version = ua.substring(i + 7, i + 9)
+      const x = ua.substring(i + 7).split(".")
+      b.version = x[0]
     } else {
       b.vendor = ``
       b.name = ``
@@ -250,54 +274,36 @@ class HTML {
   async _gotBrowserInfo(browser = {}) {
     const txt = ` on ${browser.vendor} ${browser.name} ${browser.version}`
     document.getElementById(`program`).textContent = txt
+    chrome.runtime.getPlatformInfo((info) => {
+      let text = ``
+      if (info.os === `mac` && info.arch === `arm`) text = `macOS M series`
+      else text = `${PlatformOS[info.os]} with ${PlatformArch[info.arch]}`
+      document.getElementById(`os`).textContent = text
+    })
   }
 }
 
 /**
- * Grants and removes Extension access permissions.
- * see: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/permissions
- * match patterns: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns
- * @class Security
+ * Grants and removes access permissions.
+ * @class Permission
  */
-class Security {
+class Permission {
   /**
-   * Creates an instance of Security.
+   * Creates an instance of Permission.
    * @param [type=``] Checkbox type, either `downloads`, `files` or `http`
    */
   constructor(type = ``) {
-    this.domains = new Configuration().domainsString()
-    // IMPORTANT
-    // these Map values must sync to those in the Security class found in `scripts/eventpage.js`
-    const permissions = new Map()
-      .set(`downloads`, [`downloads`, `downloads.open`, `tabs`])
-      .set(`files`, [`tabs`])
-      .set(`http`, [`tabs`])
-    const origins = new Map()
-      .set(`downloads`, [`file:///*`])
-      .set(`files`, [`file:///*`])
-      .set(`http`, this._httpOrigins())
-    const elements = new Map()
-      .set(`downloads`, `downloadViewer`)
-      .set(`files`, `textfileViewer`)
-      .set(`http`, `websiteViewer`)
-    this.customHttp = origins.get(`http`)
+    this.domains = new Configuration().domains()
+    Object.freeze(this.domains)
+    // IMPORTANT: these Map values must sync to those in the Security class found in `scripts/sw/security.js`
+    const permissions = new Map().set(`downloads`, [
+      `downloads`,
+      `downloads.open`,
+    ])
+    const elements = new Map().set(`downloads`, `downloadViewer`)
     this.permissions = permissions.get(`${type}`)
-    this.origins = origins.get(`${type}`)
     this.elementId = elements.get(`${type}`)
     this.type = type
-    // special case for user edited text area
-    const askAllWeb =
-        this.domains !== localStorage.getItem(`settingsWebsiteDomains`), // Bool value
-      catchallScheme = `*://*/*`
-    if (type === `http` && askAllWeb) {
-      if (!origins.get(`http`).includes(catchallScheme))
-        origins.get(`http`).push(catchallScheme)
-    }
-    // permissions needed for user supplied websites
-    this.allWebPermissions = {
-      origins: [catchallScheme],
-      permissions: [`tabs`],
-    }
   }
   /**
    * Initialise onChange event listeners for checkboxes and the `<textarea>`.
@@ -305,240 +311,110 @@ class Security {
   listen() {
     // checkbox toggles
     const toggles = () => {
-      const files = document.getElementById(`textfileViewer`),
-        notice = document.getElementById(`textfileViewerOff`),
-        value = document.getElementById(`${this.elementId}`).checked
+      const value = document.getElementById(`${this.elementId}`).checked
       let monitor = false // for downloadViewer
       // special cases that have permission dependencies
       switch (this.elementId) {
         case `downloadViewer`:
+          Console(`toggled downloadViewer: ${value}`)
           if (value === true) monitor = true
-          // send message to `scripts/eventpage.js` listener
           chrome.runtime.sendMessage({ monitorDownloads: monitor }, () => {
             if (CheckLastError(`monitor downloads send message`)) return
           })
-          // disable `textfileViewer` checkboxes with duplicate functionality
-          if (value === true) {
-            files.disabled = true
-            files.checked = false
-            notice.style.display = `inline`
-          } else {
-            files.disabled = false
-            notice.style.display = `none`
-          }
           break
       }
     }
-    // this is only run once when the `Security.listen()` is initialised.
-    // we cannot ask for `permissions.request()` here as the API requires
-    // a user interaction beforehand such as a checkbox toggle.
-    chrome.permissions.contains(this._test(), (result) => {
-      // `this._checkedInitialise()` cannot request permissions
-      this._checkedInitialise(result)
-      toggles()
-    })
     // checkbox event listeners
     const checkbox = document.getElementById(`${this.elementId}`)
-    checkbox.addEventListener(`change`, () => {
-      const value = document.getElementById(`${this.elementId}`).checked
-      this._allWeb(false)
-      this._checkedEvent(value)
-      toggles()
-    })
-    switch (this.elementId) {
-      case `downloadViewer`:
-      case `textfileViewer`:
-        return
+    if (checkbox !== null) {
+      checkbox.addEventListener(`change`, () => {
+        const value = document.getElementById(`${this.elementId}`).checked
+        Console(`checkbox change event: ${value}`)
+        this._checkedEvent(value)
+        toggles()
+      })
+      this._check()
     }
     // text area event listeners
     document.getElementById(`submitHost`).addEventListener(`click`, () => {
       if (this.type !== `http`) return
-      const askAllWeb = this.domains === `textarea.value`
-      if (RetroTxt.developer) console.log(`Hostnames have been updated`)
-      if (askAllWeb) {
-        // text area has been reset
-        this.origins.pop()
-        return this._allWeb(false)
-      }
-      // text area has been modified
-      chrome.permissions.contains(this.allWebPermissions, (result) => {
-        const catchallScheme = `*://*/*`
-        if (result === false) {
-          if (RetroTxt.developer)
-            console.log(`${catchallScheme} permission has not been granted`)
-          if (!this.origins.includes(catchallScheme)) {
-            // append `*://*/*` to the permissions origins and then ask the
-            // user to toggle the checkbox input to apply the new permission.
-            // Extensions can only ask for new permissions using user toggles.
-            const toggle = document.getElementById(`websiteViewer`)
-            if (toggle.checked === true)
-              document.getElementById(
-                `websiteViewerOff`
-              ).style.display = `inline`
-            toggle.checked = false
-            if (RetroTxt.developer) console.log(`pushed permissions to origins`)
-            return this.origins.push(catchallScheme)
-          }
-          if (RetroTxt.developer) console.log(`permissions are to be ignored`)
-          return
-        }
-        if (RetroTxt.developer)
-          console.log(`${catchallScheme} permission has been granted`)
-      })
+      Console(`Hostnames have been updated`)
+      const reset = this.domains === `textarea.value`
+      if (reset) return this.origins.pop()
     })
     // options theme buttons listeners
     const themes = document.getElementsByClassName(`option-theme`)
     for (let theme of themes) {
       theme.addEventListener(`click`, () => {
-        theme.classList.forEach(function (value, key) {
-          let arr = [`button`, `option-theme`]
-          if (arr.includes(value)) {
-            return
-          }
+        theme.classList.forEach(function (value) {
+          let arr = [`button`, `option-theme`, `notification`]
+          if (arr.includes(value)) return
           const hero = document.getElementById(`heroSection`),
-            src = document.getElementById(`getTheSource`)
+            src = document.getElementById(`getTheSource`),
+            doc = document.getElementById(`getTheDocs`),
+            upd = document.getElementById(`enjoyRetroTxt`)
           hero.classList.forEach(function (heroValue) {
-            if (heroValue === `is-fullheight`) {
-              return
-            }
-            if (!heroValue.startsWith(`is-`)) {
-              return
-            }
+            if (heroValue === `is-fullheight`) return
+            if (!heroValue.startsWith(`is-`)) return
             hero.classList.replace(heroValue, value)
           })
-          src.classList.forEach(function (heroValue) {
-            if (heroValue === `is-inverted`) {
-              return
-            }
-            if (!heroValue.startsWith(`is-`)) {
-              return
-            }
-            src.classList.replace(heroValue, value)
+          src.classList.forEach(function (srcValue) {
+            if (srcValue === `is-inverted`) return
+            if (!srcValue.startsWith(`is-`)) return
+            src.classList.replace(srcValue, value)
           })
-          localStorage.setItem(`optionClass`, `${value}`)
-          console.log(theme.textContent, key, value)
+          doc.classList.forEach(function (docValue) {
+            if (docValue === `is-inverted`) return
+            if (!docValue.startsWith(`is-`)) return
+            doc.classList.replace(docValue, value)
+          })
+          upd.classList.forEach(function (updValue) {
+            upd.classList.replace(updValue, value)
+          })
+          chrome.storage.local.set({ [`optionClass`]: `${value}` })
         })
       })
     }
   }
   /**
-   * Textarea onChanged event that updates the `this.allWebPermissions`
-   * permission.
-   * @param [request=true] Request `true` or remove `false` permission
+   * Set the checkbox checked state based on the permission grant.
    */
-  _allWeb(request = false) {
-    if (this.type !== `http`) return
-    switch (request) {
-      case true:
-        return // do nothing
-      case false:
-        chrome.permissions.contains(this.allWebPermissions, (result) => {
-          if (result === true) {
-            chrome.permissions.remove(this.allWebPermissions, (result) => {
-              if (
-                CheckLastError(`security allwebpermissions remove "${result}"`)
-              )
-                return
-              if (result === false)
-                console.warn(
-                  `Could not remove the permissions %s %s`,
-                  this.allWebPermissions.origins,
-                  this.allWebPermissions.permissions
-                )
-            })
-          }
-        })
-    }
+  _check() {
+    const checkbox = document.getElementById(`${this.elementId}`)
+    if (!(`checked` in checkbox))
+      return console.warn(
+        `Checkbox element <input id="${this.elementId}" type="checkbox"> is missing.`
+      )
+    chrome.permissions.contains({ permissions: this.permissions }, (result) => {
+      if (result) return (checkbox.checked = true)
+      return (checkbox.checked = false)
+    })
   }
   /**
    * Checkbox onChanged event that updates a permission.
    * @param [request=true] Request `true` or remove `false` permission
    * @param testResult A collection of permissions
    */
-  _checkedEvent(request = true, testResult = this._test()) {
+  _checkedEvent(
+    request = true,
+    testResult = { permissions: this.permissions }
+  ) {
     switch (this.type) {
       case `downloads`:
-      case `http`:
-        return this._permissionSet(request, testResult)
-      case `files`:
-        if (request === false) testResult.permissions = []
-        return this._permissionSet(request, testResult)
-    }
-  }
-  /**
-   * Set the checkbox checked state.
-   * @param [granted=false] Checked `true` or `false` unchecked
-   */
-  _checkedInitialise(granted = false) {
-    const checkbox = document.getElementById(`${this.elementId}`)
-    if (!(`checked` in checkbox))
-      return console.warn(
-        `Checkbox element <input id="%s" type="checkbox"> is missing.`,
-        this.elementId
-      )
-    checkbox.checked = granted
-  }
-  /**
-   * Creates a collection of origins from a predetermined list of domains.
-   * @returns origins collection
-   */
-  _httpOrigins() {
-    const domains = chrome.runtime.getManifest().optional_permissions
-    return domains.filter((domain) => domain.slice(0, 6) === `*://*.`)
-  }
-  /**
-   * Requests or removes a checked permission.
-   * @param [request=true] Request `true` or remove `false` permission
-   * @param testResult A collection of permissions
-   */
-  _permissionSet(request = true, testResult) {
-    const items = testResult.permissions.concat(testResult.origins).join(`, `),
-      workaround = { permissions: [`tabs`] }
-    switch (request) {
-      case true:
-        return chrome.permissions.request(testResult, (result) => {
-          if (CheckLastError(`security permissionSet "${result}"`)) return
-          if (RetroTxt.developer)
-            console.log(`%s: request to set permissions [%s]`, result, items)
-          if (result !== true) this._checkedInitialise(false)
-          else
-            document.getElementById(`websiteViewerOff`).style.display = `none`
-        })
-      default:
-        this._allWeb(false)
-        chrome.permissions.remove(testResult, (result) => {
-          if (CheckLastError(`security remove permissionSet "${result}"`))
+        Console(`checked download event: ${request}`)
+        if (request === true) {
+          return chrome.permissions.request(testResult, (result) => {
+            if (CheckLastError(`security permissionSet "${result}"`)) return
+            this._check()
+          })
+        }
+        return chrome.permissions.remove(testResult, (removed) => {
+          if (CheckLastError(`security remove permissionSet "${removed}"`))
             return
-          if (RetroTxt.developer)
-            console.log(`%s: request to remove permissions [%s]`, result, items)
-        })
-        // `Tabs` should normally be listed under the `permission` key in the
-        // manifest.json but instead it is placed under `optional_permission`.
-        //
-        // This is a workaround as host permissions (origins) cannot be
-        // requested without a corresponding named permission. So Tabs acts as a
-        // named permission placeholder for whenever the host permissions are
-        // removed.
-        chrome.permissions.request(workaround, (result) => {
-          if (CheckLastError(`security wordaround permissionSet "${result}"`))
-            return
-          if (RetroTxt.developer)
-            console.log(`%s: workaround set permission [tabs]`, result)
+          Console(`${removed}: request to remove permissions []`)
+          this._check()
         })
     }
-  }
-  /**
-   * Creates a collection of permissions.
-   * @returns `permissions.Permissions` object
-   */
-  _test() {
-    if (RetroTxt.developer)
-      console.log(`Security test request for '${this.type}'.`)
-    const permissionsToRequest = {
-      permissions: this.permissions,
-      origins: this.origins,
-    }
-    return permissionsToRequest
   }
 }
 /**
@@ -572,30 +448,18 @@ class CheckBox {
    */
   async listen() {
     this.boxes.forEach((item, id) => {
-      if (RetroTxt.developer) console.log(`forEach id: ${id}`)
+      Console(`Initialize checkbox listener, ${id}.`)
       document.getElementById(id).addEventListener(`change`, () => {
-        if (RetroTxt.developer) console.log(`change id: ${id}`)
+        Console(`Checkbox listener triggered, ${id}.`)
         const value = document.getElementById(id).checked
-        localStorage.setItem(item, value)
-        chrome.storage.local.set({ [item]: `${value}` })
+        chrome.storage.local.set({ [item]: value })
         this.id = `${id}`
-        this.value = `${value}`
-        // special cases that have permission dependencies
-        switch (id) {
-          case `downloadViewer`:
-            if (value === true)
-              document.getElementById(`textfileViewer`).checked = true
-            break
-          case `textfileViewer`:
-            if (value === false)
-              document.getElementById(`downloadViewer`).checked = false
-            break
-        }
+        this.value = value
         this.preview()
       })
     })
-    new Security(`http`).listen()
-    this._isAllowed()
+    new Permission().listen()
+    this._fileSchemeAccess()
   }
   /**
    * Code to run after a checkbox has been clicked.
@@ -604,8 +468,7 @@ class CheckBox {
     switch (this.id) {
       case `backgroundScanlines`: {
         const element = document.getElementById(`sampleTerminal`)
-        if (`${this.value}` === `true`) return ToggleScanlines(true, element)
-        return ToggleScanlines(false, element)
+        return ToggleScanlines(this.value, element)
       }
       case `centerAlignText`: {
         const element = document.getElementById(`sampleTerminal`)
@@ -628,14 +491,16 @@ class CheckBox {
     }
   }
   /**
-   * Read the browser `localStorage` and apply text effects on the sample text.
+   * Read the local storage and apply text effects on the sample text.
    */
   async storageLoad() {
-    this.boxes.forEach((item, id) => {
-      const value = localStorage.getItem(item)
-      this.id = `${id}`
-      this.value = `${value}`
-      this.preview()
+    this.boxes.forEach((key, id) => {
+      chrome.storage.local.get(key, (result) => {
+        const value = localGet(key, result)
+        this.id = `${id}`
+        this.value = `${value}`
+        this.preview()
+      })
     })
   }
   /**
@@ -654,42 +519,51 @@ class CheckBox {
    * Event listeners for options.
    * These require `extension.isAllowedFileSchemeAccess`.
    */
-  _isAllowed() {
-    /*
-FIREFOX NOTES:
-  Firefox does not offer a user Extension setting to toggle Allowed File Scheme Access.
-  So the results of chrome.extension.isAllowedFileSchemeAccess is ALWAYS false.
-  The `file://` optional permission is the only access requirement.
-    */
-    if (WebBrowser() === Firefox) {
-      const id = `downloadViewer`,
-        files = new Security(`files`)
+  _fileSchemeAccess() {
+    // FIREFOX NOTES:
+    //   Firefox does not offer a user Extension setting to toggle Allowed File Scheme Access.
+    //   So the results of chrome.extension.isAllowedFileSchemeAccess is ALWAYS false.
+    //   The `file://` optional permission is the only access requirement.
+    if (WebBrowser() === Engine.firefox) {
+      const id = `downloadViewer`
       document.getElementById(id).disabled = true
       document.getElementById(`${id}HR`).style.display = `none`
       document.getElementById(`${id}Container`).style.display = `none`
-      document.getElementById(`textfileViewerOff`).style.display = `none`
-      return files.listen()
+      return
     }
     chrome.extension.isAllowedFileSchemeAccess((allowed) => {
-      // show checkbox state
-      const files = new Security(`files`),
-        downloads = new Security(`downloads`)
-      if (allowed !== true) {
-        // the textfileViewerOff notice is redundant
-        document.getElementById(`textfileViewerOff`).style.display = `none`
-        this.id = `textfileViewer`
-        this._disable()
-        // as isAllowedFileSchemeAccess() is false, downloads.test() will also be false
-        this.id = `downloadViewer`
-        this._disable()
-        const elements = document.getElementsByName(`is-allowed`)
-        for (const element of elements) {
-          element.style.display = `inline`
+      const offs = document.getElementsByName(`is-off`),
+        ons = document.getElementsByName(`is-on`)
+      // link to the extension details tab
+      const link = LinkDetails(),
+        detailURLs = document.getElementsByClassName(`details-detail-url`)
+      for (let elm of detailURLs) {
+        if (link.length === 0) break
+        if (allowed === true && elm.id === `monitorDownloads`) break
+        elm.textContent = `${link}`
+        elm.parentElement.classList.remove(`is-hidden`)
+      }
+      // show feature state
+      // allow access to file URLs is active
+      if (allowed === true) {
+        new Permission(`downloads`).listen()
+        for (const element of offs) {
+          element.classList.add(`is-hidden`)
+        }
+        for (const element of ons) {
+          element.classList.remove(`is-hidden`)
         }
         return
       }
-      files.listen()
-      downloads.listen()
+      // allow access to file URLs is inactive
+      this.id = `downloadViewer`
+      this._disable()
+      for (const element of offs) {
+        element.classList.remove(`is-hidden`)
+      }
+      for (const element of ons) {
+        element.classList.add(`is-hidden`)
+      }
     })
   }
 }
@@ -702,15 +576,16 @@ class Initialise extends CheckBox {
   constructor() {
     super()
     this.defaults = new OptionsReset()
-    //
     this.lengths = new Set([
       `colorsAnsiColorPalette`,
       `settingsInformationHeader`,
+      `settingsToolbarIcon`,
       `colorsTextPairs`,
       `fontFamilyName`,
       `textSmearBlockCharacters`,
       `textRenderEffect`,
     ])
+    Object.freeze(this.lengths)
     this.id = ``
     this.key = ``
     this.value = ``
@@ -721,70 +596,70 @@ class Initialise extends CheckBox {
    * Checks for and executes run-once Options.
    */
   checks() {
-    const checkTabs = (value = -1) => {
-      if (Number.isNaN(value)) return true
-      if (value < this.optionMin) return true
-      if (value > this.optionMax) return true
-      return false
+    const validTab = (value = -1) => {
+      if (Number.isNaN(value)) return false
+      if (value < this.optionMin) return false
+      if (value > this.optionMax) return false
+      return true
     }
     // check #1 - html radio and select groups
-    for (const key1 of this.lengths) {
-      this.key = `${key1}`
+    for (const key of this.lengths) {
+      this.key = `${key}`
       this._checkLength()
     }
     // check #2 - html checkboxes
-    this.boxes.forEach((key2, id) => {
+    this.boxes.forEach((key, id) => {
       this.id = `${id}`
-      this.key = `${key2}`
-      this.value = localStorage.getItem(`${this.key}`)
-      this._checkBoolean()
-      switch (this.key) {
-        case `settingsWebsiteViewer`:
-        case `textDOSControlGlyphs`:
-        case `textBlinkingCursor`:
-          return this.preview()
-      }
+      this.key = `${key}`
+      chrome.storage.local.get(key, (result) => {
+        const value = localGet(key, result)
+        this.value = value
+        this._checkBoolean(id, key, value)
+        switch (this.key) {
+          case `settingsWebsiteViewer`:
+          case `textDOSControlGlyphs`:
+          case `textBlinkingCursor`:
+            return this.preview()
+        }
+      })
     })
     // check #3 - options tab
-    const key3 = `optionTab`,
-      value3 = parseInt(localStorage.getItem(key3), 10)
-    if (checkTabs(value3)) {
-      const fix = this.defaults.get(key3)
-      if (fix === ``) handleError(`Initialise.checks() ${key3} = "${value3}"`)
-      localStore(`${key3}`, `${fix}`)
-    }
+    let key = `optionTab`
+    chrome.storage.local.get(key, (result) => {
+      let value = localGet(key, result)
+      if (validTab(value) === false) {
+        localGet(key, null)
+      }
+    })
     // check #4 - text area
-    const key4 = `settingsWebsiteDomains`,
-      value4 = localStorage.getItem(key4)
-    if (typeof value4 !== `string` || value4.length < 1) {
-      const fix = this.defaults.get(key4)
-      if (fix === ``) handleError(`Initialise.checks() ${key4} = "${value4}"`)
-      localStore(`${key4}`, `${fix.join(";")}`)
-    }
+    key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      localGet(key, result)
+    })
     // check #5 - option theme button
-    const classes = [
-      `is-primary`,
-      `is-link`,
-      `is-info`,
-      `is-success`,
-      `is-warning`,
-      `is-danger`,
-      `is-white`,
-      `is-light`,
-      `is-dark`,
-      `is-black`,
-      `is-text`,
-      `is-ghost`,
-    ]
-    const key5 = `optionClass`
-    let value5 = localStorage.getItem(key5)
-    if (!classes.includes(value5)) {
-      const fix = this.defaults.get(key5)
-      if (fix === ``) handleError(`Initialise.checks() ${key5} = "${value5}"`)
-      localStore(`${key5}`, `${fix}`)
-      value5 = fix
-    }
-    this._colorTheme(value5)
+    key = `optionClass`
+    chrome.storage.local.get(key, (result) => {
+      const classes = [
+        `is-primary`,
+        `is-link`,
+        `is-info`,
+        `is-success`,
+        `is-warning`,
+        `is-danger`,
+        `is-white`,
+        `is-light`,
+        `is-dark`,
+        `is-black`,
+        `is-text`,
+        `is-ghost`,
+      ]
+      Object.freeze(classes)
+      let value = localGet(key, result)
+      if (!classes.includes(value)) {
+        value = localGet(key, null)
+      }
+      this._colorTheme(value)
+    })
   }
   /**
    * Applies a group of Options modifiers and adjustments.
@@ -798,18 +673,24 @@ class Initialise extends CheckBox {
   /**
    * Finds and toggles checkbox boolean values.
    */
-  _checkBoolean() {
-    const input = document.getElementById(`${this.id}`),
-      fix = this.defaults.get(`${this.key}`)
-    switch (`${this.value}`) {
-      case `true`:
-        return (input.checked = true)
+  _checkBoolean(id = ``, key = ``, value) {
+    const input = document.getElementById(`${id}`),
+      fix = this.defaults.get(`${key}`)
+    switch (value) {
       case `false`:
+        chrome.storage.local.set({ [key]: false })
+        return (input.checked = true)
+      case `true`:
+        chrome.storage.local.set({ [key]: true })
+        return (input.checked = true)
+      case true:
+        return (input.checked = true)
+      case false:
         return (input.checked = false)
       default:
         if (fix === ``)
-          handleError(`Initialise._checkBoolean(${this.id}) = "${this.value}"`)
-        localStorage.setItem(this.key, `${fix}`)
+          handleError(`Initialise._checkBoolean(${id}) = "${value}"`)
+        chrome.storage.local.set({ [`${key}`]: `${fix}` })
         input.checked = fix === true ? true : false
     }
   }
@@ -818,54 +699,56 @@ class Initialise extends CheckBox {
    * @param {number} [minLength=1] Minimum value length required before the value is stored
    */
   _checkLength(minLength = 1) {
-    this.value = localStorage.getItem(`${this.key}`)
-    if (this.value === null || this.value.length < minLength) {
-      const fix = this.defaults.get(`${this.key}`)
-      if (fix === ``)
-        return handleError(`Initialise.checkLen(${this.key}) = '${this.value}'`)
-      localStorage.setItem(this.key, `${fix}`)
-      this.value = `${fix}`
-    }
-    switch (this.key) {
-      case `colorsAnsiColorPalette`:
-        return this._colorPalette()
-      case `settingsInformationHeader`:
-        return this._infoHeader()
-      case `colorsTextPairs`:
-        return this._selectColor()
-      case `fontFamilyName`:
-        return this._selectFont()
-      case `textRenderEffect`:
-        return this._selectEffect()
-    }
+    const key = `${this.key}`
+    chrome.storage.local.get(key, (result) => {
+      let value = localGet(key, result)
+      if (value === null) value = localGet(key, null)
+      else if (`${value}`.length < minLength) value = localGet(key, null)
+      this.value = value
+      switch (key) {
+        case `colorsAnsiColorPalette`:
+          return this._colorPalette()
+        case `settingsInformationHeader`:
+          return this._infoHeader()
+        case `settingsToolbarIcon`:
+          return this._toolbarIcon()
+        case `colorsTextPairs`:
+          return this._selectColor()
+        case `fontFamilyName`:
+          return this._selectFont()
+        case `textRenderEffect`:
+          return this._selectEffect()
+        default:
+      }
+    })
   }
   /**
    * Select a background and button color for the Options tab.
    */
   async _colorTheme(value = ``) {
-    let arr = [`button`, `option-theme`]
-    if (arr.includes(value)) {
-      return
-    }
+    let arr = [`button`, `option-theme`, `notification`]
+    if (arr.includes(value)) return
     const hero = document.getElementById(`heroSection`),
-      src = document.getElementById(`getTheSource`)
+      src = document.getElementById(`getTheSource`),
+      doc = document.getElementById(`getTheDocs`),
+      upd = document.getElementById(`enjoyRetroTxt`)
     hero.classList.forEach(function (heroValue) {
-      if (heroValue === `is-fullheight`) {
-        return
-      }
-      if (!heroValue.startsWith(`is-`)) {
-        return
-      }
+      if (heroValue === `is-fullheight`) return
+      if (!heroValue.startsWith(`is-`)) return
       hero.classList.replace(heroValue, value)
     })
-    src.classList.forEach(function (heroValue) {
-      if (heroValue === `is-inverted`) {
-        return
-      }
-      if (!heroValue.startsWith(`is-`)) {
-        return
-      }
-      src.classList.replace(heroValue, value)
+    src.classList.forEach(function (srcValue) {
+      if (srcValue === `is-inverted`) return
+      if (!srcValue.startsWith(`is-`)) return
+      src.classList.replace(srcValue, value)
+    })
+    doc.classList.forEach(function (docValue) {
+      if (docValue === `is-inverted`) return
+      if (!docValue.startsWith(`is-`)) return
+      doc.classList.replace(docValue, value)
+    })
+    upd.classList.forEach(function (updValue) {
+      upd.classList.replace(updValue, value)
     })
   }
   /**
@@ -875,6 +758,15 @@ class Initialise extends CheckBox {
     const palettes = document.getElementsByName(`palette`)
     for (const palette of palettes) {
       if (palette.value === this.value) return (palette.checked = true)
+    }
+  }
+  /**
+   * Selects a toolbar icon radio option.
+   */
+  async _toolbarIcon() {
+    const icons = document.getElementsByName(`toolbaricon`)
+    for (const icon of icons) {
+      if (icon.value === this.value) return (icon.checked = true)
     }
   }
   /**
@@ -918,10 +810,10 @@ class Initialise extends CheckBox {
    */
   async _browser() {
     switch (WebBrowser()) {
-      // Firefox
-      case Firefox:
+      case Engine.chrome:
         return
-      // Chrome, Chromium, Brave, Vivaldi, Edge
+      case Engine.firefox:
+        return
       default:
         return
     }
@@ -932,15 +824,33 @@ class Initialise extends CheckBox {
   async _management() {
     if (typeof chrome.management !== `undefined`) {
       const unit = document.getElementById(`unittest`),
-        reload = document.getElementById(`reload`)
+        reload = document.getElementById(`reload`),
+        install = document.getElementById(`newInstall`),
+        update = document.getElementById(`newUpdate`),
+        serve = document.getElementById(`testServe`)
       chrome.management.getSelf((info) => {
         switch (info.installType) {
           // the add-on was installed unpacked from disk
           case `development`:
             // reveal developer links
             unit.style.display = `inline`
-            reload.addEventListener(`click`, () => chrome.runtime.reload())
             reload.style.display = `inline`
+            install.style.display = `inline`
+            update.style.display = `inline`
+            serve.style.display = `inline`
+            install.addEventListener(`click`, () => {
+              window.location.assign(
+                `${chrome.runtime.getURL(`html/options.html`)}#newinstall`
+              )
+              window.location.reload()
+            })
+            reload.addEventListener(`click`, () => chrome.runtime.reload())
+            update.addEventListener(`click`, () => {
+              window.location.assign(
+                `${chrome.runtime.getURL(`html/options.html`)}#update`
+              )
+              window.location.reload()
+            })
             return
           case `admin`: // the add-on was installed because of an administrative policy
           case `normal`: // the add-on was installed normally from an install package
@@ -964,19 +874,24 @@ class Initialise extends CheckBox {
         chromeOS = `cros`,
         linux = `linux`,
         unix = `openbsd`
+      const drive = `C:/`,
+        schemes = document.getElementsByClassName(`file-url-scheme`)
       switch (info.os) {
         case android:
         case chromeOS:
         case linux:
         case unix:
         case windows:
-          if (WebBrowser() === Chrome) {
+          if (WebBrowser() === Engine.chrome) {
             hr.style.display = `block`
             blocks.style.display = `inline`
           }
+          for (let scheme of schemes) {
+            scheme.textContent = `${scheme.textContent}${drive}`
+          }
         // fallthrough
         case macOS:
-          if (WebBrowser() === Firefox) {
+          if (WebBrowser() === Engine.firefox) {
             hr.style.display = `none`
             blocks.style.display = `none`
           }
@@ -990,6 +905,8 @@ class Initialise extends CheckBox {
   async _version() {
     const data = chrome.runtime.getManifest(),
       element = document.getElementById(`manifest`)
+    if (`version_name` in data)
+      return (element.textContent = `${data.version_name}`)
     element.textContent = `${data.version}`
   }
 }
@@ -1041,15 +958,15 @@ class ColorPair {
     }
   }
   /**
-   * Choose a theme from the menu of the Colour Pair options
-   * saved in the browser `localStorage`.
+   * Choose a theme from the menu of the Colour Pair options.
    */
   async storageLoad() {
-    const selected = localStorage.getItem(`colorsTextPairs`)
-    if (typeof selected !== `string`)
-      return console.error(`Failed to obtain the 'colorsTextPairs' setting.`)
-    this.value = `${selected}`
-    this._sample()
+    const key = `colorsTextPairs`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.value = value
+      this._sample()
+    })
   }
   /**
    * Get the colour pair name from an id value.
@@ -1083,8 +1000,8 @@ class ColorPair {
     this._sample(this.value)
   }
   /**
-   * Save the id of a Colour text pair to the browser `localStorage`.
-   * If an id is not provided the `localStorage` item will be deleted.
+   * Save the id of a Colour text pair to local storage.
+   * If an id is not provided the stored item will be deleted.
    */
   _storageSave() {
     localStore(`colorsTextPairs`, `${this.value}`)
@@ -1141,15 +1058,17 @@ class ColorCustomPair {
     )
   }
   /**
-   * Read the browser `localStorage` and apply text effects on the sample text.
+   * Apply text effects on the sample text.
    */
   async storageLoad() {
-    let value = localStorage.getItem(`${this.mapId}`)
-    if (value === null) value = new OptionsReset().get(`${this.mapId}`)
-    this.input.value = `${value}`
-    const custom = this._value() === `theme-custom`
-    this._previewColor(custom)
-    if (custom) this._update(false)
+    const key = `${this.mapId}`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.input.value = `${value}`
+      const custom = this._value() === `theme-custom`
+      this._previewColor(custom)
+      if (custom) this._update(false)
+    })
   }
   /**
    * Validates the length of the `<input>` element value.
@@ -1182,7 +1101,7 @@ class ColorCustomPair {
   }
   /**
    * Previews and saves a custom colour pair change.
-   * @param [save=true] Save `input.value` to `localStorage`?
+   * @param [save=true] Save `input.value` to the local storage?
    */
   _update(save = true) {
     const colorTest = (value = ``) => {
@@ -1214,7 +1133,7 @@ class ColorCustomPair {
     } else this.valid = colorTest(this.sampleText.style[this.property])
     if (this.valid === false)
       return (this.sampleText.style[this.property] = previousColor)
-    else if (save === true) {
+    if (save === true) {
       localStore(`${this.mapId}`, `${this.input.value}`)
       localStore(`colorsTextPairs`, `theme-custom`)
     }
@@ -1255,6 +1174,11 @@ class Radios {
         this.feedback = `info`
         this.formId = `info-form`
         this.formName = `infoheader`
+        return (this.skip = true)
+      case `settingsToolbarIcon`:
+        this.feedback = `icon`
+        this.formId = `toolbarForm`
+        this.formName = `toolbaricon`
         return (this.skip = true)
       case `fontFamilyName`:
         this.feedback = `font selection`
@@ -1336,24 +1260,39 @@ class Radios {
    * Load and preview the saved radio selection.
    */
   async storageLoad() {
-    const effect = localStorage.getItem(`${this.storageId}`)
-    this.value = `${effect}`
-    this.preview()
+    const key = `${this.storageId}`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.value = `${value}`
+      this.preview()
+    })
   }
   /**
-   * Save the id of radio selection to the browser `localStorage`.
+   * Save the id of radio selection to the local storage.
    */
   storageSave() {
     localStore(`${this.storageId}`, `${this.value}`)
   }
 }
 /**
- * Information header
+ * Information header.
  * @class Header
  */
 class Header extends Radios {
   constructor() {
     super(`settingsInformationHeader`)
+  }
+  async preview() {
+    // do not remove
+  }
+}
+/**
+ * Toolbar icon.
+ * @class Header
+ */
+class Toolbar extends Radios {
+  constructor() {
+    super(`settingsToolbarIcon`)
   }
   async preview() {
     // do not remove
@@ -1479,13 +1418,17 @@ class LineHeight {
    * Loads and selects the saved line height setting.
    */
   async storageLoad() {
-    this.lineHeight.value = localStorage.getItem(`textLineHeight`)
-    document.getElementById(`lineHeightOutput`).textContent = this.m.get(
-      this.lineHeight.value
-    )
+    const key = `textLineHeight`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.lineHeight.value = value
+      document.getElementById(`lineHeightOutput`).textContent = this.m.get(
+        this.lineHeight.value
+      )
+    })
   }
   /**
-   * Save line height selection to `localStorage`.
+   * Save line height selection to the local storage.
    */
   storageSave() {
     localStore(`textLineHeight`, `${this.value}`)
@@ -1601,11 +1544,14 @@ class Hero {
    * Load and apply the active tab selection.
    */
   async storageLoad() {
-    const tab = localStorage.getItem(`optionTab`)
-    typeof tab === `string` ? this.reveal(tab) : this.reveal(`0`)
+    const key = `optionTab`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.reveal(parseInt(value, 10))
+    })
   }
   /**
-   * Save the active tab to `localStorage`.
+   * Save the active tab to the local storage.
    * @param {string} [id=``] Tab id
    */
   storageSave(id = ``) {
@@ -1621,21 +1567,31 @@ class Hero {
 class Hosts {
   constructor() {
     this.minLength = 4
-    this.hostnames = ``
+    this.hostnames = []
     this.status = document.getElementById(`status`)
     this.template = document.getElementById(`templateHost`)
     this.submit = document.getElementById(`submitHost`)
     this.input = document.getElementById(`newHost`)
-    this.domains = new Configuration().domainsString()
+    this.remove = document.getElementById(`removeSuggestedDomains`)
+    this.include = document.getElementById(`includeSuggestedDomains`)
+    this.suggestions = new Configuration().domains()
+    Object.freeze(this.suggestions)
   }
   /**
    * Input and button listeners.
    */
   async listen() {
+    // add button
     this.submit.addEventListener(`click`, () => {
       this._add(this.input.value)
       this._storageSave()
     })
+    // hostname press enter key
+    this.input.addEventListener(`keypress`, (e) => {
+      if (e.key !== `Enter`) return
+      this.submit.click()
+    })
+    // hostname input
     this.input.addEventListener(`input`, () => {
       try {
         // when URLs are pasted, attempt to return just the host
@@ -1647,15 +1603,61 @@ class Hosts {
         this._check(this.input.value)
       }
     })
+    // website suggestions
+    this.remove.addEventListener(`click`, () => {
+      this.removeSuggestions()
+    })
+    this.include.addEventListener(`click`, () => {
+      this.restoreSuggestions()
+    })
+  }
+  /**
+   * Remove all suggested hostnames.
+   */
+  removeSuggestions() {
+    this.status.textContent = `Removed domains suggestions`
+    const hosts = new Configuration().domains(),
+      key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      let keep = []
+      for (const host of result[key]) {
+        if (!hosts.includes(host)) {
+          keep = keep.concat(host)
+        }
+      }
+      localStore(`settingsWebsiteDomains`, keep)
+      this._clear()
+      for (const host of keep) {
+        this._add(host, false)
+      }
+      this.hostnames = keep
+    })
+  }
+  /**
+   * Reset and restore all suggested hostnames.
+   */
+  restoreSuggestions() {
+    this.status.textContent = `Reset hostnames to defaults`
+    const hosts = new Configuration().domains(),
+      key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      const mergeNoDupes = [...new Set([...result[key], ...hosts])]
+      localStore(`settingsWebsiteDomains`, mergeNoDupes)
+      this._clear()
+      for (const host of mergeNoDupes) {
+        this._add(host, false)
+        this.hostnames = [...this.hostnames, host]
+      }
+    })
   }
   /**
    * Load and display host tags.
    */
   async storageLoad() {
-    chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
-      this.hostnames = `${result.settingsWebsiteDomains}`
-      const hosts = this.hostnames.split(`;`)
-      for (let host of hosts) {
+    const key = `settingsWebsiteDomains`
+    chrome.storage.local.get(key, (result) => {
+      const hosts = localGet(key, result)
+      for (const host of hosts) {
         this._add(host, true)
       }
     })
@@ -1663,13 +1665,14 @@ class Hosts {
   /**
    * Adds a hostname tag with a working link and delete button.
    */
+
   async _add(hostname = ``, init = false) {
     if (hostname.length < this.minLength) return
     const tags = document.getElementById(`hostTags`),
       tag = this.template.cloneNode(true),
       anchor = tag.childNodes[1].childNodes[1],
-      urls = this.hostnames.split(`;`),
-      isDomain = this._domainHost(hostname)
+      urls = this.hostnames,
+      suggestion = this._isSuggestion(hostname)
     anchor.textContent = hostname
     switch (hostname) {
       case `textfiles.com`:
@@ -1679,17 +1682,14 @@ class Hosts {
       default:
         anchor.href = `https://${hostname}`
     }
-    if (!isDomain) anchor.classList.add(`is-light`)
+    if (!suggestion) anchor.classList.add(`is-light`)
     this.input.value = ``
     this.submit.disabled = true
     tag.style.display = `inline`
     tag.removeAttribute(`id`)
     tags.append(tag)
     urls.push(hostname)
-    if (!init) {
-      this.hostnames = urls.join(`;`)
-      this.status.textContent = `Added ${hostname}`
-    }
+    if (!init) this.status.textContent = `Added ${hostname}`
     tag.childNodes[1].childNodes[2].nextSibling.addEventListener(
       `click`,
       (e) => {
@@ -1702,9 +1702,8 @@ class Hosts {
    */
   async _check(hostname = ``) {
     if (hostname.length < this.minLength) return (this.submit.disabled = true)
-    let duplicates = this.hostnames.split(`;`)
-    duplicates = [...duplicates, `retrotxt.com`]
-    for (let dupe of duplicates) {
+    const duplicates = [...this.hostnames, `retrotxt.com`]
+    for (const dupe of duplicates) {
       if (dupe === hostname) return (this.submit.disabled = true)
     }
     if (hostname.includes(`/`)) return (this.submit.disabled = true)
@@ -1717,11 +1716,25 @@ class Hosts {
     }
   }
   /**
+   * Clear the hostname tags except for the locked retrotxt.com tag.
+   */
+  _clear() {
+    const parent = document.getElementById(`hostTags`)
+    Array.from(parent.children).forEach((child, index) => {
+      switch (child.id) {
+        case `retrotxtCom`:
+        case `templateHost`:
+          return
+      }
+      Console(`Remove element child #${index}: ${child.textContent.trim()}`)
+      child.remove()
+    })
+  }
+  /**
    * Is the hostname one of the default domains supplied by RetroTxt?
    */
-  _domainHost(hostname = ``) {
-    const domains = this.domains.split(`;`)
-    for (let domain of domains) {
+  _isSuggestion(hostname = ``) {
+    for (const domain of this.suggestions) {
       if (hostname == domain) return true
     }
     return false
@@ -1730,170 +1743,45 @@ class Hosts {
    * Deletes a hostname tag and button.
    */
   _delete(e) {
-    const v = e.target.previousSibling.previousSibling.textContent,
-      urls = this.hostnames.split(`;`),
-      filtered = urls.filter((url) => url !== v),
-      reset = 1
-    this.hostnames = filtered.join(`;`)
-    if (this.hostnames.length < reset) this._reset()
+    const v = e.target.previousSibling.previousSibling.textContent
+    this.hostnames = this.hostnames.filter((url) => url !== v)
     this._storageSave()
     e.target.parentNode.parentNode.remove()
     this.status.textContent = `Removed ${v}`
   }
   /**
-   * Reset all hostnames.
-   */
-  _reset() {
-    this.status.textContent = `Reset hostnames to defaults`
-    this.hostnames = new Configuration().domainsString()
-    const domains = this.domains.split(`;`)
-    for (let domain of domains) {
-      this._add(domain, true)
-    }
-  }
-  /**
-   * Save the hostnames to `localStorage`.
+   * Save the hostnames to local storage.
    */
   _storageSave() {
-    localStore(`settingsWebsiteDomains`, `${this.hostnames}`)
+    const uniqueHosts = this.hostnames.filter((data, index) => {
+      return this.hostnames.indexOf(data) === index
+    })
+    localStore(`settingsWebsiteDomains`, uniqueHosts)
   }
 }
-/**
- * Import RetroTxt legacy configurations.
- * @class Import
- */
-class Import {
-  constructor() {
-    const keys = new Map()
-      // display tab
-      .set(`textLineHeight`, `lineHeight`)
-      .set(`textSmearBlockCharacters`, `textSmearBlocks`)
-      .set(`textBackgroundScanlines`, `textBgScanlines`)
-      .set(`textBlinkingCursor`, `textBlinkAnimation`)
-      .set(`textCenterAlign`, `textCenterAlignment`)
-      .set(`textDOSControlGlyphs`, `textDosCtrlCodes`)
-      .set(`textRenderEffect`, `textEffect`)
-      .set(`ansiColumnWrap`, `textAnsiWrap80c`)
-      .set(`ansiUseIceColors`, `textAnsiIceColors`)
-      .set(`colorsTextPairs`, `retroColor`)
-      .set(`colorsCustomForeground`, `customForeground`)
-      .set(`colorsCustomBackground`, `customBackground`)
-      .set(`colorsAnsiColorPalette`, `colorPalette`)
-      // settings tab
-      .set(`settingsWebsiteViewer`, `runWebUrls`)
-      .set(`settingsWebsiteDomains`, `runWebUrlsPermitted`)
-      .set(`settingsInformationHeader`, `textFontInformation`)
-      .set(`settingsNewUpdateNotice`, `updatedNotice`)
-    this.keys = keys
-    this.found = 0
-    this.modal = document.getElementById(`modalImport`)
-    this.counter = document.getElementById(`modalCounter`)
-    this.yesImport = document.getElementById(`modalYesImport`)
-    this.askAgain = document.getElementsByName(`modalAskAgain`)
-  }
-  /**
-   * Initialize RetroTxt version 3 imports.
-   */
-  initialize() {
-    this.keys.forEach((v3Key) => {
-      this._find(v3Key)
-    })
-    for (const button of document.getElementsByName(`modalAskAgain`)) {
-      if (typeof button === `undefined`) return
-      button.addEventListener(`click`, () => {
-        this._modalAskAgain()
-      })
-    }
-    document.getElementById(`modalDelete`).addEventListener(`click`, () => {
-      this._modalNoDelete()
-    })
-    document.getElementById(`modalYesImport`).addEventListener(`click`, () => {
-      this._modalYesImport()
-    })
-  }
-  _find(v3Key = ``) {
-    chrome.storage.local.get(`${v3Key}`, (store) => {
-      const len = Object.keys(store).length
-      if (len > 0) {
-        this.found++
-        this._modalShow()
-      }
-    })
-  }
-  _importHeader(value = ``) {
-    const show = `on`,
-      hide = `close`
-    switch (`${value}`) {
-      case `true`:
-        return show
-      case `false`:
-        return hide
-      default:
-        return show
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+  if (typeof qunit !== `undefined`) return
+  if (namespace !== `local`) return
+  const changedItems = Object.keys(changes)
+  for (const item of changedItems) {
+    if (typeof changes[item].newValue === `undefined`) {
+      console.log(
+        `Local storage item ${item}: is now undefined, assumed the host tab was closed.`
+      )
     }
   }
-  _importLineHeight(value = ``) {
-    switch (`${value}`) {
-      case `normal`:
-        return `1`
-      case `1.1`:
-      case `1.25`:
-      case `1.5`:
-      case `1.75`:
-      case `2`:
-      case `3`:
-      case `4`:
-        return `${value}`
-      default:
-        return `1`
-    }
-  }
-  _modalAskAgain() {
-    sessionStorage.setItem(`pauseV3Import`, `true`)
-    document.getElementById(`modalImport`).classList.remove(`is-active`)
-  }
-  _modalNoDelete() {
-    this._modalAskAgain()
-    this.keys.forEach((v3Key) => {
-      localStorage.removeItem(`${v3Key}`)
-      chrome.storage.local.remove(`${v3Key}`)
-    })
-  }
-  _modalShow() {
-    if (sessionStorage.getItem(`pauseV3Import`))
-      return console.log(`Paused the import of RetroTxt v3 settings.`)
-    this.modal.classList.add(`is-active`)
-    this.counter.textContent = `${this.found}`
-  }
-  _modalYesImport() {
-    this.keys.forEach((v3Key, v4Key) => {
-      chrome.storage.local.get(`${v3Key}`, (store) => {
-        const len = Object.keys(store).length
-        if (len < 1) return
-        let value = store[v3Key]
-        if (v3Key === `textFontInformation`) value = this._importHeader(value)
-        if (v3Key === `lineHeight`) value = this._importLineHeight(value)
-        chrome.storage.local.set({ [v4Key]: value })
-        localStorage.setItem(`${v4Key}`, `${value}`)
-        localStorage.removeItem(`${v3Key}`)
-        chrome.storage.local.remove(`${v3Key}`)
-      })
-    })
-    this._modalAskAgain()
-    alert(`Settings import is done.`)
-  }
-}
-// Self-invoking expression that runs whenever the Options dialogue is opened.
+})
+
+// IIFE, self-invoking anonymous function that runs whenever the Options dialogue is opened.
 ;(() => {
   if (typeof qunit !== `undefined`) return
+  SetIcon()
   const init = new Initialise()
   // lookup and applies checked, selections, active, once the HTML is loaded and parsed
   document.addEventListener(`DOMContentLoaded`, init.checks())
   // modifies `html/options.html`
   init.updates()
-  // migrate RetroTxt V3 settings
-  const im = new Import()
-  im.initialize()
   // restore any saved options and apply event listeners
   const cb = new CheckBox()
   cb.storageLoad()
@@ -1913,6 +1801,9 @@ class Import {
   const head = new Header()
   head.storageLoad()
   head.listen()
+  const tb = new Toolbar()
+  tb.storageLoad()
+  tb.listen()
   const pal = new Palette()
   pal.storageLoad()
   pal.listen()
@@ -1945,17 +1836,7 @@ class Import {
     .getElementById(`customColorValues`)
     .getElementsByClassName(`msg-color`)[0]
   customColorText.textContent = customColorText.textContent.toLowerCase()
-  onstorage = (event) => {
-    // The storage event of the Window interface fires when localStorage has
-    // been modified in the context of another document.
-    if (typeof event.key === undefined || event.newValue === undefined)
-      return console.error(
-        `triggered window onstorage remote event is missing a storage key`
-      )
-    switch (event.key) {
-      case `optionTab`:
-        return hero.reveal(`${event.newValue}`)
-    }
-  }
   //handleError(`false positive test`)
 })()
+
+/* global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */

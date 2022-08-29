@@ -1,15 +1,14 @@
 # Packages #
 ############
 
-# Firefox packages
+# build packages
 web-ext-artifacts
 *.xpi
 
-# Dependencies
+# legacy dependencies
 node_modules
-yarn.lock
 
-# Other
+# other
 .env
 .DS_Store
 

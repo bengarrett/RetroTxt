@@ -2,7 +2,6 @@
 hide:
   - toc
 ---
-
 # Install
 
 Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
@@ -13,11 +12,13 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 ---
 
-[Install to Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install to Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install to Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
+[Install on Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install on Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install on Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
 
-[Or use the GNU LGPLv3 source code.](source_code)
+### [Or use the GNU LGPLv3 source code](src)
 
 ---
+
+# Screenshots
 
 === "Showcase"
 
@@ -65,18 +66,12 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 # Features
 
-- [x] Swappable palettes for different color simulations<br>VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
-
-- [x] Customizable font and background colors
-
-- [x] SAUCE metadata parsing
-
-- [x] Support for multiple text encodings<br>MS-DOS CP-437, Amiga ISO-8959-1, Windows 1252, Japanese Shift-JIS
-
-- [x] Automatic fixes for block character and line artifacts
-
-- [x] Hundreds of IBM PC font choices<br>VGA, EGA, CGA, MDA, PS/2, and more
-
-- [x] Various Amiga and microcomputer fonts<br>From Commodore, Atari, Apple, Tandy, and more
-
-- [x] Open-source
+* Swappable palettes for different color simulations<br>VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
+* Customizable font and background colors
+* SAUCE metadata parsing
+* Support for multiple text encodings<br>MS-DOS CP-437, Amiga ISO-8959-1, Windows 1252, Japanese Shift-JIS
+* Automatic fixes for block character and line artifacts
+* Hundreds of IBM PC font choices<br>VGA, EGA, CGA, MDA, PS/2, and more
+* Various Amiga and microcomputer fonts<br>From Commodore, Atari, Apple, Tandy, and more
+* Open-source
+* No special browser permissions for general usage

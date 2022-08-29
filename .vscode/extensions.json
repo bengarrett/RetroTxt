@@ -1,11 +1,10 @@
 {
   "recommendations": [
-    "ban.spellright",
     "bierner.github-markdown-preview",
     "bierner.markdown-preview-github-styles",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "jock.svg",
-    "visualstudioexptteam.vscodeintellicode"
+    "visualstudioexptteam.vscodeintellicode",
+    "arcanis.vscode-zipfs"
   ]
 }

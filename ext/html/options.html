@@ -16,27 +16,6 @@
   <a id="navTop"></a>
   <article>
     <main>
-      <div class="modal" id="modalImport">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Use an existing configuration?</p>
-            <button class="delete" name="modalAskAgain" aria-label="close"></button>
-          </header>
-          <section class="modal-card-body">
-            Welcome to RetroTxt 4.<br>
-            There are <strong id="modalCounter">?</strong> saved options from RetroTxt v3.
-            Did you wish to import and use these?
-            <p><small>Unfortunately, there is no importing of the font selection.
-                <br>Any custom <span class="msg-color">color</span>s need to be RGB hex values.</small></p>
-          </section>
-          <footer class="modal-card-foot">
-            <button class="button is-primary" id="modalYesImport">Yes, import</button>
-            <button class="button" name="modalAskAgain">Ask again later</button>
-            <button class="button is-warning" id="modalDelete">No, delete</button>
-          </footer>
-        </div>
-      </div>
       <section class="hero is-primary is-fullheight" id="heroSection">
         <!-- Hero head: will stick at the top -->
         <div class="hero-head">
@@ -55,21 +34,33 @@
               </div>
               <div id="navbarMenuHeroA" class="navbar-menu">
                 <div class="navbar-end">
-                  <a class="navbar-item is-active" id="hero0" href="">
+                  <a class="navbar-item is-active" id="hero0" href="#top">
                     Home
                   </a>
-                  <a class="navbar-item" id="hero4" href="">
+                  <a class="navbar-item" id="hero4" href="#top">
                     Fonts
                   </a>
-                  <a class="navbar-item" id="hero5" href="">
+                  <a class="navbar-item" id="hero5" href="#top">
                     Display
                   </a>
-                  <a class="navbar-item" id="hero6" href="">
+                  <a class="navbar-item" id="hero6" href="#top">
                     Settings
                   </a>
-                  <a class=" navbar-item" id="hero7" href="">
-                    Documentation
-                  </a>
+                  <a class="navbar-item" id="hero1" href="#top">Credits</a>
+                  <a class="navbar-item" id="hero2" href="#top">Samples</a>
+                  <a class="navbar-item" id="hero3" href="#top">Useful</a>
+                  <span>&nbsp;</span>
+                  <span class="navbar-item">
+                    <a class="button is-primary is-inverted" id="getTheDocs"
+                      href="https://docs.retrotxt.com/usage/first/" title="Read the documentation">
+                      <span class="icon">
+                        <svg role="img" class="material-icons">
+                          <use xlink:href="../assets/svg/material-icons.svg#info"></use>
+                        </svg>
+                      </span>
+                      <span>Documentation</span>
+                    </a>
+                  </span>
                   <span class="navbar-item">
                     <a class="button is-primary is-inverted" id="getTheSource"
                       href="https://github.com/bengarrett/RetroTxt" title="Get the source code hosted on GitHub">
@@ -105,25 +96,25 @@
             <h1 class="title is-size-1">
               RetroTxt
             </h1>
-            <h2 class="subtitle">
+            <h2 class="subtitle mb-2">
               v<span id="manifest">0.0.0</span>
               <span id="technobabble">
                 <span id="program"></span>
-                <span id="os"></span>
               </span>
             </h2>
+            <p class="is-size-7 mb-5" id="os"></p>
             <div class="notice" style="display: none;" id="updateNotice">
               <div class="notification is-info">
                 <button id="updateNoticeBtn" class="delete" title="Close update tab"></button>
-                RetroTxt is up to date, so
-                <a href="#" id="changesLink">see what is new</a>
+                <p class="mb-2 is-size-2">RetroTxt is up to date</p>
+                <p class="mt-2 is-size-4"><a href="#top" id="changesLink">See what is new</a></p>
+                <p class="mt-2 is-size-5">RetroTxt v5 is using the new <a
+                    href="https://developer.chrome.com/blog/mv2-transition/">Manifest
+                    V3</a> API</p>
+                <p class="mt-2 is-size-5">Unfortunately, this mandatory change means
+                  some prior settings from RetroTxt v4 might be lost
               </div>
-              <div class="notification is-primary">
-                <p id="5starFirefox" style="display: none;">
-                  Enjoy RetroTxt? It would be fantastic for the exposure to
-                  <a href="https://addons.mozilla.org/en-US/firefox/addon/retrotxt/reviews/">leave a 5-star rating on
-                    Firefox Add-ons</a>
-                </p>
+              <div class="notification is-primary" id="enjoyRetroTxt">
                 <p id="5starChrome" style="display: none;">
                   Enjoy RetroTxt? It would be fantastic for the exposure to
                   <a href="https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn">leave a
@@ -138,16 +129,27 @@
             </div>
             <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
-                <p class="mb-2"><strong>Welcome</strong></p>
-                <p>
-                  <a id="newInstallSettings">To enhance functionality</a>, add new websites and enable <em>Run
-                    RetroTxt on files hosted on these domains</em> in the Settings
-                  tab.<br><a id="newInstallDisplay">The Display tab</a> contains the theming and style options.
-                  <br><a id="newInstallFonts">While Fonts lets you choose</a> one of many font families.
+                <p class="mb-2 is-size-2">Getting started</p>
+                <hr>
+                <p class="mt-2 is-size-5"><a id="newInstallSamples">There are dozens of sample text art files</a> to try
+                  with RetroTxt!
                 </p>
-                <p class="mt-2">
-                  <a id="newInstallSamples">Also, the Samples tab</a> offers a small gallery of text art to get you
-                  started.
+                <br>
+                <p class="mt-2 is-size-5"><a id="newInstallFonts">Choose a retro or modern font</a> for viewing text
+                  files</p>
+                <br>
+                <p class="mt-2 is-size-5">
+                  You can use RetroTxt as a local text file viewer<span class="has-text-info">*</span>
+                </p>
+                <p>
+                  Either, drag-and-drop text files to this browser<br>
+                  Or use the <code class="file-url-scheme">file:///</code> URL scheme in a tab
+                </p>
+                <p class="mt-1" id="newInstallAsterisk"><small>* not all ANSI art files are usable</small></p>
+                <p class="mt-2" id="newInstallToUse">
+                  <span class="has-text-info">*</span> To use this feature, <em>Allow access to file URLs</em> needs
+                  to be enabled in the Extensions, RetroTxt Details<br>
+                  <code class="details-detail-url"></code>
                 </p>
               </div>
             </div>
@@ -254,7 +256,8 @@
                         </a>
                       </li>
                       <li>
-                        <a href="http://pelulamu.net/unscii"><strong>Viznut</strong>, Unscii</a>
+                        <a href="http://viznut.fi/unscii/"><strong>Viznut</strong>,
+                          Unscii</a>
                       </li>
                       <li>
                         <a href="http://monafont.sourceforge.net/index-e.html"><strong>Yasuyuki Furukawa</strong>,
@@ -275,11 +278,10 @@
                 <div class="tile is-parent">
                   <article class="tile is-child box is-info is-shadowless">
                     <div class="content">
-                      To get you started, here are a few links to sample some <a
-                        href="https://en.wikipedia.org/wiki/ANSI_art">ANSI</a> and <a
-                        href="https://en.wikipedia.org/wiki/ASCII_art">ASCII</a> pieces.<br>
-                      There is still a thriving text art community releasing monthly packs on <a
-                        href="https://16colo.rs">16colo.rs</a> with dozens of new artworks every month.<br>
+                      Here are a few links to sample some <a href="https://en.wikipedia.org/wiki/ANSI_art">ANSI</a> and
+                      <a href="https://en.wikipedia.org/wiki/ASCII_art">ASCII</a> pieces to get you started.<br>
+                      A thriving text art community is still releasing monthly packs on <a
+                        href="https://16colo.rs"><u>16colo.rs</u></a> with dozens of new artworks every month.<br>
                       <small>Other than the RetroTxt ad, none of the fantastic artworks shown below, or their creators,
                         endorse or have any association with RetroTxt.</small>
                     </div>
@@ -559,7 +561,7 @@
             <div class="box">
               <h1 class="title has-text-black-ter is-size-3 mt-4">Useful</h1>
               <hr>
-              <h2 class="subtitle has-text-black-ter is-size-4">Sites and videos that cover the ANSI art
+              <h2 class="subtitle has-text-black-ter is-size-6">Sites and videos that cover the ANSI art
                 communities</h2>
               <aside class="menu">
                 <p class="menu-label">
@@ -678,7 +680,7 @@
               </div>
               <div class="column">
                 <!-- Sample text -->
-                <div class="container is-full has-background-white is-rounded" id="sampleContainer">
+                <div class="container is-full is-rounded" id="sampleContainer">
                   <pre id="sampleTerminal" class="is-full">
 
  ┌─────────────────────────────────────────────
@@ -3277,8 +3279,8 @@
                     <div class="column is-2"> </div>
                   </h2>
                   <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Line height lets you add margin
-                    spacing to each line of text. The line-height value is relative to the size of the font.
-                    Line height 1 matches the font size while a weight of 1.25 would be 25% larger than the font's
+                    spacing to each line of text. The line height value is relative to the size of the font.
+                    Line height 1 matches the font size, while a weight of 1.25 would be 25% larger than the font's
                     height.
                   </p>
                   <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
@@ -3308,8 +3310,8 @@
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">Background scan lines
                       <p class="subtitle has-text-dark is-size-7 mb-0 has-text-justified">Apply a subtle scan line
-                        effect to the backdrop of the page. The result is more pronounced on light backgrounds and
-                        it does not overlay text.</p>
+                        effect to the backdrop of the page. The result is more pronounced on light backgrounds and does
+                        not overlay text.</p>
                     </div>
                     <div class="column is-2">
                       <div class="toggleswitch">
@@ -3366,8 +3368,8 @@
                         not standards-compliant as it uses <a
                           href="https://en.wikipedia.org/wiki/C0_and_C1_control_codes" class="has-text-link">C0
                           controls</a> usually reserved for formatting as text characters.
-                        Normally hidden, enabling this option will reveal these glyphs in the text document.
-                        <span class="has-text-info">Any open tabs will require a reload.</span>
+                        Customarily hidden, enabling this option will reveal these glyphs in the text document.
+                        <br><span class="has-text-info">Any open tabs will require a reload.</span>
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
                           class="has-text-grey">off</span></p>
@@ -3397,8 +3399,8 @@
                           name="browser-title">Chrome</span> can cause vertical line <span
                           class="msg-artifact">artifact</span>s when showing block characters in sequences.
                         This option implements a <code>text-shadow:1px</code> CSS property to all block characters
-                        to correct this at the expense font sharpness.
-                        <span class="has-text-info">Any open tabs will require a reload.</span>
+                        to correct this at the expense of font sharpness.
+                        <br><span class="has-text-info">Any open tabs will require a reload.</span>
                       </p>
                       <p class="is-size-7 mt-2 mb-1">standard text</p>
                       <p name="display-sample-text" class="font-ibm_vga_8x16 has-text-weight-normal">◘░▒▓███▄▐▌▀███■
@@ -3424,8 +3426,9 @@
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">Accurate 9px EGA/VGA fonts
                       <p class="subtitle has-text-dark is-size-7 mb-0 has-text-justified">
-                        Use the original 9-pixel wide, EGA, and VGA fonts found on the IBM graphic hardware.
-                        These can introduce unintended vertical gaps in both blocks and shaded artworks.<br>
+                        Use original 9-pixel wide, EGA, and VGA fonts to simulate the IBM graphic hardware.
+                        This setting does not affect 8px wide fonts but can introduce unintended vertical gaps in blocks
+                        and shaded artworks.<br>
                         Nearly all modern software that simulates the DOS typeface use 8-pixel width fonts sourced from
                         the <a href="https://github.com/perillamint/dkbfnts/blob/master/fntcol16/COPYLEFT.TXT"
                           class="has-text-link-dark">Joseph (Yossi) Gil font collection</a>. When scaled to 9 pixels,
@@ -3438,7 +3441,7 @@
                       <p class="font-ibm_vga_9x16-example has-text-weight-normal">
                         &nbsp;◘░░░▒▒▒▓▓▓███▄▐▌▀███■
                         ABCabc&nbsp;</p>
-                      <p class="is-size-7 mt-2 mb-1">accurate fonts off <small>scaled VGA 8x16 font</small></p>
+                      <p class="is-size-7 mt-2 mb-1">accurate fonts off <small>using a scaled VGA 8x16 font</small></p>
                       <p class="font-ibm_vga_9x16 has-text-weight-normal">
                         &nbsp;◘░░░▒▒▒▓▓▓███▄▐▌▀███■
                         ABCabc&nbsp;</p>
@@ -3486,9 +3489,9 @@
                 <h2 class="title has-text-dark is-size-6 columns mb-0">
                   <div class="column">80 column wrap
                     <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Unless
-                      SAUCE width information exists, this enforces an 80 character width for all
-                      ANSI files to emulate the classic 80 column terminal screen.
-                      <span class="has-text-info">Any open tabs will require a reload.</span>
+                      SAUCE width information exists, this enforces an 80-character width for all
+                      ANSI files to emulate the classic 80-column terminal screen.
+                      <br><span class="has-text-info">Any open tabs will require a reload.</span>
                     </p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
                         class="has-text-success">on</span></p>
@@ -3507,8 +3510,8 @@
                     <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">By design, ANSI text
                       preserves white space sequences with any text-overflow reachable via horizontal
                       scrollbars. With page wrap enabled, ANSI text will behave as HTML, where overflow lines can break
-                      to wrap the text.<br>Page wrap is useful for reading <span class="msg-color">color</span>ed text
-                      and logs, but the <em>80 column wrap</em> should be off.</p>
+                      to wrap the text.<br>Page wrap helps read <span class="msg-color">color</span>ed text
+                      and logs, but the <em>80-column wrap</em> should be off.</p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
                         class="has-text-grey">off</span></p>
                   </div>
@@ -3545,10 +3548,11 @@
                   <h1 class="title has-text-black-ter is-size-3 mt-4"><span class="msg-color">Color</span>s</h1>
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">Text pairs
-                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Here you can choose a font
-                        and a background <span class="msg-color">color</span> for all text handled by RetroTxt. The
-                        named themes are inspirations from the <span class="msg-color">color</span> choices found on
-                        historic home computer systems and terminals.
+                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
+                        Here you can choose a font and a background <span class="msg-color">color</span> for all text
+                        handled by RetroTxt.
+                        The named themes are inspired by the <span class="msg-color">color</span> choices on historic
+                        home computer systems and terminals.
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
                           class="has-text-info">ms-dos</span></p>
@@ -3640,7 +3644,7 @@
                     <div class="column" id="customColorValues">Custom <span class="msg-color">color</span>
                       values
                       <p class="subtitle has-text-dark is-size-7 has-text-justified">Allows you to supply
-                        your own foreground and background <span class="msg-color">color</span>s for the Text
+                        your foreground and background <span class="msg-color">color</span>s for the Text
                         pairs.</p>
                     </div>
                     <div class="column is-2"></div>
@@ -3832,17 +3836,18 @@
         <!-- Settings content -->
         <div class="tabcontent container" id="content6">
           <div class="columns">
-            <div class="column is-half is-offset-one-quarter">
+            <div class="column is-half">
               <div class="box">
-                <h1 class="title has-text-black-ter is-size-3 mt-4">Settings</h1>
+                <h1 class="title has-text-black-ter is-size-3 mt-4">Feature</h1>
                 <!-- option themes -->
                 <div>
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">Options theme</div>
                     <div class="column is-2"> </div>
                   </h2>
-                  <p class="subtitle has-text-dark is-size-7 has-text-justified mb-4">The options theme sets the
-                    background and button <span class="msg-color">color</span> of this options tab interface.
+                  <p class="subtitle has-text-dark is-size-7 has-text-justified mb-4">
+                    The options theme sets this options tab interface's background and button
+                    <span class="msg-color">color</span>.
                   </p>
                   <div id="optionTheme">
                     <div class="buttons are-small mb-0">
@@ -3864,8 +3869,6 @@
                   </div>
                 </div>
                 <hr>
-                <p class="is-size-7 m-0 mb-2"><a href="https://docs.retrotxt.com/privacy">Privacy policy for the
-                    browser API permission requests</a></p>
                 <!-- run retrotxt on files hosted -->
                 <div>
                   <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">
@@ -3880,12 +3883,10 @@
                   </article>
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">Run RetroTxt on files hosted on these domains
-                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
-                        Runs in the background and applies RetroTxt to text files
+                      <p class="subtitle has-text-dark is-size-7 has-text-justified">
+                        It runs in the background and applies RetroTxt to text files
                         hosted on these websites.</p>
-                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-success">on</span></p>
-                      <div class="field is-grouped is-grouped-multiline" id="hostTags">
+                      <div class="field is-grouped is-grouped-multiline mt-4 mb-3" id="hostTags">
                         <div class="control" style="display: none;" id="templateHost">
                           <div class="tags has-addons">
                             <a class="tag is-link">example.com</a>
@@ -3912,12 +3913,15 @@
                           </div>
                           <p class="help">Only the hostname is saved</p>
                         </div>
-                      </div>
-                    </div>
-                    <div class="column is-2">
-                      <div class="toggleswitch">
-                        <input type="checkbox" id="websiteViewer" tabindex="0" checked>
-                        <label class="toggleswitch-label" for="websiteViewer"></label>
+                        <div class="field has-text-centered">
+                          <button id="removeSuggestedDomains" class="button is-small">
+                            remove
+                          </button>
+                          <button id="includeSuggestedDomains" class="button is-success is-small">
+                            restore
+                          </button>
+                          <p class="help">Website suggestions</p>
+                        </div>
                       </div>
                     </div>
                   </h2>
@@ -3925,38 +3929,58 @@
                 <hr>
                 <!--use retrotxt as a local text file viewer -->
                 <div>
-                  <article class="message is-info is-small" style="display: none;" id="textfileViewerOff">
-                    <div class="message-header">
-                      <p>Setting disabled</p>
-                    </div>
-                    <div class="message-body">
-                      As the <em>Monitor downloads</em> feature duplicates this functionality,
-                      this setting is unavailable.
-                    </div>
-                  </article>
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
                       Use RetroTxt as a local text file viewer
-                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
-                        Your browser can display text files stored on your PC using the file URL scheme.
-                        <br><code>file:///</code><br>
-                        With this option, RetroTxt renders all text files using file URLs,
-                        allowing you to use this browser as a text file viewer.
-                      </p>
-                      <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
-                          class="has-text-grey">off</span> <span class="has-text-weight-normal">(unless
-                          this feature is wanted)</span></p>
-                      <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
-                        style="display: none;">
-                        This feature is blocked as the extension browser configuration <em>Allow access to file
-                          URLs</em> is off.
-                      </p>
-                    </div>
-                    <div class="column is-2">
-                      <div class="toggleswitch">
-                        <input type="checkbox" id="textfileViewer" tabindex="0" checked>
-                        <label class="toggleswitch-label" for="textfileViewer"></label>
+                      <div class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
+                        <p>You can use RetroTxt as a local text file viewer (though some ANSI art may not load).</p>
+                        <p class="mt-2">Either, drag-and-drop text files to this browser.</p>
+                        <p>Or use the <code class="file-url-scheme">file:///</code> URL scheme in a
+                          tab.</p>
                       </div>
+                      <p name="is-off" class="is-hidden has-text-info has-text-weight-normal mt-2 is-size-7">
+                        To use this feature, <span class="has-text-weight-bold">Allow
+                          access to file URLs</span> needs to be enabled in the RetroTxt permissions.
+                      </p>
+                      <p name="is-on" class="is-hidden has-text-weight-normal mt-2 is-size-7">
+                        To turn off this feature, <span class="has-text-weight-bold">Allow access to file URLs</span>
+                        needs to be disabled in the RetroTxt permissions.
+                      </p>
+                      <p class="mt-2 is-size-7 is-hidden"><code class="details-detail-url"></code></p>
+                    </div>
+                  </h2>
+                </div>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="box">
+                <h1 class="title has-text-black-ter is-size-3 mt-4">Toggle</h1>
+                <!-- toolbar icon -->
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">
+                      Toolbar icon
+                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Switch the RetroTxt toolbar
+                        button between the dark and light mode icons. On some systems, dark mode detection isn't
+                        reliable.</p>
+                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
+                          class="has-text-info">automatic</span></p>
+                      <form name="toolbaricon" id="toolbarForm">
+                        <div class="control">
+                          <label class="radio">
+                            <input type="radio" name="toolbaricon" value="auto">
+                            Automatic
+                          </label>
+                          <label class="radio">
+                            <input type="radio" name="toolbaricon" value="dark">
+                            Dark
+                          </label>
+                          <label class="radio">
+                            <input type="radio" name="toolbaricon" value="light">
+                            Light
+                          </label>
+                        </div>
+                      </form>
                     </div>
                   </h2>
                 </div>
@@ -3966,8 +3990,9 @@
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
                       Information header
-                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">When styling text RetroTxt
-                        injects a text header detailing the document metadata and style controls.</p>
+                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
+                        RetroTxt injects a text header detailing the document metadata and style controls when styling
+                        text.</p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
                           class="has-text-info">always</span></p>
                       <form name="infoheader" id="info-form">
@@ -3982,12 +4007,11 @@
                           </label>
                           <label class="radio">
                             <input type="radio" name="infoheader" value="off">
-                            <u>Off</u>
+                            Off
                           </label>
                         </div>
                       </form>
                     </div>
-                    <div class="column is-2"></div>
                   </h2>
                 </div>
                 <hr>
@@ -4014,20 +4038,18 @@
                 <div id="downloadViewerContainer">
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
-                      Monitor downloads,<br>Use RetroTxt as a local text file viewer
+                      Monitor downloads
                       <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
-                        When enabled, RetroTxt will monitor all downloads to open saved text files.
-                        It is the browser that decides which are text.
-                        Firefox does not support the feature.
-                        <br><span class="has-text-danger">The feature may display duplicate ghost transfers in
-                          Downloads.</span>
+                        RetroTxt will monitor all downloads to open saved text files.
+                        The browser decides which files are text.
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark mb-0 is-size-7">recommend <span
                           class="has-text-grey">off</span></p>
-                      <p name="is-allowed" class="has-text-warning-dark has-text-weight-normal mt-2 is-size-7"
-                        style="display: none;">
-                        This feature is blocked as the extension browser configuration <em>Allow access to file
-                          URLs</em> is off.
+                      <p name="is-off" class="is-hidden has-text-info has-text-weight-normal mt-2 is-size-7">
+                        To use this feature, <span class="has-text-weight-bold">Allow access to file URLs</span>
+                        needs to be enabled in the RetroTxt permissions.
+                      </p>
+                      <p class="mt-2 is-size-7 is-hidden"><code class="details-detail-url" id="monitorDownloads"></code>
                       </p>
                     </div>
                     <div class="column is-2">
@@ -4042,79 +4064,29 @@
             </div>
           </div>
         </div>
-        <!-- Documentation content -->
-        <div class="tabcontent container" id="content7">
-          <div class="columns">
-            <div class="column">
-              <div class="box">
-                <h1 class="title has-text-black-ter is-size-3 mt-4">Documentation</h1>
-                <hr>
-                <h2 class="subtitle has-text-black-ter is-size-4">Support</h2>
-                <ul>
-                  <li><a href="https://github.com/bengarrett/RetroTxt#readme">The readme with installation
-                      instructions</a>
-                  </li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/limitations.md">Limitations and
-                      known issues</a></li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/SUPPORT.md">FAQ - Common
-                      questions and fixes</a></li>
-                </ul>
-                <hr>
-                <h2 class="subtitle has-text-black-ter is-size-4">Documentation</h2>
-                <ul>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/menus.md">Context menu, Transcode
-                      this text</a></li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/main/docs/source_code.md">Source code and how
-                      to use it</a></li>
-                </ul>
-                <ul class="mt-2">
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/technical.md">Technical
-                      specifications on supported formats</a>
-                  </li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/changes.md">Version changes</a>
-                  </li>
-                </ul>
-                <hr>
-                <h2 class="subtitle has-text-black-ter is-size-4">Dev-ops</h2>
-                <ul>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/nginx.md">Configure NGINX to
-                      serve ASCII & ASCII art</a></li>
-                </ul>
-                <hr>
-                <h2 class="subtitle has-text-black-ter is-size-4">Policies</h2>
-                <ul>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/privacy.md">Privacy policy</a> /
-                    <a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/SECURITY.md">Security policy</a>
-                  </li>
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/CODE_OF_CONDUCT.md">Code of
-                      conduct</a></li>
-                </ul>
-                <ul class="mt-2 mb-2">
-                  <li><a href="https://github.com/bengarrett/RetroTxt/blob/master/docs/CONTRIBUTING.md">Contributing
-                      documentation or code</a></li>
-                  <li><a href="https://choosealicense.com/licenses/lgpl-3.0/">License</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
         <!-- Hero footer: will stick at the bottom -->
         <div class="hero-foot">
           <nav class="tabs">
             <div class="container">
               <ul>
-                <li><a class="navbar-item" id="hero1" href="">Credits</a></li>
-                <li><a class="navbar-item" id="hero2" href="">Samples</a></li>
-                <li><a class="navbar-item" id="hero3" href="">Useful</a></li>
                 <li id="unittest" style="display: none;">
                   <a href="../test/index.html?hidepassed"><svg role="img" class="material-icons" target="_blank">
                       <use xlink:href="../assets/svg/material-icons.svg#bug_report"></use>
                     </svg> &nbsp;Tests</a>
                 </li>
                 <li id="reload" style="display: none;">
-                  <a href="#" class="reload-link"><svg role="img" class="material-icons">
+                  <a href class="reload-link"><svg role="img" class="material-icons">
                       <use xlink:href="../assets/svg/material-icons.svg#autorenew"></use>
                     </svg> &nbsp;Reload</a>
+                </li>
+                <li id="testServe" style="display: none;">
+                  <a href="https://retrotxt.com/test/">Tests remote</a>
+                </li>
+                <li id="newInstall" style="display: none;">
+                  <a href="#newinstall">New install</a>
+                </li>
+                <li id="newUpdate" style="display: none;">
+                  <a href="#update">New update</a>
                 </li>
               </ul>
             </div>
@@ -4124,7 +4096,9 @@
     </main>
   </article>
   <a id="navBottom"></a>
-  <script src="../scripts/functions.js"></script>
+  <script src="../scripts/sw/helpers.js"></script>
+  <script src="../scripts/helpers.js"></script>
+  <script src="../scripts/encoding.js"></script>
   <script src="../scripts/options.js"></script>
 </body>
 

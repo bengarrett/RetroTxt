@@ -2,7 +2,7 @@
   filename: text_colors_bbs.css
 
   Shared classes used for BBS presentation.
-  Imported by 
+  Imported by
   `css/text_colors_pipe.css`
   `css/text_colors_pcboard.css`
 */
@@ -39,7 +39,13 @@ pre {
 }
 
 .text-2x {
-  width: 80rem;
+  width: auto;
+  max-width: calc(40rem * 2);
+}
+
+.text-3x {
+  width: auto;
+  max-width: calc(40rem * 3);
 }
 
 /* but these fonts also render */
@@ -126,9 +132,9 @@ pre {
   width: 320rem;
 }
 
-/* 
-  these fonts fail to render properly 
-  but these adjustments slightly improve their display 
+/*
+  these fonts fail to render properly
+  but these adjustments slightly improve their display
 */
 
 .font-atascii {
