@@ -544,16 +544,15 @@ class DOM {
     const css = document.getElementById(`retrotxt-4bit-ice`),
       elm = document.getElementById(`toggleIceColors`),
       palette = new HardwarePalette()
+    if (elm === null) return
     switch (elm.textContent.toLowerCase()) {
       case `off`: {
         if (css !== null) return
-        if (elm !== null) {
-          palette.key = elm.textContent
-          const saved = palette.set()
-          if (saved === false) {
-            palette.key = `IBM`
-            palette.set()
-          }
+        palette.key = elm.textContent
+        const saved = palette.set()
+        if (saved === false) {
+          palette.key = `IBM`
+          palette.set()
         }
         this.head.append(
           CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`)
