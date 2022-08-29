@@ -12,5 +12,8 @@ node_modules
 .env
 .DS_Store
 
+# mkdocs build
+site
+
 # micro log
 log.txt
