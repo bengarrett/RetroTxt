@@ -78,14 +78,23 @@ class Downloads {
           // and forces the file to download instead of render in a tab
           if (!(`item` in downloads)) return
           if (!(`mime` in downloads.item)) return
+          // required by defacto2.net
+          if (
+            Object.hasOwn(delta, `filename`) &&
+            Object.hasOwn(delta.filename, `current`)
+          ) {
+            if (downloads.item.filename === ``) {
+              downloads.item.filename = delta.filename.current
+            }
+          }
           // catch all mime types that use binary types such as
           // `application/octet-stream`, `application/x-font`
           const config = new Configuration(),
-            sixColors =
-              downloads.item.finalUrl.startsWith(`https://16colo.rs/`),
-            textFile = config.validateFileExtension(downloads.item.finalUrl),
+            defacto2 = downloads.item.finalUrl.includes(`://defacto2.net/`),
+            sixColors = downloads.item.finalUrl.includes(`://16colo.rs/`),
+            textFile = config.validateFileExtension(downloads.item.filename),
             type = downloads.item.mime.split(`/`)
-          if (!sixColors && type[0] === `application`) {
+          if (!sixColors && !defacto2 && type[0] === `application`) {
             if (
               `state` in downloads.delta &&
               downloads.delta.state.current === `complete`
@@ -98,8 +107,8 @@ class Downloads {
             }
             return
           }
-          // check intended for 16colo.rs
-          if (!textFile) return
+          // check intended for 16colo.rs & defacto2
+          if (type[0] !== `text` && !textFile) return
           downloads._update()
         })
         break
@@ -170,6 +179,11 @@ class Downloads {
       if (!(`filename` in this.item)) {
         console.log(`${error} filename is missing.\n(${this.item.url})`)
         return false
+      }
+      // defacto2.net special case
+      if (this.item.url.includes(`defacto2.net`)) {
+        console.log(this.item)
+        return true
       }
       // note: some browsers and sites leave the filename as an property empty
       // so as an alternative monitor method, the chrome.storage.local might also be set in this.update()

@@ -32,7 +32,7 @@ hide:
 - New Toolbar icon setting to select dark or light mode button.
 - Mentions of the file scheme `file:///` will under Windows display as `file:///C:/`
 - Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
-- Monitor downloads works better with 16colo.rs by ignoring their incorrect `Content-Type` headers.
+- Monitor downloads works better with 16colo.rs and defacto2.net by ignoring their incorrect `Content-Type` headers.
 - Smear block characters are applied to BBS texts.
 
 * Using pnpm as the dependencies manager.
