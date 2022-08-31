@@ -12,12 +12,12 @@ These are the directories and files that comprise of RetroTxt source code.
 
 | Directory | Purpose |
 | -- | -- |
-| `.github/` | [Github repository](https://github.com/bengarrett/RetroTxt) configuration |
+| `.github/` | [GitHub repository](https://github.com/bengarrett/RetroTxt) configuration |
 | `.vscode/` | [Visual Studio Code](https://code.visualstudio.com) workspace settings |
 | `docs/` | This documentation written in [mkdocs Markdown](https://www.mkdocs.org/) |
 | **`ext/`** | The RetroTxt Extension root directory |
 | `fonts/` | Original font packages with documentation and licences
-| `site/` | This documentation built as a website |
+| `site/` | Documentation built by `mkdocs` into a website |
 
 | File | Purpose |
 | -- | -- |

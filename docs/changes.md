@@ -6,22 +6,27 @@ hide:
 
 ### [Migration to Manifest v3](/src/mv3)
 
-- **Some Options settings may be lost in this update.**<br>
-  Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.
-  This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
-- The use of Manifest v3 with service workers is incompatible with Firefox.
+!!! warning
+    Unfortunately, some Options settings may be lost in this upgrade when updating from RetroTxt versions 4.
+
+!!! info
+    Currently this v5.0 upgrade is not available to Firefox.
 
 ### Highlights
 
-- Options interface should be more responsive with less jank.
-- Changing Options should apply to all open tabs, including background, foreground and tabs open in seperate browser windows.
-- Monitor Downloads is more reliable.
+- Options interface should be more responsive with less visual jank.
+- RetroTxt features and functions are more reliable.
+- Changing Options should apply to all open tabs, including focused and unfocused tabs.
 
-* Replaced the `scripts/eventpage.js` background page with modular service workers.
-* Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
-* Replaced simple one-time message requests with long-lived connections where needed.
+---
+
+- Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.<br>
+  This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
+- The use of Manifest v3 with service workers is incompatible with Firefox.
+- Replaced the `scripts/eventpage.js` background page with modular service workers.
+- Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
+- Replaced simple one-time message requests with long-lived connections where needed.
   This should fix some strange behaviour and failures that occurred in previous versions.
-
 - Unfocused tabs can run RetroTxt in the background.
 - Transcode context menu is disabled by default except for textfile tabs.
 - Tweaked the Information header CSS to use very slight rounded corners.
