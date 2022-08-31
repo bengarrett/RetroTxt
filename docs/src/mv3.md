@@ -1,4 +1,8 @@
 ---
+title: Manifest version 3
+authors:
+    - Ben Garrett
+date: 2022-08-30
 hide:
   - toc
 ---

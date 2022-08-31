@@ -1,3 +1,9 @@
+---
+title: Context menus
+authors:
+    - Ben Garrett
+date: 2022-08-30
+---
 # Context menus
 
 The context menu is found by right-clicking on the active tab content (web page) and on Chrome by right-clicking the RetroTxt toolbar button.

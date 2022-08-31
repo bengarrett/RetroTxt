@@ -1,6 +1,10 @@
 ---
+title: ANSI.SYS support
+authors:
+    - Ben Garrett
+date: 2022-08-30
 hide:
- - toc
+  - toc
 ---
 # ANSI.SYS support
 

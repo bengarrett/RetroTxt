@@ -1,3 +1,9 @@
+---
+title: Source code installation & use
+authors:
+    - Ben Garrett
+date: 2022-08-30
+---
 # Install and usage
 
 RetroTxt employs an [open-sourced GNU LGPLv3 license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).

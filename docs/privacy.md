@@ -1,6 +1,5 @@
 ---
 title: Privacy policy
-summary:
 authors:
     - Ben Garrett
 date: 2022-08-30
