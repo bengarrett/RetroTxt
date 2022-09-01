@@ -80,3 +80,5 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 * Various Amiga and microcomputer fonts<br>From Commodore, Atari, Apple, Tandy, and more
 * Open-source
 * No special browser permissions for general usage
+
+---
