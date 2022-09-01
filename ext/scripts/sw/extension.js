@@ -94,7 +94,7 @@ class Extension {
       )
       return true
     }
-    // NOTE: As of Oct-2020, scripting.executeScript files[] only support a single entry.
+    // first, load the helper script for shared functions
     chrome.scripting.executeScript(
       {
         target: { tabId: tabId },
@@ -112,42 +112,22 @@ class Extension {
         )
       }
     )
+    // then, load the other required scripts
     chrome.scripting.executeScript(
       {
         target: { tabId: tabId },
-        files: [`scripts/encoding.js`],
+        files: [
+          `scripts/encoding.js`,
+          `scripts/checks.js`,
+          `scripts/parse_ansi.js`,
+          `scripts/parse_dos.js`,
+        ],
       },
       () => {
         if (lastErrorCallback()) return
       }
     )
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: tabId },
-        files: [`scripts/checks.js`],
-      },
-      () => {
-        if (lastErrorCallback()) return
-      }
-    )
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: tabId },
-        files: [`scripts/parse_ansi.js`],
-      },
-      () => {
-        if (lastErrorCallback()) return
-      }
-    )
-    chrome.scripting.executeScript(
-      {
-        target: { tabId: tabId },
-        files: [`scripts/parse_dos.js`],
-      },
-      () => {
-        if (lastErrorCallback()) return
-      }
-    )
+    // finally, load and run retrotxt.js
     chrome.scripting.executeScript(
       {
         target: { tabId: tabId },
