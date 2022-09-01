@@ -50,9 +50,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
       `status` in changeInfo && changeInfo.status === `complete` ? true : false
     return tabs._permissionDenied(consoleLog, `updated`)
   }
-  // REMOVED: 27/10/21 don't run the update when the tab isn't 'active'
-  //if (tabInfo.active) new Tab(tabId, tabInfo.url, changeInfo).update()
-  // Replacement, always run in a background
   new Tab(tabId, tabInfo.url, changeInfo).update()
 })
 
@@ -357,8 +354,6 @@ class Tab {
    */
   _validateURLSyntax() {
     if (this.url.length < 1) return false
-    // NOTE: There is a strange bug in Firefox that is not replicable,
-    // that tries to parse about:blank but results in a permission denied loop.
     if (this.url.startsWith(`https://`)) return true
     if (this.url.startsWith(`http://`)) return true
     if (this.url.startsWith(`file:///`)) return true
