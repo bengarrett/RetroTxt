@@ -26,6 +26,7 @@ hide:
 - Manifest v3 has much better error handling and there should be less uncaptured errors.
 - Unfocused tabs can run RetroTxt in the background.
 - Browser tab displays the SAUCE title and author when available.
+- Artworks linked in the Samples tab display the title and author on the browser tab.
 - Smear block characters are applied to BBS texts.
 - Monitor downloads works better with 16colo.rs and defacto2.net by ignoring their incorrect `Content-Type` headers.
 - New Toolbar icon setting to select dark or light mode button.
