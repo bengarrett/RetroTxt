@@ -252,6 +252,21 @@ class DOM {
     const setting =
       `${Boolean(this.ecma48.iceColors)}` ||
       `${localStorage.getItem(`ansiUseIceColors`)}`
+
+    // Sep. 2022, BLOCKTRONICS WTF4 MEGAJOINT
+    // this tab causes a memory leak due to the blinking characters
+    // in Manifest V2 this wasn't a issue but it is in Chrome v106?
+    const memoryLeak = `://retrotxt.com/e/preview_00.ans`
+    if (window.location.toString().includes(memoryLeak)) {
+      this.head.append(
+        CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`)
+      )
+      const elm = document.getElementById(`toggleIceColors`)
+      elm.style = `text-decoration:line-through`
+      elm.title = `Due to a memory leak with Chrome, this toggle is disabled for this page`
+      return this._toggleOn(toggle)
+    }
+
     toggle.onclick = () => this.clickIceColors()
     if (setting === `true`) {
       this.head.append(

@@ -1,7 +1,12 @@
 ---
+title: Changes for version 5
+authors:
+    - Ben Garrett
+date: 2022-09-03
 hide:
   - toc
 ---
+
 ## 5.0
 
 ### [Migration to Manifest v3](/src/mv3) ~ September 2022
