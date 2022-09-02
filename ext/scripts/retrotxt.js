@@ -2443,7 +2443,13 @@ RetroTxt will not be able to work with this page.
   dom.rawText.classList.add(`is-hidden`)
   // mark the tab title with a RetroTxt ascii logo
   const title = document.createElement(`title`)
-  title.textContent = markTab()
+  if (sauce.title !== ``) {
+    title.textContent = `[··] ${sauce.title}`
+    if (sauce.author !== ``) title.textContent += ` by ${sauce.author}`
+  } else {
+    title.textContent = markTab()
+  }
+  console.log(sauce.title)
   // set the document language, en is for generic English
   document.documentElement.lang = `en`
   document.documentElement.translate = false
