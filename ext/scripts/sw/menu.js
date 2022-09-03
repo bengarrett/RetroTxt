@@ -248,7 +248,7 @@ class Menu {
       // apply to all tabs
       chrome.contextMenus.create(
         {
-          type: `normal`,
+          type: `radio`,
           title: this.titles.get(id),
           contexts: this.contexts,
           id: id,
