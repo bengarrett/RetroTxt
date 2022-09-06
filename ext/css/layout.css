@@ -130,6 +130,10 @@ header #moreSettings {
   user-select: none;
 }
 
+header #moreSettings {
+  text-decoration: underline;
+}
+
 header#headerMinimal {
   border-radius: 0.25rem;
   margin: 0;

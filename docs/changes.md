@@ -31,6 +31,7 @@ hide:
 - Monitor downloads works better with 16colo.rs and defacto2.net by ignoring their incorrect `Content-Type` headers.
 - New Toolbar icon setting to select dark or light mode button.
 - Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
+- Information header encoding can be clicked to change the encoding.
 <hr>
 - Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.
 - Fixed Options reloading the page when a new tab was selected.
@@ -50,6 +51,7 @@ hide:
 - Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.<br>
   This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
 - Dropped the permissions requirement for `tabs`.
+- Dropped the Transcode text context menu.
 <hr>
 - Using pnpm as the dependencies manager.
 - The use of Manifest v3 with service workers is incompatible with Firefox.

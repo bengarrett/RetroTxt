@@ -1327,7 +1327,7 @@ class Output {
   constructor(sauce = {}, dom = {}) {
     const config = new Configuration()
     this.article = document.createElement(`article`)
-    this.encode = this.newSpan()
+    this.encode = this.newBold()
     this.encode.id = `documentEncoding`
     this.main = document.createElement(`main`)
     this.pre = document.createElement(`pre`)
@@ -1456,6 +1456,7 @@ class Output {
     }
     return bold
   }
+
   /**
    * Creates information on the input, output codepage, and text encoding.
    * @param input Input text object
@@ -1474,7 +1475,7 @@ class Output {
         out: document.createElement(`span`),
       },
       stored = { item: null, text: `` },
-      vs = ` → `
+      vs = `→`
     // obtain transcode setting
     stored.item = sessionStorage.getItem(`lockTranscode`)
     // ==============================================
@@ -1486,6 +1487,7 @@ class Output {
     elm.in.textContent = text.in
     elm.in.title = inputChars.titleIn(input.characterSet)
     if (inputEncoding.support() === false) this._headerUnknown(elm.in, chrset)
+    else this.encode.addEventListener(`click`, this._setEncoding)
     // ==============================================
     // 'Page encoding output'
     // ==============================================
@@ -1587,6 +1589,35 @@ class Output {
       `'${newCodePage}' is not a valid rebuildCharacterSet() identifier.`,
       false
     )
+  }
+  /**
+   * Sets the transcode character encoding and reloads the browser tab.
+   */
+  _setEncoding() {
+    const sessionItem = sessionStorage.getItem(`lockTranscode`)
+    switch (sessionItem) {
+      case Cs.OutputCP1252: // cp_1252➡
+        sessionStorage.setItem(`lockTranscode`, Cs.OutputISO8859_15)
+        break
+      case Cs.OutputISO8859_15: // iso_8859_15➡
+        sessionStorage.setItem(`lockTranscode`, Cs.OutputUS_ASCII)
+        break
+      case Cs.OutputUS_ASCII: // us_ascii➡
+        sessionStorage.setItem(`lockTranscode`, Cs.Windows_1252_English)
+        break
+      case Cs.Windows_1252_English: // cp_1252
+        sessionStorage.setItem(`lockTranscode`, Cs.ISO8859_5)
+        break
+      case Cs.ISO8859_5: // iso_8859_5
+        sessionStorage.removeItem(`lockTranscode`)
+        break
+      default: // none or automatic
+        sessionStorage.setItem(`lockTranscode`, Cs.OutputCP1252)
+    }
+    // reload the active tab
+    Console(`Tab will be refreshed with a new character set.`)
+    globalThis.location.reload()
+    return
   }
   /**
    * ECMA48 statistics.
