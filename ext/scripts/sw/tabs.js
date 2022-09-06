@@ -50,9 +50,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
       `status` in changeInfo && changeInfo.status === `complete` ? true : false
     return tabs._permissionDenied(consoleLog, `updated`)
   }
-  // REMOVED: 27/10/21 don't run the update when the tab isn't 'active'
-  //if (tabInfo.active) new Tab(tabId, tabInfo.url, changeInfo).update()
-  // Replacement, always run in a background
   new Tab(tabId, tabInfo.url, changeInfo).update()
 })
 
@@ -266,14 +263,7 @@ class Tab {
         domains = new Extension().defaults.get(`settingsWebsiteDomains`)
       }
       // insert the RetroTxt URL into the approved list
-      // see `_locales/en_US/messages.json` URL for the http address
-
-      // TODO: Oct-2021; chrome.i18n doesn't work in MV3
-      // https://bugs.chromium.org/p/chromium/issues/detail?id=1159438
-      // https://bugs.chromium.org/p/chromium/issues/detail?id=1175053
-      //domains = `${chrome.i18n.getMessage(`url`)};${domains}`
       domains = `https://retrotxt.com;${domains}`
-
       // list of approved website domains
       approved = domains.includes(uri.domain)
       // if the URL domain is not apart of the user approved list then RetroTxt is
@@ -364,8 +354,6 @@ class Tab {
    */
   _validateURLSyntax() {
     if (this.url.length < 1) return false
-    // NOTE: There is a strange bug in Firefox that is not replicable,
-    // that tries to parse about:blank but results in a permission denied loop.
     if (this.url.startsWith(`https://`)) return true
     if (this.url.startsWith(`http://`)) return true
     if (this.url.startsWith(`file:///`)) return true

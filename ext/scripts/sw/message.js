@@ -53,10 +53,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       SetToolbarIcon(value)
       sendResponse(`Toolbar icon applied`)
       return asynchronous
-    case `transcode`:
-      // This needs to be replaced by a long-lived connection?
-      transcode(developerMode, message)
-      return asynchronous
     default:
       unexpected(developerMode, message, sender)
       return synchronous
@@ -105,15 +101,6 @@ function tabInvoke(developerMode, message) {
     port.postMessage({ toggleTab: message.tabID })
     return
   }
-}
-
-function transcode(developerMode, message) {
-  if (developerMode)
-    console.log(
-      `✉ Transcode context menu update command '$%s'.`,
-      message.transcode
-    )
-  chrome.contextMenus.update(message.transcode, { checked: true })
 }
 
 function unexpected(developerMode, message, sender) {

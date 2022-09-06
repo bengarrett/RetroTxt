@@ -1,3 +1,10 @@
+---
+title: Privacy policy
+authors:
+    - Ben Garrett
+date: 2022-08-30
+---
+
 **RetroTxt does not collect or transmit any data created by your web browser.**
 
 All Extension data is stored locally on your computer using the [storage.local API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local).

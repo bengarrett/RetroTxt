@@ -19,8 +19,6 @@ class Security {
   constructor(type = ``, origin = ``) {
     // IMPORTANT!
     // These mapped values must match the Permission class of `scripts/options.js`.
-    // Firefox MV2 REQUIRES tabs permission to access URL in the queryInfo
-    // parameter to tabs.query().
     const permissions = new Map()
       .set(`action`, [])
       .set(`downloads`, [`downloads`, `downloads.open`])

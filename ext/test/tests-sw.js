@@ -226,17 +226,3 @@ QUnit.test(`Extension class`, (assert) => {
     `retro font should be ibm_vga_8x16`
   )
 })
-
-QUnit.test(`Menu class`, (assert) => {
-  const menu = new Menu()
-  assert.deepEqual(
-    menu.contexts,
-    [`browser_action`, `page`],
-    `menu context should only be browser action and page`
-  )
-  assert.equal(
-    menu.titles.get(Cs.UseCharSet),
-    `Automatic charset`,
-    `menu item is not correct`
-  )
-})

@@ -1,8 +1,0 @@
-Docs require mkdocs: https://www.mkdocs.org/getting-started/#installation
-which requires Python3 and pip
-
-pip install mkdocs
-pip install mkdocs-material-extensions
-pip install mkdocs_pymdownx_material_extras
-mkdocs serve
-mkdocs build

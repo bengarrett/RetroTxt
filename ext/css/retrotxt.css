@@ -93,7 +93,10 @@
 */
 
 .dos-cursor {
-  animation: var(--blink-fast-timer) blink step-end infinite;
+  /* 31/08/2022 -
+    var(--blink-fast-timer) causes a memory leak here in Chrome 106,
+    but only with https://retrotxt.com/e/preview_00.ans */
+  animation: 300ms blink step-end infinite;
   text-shadow: none;
 }
 

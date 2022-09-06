@@ -1,4 +1,9 @@
 ---
+title: "Host ANSI, ASCII & BBS art"
+summary: Configure nginx to serve plain text and ANSI text files.
+authors:
+    - Ben Garrett
+date: 2022-08-30
 hide:
   - toc
 ---

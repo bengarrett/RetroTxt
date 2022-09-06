@@ -252,6 +252,21 @@ class DOM {
     const setting =
       `${Boolean(this.ecma48.iceColors)}` ||
       `${localStorage.getItem(`ansiUseIceColors`)}`
+
+    // Sep. 2022, BLOCKTRONICS WTF4 MEGAJOINT
+    // this tab causes a memory leak due to the blinking characters
+    // in Manifest V2 this wasn't a issue but it is in Chrome v106?
+    const memoryLeak = `://retrotxt.com/e/preview_00.ans`
+    if (window.location.toString().includes(memoryLeak)) {
+      this.head.append(
+        CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`)
+      )
+      const elm = document.getElementById(`toggleIceColors`)
+      elm.style = `text-decoration:line-through`
+      elm.title = `Due to a memory leak with Chrome, this toggle is disabled for this page`
+      return this._toggleOn(toggle)
+    }
+
     toggle.onclick = () => this.clickIceColors()
     if (setting === `true`) {
       this.head.append(
@@ -1312,7 +1327,7 @@ class Output {
   constructor(sauce = {}, dom = {}) {
     const config = new Configuration()
     this.article = document.createElement(`article`)
-    this.encode = this.newSpan()
+    this.encode = this.newBold()
     this.encode.id = `documentEncoding`
     this.main = document.createElement(`main`)
     this.pre = document.createElement(`pre`)
@@ -1441,6 +1456,7 @@ class Output {
     }
     return bold
   }
+
   /**
    * Creates information on the input, output codepage, and text encoding.
    * @param input Input text object
@@ -1459,7 +1475,7 @@ class Output {
         out: document.createElement(`span`),
       },
       stored = { item: null, text: `` },
-      vs = ` → `
+      vs = `→`
     // obtain transcode setting
     stored.item = sessionStorage.getItem(`lockTranscode`)
     // ==============================================
@@ -1471,6 +1487,7 @@ class Output {
     elm.in.textContent = text.in
     elm.in.title = inputChars.titleIn(input.characterSet)
     if (inputEncoding.support() === false) this._headerUnknown(elm.in, chrset)
+    else this.encode.addEventListener(`click`, this._setEncoding)
     // ==============================================
     // 'Page encoding output'
     // ==============================================
@@ -1572,6 +1589,35 @@ class Output {
       `'${newCodePage}' is not a valid rebuildCharacterSet() identifier.`,
       false
     )
+  }
+  /**
+   * Sets the transcode character encoding and reloads the browser tab.
+   */
+  _setEncoding() {
+    const sessionItem = sessionStorage.getItem(`lockTranscode`)
+    switch (sessionItem) {
+      case Cs.OutputCP1252: // cp_1252➡
+        sessionStorage.setItem(`lockTranscode`, Cs.OutputISO8859_15)
+        break
+      case Cs.OutputISO8859_15: // iso_8859_15➡
+        sessionStorage.setItem(`lockTranscode`, Cs.OutputUS_ASCII)
+        break
+      case Cs.OutputUS_ASCII: // us_ascii➡
+        sessionStorage.setItem(`lockTranscode`, Cs.Windows_1252_English)
+        break
+      case Cs.Windows_1252_English: // cp_1252
+        sessionStorage.setItem(`lockTranscode`, Cs.ISO8859_5)
+        break
+      case Cs.ISO8859_5: // iso_8859_5
+        sessionStorage.removeItem(`lockTranscode`)
+        break
+      default: // none or automatic
+        sessionStorage.setItem(`lockTranscode`, Cs.OutputCP1252)
+    }
+    // reload the active tab
+    Console(`Tab will be refreshed with a new character set.`)
+    globalThis.location.reload()
+    return
   }
   /**
    * ECMA48 statistics.
@@ -2441,14 +2487,11 @@ RetroTxt will not be able to work with this page.
   DisplayAlert(chkErr !== undefined && chkErr === true ? true : false)
   // hide original source text
   dom.rawText.classList.add(`is-hidden`)
-  // mark the tab title with a RetroTxt ascii logo
-  const title = document.createElement(`title`)
-  title.textContent = markTab()
   // set the document language, en is for generic English
   document.documentElement.lang = `en`
   document.documentElement.translate = false
   // insert the new tags into the HTML of the DOM
-  dom.head.append(title)
+  dom.head.append(tabTitle(sauce))
   // insert the header into document
   output.main.append(information.show)
   output.main.append(information.hide)
@@ -2535,6 +2578,68 @@ function markTab(mark = `[··]`) {
     return `${mark} ${path}`
   }
   return `${mark} ${globalThis.location.host}${globalThis.location.pathname}`
+}
+function tabTitle(sauce) {
+  const title = document.createElement(`title`)
+  if (typeof sauce !== `object` || !Object.hasOwn(sauce, `title`)) {
+    console.error(`tabTitle sauce object requires the title property.`)
+    return title
+  }
+  if (sauce.title !== ``) {
+    title.textContent = `[··] ${sauce.title}`
+    if (sauce.author !== ``) title.textContent += ` by ${sauce.author}`
+    return title
+  }
+  if (window.location.toString().includes(`://retrotxt.com/e/`)) {
+    const file = window.location.toString().split(`/`)
+    title.textContent = `[··] `
+    switch (file.at(-1)) {
+      case `preview_00.ans`:
+        title.textContent += `WTF4 by Blocktronics`
+        break
+      case `preview_01.ans`:
+        title.textContent += `The Dark Empire by Vito`
+        break
+      case `preview_03.ans`:
+        title.textContent += `WTF4 by R5`
+        break
+      case `preview_05.asc`:
+        title.textContent += `assskeyart by iks`
+        break
+      case `preview_06.ans`:
+        title.textContent += `Spidertronics by Luciano Ayres`
+        break
+      case `preview_07.pcb`:
+        title.textContent += `The Lair by The Falcon's Lair`
+        break
+      case `preview_08.ans`:
+        title.textContent += `Lahabana by XZ`
+        break
+      case `preview_09.ans`:
+        title.textContent += `Critical Condition by A.A.A`
+        break
+      case `preview_10.ans`:
+        title.textContent += `Colly by XD`
+        break
+      case `preview_12.asc`:
+        title.textContent += `function party by iks`
+        break
+      case `preview_14.ans`:
+        title.textContent += `Cyonx by Enz0`
+        break
+      case `preview_17.ans`:
+        title.textContent += `Orchestra by KE`
+        break
+      case `preview_18.ans`:
+        title.textContent += `ju67`
+        break
+      default:
+        title.textContent = markTab()
+    }
+    return title
+  }
+  title.textContent = markTab()
+  return title
 }
 function textType(format = ``) {
   switch (format) {

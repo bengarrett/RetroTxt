@@ -1,4 +1,9 @@
 ---
+title: "Install, screenshots and features"
+summary: Root index for docs.retrotxt.com.
+authors:
+    - Ben Garrett
+date: 2022-08-30
 hide:
   - toc
 ---
@@ -75,3 +80,5 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 * Various Amiga and microcomputer fonts<br>From Commodore, Atari, Apple, Tandy, and more
 * Open-source
 * No special browser permissions for general usage
+
+---

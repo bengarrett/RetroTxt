@@ -1,29 +1,40 @@
 ---
+title: Changes for version 5
+authors:
+    - Ben Garrett
+date: 2022-09-03
 hide:
   - toc
 ---
+
 ## 5.0
 
-### [Migration to Manifest v3](/src/mv3)
+### [Migration to Manifest v3](/src/mv3) ~ September 2022
 
-- **Some Options settings may be lost in this update.**<br>
-  Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.
-  This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
-- The use of Manifest v3 with service workers is incompatible with Firefox.
+!!! warning
+    Unfortunately, some Options settings may be lost in this upgrade when updating from RetroTxt versions 4.
+
+!!! info
+    Currently this v5.0 upgrade is not available to Firefox.
 
 ### Highlights
 
-- Options interface should be more responsive with less jank.
-- Changing Options should apply to all open tabs, including background, foreground and tabs open in seperate browser windows.
-- Monitor Downloads is more reliable.
-
-* Replaced the `scripts/eventpage.js` background page with modular service workers.
-* Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
-* Replaced simple one-time message requests with long-lived connections where needed.
-  This should fix some strange behaviour and failures that occurred in previous versions.
-
+- Options interface should be more responsive with less visual jank.
+- RetroTxt features and functions are more reliable.
+- Changing Options should apply to all open tabs, including focused and unfocused tabs.
+<hr>
+- Manifest v3 has much better error handling and there should be less uncaptured errors.
 - Unfocused tabs can run RetroTxt in the background.
-- Transcode context menu is disabled by default except for textfile tabs.
+- Browser tab displays the SAUCE title and author when available.
+- Artworks linked in the Samples tab display the title and author on the browser tab.
+- Smear block characters are applied to BBS texts.
+- Monitor downloads works better with 16colo.rs and defacto2.net by ignoring their incorrect `Content-Type` headers.
+- New Toolbar icon setting to select dark or light mode button.
+- Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
+- Information header encoding can be clicked to change the encoding.
+<hr>
+- Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.
+- Fixed Options reloading the page when a new tab was selected.
 - Tweaked the Information header CSS to use very slight rounded corners.
 - Documentation tab in Options shares the same layout and formatting as the other menus.
 - Settings - Run RetroTxt on files hosted on these domains<br>
@@ -31,16 +42,19 @@ hide:
   Created a button to remove and restore website suggestions.<br>
   Hostname input form responds to <kbd>Enter ↵</kbd> key presses.
 - Settings - Monitor downloads, toggles the optional `download` and `downloads.open` permissions.
+- Mentions of the file scheme `file:///`, will under Windows display as `file:///C:/`
+- Transcode context menu is disabled by default except for textfile tabs.
+- Replaced the `scripts/eventpage.js` background page with modular service workers.
+- Replaced and split the `scripts/functions.js` shared functions page with `scripts/helpers.js` for content-scripts and `scripts/sw/helpers.js` for service workers.
+- Replaced simple one-time message requests with long-lived connections where needed.<br>
+  This should fix some strange behaviour and failures that occurred in previous versions.
+- Removed the use of `Window.localStorage` and `Window.sessionStorage` which held Options settings and replaced it with `chrome.storage.local`.<br>
+  This was needed as the `Window` interface is not accessible by service workers which are required by Manifest v3.
 - Dropped the permissions requirement for `tabs`.
-- Manifest v3 has much better error handling and there should be less uncaptured errors.
-- Fixed font size adjustment for 2x and 3x values. Text now centre aligns and stopped unexpected text wrapping.
-- Fixed Options reloading the page when a new tab was selected.
-- New Toolbar icon setting to select dark or light mode button.
-- Mentions of the file scheme `file:///` will under Windows display as `file:///C:/`
-- Updated the Welcome, new install text to be a Getting started with RetroTxt brief.
-- Monitor downloads works better with 16colo.rs and defacto2.net by ignoring their incorrect `Content-Type` headers.
-- Smear block characters are applied to BBS texts.
+- Dropped the Transcode text context menu.
+<hr>
 - Using pnpm as the dependencies manager.
+- The use of Manifest v3 with service workers is incompatible with Firefox.
 - Removed the Firefox specific build tools.
 
 ## 4.2

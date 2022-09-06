@@ -1,3 +1,19 @@
+# mkdocs is used to build the documentation at docs.retrotxt.com
+# these are built using a GitHub Action the HTML is stored in
+# the `gh-pages` branch
+#
+# to view this documentation locally requires the mkdocs tool
+# https://www.mkdocs.org/getting-started/#installation
+#
+# mkdocs requires Python3 and pip
+#
+# pip install mkdocs
+# pip install mkdocs-material-extensions
+# pip install mkdocs_pymdownx_material_extras
+#
+# mkdocs serve
+# mkdocs build
+
 site_name: RetroTxt
 copyright: RetroTxt &copy; 2022 Ben Garrett
 repo_url: https://github.com/bengarrett/RetroTxt
@@ -11,18 +27,8 @@ theme:
     primary: teal
     accent: indigo
   font:
-    #text: IBM Plex
     code: IBM Plex Mono
   features:
-    # - navigation.instant
-    # - navigation.tracking
-    #   navigation.tabs
-    # - navigation.tabs.sticky
-    -  #navigation.sections
-    -  #navigation.expand
-    -  #navigation.indexes
-      #navigation.top
-    -  #toc.integrate
 
 nav:
   - Install: index.md
@@ -32,9 +38,9 @@ nav:
       - Local files: usage/local.md
       - Font size: usage/font_size.md
       - Garbled text: usage/garbled.md
+      - Encodings: usage/char.md
       - Preferences: usage/pref.md
       - Commands: usage/omnibar.md
-      - Menus: usage/menus.md
   - Limitations: limitations.md
   - Supported standards:
       - Control sequences: specs/controls.md
@@ -55,10 +61,10 @@ nav:
       - Nginx: host/nginx.md
   - Policies:
       - Privacy: privacy.md
-      - Security: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/SECURITY.md
-      - Code of conduct: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CODE_OF_CONDUCT.md
-      - Contributing: https://github.com/bengarrett/RetroTxt/blob/MV3/.github/CONTRIBUTING.md
-      - License: https://github.com/bengarrett/RetroTxt/blob/MV3/LICENSE
+      - Security: https://github.com/bengarrett/RetroTxt/blob/main/.github/SECURITY.md
+      - Code of conduct: https://github.com/bengarrett/RetroTxt/blob/main/.github/CODE_OF_CONDUCT.md
+      - Contributing: https://github.com/bengarrett/RetroTxt/blob/main/.github/CONTRIBUTING.md
+      - License: https://github.com/bengarrett/RetroTxt/blob/main/LICENSE
 
 plugins:
   - search

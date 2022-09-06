@@ -1519,6 +1519,15 @@ class Hero {
         return location.replace(`/test/index.html?hidepassed`)
       })
     }
+    // special hander for the documentation link
+    // documentation used to be optionTab value 7
+    const docs = 7
+    if (value === docs) {
+      chrome.management.getSelf((info) => {
+        if (info.installType !== `development`) return
+        return location.replace(`https://docs.retrotxt.com`)
+      })
+    }
     // Reveal the current tab
     const page = document.getElementById(`${this.page}${selected}`),
       button = document.getElementById(`${this.btn}${selected}`)
@@ -1764,12 +1773,14 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   if (typeof qunit !== `undefined`) return
   if (namespace !== `local`) return
   const changedItems = Object.keys(changes)
+  const hero = new Hero()
   for (const item of changedItems) {
     if (typeof changes[item].newValue === `undefined`) {
       console.log(
         `Local storage item ${item}: is now undefined, assumed the host tab was closed.`
       )
     }
+    if (item === `optionTab`) hero.storageLoad()
   }
 })
 

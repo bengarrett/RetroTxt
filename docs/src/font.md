@@ -1,3 +1,10 @@
+---
+title: Font conversion
+authors:
+    - Ben Garrett
+date: 2022-08-30
+---
+
 ## Web Open Font Format 2
 
 RetroTxt relies on Truetype or OpenType web fonts in the [Web Open Font Format 2.0](https://www.w3.org/TR/WOFF2/) (WOFF2). The format offers the best compression to reduce the overall download and memory-use size of RetroTxt.

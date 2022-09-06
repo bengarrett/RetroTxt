@@ -25,40 +25,21 @@ class Menu {
     this.contexts = [toolbarButton, `page`]
     // URL patterns to trigger the menus, to avoid inappropriate reveals
     this.urlPatterns = [insecure, secure, localFiles]
-    // context menu titles
-    this.titles = new Map()
-      .set(`codeOrder`, [
-        Cs.UseCharSet,
-        Cs.OutputCP1252,
-        Cs.OutputISO8859_15,
-        Cs.OutputUS_ASCII,
-        Cs.Windows_1252_English,
-        Cs.ISO8859_5,
-      ])
-      .set(Cs.UseCharSet, `Automatic charset`)
-      .set(Cs.Windows_1252_English, `⇉ CP-1252`)
-      .set(Cs.OutputCP1252, `CP-1252`)
-      .set(Cs.ISO8859_5, `⇉ ISO 8859-5`)
-      .set(Cs.OutputISO8859_15, `ISO 8859-15`)
-      .set(Cs.OutputUS_ASCII, `US-ASCII`)
   }
   /**
    * Creates the context menus used on pages and on the task bar button.
    */
   async startup() {
     // each separator requires a unique id
-    const id1 = 1,
-      id2 = 2
+    const id1 = 1
     // remove any existing menus to avoid undetected callback errors
     chrome.contextMenus.removeAll()
     // add items in order of display
-    this._itemTranscode()
-    this._itemSeparator(id1)
     this._itemVersion()
     this._itemFonts()
     this._itemDisplay()
     this._itemSettings()
-    this._itemSeparator(id2)
+    this._itemSeparator(id1)
     this._itemDocumentation()
     this._itemCredits()
     this._itemSamples()
@@ -80,31 +61,9 @@ class Menu {
       case `settings`:
       case `documentation`:
         return OpenOptions(`${id}`)
-      case Cs.Windows_1252_English:
-      case Cs.ISO8859_5:
-      case Cs.UseCharSet:
-      case Cs.OutputISO8859_15:
-      case Cs.OutputUS_ASCII:
-      case Cs.OutputCP1252: {
-        // see `handleConnections` in `scripts/retrotxt.js` for the event handler
-        GetCurrentTab().then((result) => {
-          if (typeof result.id !== `number`) return
-          const port = chrome.tabs.connect(result.id, { name: `menuTranscode` })
-          port.postMessage({ tabTranscode: `${id}` })
-        })
-        return
-      }
       default:
         return console.error(`an unknown Menu event id "${id}" was requested`)
     }
-  }
-  /**
-   * Unlock the Transcode text context menu.
-   */
-  enableTranscode() {
-    chrome.contextMenus.update(`transcode`, {
-      enabled: true,
-    })
   }
   _itemVersion() {
     chrome.contextMenus.create(
@@ -229,38 +188,6 @@ class Menu {
       }
     )
   }
-  _itemTranscode() {
-    chrome.contextMenus.create(
-      {
-        title: `Transcode this text`,
-        contexts: this.contexts,
-        documentUrlPatterns: this.urlPatterns,
-        id: `transcode`,
-      },
-      () => {
-        if (CheckLastError(`create "transcode" context menu`)) return
-      }
-    )
-    // generate `Transcode text` child items
-    for (const id of this.titles.get(`codeOrder`)) {
-      // only type `normal` works correctly with this menu as the transcode
-      // configuration is a per-tab configuration, while these context menus
-      // apply to all tabs
-      chrome.contextMenus.create(
-        {
-          type: `normal`,
-          title: this.titles.get(id),
-          contexts: this.contexts,
-          id: id,
-          parentId: `transcode`,
-          documentUrlPatterns: this.urlPatterns,
-        },
-        () => {
-          if (CheckLastError(`create "transcode normal" context menu`)) return
-        }
-      )
-    }
-  }
 }
 
-/* global ConsoleLoad CheckLastError Cs GetCurrentTab OpenOptions */
+/* global ConsoleLoad CheckLastError OpenOptions */

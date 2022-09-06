@@ -1,3 +1,10 @@
+---
+title: Limitations and known issues
+summary: ANSI, browser mime sniffing, codepage missing characters.
+authors:
+    - Ben Garrett
+date: 2022-08-30
+---
 # Limitations and known issues
 
 These are known unfixable problems due to browser or operating system restrictions.
