@@ -38,9 +38,9 @@ nav:
       - Local files: usage/local.md
       - Font size: usage/font_size.md
       - Garbled text: usage/garbled.md
+      - Encodings: usage/char.md
       - Preferences: usage/pref.md
       - Commands: usage/omnibar.md
-      - Menus: usage/menus.md
   - Limitations: limitations.md
   - Supported standards:
       - Control sequences: specs/controls.md

@@ -18,10 +18,8 @@ To select **Repair Text Encoding** in the browser.
 
 ---
 
-### Other browsers
+### Chrome and other browsers
 
-Without a 3rd-party Extension, **Chrome** and **Edge** cannot switch the character encoding.
+Without a 3rd-party Extension, **Chrome** and **Edge** cannot switch the character encoding. Unfortunately these extensions seem to be incompatible with RetroTxt.
 
-You could manually switch the transcoding RetroTxt applies by right-clicking on the page and selecting **Transcode text** from the [RetroTxt context menu](../menus).
-
-![Context menu transcode text](../assets/menus-transcode.png)
+[You can attempt to manually switch the transcoding of the tab](../char).
