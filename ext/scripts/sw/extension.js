@@ -65,7 +65,6 @@ class Extension {
     NewSession(tab.tabid, data)
     // update the browser tab interface
     new ToolbarButton(tab.tabid).enable()
-    new Menu().enableTranscode()
     // if the tab has previously been flagged as 'do not autorun' then finish up
     const key = `${SessionKey}${tab.tabid}`
     chrome.storage.local.get(`${key}`, (store) => {
@@ -153,5 +152,5 @@ class Extension {
   }
 }
 
-/*global ConsoleLoad LocalStore Menu NewSession OptionsReset SessionKey ToolbarButton */
+/*global ConsoleLoad LocalStore NewSession OptionsReset SessionKey ToolbarButton */
 /*exported Extension */

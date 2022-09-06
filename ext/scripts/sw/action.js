@@ -41,7 +41,6 @@ class Action {
       const button = new ToolbarButton(this.tab.id)
       if (Object.entries(store).length === 0) {
         button.disable()
-        this._contextMenus()
         return Console(`Ignore tab ID ${this.tab.id}: ${this.tab.title}`)
       }
       const textfile = store[key].textfile
@@ -50,15 +49,12 @@ class Action {
       )
       switch (textfile) {
         case true:
-          button.enable()
-          return this.menuOn()
+          return button.enable()
         case false:
         case null:
-          button.disable()
-          return this.menuOff()
+          return button.disable()
         default:
           button.disable()
-          this.menuOff()
           return CheckError(
             `Could not run button.update() as the ${key}.textfile value '${textfile}' is not a boolean.`
           )
@@ -71,12 +67,6 @@ class Action {
   click() {
     if (this._validateScheme() === true) return this._clicked() // pass
     return // fail
-  }
-  menuOff() {
-    return this._contextMenus(false)
-  }
-  menuOn() {
-    return this._contextMenus(true)
   }
   /**
    * Event handler for the clicking of the toolbar button.
@@ -95,15 +85,6 @@ class Action {
       console.log(`↩ Toolbar button click registered for tab #%s.`, this.tab.id)
     const port = chrome.tabs.connect(this.tab.id, { name: `_clicked` })
     port.postMessage({ initTab: this.tab.id })
-  }
-  /**
-   * Update context menus to reflect a tab's suitability for RetroTxt.
-   */
-  _contextMenus(enable = false) {
-    const update = [`transcode`]
-    for (const id of Object.values(update)) {
-      chrome.contextMenus.update(id, { enabled: enable })
-    }
   }
   /**
    * Checks the URL scheme against a permitted list.
