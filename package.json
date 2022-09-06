@@ -1,6 +1,6 @@
 {
   "name": "retrotxt",
-  "version": "5.0.0-rc.1",
+  "version": "5.0.0-rc.2",
   "description": "",
   "keywords": [],
   "author": "Ben Garrett",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "ajv": "^8.11.0",
     "dot-json": "^1.2.2",
-    "eslint": "^8.22.0",
+    "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
