@@ -36,7 +36,7 @@ Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) com
 
 === "pnpm"
 
-    Use the [pnpm package manager](https://pnpm.io/cli).
+    Use the [pnpm package manager](https://pnpm.io/installation).
 
     ```bash title="Install packages"
     cd RetroTxt
