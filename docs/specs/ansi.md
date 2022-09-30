@@ -6,11 +6,11 @@ date: 2022-08-30
 hide:
   - toc
 ---
-# ANSI/ECMA-48 support
+# ANSI / ECMA-48 support
 
-[ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) forms the basis of ISO 6429, the current and acceptable standards for text control sequences. ECMA-48 expands on ANSI X3.64 [(withdrawn 1997)](https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf), which first popularised escape sequences in the late 1970s with the [DEC VT100](https://en.wikipedia.org/wiki/VT100) computer.
+[ECMA-48](http://www.ecma-international.org/publications/standards/Ecma-048.htm) forms the basis of ISO 6429, the current acceptable standard for text control sequences, and expands on ANSI X3.64[^4], which first popularised escape sequences in the late 1970s with the [DEC VT100](https://en.wikipedia.org/wiki/VT100) computer.
 
-The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
+The following chart lists the limited ECMA-48 number of sequences that RetroTxt supports.
 
 | Control | Acronym | Value | Support | Notes |
 | -- | -- | -- | -- | -- |
@@ -75,3 +75,4 @@ The following chart lists the limited ECMA-48 sequences that RetroTxt supports.
 [^1]: Known as [xterm 256](http://web.archive.org/web/20130125000058/http://www.frexx.de/xterm-256-notes/) it is not an ECMA-48 standard.
 [^2]: Allows for ISO-8613-3 24-bit color support, but it is not an ECMA-48 standard.
 [^3]: Non-standard aixterm, [IBM AIX terminal support](https://www.ibm.com/docs/en/aix/7.1?topic=aixterm-command).
+[^4]: [Widthdrawn in 1997](https://www.nist.gov/sites/default/files/documents/itl/Withdrawn-FIPS-by-Numerical-Order-Index.pdf).
