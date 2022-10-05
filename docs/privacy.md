@@ -54,9 +54,9 @@ Grants RetroTxt access to the Storage API and allows it to save and retrieve use
 
 These permissions toggle when you enable specific RetroTxt Options. The browser will prompt you for a permissions request; if you deny this, the feature will remain off.
 
-### [`"downloads"`](https://developer.chrome.com/docs/extensions/reference/downloads/)<br>`"downloads.open"`
+### [`"downloads"`](https://developer.chrome.com/docs/extensions/reference/downloads/)<br>[`"downloads.open"`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads/open)
 
-Are needed by the **Monitor downloads** feature. RetroTxt ignores all downloads except those which match the following conditions.
+Are needed by the **Monitor downloads** feature. RetroTxt ignores all downloads except those which match these two conditions.
 
-1. The file has a MIME type of either `text/plain`, `text/x-nfo`, or `text-unknown`.
-1. The content of the text file does not begin with the characters `<!` or `<?`, usually HTML or scripts.
+- The file has a MIME type of either `text/plain`, `text/x-nfo`, `text-unknown`.
+- The content of the text file does not begin with character combinations usually found in HTML or scripts,  `<!`, `<?`.

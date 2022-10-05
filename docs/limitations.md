@@ -23,7 +23,7 @@ Browser [MIME sniffing](https://en.wikipedia.org/wiki/Content_sniffing) often ov
 - Chrome-based browsers can produce incorrect MIME sniffing results with the `file:///` protocol.
 ## Unsupported text formats
 
-- Non-standard home computer ASCII such as **Atari ATASCII** and **Commodore PETSCII** texts are not supported.
+- Non-standard microcomputer ASCII such as **Atari ATASCII** and **Commodore PETSCII** texts are not supported.
 
 - Binary formats such as **.xbin** and **.bin** are not usable as browsers refuse to render unidentified file data on a page.
 

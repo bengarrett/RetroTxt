@@ -30,7 +30,7 @@ tasks:
       - test -f "retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
   set-version:
     cmds:
-      - pmpn run dot-json ext/manifest.json version "{{.VERSION}}"
+      - pnpm exec dot-json ext/manifest.json version "{{.VERSION}}"
     silent: true
   set-ver:
     cmds:
@@ -55,7 +55,7 @@ tasks:
     cmds:
       - task: version-set
       - task: depends
-      - cmd: pmpn run web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
+      - cmd: pnpm exec web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
         ignore_error: true
       - task: rename-build
         vars: { BROWSER: "chrome" }
@@ -69,7 +69,7 @@ tasks:
   init:
     desc: Initialises this repository for first time use after being cloned.
     cmds:
-      - cmd: pmpn install
+      - cmd: pnpm install
       - task: depends
   version-set:
     desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.

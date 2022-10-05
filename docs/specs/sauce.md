@@ -8,7 +8,7 @@ hide:
 ---
 # SAUCE support
 
-[SAUCE](http://www.acid.org/info/sauce/sauce.htm), created by Olivier "Tasmaniac" Reubens of [ACiD](http://www.acid.org), is a metadata protocol for scene artworks. RetroTxt parses these to determine text formatting and authorship results shown in the _Text & font information_ header.
+[SAUCE](http://www.acid.org/info/sauce/sauce.htm), created by Olivier Reubens[^1] is a metadata protocol for scene artworks. RetroTxt parses these to determine text formatting and authorship results shown in the _Text & font information_ header.
 
 | Name | Interpreted | Displayed | Notes |
 | -- | -- | -- | -- |
@@ -21,7 +21,7 @@ hide:
 | FileSize | No | | |
 | DataType | No | | |
 | FileType | No | | |
-| TInfo1 | Partial | Yes | When found, is used to set the character width[^1] |
+| TInfo1 | Partial | Yes | When found, is used to set the character width[^2] |
 | TInfo2 | No | | |
 | TInfo3 | No | | |
 | TInfo4 | No | | |
@@ -35,9 +35,10 @@ _ANSIFlags allow an author of ANSI and similar files to provide a clue to a view
 
 | Flag | Name | Used |
 | -- | -- | -- |
-| B | Non-blink mode[^2] | Yes |
+| B | Non-blink mode[^3] | Yes |
 | LS | Letter-spacing | Yes |
 | AR | Aspect Ratio | No |
 
-[^1]: Columns of text.
-[^2]: Also known as **iCE colors**.
+[^1]: "Tasmaniac" of [ACiD](http://www.acid.org).
+[^2]: Columns of text.
+[^3]: Also known as **iCE colors**.
