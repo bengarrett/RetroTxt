@@ -2,9 +2,9 @@
 
 ### _for manifest version 2_
 
-> Welcome to the archived, legacy branch of RetroTxt that relies on the Manifest version 2 API. [The Chrome team discontinued its availability](https://developer.chrome.com/docs/extensions/mv3/mv2-sunset/) in Chrome v109 at the start of 2023, while Firefox maintains support for the API.
+> Welcome to the archived, legacy branch of RetroTxt that relies on the Manifest version 2 API. [The Chrome team discontinued its availability](https://developer.chrome.com/docs/extensions/mv3/mv2-sunset/) for Chrome in 2023, while Firefox maintains support for the API.
 
-> Users of **Firefox v69+** can use this source, as can **Chrome v72** through to **v109** and compatible browsers.
+> Users of **Firefox v69+** can use this source, as can **Chrome v72** through to **v115** and compatible browsers.
 
 #### [Documentation for this `manifest-v2` branch](https://github.com/bengarrett/RetroTxt/tree/manifest-v2/docs).
 
