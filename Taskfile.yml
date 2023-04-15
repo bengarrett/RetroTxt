@@ -16,11 +16,10 @@ vars:
 
 tasks:
   default:
-    cmds:
-      - echo "To list the available RetroTxt tasks:"
-      - echo "task --list"
-      - echo "task -l"
     silent: true
+    desc: this task, list all available tasks
+    cmds:
+     - task --list
   # internal commands
   rename-build:
     dir: web-ext-artifacts
@@ -91,3 +90,7 @@ tasks:
       - cmd: git tag -a "v{{.VERSION}}" --message "Version {{.VERSION}}"
       - cmd: git push --tags
       - cmd: git push
+  update:
+    desc: Update to the latest dependencies.
+    cmds:
+      - cmd: pnpm update --interactive
