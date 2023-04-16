@@ -1,3 +1,4 @@
+![RetroTxt showcase](../docs/assets/retrotxt-readme.png)
 # RetroTxt
 
 ## Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog), or [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
