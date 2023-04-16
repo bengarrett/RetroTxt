@@ -61,10 +61,11 @@ tasks:
         ignore_error: true
   depends:
     desc: Copies the latest dependencies over to the package.
+    # use shx for Windows compatibility
     cmds:
-      - cmd: cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
-      - cmd: cp -f "node_modules/qunit/qunit/qunit.css" "ext/test/qunit.css"
-      - cmd: cp -f "node_modules/qunit/qunit/qunit.js" "ext/test/qunit.js"
+      - cmd: pnpm exec shx cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
+      - cmd: pnpm exec shx cp -f "node_modules/qunit/qunit/qunit.css" "ext/test/qunit.css"
+      - cmd: pnpm exec shx cp -f "node_modules/qunit/qunit/qunit.js" "ext/test/qunit.js"
   init:
     desc: Initialises this repository for first time use after being cloned.
     cmds:
@@ -93,4 +94,7 @@ tasks:
   update:
     desc: Update to the latest dependencies.
     cmds:
-      - cmd: pnpm update --interactive
+      - cmd: pnpm update
+      - cmd: pnpm exec shx echo ""
+      - task: depends
+    silent: true
