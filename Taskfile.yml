@@ -41,7 +41,7 @@ tasks:
 
   # user commands that are displayed with `task --list`
   builds:
-    desc: Creates submission packages for Chrome, Firefox is unsupported.
+    desc: Creates submission packages for Chrome.
     summary: |
       Creates a package that is intended for submission to the Chrome Web Store.
 
