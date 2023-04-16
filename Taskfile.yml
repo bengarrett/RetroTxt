@@ -16,8 +16,7 @@ vars:
 
 tasks:
   default:
-    silent: true
-    desc: this task, list all available tasks
+    desc: List the available tasks
     cmds:
      - task --list
   # internal commands

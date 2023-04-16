@@ -478,7 +478,17 @@
   font-size: 1em;
   line-height: 1em;
 }
-
+/* Sinclair QL */
+@font-face {
+  font-family: "sinclairql";
+  src: url("../fonts/sinclair-ql.woff2") format("woff2");
+  font-display: auto;
+}
+.font-sinclairql {
+  font-family: sinclairql;
+  font-size: 1.25em;
+  line-height: 1em;
+}
 /* IBM 3270 */
 @font-face {
   font-family: "ibm3270";
@@ -529,6 +539,75 @@
 }
 .font-altolegacy {
   font-family: altolegacy;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* Acorn BBC Micro */
+@font-face {
+  font-family: "acornbbc";
+  src: url("../fonts/beeb.woff2") format("woff2");
+  font-display: auto;
+}
+.font-acornbbc {
+  font-family: acornbbc;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* Amstrad CPC */
+@font-face {
+  font-family: "amstradcpc";
+  src: url("../fonts/amstrad-cpc-correct.woff2") format("woff2");
+  font-display: auto;
+}
+.font-amstradcpc {
+  font-family: amstradcpc;
+  font-size: 1em;
+  line-height: 1em;
+}
+/* Amstrad PCW */
+@font-face {
+  font-family: "amstradpcw";
+  src: url("../fonts/amstrad-pcw.woff2") format("woff2");
+  font-display: auto;
+}
+.font-amstradpcw {
+  font-family: amstradpcw;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* MSX */
+@font-face {
+  font-family: "msxscreen0";
+  src: url("../fonts/msx-screen0.woff2") format("woff2");
+  font-display: auto;
+}
+.font-msxscreen0 {
+  font-family: msxscreen0;
+  font-size: 1em;
+  line-height: 1em;
+}
+@font-face {
+  font-family: "msxscreen1";
+  src: url("../fonts/msx-screen1.woff2") format("woff2");
+  font-display: auto;
+}
+.font-msxscreen1 {
+  font-family: msxscreen1;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* Texas Instruments */
+@font-face {
+  font-family: "ti994a";
+  src: url("../fonts/ti-99-4a.woff2") format("woff2");
+  font-display: auto;
+}
+.font-ti994a {
+  font-family: ti994a;
   font-size: 1em;
   line-height: 1em;
 }
