@@ -8,7 +8,7 @@ hide:
 ---
 # SAUCE support
 
-[SAUCE](http://www.acid.org/info/sauce/sauce.htm), created by Olivier Reubens[^1] is a metadata protocol for scene artworks. RetroTxt parses these to determine text formatting and authorship results shown in the _Text & font information_ header.
+[SAUCE](https://www.acid.org/info/sauce/sauce.htm), created by Olivier Reubens[^1] is a metadata protocol for scene artworks. RetroTxt parses these to determine text formatting and authorship results shown in the _Text & font information_ header.
 
 | Name | Interpreted | Displayed | Notes |
 | -- | -- | -- | -- |
@@ -39,6 +39,6 @@ _ANSIFlags allow an author of ANSI and similar files to provide a clue to a view
 | LS | Letter-spacing | Yes |
 | AR | Aspect Ratio | No |
 
-[^1]: "Tasmaniac" of [ACiD](http://www.acid.org).
+[^1]: "Tasmaniac" of [ACiD](https://www.acid.org).
 [^2]: Columns of text.
 [^3]: Also known as **iCE colors**.
