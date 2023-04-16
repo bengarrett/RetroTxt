@@ -7,6 +7,10 @@ date: 2022-08-30
 hide:
   - toc
 ---
+<p align="center">
+  <img width="314" height="201" src="assets/retrotxt-readme.png">
+</p>
+
 # Install
 
 Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
