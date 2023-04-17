@@ -84,6 +84,19 @@ class Action {
     if (DeveloperMode)
       console.log(`↩ Toolbar button click registered for tab #%s.`, this.tab.id)
     const port = chrome.tabs.connect(this.tab.id, { name: `_clicked` })
+    port.onDisconnect.addListener((p) => {
+      const msg = `Port disconnected for tab ${this.tab.id} due to an error:`
+      // Chrome specific error handling
+      if (chrome.runtime.lastErrorMessage !== null) {
+        console.warn(msg, chrome.runtime.lastError.message)
+        return
+      }
+      // Firefox specific error handling
+      if (p.error) {
+        console.log(msg, p.error.message)
+        return
+      }
+    })
     port.postMessage({ initTab: this.tab.id })
   }
   /**

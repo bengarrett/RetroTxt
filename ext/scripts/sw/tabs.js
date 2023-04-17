@@ -43,6 +43,19 @@ chrome.tabs.onCreated.addListener((tab) => {
 })
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
+  // The refreshedTab result maybe Chrome specific.
+  //
+  // Reloading a tab (F5 key) must not create a new set of tab event listeners,
+  // as it breaks the Toolbar button which returns the error
+  // 'Could not establish connection. Receiving end does not exist.'
+  // See: https://github.com/bengarrett/RetroTxt/issues/155
+  const refreshedTab =
+    changeInfo.status === `loading` && changeInfo.url === undefined
+  if (refreshedTab) {
+    new Action(tabInfo).activated()
+    return
+  }
+  // Create new event listerers for the newly loaded url.
   const tabs = new Tabs()
   tabs.tabId = tabId
   if (!(`url` in tabInfo)) {
