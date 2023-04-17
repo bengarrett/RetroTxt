@@ -3900,6 +3900,64 @@
             <div class="column is-half">
               <div class="box">
                 <h1 class="title has-text-black-ter is-size-3 mt-4">Feature</h1>
+                <!-- run retrotxt on files hosted -->
+                <div>
+                  <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">
+                    <div class="message-header">
+                      <p>Setting intentionally off</p>
+                    </div>
+                    <div class="message-body">
+                      Please reenable this feature.<br>
+                      To access new hosts and domains, RetroTxt requires one-time additional browser permissions. These
+                      get prompted when you toggle the feature switch below.
+                    </div>
+                  </article>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">Run RetroTxt on files hosted on these domains
+                      <p class="subtitle has-text-dark is-size-7 has-text-justified">
+                        It runs in the background and applies RetroTxt to text files
+                        hosted on these websites.</p>
+                      <div class="field-body">
+                        <div class="field">
+                          <div class="field has-addons">
+                            <p class="control">
+                              <input id="newHost" class="input" type="url" placeholder="example.com">
+                            </p>
+                            <p class="control">
+                              <button id="submitHost" class="button is-success" disabled>
+                                add
+                              </button>
+                            </p>
+                          </div>
+                          <p class="help">Paste a URL or hostname</p>
+                        </div>
+                        <div class="field has-text-centered">
+                          <button id="removeSuggestedDomains" class="button is-small">
+                            remove
+                          </button>
+                          <button id="includeSuggestedDomains" class="button is-success is-small">
+                            restore
+                          </button>
+                          <p class="help">Suggestions</p>
+                        </div>
+                      </div>
+                      <div class="field is-grouped is-grouped-multiline mt-5" id="hostTags">
+                        <div class="control" style="display: none;" id="templateHost">
+                          <div class="tags has-addons">
+                            <a class="tag is-link">example.com</a>
+                            <a class="tag is-delete"></a>
+                          </div>
+                        </div>
+                        <div class="control" id="retrotxtCom">
+                          <div class="tags has-addons">
+                            <a href="https://retrotxt.com/e" class="tag is-info">retrotxt.com</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </h2>
+                </div>
+                <hr>
                 <!-- option themes -->
                 <div>
                   <h2 class="title has-text-dark is-size-6 columns">
@@ -3928,64 +3986,6 @@
                       <button class="button option-theme is-ghost">Ghost</button>
                     </div>
                   </div>
-                </div>
-                <hr>
-                <!-- run retrotxt on files hosted -->
-                <div>
-                  <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">
-                    <div class="message-header">
-                      <p>Setting intentionally off</p>
-                    </div>
-                    <div class="message-body">
-                      Please reenable this feature.<br>
-                      To access new hosts and domains, RetroTxt requires one-time additional browser permissions. These
-                      get prompted when you toggle the feature switch below.
-                    </div>
-                  </article>
-                  <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">Run RetroTxt on files hosted on these domains
-                      <p class="subtitle has-text-dark is-size-7 has-text-justified">
-                        It runs in the background and applies RetroTxt to text files
-                        hosted on these websites.</p>
-                      <div class="field is-grouped is-grouped-multiline mt-4 mb-3" id="hostTags">
-                        <div class="control" style="display: none;" id="templateHost">
-                          <div class="tags has-addons">
-                            <a class="tag is-link">example.com</a>
-                            <a class="tag is-delete"></a>
-                          </div>
-                        </div>
-                        <div class="control" id="retrotxtCom">
-                          <div class="tags has-addons">
-                            <a href="https://retrotxt.com/e" class="tag is-info">retrotxt.com</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="field-body">
-                        <div class="field">
-                          <div class="field has-addons">
-                            <p class="control">
-                              <input id="newHost" class="input is-small" type="url" placeholder="example.com">
-                            </p>
-                            <p class="control">
-                              <button id="submitHost" class="button is-success is-small" disabled>
-                                add
-                              </button>
-                            </p>
-                          </div>
-                          <p class="help">Only the hostname is saved</p>
-                        </div>
-                        <div class="field has-text-centered">
-                          <button id="removeSuggestedDomains" class="button is-small">
-                            remove
-                          </button>
-                          <button id="includeSuggestedDomains" class="button is-success is-small">
-                            restore
-                          </button>
-                          <p class="help">Website suggestions</p>
-                        </div>
-                      </div>
-                    </div>
-                  </h2>
                 </div>
                 <hr>
                 <!--use retrotxt as a local text file viewer -->
