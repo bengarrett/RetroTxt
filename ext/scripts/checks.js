@@ -83,7 +83,7 @@ function CheckRange(name = ``, issue = ``, expected, actual) {
  * Creates a red coloured alert message box at the top of the active browser page.
  * @param {boolean} [show=true] Reveal or hide the box
  */
-function DisplayAlert(show = true) {
+function DisplayAlert(show = true, message = ``) {
   // div element containing the error alert
   let div = globalThis.document.getElementById(`displayAlert`)
   const link = globalThis.document.getElementById(`retrotxt-styles`)
@@ -128,9 +128,6 @@ function DisplayAlert(show = true) {
     alert.issue.title = `On the RetroTxt GitHub repository`
     alert.issue.append(`see if it has an issue report`)
     alert.div.append(`Sorry, RetroTxt has run into a problem.`, alert.p1)
-    alert.p1.append(`Please reload `)
-    if (BrowserOS() !== Os.macOS) alert.p1.append(alert.f5)
-    alert.p1.append(` this tab to attempt to fix the problem.`)
     alert.div.append(alert.p2)
     alert.p2.append(
       `For more information press `,
@@ -141,13 +138,20 @@ function DisplayAlert(show = true) {
       alert.cons,
       `.`
     )
-    alert.div.append(
-      `If the problem continues, try ${ext}`,
-      alert.br2,
-      `or `,
-      alert.issue,
-      `.`
-    )
+    if (message === ``) {
+      alert.p1.append(`Please reload `)
+      if (BrowserOS() !== Os.macOS) alert.p1.append(alert.f5)
+      alert.p1.append(` this tab to attempt to fix the problem.`)
+      alert.div.append(
+        `If the problem continues, try ${ext}`,
+        alert.br2,
+        `or `,
+        alert.issue,
+        `.`
+      )
+    } else {
+      alert.div.append(message)
+    }
     div = alert.div
     alert.div = null
     div.id = `displayAlert`

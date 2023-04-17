@@ -2356,14 +2356,16 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   try {
     sessionStorage.removeItem(`lockFont`)
   } catch (e) {
-    console.error(
-      `
-Session storage is disabled by the browser or the content-security-policy configured on this website.
-RetroTxt will not be able to work with this page.
-
-> ${e}`
+    console.group(`RetroTxt will not be able to work with this webpage`)
+    console.info(
+      `For security, this website is configured to block the use of session storage (content-security-policy); OR this browser has the session storage setting disabled.`
     )
-    DisplayAlert()
+    console.error(e)
+    console.groupEnd()
+    DisplayAlert(
+      true,
+      `RetroTxt cannot work with this webpage. For security, it blocked the use of session storage.`
+    )
     return BusySpinner(false)
   }
   // create DOM object
