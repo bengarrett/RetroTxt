@@ -1848,6 +1848,11 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     .getElementsByClassName(`msg-color`)[0]
   customColorText.textContent = customColorText.textContent.toLowerCase()
   //handleError(`false positive test`)
+
+  // a handler used by the popup.js module
+  if (document.location.hash === `#top?t=settings`) {
+    document.getElementById(`hero6`).click()
+  }
 })()
 
 /* global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
