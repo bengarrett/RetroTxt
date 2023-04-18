@@ -126,7 +126,7 @@ header {
 
 header strong,
 header #moreSettings {
-  cursor: default;
+  cursor: pointer;
   user-select: none;
 }
 
