@@ -73,15 +73,12 @@ function monitorDownloads(developerMode, message) {
 }
 
 function buttonInvoke(developerMode, message) {
-  const button = new ToolbarButton(),
-    value = message.tabModified
+  // TODO: This function is probably unnecessary and could be deleted?
+  const value = message.tabModified
   GetCurrentTab().then((result) => {
     if (developerMode)
       console.log(`✉ Tab-modified tab #%s is %s command.`, result.id, value)
     if (typeof result.id !== `number`) return
-    button.id = result.id
-    if (value === true) button.enable()
-    else button.disable()
   })
 }
 
@@ -111,4 +108,4 @@ function unexpected(developerMode, message, sender) {
   console.groupEnd()
 }
 
-/* global ConsoleLoad Downloads Extension GetCurrentTab SessionKey SetToolbarIcon ToolbarButton */
+/* global ConsoleLoad Downloads Extension GetCurrentTab SessionKey SetToolbarIcon */

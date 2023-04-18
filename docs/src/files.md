@@ -78,7 +78,6 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `parse_dos.js` | Functions to handle text encodings and DOS code pages |
 | ↳ `retrotxt.js` | Content-script to apply RetroTxt to a browser tab DOM, or restore the tab to its original raw text state |
 | **`ext/scripts/sw/`** | Manifest V3 service workers |
-| ↳ `action.js` | Toolbar button actions |
 | ↳ `background.js` | Background service worker functions and `importScripts` |
 | ↳ `downloads.js` | Apply RetroTxt transformations to text file downloads |
 | ↳ `error.js` | Service worker error handlers |

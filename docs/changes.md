@@ -1,11 +1,21 @@
 ---
-title: Changes for version 5
+title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2022-09-03
+date: 2023-04-19
 hide:
   - toc
 ---
+
+## 5.1
+
+### April 2023
+
+- Changed the behavior of the toolbar button to display useful usability information.
+  The previous, unreliable per-tab on/off toggle function would sometimes need Chrome to disconnect the button from the tab, leading to confusion.
+- Fixed a bug that gave RetroTxt access to the Suggested domains after removing them.
+- Rearranged the Settings and Feature pane to emphasize the _add_ domain input.
+- Updated and fixed broken links to external resources and prioritized HTTPS over HTTP schemes.
 
 ## 5.0
 

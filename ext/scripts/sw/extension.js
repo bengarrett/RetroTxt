@@ -62,14 +62,12 @@ class Extension {
     if (typeof data === `undefined` || data === null || !(`type` in data))
       data = { type: `unknown` }
     // is the tab hosting a text file and what is the tab page encoding?
-    NewSession(tab.tabid, data)
-    // update the browser tab interface
-    new ToolbarButton(tab.tabid).enable()
+    SessionNew(tab.tabid, data)
     // if the tab has previously been flagged as 'do not autorun' then finish up
     const key = `${SessionKey}${tab.tabid}`
     chrome.storage.local.get(`${key}`, (store) => {
-      const execute = Object.values(store)[0].execute
-      if (execute === false) return
+      const textfile = Object.values(store)[0].textfile
+      if (!textfile) return
       chrome.storage.local.get(`settingsWebsiteDomains`, (store) => {
         if (Object.values(store)[0] === `false`) return
         this.invokeOnTab(tab.tabid, data.type)
@@ -152,5 +150,5 @@ class Extension {
   }
 }
 
-/*global ConsoleLoad LocalStore NewSession OptionsReset SessionKey ToolbarButton */
+/*global ConsoleLoad LocalStore SessionNew OptionsReset SessionKey */
 /*exported Extension */

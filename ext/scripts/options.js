@@ -1852,6 +1852,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   // a handler used by the popup.js module
   if (document.location.hash === `#top?t=settings`) {
     document.getElementById(`hero6`).click()
+    document.getElementById(`newHost`).focus()
   }
 })()
 

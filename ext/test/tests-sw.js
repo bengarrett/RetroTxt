@@ -1,5 +1,5 @@
 /* eslint-env qunit:true */
-/*global QUnit Action Cs Downloads Engine Extension Menu Security Tab Tabs ToolbarButton WebBrowser*/
+/*global QUnit Action Downloads Engine Extension Security Tab Tabs WebBrowser*/
 "use strict"
 try {
   QUnit.module(`service worker`, {
@@ -84,35 +84,6 @@ QUnit.test(`Tab class`, (assert) => {
   assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
   tab = new Tab(0, `example.com`)
   assert.equal(tab._hostname(), `example.com`, `Should return example.com`)
-})
-
-QUnit.test(`ToolbarButton class`, (assert) => {
-  const bar = new ToolbarButton(0)
-  assert.equal(bar.id, 0, `Tab id should return 0`)
-})
-
-QUnit.test(`Action class`, (assert) => {
-  const tab = {
-    id: 0,
-    title: "",
-    url: "",
-  }
-  let action = new Action(tab)
-  assert.equal(action.scheme, ``, `Scheme should be empty`)
-  assert.equal(action.tab.id, 0, `Tab id should return 0`)
-  assert.equal(
-    action.tab.url,
-    `Action.tab.url permission denied`,
-    `Info is empty so the URL should fail`
-  )
-  tab.url = `https://example.com`
-  action = new Action(tab)
-  assert.equal(action.scheme, `https`, `URL in info should return a scheme`)
-  assert.equal(action._validateScheme(), true, `URL scheme is valid`)
-  tab.url = `ftps://example.com`
-  action = new Action(tab)
-  assert.equal(action.scheme, `ftps`, `URL in info should return a scheme`)
-  assert.equal(action._validateScheme(), false, `URL scheme is invalid`)
 })
 
 QUnit.test(`Security class`, (assert) => {
