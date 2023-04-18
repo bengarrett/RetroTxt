@@ -156,6 +156,7 @@ header #fontnameInUse {
 header strong#colorPaletteToggle,
 header strong#renderToggle,
 header strong#sizeToggle,
+header strong#documentEncoding,
 header #moreSettings {
   color: var(--has-text-info);
 }
