@@ -72,13 +72,15 @@ All Extension data is stored locally on your computer using the [storage.local A
 
 #### An important note about the license
 
-While RetroTxt uses a **[GNU Lesser General Public License v3.0](https://choosealicense.com/licenses/lgpl-3.0)**, the **included fonts do not**. You should read each font license in the [`fonts/`](../fonts/) subdirectory before redistribution, as some of the authors do not permit the sale or modification of their fonts or collections.
+While RetroTxt uses a **[GNU Lesser General Public License v3.0](https://choosealicense.com/licenses/lgpl-3.0)**, **the included fonts do not**. You should read each font license in the [`fonts/`](../fonts/) subdirectory before redistribution, as some of the authors do not permit the sale or modification of their fonts or collections.
 
 ## Credits
 
 RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett) ([mail](mailto:code.by.ben@gmail.com))
 
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
+
+Fonts from
 
 - [_The Ultimate Oldschool PC Font Pack_](https://int10h.org/oldschool-pc-fonts) by Viler
 - [_Retro Computer Fonts_](https://www.kreativekorp.com/software/fonts/index.shtml#retro) by Kreative Korp
