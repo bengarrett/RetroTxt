@@ -11,11 +11,12 @@ hide:
 
 ### April 2023
 
-- Changed the behavior of the toolbar button to display useful usability information.
+- Change the behavior of the toolbar button to display useful usability information.
   The previous, unreliable per-tab on/off toggle function would sometimes need Chrome to disconnect the button from the tab, leading to confusion.
-- Fixed a bug that gave RetroTxt access to the Suggested domains after removing them.
-- Rearranged the Settings and Feature pane to emphasize the _add_ domain input.
-- Updated and fixed broken links to external resources and prioritized HTTPS over HTTP schemes.
+- Fix a bug that gave RetroTxt access to the Suggested domains after removing them.
+- Rearrange the Settings and Feature pane to emphasize the _add_ domain input.
+- Update and fix broken links to external resources and prioritized HTTPS over HTTP schemes.
+- Update the Information header to reorder the information displayed and mention the shortcut keys to view the original text.
 
 ## 5.0
 
