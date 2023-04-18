@@ -1,7 +1,6 @@
 // File: scripts/sw/toolbar.js
 //
 // Toolbar button icon and badge.
-// See `scripts/sw/action.js` for the button interactions.
 //
 // For packed extensions images can be in most formats that the Blink rendering engine can display,
 // including PNG, JPEG, BMP, ICO, and others (SVG is not supported).
