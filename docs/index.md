@@ -10,20 +10,18 @@ hide:
 <p align="center">
   <img width="314" height="201" src="assets/retrotxt-readme.png">
 </p>
+<br>
+[Install on Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install on Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install on Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
 
-# Install
+---
+
+# RetroTxt
 
 Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
 
 - [x] View ANSI, ASCII, NFO, Shift JIS text art as HTML
 - [x] View server, system, and dev-op logs styled with colored text
 - [x] View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
-
----
-
-[Install on Chrome](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install on Edge](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install on Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
-
-### [Or use the GNU LGPLv3 source code](src)
 
 ---
 

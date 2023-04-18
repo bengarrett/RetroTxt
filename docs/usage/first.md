@@ -2,7 +2,7 @@
 hide:
   - toc
 ---
-You can test the installation of RetroTxt by selecting one of the many sample artworks found in the RetroTxt Samples tab.<br>Or typing `txt samples` in an address bar.
+You can test the installation of RetroTxt by selecting one of the many sample artworks found in the RetroTxt Samples tab.<br>Or type `txt samples` in an address bar.
 
 <figure markdown>
   ![RetroTxt showcase](../assets/omnibox-sample.png)
@@ -32,5 +32,5 @@ Retro computing texts and files
 
 ---
 
-You can change these sites in the RetroTxt Settings tab, under the Run RetroTxt on files hosted on these domains in Feature.<br>
-Or typing `txt settings` in an address bar.
+You can change these sites in the settings of RetroTxt, under the <strong>Run RetroTxt on files hosted on these domains</strong> within Feature.<br>
+Or type `txt settings` in the browser address bar.
