@@ -16,7 +16,7 @@ vars:
 
 tasks:
   default:
-    desc: List the available tasks
+    desc: List the available tasks.
     cmds:
      - task --list
   # internal commands
@@ -96,4 +96,14 @@ tasks:
       - cmd: pnpm update
       - cmd: pnpm exec shx echo ""
       - task: depends
+    silent: true
+  docs-build:
+    desc:  Build the current documentation in use on https://docs.retrotxt.com.
+    cmds:
+      - cmd: pnpm mkdocs build
+    silent: true
+  docs-serve:
+    desc:  Run an internal server to view the documentation in `docs`.
+    cmds:
+      - cmd: pnpm mkdocs serve
     silent: true
