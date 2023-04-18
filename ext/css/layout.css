@@ -124,6 +124,12 @@ header {
   top: 0em;
 }
 
+header hr {
+  border: 0;
+  border-top: 1px solid var(--has-text-grey-dark);
+  width: 98%;
+}
+
 header strong,
 header #moreSettings {
   cursor: pointer;

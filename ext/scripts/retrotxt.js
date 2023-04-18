@@ -1006,7 +1006,7 @@ class SauceMeta {
     const div = document.createElement(`div`)
     div.append(document.createElement(`hr`))
     // sauce metadata
-    const sauce = document.createElement(`span`)
+    const sauce = document.createElement(`div`)
     sauce.id = `sauce00Data`
     sauce.textContent = body.trim()
     // append 16colo.rs crew link

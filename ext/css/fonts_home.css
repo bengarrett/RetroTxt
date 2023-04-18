@@ -3,6 +3,19 @@
   1rem = 16px, 0.75rm = 12px ...
 */
 
+/*
+monospace fallback font override
+src: https://qwtel.com/posts/software/the-monospaced-system-ui-css-font-stack/#the-monospaced-system-ui-css-font-stack
+*/
+@font-face {
+  font-display: fallback;
+  font-family: "fallback-monofont";
+  src: local(ui-monospace), local(Menlo), local(Monaco), local("Cascadia Mono"),
+    local("Segoe UI Mono"), local("Oxygen Mono"), local("Ubuntu Monospace"),
+    local("Source Code Pro"), local("Fira Mono"), local("Droid Sans Mono"),
+    local("Courier New"), local(monospace);
+}
+
 /* Amiga fonts */
 @font-face {
   font-family: "topaza500";
@@ -10,7 +23,7 @@
   font-display: auto;
 }
 .font-topaza500 {
-  font-family: topaza500;
+  font-family: topaza500, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -20,7 +33,7 @@
   font-display: auto;
 }
 .font-topazplusa500 {
-  font-family: topazplusa500;
+  font-family: topazplusa500, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -30,7 +43,7 @@
   font-display: auto;
 }
 .font-topaza1200 {
-  font-family: topaza1200;
+  font-family: topaza1200, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -40,7 +53,7 @@
   font-display: auto;
 }
 .font-topazplusa1200 {
-  font-family: topazplusa1200;
+  font-family: topazplusa1200, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -50,7 +63,7 @@
   font-display: auto;
 }
 .font-p0tnoodle {
-  font-family: p0tnoodle;
+  font-family: p0tnoodle, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -60,7 +73,7 @@
   font-display: auto;
 }
 .font-microknight {
-  font-family: microknight;
+  font-family: microknight, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -70,7 +83,7 @@
   font-display: auto;
 }
 .font-microknightplus {
-  font-family: microknightplus;
+  font-family: microknightplus, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -80,7 +93,7 @@
   font-display: auto;
 }
 .font-mosoul {
-  font-family: mosoul;
+  font-family: mosoul, fallback-monofont;
   font-size: 1rem;
   line-height: 1.25rem;
 }
@@ -91,7 +104,7 @@
   font-display: auto;
 }
 .font-c64-pro-mono {
-  font-family: c64-pro-mono;
+  font-family: c64-pro-mono, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -101,7 +114,7 @@
   font-display: auto;
 }
 .font-c64-pro {
-  font-family: c64-pro;
+  font-family: c64-pro, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -111,7 +124,7 @@
   font-display: auto;
 }
 .font-petme {
-  font-family: petme;
+  font-family: petme, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -121,7 +134,7 @@
   font-display: auto;
 }
 .font-petme64 {
-  font-family: petme64;
+  font-family: petme64, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -131,7 +144,7 @@
   font-display: auto;
 }
 .font-petme128 {
-  font-family: petme128;
+  font-family: petme128, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -141,7 +154,7 @@
   font-display: auto;
 }
 .font-petme642y {
-  font-family: petme642y;
+  font-family: petme642y, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -151,7 +164,7 @@
   font-display: auto;
 }
 .font-petme1282y {
-  font-family: petme1282y;
+  font-family: petme1282y, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -162,7 +175,7 @@
   font-display: auto;
 }
 .font-atarist {
-  font-family: atarist;
+  font-family: atarist, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -172,7 +185,7 @@
   font-display: auto;
 }
 .font-atarist2min {
-  font-family: atarist2min;
+  font-family: atarist2min, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -182,7 +195,7 @@
   font-display: auto;
 }
 .font-atascii {
-  font-family: atascii;
+  font-family: atascii, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -192,7 +205,7 @@
   font-display: auto;
 }
 .font-candyantics {
-  font-family: candyantics;
+  font-family: candyantics, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -202,7 +215,7 @@
   font-display: auto;
 }
 .font-colleenantics {
-  font-family: colleenantics;
+  font-family: colleenantics, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -214,7 +227,7 @@
   font-display: auto;
 }
 .font-pr_number_3 {
-  font-family: pr_number_3;
+  font-family: pr_number_3, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -224,7 +237,7 @@
   font-display: auto;
 }
 .font-print_character_21 {
-  font-family: print_character_21;
+  font-family: print_character_21, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -235,7 +248,7 @@
   font-display: auto;
 }
 .font-berkeliumiidhr {
-  font-family: berkeliumiidhr;
+  font-family: berkeliumiidhr, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -245,7 +258,7 @@
   font-display: auto;
 }
 .font-berkeliumiihgr {
-  font-family: berkeliumiihgr;
+  font-family: berkeliumiihgr, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -256,7 +269,7 @@
   font-display: auto;
 }
 .font-lisatwiggy {
-  font-family: lisatwiggy;
+  font-family: lisatwiggy, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -266,7 +279,7 @@
   font-display: auto;
 }
 .font-lisastartup {
-  font-family: lisastartup;
+  font-family: lisastartup, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -276,7 +289,7 @@
   font-display: auto;
 }
 .font-lisaacronym {
-  font-family: lisaacronym;
+  font-family: lisaacronym, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -286,7 +299,7 @@
   font-display: auto;
 }
 .font-lisapaper {
-  font-family: lisapaper;
+  font-family: lisapaper, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -296,7 +309,7 @@
   font-display: auto;
 }
 .font-lisapapersmall {
-  font-family: lisapapersmall;
+  font-family: lisapapersmall, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -307,7 +320,7 @@
   font-display: auto;
 }
 .font-shaston320 {
-  font-family: shaston320;
+  font-family: shaston320, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -317,7 +330,7 @@
   font-display: auto;
 }
 .font-shaston640 {
-  font-family: shaston640;
+  font-family: shaston640, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -327,7 +340,7 @@
   font-display: auto;
 }
 .font-shastonhi320 {
-  font-family: shastonhi320;
+  font-family: shastonhi320, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -337,7 +350,7 @@
   font-display: auto;
 }
 .font-shastonhi640 {
-  font-family: shastonhi640;
+  font-family: shastonhi640, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -348,7 +361,7 @@
   font-display: auto;
 }
 .font-applemac {
-  font-family: applemac;
+  font-family: applemac, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -359,7 +372,7 @@
   font-display: auto;
 }
 .font-miaraw {
-  font-family: miaraw;
+  font-family: miaraw, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -369,7 +382,7 @@
   font-display: auto;
 }
 .font-miiiraw {
-  font-family: miiiraw;
+  font-family: miiiraw, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -379,7 +392,7 @@
   font-display: auto;
 }
 .font-m4araw {
-  font-family: m4araw;
+  font-family: m4araw, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -389,7 +402,7 @@
   font-display: auto;
 }
 .font-m4braw {
-  font-family: m4braw;
+  font-family: m4braw, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -400,7 +413,7 @@
   font-display: auto;
 }
 .font-gameboy {
-  font-family: gameboy;
+  font-family: gameboy, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -411,7 +424,7 @@
   font-display: auto;
 }
 .font-antiquarius {
-  font-family: antiquarius;
+  font-family: antiquarius, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -422,7 +435,7 @@
   font-display: auto;
 }
 .font-sharpmz {
-  font-family: sharpmz;
+  font-family: sharpmz, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -433,7 +446,7 @@
   font-display: auto;
 }
 .font-hotcoco {
-  font-family: hotcoco;
+  font-family: hotcoco, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -443,7 +456,7 @@
   font-display: auto;
 }
 .font-hotcoco2y {
-  font-family: hotcoco2y;
+  font-family: hotcoco2y, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -453,7 +466,7 @@
   font-display: auto;
 }
 .font-hotcocowitht {
-  font-family: hotcocowitht;
+  font-family: hotcocowitht, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -463,7 +476,7 @@
   font-display: auto;
 }
 .font-hotcocowitht2y {
-  font-family: hotcocowitht2y;
+  font-family: hotcocowitht2y, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -474,7 +487,7 @@
   font-display: auto;
 }
 .font-zxspectrum {
-  font-family: zxspectrum;
+  font-family: zxspectrum, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -485,7 +498,7 @@
   font-display: auto;
 }
 .font-sinclairql {
-  font-family: sinclairql;
+  font-family: sinclairql, fallback-monofont;
   font-size: 1.25em;
   line-height: 1em;
 }
@@ -496,7 +509,7 @@
   font-display: auto;
 }
 .font-ibm3270 {
-  font-family: ibm3270;
+  font-family: ibm3270, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -506,7 +519,7 @@
   font-display: auto;
 }
 .font-ibm3270Condensed {
-  font-family: ibm3270Condensed;
+  font-family: ibm3270Condensed, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -516,7 +529,7 @@
   font-display: auto;
 }
 .font-ibm3270SemiCondensed {
-  font-family: ibm3270SemiCondensed;
+  font-family: ibm3270SemiCondensed, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -528,7 +541,7 @@
   font-display: auto;
 }
 .font-alto {
-  font-family: alto;
+  font-family: alto, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -538,7 +551,7 @@
   font-display: auto;
 }
 .font-altolegacy {
-  font-family: altolegacy;
+  font-family: altolegacy, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -550,7 +563,7 @@
   font-display: auto;
 }
 .font-acornbbc {
-  font-family: acornbbc;
+  font-family: acornbbc, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -562,7 +575,7 @@
   font-display: auto;
 }
 .font-amstradcpc {
-  font-family: amstradcpc;
+  font-family: amstradcpc, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -573,7 +586,7 @@
   font-display: auto;
 }
 .font-amstradpcw {
-  font-family: amstradpcw;
+  font-family: amstradpcw, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -585,7 +598,7 @@
   font-display: auto;
 }
 .font-msxscreen0 {
-  font-family: msxscreen0;
+  font-family: msxscreen0, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -595,7 +608,7 @@
   font-display: auto;
 }
 .font-msxscreen1 {
-  font-family: msxscreen1;
+  font-family: msxscreen1, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
@@ -607,7 +620,7 @@
   font-display: auto;
 }
 .font-ti994a {
-  font-family: ti994a;
+  font-family: ti994a, fallback-monofont;
   font-size: 1em;
   line-height: 1em;
 }
