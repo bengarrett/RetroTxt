@@ -1531,7 +1531,7 @@ class Hero {
     // Reveal the current tab
     const page = document.getElementById(`${this.page}${selected}`),
       button = document.getElementById(`${this.btn}${selected}`)
-    if (typeof page.style.display !== `undefined`) {
+    if (page !== null && typeof page.style.display !== `undefined`) {
       page.style.display = `inline`
       button.classList.add(this.active)
     }
