@@ -93,12 +93,12 @@ QUnit.test(`SauceMeta class`, (assert) => {
   const div = sauce._constructHeaderDiv()
   assert.equal(div.nodeName, `DIV`, `Should be a <div> pair`)
   assert.equal(
-    div.firstChild.textContent,
+    div.firstChild.nextSibling.textContent,
     `'Sauce title'  by 'Sauce author'  of  Sauce group, dated 2016  November 26`,
     `<div> pair should contain SAUCE data`
   )
   assert.equal(
-    div.firstChild.nextSibling.textContent.trim(),
+    div.firstChild.nextSibling.nextSibling.textContent.trim(),
     `Any comments go here.`,
     `Sauce comment`
   )
