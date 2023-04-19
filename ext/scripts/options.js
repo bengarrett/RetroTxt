@@ -905,8 +905,7 @@ class Initialise extends CheckBox {
   async _version() {
     const data = chrome.runtime.getManifest(),
       element = document.getElementById(`manifest`)
-    if (`version_name` in data)
-      return (element.textContent = `${data.version_name}`)
+    if (`version` in data) return (element.textContent = `${data.version}`)
     element.textContent = `${data.version}`
   }
 }
