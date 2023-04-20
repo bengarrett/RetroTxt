@@ -8,7 +8,8 @@
       "38": "assets/retrotxt_38.png",
       "48": "assets/retrotxt_48.png",
       "128": "assets/retrotxt_128.png"
-    }
+    },
+    "default_popup": "html/popup.html"
   },
   "author": "Ben Garrett",
   "background": {
@@ -29,11 +30,11 @@
     }
   ],
   "commands": {
-    "_execute_browser_action": {
+    "_execute_action": {
       "suggested_key": {
         "default": "Alt+R"
       },
-      "description": "Switch the active tab between plain text and HTML displays"
+      "description": "Display the RetroTxt quick help"
     }
   },
   "default_locale": "en_US",
@@ -75,7 +76,7 @@
     "storage"
   ],
   "short_name": "RetroTxt",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "version_name": "5",
   "web_accessible_resources": [
     {

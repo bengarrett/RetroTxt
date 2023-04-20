@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script src="../scripts/popup.js" defer></script>
+  <link rel="stylesheet" href="../css/bulma.min.css" />
+  <style>
+    body {
+      font-size: medium;
+      width: 33em;
+    }
+
+    div#allowAccess {
+      cursor: pointer;
+    }
+
+    span#hostname {
+      text-decoration: underline;
+      word-break: normal;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container p-2">
+    <div class="notification">
+      <h1 class="title is-5">RetroTxt</h1>
+      <h2 class="subtitle is-6" id="version"></h2>
+      <div class="block">
+        RetroTxt runs in the background and will attempt to format text files hosted on these websites:
+      </div>
+      <div class="block is-family-monospace" id="websites"></div>
+      <div class="block" id="localfiles">
+        RetroTxt also formats local text files using drag and drop.
+      </div>
+      <div class="notification is-link" id="allowAccess">
+        To include a new website, click here to open settings and add the URL to the
+        <strong>Run RetroTxt on files hosted on these domains</strong> list.
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

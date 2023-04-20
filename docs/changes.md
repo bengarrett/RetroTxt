@@ -1,11 +1,23 @@
 ---
-title: Changes for version 5
+title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2022-09-03
+date: 2023-04-19
 hide:
   - toc
 ---
+
+## 5.1
+
+### April 2023
+
+- Change the behavior of the toolbar button to display useful usability information.
+  The previous, unreliable per-tab on/off toggle function would sometimes have Chrome disconnect the button from the tab, breaking the functionality.
+- The home and office computer fonts use a local, monospaced font as the fallback. Previously, the browser would show out-of-range characters in a variable-width font, making blocks and line characters look unnecessarily messy.
+- Update the Information header to reorder the information displayed and mention the shortcut keys to view the original text.
+- Update and fix broken links to external resources and prioritized HTTPS over HTTP schemes.
+- Rearrange the Settings and Feature pane to emphasize the _add_ domain input.
+- Fix a bug that gave RetroTxt access to the Suggested domains after removing them.
 
 ## 5.0
 

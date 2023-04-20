@@ -17,20 +17,13 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
       chrome.runtime.lastError.message !== ``
     )
       console.log(chrome.runtime.lastError.message)
-    if (typeof tab === `undefined`) return ignoreTab(activeInfo.tabId)
-    if (typeof tab.url === `undefined`) return ignoreTab(activeInfo.tabId)
+    if (typeof tab === `undefined`) return
+    if (typeof tab.url === `undefined`) return
     Console(
       `️★ Tab ID ${tab.id} activated for window ${tab.windowId}: ${tab.url}`
     )
-    new Action(tab).activated()
   })
 })
-
-function ignoreTab(tabId = 0) {
-  const button = new ToolbarButton(tabId)
-  button.disable()
-  console.log(`Toolbar button disabled for tab #${tabId}.`)
-}
 
 // tabs.onCreated fires when a tab is created.
 // Note that the tab's URL and tab group membership may not be set at the time this event is fired,
@@ -43,6 +36,18 @@ chrome.tabs.onCreated.addListener((tab) => {
 })
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
+  // The refreshedTab result maybe Chrome specific.
+  //
+  // Reloading a tab (F5 key) must not create a new set of tab event listeners,
+  // as it breaks the Toolbar button which returns the error
+  // 'Could not establish connection. Receiving end does not exist.'
+  // See: https://github.com/bengarrett/RetroTxt/issues/155
+  const refreshedTab =
+    changeInfo.status === `loading` && typeof changeInfo.url === `undefined`
+  if (refreshedTab) {
+    return
+  }
+  // Create new event listerers for the newly loaded url.
   const tabs = new Tabs()
   tabs.tabId = tabId
   if (!(`url` in tabInfo)) {
@@ -114,8 +119,8 @@ class Tab {
    * it's compatible with RetroTxt.
    * Intended to be run in conjunction with `this._checkURL()`.
    */
-  compatibleURL() {
-    console.log(`Tabs.compatibleURL() has been requested.`)
+  _compatibleURL() {
+    console.log(`Tabs._compatibleURL() has been requested.`)
     const config = new Configuration()
     // fetch() method initialize object
     // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
@@ -141,14 +146,14 @@ class Tab {
         uri.domain,
         this.url
       )
+    // note there is a `uri` object and `url` string
     switch (uri.scheme) {
-      // note there is a `URI` object and `URL` string
       case `file`:
         if (this._ignoreDir()) return
         if (this._ignoreURL(uri.ignore)) return
         if (this._ignoreEdgecase()) return
         console.info(`Loading local file ${this.url}.`)
-        new Extension().activateTab(tab)
+        new Extension().invokeOnTab(tab.tabid, `unknown`)
         return
       case `http`:
       case `https`:
@@ -212,9 +217,8 @@ class Tab {
       () => {
         const key = `${SessionKey}${this.id}`
         chrome.storage.local.get(key, (result) => {
-          if (result === null) return NewSessionUpdate(this.id)
-          if (Object.entries(result).length === 0)
-            return NewSessionUpdate(this.id)
+          if (result === null) return RemoveSession(this.id)
+          if (Object.entries(result).length === 0) return RemoveSession(this.id)
           const updateCounts = result[key].update
           if (updateCounts >= 3) return RemoveSession(this.id)
           result["update"] = updateCounts + 1
@@ -260,7 +264,9 @@ class Tab {
     chrome.storage.local.get(`settingsWebsiteDomains`, (result) => {
       domains = `${result.settingsWebsiteDomains}`
       if (domains.length === 0) {
-        domains = new Extension().defaults.get(`settingsWebsiteDomains`)
+        console.info(
+          `RetroTxt is not permitted to run on any websites other than retrotxt.com`
+        )
       }
       // insert the RetroTxt URL into the approved list
       domains = `https://retrotxt.com;${domains}`
@@ -271,7 +277,7 @@ class Tab {
       if (uri.scheme !== `file` && approved !== true) return
       // if the URL domain is apart of the user approved list then we then test
       // the filename or body content
-      this.compatibleURL()
+      this._compatibleURL()
     })
   }
   /**
@@ -361,4 +367,4 @@ class Tab {
   }
 }
 
-/* global Action Console Developer ConsoleLoad Configuration Security Extension Downloads NewSessionUpdate Os RemoveSession SessionKey ToolbarButton WebBrowser */
+/* global Console Developer ConsoleLoad Configuration Security Extension Downloads Os RemoveSession SessionKey WebBrowser */

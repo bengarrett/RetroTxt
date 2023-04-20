@@ -7,7 +7,6 @@
 // they cannot be in a nested directory.
 
 importScripts(
-  "action.js",
   "downloads.js",
   "error.js",
   "extension.js",

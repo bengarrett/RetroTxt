@@ -1,7 +1,6 @@
 // File: scripts/sw/toolbar.js
 //
 // Toolbar button icon and badge.
-// See `scripts/sw/action.js` for the button interactions.
 //
 // For packed extensions images can be in most formats that the Blink rendering engine can display,
 // including PNG, JPEG, BMP, ICO, and others (SVG is not supported).
@@ -23,44 +22,6 @@ chrome.storage.onChanged.addListener((changes) => {
       return SetToolbarIcon(false)
   }
 })
-
-/**
- * Handle toolbar button display.
- * @class ToolbarButton
- */
-class ToolbarButton {
-  /**
-   * Creates an instance of `ToolbarButton`.
-   * @param [tabId=0] Id of the tab
-   */
-  constructor(tabId = 0) {
-    this.id = tabId
-    // note: the `action.default_title` key in the manifest.json contains the initial title
-    this.title = ``
-  }
-  disable() {
-    if (this.id === 0) return
-    chrome.action.setBadgeText({ text: `` })
-    chrome.action.setTitle({
-      title: `RetroTxt${this.title}`,
-      tabId: this.id,
-    })
-    //  This only affects whether the popup (if any) or action.onClicked event is
-    //  dispatched to your extension; it does not affect the action's presence in the toolbar.
-    chrome.action.disable(this.id)
-  }
-  enable() {
-    if (this.id === 0) return
-    // alternative checkmark styles: ✓ ✔ 🗹 ✅
-    const checkMark = `✓`
-    chrome.action.setBadgeText({ text: `${checkMark}` })
-    chrome.action.setTitle({
-      title: `RetroTxt${this.title}`,
-      tabId: this.id,
-    })
-    chrome.action.enable(this.id)
-  }
-}
 
 /**
  * Changes the Extension icon in the toolbar of Chrome.
@@ -95,4 +56,4 @@ function SetToolbarIcon(darkMode = false) {
 }
 
 /*global ConsoleLoad */
-/*exported SetToolbarIcon ToolbarButton */
+/*exported SetToolbarIcon */

@@ -905,8 +905,7 @@ class Initialise extends CheckBox {
   async _version() {
     const data = chrome.runtime.getManifest(),
       element = document.getElementById(`manifest`)
-    if (`version_name` in data)
-      return (element.textContent = `${data.version_name}`)
+    if (`version` in data) return (element.textContent = `${data.version}`)
     element.textContent = `${data.version}`
   }
 }
@@ -1531,7 +1530,7 @@ class Hero {
     // Reveal the current tab
     const page = document.getElementById(`${this.page}${selected}`),
       button = document.getElementById(`${this.btn}${selected}`)
-    if (typeof page.style.display !== `undefined`) {
+    if (page !== null && typeof page.style.display !== `undefined`) {
       page.style.display = `inline`
       button.classList.add(this.active)
     }
@@ -1848,6 +1847,12 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     .getElementsByClassName(`msg-color`)[0]
   customColorText.textContent = customColorText.textContent.toLowerCase()
   //handleError(`false positive test`)
+
+  // a handler used by the popup.js module
+  if (document.location.hash === `#top?t=settings`) {
+    document.getElementById(`hero6`).click()
+    document.getElementById(`newHost`).focus()
+  }
 })()
 
 /* global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */

@@ -1,4 +1,3 @@
-version: "3"
 # Task runner for Manifest V3 for Chromium browsers
 # =================================================
 # As of Aug. 2022 Firefox is not supported.
@@ -6,43 +5,63 @@ version: "3"
 # This task runner requires Task to be installed.
 # https://taskfile.dev/#/installation
 #
-# Tasks DO NOT RUN on PowerShell, Windows users should use WSL.
-#
+version: "3"
+
+silent: true
 
 vars:
+  REQDJS: "task requires the installation of dot-json: https://www.npmjs.com/package/dot-json"
+  REQDOCS: "task requires the installation of mkdocs: https://www.mkdocs.org/user-guide/installation"
+  REQGIT: "task requires the installation of git: https://github.com/git-guides/install-git"
+  REQPNPM: "task requires the installation of pnpm: https://pnpm.io/installation"
+  REQSHX: "task requires the installation of shelljs/shx: https://github.com/shelljs/shx"
+  REQWEXT: "task requires the installation of Web-ext: https://github.com/mozilla/web-ext"
+  REQMAT: "task requires the installation of Material for MkDocs: https://squidfunk.github.io/mkdocs-material"
+
   # The published version number of RetroTxt used in the manifest.json and GitHub commit
   # Must use the numeric format 5.0.0
-  VERSION: "5.0.0"
-
+  VERSION: "5.1.0"
 tasks:
   default:
+    desc: List the available tasks.
     cmds:
-      - echo "To list the available RetroTxt tasks:"
-      - echo "task --list"
-      - echo "task -l"
-    silent: true
+     - task --list
+
   # internal commands
   rename-build:
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm exec shx --version
+        msg: "{{.REQSHX}}"
     dir: web-ext-artifacts
     cmds:
-      - mv -f "retrotxt-{{.VERSION}}.zip" "retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
+      - pnpm exec shx mv -f "web-ext-artifacts/retrotxt-{{.VERSION}}.zip" "web-ext-artifacts/retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
     status:
       - test -f "retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
+
   set-version:
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm exec dot-json -v
+        msg: "{{.REQDJS}}"
     cmds:
       - pnpm exec dot-json ext/manifest.json version "{{.VERSION}}"
-    silent: true
+
   set-ver:
+    preconditions:
+      - sh: git -v
+        msg: "{{.REQGIT}}"
     cmds:
       - cmd: git tag "v{{.VERSION}}"
         ignore_error: true
       - cmd: git push --tags
         ignore_error: true
-    silent: true
 
   # user commands that are displayed with `task --list`
   builds:
-    desc: Creates submission packages for Chrome, Firefox is unsupported.
+    desc: Creates submission packages for Chrome.
     summary: |
       Creates a package that is intended for submission to the Chrome Web Store.
 
@@ -50,8 +69,14 @@ tasks:
       Its filename will be retrotxt_for_chrome-{{.VERSION}}.zip
     cmds:
       - task: build-chrome
+
   build-chrome:
     # edit web-ext-chrome.js to hide files and directories
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm exec web-ext --version
+        msg: "{{.REQWEXT}}"
     cmds:
       - task: version-set
       - task: depends
@@ -60,28 +85,76 @@ tasks:
       - task: rename-build
         vars: { BROWSER: "chrome" }
         ignore_error: true
+
+  checks:
+    desc: Check, run and print the versions of the task commands and dependencies.
+    ignore_error: true
+    cmds:
+      # node and dependencies
+      - cmd: pnpm exec shx echo -n "Node.js "
+      - cmd: node --version
+      - cmd: pnpm exec shx echo -n "pnpm version "
+      - cmd: pnpm --version
+      - cmd: pnpm exec shx echo -n "dot-json v"
+      - cmd: pnpm exec dot-json --version
+      - cmd: pnpm exec shx --version
+      - cmd: pnpm exec shx echo -n "Web-ext v"
+      - cmd: pnpm exec web-ext --version
+      # python and dependencies
+      - cmd: python --version
+      - cmd: mkdocs --version
+      - cmd: pip --version
+      - cmd: pip show mkdocs-material --quiet
+      # system tools
+      - cmd: pnpm exec shx echo ""
+      - cmd: git --version
+      - cmd: task --version
+
   depends:
     desc: Copies the latest dependencies over to the package.
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm exec shx --version
+        msg: "{{.REQSHX}}"
+    # use shx for Windows compatibility
     cmds:
-      - cmd: cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
-      - cmd: cp -f "node_modules/qunit/qunit/qunit.css" "ext/test/qunit.css"
-      - cmd: cp -f "node_modules/qunit/qunit/qunit.js" "ext/test/qunit.js"
+      - cmd: pnpm exec shx cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
+      - cmd: pnpm exec shx cp -f "node_modules/qunit/qunit/qunit.css" "ext/test/qunit.css"
+      - cmd: pnpm exec shx cp -f "node_modules/qunit/qunit/qunit.js" "ext/test/qunit.js"
+
   init:
     desc: Initialises this repository for first time use after being cloned.
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
     cmds:
       - cmd: pnpm install
       - task: depends
+
   version-set:
     desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
     deps: [set-version, set-ver]
+
   version-purge:
     desc: Removes the current VERSION variable value as a tag from the GitHub repository.
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: git -v
+        msg: "{{.REQGIT}}"
     cmds:
       - cmd: git tag "v{{.VERSION}}" --delete
         ignore_error: true
       - cmd: git push --tags
+
   commit:
     desc: Applies the VERSION variable to the JSON files and commits it to GitHub.
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: git -v
+        msg: "{{.REQGIT}}"
     deps: [set-version, version-purge, builds]
     cmds:
       - task: version-purge
@@ -91,3 +164,40 @@ tasks:
       - cmd: git tag -a "v{{.VERSION}}" --message "Version {{.VERSION}}"
       - cmd: git push --tags
       - cmd: git push
+
+  update:
+    desc: Update to the latest dependencies.
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm exec shx --version
+        msg: "{{.REQSHX}}"
+    cmds:
+      - cmd: pnpm update
+      - cmd: pnpm exec shx echo ""
+      - task: depends
+
+  docs-build:
+    desc:  Build the current documentation in use on https://docs.retrotxt.com.
+    preconditions:
+      - sh: pip show mkdocs-material
+        msg: "{{.REQMAT}}"
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm mkdocs -V
+        msg: "{{.REQDOCS}}"
+    cmds:
+      - cmd: pnpm mkdocs build
+
+  docs-serve:
+    desc:  Run an internal server to view the documentation in `docs`.
+    preconditions:
+      - sh: pip show mkdocs-material
+        msg: "{{.REQMAT}}"
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm mkdocs -V
+        msg: "{{.REQDOCS}}"
+    cmds:
+      - cmd: pnpm mkdocs serve
+        ignore_error: true # ignore Ctrl-C exit interrupts

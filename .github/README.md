@@ -1,6 +1,10 @@
-# RetroTxt
+<p align="center">
+  <img width="314" height="201" src="../docs/assets/retrotxt-readme.png">
+</p>
 
-## Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn), [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog), or [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
+### Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) ~ [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) ~ [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
+
+# RetroTxt
 
 Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
 
@@ -68,7 +72,7 @@ All Extension data is stored locally on your computer using the [storage.local A
 
 #### An important note about the license
 
-While RetroTxt uses a **[GNU Lesser General Public License v3.0](https://choosealicense.com/licenses/lgpl-3.0)**, the **included fonts do not**. You should read each font license in the [`fonts/`](../fonts/) subdirectory before redistribution, as some of the authors do not permit the sale or modification of their fonts or collections.
+While RetroTxt uses a **[GNU Lesser General Public License v3.0](https://choosealicense.com/licenses/lgpl-3.0)**, **the included fonts do not**. You should read each font license in the [`fonts/`](../fonts/) subdirectory before redistribution, as some of the authors do not permit the sale or modification of their fonts or collections.
 
 ## Credits
 
@@ -76,14 +80,18 @@ RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett) ([mail](mailto:cod
 
 RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
 
+Fonts from
+
 - [_The Ultimate Oldschool PC Font Pack_](https://int10h.org/oldschool-pc-fonts) by Viler
 - [_Retro Computer Fonts_](https://www.kreativekorp.com/software/fonts/index.shtml#retro) by Kreative Korp
+- [_Typography articles_](https://damieng.com/blog/category/Typography/) by Damien Guard
 
 * [_Atari Classic TrueType Fonts_](http://members.bitstream.net/marksim/atarimac/fonts.html) by Mark L. Simonson
 * [_Atari ST 8x16 System_](https://www.dafont.com/atari-st-8x16-system-font.font) by divVerent
 * [_C64 TrueType_](https://style64.org/c64-truetype) by Style
 * [_IBM 3270_](https://github.com/rbanffy/3270font) by Ricardo Banffy
-* [_Mona_](http://monafont.sourceforge.net/index-e.html) public domain
+* [_Mona_](https://monafont.sourceforge.net/index-e.html) public domain
+* [_MSX_](http://www.ateijelo.com/blog/2016/09/13/making-an-msx-font) by Andy Teijelo Pérez
 * [_Multi Platform Fonts_](https://github.com/rewtnull/amigafonts) by TrueSchool Ascii
 * [_Plex_](https://github.com/IBM/plex) by IBM Corp.
 * [_Spleen_](https://github.com/fcambus/spleen) by Frederic Cambus

@@ -824,6 +824,19 @@ class FontFamily {
           return `Sharp MZ`
         case `zxspectrum`:
           return `ZX Spectrum`
+        case `acornbbc`:
+          return `Acorn BBC`
+        case `amstradcpc`:
+          return `Amstrad CPC`
+        case `amstradpcw`:
+          return `Amstrad PCW`
+        case `msxscreen0`:
+        case `msxscreen1`:
+          return `MSX`
+        case `ti994a`:
+          return `Texas Instruments`
+        case `sinclairql`:
+          return `Sinclair QL`
       }
       switch (name.slice(0, 12)) {
         case `dos-v_re_ank`:

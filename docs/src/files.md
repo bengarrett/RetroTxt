@@ -29,7 +29,7 @@ These are the directories and files that comprise of RetroTxt source code.
 | `.gitattributes` | The [Git](https://git-scm.com) settings file for this repository |
 | `.gitignore` | The Git file to exclude items from being recorded |
 | `.prettierrc` | [Prettier configuration file](https://prettier.io/) |
-| `LICENSE` | A copy of the [GNU Lesser General Public License](http://www.gnu.org/licenses/lgpl-3.0.en.html), Version 3 |
+| `LICENSE` | A copy of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html), Version 3 |
 | `mkdocs.yml` | [mkdocs configuration file](https://www.mkdocs.org/) |
 | `package.json` | [Pnpm configuration file](https://pnpm.io/) |
 | `pnpm-lock.yml` | Pnpm lockfile |
@@ -78,7 +78,6 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `parse_dos.js` | Functions to handle text encodings and DOS code pages |
 | ↳ `retrotxt.js` | Content-script to apply RetroTxt to a browser tab DOM, or restore the tab to its original raw text state |
 | **`ext/scripts/sw/`** | Manifest V3 service workers |
-| ↳ `action.js` | Toolbar button actions |
 | ↳ `background.js` | Background service worker functions and `importScripts` |
 | ↳ `downloads.js` | Apply RetroTxt transformations to text file downloads |
 | ↳ `error.js` | Service worker error handlers |

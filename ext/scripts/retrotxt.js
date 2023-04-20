@@ -1004,8 +1004,9 @@ class SauceMeta {
     }
     // create elements
     const div = document.createElement(`div`)
+    div.append(document.createElement(`hr`))
     // sauce metadata
-    const sauce = document.createElement(`span`)
+    const sauce = document.createElement(`div`)
     sauce.id = `sauce00Data`
     sauce.textContent = body.trim()
     // append 16colo.rs crew link
@@ -1530,6 +1531,9 @@ class Output {
   newHead() {
     return document.createElement(`header`)
   }
+  newKBD() {
+    return document.createElement(`kbd`)
+  }
   newSpan() {
     return document.createElement(`span`)
   }
@@ -1741,22 +1745,31 @@ class Information extends Output {
   }
   /**
    * Construct the information header.
+   * ⌘ + Option + u
+   * Ctrl + u
    */
   async create() {
-    const div = document.createElement(`div`),
-      sp = `  `
+    const div1 = document.createElement(`div`),
+      div2 = document.createElement(`div`)
     this._createToggle()
-    this.append(sp)
-    this.append(this._info(`pixels`))
-    this.append(this.area)
-    this.append(sp)
-    this.append(this._info(`characters`))
-    this.append(this.size)
-    this.append(sp)
-    this.append(this._info(`encoding`))
-    this.append(this.output.encode)
-    this.append(div)
-    div.append(
+    this.append(div1)
+    div1.append(
+      this._info(`pixels`),
+      this.area,
+      this._sep(),
+      this._info(`characters`),
+      this.size,
+      this._sep(),
+      this._info(`encoding`),
+      this.output.encode,
+      this._sep(),
+      this._setSettings(),
+      this._sep(),
+      this._keyboardShortcuts(),
+      this._label(` to view original text`)
+    )
+    this.append(div2)
+    div2.append(
       this._label(`render`),
       this._setRender(),
       this._sep(),
@@ -1767,7 +1780,7 @@ class Information extends Output {
       this.font
     )
     if (this.input.format === ANSIText) {
-      div.append(
+      div2.append(
         this._sep(),
         this._label(`palette`),
         this._setPalette(),
@@ -1779,18 +1792,13 @@ class Information extends Output {
         this._setColumnWrap(),
         this._sep(),
         this._label(`page wrap`),
-        this._setPageWrap(),
-        this._sep(),
-        this._label(`more`),
-        this._setSettings()
+        this._setPageWrap()
       )
       // append any ecma-48 errors
       const sum = this.ecma48.otherCodesCount + this.ecma48.unknownCount,
         errorTrigger = 10
       if (sum > errorTrigger) return this.append(this._setErrorBBS())
       if (sum > 0) return this.append(this._setWarningBBS())
-    } else {
-      div.append(this._sep(), this._label(`more`), this._setSettings())
     }
   }
   append(element) {
@@ -2014,6 +2022,15 @@ class Information extends Output {
     span.textContent = `This replication of BBS art to HTML is partly inaccurate`
     div.append(span)
     return div
+  }
+  _keyboardShortcuts() {
+    const kbd = super.newKBD()
+    kbd.textContent = `Ctrl+U`
+    chrome.storage.local.get(`platform`, (store) => {
+      const macOS = 1
+      if (store.platform === macOS) kbd.textContent = `Command+Option+U`
+    })
+    return kbd
   }
 }
 
@@ -2356,14 +2373,16 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   try {
     sessionStorage.removeItem(`lockFont`)
   } catch (e) {
-    console.error(
-      `
-Session storage is disabled by the browser or the content-security-policy configured on this website.
-RetroTxt will not be able to work with this page.
-
-> ${e}`
+    console.group(`RetroTxt will not be able to work with this webpage`)
+    console.info(
+      `For security, this website is configured to block the use of session storage (content-security-policy); OR this browser has the session storage setting disabled.`
     )
-    DisplayAlert()
+    console.error(e)
+    console.groupEnd()
+    DisplayAlert(
+      true,
+      `RetroTxt cannot work with this webpage. For security, it blocked the use of session storage.`
+    )
     return BusySpinner(false)
   }
   // create DOM object

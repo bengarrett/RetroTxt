@@ -24,12 +24,11 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 })
 
 // Create a new session local storage object for the browser tab.
-function NewSession(tabID = 0, data) {
+function SessionNew(tabID = 0, data) {
   if (data === null || !(`type` in data))
-    CheckError(`required data for newSession(${tabID}) session is empty`)
+    CheckError(`required data for sessionNew(${tabID}) is empty`)
   const key = `${SessionKey}${tabID}`
   const store = {
-    execute: true,
     textfile: true,
     encoding: data.type,
     update: 0,
@@ -37,26 +36,25 @@ function NewSession(tabID = 0, data) {
   if (data.type === `unknown`) store.textfile = false
   if (data.encoding === ``) store.textfile = false
   chrome.storage.local.set({ [key]: store })
-  Console(`New session for tab #${tabID}.`)
+  Console(`Session, textfile on for tab #${tabID}.`)
 }
 
 // Create a new session local storage object for the browser tab with an active update value.
-function NewSessionUpdate(tabID = 0) {
+function SessionOff(tabID = 0) {
   const key = `${SessionKey}${tabID}`
   const store = {
-    execute: false,
     textfile: false,
     encoding: ``,
     update: 1,
   }
   chrome.storage.local.set({ [key]: store })
-  Console(`New session for tab #${tabID}.`)
+  Console(`Session, textfile off for tab #${tabID}.`)
 }
 
 // Remove the session local storage object for the browser tab.
 function RemoveSession(tabID = 0) {
   const key = `${SessionKey}${tabID}`
-  Console(`Remove session data: ${key}.`)
+  Console(`Session, textfile remove: ${key}.`)
   chrome.storage.local.remove(`${key}`)
 }
 
@@ -75,4 +73,4 @@ function removeSessions() {
 }
 
 /* global CheckError CheckLastError Console ConsoleLoad */
-/* exported NewSession NewSessionUpdate RemoveSession SessionKey */
+/* exported SessionNew SessionOff RemoveSession SessionKey */

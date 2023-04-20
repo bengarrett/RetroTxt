@@ -20,8 +20,8 @@ UTF-16 is based on Unicode and is compatible with UTF-8 and backward compatible 
 | [ISO-8859-1](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) | Yes [^4] | The replacement for US-ASCII that supported two times the characters and was the default encoding for the Commodore Amiga and legacy Linux |
 | [ISO-8859-15](https://en.wikipedia.org/wiki/ISO/IEC_8859-15) | Yes | An update for ISO-8859-1 that added some missing characters such as the `€` Euro sign |
 | [SHIFT JIS](https://en.wikipedia.org/wiki/Shift_JIS) | Yes [^4] | A legacy Japanese encoding used by Shift JIS art |
-| [UTF-8](http://unicode.org/faq/utf_bom.html#utf8-1) | Yes [^4] | The current standard encoding for modern HTML and most documents it supports over a hundred thousand characters |
-| [UTF-16](http://unicode.org/faq/utf_bom.html#utf16-1) | Yes [^4] | The Unicode implementation used by JavaScript and common for documents not written in the Latin alphabet |
+| [UTF-8](https://unicode.org/faq/utf_bom.html#utf8-1) | Yes [^4] | The current standard encoding for modern HTML and most documents it supports over a hundred thousand characters |
+| [UTF-16](https://unicode.org/faq/utf_bom.html#utf16-1) | Yes [^4] | The Unicode implementation used by JavaScript and common for documents not written in the Latin alphabet |
 | CP-1250<br>CP-1251<br>ISO-8859-5 | Yes | Encodings that are mistakenly used by Chromium when viewing ANSI and ASCII art |
 
 [^1]: Historically known as ANSI X3.4 or ISO 646.

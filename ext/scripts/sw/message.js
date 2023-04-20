@@ -21,7 +21,8 @@ chrome.runtime.onConnect.addListener((port) => {
       return
     }
     if (typeof message.tabModified === `boolean`) {
-      buttonInvoke(developerMode, message)
+      // This used to run: buttonInvoke(developerMode, message)
+      // The tabModified message could probably be removed at a later date.
       return
     }
     if (typeof message.openOptionsPage === `boolean`) {
@@ -72,19 +73,6 @@ function monitorDownloads(developerMode, message) {
   new Downloads().startup(value)
 }
 
-function buttonInvoke(developerMode, message) {
-  const button = new ToolbarButton(),
-    value = message.tabModified
-  GetCurrentTab().then((result) => {
-    if (developerMode)
-      console.log(`✉ Tab-modified tab #%s is %s command.`, result.id, value)
-    if (typeof result.id !== `number`) return
-    button.id = result.id
-    if (value === true) button.enable()
-    else button.disable()
-  })
-}
-
 function tabInvoke(developerMode, message) {
   if (developerMode)
     console.log(`✉ Invoked tab #%s is %s command.`, message.tabID, message.init)
@@ -111,4 +99,4 @@ function unexpected(developerMode, message, sender) {
   console.groupEnd()
 }
 
-/* global ConsoleLoad Downloads Extension GetCurrentTab SessionKey SetToolbarIcon ToolbarButton */
+/* global ConsoleLoad Downloads Extension SessionKey SetToolbarIcon */
