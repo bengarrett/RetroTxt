@@ -32,7 +32,7 @@ tasks:
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: pnpm exec shx
+      - sh: pnpm exec shx --version
         msg: "{{.REQSHX}}"
     dir: web-ext-artifacts
     cmds:
@@ -44,14 +44,14 @@ tasks:
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: pnpm exec dot-json
+      - sh: pnpm exec dot-json -v
         msg: "{{.REQDJS}}"
     cmds:
       - pnpm exec dot-json ext/manifest.json version "{{.VERSION}}"
 
   set-ver:
     preconditions:
-      - sh: git
+      - sh: git -v
         msg: "{{.REQGIT}}"
     cmds:
       - cmd: git tag "v{{.VERSION}}"
@@ -75,7 +75,7 @@ tasks:
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: pnpm exec web-ext
+      - sh: pnpm exec web-ext --version
         msg: "{{.REQWEXT}}"
     cmds:
       - task: version-set
@@ -115,7 +115,7 @@ tasks:
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: pnpm exec shx
+      - sh: pnpm exec shx --version
         msg: "{{.REQSHX}}"
     # use shx for Windows compatibility
     cmds:
@@ -141,7 +141,7 @@ tasks:
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: git
+      - sh: git -v
         msg: "{{.REQGIT}}"
     cmds:
       - cmd: git tag "v{{.VERSION}}" --delete
@@ -153,7 +153,7 @@ tasks:
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: git
+      - sh: git -v
         msg: "{{.REQGIT}}"
     deps: [set-version, version-purge, builds]
     cmds:
@@ -170,7 +170,7 @@ tasks:
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: pnpm exec shx
+      - sh: pnpm exec shx --version
         msg: "{{.REQSHX}}"
     cmds:
       - cmd: pnpm update
@@ -184,7 +184,7 @@ tasks:
         msg: "{{.REQMAT}}"
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: pnpm mkdocs
+      - sh: pnpm mkdocs -V
         msg: "{{.REQDOCS}}"
     cmds:
       - cmd: pnpm mkdocs build
@@ -196,7 +196,8 @@ tasks:
         msg: "{{.REQMAT}}"
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
-      - sh: pnpm mkdocs
+      - sh: pnpm mkdocs -V
         msg: "{{.REQDOCS}}"
     cmds:
       - cmd: pnpm mkdocs serve
+        ignore_error: true # ignore Ctrl-C exit interrupts
