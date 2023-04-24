@@ -192,8 +192,8 @@ tasks:
   docs-serve:
     desc:  Run an internal server to view the documentation in `docs`.
     preconditions:
-      - sh: pip show mkdocs-material
-        msg: "{{.REQMAT}}"
+      # - sh: pip show mkdocs-material
+      #   msg: "{{.REQMAT}}"
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
       - sh: pnpm mkdocs -V
