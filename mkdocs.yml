@@ -15,7 +15,7 @@
 # mkdocs build
 
 site_name: RetroTxt
-copyright: RetroTxt &copy; 2022 Ben Garrett
+copyright: RetroTxt &copy; 2022-23 Ben Garrett
 repo_url: https://github.com/bengarrett/RetroTxt
 
 theme:
@@ -34,7 +34,9 @@ nav:
   - Install: index.md
   - Usage:
       - First-time usage: usage/first.md
-      - Configuration: usage/cfg.md
+      - Secure: usage/secure.md
+      - Website suggestions: usage/suggestions.md
+      #- Configuration: usage/cfg.md
       - Local files: usage/local.md
       - Font size: usage/font_size.md
       - Garbled text: usage/garbled.md
