@@ -10,16 +10,8 @@ hide:
 
 There could be many causes, but it is generally related to the web server or browser choosing the incorrect character encoding for the text file.
 
-### Fix on Firefox
+Modern web browsers and documents use the universal UTF-8 encoding, while legacy text files rely on 8-bit codepages that use at most 256 different text characters or glyphs. UTF-8 decoding is not 100% backward compatible with the many legacy text encodings. But unfortunately, most browsers have no good way to fix this.
 
-To select **Repair Text Encoding** in the browser.
+RetroTxt can attempt to resolve this by swapping out different characters based on mocking the more common historic character encodings. There is a clickable item titled encoding in the information header of the tab, and clicking this multiple times will cycle through the five other mock encodings.
 
-++alt++ ++v++ then ++c++
-
----
-
-### Chrome and other browsers
-
-Without a 3rd-party Extension, **Chrome** and **Edge** cannot switch the character encoding. Unfortunately these extensions seem to be incompatible with RetroTxt.
-
-[You can attempt to manually switch the transcoding of the tab](../char).
+## image of the five encodings

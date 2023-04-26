@@ -1,35 +1,23 @@
 ---
-title: OS or browser preference?
+title: Browser wars
 authors:
     - Ben Garrett
 date: 2022-08-30
 hide:
   - toc
 ---
-# Is there an operating system or browser preference?
 
-## Browsers
+## Is there an operating system or browser preference?
 
-Chrome-based browsers reduce CPU usage and battery drain by limiting the resources available to Extensions. So they can be slower than Firefox to render large ANSI documents or text that use RGB color controls.
+!!! tips inline end "macOS tweaks"
+    1. Make sure the _Retina Display Scale_ is exactly half your screen resolution for crisper text.
+    2. For example, if a Macbook Pro 13.3" has a 2560 x 1600 resolution, you'd want the _Built-in Retina Display_ to scale to 1280 x 800.
+    3. Because of the high resolutions with modern Apple hardware, you can also disable _Use font smoothing when available_.
 
-## Operating systems
+All supported browsers use the same rendering engine, [Chromium](https://www.chromium.org/Home/), the open-sourced Chrome browser rendering engine.
 
-### **Great**, macOS
+macOS is the best platform for RetroTxt, displaying all text characters without distortion.
 
-macOS is the best platform to use RetroTxt, regardless of the browser, and it displays shaded characters and blocks with no artifacts or distortion.
+Chrome on Windows suffers from artifacts and distortions caused by its system-wide font hinting regardless of the browser. Chrome on Linux and ChromeOS uses the same internal font renderer and suffers from the same artifacts.
 
-Some tips, make sure the **Retina Display Scale** is exactly half your screen resolution for crisper text. For example, if a Macbook Pro 13.3" has a 2560 x 1600 resolution, you'd want the **Built-in Retina Display** to scale to `1280 x 800`. Because of the high resolutions with modern Apple hardware, you can also disable **Use font smoothing when available**.
-
-### **Good**, Linux <small>and ChromeOS</small>
-
-Desktop Linux complicates things due to the varying components used by different distributions.
-
-Firefox[^1] has no artifacts, so it is the preferred browser on Linux.
-
-Chrome and ChromeOS use an internal font renderer, which suffers from the same artifacts as Chrome on Windows.
-
-### **Fine**, Windows
-
-Windows suffers from artifacts and distortions caused by its system-wide font hinting regardless of the browser.
-
-[^1]: At least on GNOME with Wayland.
+### insert comparison

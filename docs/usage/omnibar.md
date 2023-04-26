@@ -4,6 +4,13 @@ RetroTxt supports several commands using the address bar, also known as the Omni
 
 The `txt` keyword is the address bar trigger.
 
+
+<figure markdown>
+  ![RetroTxt showcase](../assets/omnibox-sample.png)
+  <figcaption>Omnibox txt samples command</figcaption>
+</figure>
+
+
 | Command | Description |
 | -- | -- |
 | `txt version` | Display the RetroTxt version information |
@@ -18,8 +25,3 @@ The `txt` keyword is the address bar trigger.
 | `txt reload` [^1] | In developer mode, reload the Extension |
 
 [^1]: Only usable when the browser Extensions configuration has **Developer mode** toggled.
-
-<figure markdown>
-  ![RetroTxt showcase](../assets/omnibox-sample.png)
-  <figcaption>Omnibox txt samples command</figcaption>
-</figure>

@@ -11,7 +11,9 @@ hide:
 !!! note inline end "Why does RetroTxt require Read and change all data permissions?"
     ![RetroTxt add extension](../assets/add-retrotxt.png){ loading=lazy }
 
-    The short answer is that it doesn't, which is a limitation of the web extension permissions. RetroTxt ignores all websites except those you tell it to monitor in the background. If you're in a corporate environment or security conscious, after installation, you can fine-tune your browser to further lockdown RetroTxt.
+    The short answer is that it doesn't, which is a limitation of the web extension permissions. RetroTxt ignores all websites except those you tell it to monitor in the background.
+
+    [If you're in a corporate environment or security conscious, after installation, you can fine-tune your browser to further lockdown RetroTxt](usage/secure.md).
 
 <p align="center">
   <img width="314" height="201" src="assets/retrotxt-readme.png">
@@ -88,6 +90,5 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 * Hundreds of IBM PC font choices<br>VGA, EGA, CGA, MDA, PS/2, and more
 * Various Amiga and microcomputer fonts<br>From Commodore, Atari, Apple, Tandy, and more
 * Open-source
-* No special browser permissions for general usage
 
 ---

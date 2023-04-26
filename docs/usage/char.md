@@ -1,10 +1,12 @@
 ---
-title: Character encoding
-authors:
-    - Ben Garrett
-date: 2022-08-30
+title: This a retired document
+hide:
+  - toc
 ---
+
 # Character encoding
+
+This a retired document.
 
 Character encoding is complicated, and the execution is not always precise. If you encounter a page not displaying as expected, you can transcode the text to show a different set of characters.
 

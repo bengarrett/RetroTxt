@@ -3,7 +3,7 @@ hide:
 ---
 # First-time usage
 
-!!! warning inline end "Read and change all data"
+!!! note inline end "Read and change all data"
     Despite this access, __RetroTxt always ignores websites other than those you tell it to monitor in the background__. It also ignores all markup text, such as HTML or XML, for your privacy and overall browser performance.
 
     [If unrestricted access remains a worry, you can configure the browser to restrict RetroTxt further]().

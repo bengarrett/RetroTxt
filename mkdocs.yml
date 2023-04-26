@@ -34,15 +34,14 @@ nav:
   - Install: index.md
   - Usage:
       - First-time usage: usage/first.md
-      - Secure: usage/secure.md
-      - Website suggestions: usage/suggestions.md
-      #- Configuration: usage/cfg.md
-      - Local files: usage/local.md
-      - Font size: usage/font_size.md
+      - Secure RetroTxt: usage/secure.md
+      - View local files: usage/local.md
+      - Suggestions: usage/websites.md
       - Garbled text: usage/garbled.md
-      - Encodings: usage/char.md
-      - Preferences: usage/pref.md
+      - Font size: usage/font_size.md
+      - Font rendering: usage/pref.md
       - Commands: usage/omnibar.md
+      - RETIRED encoding: usage/char.md
   - Limitations: limitations.md
   - Supported standards:
       - Control sequences: specs/controls.md

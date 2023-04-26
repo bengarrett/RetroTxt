@@ -18,15 +18,21 @@ If you work in a corporate environment or want to limit the access of RetroTxt, 
   <figcaption>Add extension, broad permission request</figcaption>
 </figure>
 
+---
+
 ## Add RetroTxt to its own isolated Profile
 
 Firstly, I'd recommend [creating a new Chrome or Edge profile](https://support.google.com/chrome/answer/2364824) to install RetroTxt. The new profile does not need a Google or Microsoft account when using the __Continue without an account__ option. And importantly RetroTxt will only ever operate within that profile. By switching between profiles, any signed-in accounts and webpages will be wholly isolated from RetroTxt.
+
+---
 
 ## Remove Suggestions
 
 For the fans of ANSI and ASCII art, there are several websites that RetroTxt monitors in the background. Disable these by clicking the RetroTxt toolbar button, and in the popup, click the blue _To include a new website_ button.
 
-Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_, click the **remove** suggestions button, and now RetroTxt will only monitor retrotxt.com. Read on in the Manage extension section below to also block this.
+Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_, click the **remove** suggestions button, and now RetroTxt will only monitor retrotxt.com. Read on to learn how also to block this.
+
+---
 
 ## Manage extension
 
