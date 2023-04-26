@@ -8,7 +8,7 @@ hide:
 ---
 # Miscellaneous support
 
-The ANSI art community agrees to other common non-standard sequences.
+Other common non-standard sequences the ANSI community agrees to.
 
 | Control | Value | Support |
 | -- | -- | -- |

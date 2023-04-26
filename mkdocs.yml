@@ -41,12 +41,11 @@ nav:
       - Font size: usage/font_size.md
       - Font rendering: usage/pref.md
       - Commands: usage/omnibar.md
-      - RETIRED encoding: usage/char.md
   - Limitations: limitations.md
   - Supported standards:
       - Control sequences: specs/controls.md
       - Codepages: specs/cp.md
-      - ANSI (ECMA48): specs/ansi.md
+      - ANSI / ECMA-48: specs/ansi.md
       - ANSI.SYS: specs/ansi_sys.md
       - BBS colors: specs/bbs.md
       - Non-standard: specs/misc.md

@@ -1,16 +1,54 @@
 ---
-title: Source code installation & use
-authors:
-    - Ben Garrett
 date: 2022-08-30
 ---
 # Install and usage
 
+This page instructs how to use and build the source code for Chrome.
+
+RetroTxt employs an [open-sourced license]((https://choosealicense.com/licenses/lgpl-3.0/)) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).
+
+You'll require the following command line tools to download and initialize the repository.
+
+- [git](https://git-scm.com)
+- [Node.js](https://nodejs.org/engit)
+- [pnpm](https://pnpm.io)
+- [Task](https://taskfile.dev)
+
+!!! note ""
+    [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package, such as workspace settings and extension recommendations.
+
+## Clone the repo
+
+Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) command in a terminal.
+
+```bash
+git clone https://github.com/bengarrett/RetroTxt.git
+```
+
+## Install the dependencies
+
+```bash
+cd RetroTxt
+pnpm install
+task depends
+```
+
+## (optional) Edit the manifest file
+
+The `ext/manifest.json` file contains the configuration and metadata for RetroTxt.
+
+```json
+  "host_permissions": [
+    "*://*.retrotxt.com/*",
+    "https://*/",
+    "http://*/",
+    "file://*/"
+  ],
+```
+
 RetroTxt employs an [open-sourced GNU LGPLv3 license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).
 
 This page instructs how to use the source in Chrome-based and Firefox web browsers.
-
-[Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package, such as workspace settings and extension recommendations.
 
 There are also [Node.js](https://nodejs.org) with [pnpm](https://pnpm.io) packages for the programming and build tools.
 

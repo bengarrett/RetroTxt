@@ -2,7 +2,16 @@
 hide:
   - toc
 ---
-Control sequences are strings of characters embedded into the text as the cursor, display, and presentation functions. ANSI art uses control sequences for its colorization and cursor positioning, as do remote terminals used by many Linux and Unix tools such as [xterm](https://invisible-island.net/xterm/).
+Control sequences are strings of characters embedded into the text as the cursor, display, and presentation functions.
+
+!!! info "ANSI control"
+    An example of an ANSI escape sequence to set a white font and black background color.
+
+    ```
+    ←[0;37;40m
+    ```
+
+ANSI art uses control sequences for its colorization and cursor positioning, as do remote terminals used by many Linux and Unix tools such as [xterm](https://invisible-island.net/xterm/).
 
 | Common name | Official | Partial support | Notes |
 | -- | -- | -- | -- |
