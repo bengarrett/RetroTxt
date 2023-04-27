@@ -5,10 +5,6 @@ authors:
 date: 2022-08-30
 ---
 
-!!! tip
-
-    [The build tasks **do not run on PowerShell**](https://github.com/go-task/task/issues/319). Instead Windows users should use [WSL](https://docs.microsoft.com/en-us/windows/wsl/).
-
 ## Initialize
 
 Clone the repository.

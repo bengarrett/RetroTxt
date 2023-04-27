@@ -3,11 +3,13 @@ title: Privacy policy
 authors:
     - Ben Garrett
 date: 2022-08-30
+hide:
+  - toc
 ---
 
-**RetroTxt does not collect or transmit any data created by your web browser.**
+### RetroTxt does not collect or transmit any data created by your web browser
 
-All Extension data is stored locally on your computer using the [storage.local API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local).
+All data is stored locally on your computer using the [storage.local API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local).
 
 ## Technical
 
@@ -36,7 +38,7 @@ It is needed so RetroTxt can read the current URL of the active browser tab and 
 1. If the URL matches `*://retrotxt.com/*`.
 1. If the file points to a known text filename, such as a file extension `.nfo` or `.txt`.
 
-**The read URLs are never saved or transmitted.**
+#### The read URLs are never saved or transmitted
 
 ### [`"contextMenus"`](https://developer.chrome.com/docs/extensions/reference/contextMenus/)
 

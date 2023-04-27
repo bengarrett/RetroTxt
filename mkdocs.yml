@@ -52,10 +52,10 @@ nav:
       - SAUCE (metadata): specs/sauce.md
   - Source code:
       - Install & usage: src/index.md
-      - Building tips: src/build.md
-      - Manifest V3: src/mv3.md
       - Files & directories: src/files.md
       - Fonts: src/font.md
+      - Tips for building: src/build.md
+      - Manifest V3: src/mv3.md
   - Changes: changes.md
   - Hosting on the web:
       - Nginx: host/nginx.md

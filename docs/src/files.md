@@ -10,7 +10,7 @@ hide:
 
 These are the directories and files that comprise of RetroTxt source code.
 
-!!! tip
+!!! tip ""
     Items ending with a forward-slash `/` are directories<br>
     Items starting with a dot `.` are flagged as hidden
 

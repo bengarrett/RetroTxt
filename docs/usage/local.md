@@ -36,8 +36,16 @@ RetroTxt is happy to work with any local file URL but needs to be given this per
 
 To access this, right-click the RetroTxt toolbar button and select _Manage extension_.
 
-### img
+<figure markdown>
+  ![RetroTxt add extension](../assets/manage-extension-pinned.png){ loading=lazy, width=400 }
+  <figcaption>The RetroTxt button pinned to the toolbar</figcaption>
+</figure>
 
 Scroll down to and enable __Allow access to file URLs__ under _Permissions_.
 
 Now, RetroTxt will monitor any local text files opened in the browser!
+
+<figure markdown>
+  ![RetroTxt add extension](../assets/allow-access-to-files.png){ loading=lazy, width=600 }
+  <figcaption>Allow access to the file URLs</figcaption>
+</figure>

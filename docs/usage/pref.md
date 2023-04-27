@@ -20,4 +20,10 @@ macOS is the best platform for RetroTxt, displaying all text characters without 
 
 Chrome on Windows suffers from artifacts and distortions caused by its system-wide font hinting regardless of the browser. Chrome on Linux and ChromeOS uses the same internal font renderer and suffers from the same artifacts.
 
-### insert comparison
+=== "macOS"
+
+    ![RetroTxt add extension](../assets/block-macos.png){ loading=lazy, width=239 }
+
+=== "Windows"
+
+    ![RetroTxt add extension](../assets/block-windows.png){ loading=lazy, width=239 }

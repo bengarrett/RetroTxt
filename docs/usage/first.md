@@ -50,7 +50,7 @@ You can click the blue arrow on the upper-left corner to hide the header and rem
 
 If you want to view the original ANSI document, focus on the tab and tap to launch a view source tab:
 
-++ctrl++ <kbd>u</kbd> or ++command++ ++option++ <kbd>u</kbd>
+++ctrl++ <kbd>u</kbd> &nbsp; or &nbsp; ++command++ ++option++ <kbd>u</kbd>
 
 <figure markdown>
   ![RetroTxt add extension](../assets/original-text.png){ loading=lazy, width=600 }
@@ -68,7 +68,7 @@ In a tab, open the text document [special-use-domain-names.txt](https://www.iana
 Despite being plain text, RetroTxt ignores the page as it is not monitoring [iana.org](https://www.iana.org).
 
 <figure markdown>
-  ![RetroTxt add extension](../assets/special-use-domain-names.png){ loading=lazy, width=600 }
+  ![RetroTxt add extension](../assets/manage-extension.png){ loading=lazy, width=600 }
   <figcaption>Special use domain names text</figcaption>
 </figure>
 
@@ -166,13 +166,4 @@ Switch back to the  `special-use-domain-names.txt` text tab and reload. It shoul
 <figure markdown>
   ![RetroTxt add extension](../assets/special-use-domain-names.png){ loading=lazy, width=600 }
   <figcaption>Special use domain names text</figcaption>
-</figure>
-
----
-
-You can test the installation of RetroTxt by selecting one of the many sample artworks found in the RetroTxt Samples tab.<br>Or type `txt samples` in an address bar.
-
-<figure markdown>
-  ![RetroTxt showcase](../assets/omnibox-sample.png)
-  <figcaption>Omnibox txt samples command</figcaption>
 </figure>

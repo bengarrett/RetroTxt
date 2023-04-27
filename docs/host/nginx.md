@@ -9,7 +9,11 @@ hide:
 ---
 # Serve ANSI, ASCII & BBS art
 
-Below is a barebones configuration to serve plain text files using [Nginx](https://www.nginx.com). The `#!nginx location` block applies the configuration only to files using the path `http://example.com/ansi`. The served textfiles are in `/var/www/example.com/html`.
+Below is a barebones configuration to serve plain text files using [Nginx](https://www.nginx.com).
+
+The `#!nginx location` block applies the configuration only to files using the path `http://example.com/ansi`.
+
+The served textfiles are in `/var/www/example.com/html`.
 
 ```nginx title="nginx.conf" linenums="1"
 server {
