@@ -9,23 +9,25 @@ RetroTxt employs an [open-sourced license]((https://choosealicense.com/licenses/
 
 You'll require the following command line tools to download and initialize the repository.
 
-- [git](https://git-scm.com)
-- [Node.js](https://nodejs.org/engit)
-- [pnpm](https://pnpm.io)
-- [Task](https://taskfile.dev)
+- [git](https://git-scm.com) - the distributed version control software
+- [Node.js](https://nodejs.org) - an open-source, cross-platform JavaScript runtime environment
+- [pnpm](https://pnpm.io) - an efficient package manager for Node.js
+- [Task](https://taskfile.dev) - a task runner / build tool that aims to be simpler and easier to use
 
 !!! note ""
-    [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package, such as workspace settings and extension recommendations.
+    [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt. It includes optional `.vscode` conveniences, such as workspace settings and extension recommendations.
 
 ## Clone the repo
 
-Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) command in a terminal.
+Download and copy the RetroTxt repository to the current directory.
 
 ```bash
 git clone https://github.com/bengarrett/RetroTxt.git
 ```
 
 ## Install the dependencies
+
+RetroTxt has a few third-party dependencies and tools for initialization in the repository.
 
 ```bash
 cd RetroTxt
@@ -35,7 +37,7 @@ task depends
 
 ## (optional) Edit the manifest file
 
-The `ext/manifest.json` file contains the configuration and metadata for RetroTxt.
+Some may wish to edit the Extension manifest containing the base configuration, permissions, and metadata for RetroTxt.
 
 ```json
   "host_permissions": [
@@ -46,22 +48,26 @@ The `ext/manifest.json` file contains the configuration and metadata for RetroTx
   ],
 ```
 
+The `RetroTxt/ext/manifest.json` file contains the configuration and metadata for RetroTxt.
+
+
 ## Run the source code
 
-I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) and edit the Extension.
+I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) for the the Extension.
 
-Open a new tab with the address of the Extensions feature.
+Open a new tab with the address of the Extensions features.
 
-tip, `chrome://extensions/` will work in other browsers such as Edge.
+!!! tip inline end ""
+    The `chrome://extensions/` address will work in other browsers such as Edge
 
-``` title="Extensions Details address"
-chrome://extensions
+```
+chrome://extensions/
 ```
 
 1.  In the Extensions tab, toggle **Developer mode**
 2.  Click the **Load unpacked** button
-3.  Navigate to the local directory containing the RetroTxt source code and select OK
+3.  Navigate to the directory containing the local RetroTxt repository and select **OK**
+
+RetroTxt should load.
 
 ![Chrome extensions developer mode](../assets/source_code-chrome.png)
-
-RetroTxt should load. The Options link behind the **Details** button allows you to configure RetroTxt styling and behavior.
