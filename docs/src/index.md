@@ -66,7 +66,7 @@ chrome://extensions/
 
 1.  In the Extensions tab, toggle **Developer mode**
 2.  Click the **Load unpacked** button
-3.  Navigate to the directory containing the local RetroTxt repository and select **OK**
+3.  Navigate to the directory containing the `RetroTxt/ext/` repository and select **OK**
 
 RetroTxt should load.
 
