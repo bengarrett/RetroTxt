@@ -9,10 +9,10 @@ RetroTxt employs an [open-sourced license]((https://choosealicense.com/licenses/
 
 You'll require the following command line tools to download and initialize the repository.
 
-- [git](https://git-scm.com) - the distributed version control software
-- [Node.js](https://nodejs.org) - an open-source, cross-platform JavaScript runtime environment
-- [pnpm](https://pnpm.io) - an efficient package manager for Node.js
-- [Task](https://taskfile.dev) - a task runner / build tool that aims to be simpler and easier to use
+- [ ] [git](https://git-scm.com) - the distributed version control software
+- [ ] [Node.js](https://nodejs.org) - an open-source, cross-platform JavaScript runtime environment
+- [ ] [pnpm](https://pnpm.io) - an efficient package manager for Node.js
+- [ ] [Task](https://taskfile.dev) - a task runner / build tool that aims to be simpler and easier to use
 
 !!! note ""
     [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt. It includes optional `.vscode` conveniences, such as workspace settings and extension recommendations.
