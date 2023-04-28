@@ -9,12 +9,23 @@ date: 2022-08-30
 
 This page contains the known but unfixable problems that may occur using RetroTxt.
 
+## Unsupported text formats
+
+Micro-computer era, non-standard ASCII are not supported.
+
+- [**Atari ATASCII**](https://atariwiki.org/wiki/Wiki.jsp?page=Atari%20ATASCII%20Table)
+- [**Commodore PETSCII**](https://sta.c64.org/cbm64pet.html)
+
+Binary formats such as [**.xb**](http://fileformats.archiveteam.org/wiki/XBIN) and **.bin** are not usable as browsers refuse to display unidentified file data in a tab.
+
+---
+
 !!! note inline end ""
     Creating motion and animations would require a considerable amount of programming work for little reward. It would be a massive hit to browser performance, and most larger and more complicated ANSI would probably never render as the browser would flag the tab as unresponsive.
 
-## BBS era ANSI
+## BBS era ANSI art
 
-Many [Bulletin Board System](https://spectrum.ieee.org/tech-history/cyberspace/social-medias-dialup-ancestor-the-bulletin-board-system) era ANSI art relied on an 80x25 fixed terminal with the cursor positioning to create motion and animations that do not convert using RetroTxt.
+Many [Bulletin Board System](https://spectrum.ieee.org/tech-history/cyberspace/social-medias-dialup-ancestor-the-bulletin-board-system) era ANSI art relied on an 80x25 fixed terminal with the cursor positioning to create motion and animations **that do not convert using RetroTxt**, including [ANSI animations](http://fileformats.archiveteam.org/wiki/ANSIMation) and [music](http://artscene.textfiles.com/ansimusic/).
 
 ---
 
@@ -22,20 +33,10 @@ Many [Bulletin Board System](https://spectrum.ieee.org/tech-history/cyberspace/s
 
 Browser [MIME sniffing](https://en.wikipedia.org/wiki/Content_sniffing) often overrides RetroTxt, forcing text files to download rather than display in a tab.
 
-- Chrome browsers can produce incorrect MIME sniffing results with the `file:///` protocol.
+Chrome browsers can produce incorrect MIME sniffing results with the `file:///` protocol.
 
-- Firefox usually produces incorrect MIME sniffing results with the `http(s)://` protocol.
-
----
-
-## Unsupported text formats
-
-Micro-computer era, non-standard ASCII are not supported.
-
-- **Atari ATASCII**
-- **Commodore PETSCII**
-
-Binary formats such as **.xbin** and **.bin** are not usable as browsers refuse to display unidentified file data in a tab.
+<!--
+- Firefox usually produces incorrect MIME sniffing results with the `http(s)://` protocol. -->
 
 ---
 

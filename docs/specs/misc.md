@@ -8,7 +8,7 @@ hide:
 ---
 # Miscellaneous support
 
-Other common non-standard sequences the ANSI community agrees to.
+Other common, non-standard sequences the ANSI community uses.
 
 | Control | Value | Support |
 | -- | -- | -- |

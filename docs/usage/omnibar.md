@@ -1,12 +1,16 @@
+---
+hide:
+  - toc
+---
 # Commands
 
-RetroTxt supports several commands using the address bar, also known as the Omnibox. The commands are triggered using a combination of keywords, and the browser will provide suggestions as you type.
+RetroTxt supports several commands using the address bar, also known as [the Omnibox](https://www.teq.com/4-tips-to-become-a-google-chrome-omnibox-master/). The commands are triggered using a combination of keywords, and the browser will provide suggestions as you type.
 
-The `txt` keyword is the address bar trigger.
+## __txt__ is the omnibar trigger keyword
 
 
 <figure markdown>
-  ![RetroTxt showcase](../assets/omnibox-sample.png)
+  ![RetroTxt omnibox commands](../assets/omnibox-sample.png)
   <figcaption>Omnibox txt samples command</figcaption>
 </figure>
 

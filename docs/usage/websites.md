@@ -8,7 +8,7 @@ hide:
 
 For the fans of ANSI and ASCII art, there are several websites that RetroTxt monitors in the background. [These are optional](/usage/secure/#remove-suggestions).
 
-The only permanent domain is [retrotxt.com](https://retrotxt.com), which is used as a fallback to confirm the Extension installation works.  This domain also hosts the Sample artworks you can access by typing `txt samples` in the address bar.
+The only permanent domain is [retrotxt.com](https://retrotxt.com/e), which is used as a fallback to confirm the Extension installation works.  This domain also hosts the Sample artworks you can access by typing `txt samples` in the address bar.
 
 ---
 

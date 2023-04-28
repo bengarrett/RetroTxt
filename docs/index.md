@@ -1,6 +1,6 @@
 ---
 title: "Install, screenshots and features"
-summary: Root index for docs.retrotxt.com.
+summary: Index of docs.retrotxt.com.
 authors:
     - Ben Garrett
 date: 2022-08-30
@@ -26,9 +26,9 @@ hide:
 
 # RetroTxt
 
-Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
+Turn pieces of ANSI, ASCII, and NFO documents into a web document. RetroTxt is the browser Extension that takes legacy and plain text files and correctly stylizes them for viewing or copying from a browser tab.
 
-- [x] View ANSI, ASCII, NFO, Shift JIS text art as HTML
+- [x] View ANSI, ASCII, NFO, Shift JIS text art as a web document
 - [x] View server, system, and dev-op logs styled with colored text
 - [x] View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
@@ -82,7 +82,5 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 * ### Support for multiple text encodings<br>MS-DOS CP-437, Amiga ISO-8959-1, Windows 1252, Japanese Shift-JIS
 * ### Automatic fixes for block character and line artifacts
 * ### Hundreds of IBM PC font choices<br>VGA, EGA, CGA, MDA, PS/2, and more
-* ### Various Amiga and microcomputer fonts<br>From Commodore, Atari, Apple, Tandy, and more
-* ### Open-source
-
----
+* ### Various Amiga and microcomputer fonts<br>From Amstrad, Atari, Apple, Commodore, Tandy, and many more
+* ### Open-source code
