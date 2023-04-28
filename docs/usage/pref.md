@@ -1,35 +1,35 @@
 ---
-title: OS or browser preference?
+title: Browser wars
 authors:
     - Ben Garrett
 date: 2022-08-30
 hide:
   - toc
 ---
-# Is there an operating system or browser preference?
 
-## Browsers
+!!! tips inline end "macOS tweaks"
+    1. Make sure the _Retina Display Scale_ is exactly half your screen resolution for crisper text.
+    2. For example, if a Macbook Pro 13.3" has a 2560 x 1600 resolution, you'd want the _Built-in Retina Display_ to scale to 1280 x 800.
+    3. Because of the high resolutions with modern Apple hardware, you can also disable _Use font smoothing when available_.
 
-Chrome-based browsers reduce CPU usage and battery drain by limiting the resources available to Extensions. So they can be slower than Firefox to render large ANSI documents or text that use RGB color controls.
+## A system or browser preference?
 
-## Operating systems
+All supported browsers use the same, [Blink](https://www.chromium.org/blink/), open-sourced browser render engine.
 
-### **Great**, macOS
+macOS is the best platform for RetroTxt, displaying all text characters without distortion.
 
-macOS is the best platform to use RetroTxt, regardless of the browser, and it displays shaded characters and blocks with no artifacts or distortion.
+Chrome on other platforms including Windows, Linux and ChromeOS suffer from artifacts and distortions caused by its system-wide font hinting.
 
-Some tips, make sure the **Retina Display Scale** is exactly half your screen resolution for crisper text. For example, if a Macbook Pro 13.3" has a 2560 x 1600 resolution, you'd want the **Built-in Retina Display** to scale to `1280 x 800`. Because of the high resolutions with modern Apple hardware, you can also disable **Use font smoothing when available**.
+=== "macOS"
 
-### **Good**, Linux <small>and ChromeOS</small>
+    ![RetroTxt ANSI on macOS](../assets/block-macos.png){ loading=lazy, width=239 }
 
-Desktop Linux complicates things due to the varying components used by different distributions.
+=== "Windows"
 
-Firefox[^1] has no artifacts, so it is the preferred browser on Linux.
+    ![RetroTxt ANSI on Windows](../assets/block-windows.png){ loading=lazy, width=239 }
 
-Chrome and ChromeOS use an internal font renderer, which suffers from the same artifacts as Chrome on Windows.
+=== "Windows with CSS fix [^1]"
 
-### **Fine**, Windows
+    ![RetroTxt ANSI on Windows fix](../assets/block-windows-css.png){ loading=lazy, width=239 }
 
-Windows suffers from artifacts and distortions caused by its system-wide font hinting regardless of the browser.
-
-[^1]: At least on GNOME with Wayland.
+[^1]: RetroTxt applies a cascading style fix to reduce the artifacts.

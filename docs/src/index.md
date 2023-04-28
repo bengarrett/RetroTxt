@@ -1,115 +1,73 @@
 ---
-title: Source code installation & use
-authors:
-    - Ben Garrett
 date: 2022-08-30
 ---
 # Install and usage
 
-RetroTxt employs an [open-sourced GNU LGPLv3 license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).
+This page instructs how to use and build the source code for Chrome.
 
-This page instructs how to use the source in Chrome-based and Firefox web browsers.
+RetroTxt employs an [open-sourced license]((https://choosealicense.com/licenses/lgpl-3.0/)) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).
 
-[Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt, and so it has some `.vscode` conveniences included in the package, such as workspace settings and extension recommendations.
+You'll require the following command line tools to download and initialize the repository.
 
-There are also [Node.js](https://nodejs.org) with [pnpm](https://pnpm.io) packages for the programming and build tools.
+- [ ] [git](https://git-scm.com) - the distributed version control software
+- [ ] [Node.js](https://nodejs.org) - an open-source, cross-platform JavaScript runtime environment
+- [ ] [pnpm](https://pnpm.io) - an efficient package manager for Node.js
+- [ ] [Task](https://taskfile.dev) - a task runner / build tool that aims to be simpler and easier to use
 
-The source code gets lint with [ESLint](https://eslint.org/) and stylized using [Prettier](https://prettier.io/) opinionated formatting.
+!!! note ""
+    [Visual Studio Code](https://code.visualstudio.com) is used to create RetroTxt. It includes optional `.vscode` conveniences, such as workspace settings and extension recommendations.
 
 ## Clone the repo
 
-Run the following [Git](https://git-scm.com) or [gh](https://cli.github.com) command in a terminal.
+Download and copy the RetroTxt repository to the current directory.
 
-=== "git"
+```bash
+git clone https://github.com/bengarrett/RetroTxt.git
+```
 
-    ```bash
-    git clone https://github.com/bengarrett/RetroTxt.git
-    ```
+## Install the dependencies
 
-=== "gh"
+RetroTxt has a few third-party dependencies and tools for initialization in the repository.
 
-     ```bash
-     gh repo clone bengarrett/RetroTxt
-     ```
+```bash
+cd RetroTxt
+pnpm install
+task depends
+```
 
-## Install the packages
+## (optional) Edit the manifest file
 
-=== "pnpm"
+Some may wish to edit the Extension manifest containing the base configuration, permissions, and metadata for RetroTxt.
 
-    Use the [pnpm package manager](https://pnpm.io/installation).
+```json
+  "host_permissions": [
+    "*://*.retrotxt.com/*",
+    "https://*/",
+    "http://*/",
+    "file://*/"
+  ],
+```
 
-    ```bash title="Install packages"
-    cd RetroTxt
-    pnpm install
-    ```
+The `RetroTxt/ext/manifest.json` file contains the configuration and metadata for RetroTxt.
 
-## Use package dependencies
-
-=== "task"
-
-    Use [Task](https://taskfile.dev/), the task runner/build tool.
-
-    ```bash title="Update packages"
-    cd RetroTxt
-    pnpm update
-    task depends
-    ```
 
 ## Run the source code
 
-=== "Chrome"
+I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) for the the Extension.
 
-    ### Use on Chrome, Edge, Brave, and Vivaldi
+Open a new tab with the address of the Extensions features.
 
-    I suggest that you create a [new user profile](https://support.google.com/chrome/answer/2364824?co=GENIE.Platform%3DDesktop&hl=en) and edit the Extension.
+!!! tip inline end ""
+    The `chrome://extensions/` address will work in other browsers such as Edge
 
-    === "Chrome"
+```
+chrome://extensions/
+```
 
-        Open a new tab with the address of the Extensions feature.
+1.  In the Extensions tab, toggle **Developer mode**
+2.  Click the **Load unpacked** button
+3.  Navigate to the directory containing the `RetroTxt/ext/` repository and select **OK**
 
-        ``` title="Extensions Details address"
-        chrome://extensions
-        ```
+RetroTxt should load.
 
-        1.  In the Extensions tab, toggle **Developer mode**
-        2.  Click the **Load unpacked** button
-        3.  Navigate to the local directory containing the RetroTxt source code and select OK
-
-        ![Chrome extensions developer mode](../assets/source_code-chrome.png)
-
-    === "Edge"
-
-        Open a new tab with in the address of the Extensions feature.
-
-        ``` title="Extensions Details address"
-        edge://extensions
-        ```
-
-        1.  In the Extensions tab, toggle **Developer mode**
-        2.  Click the **Load unpacked** button
-        3.  Navigate to the local directory containing the RetroTxt source code and select OK
-
-        ![Edge extensions developer mode](../assets/source_code-edge.png)
-
-    === "Brave"
-
-        Open a new tab with in the address of the Extensions feature.
-
-        ``` title="Extensions Details address"
-        brave://extensions
-        ```
-
-        1.  In the Extensions tab, toggle **Developer mode**
-        2.  Click the **Load unpacked** button
-        3.  Navigate to the local directory containing the RetroTxt source code and select OK
-
-    === "Vivaldi"
-        ``` title="Extension Details address"
-        vivaldi://extensions/
-        ```
-
-        1.  In the Extensions tab, toggle **Developer mode**
-        2.  Click the **Load unpacked** button
-        3.  Navigate to the local directory containing the RetroTxt source code and select OK
-
-    RetroTxt should load. The Options link behind the **Details** button allows you to configure RetroTxt styling and behavior.
+![Chrome extensions developer mode](../assets/source_code-chrome.png)

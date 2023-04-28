@@ -1,8 +1,19 @@
+---
+hide:
+  - toc
+---
 # Commands
 
-RetroTxt supports several commands using the address bar, also known as the Omnibox. The commands are triggered using a combination of keywords, and the browser will provide suggestions as you type.
+RetroTxt supports several commands using the address bar, also known as [the Omnibox](https://www.teq.com/4-tips-to-become-a-google-chrome-omnibox-master/). The commands are triggered using a combination of keywords, and the browser will provide suggestions as you type.
 
-The `txt` keyword is the address bar trigger.
+## __txt__ is the omnibar trigger keyword
+
+
+<figure markdown>
+  ![RetroTxt omnibox commands](../assets/omnibox-sample.png)
+  <figcaption>Omnibox txt samples command</figcaption>
+</figure>
+
 
 | Command | Description |
 | -- | -- |
@@ -18,8 +29,3 @@ The `txt` keyword is the address bar trigger.
 | `txt reload` [^1] | In developer mode, reload the Extension |
 
 [^1]: Only usable when the browser Extensions configuration has **Developer mode** toggled.
-
-<figure markdown>
-  ![RetroTxt showcase](../assets/omnibox-sample.png)
-  <figcaption>Omnibox txt samples command</figcaption>
-</figure>

@@ -14,7 +14,7 @@ RetroTxt version 5 uses Manifest V3, while earlier editions used Manifest V2.
 
 ---
 
-**Manifest V3 comes with several benefits for RetroTxt**
+### Manifest V3 comes with several benefits for RetroTxt
 
 #### The good
 

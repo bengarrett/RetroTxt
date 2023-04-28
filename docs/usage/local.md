@@ -1,75 +1,51 @@
 ---
-title: "View files stored on your computer"
 authors:
     - Ben Garrett
 date: 2022-08-30
 hide:
   - toc
 ---
-# View files stored on your computer
+# Texts stored locally
 
-Browsers are happy to read files and directories stored locally on your computer by typing a file or directory path into the address bar.
+!!! question inline end "My text file does not open"
+    Browsers a very inconsistent with the files they will open. If a text file has too many unexpected [ASCII control characters](https://www.fmsystems-inc.com/ascii-extended-control-characters/), a browser may confuse it as binary file and refuse to open.
+
+Browsers are happy to display files stored locally on your computer.
+You can drag and drop a text or document to the browser, which will open in a new tab.
+
+The URL of the tab will point to the file path with a `file:///` protocol prefix. Windows also includes a drive letter.
 
 === "Windows"
 
-    I may have a text file on Windows in my Downloads folder.
+    ``` title="A local file URL"
+    file:///C:/Users/Ben/Downloads/document.txt
+    ```
+=== "macOS"
 
-    ``` title="Windows file path"
-    C:\Users\Ben\Downloads\myfile.txt
+    ``` title="A local file URL"
+    file:///Users/ben/Downloads/document.txt
     ```
 
-    You can paste this path into a browser tab address, and it will convert it into a browser-friendly file URI and render the document.
+=== "Linux"
 
-    ``` title="Browser address"
-    file:///C:/Users/Ben/Downloads/myfile.txt
+    ``` title="A local file URL"
+    file:///home/ben/Downloads/document.txt
     ```
 
-    You can also browse your Windows drive.
+RetroTxt will work with any local file URL but needs to be given this permission using the Manage extension menu.
 
-    ``` title="Browser address for the C: drive"
-    file:///C:/
-    ```
+To access this, right-click the RetroTxt toolbar button and select _Manage extension_.
 
-=== "macOS or Linux"
+<figure markdown>
+  ![Chrome manage extension](../assets/manage-extension-pinned.png){ loading=lazy, width=400 }
+  <figcaption>The RetroTxt button pinned to the toolbar</figcaption>
+</figure>
 
-    I may have a text file located in my home directory.
+Scroll down to and enable __Allow access to file URLs__ under _Permissions_.
 
-    ``` title="Computer file path"
-    /home/ben/myfile.txt
-    ```
+Now, RetroTxt will monitor any local text files opened in the browser!
 
-    You can paste this path into a browser tab address, and it will convert it into a browser-friendly file URI and render the document.
-
-    ``` title="Browser address"
-    file:///home/ben/myfile.txt
-    ```
-
-    You can also browse your hard drive.
-
-    ``` title="Browser address for the hard drive"
-    file:///
-    ```
-
-!!! tip "Chrome, Edge, Brave, or Vivaldi"
-
-    Chrome, Edge, Brave, Vivaldi, and other Chromium-based browsers require the **Allow access to file URLs** Extension Details setting enabled if you wish to use RetroTxt to view files stored on your computer.
-
-    === "Chrome"
-        ``` title="Extension Details address"
-        chrome://extensions/
-        ```
-
-    === "Edge"
-        ``` title="Extension Details address"
-        edge://extensions/
-        ```
-
-    === "Brave"
-        ``` title="Extension Details address"
-        brave://extensions/
-        ```
-
-    === "Vivaldi"
-        ``` title="Extension Details address"
-        vivaldi://extensions/
-        ```
+<figure markdown>
+  ![Chrome allow access to the file URLs](../assets/allow-access-to-files.png){ loading=lazy, width=600 }
+  <figcaption>Allow access to the file URLs</figcaption>
+</figure>
