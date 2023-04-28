@@ -8,7 +8,7 @@ hide:
   - toc
 ---
 
-!!! note inline end "Why does RetroTxt require Read and change all data permissions?"
+!!! question inline end "Why does RetroTxt require Read and change all data permissions"
     ![RetroTxt add extension](../assets/add-retrotxt.png){ loading=lazy }
 
     The short answer is that it doesn't, which is a limitation of the web extension permissions. RetroTxt ignores all websites except those you tell it to monitor in the background.

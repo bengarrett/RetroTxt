@@ -29,7 +29,7 @@ theme:
   font:
     code: IBM Plex Mono
   features:
-
+    - content.code.copy
 nav:
   - Install: index.md
   - Usage:
