@@ -68,8 +68,8 @@ In a tab, open the text document [special-use-domain-names.txt](https://www.iana
 Despite being plain text, RetroTxt ignores the page as it is not monitoring [iana.org](https://www.iana.org).
 
 <figure markdown>
-  ![RetroTxt toolbar menu](../assets/manage-extension.png){ loading=lazy, width=600 }
-  <figcaption>Navigate to the Manage Extension item</figcaption>
+  ![RetroTxt toolbar menu](../assets/special-use-domain-names.png){ loading=lazy, width=600 }
+  <figcaption>Special-Use Domain Names text document</figcaption>
 </figure>
 
 Click the RetroTxt toolbar button and a popup will display the websites it monitors in the background. [You can learn more about or remove these websites](/usage/secure/#remove-suggestions).
@@ -90,14 +90,14 @@ Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_ `>` _Paste
   <figcaption>Add and monitor www.iana.org</figcaption>
 </figure>
 
-!!! tip inline end "Reload a tab"
+!!! info inline end "Reload a tab"
     To reload or refresh a tab, tap <kbd>F5</kbd> &nbsp; or &nbsp; ++command++ <kbd>r</kbd>
 
 Switch back to the tab with the `special-use-domain-names.txt` document and reload. RetroTxt will now format the text!
 
 <figure markdown>
   ![RetroTxt default plain text styling](../assets/special-use-domain-names-apply.png){ loading=lazy, width=600 }
-  <figcaption>Special-Use Domain Names styled!</figcaption>
+  <figcaption>Special-Use Domain Names styled with the IBM VGA font</figcaption>
 </figure>
 
 ---
@@ -110,14 +110,14 @@ Choose _IBM Plex_ from the __Suggested fonts__.
 
 <figure markdown>
   ![RetroTxt suggested fonts](../assets/font-flexmono.png){ loading=lazy, width=600 }
-  <figcaption>Special use domain names text</figcaption>
+  <figcaption>IBM Plex suggested fonts</figcaption>
 </figure>
 
 Switch back to the tab with the `special-use-domain-names.txt` text, and the font will update.
 
 <figure markdown>
   ![RetroTxt using IBM Plex Mono](../assets/special-use-domain-names-plex.png){ loading=lazy, width=600 }
-  <figcaption>Special use domain names using the IBM Plex mono font</figcaption>
+  <figcaption>Special-Use Domain Names using the IBM Plex mono font</figcaption>
 </figure>
 
 ---
@@ -133,14 +133,14 @@ Under __Colors__ `>` _Text pairs_, choose the _white on dark_ selection.
   <figcaption>White on light text pair selection</figcaption>
 </figure>
 
-!!! note inline end "ANSI text"
+!!! tip inline end "ANSI text"
     A black background _Text pair_ works best with ANSI text.
 
 Switch to the tab with the `special-use-domain-names.txt` text, and the page colors will reflect the change. Feel free to revert to the _MS-DOS_ color pair or choose another.
 
 <figure markdown>
   ![RetroTxt white on light text](../assets/special-use-domain-names-white-bg.png){ loading=lazy, width=600 }
-  <figcaption>A document using the white on light text pair selection</figcaption>
+  <figcaption>The document using the white on light text pair selection</figcaption>
 </figure>
 
 ---
