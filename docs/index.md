@@ -22,6 +22,8 @@ hide:
 
  &nbsp; [Install on Chrome :material-google-chrome:](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install on Edge :material-microsoft-edge:](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install on Firefox :material-firefox:](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
 
+<small>[The source code is available](https://github.com/bengarrett/RetroTxt)</small>
+
 ---
 
 # RetroTxt
@@ -75,6 +77,8 @@ Turn pieces of ANSI, ASCII, and NFO documents into a web document. RetroTxt is t
       ![RetroTxt showcase](assets/showcase-textedit.png)
       <figcaption>Copy the output of RetroTxt and paste it into a standard text editor</figcaption>
     </figure>
+
+## Features
 
 * ### Swappable palettes for different color simulations<br>VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
 * ### Customizable font and background colors
