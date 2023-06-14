@@ -33,4 +33,13 @@ chrome.tabs.query({ currentWindow: true, active: true }, () => {
       url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=settings`,
     })
   })
+
+  // link to the display settings page
+  const display = document.getElementById(`displaySettings`)
+  display.title = `Open the display settings of RetroTxt`
+  display.addEventListener(`click`, () => {
+    chrome.tabs.create({
+      url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=display`,
+    })
+  })
 })

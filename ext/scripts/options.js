@@ -1849,9 +1849,15 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   //handleError(`false positive test`)
 
   // a handler used by the popup.js module
-  if (document.location.hash === `#top?t=settings`) {
-    document.getElementById(`hero6`).click()
-    document.getElementById(`newHost`).focus()
+  switch (document.location.hash) {
+    case `#top?t=display`:
+      document.getElementById(`hero5`).click()
+      document.getElementById(`newHost`).focus()
+      break
+    case `#top?t=settings`:
+      document.getElementById(`hero6`).click()
+      document.getElementById(`newHost`).focus()
+      break
   }
 })()
 

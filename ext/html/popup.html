@@ -11,7 +11,7 @@
       width: 33em;
     }
 
-    div#allowAccess {
+    span.icon {
       cursor: pointer;
     }
 
@@ -25,8 +25,26 @@
 <body>
   <div class="container p-2">
     <div class="notification">
-      <h1 class="title is-5">RetroTxt</h1>
-      <h2 class="subtitle is-6" id="version"></h2>
+      <div style="float:right;">
+        <span class="icon" id="settings">
+          <svg role="img" class="material-icons">
+            <use xlink:href="../assets/svg/material-icons.svg#fonts"></use>
+          </svg>
+        </span>
+        <span class="icon" id="fonts">
+          <svg role="img" class="material-icons">
+            <use xlink:href="../assets/svg/material-icons.svg#display"></use>
+          </svg>
+        </span>
+        <span class="icon" id="displaySettings">
+          <svg role="img" class="material-icons">
+            <use xlink:href="../assets/svg/material-icons.svg#settings"></use>
+          </svg>
+        </span>
+      </div>
+      <h1 class="title is-5">RetroTxt
+        <span class="subtitle is-6" id="version"></span>
+      </h1>
       <div class="block">
         RetroTxt runs in the background and will attempt to format text files hosted on these websites:
       </div>
