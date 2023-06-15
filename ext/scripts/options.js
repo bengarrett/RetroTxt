@@ -1850,6 +1850,10 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 
   // a handler used by the popup.js module
   switch (document.location.hash) {
+    case `#top?t=fonts`:
+      document.getElementById(`hero4`).click()
+      document.getElementById(`newHost`).focus()
+      break
     case `#top?t=display`:
       document.getElementById(`hero5`).click()
       document.getElementById(`newHost`).focus()

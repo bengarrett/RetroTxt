@@ -11,13 +11,34 @@
       width: 33em;
     }
 
+    div#allowAccess {
+      cursor: pointer;
+    }
+
+    div#floaters {
+      float: right;
+      height: 2rem;
+    }
+
     span.icon {
       cursor: pointer;
+      margin-left: 0.5rem;
+      border-radius: 0.1rem;
+    }
+
+    span.icon:hover {
+      fill: #1b73e8;
     }
 
     span#hostname {
       text-decoration: underline;
       word-break: normal;
+    }
+
+    svg.material-icons {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
     }
   </style>
 </head>
@@ -25,18 +46,18 @@
 <body>
   <div class="container p-2">
     <div class="notification">
-      <div style="float:right;">
-        <span class="icon" id="settings">
+      <div id="floaters">
+        <span class="icon" id="fonts">
           <svg role="img" class="material-icons">
             <use xlink:href="../assets/svg/material-icons.svg#fonts"></use>
           </svg>
         </span>
-        <span class="icon" id="fonts">
+        <span class="icon" id="display">
           <svg role="img" class="material-icons">
             <use xlink:href="../assets/svg/material-icons.svg#display"></use>
           </svg>
         </span>
-        <span class="icon" id="displaySettings">
+        <span class="icon" id="settings">
           <svg role="img" class="material-icons">
             <use xlink:href="../assets/svg/material-icons.svg#settings"></use>
           </svg>

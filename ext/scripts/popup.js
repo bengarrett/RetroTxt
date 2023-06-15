@@ -25,21 +25,35 @@ chrome.tabs.query({ currentWindow: true, active: true }, () => {
     }
   })
 
-  // link to the options page to add new urls
-  const access = document.getElementById(`allowAccess`)
-  access.title = `Open the settings of RetroTxt`
-  access.addEventListener(`click`, () => {
+  // link to the options page and fonts tab
+  const fonts = document.getElementById(`fonts`)
+  fonts.title = `Open the RetroTxt fonts options`
+  fonts.addEventListener(`click`, () => {
+    chrome.tabs.create({
+      url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=fonts`,
+    })
+  })
+  // link to the options page and display tab
+  const display = document.getElementById(`display`)
+  display.title = `Open the RetroTxt display options`
+  display.addEventListener(`click`, () => {
+    chrome.tabs.create({
+      url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=display`,
+    })
+  })
+  // link to the options page and settings tab
+  const settings = document.getElementById(`settings`)
+  settings.title = `Open the RetroTxt settings`
+  settings.addEventListener(`click`, () => {
     chrome.tabs.create({
       url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=settings`,
     })
   })
-
-  // link to the display settings page
-  const display = document.getElementById(`displaySettings`)
-  display.title = `Open the display settings of RetroTxt`
-  display.addEventListener(`click`, () => {
+  // link to the options page to add new urls
+  const access = document.getElementById(`allowAccess`)
+  access.addEventListener(`click`, () => {
     chrome.tabs.create({
-      url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=display`,
+      url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=settings`,
     })
   })
 })
