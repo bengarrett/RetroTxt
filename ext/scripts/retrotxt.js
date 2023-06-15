@@ -1538,6 +1538,7 @@ class Output {
     return document.createElement(`span`)
   }
   preInit() {
+    this.pre.id = `styledDocument`
     this.pre.classList.add(`text-1x`)
   }
   /**
@@ -2523,6 +2524,12 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
     const err = document.getElementById(`displayAlert`)
     err.textContent = `Oops, it looks like the HTML has failed to render! Is the RetroTxt Extension Unit Tests loaded in another tab? Try closing it and reload this.`
   }
+  // linkify DOM
+  chrome.storage.local.get(`linkifyHyperlinks`, (store) => {
+    const hyper = store.linkifyHyperlinks
+    if (hyper === true)
+      linkifyElement(document.getElementById(`styledDocument`))
+  })
   // clean-up globals
   cleanup(output)
   // hide the spin loader

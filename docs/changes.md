@@ -10,6 +10,7 @@ hide:
 
 ### June 2023
 
+- New option to convert plain text URLs, emails and IP addresses into hyperlinks.
 - Toolbar popup contains icons with links to the fonts, display and settings options.
 - Update Spleen fonts to v2.0 and include the use of size 32x64 variation.
 

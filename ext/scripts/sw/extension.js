@@ -124,6 +124,20 @@ class Extension {
         if (lastErrorCallback()) return
       }
     )
+    // dependency scripts
+    chrome.scripting.executeScript(
+      {
+        target: { tabId: tabId },
+        files: [
+          `js/linkify.js`,
+          `js/linkify-element.js`,
+          `js/linkify-plugin-ip.js`,
+        ],
+      },
+      () => {
+        if (lastErrorCallback()) return
+      }
+    )
     // finally, load and run retrotxt.js
     chrome.scripting.executeScript(
       {

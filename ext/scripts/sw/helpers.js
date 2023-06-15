@@ -163,6 +163,7 @@ class OptionsReset {
       .set(`colorsCustomForeground`, `#dcdccc`)
       .set(`colorsTextPairs`, `theme-msdos`)
       .set(`fontFamilyName`, `ibm_vga_8x16`) // new in v4, formerly retroFont
+      .set(`linkifyHyperlinks`, false) // new in v5.2
       .set(`optionTab`, `0`) // new in v4
       .set(`optionClass`, `is-primary`) // new in v4.2
       .set(`settingsInformationHeader`, `on`) // formerly textFontInformation

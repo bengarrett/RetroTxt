@@ -432,6 +432,7 @@ class CheckBox {
     this.value = ``
     // checkboxes with ids and associated storage keys
     this.boxes = new Map()
+      .set(`hyperlinks`, `linkifyHyperlinks`)
       .set(`eightyColumnWrap`, `ansiColumnWrap`)
       .set(`pageWrap`, `ansiPageWrap`)
       .set(`iceColorsMode`, `ansiUseIceColors`)

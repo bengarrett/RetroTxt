@@ -92,6 +92,19 @@
     },
     {
       "resources": [
+        "js/linkify.js",
+        "js/linkify-element.js",
+        "js/linkify-plugin-ip.js"
+      ],
+      "matches": [
+        "*://*.retrotxt.com/*",
+        "https://*/*",
+        "http://*/*",
+        "file://*/*"
+      ]
+    },
+    {
+      "resources": [
         "fonts/*.woff2"
       ],
       "matches": [
