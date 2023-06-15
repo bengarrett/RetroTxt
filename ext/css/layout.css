@@ -211,6 +211,13 @@ article > pre i {
   font-weight: normal;
 }
 
+article > #styledDocument a:link,
+article > #styledDocument a:visited,
+article > #styledDocument a:hover,
+article > #styledDocument a:active {
+  color: inherit;
+}
+
 /* pre, contains both the raw text and the retrotxt container */
 
 pre {
