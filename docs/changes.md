@@ -14,6 +14,7 @@ hide:
 - Toolbar popup contains icons with links to the fonts, display and settings options.
 - Update Spleen fonts to v2.0 and include the use of size 32x64 variation.
 - Fixed Page wrap behaviour not replicating on new tabs.
+- Hyperlinked the Allow access to file URLs is off notice in the popup.
 
 ## 5.1
 
