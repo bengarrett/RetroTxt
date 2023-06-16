@@ -291,11 +291,12 @@ class DOM {
    * Construct the page wrap.
    */
   async _constructPageWrap() {
-    const toggle = document.getElementById(`togglePageWrap`),
-      setting = `${localStorage.getItem(`ansiPageWrap`)}`
+    const toggle = document.getElementById(`togglePageWrap`)
     if (toggle === null) return
+    const key = `ansiPageWrap`,
+      setting = sessionStorage.getItem(key) || localStorage.getItem(key)
     toggle.onclick = () => this.clickPageWrap()
-    if (setting === `true`) {
+    if (`${setting}` === `true`) {
       this.head.append(
         CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
       )
@@ -2229,6 +2230,8 @@ function handleChanges(change) {
   if (changes.lineHeight)
     return dom.clickLineHeight(changes.lineHeight.newValue)
   if (changes.pageWrap) {
+    const key = `ansiPageWrap`
+    sessionStorage.setItem(key, changes.pageWrap.newValue)
     dom.results = { ansiPageWrap: changes.pageWrap.newValue }
     return dom.clickPageWrap()
   }

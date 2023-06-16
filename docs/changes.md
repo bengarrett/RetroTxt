@@ -2,7 +2,7 @@
 title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2023-04-19
+date: 2023-06-16
 hide:
   - toc
 ---
@@ -10,9 +10,10 @@ hide:
 
 ### June 2023
 
-- New option to convert plain text URLs, emails and IP addresses into hyperlinks.
+- New Display Hyperlinks option to convert plain text URLs, emails and IP addresses into hyperlinks.
 - Toolbar popup contains icons with links to the fonts, display and settings options.
 - Update Spleen fonts to v2.0 and include the use of size 32x64 variation.
+- Fixed Page wrap behaviour not replicating on new tabs.
 
 ## 5.1
 
