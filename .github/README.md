@@ -10,7 +10,7 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 #### View ANSI, ASCII, NFO, Shift JIS text art as HTML
 
-#### View server and dev-op logs styled with colored text
+#### View server and DevOps logs styled with colored text
 
 #### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
