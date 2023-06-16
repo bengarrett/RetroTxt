@@ -64,6 +64,14 @@ chrome.tabs.query({ currentWindow: true, active: true }, () => {
       url: `${chrome.runtime.getURL(`html/options.html`)}#top?t=display`,
     })
   })
+  // link to the RetroTxt Extension Details tab
+  const extension = document.getElementById(`extension`)
+  extension.title = `Open the RetroTxt Extension Details`
+  extension.addEventListener(`click`, () => {
+    chrome.tabs.create({
+      url: `${LinkDetails()}`,
+    })
+  })
   // link to the options page and settings tab
   const settings = document.getElementById(`settings`)
   settings.title = `Open the RetroTxt settings`
