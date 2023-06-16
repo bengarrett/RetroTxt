@@ -32,7 +32,6 @@ VGA, EGA, CGA, MDA, PS/2, and more
 - Various Amiga and microcomputer fonts<br>
 From Commodore, Atari, Apple, Tandy, and more
 - Open-source
-- No special browser permissions for general usage
 
 ## [Check out the documentation](https://docs.retrotxt.com)
 
