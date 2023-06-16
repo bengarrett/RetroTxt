@@ -147,15 +147,6 @@ class HTML {
         .addEventListener(`click`, () => {
           document.getElementById(`hero4`).click()
         })
-      chrome.extension.isAllowedFileSchemeAccess((allowed) => {
-        const toUse = document.getElementById(`newInstallToUse`),
-          asterisk = document.getElementById(`newInstallAsterisk`)
-        if (allowed === true) {
-          toUse.classList.add("is-hidden")
-          return
-        }
-        asterisk.classList.add("is-hidden")
-      })
       return
     }
     if (location.hash.includes(`#display`)) {
@@ -521,17 +512,6 @@ class CheckBox {
    * These require `extension.isAllowedFileSchemeAccess`.
    */
   _fileSchemeAccess() {
-    // FIREFOX NOTES:
-    //   Firefox does not offer a user Extension setting to toggle Allowed File Scheme Access.
-    //   So the results of chrome.extension.isAllowedFileSchemeAccess is ALWAYS false.
-    //   The `file://` optional permission is the only access requirement.
-    if (WebBrowser() === Engine.firefox) {
-      const id = `downloadViewer`
-      document.getElementById(id).disabled = true
-      document.getElementById(`${id}HR`).style.display = `none`
-      document.getElementById(`${id}Container`).style.display = `none`
-      return
-    }
     chrome.extension.isAllowedFileSchemeAccess((allowed) => {
       const offs = document.getElementsByName(`is-off`),
         ons = document.getElementsByName(`is-on`)
