@@ -1765,8 +1765,6 @@ class Information extends Output {
       this._info(`encoding`),
       this.output.encode,
       this._sep(),
-      this._setSettings(),
-      this._sep(),
       this._keyboardShortcuts(),
       this._label(` to view original text`)
     )
@@ -2005,18 +2003,6 @@ class Information extends Output {
     bold.id = `renderToggle`
     bold.title = `Switch between text render methods`
     return bold
-  }
-  _setSettings() {
-    const span = super.newSpan(),
-      port = chrome.runtime.connect({ name: `openOptionsPage` })
-    span.id = `moreSettings`
-    span.textContent = `Settings`
-    span.onclick = () => {
-      const settingsTab = `6`
-      chrome.storage.local.set({ [`optionTab`]: settingsTab })
-      port.postMessage({ openOptionsPage: true })
-    }
-    return span
   }
   _setWarningBBS() {
     const div = super.newDiv(),
