@@ -1765,8 +1765,8 @@ class Information extends Output {
       this._info(`encoding`),
       this.output.encode,
       this._sep(),
-      this._keyboardShortcuts(),
-      this._label(` to view original text`)
+      this._label(`view original text`),
+      this._keyboardShortcuts()
     )
     this.append(div2)
     div2.append(
@@ -2675,7 +2675,7 @@ function textType(format = ``) {
 // eslint no-unused-variable fix
 if (typeof Execute !== `undefined`) void 0
 
-/* global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
+/* global ecma48 linkifyElement BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
 
 ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
 /*exported DOM*/
