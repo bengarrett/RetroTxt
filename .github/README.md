@@ -10,7 +10,7 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 #### View ANSI, ASCII, NFO, Shift JIS text art as HTML
 
-#### View server and dev-op logs styled with colored text
+#### View server and DevOps logs styled with colored text
 
 #### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
@@ -32,7 +32,6 @@ VGA, EGA, CGA, MDA, PS/2, and more
 - Various Amiga and microcomputer fonts<br>
 From Commodore, Atari, Apple, Tandy, and more
 - Open-source
-- No special browser permissions for general usage
 
 ## [Check out the documentation](https://docs.retrotxt.com)
 
@@ -89,6 +88,7 @@ Fonts from
 * [_Atari Classic TrueType Fonts_](http://members.bitstream.net/marksim/atarimac/fonts.html) by Mark L. Simonson
 * [_Atari ST 8x16 System_](https://www.dafont.com/atari-st-8x16-system-font.font) by divVerent
 * [_C64 TrueType_](https://style64.org/c64-truetype) by Style
+* [_Cascadia_](https://github.com/microsoft/cascadia-code) by Microsoft
 * [_IBM 3270_](https://github.com/rbanffy/3270font) by Ricardo Banffy
 * [_Mona_](https://monafont.sourceforge.net/index-e.html) public domain
 * [_MSX_](http://www.ateijelo.com/blog/2016/09/13/making-an-msx-font) by Andy Teijelo Pérez

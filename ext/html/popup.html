@@ -15,9 +15,30 @@
       cursor: pointer;
     }
 
+    div#floaters {
+      float: right;
+      height: 2rem;
+    }
+
+    span.icon {
+      cursor: pointer;
+      margin-left: 0.5rem;
+      border-radius: 0.1rem;
+    }
+
+    span.icon:hover {
+      fill: #1b73e8;
+    }
+
     span#hostname {
       text-decoration: underline;
       word-break: normal;
+    }
+
+    svg.material-icons {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
     }
   </style>
 </head>
@@ -25,14 +46,41 @@
 <body>
   <div class="container p-2">
     <div class="notification">
-      <h1 class="title is-5">RetroTxt</h1>
-      <h2 class="subtitle is-6" id="version"></h2>
+      <div id="floaters">
+        <span class="icon" id="fonts">
+          <svg role="img" class="material-icons">
+            <use xlink:href="../assets/svg/material-icons.svg#fonts"></use>
+          </svg>
+        </span>
+        <span class="icon" id="display">
+          <svg role="img" class="material-icons">
+            <use xlink:href="../assets/svg/material-icons.svg#display"></use>
+          </svg>
+        </span>
+        <span class="icon" id="extension">
+          <svg role="img" class="material-icons">
+            <use xlink:href="../assets/svg/material-icons.svg#extension"></use>
+          </svg>
+        </span>
+        <span class="icon" id="settings">
+          <svg role="img" class="material-icons">
+            <use xlink:href="../assets/svg/material-icons.svg#settings"></use>
+          </svg>
+        </span>
+      </div>
+      <h1 class="title is-5">RetroTxt
+        <span class="subtitle is-6" id="version"></span>
+      </h1>
       <div class="block">
         RetroTxt runs in the background and will attempt to format text files hosted on these websites:
       </div>
       <div class="block is-family-monospace" id="websites"></div>
       <div class="block" id="localfiles">
         RetroTxt also formats local text files using drag and drop.
+      </div>
+      <div class="block is-hidden" id="unlockLocalfiles">
+        When <a id="linkUnlock">Allow access to file URLs is toggled</a>, RetroTxt can format local
+        text files using drag and drop.
       </div>
       <div class="notification is-link" id="allowAccess">
         To include a new website, click here to open settings and add the URL to the

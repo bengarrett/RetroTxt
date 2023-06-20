@@ -125,7 +125,6 @@
             <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
                 <p class="mb-2 is-size-2">Getting started</p>
-                <hr>
                 <p class="mt-2 is-size-5"><a id="newInstallSamples">There are dozens of sample text art files</a> to try
                   with RetroTxt!
                 </p>
@@ -133,18 +132,17 @@
                 <p class="mt-2 is-size-5"><a id="newInstallFonts">Choose a retro or modern font</a> for viewing text
                   files</p>
                 <br>
+                <p class="mt-2 is-size-5"><a href="https://docs.retrotxt.com/usage/first/" target="_blank">Read the
+                    first-time usage</a>
+                  documentation</p>
+                <br>
                 <p class="mt-2 is-size-5">
                   You can use RetroTxt as a local text file viewer<span class="has-text-info">*</span>
                 </p>
+                <br>
                 <p>
                   Either, drag-and-drop text files to this browser<br>
                   Or use the <code class="file-url-scheme">file:///</code> URL scheme in a tab
-                </p>
-                <p class="mt-1" id="newInstallAsterisk"><small>* not all ANSI art files are usable</small></p>
-                <p class="mt-2" id="newInstallToUse">
-                  <span class="has-text-info">*</span> To use this feature, <em>Allow access to file URLs</em> needs
-                  to be enabled in the Extensions, RetroTxt Details<br>
-                  <code class="details-detail-url"></code>
                 </p>
               </div>
             </div>
@@ -170,6 +168,12 @@
                     </p>
                     <ul class="menu-list">
                       <li><a href="https://bulma.io">Bulma CSS framework</a></li>
+                    </ul>
+                    <p class="menu-label">
+                      Hyperlink Conversion
+                    </p>
+                    <ul class="menu-list">
+                      <li><a href="https://linkify.js.org">Linkify</a></li>
                     </ul>
                     <p class="menu-label">
                       Icons
@@ -229,7 +233,7 @@
                         <a href="https://github.com/fcambus/spleen"><strong>Frederic Cambus</strong>, Spleen</a>
                       </li>
                       <li>
-                        <a href="https://github.com/IBM/plex"><strong>IBM Corp.</strong>, Plex Mono</a>
+                        <a href="https://github.com/IBM/plex"><strong>IBM Corp.</strong> Plex Mono</a>
                       </li>
                       <li>
                         <a href="https://aminet.net/package/comm/amiex/PottySrc"><strong>Leo Davidson/Nudel</strong>,
@@ -240,6 +244,9 @@
                             Simonson</strong>, Atari Classic
                           <p class="is-size-7">Atari 8-Bit</p>
                         </a>
+                      </li>
+                      <li>
+                        <a href="https://github.com/microsoft/cascadia-code"><strong>Microsoft</strong>, Cascadia</a>
                       </li>
                       <li>
                         <a href="https://animation.dk"><strong>Niels Krogh Mortensen/Nölb/Grafictive</strong>,
@@ -622,7 +629,15 @@
                       <input type="radio" name="font" value="ibmplexmono" id="rec-ibmplexmono">
                       <strong>IBM Plex</strong> <span class="is-nowrap">Mono Regular</span>
                     </label>
-                    <p class="is-size-7">A contemporary monospace font for reading text, code or system logs</p>
+                    <p class="is-size-7">A contemporary monospace font for reading text and system logs</p>
+                  </div>
+                  <div class="control mb-2">
+                    <label class="radio" for="rec-cascadiacodepl">
+                      <input type="radio" name="font" value="cascadiacodepl" id="rec-cascadiacodepl">
+                      <strong>Cascadia</strong> <span class="is-nowrap">Code PL</span>
+                    </label>
+                    <p class="is-size-7">Uses font ligatures & Powerline characters for reading source code and
+                      terminal logs</p>
                   </div>
                   <div class="control mb-2">
                     <label class="radio" for="rec-ibm_vga_8x16">
@@ -688,7 +703,7 @@
                   <pre id="sampleTerminal" class="is-full">
 
  ┌─────────────────────────────────────────────
- │ retrotxt RETROTXT ▄▄█▀▀╔═╝░░▒▒▓▓ ⌐ ½ ≈ ¼ <span id="sampleDOSCtrls">♪→⌂</span>
+ │ retrotxt RETROTXT ▄▄█▀▀╔═╝░░▒▒▓▓ ⌐ ½ ≈ ¼ != <span id="sampleDOSCtrls">♪→⌂</span>
  │ The quick brown fox jumps over the lazy dog.
  └─────────────────────────────────────────────<span id="sampleCursor">_</span>
 
@@ -724,20 +739,45 @@
                     </label>
                   </div>
                   <hr>
+                  <h2 class="title has-text-dark is-size-6">
+                    Cascadia
+                    <a href="https://github.com/microsoft/cascadia-code#readme" target="_blank">
+                      <svg role="img" class="material-icons has-text-info is-size-7">
+                        <use xlink:href="../assets/svg/material-icons.svg#info"></use>
+                      </svg>
+                    </a>
+                  </h2>
+                  <p class="subtitle has-text-dark is-size-7 mb-2">Cascadia is a fun new coding font that comes bundled
+                    with Windows Terminal
+                  </p>
+                  <div class="control">
+                    <label class="radio" for="cascadiamono">
+                      <input type="radio" name="font" id="cascadiamono" value="cascadiamono"> <u>Mono</u>
+                    </label>
+                    <label class="radio" for="cascadiacode">
+                      <input type="radio" name="font" id="cascadiacode" value="cascadiacode"> <u>Code</u>
+                      <small>with ligatures</small>
+                    </label>
+                    <label class="radio" for="cascadiacodepl">
+                      <input type="radio" name="font" id="cascadiacodepl" value="cascadiacodepl"> <u>Code PL</u>
+                      <small>with ligatures &amp; Powerline symbols</small>
+                    </label>
+                  </div>
+                  <hr>
                   <h2 class="title has-text-dark is-size-6">Spleen</h2>
                   <p class="subtitle has-text-dark is-size-7 mb-2">Monospaced bitmap fonts
                   </p>
                   <div class="control">
-                    <label class="radio" for="rspleen">
-                      <input type="radio" name="font" id="rspleen" value="spleen"> 8x16
-                    </label>
                     <label class="radio" for="spleen6x12">
-                      <input type="radio" name="font" id="spleen6x12" value="spleen6x12"> 6x12
-                    </label>
+                      <input type="radio" name="font" id="spleen6x12" value="spleen6x12"> 6x12</label>
+                    <label class="radio" for="spleen8x16">
+                      <input type="radio" name="font" id="spleen8x16" value="spleen"> 8x16</label>
                     <label class="radio" for="spleen12x24">
                       <input type="radio" name="font" id="spleen12x24" value="spleen12x24"> 12x24</label>
                     <label class="radio" for="spleen16x32">
                       <input type="radio" name="font" id="spleen16x32" value="spleen16x32"> 16x32</label>
+                    <label class="radio" for="spleen32x64">
+                      <input type="radio" name="font" id="spleen32x64" value="spleen32x64"> 32x64</label>
                   </div>
                   <hr>
                   <h2 class="title has-text-dark is-size-6">Unscii</h2>
@@ -3360,6 +3400,29 @@
                     </div>
                   </div>
                 </div>
+                <!-- hyperlinks -->
+                <hr>
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">Hyperlinks
+                      <p class="subtitle has-text-dark is-size-7 mb-0 has-text-justified">Detect and convert URLs,
+                        emails, and IP addresses into clickable hyperlinks. This feature relies on the <a
+                          href="https://linkify.js.org" class="has-text-link">Linkify</a>
+                        library to implement and may suffer a performance hit with
+                        large documents.
+                        <br><span class="has-text-info">Any open tabs will require a reload.</span>
+                      </p>
+                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
+                          class="has-text-grey">off</span></p>
+                    </div>
+                    <div class="column is-2">
+                      <div class="toggleswitch">
+                        <input type="checkbox" id="hyperlinks" tabindex="0" checked>
+                        <label class="toggleswitch-label" for="hyperlinks"></label>
+                      </div>
+                    </div>
+                  </h2>
+                </div>
                 <!-- background scan lines -->
                 <hr>
                 <div>
@@ -3982,30 +4045,6 @@
                     </div>
                   </div>
                 </div>
-                <hr>
-                <!--use retrotxt as a local text file viewer -->
-                <div>
-                  <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">
-                      Use RetroTxt as a local text file viewer
-                      <div class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
-                        <p>You can use RetroTxt as a local text file viewer (though some ANSI art may not load).</p>
-                        <p class="mt-2">Either, drag-and-drop text files to this browser.</p>
-                        <p>Or use the <code class="file-url-scheme">file:///</code> URL scheme in a
-                          tab.</p>
-                      </div>
-                      <p name="is-off" class="is-hidden has-text-info has-text-weight-normal mt-2 is-size-7">
-                        To use this feature, <span class="has-text-weight-bold">Allow
-                          access to file URLs</span> needs to be enabled in the RetroTxt permissions.
-                      </p>
-                      <p name="is-on" class="is-hidden has-text-weight-normal mt-2 is-size-7">
-                        To turn off this feature, <span class="has-text-weight-bold">Allow access to file URLs</span>
-                        needs to be disabled in the RetroTxt permissions.
-                      </p>
-                      <p class="mt-2 is-size-7 is-hidden"><code class="details-detail-url"></code></p>
-                    </div>
-                  </h2>
-                </div>
               </div>
             </div>
             <div class="column is-half">
@@ -4079,7 +4118,7 @@
                         when RetroTxt is updated.
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-success">on</span></p>
+                          class="has-text-grey">off</span></p>
                     </div>
                     <div class="column is-2">
                       <div class="toggleswitch">
@@ -4103,9 +4142,7 @@
                           class="has-text-grey">off</span></p>
                       <p name="is-off" class="is-hidden has-text-info has-text-weight-normal mt-2 is-size-7">
                         To use this feature, <span class="has-text-weight-bold">Allow access to file URLs</span>
-                        needs to be enabled in the RetroTxt permissions.
-                      </p>
-                      <p class="mt-2 is-size-7 is-hidden"><code class="details-detail-url" id="monitorDownloads"></code>
+                        needs to be enabled in the RetroTxt Extension Details.
                       </p>
                     </div>
                     <div class="column is-2">

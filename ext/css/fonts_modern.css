@@ -1,8 +1,42 @@
 /*
   Use rem values instead of pixels.
   1rem = 16px, 0.75rm = 12px ...
+
+  Monospaced font size values should be tested against:
+  https://retrotxt.com/e/preview_07.pcb
 */
 
+/* Cascadia */
+@font-face {
+  font-family: "cascadiamono";
+  src: url("../fonts/CascadiaMono.woff2") format("woff2");
+  font-display: auto;
+}
+.font-cascadiamono {
+  font-family: cascadiamono;
+  font-size: 0.85rem;
+  line-height: 1rem;
+}
+@font-face {
+  font-family: "cascadiacode";
+  src: url("../fonts/CascadiaCode.woff2") format("woff2");
+  font-display: auto;
+}
+.font-cascadiacodepl {
+  font-family: cascadiacodepl;
+  font-size: 0.85rem;
+  line-height: 1rem;
+}
+@font-face {
+  font-family: "cascadiacodepl";
+  src: url("../fonts/CascadiaCodePL.woff2") format("woff2");
+  font-display: auto;
+}
+.font-cascadiacode {
+  font-family: cascadiacode;
+  font-size: 0.85rem;
+  line-height: 1rem;
+}
 /* IBM Plex */
 @font-face {
   font-family: "ibmplexmono";
@@ -11,8 +45,8 @@
 }
 .font-ibmplexmono {
   font-family: ibmplexmono;
-  font-size: 1em;
-  line-height: 1em;
+  font-size: 0.825rem;
+  line-height: 1rem;
 }
 @font-face {
   font-family: "ibmplextlight";
@@ -21,8 +55,8 @@
 }
 .font-ibmplextlight {
   font-family: ibmplextlight;
-  font-size: 1em;
-  line-height: 1em;
+  font-size: 0.825rem;
+  line-height: 1rem;
 }
 @font-face {
   font-family: "ibmplextmedium";
@@ -31,13 +65,25 @@
 }
 .font-ibmplextmedium {
   font-family: ibmplextmedium;
-  font-size: 1em;
-  line-height: 1em;
+  font-size: 0.825rem;
+  line-height: 1rem;
 }
 /* Spleen */
 @font-face {
+  font-family: "spleen6x12";
+  src: url("../fonts/spleen-6x12.woff2") format("woff2");
+  font-display: auto;
+  font-weight: 1;
+}
+.font-spleen6x12 {
+  font-family: spleen6x12;
+  font-size: 1rem;
+  line-height: 1;
+}
+@font-face {
+  /* 14/6/23 this font family name should be kept for legacy purposes */
   font-family: "spleen";
-  src: url("../fonts/spleen-8x161.woff2") format("woff2");
+  src: url("../fonts/spleen-8x16.woff2") format("woff2");
   font-display: auto;
   font-weight: 1;
 }
@@ -47,36 +93,36 @@
   line-height: 1;
 }
 @font-face {
-  font-family: "spleen6x12";
-  src: url("../fonts/spleen-6x121.woff2") format("woff2");
-  font-display: auto;
-  font-weight: 1;
-}
-.font-spleen6x12 {
-  font-family: spleen6x12;
-  font-size: 0.75rem;
-  line-height: 1;
-}
-@font-face {
   font-family: "spleen12x24";
-  src: url("../fonts/spleen-12x243.woff2") format("woff2");
+  src: url("../fonts/spleen-12x24.woff2") format("woff2");
   font-display: auto;
   font-weight: 1;
 }
 .font-spleen12x24 {
   font-family: spleen12x24;
-  font-size: 1.5rem;
+  font-size: 1rem;
   line-height: 1;
 }
 @font-face {
   font-family: "spleen16x32";
-  src: url("../fonts/spleen-16x323.woff2") format("woff2");
+  src: url("../fonts/spleen-16x32.woff2") format("woff2");
   font-display: auto;
   font-weight: 1;
 }
 .font-spleen16x32 {
   font-family: spleen16x32;
-  font-size: 2rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+@font-face {
+  font-family: "spleen32x64";
+  src: url("../fonts/spleen-32x64.woff2") format("woff2");
+  font-display: auto;
+  font-weight: 1;
+}
+.font-spleen32x64 {
+  font-family: spleen32x64;
+  font-size: 1rem;
   line-height: 1;
 }
 /* Unscii fonts */

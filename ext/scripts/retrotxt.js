@@ -291,11 +291,12 @@ class DOM {
    * Construct the page wrap.
    */
   async _constructPageWrap() {
-    const toggle = document.getElementById(`togglePageWrap`),
-      setting = `${localStorage.getItem(`ansiPageWrap`)}`
+    const toggle = document.getElementById(`togglePageWrap`)
     if (toggle === null) return
+    const key = `ansiPageWrap`,
+      setting = sessionStorage.getItem(key) || localStorage.getItem(key)
     toggle.onclick = () => this.clickPageWrap()
-    if (setting === `true`) {
+    if (`${setting}` === `true`) {
       this.head.append(
         CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
       )
@@ -1538,6 +1539,7 @@ class Output {
     return document.createElement(`span`)
   }
   preInit() {
+    this.pre.id = `styledDocument`
     this.pre.classList.add(`text-1x`)
   }
   /**
@@ -1763,10 +1765,8 @@ class Information extends Output {
       this._info(`encoding`),
       this.output.encode,
       this._sep(),
-      this._setSettings(),
-      this._sep(),
-      this._keyboardShortcuts(),
-      this._label(` to view original text`)
+      this._label(`view original text`),
+      this._keyboardShortcuts()
     )
     this.append(div2)
     div2.append(
@@ -2004,18 +2004,6 @@ class Information extends Output {
     bold.title = `Switch between text render methods`
     return bold
   }
-  _setSettings() {
-    const span = super.newSpan(),
-      port = chrome.runtime.connect({ name: `openOptionsPage` })
-    span.id = `moreSettings`
-    span.textContent = `Settings`
-    span.onclick = () => {
-      const settingsTab = `6`
-      chrome.storage.local.set({ [`optionTab`]: settingsTab })
-      port.postMessage({ openOptionsPage: true })
-    }
-    return span
-  }
   _setWarningBBS() {
     const div = super.newDiv(),
       span = super.newSpan()
@@ -2228,6 +2216,8 @@ function handleChanges(change) {
   if (changes.lineHeight)
     return dom.clickLineHeight(changes.lineHeight.newValue)
   if (changes.pageWrap) {
+    const key = `ansiPageWrap`
+    sessionStorage.setItem(key, changes.pageWrap.newValue)
     dom.results = { ansiPageWrap: changes.pageWrap.newValue }
     return dom.clickPageWrap()
   }
@@ -2523,6 +2513,12 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
     const err = document.getElementById(`displayAlert`)
     err.textContent = `Oops, it looks like the HTML has failed to render! Is the RetroTxt Extension Unit Tests loaded in another tab? Try closing it and reload this.`
   }
+  // linkify DOM
+  chrome.storage.local.get(`linkifyHyperlinks`, (store) => {
+    const hyper = store.linkifyHyperlinks
+    if (hyper === true)
+      linkifyElement(document.getElementById(`styledDocument`))
+  })
   // clean-up globals
   cleanup(output)
   // hide the spin loader
@@ -2679,7 +2675,7 @@ function textType(format = ``) {
 // eslint no-unused-variable fix
 if (typeof Execute !== `undefined`) void 0
 
-/* global ecma48 BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
+/* global ecma48 linkifyElement BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
 
 ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
 /*exported DOM*/
