@@ -11,6 +11,7 @@ hide:
 ### June 2023
 
 - New Display Hyperlinks option to convert plain text URLs, emails and IP addresses into hyperlinks.
+- New [Cascadia Mono and Code fonts](https://github.com/microsoft/cascadia-code/), that support ligatures and Powerline symbols.
 - Toolbar popup contains icons with links to the fonts, display, settings options and a link to the RetroTxt Extension Details tab.
 - Update Spleen fonts to v2.0 and include the use of size 32x64 variation.
 - Fixed Page wrap behaviour not replicating on new tabs.

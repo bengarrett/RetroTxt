@@ -1,8 +1,42 @@
 /*
   Use rem values instead of pixels.
   1rem = 16px, 0.75rm = 12px ...
+
+  Monospaced font size values should be tested against:
+  https://retrotxt.com/e/preview_07.pcb
 */
 
+/* Cascadia */
+@font-face {
+  font-family: "cascadiamono";
+  src: url("../fonts/CascadiaMono.woff2") format("woff2");
+  font-display: auto;
+}
+.font-cascadiamono {
+  font-family: cascadiamono;
+  font-size: 0.85rem;
+  line-height: 1rem;
+}
+@font-face {
+  font-family: "cascadiacode";
+  src: url("../fonts/CascadiaCode.woff2") format("woff2");
+  font-display: auto;
+}
+.font-cascadiacodepl {
+  font-family: cascadiacodepl;
+  font-size: 0.85rem;
+  line-height: 1rem;
+}
+@font-face {
+  font-family: "cascadiacodepl";
+  src: url("../fonts/CascadiaCodePL.woff2") format("woff2");
+  font-display: auto;
+}
+.font-cascadiacode {
+  font-family: cascadiacode;
+  font-size: 0.85rem;
+  line-height: 1rem;
+}
 /* IBM Plex */
 @font-face {
   font-family: "ibmplexmono";
@@ -11,8 +45,8 @@
 }
 .font-ibmplexmono {
   font-family: ibmplexmono;
-  font-size: 1em;
-  line-height: 1em;
+  font-size: 0.825rem;
+  line-height: 1rem;
 }
 @font-face {
   font-family: "ibmplextlight";
@@ -21,8 +55,8 @@
 }
 .font-ibmplextlight {
   font-family: ibmplextlight;
-  font-size: 1em;
-  line-height: 1em;
+  font-size: 0.825rem;
+  line-height: 1rem;
 }
 @font-face {
   font-family: "ibmplextmedium";
@@ -31,8 +65,8 @@
 }
 .font-ibmplextmedium {
   font-family: ibmplextmedium;
-  font-size: 1em;
-  line-height: 1em;
+  font-size: 0.825rem;
+  line-height: 1rem;
 }
 /* Spleen */
 @font-face {

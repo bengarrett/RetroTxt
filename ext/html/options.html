@@ -233,7 +233,7 @@
                         <a href="https://github.com/fcambus/spleen"><strong>Frederic Cambus</strong>, Spleen</a>
                       </li>
                       <li>
-                        <a href="https://github.com/IBM/plex"><strong>IBM Corp.</strong>, Plex Mono</a>
+                        <a href="https://github.com/IBM/plex"><strong>IBM Corp.</strong> Plex Mono</a>
                       </li>
                       <li>
                         <a href="https://aminet.net/package/comm/amiex/PottySrc"><strong>Leo Davidson/Nudel</strong>,
@@ -244,6 +244,9 @@
                             Simonson</strong>, Atari Classic
                           <p class="is-size-7">Atari 8-Bit</p>
                         </a>
+                      </li>
+                      <li>
+                        <a href="https://github.com/microsoft/cascadia-code"><strong>Microsoft</strong>, Cascadia</a>
                       </li>
                       <li>
                         <a href="https://animation.dk"><strong>Niels Krogh Mortensen/Nölb/Grafictive</strong>,
@@ -626,7 +629,15 @@
                       <input type="radio" name="font" value="ibmplexmono" id="rec-ibmplexmono">
                       <strong>IBM Plex</strong> <span class="is-nowrap">Mono Regular</span>
                     </label>
-                    <p class="is-size-7">A contemporary monospace font for reading text, code or system logs</p>
+                    <p class="is-size-7">A contemporary monospace font for reading text and system logs</p>
+                  </div>
+                  <div class="control mb-2">
+                    <label class="radio" for="rec-cascadiacodepl">
+                      <input type="radio" name="font" value="cascadiacodepl" id="rec-cascadiacodepl">
+                      <strong>Cascadia</strong> <span class="is-nowrap">Code PL</span>
+                    </label>
+                    <p class="is-size-7">Uses font ligatures & Powerline characters for reading source code and
+                      terminal logs</p>
                   </div>
                   <div class="control mb-2">
                     <label class="radio" for="rec-ibm_vga_8x16">
@@ -692,7 +703,7 @@
                   <pre id="sampleTerminal" class="is-full">
 
  ┌─────────────────────────────────────────────
- │ retrotxt RETROTXT ▄▄█▀▀╔═╝░░▒▒▓▓ ⌐ ½ ≈ ¼ <span id="sampleDOSCtrls">♪→⌂</span>
+ │ retrotxt RETROTXT ▄▄█▀▀╔═╝░░▒▒▓▓ ⌐ ½ ≈ ¼ != <span id="sampleDOSCtrls">♪→⌂</span>
  │ The quick brown fox jumps over the lazy dog.
  └─────────────────────────────────────────────<span id="sampleCursor">_</span>
 
@@ -725,6 +736,31 @@
                     </label>
                     <label class="radio" for="ibmplextmedium">
                       <input type="radio" name="font" id="ibmplextmedium" value="ibmplextmedium"> <u>Mono Medium</u>
+                    </label>
+                  </div>
+                  <hr>
+                  <h2 class="title has-text-dark is-size-6">
+                    Cascadia
+                    <a href="https://github.com/microsoft/cascadia-code#readme" target="_blank">
+                      <svg role="img" class="material-icons has-text-info is-size-7">
+                        <use xlink:href="../assets/svg/material-icons.svg#info"></use>
+                      </svg>
+                    </a>
+                  </h2>
+                  <p class="subtitle has-text-dark is-size-7 mb-2">Cascadia is a fun new coding font that comes bundled
+                    with Windows Terminal
+                  </p>
+                  <div class="control">
+                    <label class="radio" for="cascadiamono">
+                      <input type="radio" name="font" id="cascadiamono" value="cascadiamono"> <u>Mono</u>
+                    </label>
+                    <label class="radio" for="cascadiacode">
+                      <input type="radio" name="font" id="cascadiacode" value="cascadiacode"> <u>Code</u>
+                      <small>with ligatures</small>
+                    </label>
+                    <label class="radio" for="cascadiacodepl">
+                      <input type="radio" name="font" id="cascadiacodepl" value="cascadiacodepl"> <u>Code PL</u>
+                      <small>with ligatures &amp; Powerline symbols</small>
                     </label>
                   </div>
                   <hr>

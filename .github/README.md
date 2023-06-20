@@ -88,6 +88,7 @@ Fonts from
 * [_Atari Classic TrueType Fonts_](http://members.bitstream.net/marksim/atarimac/fonts.html) by Mark L. Simonson
 * [_Atari ST 8x16 System_](https://www.dafont.com/atari-st-8x16-system-font.font) by divVerent
 * [_C64 TrueType_](https://style64.org/c64-truetype) by Style
+* [_Cascadia_](https://github.com/microsoft/cascadia-code) by Microsoft
 * [_IBM 3270_](https://github.com/rbanffy/3270font) by Ricardo Banffy
 * [_Mona_](https://monafont.sourceforge.net/index-e.html) public domain
 * [_MSX_](http://www.ateijelo.com/blog/2016/09/13/making-an-msx-font) by Andy Teijelo Pérez
