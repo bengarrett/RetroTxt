@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a report to help me improve RetroTxt
 title: "[BUG]"
 labels: bug
 assignees: bengarrett
@@ -21,12 +21,12 @@ Steps to reproduce the behavior:
 If applicable, add screenshots to help explain your problem.
 
 **RetroTxt (access Options and click the about tab)**
-- Version [e.g. 3.4]
+- Version [e.g. 5.2.0]
 
 **Browser (please complete the following information):**
  - OS: [e.g. Windows, Linux, Mac]
- - Browser [e.g. Chrome, Firefox]
- - Version [e.g. 77]
+ - Browser [e.g. Chrome, Edge, Vivaldi] Please note, Firefox updates are on-hold.
+ - Version [e.g. 115]
 
 **Additional context**
 Add any other context about the problem here.
