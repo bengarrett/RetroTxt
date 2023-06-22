@@ -1,7 +1,6 @@
 # Security Policy
 
-The RetroTxt repository uses [Github Dependabot](https://docs.github.com/en/github/administering-a-repository/keeping-your-actions-up-to-date-with-github-dependabot#about-github-dependabot-version-updates-for-actions),
-[ShiftLeft Scan](https://www.shiftleft.io/scan) and [CodeQL](https://securitylab.github.com/tools/codeql) security updates and alerts.
+The RetroTxt repository uses [Github Dependabot](https://docs.github.com/en/github/administering-a-repository/keeping-your-actions-up-to-date-with-github-dependabot#about-github-dependabot-version-updates-for-actions) for security updates and alerts.
 
 ## Supported Versions
 
