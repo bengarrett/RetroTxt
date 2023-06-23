@@ -12,6 +12,8 @@ hide:
 
 On installation from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) or [Microsoft Edge add-ons](https://microsoftedge.microsoft.com/addons/detail/retrotxt/hmgfnpgcofcpkgkadekmjdicaaeopkog), your browser will prompt for permission to read and change all data on all websites. Unfortunately, there is no workaround to avoid this.
 
+See, _Read and change all data_ to the right.
+
 <figure markdown>
   ![RetroTxt add extension](../assets/add-retrotxt.png){ loading=lazy, width=600 }
   <figcaption>Add "RetroTxt"? prompt to Add extension</figcaption>
@@ -21,8 +23,8 @@ On installation from the [Chrome web store](https://chrome.google.com/webstore/d
 
 ## New install
 
-!!! question inline end "What is .ans?"
-    The `.ans` filename extension signifies text files embedded with ANSI escape control characters for terminals to permit the layout and colorization of the text.
+!!! question inline end "What is .ANS"
+    The `.ANS` filename extension signifies text files embedded with ANSI escape control characters for terminals to permit the layout and colorization of the text.
 
 Once installed, you can test the functionality by viewing the RetroTxt ANSI logo hosted at:
 
@@ -40,8 +42,13 @@ Once installed, you can test the functionality by viewing the RetroTxt ANSI logo
 You can click the blue arrow on the upper-left corner to hide the header and remove the clutter.
 
 <figure markdown>
+  ![RetroTxt hidden header](../assets/highlight-the-blue-arrow.png){ loading=lazy, width=600 }
+  <figcaption>The blue arrow is clickable and hides the header</figcaption>
+</figure>
+
+<figure markdown>
   ![RetroTxt hidden header](../assets/hide-the-header.png){ loading=lazy, width=600 }
-  <figcaption>The clutter free displays</figcaption>
+  <figcaption>The clutter free display</figcaption>
 </figure>
 
 ---
@@ -63,27 +70,30 @@ If you want to view the original ANSI document, focus the tab and to launch a vi
 
 This example shows how to add a new website to the collection that RetroTxt monitors in the background. In this case, we will use the Internet Assigned Numbers Authority website at [iana.org](https://www.iana.org), which hosts many documents in plain text.
 
-In a tab, open the text document [special-use-domain-names.txt](https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.txt).
+- In a tab, open the text document [special-use-domain-names.txt](https://www.iana.org/assignments/special-use-domain-names/special-use-domain-names.txt).
 
-Despite being plain text, RetroTxt ignores the page as it is not monitoring [iana.org](https://www.iana.org).
+- Despite being plain text, RetroTxt ignores the page as it is not monitoring [iana.org](https://www.iana.org).
 
 <figure markdown>
   ![RetroTxt toolbar menu](../assets/special-use-domain-names.png){ loading=lazy, width=600 }
   <figcaption>Special-Use Domain Names text document</figcaption>
 </figure>
 
-Click the RetroTxt toolbar button and a popup will display the websites it monitors in the background. [You can learn more about or remove these websites](/usage/secure/#remove-suggestions).
-
-In the popup, click the blue _To include a new website_ button.
+- Click the RetroTxt toolbar button and a popup will display the websites it monitors in the background. [You can learn more about or remove these websites](/usage/secure/#remove-suggestions).
 
 <figure markdown>
-  ![RetroTxt popup](../assets/popup.png){ loading=lazy, width=600 }
+  ![RetroTxt toolbar menu](../assets/discover-extension-popup.png){ loading=lazy, width=600 }
+  <figcaption>The popup button (blue) is often hidden behind the Extensions button (red)</figcaption>
+</figure>
+
+- In the popup, click the blue _To include a new website_ button.
+
+<figure markdown>
+  ![RetroTxt popup](../assets/to-include-a-new-website.png){ loading=lazy, width=600 }
   <figcaption>Toolbar popup</figcaption>
 </figure>
 
-Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_ `>` _Paste a URL or hostname_ input, copy and __add__ the website URL:
-
-[https://www.iana.org](https://www.iana.org)
+- Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_ `>` _Paste a URL or hostname_ input, copy and __add__ the website URL: <p>[https://www.iana.org](https://www.iana.org)</p>
 
 <figure markdown>
   ![Run RetroTxt on files hosted on these domains](../assets/feature-add-url.png){ loading=lazy, width=600 }
@@ -93,7 +103,7 @@ Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_ `>` _Paste
 !!! info inline end "Reload a tab"
     To reload or refresh a tab, tap <kbd>F5</kbd> &nbsp; or &nbsp; ++command++ <kbd>r</kbd>
 
-Switch back to the tab with the `special-use-domain-names.txt` document and reload. RetroTxt will now format the text!
+- Switch back to the tab with the `special-use-domain-names.txt` document and reload. RetroTxt will now format the text!
 
 <figure markdown>
   ![RetroTxt default plain text styling](../assets/special-use-domain-names-apply.png){ loading=lazy, width=600 }
@@ -104,16 +114,21 @@ Switch back to the tab with the `special-use-domain-names.txt` document and relo
 
 ## Change the font
 
-Click the <u>__Settings__</u> link in the information header page and then the _Fonts_ tab.
+- Click the __RetroTxt fonts options__ button (the **TT** icon) in RetroTxt toolbar popup.
 
-Choose _IBM Plex_ from the __Suggested fonts__.
+<figure markdown>
+  ![RetroTxt suggested fonts](../assets/popup-open-font.png){ loading=lazy, width=600 }
+  <figcaption>The RetroTxt fonts options button</figcaption>
+</figure>
+
+- Choose __IBM Plex__ Mono Regular from the __Suggested fonts__.
 
 <figure markdown>
   ![RetroTxt suggested fonts](../assets/font-flexmono.png){ loading=lazy, width=600 }
   <figcaption>IBM Plex suggested fonts</figcaption>
 </figure>
 
-Switch back to the tab with the `special-use-domain-names.txt` text, and the font will update.
+- Switch back to the tab with the `special-use-domain-names.txt` text, and the font will update.
 
 <figure markdown>
   ![RetroTxt using IBM Plex Mono](../assets/special-use-domain-names-plex.png){ loading=lazy, width=600 }
@@ -124,9 +139,14 @@ Switch back to the tab with the `special-use-domain-names.txt` text, and the fon
 
 ## Swap colors
 
-Click the __Settings__ link and then the _Display_ tab.
+- Click the __RetroTxt display options__ button (the monitor icon) in RetroTxt toolbar popup.
 
-Under __Colors__ `>` _Text pairs_, choose the _white on dark_ selection.
+<figure markdown>
+  ![RetroTxt suggested fonts](../assets/popup-open-display.png){ loading=lazy, width=600 }
+  <figcaption>The RetroTxt display options button</figcaption>
+</figure>
+
+- Under __Colors__ `>` __Text pairs__, choose the _white on light_ selection.
 
 <figure markdown>
   ![RetroTxt text pairs](../assets/colors-text-pairs.png){ loading=lazy, width=600 }
@@ -147,20 +167,24 @@ Switch to the tab with the `special-use-domain-names.txt` text, and the page col
 
 ## Remove a website monitor
 
-Finally, to remove the monitoring of [www.iana.org](https://www.iana.org). Click the RetroTxt toolbar button and also the blue, _To include a new website_ button.
+Finally, to remove the monitoring of [www.iana.org](https://www.iana.org).
+
+- Click the __RetroTxt settings__ button (the cog icon) in RetroTxt toolbar popup.
 
 <figure markdown>
-  ![RetroTxt pop](../assets/popup.png){ loading=lazy, width=600 }
+  ![RetroTxt pop](../assets/popup-open-cog.png){ loading=lazy, width=600 }
 </figure>
 
-Click the delete __x__ button besides the [www.iana.org](https://www.iana.org) entry.
+- Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_
+
+- Click the __X__ button (remove) besides the [www.iana.org](https://www.iana.org) entry.
 
 <figure markdown>
-  ![RetroTxt delete entry](../assets/iana-tag.png){ loading=lazy, width=300 }
-  <figcaption>Delete a website monitor</figcaption>
+  ![RetroTxt delete entry](../assets/iana-tag.png){ loading=lazy, width=600 }
+  <figcaption>Remove a URL or hostname</figcaption>
 </figure>
 
-Switch back to the `special-use-domain-names.txt` document tab and reload. It should revert to the original, unformatted text.
+- Switch back to the `special-use-domain-names.txt` document tab and reload. It should revert to the original, unformatted text.
 
 <figure markdown>
   ![Original document](../assets/special-use-domain-names.png){ loading=lazy, width=600 }

@@ -34,14 +34,19 @@ Firstly, I'd recommend [creating a new Chrome or Edge profile](https://support.g
 
 ## Remove Suggestions
 
-For the fans of ANSI and ASCII art, there are several websites that RetroTxt monitors in the background. Disable these by clicking the RetroTxt toolbar button, and in the popup, click the blue _To include a new website_ button.
+For the fans of ANSI and ASCII art, there are several websites that RetroTxt monitors in the background. Click the __RetroTxt settings__ button (the cog icon) in RetroTxt toolbar popup.
 
 <figure markdown>
-  ![RetroTxt popup](../assets/popup.png){ loading=lazy, width=600 }
-  <figcaption>Toolbar popup</figcaption>
+  ![RetroTxt toolbar menu](../assets/discover-extension-popup.png){ loading=lazy, width=600 }
+  <figcaption>The popup button (blue) is often hidden behind the Extensions button (red)</figcaption>
 </figure>
 
-Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_, click the **remove** button above _Suggestions_, and now RetroTxt will only monitor retrotxt.com. Read on to learn how also to block this.
+<figure markdown>
+  ![RetroTxt popup](../assets/popup-open-cog.png){ loading=lazy, width=600 }
+  <figcaption>RetroTxt settings button in the toolbar popup</figcaption>
+</figure>
+
+Under __Feature__ `>` __Run RetroTxt on files hosted on these domains__, click the **remove** button above _Suggestions_, and now RetroTxt will only monitor [retrotxt.com](https://retrotxt.com). Read on to also block this.
 
 <figure markdown>
   ![RetroTxt after remove suggestions](../assets/suggestions-remove.png){ loading=lazy }
@@ -73,24 +78,24 @@ To access this, right-click the RetroTxt toolbar button and select _Manage exten
 
 Scroll down to _Site access_ under _Permissions_.
 
-Under the _Allow this extension to read and change all your data on websites you visit_, swap the _On all sites_ to __On click__.
+Under the _Allow this extension to read and change all your data on websites you visit_, swap the ___On all sites___ to __On click__.
 
 !!! warning ""
     **This setting blocks RetroTxt from being notified of or accessing any tabs.**
 
 <figure markdown>
   ![Chrome Site acess permissions](../assets/site-access.png){ loading=lazy, width=600 }
-  <figcaption>Permissions, site access</figcaption>
+  <figcaption>Permissions, on click site access</figcaption>
 </figure>
 
 !!! tip inline end "Refresh tabs"
     After permitting access, any open tabs will need reloading.
 
-To test the change, visit [https://retrotxt.com/e/preview_02.ans](https://retrotxt.com/e/preview_02.ans), and the tab displays an unchanged ANSI document in raw text, as RetroTxt cannot access this and any other tabs.
+To test the change,<br>visit [https://retrotxt.com/e/preview_02.ans](https://retrotxt.com/e/preview_02.ans)<br>and the tab displays an unchanged ANSI document in raw text, as RetroTxt cannot access this and any other tabs.
 
-But the __RetroTxt toolbar button is subtly highlighted and embossed to signify it is blocked__. Clicking it permits RetroTxt to access retrotxt.com temporarily for the browser session.
+But the __RetroTxt toolbar button is subtly highlighted and embossed to signify it is blocked__. Clicking it permits RetroTxt to access [retrotxt.com](https://retrotxt.com) temporarily for the browser session.
 
 <figure markdown>
-  ![Raw ANSI text](../assets/on-click-block.png){ loading=lazy, width=400 }
-  <figcaption>A blocked RetroTxt toolbar button embossed and outlined.</figcaption>
+  ![Raw ANSI text](../assets/on-click-block.png){ loading=lazy, width=600 }
+  <figcaption>The outline and emboss RetroTxt toolbar button.</figcaption>
 </figure>

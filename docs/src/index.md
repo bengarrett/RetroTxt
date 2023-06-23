@@ -68,6 +68,6 @@ chrome://extensions/
 2.  Click the **Load unpacked** button
 3.  Navigate to the directory containing the `RetroTxt/ext/` repository and select **OK**
 
-RetroTxt should load.
+RetroTxt should load!
 
 ![Chrome extensions developer mode](../assets/source_code-chrome.png)

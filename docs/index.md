@@ -31,7 +31,7 @@ hide:
 Turn pieces of ANSI, ASCII, and NFO documents into a web document. RetroTxt is the browser Extension that takes legacy and plain text files and correctly stylizes them for viewing or copying from a browser tab.
 
 - [x] View ANSI, ASCII, NFO, Shift JIS text art as a web document
-- [x] View server, system, and DevOps logs styled with colored text
+- [x] View server, terminal, and DevOps logs styled with colored text
 - [x] View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
 ## Screenshots
