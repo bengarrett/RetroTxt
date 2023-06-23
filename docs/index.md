@@ -47,14 +47,14 @@ Turn pieces of ANSI, ASCII, and NFO documents into a web document. RetroTxt is t
 
     <figure markdown>
       ![RetroTxt showcase](assets/showcase-raw.png)
-      <figcaption>Toggle back to the raw text view</figcaption>
+      <figcaption>The original, raw text view</figcaption>
     </figure>
 
 === "Fonts"
 
     <figure markdown>
       ![RetroTxt showcase](assets/showcase-fonts.png)
-      <figcaption>Choose from hundreds of fonts to style ASCII texts</figcaption>
+      <figcaption>Choose from hundreds of fonts to style texts</figcaption>
     </figure>
 
 === "Display"
