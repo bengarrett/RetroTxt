@@ -2528,6 +2528,12 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   setTimeout(pixels, halfASecond)
   // create a window resize event to update the pixel values
   window.addEventListener(`resize`, pixels)
+  // throw a check error for test
+  if (typeof globalThis !== `undefined`) {
+    const hash = globalThis.location.hash
+    if (hash === `#sorry-retrotxt-has-run-into-a-problem`)
+      CheckError(`this is a test of the CheckError dialog`, false)
+  }
 }
 
 function pixels() {
