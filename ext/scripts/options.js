@@ -867,8 +867,10 @@ class Initialise extends CheckBox {
             hr.style.display = `block`
             blocks.style.display = `inline`
           }
-          for (let scheme of schemes) {
-            scheme.textContent = `${scheme.textContent}${drive}`
+          if (info.os === windows) {
+            for (let scheme of schemes) {
+              scheme.textContent = `${scheme.textContent}${drive}`
+            }
           }
         // fallthrough
         case macOS:

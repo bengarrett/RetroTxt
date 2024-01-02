@@ -2,10 +2,20 @@
 title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2023-06-16
+date: 2024-01-03
 hide:
   - toc
 ---
+
+## 5.3
+
+### January 2024
+
+- Minor tweak to the Getting Started dialog text.
+- Removed `version_name` from the manifest as it hid useful version information.
+- Fixed `C:/` drive being referenced on non-Windows operating systems.
+- Fixed `package.json` `version` number not matching the manifest.
+
 ## 5.2
 
 ### June 2023
