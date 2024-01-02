@@ -20,7 +20,7 @@ vars:
 
   # The published version number of RetroTxt used in the manifest.json and GitHub commit
   # Must use the numeric format 5.0.0
-  VERSION: "5.2.0"
+  VERSION: "5.3.0"
 tasks:
   default:
     desc: List the available tasks.
@@ -48,6 +48,7 @@ tasks:
         msg: "{{.REQDJS}}"
     cmds:
       - pnpm exec dot-json ext/manifest.json version "{{.VERSION}}"
+      - pnpm exec dot-json package.json version "{{.VERSION}}"
 
   set-ver:
     preconditions:
