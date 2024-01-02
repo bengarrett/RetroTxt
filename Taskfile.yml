@@ -84,7 +84,6 @@ tasks:
         ignore_error: true
       - task: rename-build
         vars: { BROWSER: "chrome" }
-        ignore_error: true
 
   checks:
     desc: Check, run and print the versions of the task commands and dependencies.
@@ -161,7 +160,6 @@ tasks:
     deps: [set-version, version-purge, builds]
     cmds:
       - task: version-purge
-        ignore_error: true
       - task: set-version
       - task: builds
       - cmd: git tag -a "v{{.VERSION}}" --message "Version {{.VERSION}}"
