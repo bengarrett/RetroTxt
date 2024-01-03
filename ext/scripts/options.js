@@ -1856,7 +1856,15 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   customColorText.textContent = customColorText.textContent.toLowerCase()
   //handleError(`false positive test`)
 
-  // a handler used by the popup.js module
+  // handlers used by the popup.js module
+  handlePopup()
+  window.onhashchange = () => handlePopup()
+})()
+
+/**
+ * Handles the popup behavior based on the document location hash.
+ */
+function handlePopup() {
   switch (document.location.hash) {
     case `#top?t=fonts`:
       document.getElementById(`hero4`).click()
@@ -1871,6 +1879,6 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
       document.getElementById(`newHost`).focus()
       break
   }
-})()
+}
 
 /* global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */

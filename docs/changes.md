@@ -12,6 +12,7 @@ hide:
 ### January 2024
 
 - The RetroTxt options tab changes the document title.
+- Clicking the links or buttons in the popup will only ever open one RetroTxt options tab.
 - Minor tweak to the Getting Started dialog text.
 - Removed `version_name` from the manifest as it hid useful version information.
 - Fixed `C:/` drive being referenced on non-Windows operating systems.
