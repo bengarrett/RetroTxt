@@ -11,9 +11,11 @@ hide:
 
 ### January 2024
 
+- The RetroTxt options tab changes the document title.
 - Minor tweak to the Getting Started dialog text.
 - Removed `version_name` from the manifest as it hid useful version information.
 - Fixed `C:/` drive being referenced on non-Windows operating systems.
+- Fixed "RetroTxt has run into a problem" displaying the wrong keyboard keys on macOS.
 - Fixed `package.json` `version` number not matching the manifest.
 
 ## 5.2

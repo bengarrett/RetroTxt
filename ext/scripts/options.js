@@ -1482,6 +1482,31 @@ class Hero {
     const value = parseInt(selected, 10)
     if (Number.isNaN(value) || value < this.start || value > this.last)
       return console.error(`Tab value ${value} is invalid`)
+
+    const r = `RetroTxt `
+    const o = `options`
+    switch (value) {
+      case 1:
+        document.title = r + `credits`
+        break
+      case 2:
+        document.title = r + `samples`
+        break
+      case 3:
+        document.title = r + `useful links`
+        break
+      case 4:
+        document.title = r + `fonts`
+        break
+      case 5:
+        document.title = r + `display ` + o
+        break
+      case 6:
+        document.title = r + `settings`
+        break
+      default:
+        document.title = r + o
+    }
     // iterate over each <section> element
     Array.prototype.filter.call(this.content, (page) => {
       if (typeof page !== `undefined`) {
