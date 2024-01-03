@@ -228,5 +228,5 @@ function DisplayEncodingAlert() {
   dom.body.insertBefore(div, dom.pre0)
 }
 
-/*global BusySpinner BrowserOS CreateLink DOM Engine Os WebBrowser */
+/*global BusySpinner CreateLink DOM Engine WebBrowser */
 /*exported CheckArguments CheckError CheckRange DisplayAlert DisplayEncodingAlert */
