@@ -6,6 +6,37 @@
   https://retrotxt.com/e/preview_07.pcb
 */
 
+/* Intel One Mono */
+@font-face {
+  font-family: "intelonemono";
+  src: url("../fonts/IntelOneMono-Regular.woff2") format("woff2");
+  font-display: auto;
+}
+.font-intelonemono {
+  font-family: intelonemono;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+@font-face {
+  font-family: "intelonemonolight";
+  src: url("../fonts/IntelOneMono-Light.woff2") format("woff2");
+  font-display: auto;
+}
+.font-intelonemonolight {
+  font-family: intelonemonolight;
+  font-size: 1rem;
+  line-height: 1rem;
+}
+@font-face {
+  font-family: "intelonemonomedium";
+  src: url("../fonts/IntelOneMono-Medium.woff2") format("woff2");
+  font-display: auto;
+}
+.font-intelonemonomedium {
+  font-family: intelonemonomedium;
+  font-size: 1rem;
+  line-height: 1rem;
+}
 /* Cascadia */
 @font-face {
   font-family: "cascadiamono";

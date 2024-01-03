@@ -11,6 +11,7 @@ hide:
 
 ### January 2024
 
+- New [Intel One Mono fonts](https://github.com/intel/intel-one-mono).
 - The RetroTxt options tab changes the document title.
 - Clicking the links or buttons in the popup will only ever open one RetroTxt options tab.
 - Minor tweak to the Getting Started dialog text.
