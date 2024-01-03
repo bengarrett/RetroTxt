@@ -2016,7 +2016,7 @@ class Information extends Output {
     kbd.textContent = `Ctrl+U`
     chrome.storage.local.get(`platform`, (store) => {
       const macOS = 1
-      if (store.platform === macOS) kbd.textContent = `⌘+⌥+U`
+      if (store.platform === macOS) kbd.textContent = `command+option+U`
     })
     return kbd
   }
