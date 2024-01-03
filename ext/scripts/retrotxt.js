@@ -2528,7 +2528,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   setTimeout(pixels, halfASecond)
   // create a window resize event to update the pixel values
   window.addEventListener(`resize`, pixels)
-  // throw a check error for test
+  // throw a check error for testing
   if (typeof globalThis !== `undefined`) {
     const hash = globalThis.location.hash
     if (hash === `#sorry-retrotxt-has-run-into-a-problem`)
