@@ -316,7 +316,11 @@ class Configuration extends OptionsReset {
             `Could not obtain the requested chrome.storage ${key} setting`
           )
         chrome.storage.local.set({ [key]: defValue })
+        sessionStorage.setItem(key, defValue)
+        return localStorage.setItem(key, defValue)
       }
+      sessionStorage.setItem(key, value)
+      return localStorage.setItem(key, value)
     })
   }
   /**

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/options.css" />
   <link rel="stylesheet" href="../css/text_colors.css" />
   <link rel="stylesheet" href="../css/fonts_ibm-scale-9x.css" />
-  <title>RetroTxt options</title>
+  <title>RetroTxt</title>
 </head>
 
 <body>
@@ -125,22 +125,15 @@
             <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
                 <p class="mb-2 is-size-2">Getting started</p>
-                <p class="mt-2 is-size-5"><a id="newInstallSamples">There are dozens of sample text art files</a> to try
-                  with RetroTxt!
+                <p class="mt-2 is-size-5">Read the <a href="https://docs.retrotxt.com/usage/first/" target="_blank">
+                    first-time usage documentation</a></p>
+                <p class="mt-2 is-size-5">There are dozens of <a id="newInstallSamples">sample text art files</a> to try
+                  with RetroTxt
                 </p>
-                <br>
-                <p class="mt-2 is-size-5"><a id="newInstallFonts">Choose a retro or modern font</a> for viewing text
-                  files</p>
-                <br>
-                <p class="mt-2 is-size-5"><a href="https://docs.retrotxt.com/usage/first/" target="_blank">Read the
-                    first-time usage</a>
-                  documentation</p>
-                <br>
                 <p class="mt-2 is-size-5">
-                  You can use RetroTxt as a local text file viewer<span class="has-text-info">*</span>
+                  You can use RetroTxt as a local text file viewer <span class="has-text-info">*</span>
                 </p>
-                <br>
-                <p>
+                <p class="mt-1">
                   Either, drag-and-drop text files to this browser<br>
                   Or use the <code class="file-url-scheme">file:///</code> URL scheme in a tab
                 </p>
@@ -168,6 +161,12 @@
                     </p>
                     <ul class="menu-list">
                       <li><a href="https://bulma.io">Bulma CSS framework</a></li>
+                    </ul>
+                    <p class="menu-label">
+                      HTML sanitizer
+                    </p>
+                    <ul class="menu-list">
+                      <li><a href="https://github.com/cure53/DOMPurify">DOMPurify</a></li>
                     </ul>
                     <p class="menu-label">
                       Hyperlink Conversion
@@ -234,6 +233,10 @@
                       </li>
                       <li>
                         <a href="https://github.com/IBM/plex"><strong>IBM Corp.</strong> Plex Mono</a>
+                      </li>
+                      <li>
+                        <a href="https://github.com/intel/intel-one-mono"><strong>Intel Corp.</strong> Intel One
+                          Mono</a>
                       </li>
                       <li>
                         <a href="https://aminet.net/package/comm/amiex/PottySrc"><strong>Leo Davidson/Nudel</strong>,
@@ -717,7 +720,7 @@
                     languages</p>
                   <hr>
                   <h2 class="title has-text-dark is-size-6">
-                    IBM Plex
+                    IBM Plex Mono
                     <a href="https://www.ibm.com/plex/specs" target="_blank">
                       <svg role="img" class="material-icons has-text-info is-size-7">
                         <use xlink:href="../assets/svg/material-icons.svg#info"></use>
@@ -729,13 +732,13 @@
                   </p>
                   <div class="control">
                     <label class="radio" for="ibmplexmono">
-                      <input type="radio" name="font" id="ibmplexmono" value="ibmplexmono"> <u>Mono Regular</u>
+                      <input type="radio" name="font" id="ibmplexmono" value="ibmplexmono"> <u>Regular</u>
                     </label>
                     <label class="radio" for="ibmplextlight">
-                      <input type="radio" name="font" id="ibmplextlight" value="ibmplextlight"> <u>Mono Light</u>
+                      <input type="radio" name="font" id="ibmplextlight" value="ibmplextlight"> <u>Light</u>
                     </label>
                     <label class="radio" for="ibmplextmedium">
-                      <input type="radio" name="font" id="ibmplextmedium" value="ibmplextmedium"> <u>Mono Medium</u>
+                      <input type="radio" name="font" id="ibmplextmedium" value="ibmplextmedium"> <u>Medium</u>
                     </label>
                   </div>
                   <hr>
@@ -761,6 +764,29 @@
                     <label class="radio" for="cascadiacodepl">
                       <input type="radio" name="font" id="cascadiacodepl" value="cascadiacodepl"> <u>Code PL</u>
                       <small>with ligatures &amp; Powerline symbols</small>
+                    </label>
+                  </div>
+                  <hr>
+                  <h2 class="title has-text-dark is-size-6">
+                    Intel One Mono
+                    <a href="https://github.com/intel/intel-one-mono#readme" target="_blank">
+                      <svg role="img" class="material-icons has-text-info is-size-7">
+                        <use xlink:href="../assets/svg/material-icons.svg#info"></use>
+                      </svg>
+                    </a>
+                  </h2>
+                  <p class="subtitle has-text-dark is-size-7 mb-2">An expressive monospaced font family that's built
+                    with clarity, legibility, and the needs of developers in mind
+                  </p>
+                  <div class="control">
+                    <label class="radio" for="intelonemono">
+                      <input type="radio" name="font" id="intelonemono" value="intelonemono"> <u>Regular</u>
+                    </label>
+                    <label class="radio" for="intelonemonolight">
+                      <input type="radio" name="font" id="intelonemonolight" value="intelonemonolight"> <u>Light</u>
+                    </label>
+                    <label class="radio" for="intelonemonomedium">
+                      <input type="radio" name="font" id="intelonemonomedium" value="intelonemonomedium"> <u>Medium</u>
                     </label>
                   </div>
                   <hr>
@@ -1984,7 +2010,9 @@
                         </svg>
                       </a></label>
                     <hr>
-                    <h2 class="title has-text-dark is-size-6  mb-2">Sanyo MBC-16</h2>
+                    <h2 class="title has-text-dark is-size-6">Sanyo MBC-16</h2>
+                    <p class="subtitle has-text-dark is-size-7 mb-2">An early Japanese desktop range that is semi
+                      PC/XT-compatible</p>
                     <label class="radio" for="sanyombc16-2y">
                       <input type="radio" name="font" id="sanyombc16-2y" value="sanyombc16-2y"> SanyoMBC16-2y
                       <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?sanyombc16-2y" target="_blank">
@@ -2277,7 +2305,9 @@
                       expands support to some 780 characters
                     </p>
                     <hr>
-                    <h2 class="title has-text-dark is-size-6  mb-2">Acer M3125 VGA</h2>
+                    <h2 class="title has-text-dark is-size-6">Acer M3125 VGA</h2>
+                    <p class="subtitle has-text-dark is-size-7 mb-2">A 16-bit ISA, VGA video card and chip with 256kB of
+                      video memory</p>
                     <label class="radio" for="acer_vga_8x8-2y">
                       <input type="radio" name="font" id="acer_vga_8x8-2y" value="acer_vga_8x8-2y"> Acer VGA 8x8-2y
                       <a href="https://int10h.org/oldschool-pc-fonts/fontlist/font?acer_vga_8x8-2y" target="_blank">
@@ -3606,10 +3636,12 @@
                 <h1 class="title has-text-black-ter is-size-3 mt-4">ANSI</h1>
                 <!-- 80 column wrap -->
                 <h2 class="title has-text-dark is-size-6 columns mb-0">
-                  <div class="column">80 column wrap
-                    <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Unless
-                      SAUCE width information exists, this enforces an 80-character width for all
-                      ANSI files to emulate the classic 80-column terminal screen.
+                  <div class="column">Column wrap <small>80-column</small>
+                    <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Unless the <a
+                        href="https://www.acid.org/info/sauce/sauce.htm#FileType" class="has-text-link"
+                        target="_blank">SAUCE width</a>
+                      information exists, this option enforces an 80-character text width for all ANSI files to emulate
+                      the classic 80-column terminal screen.
                       <br><span class="has-text-info">Any open tabs will require a reload.</span>
                     </p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
@@ -3626,10 +3658,10 @@
                 <!-- page wrap -->
                 <h2 class="title has-text-dark is-size-6 columns mb-0">
                   <div class="column">Page wrap
-                    <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">By design, ANSI text
-                      preserves white space sequences with any text-overflow reachable via horizontal
-                      scrollbars. With page wrap enabled, ANSI text will behave as HTML, where overflow lines can break
-                      to wrap the text.<br>Page wrap helps read <span class="msg-color">color</span>ed text
+                    <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">With page wrap enabled the ANSI
+                      text will behave as HTML, where overflow lines can break to wrap the text. Otherwise, ANSI
+                      text preserves white space sequences with any text-overflow reachable via browser
+                      scrollbars.<br>Page wrap helps read <span class="msg-color">color</span>ed text
                       and logs, but the <em>80-column wrap</em> should be off.</p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
                         class="has-text-grey">off</span></p>
@@ -3644,12 +3676,12 @@
                 <hr>
                 <!-- ice colors -->
                 <h2 class="title has-text-dark is-size-6 columns">
-                  <div class="column">Use iCE colors
+                  <div class="column">Non-blink mode <small>iCE color</small>
                     <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">ANSI offers 16 static
                       foreground <span class="msg-color">color</span>s, eight additional blinking foreground <span
                         class="msg-color">color</span>s, and eight background <span class="msg-color">color</span>s.
-                      The iCE Color mode, or the non-blink mode, replaces the eight blinking <span
-                        class="msg-color">color</span>s with eight replacement backgrounds.</p>
+                      The non-blink mode, replaces the eight blinking <span class="msg-color">color</span>s with eight
+                      replacement backgrounds.</p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
                         class="has-text-success">on</span></p>
                   </div>
@@ -3786,8 +3818,8 @@
                       the <span class="msg-color">color</span>s it defines. These have always been left to the
                       hardware or software to interpret.
                       <br>
-                      Most artworks expect the IBM VGA palette.<br>
-                      Xterm is the standard terminal palette for X11 found on Linux, OpenVMS, etc.
+                      Most artworks expect the IBM VGA palette.
+                      Xterm is the standard terminal palette for X11 on Linux, OpenVMS, etc.
                     </p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
                         class="has-text-info">ibm vga</span></p>
@@ -4192,6 +4224,7 @@
   <script src="../scripts/sw/helpers.js"></script>
   <script src="../scripts/helpers.js"></script>
   <script src="../scripts/encoding.js"></script>
+  <script src="../js/purify.js"></script>
   <script src="../scripts/options.js"></script>
 </body>
 

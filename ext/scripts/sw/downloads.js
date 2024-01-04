@@ -43,6 +43,10 @@ class Downloads {
       security = new Security(`downloads`, `downloads`),
       test = security.test()
     switch (this.monitor) {
+      case false:
+        chrome.downloads.onCreated.removeListener(this._create)
+        chrome.downloads.onChanged.removeListener(this._update)
+        return
       case true:
         chrome.downloads.onCreated.addListener((item) => {
           if (CheckLastError(`on created downloads`)) return
@@ -65,8 +69,8 @@ class Downloads {
           // a fix for the endless loop issue, where Chrome incorrectly
           // identifies a text file as a binary (application/octet-stream)
           // and forces the file to download instead of render in a tab
-          if (!(`item` in downloads)) return
-          if (!(`mime` in downloads.item)) return
+          if (!Object.hasOwn(downloads, `item`)) return
+          if (!Object.hasOwn(downloads.item, `mime`)) return
           // required by defacto2.net
           if (
             Object.hasOwn(delta, `filename`) &&
@@ -79,13 +83,17 @@ class Downloads {
           // catch all mime types that use binary types such as
           // `application/octet-stream`, `application/x-font`
           const config = new Configuration(),
-            defacto2 = downloads.item.finalUrl.includes(`://defacto2.net/`),
-            sixColors = downloads.item.finalUrl.includes(`://16colo.rs/`),
             textFile = config.validateFileExtension(downloads.item.filename),
             type = downloads.item.mime.split(`/`)
-          if (!sixColors && !defacto2 && type[0] === `application`) {
+
+          let url = new URL(downloads.item.finalUrl)
+          let allowedHosts = ["16colo.rs", "defacto2.net", "www.defacto2.net"]
+          if (
+            !allowedHosts.includes(url.hostname) &&
+            type[0] === `application`
+          ) {
             if (
-              `state` in downloads.delta &&
+              Object.hasOwn(downloads.delta, `state`) &&
               downloads.delta.state.current === `complete`
             ) {
               if (textFile === true)
@@ -98,13 +106,14 @@ class Downloads {
           }
           // check intended for 16colo.rs & defacto2
           if (type[0] !== `text` && !textFile) return
-          downloads._update()
+          if (
+            Object.hasOwn(delta, `filename`) &&
+            Object.hasOwn(delta.filename, `current`)
+          ) {
+            downloads._update()
+          }
         })
-        break
-      case false:
-        chrome.downloads.onCreated.removeListener(this._create)
-        chrome.downloads.onChanged.removeListener(this._update)
-        break
+        return
     }
   }
   /**
@@ -162,16 +171,17 @@ class Downloads {
   _create() {
     // sanity checks
     const valid = () => {
-      if (!(`id` in this.item)) return false
+      if (!Object.hasOwn(this.item, `id`)) return false
       const error = `Create download #${this.item.id} cannot be monitored as the`
-      if (!(`url` in this.item)) return false
-      if (!(`filename` in this.item)) {
+      if (!Object.hasOwn(this.item, `url`)) return false
+      if (!Object.hasOwn(this.item, `filename`)) {
         console.log(`${error} filename is missing.\n(${this.item.url})`)
         return false
       }
       // defacto2.net special case
-      if (this.item.url.includes(`defacto2.net`)) {
-        console.log(this.item)
+      let url = new URL(this.item.url)
+      let allowedHosts = ["defacto2.net", "www.defacto2.net"]
+      if (allowedHosts.includes(url.hostname)) {
         return true
       }
       // note: some browsers and sites leave the filename as an property empty
@@ -202,11 +212,11 @@ class Downloads {
     })
   }
   _setFilename() {
-    if (!(`filename` in this.delta)) return false
-    if (!(`current` in this.delta.filename)) return false
-    const filename = this.delta.filename.current
-    if (filename.length < 1) return false
+    if (!Object.hasOwn(this.delta, `filename`)) return false
+    if (!Object.hasOwn(this.delta.filename, `current`)) return false
 
+    const filename = encodeURI(this.delta.filename.current)
+    if (filename.length < 1) return false
     const valid = new Configuration().validateFilename(filename)
     console.log(
       `Update download #${this.delta.id} determined the filename of the download.\n"${filename}", and ${valid}, it is a text based file.`
@@ -225,7 +235,7 @@ class Downloads {
   _update() {
     // sanity checks
     const valid = () => {
-      if (!(`id` in this.delta)) return
+      return Object.hasOwn(this.delta, `id`)
     }
     if (valid() === false) return
     this._setFilename()
@@ -234,11 +244,14 @@ class Downloads {
       if (item === null) return
       const filepath = item[itemName]
       // handle errors, including cancelled downloads
-      if (`error` in this.delta && `current` in this.delta.error)
+      if (
+        Object.hasOwn(this.delta, `error`) &&
+        Object.hasOwn(this.delta.error, `current`)
+      )
         return chrome.storage.local.remove(itemName)
       // completed downloads
-      if (`state` in this.delta === false) return
-      if (`current` in this.delta.state === false) return
+      if (!Object.hasOwn(this.delta, `state`)) return
+      if (!Object.hasOwn(this.delta.state, `current`)) return
       if (this.delta.state.current !== `complete`) return
       chrome.storage.local.remove(itemName)
       // Windows friendly path conversion

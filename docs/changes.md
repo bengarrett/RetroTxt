@@ -2,10 +2,28 @@
 title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2023-06-16
+date: 2024-01-03
 hide:
   - toc
 ---
+
+## 5.3
+
+### January 2024
+
+- New [Intel One Mono fonts](https://github.com/intel/intel-one-mono).
+- Removed the *column wrap* toggle from the information header of a RetroTxt browser tab.
+  The feature was confusing with the *page wrap* toggle, and would not work correctly with the _80 column wrap_ ANSI option in the RetroTxt Options.
+- Fixed a major issue in Chrome 118+, with text files breaking due to the [Sanitizer API deprecation](https://developer.chrome.com/blog/sanitizer-api-deprecation). As a stopgap, the [DOMPurify](https://github.com/cure53/DOMPurify) library is used to sanitise the text files.
+- The RetroTxt options tab changes the document title.
+- Clicking the links or buttons in the toolbar popup will only ever open one RetroTxt options tab.
+- Fixed Monitor downloads launching twin tabs of the same file.
+- Minor tweak to the Getting Started dialog text.
+- Removed `version_name` from the manifest as it hid useful version information.
+- Fixed `C:/` drive being referenced on non-Windows operating systems.
+- Fixed "RetroTxt has run into a problem" displaying the wrong keyboard keys on macOS.
+- Fixed `package.json` `version` number not matching the manifest.
+
 ## 5.2
 
 ### June 2023

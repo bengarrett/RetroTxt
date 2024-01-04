@@ -198,7 +198,6 @@ class DOM {
     this._constructRender()
     this._constructPalette()
     this._constructIceColors()
-    this._constructColumnWrap()
     this._constructPageWrap()
   }
   /**
@@ -274,18 +273,6 @@ class DOM {
       )
       this._toggleOn(toggle)
     } else this._toggleOff(toggle)
-  }
-  /**
-   * Construct 80 column wrap, only shows with EMCA48/ANSI documents.
-   */
-  async _constructColumnWrap() {
-    const toggle = document.getElementById(`toggleColumnWrap`)
-    if (toggle === null) return
-    const key = `ansiColumnWrap`,
-      setting = sessionStorage.getItem(key) || localStorage.getItem(key)
-    toggle.onclick = () => this.clickColumnWrap()
-    if (`${setting}` === `true`) this._toggleOn(toggle)
-    else this._toggleOff(toggle)
   }
   /**
    * Construct the page wrap.
@@ -582,22 +569,6 @@ class DOM {
         this._toggleOff(elm)
       }
     }
-  }
-  /**
-   * Toggles ANSI 80 column wrap, and column wrap.
-   */
-  async clickColumnWrap() {
-    const key = `ansiColumnWrap`,
-      setting = sessionStorage.getItem(key) || localStorage.getItem(key)
-    switch (`${setting}`) {
-      case `true`:
-        sessionStorage.setItem(key, `false`)
-        break
-      default:
-        sessionStorage.setItem(key, `true`)
-        break
-    }
-    location.reload()
   }
   /**
    * Toggles 'Line height'
@@ -1788,9 +1759,6 @@ class Information extends Output {
         this._label(`iCE colors`),
         this._setIceColors(),
         this._sep(),
-        this._label(`column wrap`),
-        this._setColumnWrap(),
-        this._sep(),
         this._label(`page wrap`),
         this._setPageWrap()
       )
@@ -1908,15 +1876,6 @@ class Information extends Output {
     s.textContent = ` ${chr} `
     return s
   }
-  _setColumnWrap() {
-    const bold = super.newBold(),
-      span = super.newSpan()
-    bold.textContent = ``
-    bold.id = `toggleColumnWrap`
-    span.title = `Toggle an 80 character column wrap that will reload this tab`
-    span.append(bold)
-    return span
-  }
   _setErrorBBS() {
     const div = super.newDiv(),
       span = super.newSpan()
@@ -2016,7 +1975,7 @@ class Information extends Output {
     kbd.textContent = `Ctrl+U`
     chrome.storage.local.get(`platform`, (store) => {
       const macOS = 1
-      if (store.platform === macOS) kbd.textContent = `Command+Option+U`
+      if (store.platform === macOS) kbd.textContent = `command+option+U`
     })
     return kbd
   }
@@ -2528,6 +2487,12 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   setTimeout(pixels, halfASecond)
   // create a window resize event to update the pixel values
   window.addEventListener(`resize`, pixels)
+  // throw a check error for testing
+  if (typeof globalThis !== `undefined`) {
+    const hash = globalThis.location.hash
+    if (hash === `#sorry-retrotxt-has-run-into-a-problem`)
+      CheckError(`this is a test of the CheckError dialog`, false)
+  }
 }
 
 function pixels() {

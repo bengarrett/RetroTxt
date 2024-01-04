@@ -20,7 +20,7 @@ vars:
 
   # The published version number of RetroTxt used in the manifest.json and GitHub commit
   # Must use the numeric format 5.0.0
-  VERSION: "5.2.0"
+  VERSION: "5.3.0"
 tasks:
   default:
     desc: List the available tasks.
@@ -48,6 +48,7 @@ tasks:
         msg: "{{.REQDJS}}"
     cmds:
       - pnpm exec dot-json ext/manifest.json version "{{.VERSION}}"
+      - pnpm exec dot-json package.json version "{{.VERSION}}"
 
   set-ver:
     preconditions:
@@ -84,7 +85,6 @@ tasks:
         ignore_error: true
       - task: rename-build
         vars: { BROWSER: "chrome" }
-        ignore_error: true
 
   checks:
     desc: Check, run and print the versions of the task commands and dependencies.
@@ -125,6 +125,7 @@ tasks:
       - cmd: pnpm exec shx cp -f "node_modules/linkifyjs/dist/linkify.js" "ext/js/linkify.js"
       - cmd: pnpm exec shx cp -f "node_modules/linkify-plugin-ip/dist/linkify-plugin-ip.js" "ext/js/linkify-plugin-ip.js"
       - cmd: pnpm exec shx cp -f "node_modules/linkify-element/dist/linkify-element.js" "ext/js/linkify-element.js"
+      - cmd: pnpm exec shx cp -f "node_modules/dompurify/dist/purify.js" "ext/js/purify.js"
 
   init:
     desc: Initialises this repository for first time use after being cloned.
@@ -161,7 +162,6 @@ tasks:
     deps: [set-version, version-purge, builds]
     cmds:
       - task: version-purge
-        ignore_error: true
       - task: set-version
       - task: builds
       - cmd: git tag -a "v{{.VERSION}}" --message "Version {{.VERSION}}"

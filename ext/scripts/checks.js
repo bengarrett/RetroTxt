@@ -87,14 +87,17 @@ function DisplayAlert(show = true, message = ``) {
   // div element containing the error alert
   let div = globalThis.document.getElementById(`displayAlert`)
   const link = globalThis.document.getElementById(`retrotxt-styles`)
+  // the navigator.platform property is deprecated but it is the only way to
+  // detect macOS as the chrome.runtime.getPlatformInfo() is not available here
+  const macOS = navigator.platform.toUpperCase().indexOf("MAC") >= 0
   if (div === null) {
-    let ext = `reloading RetroTxt on the `
+    let ext = `reloading RetroTxt with the `
     switch (WebBrowser()) {
       case Engine.chrome:
-        ext += ` Extensions page (chrome://extensions)`
+        ext += ` Extensions page, (chrome://extensions).`
         break
       case Engine.firefox:
-        ext += ` Add-ons manager page (about:addons)`
+        ext += ` Add-ons manager page, (about:addons).`
         break
     }
     const keyboard = new Map()
@@ -102,13 +105,17 @@ function DisplayAlert(show = true, message = ``) {
       .set(`reload`, `F5`)
       .set(`ctrl`, `Control`)
       .set(`shift`, `Shift`)
-    if (BrowserOS() === Os.macOS)
-      keyboard.set(`reload`, `R`).set(`ctrl`, `⌘`).set(`shift`, `⌥`)
+    if (macOS)
+      keyboard
+        .set(`reload`, `R`)
+        .set(`ctrl`, `⌘ Command`)
+        .set(`shift`, `⌥ Option`)
     if (WebBrowser() == Engine.firefox) keyboard.set(`console`, `I`)
     // build error as a html node
     const alert = {
       div: document.createElement(`div`),
-      f5: document.createElement(`kbd`),
+      relCmd: document.createElement(`kbd`),
+      rel: document.createElement(`kbd`),
       ctrl: document.createElement(`kbd`),
       shift: document.createElement(`kbd`),
       ikey: document.createElement(`kbd`),
@@ -119,18 +126,19 @@ function DisplayAlert(show = true, message = ``) {
       p1: document.createElement(`p`),
       p2: document.createElement(`p`),
     }
-    alert.f5.append(`${keyboard.get(`reload`)}`)
+    alert.relCmd.append(`${keyboard.get(`ctrl`)}`)
+    alert.rel.append(`${keyboard.get(`reload`)}`)
     alert.ctrl.append(keyboard.get(`ctrl`))
     alert.shift.append(keyboard.get(`shift`))
     alert.ikey.append(keyboard.get(`console`))
     alert.cons.append(`Console`)
     alert.issue.href = chrome.i18n.getMessage(`url_issues`)
     alert.issue.title = `On the RetroTxt GitHub repository`
-    alert.issue.append(`see if it has an issue report`)
-    alert.div.append(`Sorry, RetroTxt has run into a problem.`, alert.p1)
+    alert.issue.append(`see if it is a known issue`)
+    alert.div.append(`😔 Sorry, RetroTxt has run into a problem.`, alert.p1)
     alert.div.append(alert.p2)
     alert.p2.append(
-      `For more information press `,
+      `For additional information, press `,
       alert.ctrl,
       alert.shift,
       alert.ikey,
@@ -140,12 +148,13 @@ function DisplayAlert(show = true, message = ``) {
     )
     if (message === ``) {
       alert.p1.append(`Please reload `)
-      if (BrowserOS() !== Os.macOS) alert.p1.append(alert.f5)
+      if (macOS) alert.p1.append(alert.relCmd)
+      alert.p1.append(alert.rel)
       alert.p1.append(` this tab to attempt to fix the problem.`)
       alert.div.append(
         `If the problem continues, try ${ext}`,
         alert.br2,
-        `or `,
+        `Or `,
         alert.issue,
         `.`
       )
@@ -219,5 +228,5 @@ function DisplayEncodingAlert() {
   dom.body.insertBefore(div, dom.pre0)
 }
 
-/*global BusySpinner BrowserOS CreateLink DOM Engine Os WebBrowser */
+/*global BusySpinner CreateLink DOM Engine WebBrowser */
 /*exported CheckArguments CheckError CheckRange DisplayAlert DisplayEncodingAlert */

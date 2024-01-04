@@ -132,6 +132,7 @@ class Extension {
           `js/linkify.js`,
           `js/linkify-element.js`,
           `js/linkify-plugin-ip.js`,
+          `js/purify.js`,
         ],
       },
       () => {

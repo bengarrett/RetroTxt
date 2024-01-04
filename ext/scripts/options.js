@@ -867,8 +867,10 @@ class Initialise extends CheckBox {
             hr.style.display = `block`
             blocks.style.display = `inline`
           }
-          for (let scheme of schemes) {
-            scheme.textContent = `${scheme.textContent}${drive}`
+          if (info.os === windows) {
+            for (let scheme of schemes) {
+              scheme.textContent = `${scheme.textContent}${drive}`
+            }
           }
         // fallthrough
         case macOS:
@@ -1480,6 +1482,31 @@ class Hero {
     const value = parseInt(selected, 10)
     if (Number.isNaN(value) || value < this.start || value > this.last)
       return console.error(`Tab value ${value} is invalid`)
+
+    const r = `RetroTxt `
+    const o = `options`
+    switch (value) {
+      case 1:
+        document.title = r + `credits`
+        break
+      case 2:
+        document.title = r + `samples`
+        break
+      case 3:
+        document.title = r + `useful links`
+        break
+      case 4:
+        document.title = r + `fonts`
+        break
+      case 5:
+        document.title = r + `display ` + o
+        break
+      case 6:
+        document.title = r + `settings`
+        break
+      default:
+        document.title = r + o
+    }
     // iterate over each <section> element
     Array.prototype.filter.call(this.content, (page) => {
       if (typeof page !== `undefined`) {
@@ -1657,6 +1684,7 @@ class Hosts {
 
   async _add(hostname = ``, init = false) {
     if (hostname.length < this.minLength) return
+    hostname = DOMPurify.sanitize(hostname, { USE_PROFILES: { html: true } })
     const tags = document.getElementById(`hostTags`),
       tag = this.template.cloneNode(true),
       anchor = tag.childNodes[1].childNodes[1],
@@ -1829,7 +1857,15 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   customColorText.textContent = customColorText.textContent.toLowerCase()
   //handleError(`false positive test`)
 
-  // a handler used by the popup.js module
+  // handlers used by the popup.js module
+  handlePopup()
+  window.onhashchange = () => handlePopup()
+})()
+
+/**
+ * Handles the popup behavior based on the document location hash.
+ */
+function handlePopup() {
   switch (document.location.hash) {
     case `#top?t=fonts`:
       document.getElementById(`hero4`).click()
@@ -1844,6 +1880,6 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
       document.getElementById(`newHost`).focus()
       break
   }
-})()
+}
 
-/* global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
+/* global CheckLastError CheckRange Configuration Console DOMPurify Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */

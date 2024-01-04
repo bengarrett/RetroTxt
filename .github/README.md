@@ -90,7 +90,8 @@ Fonts from
 * [_C64 TrueType_](https://style64.org/c64-truetype) by Style
 * [_Cascadia_](https://github.com/microsoft/cascadia-code) by Microsoft
 * [_IBM 3270_](https://github.com/rbanffy/3270font) by Ricardo Banffy
-* [_Mona_](https://monafont.sourceforge.net/index-e.html) public domain
+* [_Intel One Mono_](https://github.com/intel/intel-one-mono) by Intel Corp.
+* [_Mona_](https://monafont.sourceforge.net/index-e.html) in the public domain
 * [_MSX_](http://www.ateijelo.com/blog/2016/09/13/making-an-msx-font) by Andy Teijelo Pérez
 * [_Multi Platform Fonts_](https://github.com/rewtnull/amigafonts) by TrueSchool Ascii
 * [_Plex_](https://github.com/IBM/plex) by IBM Corp.
