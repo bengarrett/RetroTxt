@@ -98,13 +98,18 @@ class Downloads {
           }
           // check intended for 16colo.rs & defacto2
           if (type[0] !== `text` && !textFile) return
-          downloads._update()
+          if (
+            Object.hasOwn(delta, `filename`) &&
+            Object.hasOwn(delta.filename, `current`)
+          ) {
+            downloads._update()
+          }
         })
-        break
+        return
       case false:
         chrome.downloads.onCreated.removeListener(this._create)
         chrome.downloads.onChanged.removeListener(this._update)
-        break
+        return
     }
   }
   /**
@@ -204,7 +209,7 @@ class Downloads {
   _setFilename() {
     if (!(`filename` in this.delta)) return false
     if (!(`current` in this.delta.filename)) return false
-    const filename = this.delta.filename.current
+    const filename = encodeURI(this.delta.filename.current)
     if (filename.length < 1) return false
 
     const valid = new Configuration().validateFilename(filename)
