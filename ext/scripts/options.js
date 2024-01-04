@@ -1684,6 +1684,7 @@ class Hosts {
 
   async _add(hostname = ``, init = false) {
     if (hostname.length < this.minLength) return
+    hostname = DOMPurify.sanitize(hostname, { USE_PROFILES: { html: true } })
     const tags = document.getElementById(`hostTags`),
       tag = this.template.cloneNode(true),
       anchor = tag.childNodes[1].childNodes[1],
@@ -1881,4 +1882,4 @@ function handlePopup() {
   }
 }
 
-/* global CheckLastError CheckRange Configuration Console Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
+/* global CheckLastError CheckRange Configuration Console DOMPurify Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
