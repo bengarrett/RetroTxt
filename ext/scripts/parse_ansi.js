@@ -204,18 +204,28 @@ class Cursor {
    * Initialise this class.
    */
   _init() {
-    // to test: https://retrotxt.com/test/long-string.ans
-    const defaultColumns = 80
-    try {
-      const key = `ansiColumnWrap`,
-        setting = sessionStorage.getItem(key) || localStorage.getItem(key)
-      if (`${setting}` === `false`)
-        // set maxColumns to 0 to disable
-        return (this.maxColumns = 0)
-    } catch {
+    // As the ANSI column wrap is applied using HTML elements instead of a CSS class,
+    // the setting must be read from storage and applied to the `maxColumns` property.
+    // Otherwise the column wrap will not work and always use the defaultColumns value.
+    //
+    // To test: https://retrotxt.com/test/long-string.ans
+    const key = `ansiColumnWrap`,
+      defaultColumns = 80
+    chrome.storage.local.get([`${key}`], (result) => {
+      const value = result[`${key}`]
+      sessionStorage.setItem(key, value)
+      localStorage.setItem(key, value)
+      try {
+        const key = `ansiColumnWrap`,
+          setting = sessionStorage.getItem(key) || localStorage.getItem(key)
+        if (`${setting}` === `false`)
+          // set maxColumns to 0 to disable
+          return (this.maxColumns = 0)
+      } catch {
+        return (this.maxColumns = defaultColumns)
+      }
       return (this.maxColumns = defaultColumns)
-    }
-    return (this.maxColumns = defaultColumns)
+    })
   }
 
   /**
