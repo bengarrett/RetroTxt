@@ -83,11 +83,15 @@ class Downloads {
           // catch all mime types that use binary types such as
           // `application/octet-stream`, `application/x-font`
           const config = new Configuration(),
-            defacto2 = downloads.item.finalUrl.includes(`://defacto2.net/`),
-            sixColors = downloads.item.finalUrl.includes(`://16colo.rs/`),
             textFile = config.validateFileExtension(downloads.item.filename),
             type = downloads.item.mime.split(`/`)
-          if (!sixColors && !defacto2 && type[0] === `application`) {
+
+          let url = new URL(downloads.item.finalUrl)
+          let allowedHosts = ["16colo.rs", "defacto2.net", "www.defacto2.net"]
+          if (
+            !allowedHosts.includes(url.hostname) &&
+            type[0] === `application`
+          ) {
             if (
               Object.hasOwn(downloads.delta, `state`) &&
               downloads.delta.state.current === `complete`
@@ -175,7 +179,11 @@ class Downloads {
         return false
       }
       // defacto2.net special case
-      if (this.item.url.includes(`defacto2.net`)) return true
+      let url = new URL(this.item.url)
+      let allowedHosts = ["defacto2.net", "www.defacto2.net"]
+      if (allowedHosts.includes(url.hostname)) {
+        return true
+      }
       // note: some browsers and sites leave the filename as an property empty
       // so as an alternative monitor method, the chrome.storage.local might also be set in this.update()
       if (this.item.filename.length < 1) {
