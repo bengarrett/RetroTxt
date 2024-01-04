@@ -12,6 +12,7 @@ hide:
 ### January 2024
 
 - New [Intel One Mono fonts](https://github.com/intel/intel-one-mono).
+- Fixed a major issue in Chrome 118+, with text files breaking due to the [Sanitizer API deprecation](https://developer.chrome.com/blog/sanitizer-api-deprecation). As a stopgap, the [DOMPurify](https://github.com/cure53/DOMPurify) library is used to sanitise the text files.
 - The RetroTxt options tab changes the document title.
 - Clicking the links or buttons in the popup will only ever open one RetroTxt options tab.
 - Minor tweak to the Getting Started dialog text.

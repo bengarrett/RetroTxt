@@ -93,7 +93,8 @@
       "resources": [
         "js/linkify.js",
         "js/linkify-element.js",
-        "js/linkify-plugin-ip.js"
+        "js/linkify-plugin-ip.js",
+        "js/purify.js"
       ],
       "matches": [
         "*://*.retrotxt.com/*",

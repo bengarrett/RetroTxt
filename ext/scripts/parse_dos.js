@@ -998,8 +998,7 @@ class BBS {
     const pre = this._newElement(`pre`),
       replaced = this._replaceEscapedChars()
     // smear block characters
-    const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`,
-      sanitizer1 = new Sanitizer()
+    const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     // to handle colour, split @X characters
     const colours = replaced.split(`@X`)
     colour: for (const code of colours) {
@@ -1022,10 +1021,11 @@ class BBS {
       const element = this._newElement(`i`)
       element.classList.add(`PB${backgroundCode}`, `PF${foregroundCode}`)
       if (smear === `true`) {
-        element.setHTML(
-          appendText.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`),
-          { sanitizer: sanitizer1 }
-        )
+        const clean = DOMPurify.sanitize(appendText, {
+          USE_PROFILES: { html: true },
+        })
+        const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
+        element.innerHTML(bold)
       } else element.textContent = appendText
       pre.append(element)
     }
@@ -1065,8 +1065,7 @@ class BBS {
     // to handle colour, split | characters
     const colours = replaced.split(`|`)
     // smear block characters
-    const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`,
-      sanitizer1 = new Sanitizer()
+    const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     let background = `00`,
       foreground = `00`,
       swap = false
@@ -1093,10 +1092,11 @@ class BBS {
       }
       element.classList.add(`P${background}`, `P${foreground}`)
       if (smear === `true`) {
-        element.setHTML(
-          appendText.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`),
-          { sanitizer: sanitizer1 }
-        )
+        const clean = DOMPurify.sanitize(appendText, {
+          USE_PROFILES: { html: true },
+        })
+        const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
+        element.innerHTML(bold)
       } else element.textContent = appendText
       pre.append(element)
     }
@@ -1114,8 +1114,7 @@ class BBS {
     // to handle colour, split | characters
     const colours = replaced.split(`|`)
     // smear block characters
-    const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`,
-      sanitizer1 = new Sanitizer()
+    const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     for (const code of colours) {
       if (code.length === 0 || code.charCodeAt(0) === 10) continue
       // check values to match expected prefix, otherwise treat as text
@@ -1131,10 +1130,11 @@ class BBS {
       else if (x >= foregroundMin && x <= foregroundMax) foreground = pipe
       element.classList.add(`P${background}`, `P${foreground}`)
       if (smear === `true`) {
-        element.setHTML(
-          appendText.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`),
-          { sanitizer: sanitizer1 }
-        )
+        const clean = DOMPurify.sanitize(appendText, {
+          USE_PROFILES: { html: true },
+        })
+        const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
+        element.innerHTML(bold)
       } else element.textContent = appendText
       pre.append(element)
     }
@@ -1159,6 +1159,6 @@ function eslintUndef() {
 }
 
 /*eslint no-control-regex: "off"*/
-/*global CheckArguments Console Cs DeveloperModeDebug FindControlSequences
-CelerityText PlainText PCBoardText RenegadeText Sanitizer TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText */
+/*global CheckArguments Console Cs DeveloperModeDebug DOMPurify FindControlSequences
+CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText */
 /*exported BBS Controls DOSText Transcode*/

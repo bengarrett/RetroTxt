@@ -125,6 +125,7 @@ tasks:
       - cmd: pnpm exec shx cp -f "node_modules/linkifyjs/dist/linkify.js" "ext/js/linkify.js"
       - cmd: pnpm exec shx cp -f "node_modules/linkify-plugin-ip/dist/linkify-plugin-ip.js" "ext/js/linkify-plugin-ip.js"
       - cmd: pnpm exec shx cp -f "node_modules/linkify-element/dist/linkify-element.js" "ext/js/linkify-element.js"
+      - cmd: pnpm exec shx cp -f "node_modules/dompurify/dist/purify.js" "ext/js/purify.js"
 
   init:
     desc: Initialises this repository for first time use after being cloned.
