@@ -10,7 +10,7 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 
 #### View ANSI, ASCII, NFO, Shift JIS text art as HTML
 
-#### View server, terminal, and DevOps logs styled with colored text
+#### View server and DevOps logs styled with colored text
 
 #### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
@@ -53,7 +53,7 @@ Firefox support will resume once its [Manifest version 3 implementation reaches 
 
 ## Requirements
 
-**Chrome or Edge 106** (or a compatible browser such as Brave, Chromium or Vivaldi)
+**Chrome or Edge 106** (or a compatible browser such as Arc, Brave or Vivaldi)
 
 **Or newer browsers**
 
@@ -69,15 +69,17 @@ All Extension data is stored locally on your computer using the [storage.local A
 
 ![GitHub](https://img.shields.io/github/license/bengarrett/retrotxt?style=flat-square)
 
-#### An important note about the license
+#### An important note about the software license
 
-While RetroTxt uses a **[GNU Lesser General Public License v3.0](https://choosealicense.com/licenses/lgpl-3.0)**, **the included fonts do not**. You should read each font license in the [`fonts/`](../fonts/) subdirectory before redistribution, as some of the authors do not permit the sale or modification of their fonts or collections.
+RetroTxt uses the **[GNU Lesser General Public License v3.0](https://choosealicense.com/licenses/lgpl-3.0)**
+
+**The license does not cover the included fonts**. You should read each font license in the [`fonts/`](../fonts/) subdirectory before redistribution, as some of the authors do not permit the sale or modification of their fonts or collections.
 
 ## Credits
 
-RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett) ([mail](mailto:code.by.ben@gmail.com))
+RetroTxt by [Ben Garrett](https://devtidbits.com/ben-garrett) ([gmail](mailto:code.by.ben@gmail.com))
 
-RetroTxt ANSI logo Zeus II [Twitter @Zeus_II](https://twitter.com/Zeus_II)
+RetroTxt ANSI logo by [Zeus II](https://twitter.com/Zeus_II)
 
 Fonts from
 
