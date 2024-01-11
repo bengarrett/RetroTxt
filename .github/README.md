@@ -2,7 +2,7 @@
   <img width="314" height="201" src="../docs/assets/retrotxt-readme.png">
 </p>
 
-### Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) ~ [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) ~ [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
+### Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) ~ [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) ~ [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) *
 
 # RetroTxt
 
@@ -37,7 +37,7 @@ From Commodore, Atari, Apple, Tandy, and more
 
 #### [Changes and what is new](https://docs.retrotxt.com/changes/)
 
-#### ☕ [Support RetroTxt, why not buy me a coffee?](https://www.buymeacoffee.com/4rtEGvUIY)
+#### Support RetroTxt, why not buy me a coffee? ☕ Use [Ko-fi](https://ko-fi.com/codebyben) or [Buy Me a Coffee](https://www.buymeacoffee.com/4rtEGvUIY), thank you!
 
 ## Install · suitable for all compatible browsers
 
@@ -47,7 +47,7 @@ From Commodore, Atari, Apple, Tandy, and more
 
 ## A legacy edition is available for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) *
 
-Firefox support will resume once its [Manifest version 3 implementation reaches general availability](https://blog.mozilla.org/addons/2022/05/18/manifest-v3-in-firefox-recap-next-steps/).
+Firefox support will resume once its [Manifest version 3](https://docs.retrotxt.com/src/mv3/) implementation [supports service workers](https://bugzilla.mozilla.org/show_bug.cgi?id=1573659).
 
 #### [Firefox legacy source code](https://github.com/bengarrett/RetroTxt/tree/manifest-v2)
 
@@ -103,3 +103,7 @@ Fonts from
 CSS framework by [Bulma](https://bulma.io)
 
 Options icons by [Google Material Design](https://material.io/resources/icons)
+
+---
+
+### [Also available is Retrotxt for the terminal](https://github.com/bengarrett/retrotxtgo), an app to handle legacy, code page text files in a modern shell.

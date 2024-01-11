@@ -101,7 +101,7 @@ This example shows how to add a new website to the collection that RetroTxt moni
 </figure>
 
 !!! info inline end "Reload a tab"
-    To reload or refresh a tab, tap <kbd>F5</kbd> &nbsp; or &nbsp; ++command++ <kbd>r</kbd>
+    To reload or refresh a tab,<br>tap <kbd>F5</kbd> &nbsp; or &nbsp; ++command++ <kbd>r</kbd>
 
 - Switch back to the tab with the `special-use-domain-names.txt` document and reload. RetroTxt will now format the text!
 
