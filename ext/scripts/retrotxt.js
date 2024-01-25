@@ -2474,9 +2474,13 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   }
   // linkify DOM
   chrome.storage.local.get(`linkifyHyperlinks`, (store) => {
-    const hyper = store.linkifyHyperlinks
-    if (hyper === true)
-      linkifyElement(document.getElementById(`styledDocument`))
+      const hyper = store.linkifyHyperlinks
+      if (hyper === true)
+          linkifyElement(document.getElementById(`styledDocument`), {
+              validate: {
+                  url: (value) => /^https?:\/\//.test(value),
+              },
+          })
   })
   // clean-up globals
   cleanup(output)
