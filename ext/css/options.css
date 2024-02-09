@@ -103,6 +103,10 @@ main > section #jumpTo {
   display: none;
 }
 
+#colorPaletteForm table {
+  border: 1px solid black;
+}
+
 /* replace checkbox with a toggle switch */
 .toggleswitch {
   position: relative;

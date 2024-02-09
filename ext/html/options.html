@@ -3554,8 +3554,8 @@
                   </h2>
                 </div>
                 <!-- smear block characters (only revealed on Windows) -->
-                <hr style="display: none;" id="smearBlocksHR">
-                <div style="display: none;" id="smearBlocksContainer">
+                <hr style="display:block;" id="smearBlocksHR">
+                <div style="display: block;" id="smearBlocksContainer">
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">
                       Smear block characters
@@ -3566,10 +3566,10 @@
                         to correct this at the expense of font sharpness.
                         <br><span class="has-text-info">Any open tabs will require a reload.</span>
                       </p>
-                      <p class="is-size-7 mt-2 mb-1">standard text</p>
+                      <p class="is-size-7 mt-2 mb-1">off</p>
                       <p name="display-sample-text" class="font-ibm_vga_8x16 has-text-weight-normal">◘░▒▓███▄▐▌▀███■
                         ABCabc</p>
-                      <p class="is-size-7 mt-2 mb-1">smear block characters on</p>
+                      <p class="is-size-7 mt-2 mb-1">on</p>
                       <p name="display-sample-text" class="font-ibm_vga_8x16 has-text-weight-normal">
                         <span
                           id="smearBlocksExample"><b>◘</b><b>░</b><b>▒</b><b>▓</b><b>█</b><b>█</b><b>█</b><b>▄</b><b>▐</b><b>▌</b><b>▀</b><b>█</b><b>█</b><b>█</b><b>■</b></span>
@@ -3601,12 +3601,12 @@
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
                           class="has-text-grey">off</span>
                       </p>
-                      <p class="is-size-7 mt-2 mb-1">accurate 9px EGA/VGA font <small>IBM original</small></p>
-                      <p class="font-ibm_vga_9x16-example has-text-weight-normal">
+                      <p class="is-size-7 mt-2 mb-1">off</p>
+                      <p class="font-ibm_vga_9x16 has-text-weight-normal">
                         &nbsp;◘░░░▒▒▒▓▓▓███▄▐▌▀███■
                         ABCabc&nbsp;</p>
-                      <p class="is-size-7 mt-2 mb-1">accurate fonts off <small>using a scaled VGA 8x16 font</small></p>
-                      <p class="font-ibm_vga_9x16 has-text-weight-normal">
+                      <p class="is-size-7 mt-2 mb-1">on</p>
+                      <p class="font-ibm_vga_9x16-example has-text-weight-normal">
                         &nbsp;◘░░░▒▒▒▓▓▓███▄▐▌▀███■
                         ABCabc&nbsp;</p>
                     </div>
@@ -3676,8 +3676,9 @@
                     <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">With page wrap enabled the ANSI
                       text will behave as HTML, where overflow lines can break to wrap the text. Otherwise, ANSI
                       text preserves white space sequences with any text-overflow reachable via browser
-                      scrollbars.<br>Page wrap helps read <span class="msg-color">color</span>ed text
-                      and logs, but the <em>80-column wrap</em> should be off.</p>
+                      scrollbars.<br><span class="has-text-info">
+                        Page wrap helps read <span class="msg-color">color</span>ed text
+                        and logs, but the <u>80-column wrap should be off</u>.</span></p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
                         class="has-text-grey">off</span></p>
                   </div>
@@ -3729,7 +3730,7 @@
                     <table class="table is-fullwidth has-text-left" id="color-text-pairs">
                       <tr>
                         <td class="control theme-msdos-fg theme-msdos-bg">
-                          <label for="theme-msdos" class="radio">MS-DOS</label>
+                          <label for="theme-msdos" class="radio font-ibm_vga_9x16">MS-DOS</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-msdos" id="theme-msdos">
                         </td>
                         <td class="control theme-windows-fg theme-windows-bg">
@@ -3738,22 +3739,22 @@
                             id="theme-windows">
                         </td>
                         <td class="theme-amiga-fg theme-amiga-bg">
-                          <label for="theme-amiga" class="radio">Amiga</label>
+                          <label for="theme-amiga" class="radio font-topaza500">Amiga</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-amiga" id="theme-amiga">
                         </td>
                       </tr>
                       <tr>
                         <td class="control theme-c64-fg theme-c64-bg">
-                          <label for="theme-c64" class="radio">C64</label>
+                          <label for="theme-c64" class="radio font-petme64">C64</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-c64" id="theme-c64">
                         </td>
                         <td class="control theme-appleii-fg theme-appleii-bg">
-                          <label for="theme-appleii" class="radio">Apple II</label>
+                          <label for="theme-appleii" class="radio font-pr_number_3">Apple II</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-appleii"
                             id="theme-appleii">
                         </td>
                         <td class="control theme-atarist-fg theme-atarist-bg">
-                          <label for="theme-atarist" class="radio">Atari ST</label>
+                          <label for="theme-atarist" class="radio font-atarist">Atari ST</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-atarist"
                             id="theme-atarist">
                         </td>
@@ -3822,6 +3823,10 @@
                   <div class="field">
                     <label class="label has-text-weight-normal" for="customColorBG">
                       <input type="color" id="customColorBG"> background</label>
+                  </div>
+                  <div class="control">
+                    <!-- TODO: Should JS onclick to reset to OG value instead of last value -->
+                    <button class="button is-link is-light">Reset</button>
                   </div>
                 </div>
                 <hr>
