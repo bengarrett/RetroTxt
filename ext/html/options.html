@@ -3730,22 +3730,22 @@
                     <table class="table is-fullwidth has-text-left" id="color-text-pairs">
                       <tr>
                         <td class="control theme-msdos-fg theme-msdos-bg">
-                          <label for="theme-msdos" class="radio font-ibm_vga_9x16">MS-DOS</label>
+                          <label for="theme-msdos" class="radio font-ibm_vga_9x16">Command prompt</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-msdos" id="theme-msdos">
                         </td>
                         <td class="control theme-windows-fg theme-windows-bg">
-                          <label for="theme-windows" class="radio">Windows</label>
+                          <label for="theme-windows" class="radio">Windows Notepad</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-windows"
                             id="theme-windows">
                         </td>
                         <td class="theme-amiga-fg theme-amiga-bg">
-                          <label for="theme-amiga" class="radio font-topaza500">Amiga</label>
+                          <label for="theme-amiga" class="radio font-topaza500">Commodore Amiga</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-amiga" id="theme-amiga">
                         </td>
                       </tr>
                       <tr>
                         <td class="control theme-c64-fg theme-c64-bg">
-                          <label for="theme-c64" class="radio font-petme64">C64</label>
+                          <label for="theme-c64" class="radio font-petme642y">Commodore 64</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-c64" id="theme-c64">
                         </td>
                         <td class="control theme-appleii-fg theme-appleii-bg">
@@ -3814,19 +3814,23 @@
                         your foreground and background <span class="msg-color">color</span>s for the Text
                         pairs.</p>
                     </div>
-                    <div class="column is-2"></div>
+                    <div class="column is-2"><!-- alignment placeholder --></div>
                   </h2>
-                  <div class="field">
-                    <label class="label has-text-weight-normal" for="customColorFG">
-                      <input type="color" id="customColorFG"> foreground</label>
-                  </div>
-                  <div class="field">
-                    <label class="label has-text-weight-normal" for="customColorBG">
-                      <input type="color" id="customColorBG"> background</label>
-                  </div>
-                  <div class="control">
-                    <!-- TODO: Should JS onclick to reset to OG value instead of last value -->
-                    <button class="button is-link is-light">Reset</button>
+                  <div class="columns">
+                    <div class="column">
+                      <div class="field">
+                        <label class="label has-text-weight-normal" for="customColorFG">
+                          <input type="color" id="customColorFG"> foreground</label>
+                      </div>
+                      <div class="field">
+                        <label class="label has-text-weight-normal" for="customColorBG">
+                          <input type="color" id="customColorBG"> background</label>
+                      </div>
+                    </div>
+                    <div class="column is-2">
+                      <!-- TODO: Should JS onclick to reset to OG value instead of last value -->
+                      <button id="customColorReset" class="button is-small is-outlined">Reset</button>
+                    </div>
                   </div>
                 </div>
                 <hr>
@@ -3862,7 +3866,8 @@
                         </tr>
                       </table>
                       <h3 class="title has-text-dark is-size-6 mt-1">
-                        <input type="radio" name="palette" value="vga" id="colorPaletteVGA" /> IBM VGA
+                        <input type="radio" name="palette" value="vga" id="colorPaletteVGA" />
+                        Windows <small style="font-size: 75%;">IBM VGA</small>
                       </h3>
                     </label>
                   </div>
@@ -3881,7 +3886,8 @@
                         </tr>
                       </table>
                       <h3 class="title has-text-dark is-size-6 mt-1">
-                        <input type="radio" name="palette" value="xterm" id="colorPaletteXTerm" /> XTerm
+                        <input type="radio" name="palette" value="xterm" id="colorPaletteXTerm" />
+                        Linux <small style="font-size: 75%;">XTerm</small>
                       </h3>
                     </label>
                   </div>
@@ -3975,8 +3981,9 @@
                           <td class="workbench-grey">7</td>
                         </tr>
                       </table>
-                      <h3 class="title has-text-dark is-size-6 mt-1"><input type="radio" name="palette"
-                          value="workbench" class="m-0" id="colorPaletteWorkbench" /> Workbench
+                      <h3 class="title has-text-dark is-size-6 mt-1">
+                        <input type="radio" name="palette" value="workbench" class="m-0" id="colorPaletteWorkbench" />
+                        Workbench <small style="font-size: 75%;">Amiga</small>
                       </h3>
                     </label>
                   </div>

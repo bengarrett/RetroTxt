@@ -366,6 +366,16 @@ class Permission {
         })
       })
     }
+    // reset custom color values
+    const reset = document.getElementById(`customColorReset`)
+    reset.addEventListener(`click`, () => {
+      const bg = document.getElementById(`customColorBG`),
+        fg = document.getElementById(`customColorFG`)
+      bg.value = `#3f3f3f`
+      fg.value = `#dcdccc`
+      new ColorCustomPair(`background`)._update()
+      new ColorCustomPair(`foreground`)._update()
+    })
   }
   /**
    * Set the checkbox checked state based on the permission grant.
