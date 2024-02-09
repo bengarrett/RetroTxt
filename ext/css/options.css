@@ -64,6 +64,17 @@ main > section #jumpTo {
   top: 1vh;
 }
 
+/* text pairs table customization */
+#color-text-pairs {
+  tr {
+    border: 1px solid black;
+    td {
+      border: 1px solid black;
+      text-align: right;
+    }
+  }
+}
+
 /* example blocks */
 #smearBlocksExample {
   font-style: normal;
