@@ -2473,11 +2473,21 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
     err.textContent = `Oops, it looks like the HTML has failed to render! Is the RetroTxt Extension Unit Tests loaded in another tab? Try closing it and reload this.`
   }
   // linkify DOM
-  chrome.storage.local.get(`linkifyHyperlinks`, (store) => {
-    const hyper = store.linkifyHyperlinks
-    if (hyper === true)
-      linkifyElement(document.getElementById(`styledDocument`))
-  })
+  chrome.storage.local.get(
+    [`linkifyHyperlinks`, `linkifyValidate`],
+    (store) => {
+      const hyper = store.linkifyHyperlinks
+      const validate = store.linkifyValidate
+      if (validate === true && hyper === true) {
+        linkifyElement(document.getElementById(`styledDocument`), {
+          validate: {
+            url: (value) => /^https?:\/\//.test(value),
+          },
+        })
+      } else if (hyper === true)
+        linkifyElement(document.getElementById(`styledDocument`))
+    }
+  )
   // clean-up globals
   cleanup(output)
   // hide the spin loader

@@ -1,0 +1,18 @@
+Linkify works with all kinds of links. Here are some examples:
+
+- URLs with protocols: https://github.com
+- URLs without protocols: www.twitter.com
+- Emoji domains like 👻💥.ws
+- IP Addresses such as 127.0.0.1
+- Email addresses (hello@example.com)
+- "At"-Mentions like @tc39 or @rust-lang
+- Hashtags #PhotoOfTheDay or #일상
+
+The site example.com can be found at https://example.com.
+
+Let's try a list of filenames:
+
+.bash_history .bash_profile .bashrc
+.DS_Store .zshrc .npm git go Downloads .local
+.Trash private.key public.key
+program.com program.exe program.bat

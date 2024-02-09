@@ -3,6 +3,24 @@
 */
 
 pre {
+  /*
+  The pre-wrap value of the white-space property keeps the pre layout
+  but allows for newline characters.
+  */
   white-space: pre-wrap;
-  word-break: keep-all;
+  /*word-break: keep-all;*/
+}
+
+article > pre {
+  /*
+  The text-wrap property has two usable values, "standard" and "pretty", standard is
+  the safer option as it limits parsing to the first few lines per paragraph.
+  */
+  text-wrap: standard;
+  /*
+  The layout.css has a min-width value set to 640px to mimic an 80-column display.
+  While using page wrap, the min-width should be set to auto,
+  allowing text in tabs less than 640px to display in a readable manner.
+  */
+  min-width: auto;
 }
