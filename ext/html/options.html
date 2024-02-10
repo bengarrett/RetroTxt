@@ -3406,11 +3406,9 @@
                   </h2>
                   <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Line height lets you add margin
                     spacing to each line of text. The line height value is relative to the size of the font.
-                    Line height 1 matches the font size, while a weight of 1.25 would be 25% larger than the font's
-                    height.
                   </p>
                   <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                      class="has-text-info">1</span></p>
+                      class="has-text-info">100%</span></p>
                   <div class="field is-horizontal">
                     <div class="field-body">
                       <div class="field">
@@ -3590,13 +3588,12 @@
                   <h2 class="title has-text-dark is-size-6 columns">
                     <div class="column">Accurate 9px EGA/VGA fonts
                       <p class="subtitle has-text-dark is-size-7 mb-0 has-text-justified">
-                        Use original 9-pixel wide, EGA, and VGA fonts to simulate the IBM graphic hardware.
-                        This setting does not affect 8px wide fonts but can introduce unintended vertical gaps in blocks
-                        and shaded artworks.<br>
                         Nearly all modern software that simulates the DOS typeface use 8-pixel width fonts sourced from
                         the <a href="https://github.com/perillamint/dkbfnts/blob/master/fntcol16/COPYLEFT.TXT"
                           class="has-text-link-dark">Joseph (Yossi) Gil font collection</a>. When scaled to 9 pixels,
-                        these fonts display slightly different from the originals from IBM.
+                        these fonts display slightly different from the originals from IBM.<br>
+                        This setting uses the original 9-pixel wide, EGA, and VGA fonts to simulate the IBM graphic
+                        hardware but can introduce unintended vertical gaps in blocks and shaded artworks.
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
                           class="has-text-grey">off</span>
@@ -3622,27 +3619,29 @@
                 <hr>
                 <div>
                   <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">Text render</div>
-                    <div class="column is-2"></div>
-                  </h2>
-                  <p class="subtitle has-text-weight-bold has-text-dark is-size-7 mb-2">recommend <span
-                      class="has-text-info">normal</span></p>
-                  <form name="text-render-form" id="textRenderForm">
-                    <div class="control">
-                      <label class="radio" for="txtfxnorm">
-                        <input type="radio" id="txtfxnorm" name="effect" value="normal"> Standard</label>
-                      <p class="is-size-7 mb-2">Let the host operating system or browser
-                        handle the font smoothing.</p>
-                      <p name="display-sample-text" class="font-ibm_vga_8x16">Normal: The quick brown fox jumps over
-                        the lazy dog.</p>
-                      <label class="radio mt-4" for="txtfxshd">
-                        <input type="radio" id="txtfxshd" name="effect" value="shadowed" checked>
-                        Shadowed</label>
-                      <p class="is-size-7 mb-2">Apply a subtle shadow effect on each character.</p>
-                      <p name="display-sample-text" class="theme-windows theme-windows-shadowed font-ibm_vga_8x16">
-                        Shadow: The quick brown fox jumps over the lazy dog.</p>
+                    <div class="column">Shadow text render
+                      <p class="subtitle has-text-dark is-size-7 mb-0 has-text-justified">
+                        Apply a subtle shadow effect on each character.
+                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7 mb-2">recommend <span
+                          class="has-text-info">off</span>
+                      </p>
+                      </p>
+                      <p class="is-size-7 mt-2 mb-1">off</p>
+                      <p class="font-ibm_vga_9x16 has-text-weight-normal">
+                        &nbsp;◘░░░▒▒▒▓▓▓███▄▐▌▀███■
+                        ABCabc&nbsp;</p>
+                      <p class="is-size-7 mt-2 mb-1">on</p>
+                      <p class="font-ibm_vga_9x16 has-text-weight-normal theme-windows theme-windows-shadowed">
+                        &nbsp;◘░░░▒▒▒▓▓▓███▄▐▌▀███■
+                        ABCabc&nbsp;</p>
                     </div>
-                  </form>
+                    <div class="column is-2">
+                      <div class="toggleswitch">
+                        <input type="checkbox" id="textRenderShadow" tabindex="0" checked>
+                        <label class="toggleswitch-label" for="textRenderShadow"></label>
+                      </div>
+                    </div>
+                  </h2>
                 </div>
               </div>
             </div>

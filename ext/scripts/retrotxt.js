@@ -436,7 +436,11 @@ class DOM {
         if (typeof sl === `boolean` && sl === true)
           ToggleScanlines(true, this.body)
         // font shadowing applied to text in the main element
-        if (typeof te === `string` && te === `shadowed`)
+        // 10-Feb-2024 Changed to use the new textRenderEffect setting boolean type
+        if (
+          (typeof te === `string` && te === `shadowed`) ||
+          (typeof te === `boolean` && te === true)
+        )
           ToggleTextEffect(`shadowed`, this.article)
       }
     )
@@ -735,7 +739,15 @@ class DOM {
       let effect = te
       return ToggleTextEffect(effect, this.article)
     }
-    if (typeof te !== `string`) this._restoreErr(`textRenderEffect`)
+    // 10-Feb-2024 Changed to use the new textRenderEffect setting boolean type
+    if (typeof te === `boolean` && te === true) {
+      return ToggleTextEffect(`shadowed`, this.article)
+    }
+    if (typeof te === `boolean` && te === false) {
+      return ToggleTextEffect(`normal`, this.article)
+    }
+    if (typeof te !== `string` || typeof te !== `boolean`)
+      this._restoreErr(`textRenderEffect`)
   }
   async _restoreTextPairs() {
     const rc = this.results.colorsTextPairs
@@ -2180,8 +2192,16 @@ function handleChanges(change) {
     dom.results = { ansiPageWrap: changes.pageWrap.newValue }
     return dom.clickPageWrap()
   }
-  if (changes.renderEffect && typeof dom.article === `object`)
-    return ToggleTextEffect(changes.renderEffect.newValue, dom.article)
+  if (changes.renderEffect && typeof dom.article === `object`) {
+    switch (`${changes.renderEffect.newValue}`) {
+      case `true`:
+        return ToggleTextEffect(`shadowed`, dom.article)
+      case `false`:
+        return ToggleTextEffect(`normal`, dom.article)
+      default:
+        return ToggleTextEffect(changes.renderEffect.newValue, dom.article)
+    }
+  }
   if (changes.textPairs) {
     const newColor = changes.textPairs.newValue
     dom.backgroundColor = newColor
@@ -2202,8 +2222,18 @@ function handleChanges(change) {
         const te = result.textRenderEffect
         if (typeof te === `undefined`)
           CheckError(`${err} "textRenderEffect" is undefined.`, true)
-        else if (typeof article === `object`)
-          ToggleTextEffect(te, article, newColor)
+        else if (typeof article === `object`) {
+          switch (`${te}`) {
+            case `true`:
+              ToggleTextEffect(`shadowed`, article, newColor)
+              break
+            case `false`:
+              ToggleTextEffect(`normal`, article, newColor)
+              break
+            default:
+              ToggleTextEffect(te, article, newColor)
+          }
+        }
         // update the centre alignment requirement
         const ca = result.textCenterAlign
         if (typeof ca === `undefined`)

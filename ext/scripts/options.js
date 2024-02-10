@@ -433,12 +433,14 @@ class CheckBox {
     this.value = ``
     // checkboxes with ids and associated storage key names
     this.boxes = new Map()
+      // set the checkbox id, storage key name
       .set(`hyperlinks`, `linkifyHyperlinks`)
       .set(`hyperlinksValidate`, `linkifyValidate`)
       .set(`eightyColumnWrap`, `ansiColumnWrap`)
       .set(`pageWrap`, `ansiPageWrap`)
       .set(`iceColorsMode`, `ansiUseIceColors`)
       .set(`accurate9pxFonts`, `textAccurate9pxFonts`)
+      .set(`textRenderShadow`, `textRenderEffect`)
       .set(`backgroundScanlines`, `textBackgroundScanlines`)
       .set(`blinkingCursorText`, `textBlinkingCursor`)
       .set(`centerAlignText`, `textCenterAlign`)
@@ -575,7 +577,6 @@ class Initialise extends CheckBox {
       `colorsTextPairs`,
       `fontFamilyName`,
       `textSmearBlockCharacters`,
-      `textRenderEffect`,
     ])
     Object.freeze(this.lengths)
     this.id = ``
@@ -708,8 +709,6 @@ class Initialise extends CheckBox {
           return this._selectColor()
         case `fontFamilyName`:
           return this._selectFont()
-        case `textRenderEffect`:
-          return this._selectEffect()
         default:
       }
     })
@@ -942,7 +941,6 @@ class ColorPair {
         this.value = `${input.value}`
         this._select()
         this._storageSave()
-        new Effects().storageLoad()
       }
       // input listeners
       // labels in the text-pair-form are standalone and dont contain input elements
@@ -950,7 +948,6 @@ class ColorPair {
         this.value = `${input.value}`
         this._select()
         this._storageSave()
-        new Effects().storageLoad()
       }
     }
   }
@@ -1151,7 +1148,7 @@ class Radios {
   /**
    * Creates an instance of Radios.
    * @param [storageId=``] Local storage item key,
-   * either `colorsAnsiColorPalette`, `fontFamilyName` or `textRenderEffect`
+   * either `colorsAnsiColorPalette` or `fontFamilyName`
    */
   constructor(storageId = ``) {
     this.sample = document.getElementById(`sampleTerminal`)
@@ -1181,10 +1178,6 @@ class Radios {
         this.feedback = `font selection`
         this.formId = `fontSuggestions`
         return (this.formName = `fonts`)
-      case `textRenderEffect`:
-        this.feedback = `text effect`
-        this.formId = `textRenderForm`
-        return (this.formName = `text-render-form`)
       default:
         return handleError(`Radios.constructor '${storageId}'`)
     }
@@ -1246,8 +1239,8 @@ class Radios {
             case `fontFamilyName`:
               this.value = `${radio.value}`
               return this.preview()
-            case `textRenderEffect`:
-              return ToggleTextEffect(radio.value, this.sample)
+            // case `textRenderEffect`:
+            //   return ToggleTextEffect(radio.value, this.sample)
           }
         }
       })
@@ -1308,27 +1301,6 @@ class Palette extends Radios {
   }
 }
 /**
- * Text render effect.
- * @class Effects
- */
-class Effects extends Radios {
-  constructor() {
-    super(`textRenderEffect`)
-  }
-  /**
-   * Applies the text render effect to the sample preview.
-   */
-  async preview() {
-    switch (this.value) {
-      case `normal`:
-      case `shadowed`:
-        return ToggleTextEffect(this.value, this.sample)
-      default:
-        return handleError(`Effects.text "${this.value}"`)
-    }
-  }
-}
-/**
  * Font family selection.
  * @class Fonts
  */
@@ -1379,14 +1351,14 @@ class LineHeight {
     this.status = document.getElementById(`status`)
     this.value = this.lineHeight.value
     this.m = new Map()
-      .set("1", "1")
-      .set("2", "1.1")
-      .set("3", "1.25")
-      .set("4", "1.5")
-      .set("5", "1.75")
-      .set("6", "2")
-      .set("7", "3")
-      .set("8", "4")
+      .set("1", "100%")
+      .set("2", "110%")
+      .set("3", "125%")
+      .set("4", "150%")
+      .set("5", "175%")
+      .set("6", "200%")
+      .set("7", "300%")
+      .set("8", "400%")
   }
   /**
    * Event listener for the `<select>` element.
@@ -1841,9 +1813,6 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   const pal = new Palette()
   pal.storageLoad()
   pal.listen()
-  const te = new Effects()
-  te.storageLoad()
-  te.listen()
   const lh = new LineHeight()
   lh.storageLoad()
   lh.listen()
@@ -1897,4 +1866,4 @@ function handlePopup() {
   }
 }
 
-/* global CheckLastError CheckRange Configuration Console DOMPurify Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect WebBrowser */
+/* global CheckLastError CheckRange Configuration Console DOMPurify Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines WebBrowser */
