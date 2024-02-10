@@ -403,6 +403,9 @@ class Permission {
         if (request === true) {
           return chrome.permissions.request(testResult, (result) => {
             if (CheckLastError(`security permissionSet "${result}"`)) return
+            alert(
+              `If download monitoring does not work, the browser may require a restart.`
+            )
             this._check()
           })
         }

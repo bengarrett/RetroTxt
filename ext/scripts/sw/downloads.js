@@ -35,7 +35,10 @@ class Downloads {
       return CheckError(
         `Downloads startup error, chrome.downloads API is inaccessible.`
       )
-    if (`onCreated` in chrome.downloads === false)
+    if (
+      typeof chrome.downloads === `undefined` ||
+      `onCreated` in chrome.downloads === false
+    )
       return CheckError(
         `Downloads startup error, chrome.downloads API onCreated event is inaccessible.`
       )
@@ -187,8 +190,15 @@ class Downloads {
       // note: some browsers and sites leave the filename as an property empty
       // so as an alternative monitor method, the chrome.storage.local might also be set in this.update()
       if (this.item.filename.length < 1) {
+        // attempt to determine the filename from the URL
+        const url = new URL(this.item.url)
+        const filename = url.pathname.split("/").pop()
+        this.item.filename = filename
+        if (new Configuration().validateFilename(filename) === true) {
+          return true
+        }
         console.log(
-          `${error} filename cannot be determined\n(${this.item.url})`
+          `${error} filename cannot be determined\n"${this.item.filename}" for (${this.item.url})`
         )
         return false
       }
@@ -214,7 +224,6 @@ class Downloads {
   _setFilename() {
     if (!Object.hasOwn(this.delta, `filename`)) return false
     if (!Object.hasOwn(this.delta.filename, `current`)) return false
-
     const filename = encodeURI(this.delta.filename.current)
     if (filename.length < 1) return false
     const valid = new Configuration().validateFilename(filename)
@@ -249,14 +258,28 @@ class Downloads {
         Object.hasOwn(this.delta.error, `current`)
       )
         return chrome.storage.local.remove(itemName)
-      // completed downloads
-      if (!Object.hasOwn(this.delta, `state`)) return
-      if (!Object.hasOwn(this.delta.state, `current`)) return
-      if (this.delta.state.current !== `complete`) return
+      // 10-Feb-2024
+      // This is a need to handle two situations:
+      // 1) with this.delta.state.current
+      // 2) another with this.delta.current but no state
+      switch (typeof this.delta.state) {
+        case `undefined`: {
+          if (!Object.hasOwn(this.delta, `filename`)) return
+          if (!Object.hasOwn(this.delta.filename, `current`)) return
+          if (this.delta.filename.current === ``) return
+          break
+        }
+        default: {
+          if (!Object.hasOwn(this.delta, `state`)) return
+          if (!Object.hasOwn(this.delta.state, `current`)) return
+          if (this.delta.state.current !== `complete`) return
+        }
+      }
       chrome.storage.local.remove(itemName)
       // Windows friendly path conversion
       const path = filepath.replace(/\\/g, `/`),
         url = `file:///${path}`
+      console.log(`Download should open in tab: ${url}`)
       // note: see notes in class Downloads on why this may fail
       chrome.tabs.create({ active: false, url: url })
     })

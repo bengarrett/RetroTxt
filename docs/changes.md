@@ -16,6 +16,7 @@ hide:
 - New **Limit URLs** option to force Hyperlink to validate URLs, linking only links that start with an http or https protocol.
 - New reset button for the *Custom colour values* in the Options.
 - Fixed error _Cannot read properties of null_ for new installs.
+- Monitor downloads handles different server replies better and provides a restart recommendation when toggled on.
 
 ## 5.3
 
