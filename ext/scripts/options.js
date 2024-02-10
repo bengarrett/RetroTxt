@@ -142,11 +142,8 @@ class HTML {
         .addEventListener(`click`, () => {
           document.getElementById(`hero2`).click()
         })
-      document
-        .getElementById(`newInstallFonts`)
-        .addEventListener(`click`, () => {
-          document.getElementById(`hero4`).click()
-        })
+      // 10 Feb 2024, removed the unused, onclick event listener for
+      // the newInstallFonts button.
       return
     }
     if (location.hash.includes(`#display`)) {
@@ -931,7 +928,11 @@ class ColorPair {
     labels: for (const label of labels) {
       const input = label.previousSibling.previousSibling
       // skip labels with no radio inputs
-      if (typeof input.name === `undefined` || input.name !== `text-pair-form`)
+      if (
+        input === null ||
+        typeof input.name === `undefined` ||
+        input.name !== `text-pair-form`
+      )
         continue labels
       // label listeners
       label.onmouseup = () => {
