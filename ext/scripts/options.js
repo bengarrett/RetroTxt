@@ -1562,6 +1562,106 @@ class Hero {
   }
 }
 
+class Backup {
+  constructor() {}
+  async listen() {
+    const backup = document.getElementById(`syncStoreBackup`)
+    backup.addEventListener(`click`, () => {
+      chrome.storage.sync.get(null, (items) => {
+        if (Object.keys(items).length !== 0) {
+          const ok = confirm(`Overwrite sync storage?`)
+          if (!ok) return
+        }
+        this._backup()
+      })
+    })
+    const restore = document.getElementById(`syncStoreRestore`)
+    restore.addEventListener(`click`, () => {
+      chrome.storage.sync.get(null, (items) => {
+        if (!items || Object.keys(items).length === 0)
+          return console.info(`No storage.sync backup found.`)
+        const ok = confirm(`Overwrite local storage?`)
+        if (!ok) return
+        this._restore()
+      })
+    })
+    const clear = document.getElementById(`syncStoreClear`)
+    clear.addEventListener(`click`, () => {
+      chrome.storage.sync.get(null, (items) => {
+        if (!items || Object.keys(items).length === 0)
+          return console.info(`No storage.sync backup found.`)
+        const ok = confirm(`Delete sync storage?`)
+        if (!ok) return
+        chrome.storage.sync.clear()
+        this.storageLoad()
+      })
+    })
+  }
+  async storageLoad() {
+    chrome.storage.sync.getBytesInUse(null, (result) => {
+      const info = document.getElementById(`syncStoreSize`)
+      if (result === 0) return (info.textContent = `unused`)
+      chrome.storage.sync.get(null, (items) => {
+        const count = Object.keys(items).length
+        info.textContent = `${count} configuration`
+        if (count > 1) info.textContent += `s`
+        info.textContent += ` (${HumaniseFS(result)})`
+      })
+    })
+  }
+  _backup() {
+    chrome.storage.local.get(null, (items) => {
+      if (Object.keys(items).length === 0)
+        return console.info(`No storage.local backup found.`)
+      chrome.storage.sync.set(
+        {
+          ansiColumnWrap: items.ansiColumnWrap,
+          ansiPageWrap: items.ansiPageWrap,
+          ansiUseIceColors: items.ansiUseIceColors,
+          colorsAnsiColorPalette: items.colorsAnsiColorPalette,
+          colorsCustomBackground: items.colorsCustomBackground,
+          colorsCustomForeground: items.colorsCustomForeground,
+          colorsTextPairs: items.colorsTextPairs,
+          fontFamilyName: items.fontFamilyName,
+          linkifyHyperlinks: items.linkifyHyperlinks,
+          linkifyValidate: items.linkifyValidate,
+          optionClass: items.optionClass,
+          settingsInformationHeader: items.settingsInformationHeader,
+          settingsNewUpdateNotice: items.settingsNewUpdateNotice,
+          settingsToolbarIcon: items.settingsToolbarIcon,
+          settingsWebsiteDomains: items.settingsWebsiteDomains,
+          textAccurate9pxFonts: items.textAccurate9pxFonts,
+          textBackgroundScanlines: items.textBackgroundScanlines,
+          textBlinkingCursor: items.textBlinkingCursor,
+          textCenterAlign: items.textCenterAlign,
+          textDOSControlGlyphs: items.textDOSControlGlyphs,
+          textLineHeight: items.textLineHeight,
+          textRenderEffect: items.textRenderEffect,
+          textSmearBlockCharacters: items.textSmearBlockCharacters,
+        },
+        () => {
+          this.storageLoad()
+          console.log(`Backup to storage.sync is complete.`)
+        }
+      )
+    })
+  }
+  _restore() {
+    chrome.storage.sync.get(null, (items) => {
+      if (!items || Object.keys(items).length === 0)
+        return console.info(`No storage.sync backup found.`)
+      for (let key in items) {
+        if (Object.prototype.hasOwnProperty.call(items, key)) {
+          chrome.storage.local.set({ [key]: items[key] }, () => {
+            console.log(`Restored ${key}.`)
+          })
+        }
+      }
+      chrome.tabs.reload()
+    })
+  }
+}
+
 /**
  * Run RetroTxt on text files hosted on these websites.
  * @class Hosts
@@ -1828,6 +1928,9 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   const hosts = new Hosts()
   hosts.storageLoad()
   hosts.listen()
+  const backup = new Backup()
+  backup.storageLoad()
+  backup.listen()
   // apply regional English edits
   localizeWord(`color`, `msg-color`)
   localizeWord(`center`, `msg-center`)
@@ -1866,4 +1969,4 @@ function handlePopup() {
   }
 }
 
-/* global CheckLastError CheckRange Configuration Console DOMPurify Engine FontFamily LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines WebBrowser */
+/* global CheckLastError CheckRange Configuration Console DOMPurify Engine FontFamily HumaniseFS LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines WebBrowser */

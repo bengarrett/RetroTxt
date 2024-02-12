@@ -4016,6 +4016,30 @@
             <div class="column is-half">
               <div class="box">
                 <h1 class="title has-text-black-ter is-size-3 mt-4">Feature</h1>
+                <!-- backup and restore -->
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">Backup and restore
+                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">
+                        Copy your settings to the
+                        <a class="has-text-link"
+                          href="https://developer.chrome.com/docs/extensions/reference/api/storage#storage_areas"
+                          target="_blank">sync storage area</a>
+                        to later restore them to another device using the same signed-in user profile.
+                        <br>
+                        <span class="has-text-info">Sync storage,
+                          <span id="syncStoreSize">unused</span></span>
+                      </p>
+                    </div>
+                    <div class="column is-2"> </div>
+                  </h2>
+                  <div class="buttons are-small">
+                    <button id="syncStoreBackup" class="button is-primary">Backup</button>
+                    <button id="syncStoreRestore" class="button is-primary is-outlined">Restore</button>
+                    <button id="syncStoreClear" class="button is-ghost">Clear sync storage</button>
+                  </div>
+                </div>
+                <hr>
                 <!-- run retrotxt on files hosted -->
                 <div>
                   <article class="message is-info is-small" style="display: none;" id="websiteViewerOff">
@@ -4049,12 +4073,12 @@
                         </div>
                         <div class="field has-text-centered">
                           <button id="removeSuggestedDomains" class="button is-small">
-                            remove
+                            delete
                           </button>
                           <button id="includeSuggestedDomains" class="button is-success is-small">
                             restore
                           </button>
-                          <p class="help">Suggestions</p>
+                          <p class="help">Hostname defaults</p>
                         </div>
                       </div>
                       <div class="field is-grouped is-grouped-multiline mt-5" id="hostTags">
@@ -4092,8 +4116,6 @@
                       <button class="button option-theme is-success">Green</button>
                       <button class="button option-theme is-warning">Yellow</button>
                       <button class="button option-theme is-danger">Red</button>
-                    </div>
-                    <div class="buttons are-small">
                       <button class="button option-theme is-white">White</button>
                       <button class="button option-theme is-light">Light</button>
                       <button class="button option-theme is-dark">Dark</button>
