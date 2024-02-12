@@ -142,6 +142,8 @@ class HTML {
         .addEventListener(`click`, () => {
           document.getElementById(`hero2`).click()
         })
+      const backup = new Backup()
+      backup.newInstall()
       // 10 Feb 2024, removed the unused, onclick event listener for
       // the newInstallFonts button.
       return
@@ -1564,6 +1566,24 @@ class Hero {
 
 class Backup {
   constructor() {}
+  async newInstall() {
+    chrome.storage.sync.get(null, (items) => {
+      const count = Object.keys(items).length
+      if (!items || count === 0)
+        return console.info(`No storage.sync backup found.`)
+      const ok = confirm(
+        `Use sync storage settings, found ${count} configurations?`
+      )
+      // if not okay, continue with the new install page
+      if (!ok) return
+      // if okay, restore the sync storage settings
+      this._restore(false)
+      // then redirect to the default options page
+      document.getElementById(`hero0`).click()
+      // then reload the page with the new settings
+      window.location.reload()
+    })
+  }
   async listen() {
     const backup = document.getElementById(`syncStoreBackup`)
     backup.addEventListener(`click`, () => {
@@ -1646,7 +1666,7 @@ class Backup {
       )
     })
   }
-  _restore() {
+  _restore(reload = true) {
     chrome.storage.sync.get(null, (items) => {
       if (!items || Object.keys(items).length === 0)
         return console.info(`No storage.sync backup found.`)
@@ -1657,7 +1677,7 @@ class Backup {
           })
         }
       }
-      chrome.tabs.reload()
+      if (reload) chrome.tabs.reload()
     })
   }
 }
