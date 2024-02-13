@@ -3521,37 +3521,6 @@
                     </div>
                   </h2>
                 </div>
-                <!-- dos control glyphs -->
-                <hr>
-                <div>
-                  <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">DOS control glyphs
-                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">The IBM PC, DOS <a
-                          href="https://en.wikipedia.org/wiki/Code_page_437" class="has-text-link">character set</a> is
-                        not standards-compliant as it uses <a
-                          href="https://en.wikipedia.org/wiki/C0_and_C1_control_codes" class="has-text-link">C0
-                          controls</a> usually reserved for formatting as text characters.
-                        Customarily hidden, enabling this option will reveal these glyphs in the text document.
-                        <br><span class="has-text-info">Any open tabs will require a reload.</span>
-                      </p>
-                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-grey">off</span></p>
-                      <p class="subtitle has-text-dark is-size-6 has-text-justified">
-                        <code>◘</code> <span class="is-size-7">backspace</span><br>
-                        <code>○</code> <span class="is-size-7">tab</span><br>
-                        <code>♪</code> <span class="is-size-7">carriage return</span><br>
-                        <code>→</code> <span class="is-size-7">end of file</span><br>
-                        <code>⌂</code> <span class="is-size-7">delete</span><br>
-                      </p>
-                    </div>
-                    <div class="column is-2">
-                      <div class="toggleswitch">
-                        <input type="checkbox" id="dosControlGlyphs" tabindex="0" checked>
-                        <label class="toggleswitch-label" for="dosControlGlyphs"></label>
-                      </div>
-                    </div>
-                  </h2>
-                </div>
                 <!-- smear block characters (only revealed on Windows) -->
                 <hr style="display:block;" id="smearBlocksHR">
                 <div style="display: block;" id="smearBlocksContainer">
@@ -3617,7 +3586,7 @@
                 <hr>
                 <div>
                   <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">Accurate 9px EGA/VGA fonts
+                    <div class="column">DOS fonts <small>9-pixel from IBM</small>
                       <p class="subtitle has-text-dark is-size-7 mb-0 has-text-justified">
                         Nearly all modern software that simulates the DOS typeface use 8-pixel width fonts sourced from
                         the <a href="https://github.com/perillamint/dkbfnts/blob/master/fntcol16/COPYLEFT.TXT"
@@ -3641,6 +3610,38 @@
                       <div class="toggleswitch">
                         <input type="checkbox" id="accurate9pxFonts" tabindex="0" checked>
                         <label class="toggleswitch-label" for="accurate9pxFonts"></label>
+                      </div>
+                    </div>
+                  </h2>
+                </div>
+                <!-- dos control glyphs -->
+                <hr>
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">DOS control glyphs
+                      <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">The IBM PC DOS <a
+                          href="https://en.wikipedia.org/wiki/Code_page_437" class="has-text-link">character set</a> is
+                        not standards-compliant as it uses <a
+                          href="https://en.wikipedia.org/wiki/C0_and_C1_control_codes" class="has-text-link">C0
+                          controls</a> usually reserved for document composition as text characters.
+                        Usually hidden, enable these to reveal additional glyphs in the text document.
+                        <br><span class="has-text-info">Any open tabs will require a reload.</span>
+                      </p>
+                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
+                          class="has-text-grey">off</span>
+                      </p>
+                      <p class="subtitle has-text-dark is-size-6 has-text-justified">
+                        <code>◘</code> <span class="is-size-7">backspace</span><br>
+                        <code>○</code> <span class="is-size-7">tab</span><br>
+                        <code>♪</code> <span class="is-size-7">carriage return</span><br>
+                        <code>→</code> <span class="is-size-7">end of file</span><br>
+                        <code>⌂</code> <span class="is-size-7">delete</span><br>
+                      </p>
+                    </div>
+                    <div class="column is-2">
+                      <div class="toggleswitch">
+                        <input type="checkbox" id="dosControlGlyphs" tabindex="0" checked>
+                        <label class="toggleswitch-label" for="dosControlGlyphs"></label>
                       </div>
                     </div>
                   </h2>
