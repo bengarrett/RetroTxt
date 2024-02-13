@@ -930,7 +930,7 @@ class ColorPair {
     const labels =
       document.forms[`text-pair-form`].getElementsByTagName(`label`)
     labels: for (const label of labels) {
-      const input = label.previousSibling.previousSibling
+      const input = document.getElementById(`${label.htmlFor}`)
       // skip labels with no radio inputs
       if (
         input === null ||
