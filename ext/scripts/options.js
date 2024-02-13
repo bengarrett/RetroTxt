@@ -1616,6 +1616,12 @@ class Backup {
         this.storageLoad()
       })
     })
+    const reset = document.getElementById(`syncStoreReset`)
+    reset.addEventListener(`click`, () => {
+      const ok = confirm(`Reset all fonts, display, and settings?`)
+      if (!ok) return
+      this._reset()
+    })
   }
   async storageLoad() {
     chrome.storage.sync.getBytesInUse(null, (result) => {
@@ -1665,6 +1671,45 @@ class Backup {
         }
       )
     })
+  }
+  _reset(reload = true) {
+    const values = new OptionsReset().options
+    values.forEach((value, index) => {
+      switch (index) {
+        case `schemesPermitted`:
+          break
+        case `ansiColumnWrap`:
+        case `ansiPageWrap`:
+        case `ansiUseIceColors`:
+        case `colorsAnsiColorPalette`:
+        case `colorsCustomBackground`:
+        case `colorsCustomForeground`:
+        case `colorsTextPairs`:
+        case `fontFamilyName`:
+        case `linkifyHyperlinks`:
+        case `linkifyValidate`:
+        case `optionClass`:
+        case `optionTab`:
+        case `settingsInformationHeader`:
+        case `settingsNewUpdateNotice`:
+        case `settingsToolbarIcon`:
+        case `settingsWebsiteDomains`:
+        case `settingsWebsiteViewer`:
+        case `textAccurate9pxFonts`:
+        case `textBackgroundScanlines`:
+        case `textBlinkingCursor`:
+        case `textCenterAlign`:
+        case `textDOSControlGlyphs`:
+        case `textLineHeight`:
+        case `textRenderEffect`:
+        case `textSmearBlockCharacters`:
+          chrome.storage.local.set({ [index]: value })
+          break
+        default:
+          console.warn(`Unknown option ${index} with value ${value}`)
+      }
+    })
+    if (reload) chrome.tabs.reload()
   }
   _restore(reload = true) {
     chrome.storage.sync.get(null, (items) => {

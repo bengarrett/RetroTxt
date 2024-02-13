@@ -14,6 +14,7 @@ hide:
 - New Backup and restore options to save and load your RetroTxt settings.
 - New reset button for the *Custom colour values* in the Options.
 - New **Limit URLs** option to force Hyperlink to validate URLs, linking only links that start with an http or https protocol.
+- New *Reset to defaults* button in the Settings Options.
 - Changed the CSS of the *page wrap* toggle.
   It now works correctly on windows and tabs smaller than 640px in width. And it has enabled an optimized text-wrapping feature.
 - Monitor downloads handles different server replies better and provides a restart recommendation when toggled on.
