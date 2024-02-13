@@ -3408,8 +3408,8 @@
                   <p class="subtitle has-text-dark is-size-7 has-text-justified mb-0">Line height lets you add margin
                     spacing to each line of text. The line height value is relative to the size of the font.
                   </p>
-                  <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                      class="has-text-info">100%</span></p>
+                  <p class="subtitle has-text-weight-bold has-text-dark is-size-7">
+                    recommend for artwork <span class="has-text-info">100%</span></p>
                   <div class="field is-horizontal">
                     <div class="field-body">
                       <div class="field">
@@ -3599,9 +3599,6 @@
                         This setting uses the original 9-pixel wide, EGA, and VGA fonts to simulate the IBM graphic
                         hardware but can introduce unintended vertical gaps in blocks and shaded artworks.
                       </p>
-                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
-                          class="has-text-grey">off</span>
-                      </p>
                       <p class="is-size-7 mt-2 mb-1">off</p>
                       <p class="font-ibm_vga_9x16 has-text-weight-normal">
                         &nbsp;◘░░░▒▒▒▓▓▓███▄▐▌▀███■
@@ -3628,9 +3625,6 @@
                     <div class="column">Shadow text render
                       <p class="subtitle has-text-dark is-size-7 mb-0 has-text-justified">
                         Apply a subtle shadow effect on each character.
-                      <p class="subtitle has-text-weight-bold has-text-dark is-size-7 mb-2">recommend <span
-                          class="has-text-grey">off</span>
-                      </p>
                       </p>
                       <p class="is-size-7 mt-2 mb-1">off</p>
                       <p name="display-sample-text" class="font-ibm_vga_9x16 has-text-weight-normal">
@@ -3667,8 +3661,10 @@
                       the classic 80-column terminal screen.
                       <br><span class="has-text-info">Any open tabs will require a reload.</span>
                     </p>
-                    <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                        class="has-text-success">on</span></p>
+                    <p class="subtitle has-text-weight-bold has-text-dark is-size-7">
+                      recommend for artwork <span class="has-text-success">on</span>,
+                      for logs <span class="has-text-grey">off</span>
+                    </p>
                   </div>
                   <div class="column is-2">
                     <div class="toggleswitch">
@@ -3688,7 +3684,7 @@
                         Page wrap helps read <span class="msg-color">color</span>ed text
                         and logs, but the <u>80-column wrap should be off</u>.</span></p>
                     <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend for artwork <span
-                        class="has-text-grey">off</span></p>
+                        class="has-text-grey">off</span>, for logs <span class="has-text-success">on</span></p>
                   </div>
                   <div class="column is-2">
                     <div class="toggleswitch">
@@ -3731,7 +3727,7 @@
                         home computer systems and terminals.
                       </p>
                       <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                          class="has-text-info">ms-dos</span></p>
+                          class="has-text-info">command prompt</span></p>
                     </div>
                     <div class="column is-2"></div>
                   </h2>
@@ -3837,7 +3833,6 @@
                       </div>
                     </div>
                     <div class="column is-2">
-                      <!-- TODO: Should JS onclick to reset to OG value instead of last value -->
                       <button id="customColorReset" class="button is-small is-outlined">Reset</button>
                     </div>
                   </div>
@@ -3854,8 +3849,9 @@
                       Most artworks expect the IBM VGA palette.
                       Xterm is the standard terminal palette for X11 on Linux, OpenVMS, etc.
                     </p>
-                    <p class="subtitle has-text-weight-bold has-text-dark is-size-7">recommend <span
-                        class="has-text-info">ibm vga</span></p>
+                    <p class="subtitle has-text-weight-bold has-text-dark is-size-7">
+                      recommend for artwork <span class="has-text-info">windows</span>,
+                      for logs <span class="has-text-info">linux</span></p>
                   </div>
                   <div class="column is-2"></div>
                 </h2>
