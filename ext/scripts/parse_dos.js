@@ -19,10 +19,6 @@
 // ECMA-43 (US-ASCII): https://ecma-international.org/publications/standards/Ecma-043.htm
 // ECMA-48 (includes C0 controls): https://ecma-international.org/publications/standards/Ecma-048.htm
 
-// ES6 performance notes:
-// Objects use less memory than typed arrays, ie `Uint8Array()`.
-// Objects are much faster than `Maps`.
-
 const empty = `\u0020`,
   nbsp = `\u00A0`,
   softHyphen = `\u00AD`

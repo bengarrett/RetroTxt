@@ -51,11 +51,12 @@ nav:
       - Non-standard: specs/misc.md
       - SAUCE (metadata): specs/sauce.md
   - Source code:
-      - Install & usage: src/index.md
+      - Manifest V3: src/mv3.md
+      - Program patterns: src/pattern.md
       - Files & directories: src/files.md
       - Fonts: src/font.md
+      - Install & usage: src/index.md
       - Tips for building: src/build.md
-      - Manifest V3: src/mv3.md
   - Changes: changes.md
   - Hosting on the web:
       - Nginx: host/nginx.md

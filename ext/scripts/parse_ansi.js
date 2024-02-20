@@ -16,17 +16,6 @@
 // Microsoft ANSI.SYS: https://msdn.microsoft.com/en-us/library/cc722862.aspx
 // XTerm Control Sequences: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 
-// ES6 performance tips:
-// Prefer `switch` over if-then-else conditionals as they can be optimised during compile time.
-// Prefer reference types instead of primitive types.
-//   For large sets, arrays and objects use less resources than strings, integers etc.
-//   https://www.linkedin.com/pulse/25-techniques-javascript-performance-optimization-steven-de-salas
-// Do not combine reference types with primitive types in large sets such as arrays.
-//   An array with exclusive number elements should only use -1 or NaN for the absence of a value.
-//   An array with exclusive string elements should only use `` as empty values.
-//   Never include `undefined` or `null` as they are reference types.
-//   https://ponyfoo.com/articles/javascript-performance-pitfalls-v8
-
 const resetCursor = Symbol(`reset cursor position`),
   resetECMA = Symbol(`reset ECMA48/ANSI`),
   resetSGR = Symbol(`reset SGR control`)
