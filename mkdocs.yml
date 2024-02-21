@@ -8,8 +8,10 @@
 # mkdocs requires Python3 and pip
 #
 # pip install mkdocs
+# pip install mkdocs-material
 # pip install mkdocs-material-extensions
-# pip install mkdocs_pymdownx_material_extras
+#
+# pip install --upgrade mkdocs-material
 #
 # mkdocs serve
 # mkdocs build
@@ -92,9 +94,6 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.tilde
   # Icons + Emojis
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
   - attr_list
   - md_in_html
   - def_list
