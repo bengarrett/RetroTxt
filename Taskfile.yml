@@ -138,7 +138,7 @@ tasks:
 
   version-set:
     desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
-    deps: [set-version, set-ver]
+    deps: [set-version] # , set-ver
 
   version-purge:
     desc: Removes the current VERSION variable value as a tag from the GitHub repository.
