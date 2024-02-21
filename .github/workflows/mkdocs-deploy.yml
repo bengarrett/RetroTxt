@@ -1,4 +1,4 @@
-name: mkdocs
+name: MkDocs
 on:
   workflow_dispatch:
   push:
