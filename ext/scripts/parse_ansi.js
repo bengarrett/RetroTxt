@@ -2,20 +2,6 @@
 //
 // Handle ANSI and ECMA-48 control codes embedded into text.
 
-// ANSI it is an ambiguous term. The American National Standards Institute was a
-// standards body who published numerous computer text standards.
-//
-// The term ANSI art is probably derived from Microsoft misnaming their DOS driver `ANSI.SYS`.
-//
-// ANSI art usually refers to these identical standards.
-// ISO 6429 - "Control functions for 7-bit and 8-bit coded character sets"
-// ECMA-48  - "Control Functions for Coded Character Sets"
-//
-// ISO/IEC 6429: http://www.iso.org/iso/home/store/catalogue_tc/catalogue_detail.htm?csnumber=12781 (paid)
-// ECMA-48: http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-048.pdf (free)
-// Microsoft ANSI.SYS: https://msdn.microsoft.com/en-us/library/cc722862.aspx
-// XTerm Control Sequences: https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
-
 const resetCursor = Symbol(`reset cursor position`),
   resetECMA = Symbol(`reset ECMA48/ANSI`),
   resetSGR = Symbol(`reset SGR control`)

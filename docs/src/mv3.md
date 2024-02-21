@@ -8,7 +8,7 @@ hide:
 ---
 # Manifest V3 usage
 
-[Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/) is the replacement API created by Google for third-party Extensions on the Chromium web engine. [The announcement was that by the end of 2023](https://developer.chrome.com/docs/extensions/mv3/mv2-sunset/), the Chrome Web Store will not allow new Extension updates using Manifest V2.
+[Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/) is the replacement API created by Google for third-party Extensions on the Chromium web engine. [The announcement was that by the end of 2023](https://developer.chrome.com/docs/extensions/mv3/mv2-sunset/), the Chrome Web Store will not allow new Extension updates using [Manifest V2](https://developer.chrome.com/docs/extensions/mv2).
 
 RetroTxt 5 uses Manifest V3, while earlier editions used Manifest version 2.
 

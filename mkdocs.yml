@@ -15,7 +15,7 @@
 # mkdocs build
 
 site_name: RetroTxt
-copyright: RetroTxt &copy; 2022-23 Ben Garrett
+copyright: RetroTxt &copy; 2022-24 Ben Garrett
 repo_url: https://github.com/bengarrett/RetroTxt
 
 theme:
@@ -53,6 +53,8 @@ nav:
   - Source code:
       - Manifest V3: src/mv3.md
       - Program patterns: src/pattern.md
+      - Libraries in use: src/library.md
+      - Standards: src/standard.md
       - Files & directories: src/files.md
       - Fonts: src/font.md
       - Install & usage: src/index.md

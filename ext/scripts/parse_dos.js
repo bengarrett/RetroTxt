@@ -14,10 +14,6 @@
 // But for the IBM PC and MS-DOS they were also used for the display of characters.
 // Characters 32…126 are skipped as they are based on the US-ASCII/ECMA-43
 // near-universal character set.
-//
-// "8-Bit Coded Character Set Structure and Rules"
-// ECMA-43 (US-ASCII): https://ecma-international.org/publications/standards/Ecma-043.htm
-// ECMA-48 (includes C0 controls): https://ecma-international.org/publications/standards/Ecma-048.htm
 
 const empty = `\u0020`,
   nbsp = `\u00A0`,
