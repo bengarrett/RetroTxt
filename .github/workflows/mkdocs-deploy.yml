@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "site/**"
+      - "docs/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
