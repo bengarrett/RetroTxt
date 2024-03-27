@@ -2,8 +2,6 @@
   <img width="314" height="201" src="../docs/assets/retrotxt-readme.png">
 </p>
 
-### Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) ~ [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) ~ [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) *
-
 # RetroTxt
 
 Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
@@ -15,6 +13,8 @@ Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser
 #### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
 
 ---
+
+#### Install from the [Chrome Store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) ~ [Microsoft Addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) ~ [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)*
 
 ![RetroTxt showcase](../docs/assets/showcase-clean.png)
 
