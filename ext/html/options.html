@@ -629,19 +629,19 @@
                 <div class="box">
                   <p class="title is-size-5 has-text-dark">Suggested fonts</p>
                   <div class="control mb-2">
+                    <label class="radio" for="rec-cascadiacodepl">
+                      <input type="radio" name="font" value="cascadiacodepl" id="rec-cascadiacodepl">
+                      <strong>Cascadia</strong> <span class="is-nowrap">Code PL</span>
+                    </label>
+                    <p class="is-size-7">Uses font ligatures & Powerline characters for reading source code,
+                      terminal logs, and text art</p>
+                  </div>
+                  <div class="control mb-2">
                     <label class="radio" for="rec-ibmplexmono">
                       <input type="radio" name="font" value="ibmplexmono" id="rec-ibmplexmono">
                       <strong>IBM Plex</strong> <span class="is-nowrap">Mono Regular</span>
                     </label>
                     <p class="is-size-7">A contemporary monospace font for reading text and system logs</p>
-                  </div>
-                  <div class="control mb-2">
-                    <label class="radio" for="rec-cascadiacodepl">
-                      <input type="radio" name="font" value="cascadiacodepl" id="rec-cascadiacodepl">
-                      <strong>Cascadia</strong> <span class="is-nowrap">Code PL</span>
-                    </label>
-                    <p class="is-size-7">Uses font ligatures & Powerline characters for reading source code and
-                      terminal logs</p>
                   </div>
                   <div class="control mb-2">
                     <label class="radio" for="rec-ibm_vga_8x16">
@@ -721,6 +721,31 @@
                     languages</p>
                   <hr>
                   <h2 class="title has-text-dark is-size-6">
+                    Cascadia
+                    <a href="https://github.com/microsoft/cascadia-code#readme" target="_blank">
+                      <svg role="img" class="material-icons has-text-info is-size-7">
+                        <use xlink:href="../assets/svg/material-icons.svg#info"></use>
+                      </svg>
+                    </a>
+                  </h2>
+                  <p class="subtitle has-text-dark is-size-7 mb-2">Cascadia is a fun coding font that comes bundled
+                    with Windows Terminal and offers symbols for legacy computing
+                  </p>
+                  <div class="control">
+                    <label class="radio" for="cascadiamono">
+                      <input type="radio" name="font" id="cascadiamono" value="cascadiamono"> <u>Mono</u>
+                    </label>
+                    <label class="radio" for="cascadiacode">
+                      <input type="radio" name="font" id="cascadiacode" value="cascadiacode"> <u>Code</u>
+                      <small>with ligatures</small>
+                    </label>
+                    <label class="radio" for="cascadiacodepl">
+                      <input type="radio" name="font" id="cascadiacodepl" value="cascadiacodepl"> <u>Code PL</u>
+                      <small>with ligatures &amp; Powerline symbols</small>
+                    </label>
+                  </div>
+                  <hr>
+                  <h2 class="title has-text-dark is-size-6">
                     IBM Plex Mono
                     <a href="https://www.ibm.com/plex/specs" target="_blank">
                       <svg role="img" class="material-icons has-text-info is-size-7">
@@ -740,31 +765,6 @@
                     </label>
                     <label class="radio" for="ibmplextmedium">
                       <input type="radio" name="font" id="ibmplextmedium" value="ibmplextmedium"> <u>Medium</u>
-                    </label>
-                  </div>
-                  <hr>
-                  <h2 class="title has-text-dark is-size-6">
-                    Cascadia
-                    <a href="https://github.com/microsoft/cascadia-code#readme" target="_blank">
-                      <svg role="img" class="material-icons has-text-info is-size-7">
-                        <use xlink:href="../assets/svg/material-icons.svg#info"></use>
-                      </svg>
-                    </a>
-                  </h2>
-                  <p class="subtitle has-text-dark is-size-7 mb-2">Cascadia is a fun new coding font that comes bundled
-                    with Windows Terminal
-                  </p>
-                  <div class="control">
-                    <label class="radio" for="cascadiamono">
-                      <input type="radio" name="font" id="cascadiamono" value="cascadiamono"> <u>Mono</u>
-                    </label>
-                    <label class="radio" for="cascadiacode">
-                      <input type="radio" name="font" id="cascadiacode" value="cascadiacode"> <u>Code</u>
-                      <small>with ligatures</small>
-                    </label>
-                    <label class="radio" for="cascadiacodepl">
-                      <input type="radio" name="font" id="cascadiacodepl" value="cascadiacodepl"> <u>Code PL</u>
-                      <small>with ligatures &amp; Powerline symbols</small>
                     </label>
                   </div>
                   <hr>
