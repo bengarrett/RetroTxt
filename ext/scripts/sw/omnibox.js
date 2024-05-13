@@ -13,7 +13,8 @@ chrome.runtime.onInstalled.addListener(() => {
  * To trigger type `txt ` (txt space).
  * @class Omnibox
  */
-export class Omnibox {
+// eslint-disable-next-line no-unused-vars
+class Omnibox {
   constructor() {
     this.keys = []
     const suggestions = new Map()

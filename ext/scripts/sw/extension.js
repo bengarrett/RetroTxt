@@ -10,7 +10,8 @@ chrome.runtime.onInstalled.addListener(() => {
  * Extension initialisation, defaults and activation.
  * @class Extension
  */
-export class Extension {
+// eslint-disable-next-line no-unused-vars
+class Extension {
   constructor() {
     this.defaults = new OptionsReset().options
   }

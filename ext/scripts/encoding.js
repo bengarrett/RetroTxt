@@ -155,7 +155,8 @@ class BrowserEncodings {
  * Character set, code page class.
  * @class Characters
  */
-export class Characters extends BrowserEncodings {
+// eslint-disable-next-line no-unused-vars
+class Characters extends BrowserEncodings {
   /**
    * Creates an instance of Characters.
    * @param [key=``] Either a character set label (labels) or a browser document
@@ -323,7 +324,8 @@ export class Characters extends BrowserEncodings {
  * Attempt to mostly inaccurately guess the text character encoding.
  * @class Guess
  */
-export class Guess extends BrowserEncodings {
+// eslint-disable-next-line no-unused-vars
+class Guess extends BrowserEncodings {
   constructor(text = ``) {
     super()
     // note: All these character sets need _characterSet().
@@ -546,7 +548,8 @@ export class Guess extends BrowserEncodings {
  * Hardware palette colour emulation.
  * @class HardwarePalette
  */
-export class HardwarePalette {
+// eslint-disable-next-line no-unused-vars
+class HardwarePalette {
   /**
    * Creates an instance of `HardwarePalette`.
    * @param [key=``] Palette name
@@ -641,7 +644,8 @@ export class HardwarePalette {
  * Handles the CSS font family in the DOM.
  * @class FontFamily
  */
-export class FontFamily {
+// eslint-disable-next-line no-unused-vars
+class FontFamily {
   /**
    * Creates an instance of `FontFamily`.
    * @param [key=``] `this.fonts` key

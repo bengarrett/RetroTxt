@@ -4,7 +4,8 @@
 // There is an IIFE, self-invoking anonymous function at the end of the document.
 
 // Text type globals, using control codes or sequences.
-export const UnknownText = -1,
+// eslint-disable-next-line no-unused-vars
+const UnknownText = -1,
   PlainText = 0,
   PCBoardText = 1,
   CelerityText = 2,
@@ -13,6 +14,7 @@ export const UnknownText = -1,
   WildcatText = 5,
   WWIVHashText = 6,
   WWIVHeartText = 7,
+  // eslint-disable-next-line no-unused-vars
   BBSText = 98,
   ANSIText = 99
 
@@ -20,7 +22,8 @@ export const UnknownText = -1,
  * Display a large loading spinner on the active tab.
  * @param [display=true] Display spinner
  */
-export async function BusySpinner(display = true) {
+// eslint-disable-next-line no-unused-vars
+async function BusySpinner(display = true) {
   if (typeof display !== `boolean`)
     CheckArguments(`display`, `boolean`, display)
   // TODO apply a timeout timer that will look for any uncaught errors and if
@@ -74,11 +77,8 @@ function CreateLink(path = ``, id = ``) {
  * @param [colorClass=``] Optional CSS class that overrides light or dark
  * scanlines
  */
-export async function ToggleScanlines(
-  toggle = true,
-  dom = {},
-  colorClass = ``,
-) {
+// eslint-disable-next-line no-unused-vars
+async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
   if (toggle === null) CheckArguments(`toggle`, `boolean`, toggle)
   if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
   if (dom.classList === null) return // error
@@ -118,7 +118,8 @@ export async function ToggleScanlines(
  * Firefox doesn't use a Details tab and will return an empty string.
  * @returns URL or an empty string.
  */
-export function LinkDetails() {
+// eslint-disable-next-line no-unused-vars
+function LinkDetails() {
   const extensionId = chrome.runtime.id,
     ua = navigator.userAgent
   if (extensionId.length === 0) return ``
@@ -137,11 +138,8 @@ export function LinkDetails() {
  * @param [colorClass=``] Optional CSS colour class when we already know the new
  * colour values
  */
-export async function ToggleTextEffect(
-  effect = `normal`,
-  dom = {},
-  colorClass = ``,
-) {
+// eslint-disable-next-line no-unused-vars
+async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   if (typeof effect !== `string`) CheckArguments(`effect`, `string`, effect)
   if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
   if (dom.classList === null) return // error
@@ -187,7 +185,8 @@ export async function ToggleTextEffect(
  * @param [text=``] Text to scan
  * @returns string
  */
-export function FindControlSequences(text = ``) {
+// eslint-disable-next-line no-unused-vars
+function FindControlSequences(text = ``) {
   if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
   const inRange = (a = -1, b = -1) => {
     if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return true
@@ -283,7 +282,8 @@ export function FindControlSequences(text = ``) {
  * @param [si=1024] Decimal (filesize) `1000` or `1024` binary (RAM) conversion
  * @returns string
  */
-export function HumaniseFS(bytes = 0, si = 1024) {
+// eslint-disable-next-line no-unused-vars
+function HumaniseFS(bytes = 0, si = 1024) {
   // Based on http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
   if (typeof bytes !== `number`) CheckArguments(`bytes`, `number`, bytes)
   if (typeof si !== `number`) CheckArguments(`si`, `number`, si)
@@ -309,7 +309,8 @@ export function HumaniseFS(bytes = 0, si = 1024) {
  * @param [text=``] Text to scan
  * @returns element
  */
-export function ParseToChildren(text = ``) {
+// eslint-disable-next-line no-unused-vars
+function ParseToChildren(text = ``) {
   if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
   // `parseFromString()` creates a `<body>` element which we don't need,
   // so create a `<div>` container, and as a work-around return its content
@@ -327,7 +328,8 @@ export function ParseToChildren(text = ``) {
  * Removes text pair related CSS class names from the element.
  * @param {*} elm HTML element
  */
-export function RemoveTextPairs(elm = HTMLElement) {
+// eslint-disable-next-line no-unused-vars
+function RemoveTextPairs(elm = HTMLElement) {
   const classes = elm.className.split(` `)
   // loop through and remove any *-bg and *-fg classes
   let i = classes.length

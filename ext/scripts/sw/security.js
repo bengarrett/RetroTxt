@@ -10,7 +10,8 @@ chrome.runtime.onInstalled.addListener(() => {
  * Extension permissions interface.
  * @class Security
  */
-export class Security {
+// eslint-disable-next-line no-unused-vars
+class Security {
   /**
    * Creates an instance of Security.
    * @param [type=``] Permission type to handle `action`, `downloads`, `files` or `http`

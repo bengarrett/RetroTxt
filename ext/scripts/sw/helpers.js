@@ -16,7 +16,8 @@ if (typeof chrome.runtime.onInstalled !== `undefined`) {
 }
 
 // Get the active tab information of the current window.
-export async function GetCurrentTab() {
+// eslint-disable-next-line no-unused-vars
+async function GetCurrentTab() {
   let queryOptions = { active: true, currentWindow: true }
   let [tab] = await chrome.tabs.query(queryOptions)
   return tab
@@ -30,7 +31,8 @@ export async function GetCurrentTab() {
 // Developer is the verbose feedback store name.
 // DeveloperModeDebug gives additional Console log feedback when running in Developer mode.
 const Developer = `developer`
-export const DeveloperModeDebug = false
+// eslint-disable-next-line no-unused-vars
+const DeveloperModeDebug = false
 
 // Browser rendering engine.
 const Engine = {
@@ -93,7 +95,8 @@ Object.freeze([Engine, Os, PlatformOS, PlatformArch, Cs])
  * Prints the string to the console when Developer mode is enabled.
  * @param {*} string
  */
-export function Console(string = ``) {
+// eslint-disable-next-line no-unused-vars
+function Console(string = ``) {
   chrome.storage.local.get(Developer, (store) => {
     if (Developer in store) console.log(`${string}`)
   })
@@ -112,7 +115,8 @@ function ConsoleLoad(page = ``) {
  * Handle `chrome.runtime.lastError` callback errors.
  * @param {string} [errorFor=``] Source description of the error
  */
-export function CheckLastError(errorFor = ``) {
+// eslint-disable-next-line no-unused-vars
+function CheckLastError(errorFor = ``) {
   /* Some methods that set chrome.runtime.lastError:
    * - chrome.runtime.openOptionsPage+
    * - chrome.runtime.setUninstallURL+
@@ -211,7 +215,8 @@ class OptionsReset {
  * Configurations used by Options and the extension manifest.
  * @class Configuration
  */
-export class Configuration extends OptionsReset {
+// eslint-disable-next-line no-unused-vars
+class Configuration extends OptionsReset {
   constructor() {
     super()
     // RetroTxt background triggers
@@ -390,7 +395,8 @@ function BrowserOS() {
  * Returns either a `0` for Chrome, Chromium and Edge or a `1` for Firefox.
  * @returns string
  */
-export function WebBrowser() {
+// eslint-disable-next-line no-unused-vars
+function WebBrowser() {
   const ui = chrome.runtime.getManifest().options_ui
   if (ui !== undefined && ui.page !== undefined) {
     const manifest = ui.page,

@@ -371,7 +371,8 @@ class Transcode extends CharacterSet {
  * Convert (JavaScript) UTF-16 encoded strings to emulate a MS-DOS Code Page.
  * @class DOSText
  */
-export class DOSText {
+// eslint-disable-next-line no-unused-vars
+class DOSText {
   /**
    * Creates an instance of DOSText.
    * @param [text=``] Text to parse
@@ -748,7 +749,8 @@ export class DOSText {
  * HTML5 document with matching CSS colour styles.
  * @class BBS
  */
-export class BBS {
+// eslint-disable-next-line no-unused-vars
+class BBS {
   /**
    * Creates an instance of BBS.
    * @param [text=``] Ascii text encoded with at-symbol codes

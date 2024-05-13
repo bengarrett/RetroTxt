@@ -12,7 +12,8 @@ const resetCursor = Symbol(`reset cursor position`),
  * elements.
  * @class ANSI
  */
-export class Controls {
+// eslint-disable-next-line no-unused-vars
+class Controls {
   /**
    * Creates an instance of Controls.
    * @param [text=``] String of Unicode text to parse

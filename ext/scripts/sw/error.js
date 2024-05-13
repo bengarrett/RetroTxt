@@ -12,7 +12,8 @@ chrome.runtime.onInstalled.addListener(() => {
  * @param [log=false] Log errors `false` are logged to the browser Console
  * otherwise a JavaScript exception is thrown
  */
-export function CheckError(error = ``, log = false) {
+// eslint-disable-next-line no-unused-vars
+function CheckError(error = ``, log = false) {
   if (error !== undefined) {
     if (log !== true) {
       chrome.storage.local.get(Developer, (store) => {

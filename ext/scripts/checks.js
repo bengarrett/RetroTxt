@@ -7,7 +7,8 @@
  * @param {string} [name=``] The argument name that failed
  * @param {string} [expecteparam {*} actual The actual argument used
  */
-export function CheckArguments(name = ``, expected = ``, actual) {
+// eslint-disable-next-line no-unused-vars
+function CheckArguments(name = ``, expected = ``, actual) {
   let err = ``
   switch (expected) {
     case `boolean`:
@@ -55,7 +56,8 @@ function CheckError(errorMessage, log = false) {
  * @param {*} expected The expected value
  * @param {*} actual The actual value
  */
-export function CheckRange(name = ``, issue = ``, expected, actual) {
+// eslint-disable-next-line no-unused-vars
+function CheckRange(name = ``, issue = ``, expected, actual) {
   let err = ``
   switch (issue) {
     case `length`:
@@ -181,7 +183,8 @@ function DisplayAlert(show = true, message = ``) {
 /**
  * Creates an alert for unsupported page character sets.
  */
-export function DisplayEncodingAlert() {
+// eslint-disable-next-line no-unused-vars
+function DisplayEncodingAlert() {
   let div = globalThis.document.getElementById(`CheckEncoding`)
   if (div !== null) return (div.style.display = `block`)
   const alert = {

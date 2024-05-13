@@ -15,7 +15,8 @@ chrome.runtime.onInstalled.addListener(() => {
  * Apply RetroTxt to any downloaded text files.
  * @class Downloads
  */
-export class Downloads {
+// eslint-disable-next-line no-unused-vars
+class Downloads {
   /**
    * Creates an instance of Downloads.
    * @param [monitor=true] Monitor downloads `true` or `false` to ignore

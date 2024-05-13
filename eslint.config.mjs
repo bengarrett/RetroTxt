@@ -19,6 +19,11 @@ export default [
     files: ["ext/scripts/**/*.js", "test/**/*"],
     languageOptions: {
       ecmaVersion: "latest",
+      parserOptions: {
+        ecmaFeatures: {
+          impliedStrict: true,
+        },
+      },
       globals: {
         ...globals.browser,
         browser: "readonly", // browser is for firefox only

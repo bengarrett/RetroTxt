@@ -24,7 +24,8 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 })
 
 // Create a new session local storage object for the browser tab.
-export function SessionNew(tabID = 0, data) {
+// eslint-disable-next-line no-unused-vars
+function SessionNew(tabID = 0, data) {
   if (data === null || !(`type` in data))
     CheckError(`required data for sessionNew(${tabID}) is empty`)
   const key = `${SessionKey}${tabID}`
@@ -40,7 +41,8 @@ export function SessionNew(tabID = 0, data) {
 }
 
 // Create a new session local storage object for the browser tab with an active update value.
-export function SessionOff(tabID = 0) {
+// eslint-disable-next-line no-unused-vars
+function SessionOff(tabID = 0) {
   const key = `${SessionKey}${tabID}`
   const store = {
     textfile: false,
