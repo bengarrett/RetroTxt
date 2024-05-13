@@ -17,6 +17,264 @@
   --separator-line: var(--separator-height) solid rgba(0, 0, 0, 0.06);
   --status-size: 0.85em;
   --toggle-size: 0.9rem;
+
+  /* colour palettes vga */
+  .vga-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .vga-red {
+    background-color: rgb(170, 0, 0);
+  }
+  .vga-green {
+    background-color: rgb(0, 170, 0);
+  }
+  .vga-brown {
+    background-color: rgb(170, 85, 0);
+  }
+  .vga-blue {
+    background-color: rgb(0, 0, 170);
+  }
+  .vga-magenta {
+    background-color: rgb(170, 0, 170);
+  }
+  .vga-cyan {
+    background-color: rgb(0, 170, 170);
+  }
+  .vga-grey {
+    background-color: rgb(170, 170, 170);
+  }
+  /* colour palettes xterm */
+  .xterm-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .xterm-red {
+    background-color: rgb(205, 0, 0);
+  }
+  .xterm-green {
+    background-color: rgb(0, 205, 0);
+  }
+  .xterm-brown {
+    background-color: rgb(205, 205, 0);
+  }
+  .xterm-blue {
+    background-color: rgb(0, 0, 205);
+  }
+  .xterm-magenta {
+    background-color: rgb(205, 0, 205);
+  }
+  .xterm-cyan {
+    background-color: rgb(0, 205, 205);
+  }
+  .xterm-grey {
+    background-color: rgb(229, 229, 229);
+  }
+  /* colour palettes apple iigs */
+  .iigs-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .iigs-red {
+    background-color: rgb(128, 3, 6);
+  }
+  .iigs-green {
+    background-color: rgb(0, 127, 18);
+  }
+  .iigs-brown {
+    background-color: rgb(128, 127, 22);
+  }
+  .iigs-blue {
+    background-color: rgb(0, 0, 128);
+  }
+  .iigs-magenta {
+    background-color: rgb(170, 0, 170);
+  }
+  .iigs-cyan {
+    background-color: rgb(1, 170, 170);
+  }
+  .iigs-grey {
+    background-color: rgb(127, 127, 127);
+  }
+  /* colour palettes commodore 64 */
+  .c64-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .c64-red {
+    background-color: rgb(135, 57, 50);
+  }
+  .c64-green {
+    background-color: rgb(84, 160, 73);
+  }
+  .c64-brown {
+    background-color: rgb(139, 83, 41);
+  }
+  .c64-blue {
+    background-color: rgb(64, 49, 141);
+  }
+  .c64-magenta {
+    background-color: rgb(138, 63, 150);
+  }
+  .c64-cyan {
+    background-color: rgb(102, 182, 189);
+  }
+  .c64-grey {
+    background-color: rgb(120, 120, 120);
+  }
+  /* colour palettes IBM CGA palette 0 & 1 */
+  .cga_0-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .cga_0-green {
+    background-color: rgb(85, 255, 85);
+  }
+  .cga_0-red {
+    background-color: rgb(255, 85, 85);
+  }
+  .cga_0-yellow {
+    background-color: rgb(255, 255, 85);
+  }
+  .cga_1-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .cga_1-green {
+    background-color: rgb(170, 0, 170);
+  }
+  .cga_1-red {
+    background-color: rgb(0, 170, 170);
+  }
+  .cga_1-yellow {
+    background-color: rgb(170, 170, 170);
+  }
+  /* colour palettes monochrome */
+  .gray-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .gray-red {
+    background-color: rgb(44, 44, 44);
+  }
+  .gray-green {
+    background-color: rgb(147, 147, 147);
+  }
+  .gray-brown {
+    background-color: rgb(191, 191, 191);
+  }
+  .gray-blue {
+    background-color: rgb(26, 26, 26);
+  }
+  .gray-magenta {
+    background-color: rgb(67, 67, 67);
+  }
+  .gray-cyan {
+    background-color: rgb(170, 170, 170);
+  }
+  .gray-grey {
+    background-color: rgb(229, 229, 229);
+  }
+
+  /* colour palettes workbench */
+  .workbench-black {
+    background-color: rgb(0, 0, 0);
+  }
+  .workbench-red {
+    background-color: rgb(102, 34, 0);
+  }
+  .workbench-green {
+    background-color: rgb(85, 221, 85);
+  }
+  .workbench-brown {
+    background-color: rgb(238, 153, 0);
+  }
+  .workbench-blue {
+    background-color: rgb(0, 68, 221);
+  }
+  .workbench-magenta {
+    background-color: rgb(170, 144, 124);
+  }
+  .workbench-cyan {
+    background-color: rgb(238, 85, 0);
+  }
+  .workbench-grey {
+    background-color: rgb(175, 175, 175);
+  }
+
+  .theme-msdos-fg {
+    color: var(--vgagray);
+  }
+  .theme-msdos-bg {
+    background-color: var(--black);
+  }
+  .theme-windows-fg {
+    color: var(--black);
+  }
+  .theme-windows-bg {
+    background-color: var(--white);
+  }
+  .theme-amiga-fg {
+    color: rgb(247, 247, 247);
+  }
+  .theme-amiga-bg {
+    background-color: rgb(148, 148, 148);
+  }
+  .theme-appleii-fg {
+    color: rgb(41, 41, 41);
+  }
+  .theme-appleii-bg {
+    background-color: rgb(12, 234, 97);
+  }
+  .theme-atarist-fg {
+    color: var(--black);
+  }
+  .theme-atarist-bg {
+    background-color: var(--white);
+  }
+  .theme-c64-fg {
+    color: rgb(108, 94, 181);
+  }
+  .theme-c64-bg {
+    background-color: rgb(53, 40, 121);
+  }
+  .theme-white-on-black-fg {
+    color: var(--white);
+  }
+  .theme-amber-on-black-fg {
+    color: var(--amber);
+  }
+  .theme-green-on-black-fg {
+    color: var(--green);
+  }
+  .theme-white-on-black-bg,
+  .theme-amber-on-black-bg,
+  .theme-green-on-black-bg {
+    background-color: var(--black);
+  }
+  .theme-gray-on-white-fg {
+    color: var(--vgagray);
+  }
+  .theme-amber-on-white-fg {
+    color: var(--amber);
+  }
+  .theme-green-on-white-fg {
+    color: var(--green);
+  }
+  .theme-gray-on-white-bg,
+  .theme-amber-on-white-bg,
+  .theme-green-on-white-bg {
+    background-color: var(--white);
+  }
+  .theme-gray-on-white-shadowed,
+  .theme-amber-on-white-shadowed,
+  .theme-green--on-white-shadowed {
+    text-shadow: 0.063em 0.063em 0 rgba(224, 224, 224, 1);
+  }
+
+  /* text pairs table customization */
+  #color-text-pairs {
+    tr {
+      border: 1px solid black;
+      td {
+        border: 1px solid black;
+        text-align: right;
+      }
+    }
+  }
 }
 
 /* bulma like classes and overwrites */
@@ -62,17 +320,6 @@ main > section .font-content {
 main > section #jumpTo {
   position: sticky;
   top: 1vh;
-}
-
-/* text pairs table customization */
-#color-text-pairs {
-  tr {
-    border: 1px solid black;
-    td {
-      border: 1px solid black;
-      text-align: right;
-    }
-  }
 }
 
 /* example blocks */
@@ -173,181 +420,4 @@ main > section #jumpTo {
   text-rendering: optimizeLegibility;
   /* non-standard, Firefox on macOS only. */
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* colour palettes vga */
-.vga-black {
-  background-color: rgb(0, 0, 0);
-}
-.vga-red {
-  background-color: rgb(170, 0, 0);
-}
-.vga-green {
-  background-color: rgb(0, 170, 0);
-}
-.vga-brown {
-  background-color: rgb(170, 85, 0);
-}
-.vga-blue {
-  background-color: rgb(0, 0, 170);
-}
-.vga-magenta {
-  background-color: rgb(170, 0, 170);
-}
-.vga-cyan {
-  background-color: rgb(0, 170, 170);
-}
-.vga-grey {
-  background-color: rgb(170, 170, 170);
-}
-/* colour palettes xterm */
-.xterm-black {
-  background-color: rgb(0, 0, 0);
-}
-.xterm-red {
-  background-color: rgb(205, 0, 0);
-}
-.xterm-green {
-  background-color: rgb(0, 205, 0);
-}
-.xterm-brown {
-  background-color: rgb(205, 205, 0);
-}
-.xterm-blue {
-  background-color: rgb(0, 0, 205);
-}
-.xterm-magenta {
-  background-color: rgb(205, 0, 205);
-}
-.xterm-cyan {
-  background-color: rgb(0, 205, 205);
-}
-.xterm-grey {
-  background-color: rgb(229, 229, 229);
-}
-/* colour palettes apple iigs */
-.iigs-black {
-  background-color: rgb(0, 0, 0);
-}
-.iigs-red {
-  background-color: rgb(128, 3, 6);
-}
-.iigs-green {
-  background-color: rgb(0, 127, 18);
-}
-.iigs-brown {
-  background-color: rgb(128, 127, 22);
-}
-.iigs-blue {
-  background-color: rgb(0, 0, 128);
-}
-.iigs-magenta {
-  background-color: rgb(170, 0, 170);
-}
-.iigs-cyan {
-  background-color: rgb(1, 170, 170);
-}
-.iigs-grey {
-  background-color: rgb(127, 127, 127);
-}
-/* colour palettes commodore 64 */
-.c64-black {
-  background-color: rgb(0, 0, 0);
-}
-.c64-red {
-  background-color: rgb(135, 57, 50);
-}
-.c64-green {
-  background-color: rgb(84, 160, 73);
-}
-.c64-brown {
-  background-color: rgb(139, 83, 41);
-}
-.c64-blue {
-  background-color: rgb(64, 49, 141);
-}
-.c64-magenta {
-  background-color: rgb(138, 63, 150);
-}
-.c64-cyan {
-  background-color: rgb(102, 182, 189);
-}
-.c64-grey {
-  background-color: rgb(120, 120, 120);
-}
-/* colour palettes IBM CGA palette 0 & 1 */
-.cga_0-black {
-  background-color: rgb(0, 0, 0);
-}
-.cga_0-green {
-  background-color: rgb(85, 255, 85);
-}
-.cga_0-red {
-  background-color: rgb(255, 85, 85);
-}
-.cga_0-yellow {
-  background-color: rgb(255, 255, 85);
-}
-.cga_1-black {
-  background-color: rgb(0, 0, 0);
-}
-.cga_1-green {
-  background-color: rgb(170, 0, 170);
-}
-.cga_1-red {
-  background-color: rgb(0, 170, 170);
-}
-.cga_1-yellow {
-  background-color: rgb(170, 170, 170);
-}
-/* colour palettes monochrome */
-.gray-black {
-  background-color: rgb(0, 0, 0);
-}
-.gray-red {
-  background-color: rgb(44, 44, 44);
-}
-.gray-green {
-  background-color: rgb(147, 147, 147);
-}
-.gray-brown {
-  background-color: rgb(191, 191, 191);
-}
-.gray-blue {
-  background-color: rgb(26, 26, 26);
-}
-.gray-magenta {
-  background-color: rgb(67, 67, 67);
-}
-.gray-cyan {
-  background-color: rgb(170, 170, 170);
-}
-.gray-grey {
-  background-color: rgb(229, 229, 229);
-}
-
-/* colour palettes workbench */
-.workbench-black {
-  background-color: rgb(0, 0, 0);
-}
-.workbench-red {
-  background-color: rgb(102, 34, 0);
-}
-.workbench-green {
-  background-color: rgb(85, 221, 85);
-}
-.workbench-brown {
-  background-color: rgb(238, 153, 0);
-}
-.workbench-blue {
-  background-color: rgb(0, 68, 221);
-}
-.workbench-magenta {
-  background-color: rgb(170, 144, 124);
-}
-.workbench-cyan {
-  background-color: rgb(238, 85, 0);
-}
-.workbench-grey {
-  background-color: rgb(175, 175, 175);
 }
