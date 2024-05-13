@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
  * Apply RetroTxt to any downloaded text files.
  * @class Downloads
  */
-class Downloads {
+export class Downloads {
   /**
    * Creates an instance of Downloads.
    * @param [monitor=true] Monitor downloads `true` or `false` to ignore
@@ -33,14 +33,14 @@ class Downloads {
     // exit when chrome.downloads is inaccessible due Extensions configurations
     if (`downloads` in chrome === false)
       return CheckError(
-        `Downloads startup error, chrome.downloads API is inaccessible.`
+        `Downloads startup error, chrome.downloads API is inaccessible.`,
       )
     if (
       typeof chrome.downloads === `undefined` ||
       `onCreated` in chrome.downloads === false
     )
       return CheckError(
-        `Downloads startup error, chrome.downloads API onCreated event is inaccessible.`
+        `Downloads startup error, chrome.downloads API onCreated event is inaccessible.`,
       )
     const downloads = new Downloads(),
       security = new Security(`downloads`, `downloads`),
@@ -102,7 +102,7 @@ class Downloads {
               if (textFile === true)
                 console.warn(
                   `Downloaded filename looks to be a text file but the host server says it's a binary file: `,
-                  downloads.item.finalUrl
+                  downloads.item.finalUrl,
                 )
             }
             return
@@ -198,7 +198,7 @@ class Downloads {
           return true
         }
         console.log(
-          `${error} filename cannot be determined\n"${this.item.filename}" for (${this.item.url})`
+          `${error} filename cannot be determined\n"${this.item.filename}" for (${this.item.url})`,
         )
         return false
       }
@@ -228,7 +228,7 @@ class Downloads {
     if (filename.length < 1) return false
     const valid = new Configuration().validateFilename(filename)
     console.log(
-      `Update download #${this.delta.id} determined the filename of the download.\n"${filename}", and ${valid}, it is a text based file.`
+      `Update download #${this.delta.id} determined the filename of the download.\n"${filename}", and ${valid}, it is a text based file.`,
     )
     if (!valid) return false
     chrome.storage.local.set({
@@ -287,4 +287,3 @@ class Downloads {
 }
 
 /*global CheckError CheckLastError Configuration Console ConsoleLoad Developer Extension Os Security WebBrowser */
-/*exported Downloads */

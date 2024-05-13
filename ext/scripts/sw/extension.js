@@ -10,7 +10,7 @@ chrome.runtime.onInstalled.addListener(() => {
  * Extension initialisation, defaults and activation.
  * @class Extension
  */
-class Extension {
+export class Extension {
   constructor() {
     this.defaults = new OptionsReset().options
   }
@@ -87,7 +87,7 @@ class Extension {
       console.error(
         `Extension.invokeOnTab() aborted for tab #%s\nReason: %s`,
         tabId,
-        chrome.runtime.lastError.message
+        chrome.runtime.lastError.message,
       )
       return true
     }
@@ -105,9 +105,9 @@ class Extension {
           { target: { tabId: tabId }, func: spin },
           () => {
             if (lastErrorCallback()) return
-          }
+          },
         )
-      }
+      },
     )
     // then, load the other required scripts
     chrome.scripting.executeScript(
@@ -122,7 +122,7 @@ class Extension {
       },
       () => {
         if (lastErrorCallback()) return
-      }
+      },
     )
     // dependency scripts
     chrome.scripting.executeScript(
@@ -137,7 +137,7 @@ class Extension {
       },
       () => {
         if (lastErrorCallback()) return
-      }
+      },
     )
     // finally, load and run retrotxt.js
     chrome.scripting.executeScript(
@@ -158,12 +158,11 @@ class Extension {
           },
           () => {
             if (lastErrorCallback()) return
-          }
+          },
         )
-      }
+      },
     )
   }
 }
 
 /*global ConsoleLoad LocalStore SessionNew OptionsReset SessionKey */
-/*exported Extension */

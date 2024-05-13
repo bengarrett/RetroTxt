@@ -20,7 +20,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 })
 
 // RemoveSearch removes all the stores that use a key containing searchKey.
-function RemoveSearch(searchKey = ``) {
+export function RemoveSearch(searchKey = ``) {
   if (searchKey === ``) return
   chrome.storage.local.get(null, (store) => {
     const keys = Object.keys(store)
@@ -82,7 +82,7 @@ class LocalStore {
               `Storage.%s change 🡲 %c${item}%c.`,
               areaName,
               "text-decoration:line-through",
-              "text-decoration:none"
+              "text-decoration:none",
             )
           if (typeof newValue === `object`) {
             console.log(
@@ -90,7 +90,7 @@ class LocalStore {
               areaName,
               item,
               "text-decoration:line-through",
-              "text-decoration:none"
+              "text-decoration:none",
             )
             if (newValue.length) console.log(newValue)
           } else
@@ -99,7 +99,7 @@ class LocalStore {
               areaName,
               item,
               "text-decoration:line-through",
-              "text-decoration:none"
+              "text-decoration:none",
             )
         }
       })
@@ -116,7 +116,7 @@ class LocalStore {
   }
 }
 
-function OpenOptions(page = ``) {
+export function OpenOptions(page = ``) {
   const key = `optionTab`
   // the page aliases used by the omnibox input
   switch (page) {
@@ -180,4 +180,3 @@ function OpenOptions(page = ``) {
 }
 
 /* global CheckLastError ConsoleLoad Developer Extension */
-/* exported OpenOptions RemoveSearch */

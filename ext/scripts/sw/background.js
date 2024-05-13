@@ -18,7 +18,7 @@ importScripts(
   "session.js",
   "storage.js",
   "tabs.js",
-  "toolbar.js"
+  "toolbar.js",
 )
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -39,7 +39,7 @@ chrome.runtime.onInstalled.addListener((details) => {
     return CheckError(
       `RetroTxt failed to run because the Extension API did not load!` +
         ` Please close this browser and try again.`,
-      true
+      true,
     )
   if (`management` in chrome) devMode()
   new Extension().install(details)
@@ -108,4 +108,4 @@ function setPlatform() {
   })
 }
 
-/* global CheckError ConsoleLoad Developer Downloads Engine Extension Menu Omnibox Os WebBrowser */
+/* global importScripts CheckError ConsoleLoad Developer Downloads Engine Extension Menu Omnibox Os WebBrowser */

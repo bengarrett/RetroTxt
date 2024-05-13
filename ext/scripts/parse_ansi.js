@@ -12,7 +12,7 @@ const resetCursor = Symbol(`reset cursor position`),
  * elements.
  * @class ANSI
  */
-class Controls {
+export class Controls {
   /**
    * Creates an instance of Controls.
    * @param [text=``] String of Unicode text to parse
@@ -877,14 +877,14 @@ class Markup {
         // handle malformed tags due to iCE Color triggers
         domObject.html = domObject.html.replace(
           `<div id="row-1"></i>`,
-          `<div id="row-1">`
+          `<div id="row-1">`,
         )
         continue sequences
       }
     }
     // Clean up empty elements before the browser render
     const emptySpan = new RegExp(
-        /<i class="SGR[1]?3[0-9][0-9]* SGR4[0-9][ SGR\d+\d*]*"><\/i>/g
+        /<i class="SGR[1]?3[0-9][0-9]* SGR4[0-9][ SGR\d+\d*]*"><\/i>/g,
       ),
       emptyRow = new RegExp(/<div id="row-(\d+)"><\/div>/g)
     domObject.html = domObject.html
@@ -915,7 +915,7 @@ class Markup {
   _closeElements() {
     // regex for HTML modifications
     const nullSpace = new RegExp(
-        /<div id="row-(\d+)"><i class="SGR(\d+) SGR(\d+)"><\/i><\/div>/gi
+        /<div id="row-(\d+)"><i class="SGR(\d+) SGR(\d+)"><\/i><\/div>/gi,
       ),
       dom = domObject
     switch (dom.html.endsWith(`\u241B\u005B\uFFFD\uFFFD`)) {
@@ -947,7 +947,7 @@ class Markup {
     // note: there is an intentional empty space between the italic elements
     dom.html = dom.html.replace(
       nullSpace,
-      `<div id="row-$1"><i class="SGR$2 SGR$3"> </i></div>`
+      `<div id="row-$1"><i class="SGR$2 SGR$3"> </i></div>`,
     )
   }
   /**
@@ -973,7 +973,7 @@ class Markup {
       const regExp = new RegExp(`<div id="row-${line}">`, `i`)
       domObject.html = domObject.html.replace(
         regExp,
-        `<div id="row-${line}" class="ED">`
+        `<div id="row-${line}" class="ED">`,
       )
     }
   }
@@ -1098,14 +1098,14 @@ class Markup {
             return console.log(
               `%cEL1%c clear from cursor to the beginning of the line is not supported.`,
               mark,
-              unmark
+              unmark,
             )
           case 2: // erase line (-ANSI.SYS)
             if (cursor.row < 1)
               return console.log(
                 `%cEL2-${cursor.row}%c is invalid.`,
                 mark,
-                unmark
+                unmark,
               )
             return cursor.eraseLines.push(cursor.row - 1)
         }
@@ -1123,7 +1123,7 @@ class Markup {
           `%c%s%c parse-named-sequence tried to parse this unknown control`,
           item,
           mark,
-          unmark
+          unmark,
         )
     }
   }
@@ -1149,7 +1149,7 @@ class Markup {
     const lowResolution = 40
     if (mode === 0 || mode === 1) this.maxColumns = lowResolution
     console.info(
-      `Set mode applied, ${values[0]} ${values[1]} in ${values[2]} columns mode`
+      `Set mode applied, ${values[0]} ${values[1]} in ${values[2]} columns mode`,
     )
   }
   /**
@@ -1483,7 +1483,7 @@ class Scan {
       case peak._2: // ←[31m
         if (digit._0 && digit._1)
           return `SGR,3,${String.fromCharCode(peak._0)}${String.fromCharCode(
-            peak._1
+            peak._1,
           )}`
     }
     // HVP, CUP - Horizontal and vertical position and Cursor Position reset
@@ -1764,7 +1764,7 @@ class Scan {
     }
     if (this.verbose)
       console.log(
-        `Text rendition attributes found, 'SGR,${value.length + 1},${value}'`
+        `Text rendition attributes found, 'SGR,${value.length + 1},${value}'`,
       )
     return `SGR,${value.length + 1},${value}`
   }
@@ -1917,7 +1917,7 @@ class Scan {
     }
     if (this.verbose)
       console.log(
-        `Cursor repositioned to row ${hvp.row} and column ${hvp.column}`
+        `Cursor repositioned to row ${hvp.row} and column ${hvp.column}`,
       )
     return `HVP,${length},${hvp.row},${hvp.column}`
   }
@@ -2027,8 +2027,8 @@ class Scan {
       mode.set(
         `value`,
         `${String.fromCharCode(parameters[0])}${String.fromCharCode(
-          parameters[1]
-        )}`
+          parameters[1],
+        )}`,
       )
     else mode.set(`value`, `${String.fromCharCode(parameters[0])}`)
     return `${mode.get(`code`)},${mode.get(`length`)},${mode.get(`value`)}`
@@ -2106,7 +2106,7 @@ class Build extends Scan {
           if (control.get(`joined`) === ``) {
             // handle unknown sequences
             issues.push(
-              `Unsupported control function for array item ${i}, character #${counts.control}`
+              `Unsupported control function for array item ${i}, character #${counts.control}`,
             )
             // display all unknown controls sequences in the text that could
             // belong to the much larger ECMA-48 standard or proprietary
@@ -2208,7 +2208,7 @@ class Build extends Scan {
       if (this.issues.length > 1) noun += `s`
       console.log(
         `%d unsupported ${noun} of control sequence in use: ${this.issues}.`,
-        this.issues.length
+        this.issues.length,
       )
     }
     ecma48.other = counts.err_msdos
@@ -2278,13 +2278,11 @@ class Build extends Scan {
     if (this.verbose) {
       const d1 = new Date().getTime()
       console.log(
-        `Time taken to process Build._decimals(): ${d1 - d0} milliseconds`
+        `Time taken to process Build._decimals(): ${d1 - d0} milliseconds`,
       )
     }
     return decimals
   }
 }
 
-/*eslint no-useless-escape: "warn"*/
 /*global CheckArguments CheckError CheckRange */
-/*exported Controls*/

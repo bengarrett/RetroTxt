@@ -10,7 +10,7 @@ chrome.runtime.onInstalled.addListener(() => {
  * Extension permissions interface.
  * @class Security
  */
-class Security {
+export class Security {
   /**
    * Creates an instance of Security.
    * @param [type=``] Permission type to handle `action`, `downloads`, `files` or `http`
@@ -34,8 +34,8 @@ class Security {
     if (typeof type === `undefined`)
       return CheckError(
         `⚿ Security('${type}') is invalid, it must be either: ${Array.from(
-          permissions.keys()
-        )}.`
+          permissions.keys(),
+        )}.`,
       )
     this.permissions = permissions.get(`${type}`)
     this.origins = origins.get(`${type}`)
@@ -48,7 +48,7 @@ class Security {
   fail() {
     console.warn(
       `⚠ Extension permission access '${this.permissions}' is denied for %s.`,
-      this.type
+      this.type,
     )
   }
   /**
@@ -78,6 +78,7 @@ class Security {
     var url = ``
     try {
       url = new URL(this.origin)
+      // eslint-disable-next-line no-unused-vars
     } catch (e) {
       return [`*://${this.origin}/*`]
     }
@@ -86,4 +87,3 @@ class Security {
 }
 
 /*global CheckError ConsoleLoad Developer */
-/*exported Security */

@@ -24,7 +24,7 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 })
 
 // Create a new session local storage object for the browser tab.
-function SessionNew(tabID = 0, data) {
+export function SessionNew(tabID = 0, data) {
   if (data === null || !(`type` in data))
     CheckError(`required data for sessionNew(${tabID}) is empty`)
   const key = `${SessionKey}${tabID}`
@@ -40,7 +40,7 @@ function SessionNew(tabID = 0, data) {
 }
 
 // Create a new session local storage object for the browser tab with an active update value.
-function SessionOff(tabID = 0) {
+export function SessionOff(tabID = 0) {
   const key = `${SessionKey}${tabID}`
   const store = {
     textfile: false,
@@ -73,4 +73,3 @@ function removeSessions() {
 }
 
 /* global CheckError CheckLastError Console ConsoleLoad */
-/* exported SessionNew SessionOff RemoveSession SessionKey */

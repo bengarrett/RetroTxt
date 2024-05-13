@@ -138,17 +138,17 @@ class DOM {
       case ANSIText:
         this.head.append(CreateLink(palette.savedFilename(), link4bit))
         this.head.append(
-          CreateLink(`${path}/text_colors_8bit.css`, `retrotxt-8bit`)
+          CreateLink(`${path}/text_colors_8bit.css`, `retrotxt-8bit`),
         )
         this.head.append(
-          CreateLink(`${path}/text_ecma_48.css`, `retrotxt-ecma48`)
+          CreateLink(`${path}/text_ecma_48.css`, `retrotxt-ecma48`),
         )
         break
       case PCBoardText:
       case TelegardText:
       case WildcatText:
         this.head.append(
-          CreateLink(`${path}/text_colors_pcboard.css`, link4bit)
+          CreateLink(`${path}/text_colors_pcboard.css`, link4bit),
         )
         break
       case CelerityText:
@@ -158,7 +158,7 @@ class DOM {
       case WWIVHashText:
       case WWIVHeartText:
         this.head.append(
-          CreateLink(`${path}/text_colors_wviv-pipe.css`, link4bit)
+          CreateLink(`${path}/text_colors_wviv-pipe.css`, link4bit),
         )
         break
     }
@@ -192,7 +192,7 @@ class DOM {
         chrome.storage.local.set({ [`settingsInformationHeader`]: `on` })
         localStorage.setItem(`settingsInformationHeader`, `on`)
         console.log(
-          `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`
+          `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`,
         )
     }
     this._constructRender()
@@ -258,7 +258,7 @@ class DOM {
     const memoryLeak = `://retrotxt.com/e/preview_00.ans`
     if (window.location.toString().includes(memoryLeak)) {
       this.head.append(
-        CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`)
+        CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`),
       )
       const elm = document.getElementById(`toggleIceColors`)
       elm.style = `text-decoration:line-through`
@@ -269,7 +269,7 @@ class DOM {
     toggle.onclick = () => this.clickIceColors()
     if (setting === `true`) {
       this.head.append(
-        CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`)
+        CreateLink(`../css/text_colors_4bit-ice.css`, `retrotxt-4bit-ice`),
       )
       this._toggleOn(toggle)
     } else this._toggleOff(toggle)
@@ -285,7 +285,7 @@ class DOM {
     toggle.onclick = () => this.clickPageWrap()
     if (`${setting}` === `true`) {
       this.head.append(
-        CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
+        CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`),
       )
       this._toggleOn(toggle)
     } else this._toggleOff(toggle)
@@ -344,7 +344,7 @@ class DOM {
           chrome.storage.local.set({ [`settingsInformationHeader`]: `on` })
           localStorage.setItem(`settingsInformationHeader`, `on`)
           console.log(
-            `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`
+            `🖫 Could not obtain the required settingsInformationHeader setting to determine the information header state.`,
           )
       }
     })
@@ -365,7 +365,7 @@ class DOM {
   async clickAccurate9pxFonts() {
     if (this.results.textAccurate9pxFonts === false)
       return this.head.append(
-        CreateLink(`../css/fonts_ibm-scale-9x.css`, `retrotxt-scale-fonts`)
+        CreateLink(`../css/fonts_ibm-scale-9x.css`, `retrotxt-scale-fonts`),
       )
     const css = document.getElementById(`retrotxt-scale-fonts`)
     if (css !== null) css.remove()
@@ -391,7 +391,7 @@ class DOM {
   async clickBlinkingCursorText() {
     if (this.results.textBlinkingCursor === false)
       return this.head.append(
-        CreateLink(`../css/text_animation-off.css`, `no-blinkingCursorText`)
+        CreateLink(`../css/text_animation-off.css`, `no-blinkingCursorText`),
       )
     const css = document.getElementById(`no-blinkingCursorText`)
     if (css !== null) css.remove()
@@ -423,12 +423,12 @@ class DOM {
         if (!(`textBackgroundScanlines` in result))
           CheckError(
             `🖫 Could not obtain the required textBackgroundScanlines setting to apply the scanlines effect.`,
-            true
+            true,
           )
         if (!(`textRenderEffect` in result))
           CheckError(
             `🖫 Could not obtain the required textRenderEffect setting to apply text effects.`,
-            true
+            true,
           )
         const sl = result.textBackgroundScanlines,
           te = result.textRenderEffect
@@ -442,7 +442,7 @@ class DOM {
           (typeof te === `boolean` && te === true)
         )
           ToggleTextEffect(`shadowed`, this.article)
-      }
+      },
     )
     // apply new colours
     const colorName = this.backgroundColor
@@ -471,8 +471,8 @@ class DOM {
           this.head.append(
             CreateLink(
               `../css/text_colors_white_bg-fixes.css`,
-              `white-bg-fixes`
-            )
+              `white-bg-fixes`,
+            ),
           )
         break
       default:
@@ -491,7 +491,7 @@ class DOM {
           if (`colorsCustomForeground` in result)
             article.color = `${result.colorsCustomForeground}`
           else this.article.removeProperty(`color`)
-        }
+        },
       )
     }
   }
@@ -534,7 +534,7 @@ class DOM {
     switch (elm.textContent.toLowerCase()) {
       case `off`: {
         this.head.append(
-          CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`)
+          CreateLink(`../css/text_pagewrap.css`, `retrotxt-page-wrap`),
         )
         this._toggleOn(elm)
         break
@@ -563,7 +563,7 @@ class DOM {
           palette.set()
         }
         this.head.append(
-          CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`)
+          CreateLink(palette.savedFilename(true), `retrotxt-4bit-ice`),
         )
         this._toggleOn(elm)
         break
@@ -590,7 +590,7 @@ class DOM {
       `is-size-5`,
       `is-size-6`,
       `is-size-7`,
-      `is-size-8`
+      `is-size-8`,
     )
     if (height === `1`) return
     this.rawText.classList.add(`is-size-${height}`)
@@ -610,17 +610,17 @@ class DOM {
         this.palette.key = `xterm`
         this.palette.set()
         document.getElementById(link4bit).href = url(
-          this.palette.savedFilename()
+          this.palette.savedFilename(),
         )
         break
       case 3:
         document.getElementById(link4bit).href = url(
-          `${path}/text_colors_cga_1.css`
+          `${path}/text_colors_cga_1.css`,
         )
         break
       case 2:
         document.getElementById(link4bit).href = url(
-          `${path}/text_colors_cga_0.css`
+          `${path}/text_colors_cga_0.css`,
         )
         break
       case 1:
@@ -628,7 +628,7 @@ class DOM {
         break
       case 0:
         document.getElementById(link4bit).href = url(
-          `${path}/text_colors_gray.css`
+          `${path}/text_colors_gray.css`,
         )
         break
     }
@@ -643,7 +643,7 @@ class DOM {
     // ice colors
     if (ecma48.iceColors === true)
       this.head.append(
-        CreateLink(this.palette.savedFilename(true), `${link4bit}-ice`)
+        CreateLink(this.palette.savedFilename(true), `${link4bit}-ice`),
       )
   }
   /**
@@ -657,7 +657,7 @@ class DOM {
       case `theme-atarist`:
       case `theme-windows`:
         this.head.append(
-          CreateLink(`../css/text_colors_white_bg-fixes.css`, `white-bg-fixes`)
+          CreateLink(`../css/text_colors_white_bg-fixes.css`, `white-bg-fixes`),
         )
         break
     }
@@ -759,7 +759,7 @@ class DOM {
   async _restoreErr(id) {
     CheckError(
       `Could not obtain the required ${id} setting to apply execute RetroTxt.`,
-      true
+      true,
     )
   }
   async _toggleOn(elm = document.createElement(null)) {
@@ -1166,7 +1166,7 @@ class SauceMeta {
     if (comntStart > -1 && comntStart - start < maxLines * lineSize) {
       this.commentLines = search.slice(
         comntStart + `COMNT`.length,
-        search.indexOf(`SAUCE00`)
+        search.indexOf(`SAUCE00`),
       )
     }
   }
@@ -1354,7 +1354,7 @@ class Output {
     const font = this.ecma48.font
     if (font === undefined)
       CheckError(
-        `🖫 'this.ecma48.font' should have returned a font value or 'null' but instead returned ${this.ecma48.font}.`
+        `🖫 'this.ecma48.font' should have returned a font value or 'null' but instead returned ${this.ecma48.font}.`,
       )
     else if (font !== null) {
       const family = new FontFamily(font)
@@ -1372,7 +1372,7 @@ class Output {
     } else
       CheckError(
         `Expecting a string type for output.data.html but instead it is ${typeof this
-          .data.html}.`
+          .data.html}.`,
       )
     return this.ecma48
   }
@@ -1576,7 +1576,7 @@ class Output {
     }
     CheckError(
       `'${newCodePage}' is not a valid rebuildCharacterSet() identifier.`,
-      false
+      false,
     )
   }
   /**
@@ -1749,7 +1749,7 @@ class Information extends Output {
       this.output.encode,
       this._sep(),
       this._label(`view original text`),
-      this._keyboardShortcuts()
+      this._keyboardShortcuts(),
     )
     this.append(div2)
     div2.append(
@@ -1760,7 +1760,7 @@ class Information extends Output {
       this.output.fontSize(),
       this._sep(),
       this._label(`fontname`),
-      this.font
+      this.font,
     )
     if (this.input.format === ANSIText) {
       div2.append(
@@ -1772,7 +1772,7 @@ class Information extends Output {
         this._setIceColors(),
         this._sep(),
         this._label(`page wrap`),
-        this._setPageWrap()
+        this._setPageWrap(),
       )
       // append any ecma-48 errors
       const sum = this.ecma48.otherCodesCount + this.ecma48.unknownCount,
@@ -1820,7 +1820,7 @@ class Information extends Output {
         const sauceFont = this.sauce.configs.fontFamily
         if (sauceFont === ``)
           return console.warn(
-            `Could not obtain a font name from the SAUCE metadata.`
+            `Could not obtain a font name from the SAUCE metadata.`,
           )
         fonts.key = sauceFont.toUpperCase()
         fonts.set()
@@ -1834,7 +1834,7 @@ class Information extends Output {
           if (!(`fontFamilyName` in result))
             return CheckError(
               `🖫 Could not obtain the required fontFamilyName setting to apply the header.`,
-              false
+              false,
             )
           fonts.key = result.fontFamilyName.toUpperCase()
           fonts.set()
@@ -1912,7 +1912,7 @@ class Information extends Output {
     bold.textContent = `On`
     bold.id = `toggleIceColors`
     span.title = `Toggle between blinking mode or static background ${chrome.i18n.getMessage(
-      `color`
+      `color`,
     )}`
     span.append(bold)
     return span
@@ -1926,7 +1926,7 @@ class Information extends Output {
     switch (colorDepth) {
       case 24:
         strong.title = `A range of 16.7 million ${chrome.i18n.getMessage(
-          `color`
+          `color`,
         )}s using the RGB true ${chrome.i18n.getMessage(`color`)} palette`
         r.textContent = `R`
         r.classList.add(`has-text-danger`)
@@ -1940,7 +1940,7 @@ class Information extends Output {
         break
       case 8:
         strong.title = `A range of 256 ${chrome.i18n.getMessage(
-          `color`
+          `color`,
         )}s using the xterm palette`
         strong.textContent = `xterm 8-bit`
         break
@@ -2107,7 +2107,7 @@ function handleChanges(change) {
           console.log(
             `${pref} 🡲 ${key} %c${value.oldValue}%c ${value.newValue}`,
             "text-decoration:line-through",
-            "text-decoration:none"
+            "text-decoration:none",
           )
         } else {
           console.log(`${pref} 🡲 ${key}`)
@@ -2146,12 +2146,12 @@ function handleChanges(change) {
     if (changes.customBackground)
       localStorage.setItem(
         `colorsCustomBackground`,
-        changes.customBackground.newValue
+        changes.customBackground.newValue,
       )
     if (changes.customForeground)
       localStorage.setItem(
         `colorsCustomForeground`,
-        changes.customForeground.newValue
+        changes.customForeground.newValue,
       )
     // custom colours are handled by `DOM.clickTextPairs()`
     dom.backgroundColor = `theme-custom`
@@ -2160,7 +2160,7 @@ function handleChanges(change) {
   if (changes.dosControlGlyphs)
     localStorage.setItem(
       `textDOSControlGlyphs`,
-      changes.dosControlGlyphs.newValue
+      changes.dosControlGlyphs.newValue,
     )
   if (changes.fontname) {
     const family = new FontFamily(`${changes.fontname.newValue}`)
@@ -2169,7 +2169,7 @@ function handleChanges(change) {
       if (!(`textLineHeight` in result))
         return CheckError(
           `🖫 Could not obtain the required textLineHeight setting to adjust the layout.`,
-          true
+          true,
         )
       dom.clickLineHeight(result.textLineHeight)
     })
@@ -2242,14 +2242,14 @@ function handleChanges(change) {
           if (`${ca}` === `true`) dom.clickCenterAlign(true)
           else dom.clickCenterAlign(false)
         }
-      }
+      },
     )
     return
   }
   if (changes.smearBlockCharacters)
     localStorage.setItem(
       `textSmearBlockCharacters`,
-      changes.smearBlockCharacters.newValue
+      changes.smearBlockCharacters.newValue,
     )
   if (changes.useIceColors) {
     localStorage.setItem(`ansiUseIceColors`, changes.useIceColors.newValue)
@@ -2354,13 +2354,13 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   } catch (e) {
     console.group(`RetroTxt will not be able to work with this webpage`)
     console.info(
-      `For security, this website is configured to block the use of session storage (content-security-policy); OR this browser has the session storage setting disabled.`
+      `For security, this website is configured to block the use of session storage (content-security-policy); OR this browser has the session storage setting disabled.`,
     )
     console.error(e)
     console.groupEnd()
     DisplayAlert(
       true,
-      `RetroTxt cannot work with this webpage. For security, it blocked the use of session storage.`
+      `RetroTxt cannot work with this webpage. For security, it blocked the use of session storage.`,
     )
     return BusySpinner(false)
   }
@@ -2378,7 +2378,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
 
   if (typeof dom.rawText === `undefined`)
     return CheckError(
-      `RetroTxt failed to load and has been aborted. Were you trying to load an empty file?`
+      `RetroTxt failed to load and has been aborted. Were you trying to load an empty file?`,
     )
   if ([`UTF-16BE`, `UTF-16LE`].includes(document.characterSet))
     DisplayEncodingAlert()
@@ -2421,6 +2421,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
         console.warn(`"${input.format}" is not found in messages.json locales`)
         inputMessage = `${input.format}`
       }
+      // eslint-disable-next-line no-unused-vars
     } catch (e) {
       // do nothing
     }
@@ -2516,7 +2517,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
         })
       } else if (hyper === true)
         linkifyElement(document.getElementById(`styledDocument`))
-    }
+    },
   )
   // clean-up globals
   cleanup(output)
@@ -2575,7 +2576,7 @@ function consoleBBS(inputMessage = ``) {
     `%c%c${inputMessage} %c${chrome.i18n.getMessage(`color`)} codes.`,
     `font-weight: bold`,
     `font-weight: bold; color: green`,
-    `font-weight: bold; color: initial`
+    `font-weight: bold; color: initial`,
   )
 }
 function consoleECMA() {
@@ -2583,7 +2584,7 @@ function consoleECMA() {
     `%c%cECMA-48%c control sequences in use.`,
     `font-weight: bold`,
     `font-weight: bold; color: green`,
-    `font-weight: bold; color: default`
+    `font-weight: bold; color: default`,
   )
 }
 function markTab(mark = `[··]`) {
@@ -2680,7 +2681,8 @@ function textType(format = ``) {
 // eslint no-unused-variable fix
 if (typeof Execute !== `undefined`) void 0
 
-/* global ecma48 linkifyElement BBS BrowserEncodings BusySpinner Characters CheckArguments Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
-
+/* global ecma48 linkifyElement BBS BrowserEncodings BusySpinner Characters CheckArguments
+Configuration Console CreateLink Cs Developer Controls CheckError DisplayAlert
+DisplayEncodingAlert DOSText Engine FindControlSequences FontFamily Guess HardwarePalette
+HumaniseFS ParseToChildren RemoveTextPairs StringToBool ToggleScanlines ToggleTextEffect Transcode WebBrowser
 ANSIText BBSText CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText */
-/*exported DOM*/

@@ -4,7 +4,7 @@
 // There is an IIFE, self-invoking anonymous function at the end of the document.
 
 // Text type globals, using control codes or sequences.
-const UnknownText = -1,
+export const UnknownText = -1,
   PlainText = 0,
   PCBoardText = 1,
   CelerityText = 2,
@@ -20,7 +20,7 @@ const UnknownText = -1,
  * Display a large loading spinner on the active tab.
  * @param [display=true] Display spinner
  */
-async function BusySpinner(display = true) {
+export async function BusySpinner(display = true) {
   if (typeof display !== `boolean`)
     CheckArguments(`display`, `boolean`, display)
   // TODO apply a timeout timer that will look for any uncaught errors and if
@@ -35,7 +35,7 @@ async function BusySpinner(display = true) {
         document.body.append(div)
         const stylesheet = CreateLink(
           `../css/retrotxt_loader.css`,
-          `retrotxt-loader`
+          `retrotxt-loader`,
         )
         return document.querySelector(`head`).append(stylesheet)
       }
@@ -56,7 +56,7 @@ function CreateLink(path = ``, id = ``) {
   const manifestKeys = Object.keys(chrome.runtime.getManifest()).length
   if (manifestKeys === 0)
     return console.error(
-      `RetroTxt cannot continue as the Extension API is inaccessible.`
+      `RetroTxt cannot continue as the Extension API is inaccessible.`,
     )
   const link = document.createElement(`link`)
   if (id.length > 0) link.id = id
@@ -74,7 +74,11 @@ function CreateLink(path = ``, id = ``) {
  * @param [colorClass=``] Optional CSS class that overrides light or dark
  * scanlines
  */
-async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
+export async function ToggleScanlines(
+  toggle = true,
+  dom = {},
+  colorClass = ``,
+) {
   if (toggle === null) CheckArguments(`toggle`, `boolean`, toggle)
   if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
   if (dom.classList === null) return // error
@@ -101,7 +105,7 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
     if (result.colorsTextPairs === undefined)
       return CheckError(
         `Could not obtain the required colorsTextPairs setting to apply the scanlines effect`,
-        true
+        true,
       )
     return applyNewClass(result.colorsTextPairs)
   })
@@ -114,7 +118,7 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
  * Firefox doesn't use a Details tab and will return an empty string.
  * @returns URL or an empty string.
  */
-function LinkDetails() {
+export function LinkDetails() {
   const extensionId = chrome.runtime.id,
     ua = navigator.userAgent
   if (extensionId.length === 0) return ``
@@ -133,7 +137,11 @@ function LinkDetails() {
  * @param [colorClass=``] Optional CSS colour class when we already know the new
  * colour values
  */
-async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
+export async function ToggleTextEffect(
+  effect = `normal`,
+  dom = {},
+  colorClass = ``,
+) {
   if (typeof effect !== `string`) CheckArguments(`effect`, `string`, effect)
   if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
   if (dom.classList === null) return // error
@@ -154,7 +162,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
             if (result.colorsTextPairs === undefined)
               CheckError(
                 `Could not obtain the required colorsTextPairs setting to apply the text shadow effect`,
-                true
+                true,
               )
             else dom.classList.add(`${result.colorsTextPairs}-shadowed`)
           })
@@ -167,7 +175,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
     const textRender = document.getElementById(`renderToggle`)
     if (textRender !== null)
       textRender.textContent = `${effect.charAt(0).toUpperCase()}${effect.slice(
-        1
+        1,
       )}`
   }
   chrome.storage.local.get(`colorsTextPairs`, apply)
@@ -179,7 +187,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
  * @param [text=``] Text to scan
  * @returns string
  */
-function FindControlSequences(text = ``) {
+export function FindControlSequences(text = ``) {
   if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
   const inRange = (a = -1, b = -1) => {
     if (a >= 48 && b >= 48 && a <= 70 && b <= 70) return true
@@ -203,7 +211,7 @@ function FindControlSequences(text = ``) {
     return ANSIText
   // `indexOf` is the fastest form of string search
   const sequence = text.indexOf(
-    `${String.fromCharCode(27)}${String.fromCharCode(91)}`
+    `${String.fromCharCode(27)}${String.fromCharCode(91)}`,
   )
   if (sequence > 0) return ANSIText
   // detect pipe codes for WWIV
@@ -275,7 +283,7 @@ function FindControlSequences(text = ``) {
  * @param [si=1024] Decimal (filesize) `1000` or `1024` binary (RAM) conversion
  * @returns string
  */
-function HumaniseFS(bytes = 0, si = 1024) {
+export function HumaniseFS(bytes = 0, si = 1024) {
   // Based on http://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable
   if (typeof bytes !== `number`) CheckArguments(`bytes`, `number`, bytes)
   if (typeof si !== `number`) CheckArguments(`si`, `number`, si)
@@ -301,7 +309,7 @@ function HumaniseFS(bytes = 0, si = 1024) {
  * @param [text=``] Text to scan
  * @returns element
  */
-function ParseToChildren(text = ``) {
+export function ParseToChildren(text = ``) {
   if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
   // `parseFromString()` creates a `<body>` element which we don't need,
   // so create a `<div>` container, and as a work-around return its content
@@ -311,7 +319,7 @@ function ParseToChildren(text = ``) {
     .getElementsByTagName(`div`)
   if (tag.length === 0)
     return CheckError(
-      `DOMParser.parseFromString('${text}','text/html') did not build a HTML object containing a <div> tag`
+      `DOMParser.parseFromString('${text}','text/html') did not build a HTML object containing a <div> tag`,
     )
   return tag[0]
 }
@@ -319,7 +327,7 @@ function ParseToChildren(text = ``) {
  * Removes text pair related CSS class names from the element.
  * @param {*} elm HTML element
  */
-function RemoveTextPairs(elm = HTMLElement) {
+export function RemoveTextPairs(elm = HTMLElement) {
   const classes = elm.className.split(` `)
   // loop through and remove any *-bg and *-fg classes
   let i = classes.length
@@ -364,4 +372,3 @@ function SetIcon() {
 })()
 
 /*global CheckArguments CheckError CheckLastError */
-/*exported BusySpinner BBSText FindControlSequences HumaniseFS LinkDetails ParseToChildren RemoveTextPairs SetIcon ToggleScanlines ToggleTextEffect UnknownText */

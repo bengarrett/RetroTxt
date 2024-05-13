@@ -20,7 +20,7 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
     if (typeof tab === `undefined`) return
     if (typeof tab.url === `undefined`) return
     Console(
-      `️★ Tab ID ${tab.id} activated for window ${tab.windowId}: ${tab.url}`
+      `️★ Tab ID ${tab.id} activated for window ${tab.windowId}: ${tab.url}`,
     )
   })
 })
@@ -91,7 +91,7 @@ class Tabs {
   _permissionDenied(consoleLog = false, listener = ``) {
     if (consoleLog !== true) return
     Console(
-      `⚠ Permission denied, cannot read the URL of ${listener} tab #${this.tabId}.`
+      `⚠ Permission denied, cannot read the URL of ${listener} tab #${this.tabId}.`,
     )
   }
 }
@@ -144,7 +144,7 @@ class Tab {
       return console.warn(
         `RetroTxt conflicts with the domain %s so %s is ignored.`,
         uri.domain,
-        this.url
+        this.url,
       )
     // note there is a `uri` object and `url` string
     switch (uri.scheme) {
@@ -172,12 +172,12 @@ class Tab {
           })
           .catch((error) => {
             console.error(
-              `Tabs.compatibleURL(${this.menuId}, ${this.url}, ${this.id}) failed: ${error}.`
+              `Tabs.compatibleURL(${this.menuId}, ${this.url}, ${this.id}) failed: ${error}.`,
             )
           })
       default:
         Console(
-          `Tab URL '${this.url}' is not known so ignoring onClick action.`
+          `Tab URL '${this.url}' is not known so ignoring onClick action.`,
         )
     }
   }
@@ -238,7 +238,7 @@ class Tab {
           // handle http protocol
           this._checkURL()
         }
-      }
+      },
     )
   }
   /**
@@ -251,7 +251,7 @@ class Tab {
       return console.info(
         `RetroTxt has skipped tab #%s as it points to an incompatible URL.\n%s`,
         this.id,
-        this.url
+        this.url,
       )
     // get and parse the URL
     const uri = {
@@ -265,7 +265,7 @@ class Tab {
       domains = `${result.settingsWebsiteDomains}`
       if (domains.length === 0) {
         console.info(
-          `RetroTxt is not permitted to run on any websites other than retrotxt.com`
+          `RetroTxt is not permitted to run on any websites other than retrotxt.com`,
         )
       }
       // insert the RetroTxt URL into the approved list
@@ -290,6 +290,7 @@ class Tab {
     try {
       const u = new URL(`${this.url}`)
       url = u.hostname
+      // eslint-disable-next-line no-unused-vars
     } catch (e) {
       url = this.url
     }
@@ -314,7 +315,7 @@ class Tab {
     // compare the filename extension to the ignore list
     if (ignore === true) {
       Console(
-        `Invalid filename extension detected so ignoring tab #${this.id}.\n${this.url}`
+        `Invalid filename extension detected so ignoring tab #${this.id}.\n${this.url}`,
       )
       return true
     }
@@ -332,7 +333,7 @@ class Tab {
             console.log(
               `Directory detected so ignoring tab #%s.\n%s`,
               this.id,
-              this.url
+              this.url,
             )
         })
         return true
@@ -350,7 +351,7 @@ class Tab {
       if (Developer in store)
         console.trace(
           `⚠ Permission denied for the following request.\n`,
-          result
+          result,
         )
     })
   }
@@ -367,4 +368,5 @@ class Tab {
   }
 }
 
-/* global Console Developer ConsoleLoad Configuration Security Extension Downloads Os RemoveSession SessionKey WebBrowser */
+/* global Console Developer ConsoleLoad Configuration Security Extension Downloads Os
+RemoveSession SessionKey WebBrowser */

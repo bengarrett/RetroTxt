@@ -7,7 +7,7 @@
  * @param {string} [name=``] The argument name that failed
  * @param {string} [expecteparam {*} actual The actual argument used
  */
-function CheckArguments(name = ``, expected = ``, actual) {
+export function CheckArguments(name = ``, expected = ``, actual) {
   let err = ``
   switch (expected) {
     case `boolean`:
@@ -55,7 +55,7 @@ function CheckError(errorMessage, log = false) {
  * @param {*} expected The expected value
  * @param {*} actual The actual value
  */
-function CheckRange(name = ``, issue = ``, expected, actual) {
+export function CheckRange(name = ``, issue = ``, expected, actual) {
   let err = ``
   switch (issue) {
     case `length`:
@@ -64,7 +64,7 @@ function CheckRange(name = ``, issue = ``, expected, actual) {
       break
     case `range`:
       err = `the value '${actual}' for the argument '${name}' is out of range, it needs to be either '${expected.join(
-        `, `
+        `, `,
       )}'`
       break
     case `small`:
@@ -144,7 +144,7 @@ function DisplayAlert(show = true, message = ``) {
       alert.ikey,
       ` to open the `,
       alert.cons,
-      `.`
+      `.`,
     )
     if (message === ``) {
       alert.p1.append(`Please reload `)
@@ -156,7 +156,7 @@ function DisplayAlert(show = true, message = ``) {
         alert.br2,
         `Or `,
         alert.issue,
-        `.`
+        `.`,
       )
     } else {
       alert.div.append(message)
@@ -181,7 +181,7 @@ function DisplayAlert(show = true, message = ``) {
 /**
  * Creates an alert for unsupported page character sets.
  */
-function DisplayEncodingAlert() {
+export function DisplayEncodingAlert() {
   let div = globalThis.document.getElementById(`CheckEncoding`)
   if (div !== null) return (div.style.display = `block`)
   const alert = {
@@ -209,11 +209,11 @@ function DisplayEncodingAlert() {
   alert.p1.append(`To convert the document to UTF-8 in Linux or macOS: `)
   // for examples: https://www.gnu.org/software/libiconv
   alert.fix1.append(
-    `iconv file.txt --from-code=UTF-16${endian()} --to-code=UTF-8 > file-fixed.txt`
+    `iconv file.txt --from-code=UTF-16${endian()} --to-code=UTF-8 > file-fixed.txt`,
   )
   alert.p2.append(`In PowerShell or Windows: `)
   alert.fix2.append(
-    `Get-Content file.txt -raw | Set-Content file-fixed.txt -Encoding UTF8`
+    `Get-Content file.txt -raw | Set-Content file-fixed.txt -Encoding UTF8`,
   )
   alert.p1.insertAdjacentElement(`beforeend`, alert.br1)
   alert.p1.insertAdjacentElement(`beforeend`, alert.fix1)
@@ -228,5 +228,4 @@ function DisplayEncodingAlert() {
   dom.body.insertBefore(div, dom.pre0)
 }
 
-/*global BusySpinner CreateLink DOM Engine WebBrowser */
-/*exported CheckArguments CheckError CheckRange DisplayAlert DisplayEncodingAlert */
+/* global BusySpinner CreateLink DOM Engine WebBrowser */
