@@ -9,12 +9,19 @@ export default [
   },
   js.configs.recommended,
   {
+    files: ["ext/.web-ext-chrome.js"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+    },
+  },
+  {
     files: ["ext/scripts/**/*.js", "test/**/*"],
     languageOptions: {
       ecmaVersion: "latest",
       globals: {
         ...globals.browser,
-        browser: "readonly", // browser is firefox only
+        browser: "readonly", // browser is for firefox only
         chrome: "readonly",
       },
     },

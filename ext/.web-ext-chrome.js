@@ -1,5 +1,4 @@
-// spellcheck-off
-/*eslint-env node*/
+// .web-ext-chrome.js
 // Configuration for Mozilla's web-ext CLI tool
 // For options: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/web-ext_command_reference
 module.exports = {
@@ -26,3 +25,4 @@ module.exports = {
     overwriteDest: true,
   },
 }
+/* global module */
