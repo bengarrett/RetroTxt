@@ -23,10 +23,11 @@ tasks:
      - task --list
 
   # user commands that are displayed with `task --list`
-  builds:
-    desc: Creates submission packages for Chrome.
+  build:
+    desc: Creates the submission package for Chrome.
     summary: |
-      Creates a package that is intended for submission to the Chrome Web Store.
+      Creates a package that is intended for submission to the Chrome Web Store
+      and Microsoft Edge Add-ons.
 
       Packaged file will be located in /web-ext-artifacts
     cmds:
@@ -40,7 +41,7 @@ tasks:
       - sh: pnpm exec web-ext --version
         msg: "{{.REQWEXT}}"
     cmds:
-      - task: depends
+      - task: dep-copy
       - cmd: pnpm exec web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
         ignore_error: true
 
@@ -66,8 +67,8 @@ tasks:
       - cmd: git --version
       - cmd: task --version
 
-  depends:
-    desc: Copies the latest dependencies over to the package.
+  dep-copy:
+    desc: Copies the dependencies from `node_modules` over to the `ext` directory.
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
@@ -83,17 +84,17 @@ tasks:
       - cmd: pnpm exec shx cp -f "node_modules/linkify-element/dist/linkify-element.js" "ext/js/linkify-element.js"
       - cmd: pnpm exec shx cp -f "node_modules/dompurify/dist/purify.js" "ext/js/purify.js"
 
-  init:
-    desc: Initialises this repository for first time use after being cloned.
+  dep-install:
+    desc: Installs both the dependencies and dev-dependencies contained in the package.json.
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
     cmds:
       - cmd: pnpm install
-      - task: depends
+      - task: dep-copy
 
-  update:
-    desc: Update to the latest dependencies.
+  dep-update:
+    desc: Updates all dependencies to the latest version and copies them to the `ext` directory.
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
@@ -102,7 +103,7 @@ tasks:
     cmds:
       - cmd: pnpm update
       - cmd: pnpm exec shx echo ""
-      - task: depends
+      - task: dep-copy
 
   docs-build:
     desc:  Build the current documentation in use on https://docs.retrotxt.com.
