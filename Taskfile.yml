@@ -10,55 +10,17 @@ version: "3"
 silent: true
 
 vars:
-  REQDJS: "task requires the installation of dot-json: https://www.npmjs.com/package/dot-json"
   REQDOCS: "task requires the installation of mkdocs: https://www.mkdocs.org/user-guide/installation"
-  REQGIT: "task requires the installation of git: https://github.com/git-guides/install-git"
   REQPNPM: "task requires the installation of pnpm: https://pnpm.io/installation"
   REQSHX: "task requires the installation of shelljs/shx: https://github.com/shelljs/shx"
   REQWEXT: "task requires the installation of Web-ext: https://github.com/mozilla/web-ext"
   REQMAT: "task requires the installation of Material for MkDocs: https://squidfunk.github.io/mkdocs-material"
 
-  # The published version number of RetroTxt used in the manifest.json and GitHub commit
-  # Must use the numeric format 5.0.0
-  VERSION: "5.4.0"
 tasks:
   default:
     desc: List the available tasks.
     cmds:
      - task --list
-
-  # internal commands
-  rename-build:
-    preconditions:
-      - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
-      - sh: pnpm exec shx --version
-        msg: "{{.REQSHX}}"
-    dir: web-ext-artifacts
-    cmds:
-      - pnpm exec shx mv -f "web-ext-artifacts/retrotxt-{{.VERSION}}.zip" "web-ext-artifacts/retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
-    status:
-      - test -f "retrotxt_for_{{.BROWSER}}-{{.VERSION}}.zip"
-
-  set-version:
-    preconditions:
-      - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
-      - sh: pnpm exec dot-json -v
-        msg: "{{.REQDJS}}"
-    cmds:
-      - pnpm exec dot-json ext/manifest.json version "{{.VERSION}}"
-      - pnpm exec dot-json package.json version "{{.VERSION}}"
-
-  set-ver:
-    preconditions:
-      - sh: git -v
-        msg: "{{.REQGIT}}"
-    cmds:
-      - cmd: git tag "v{{.VERSION}}"
-        ignore_error: true
-      - cmd: git push --tags
-        ignore_error: true
 
   # user commands that are displayed with `task --list`
   builds:
@@ -67,7 +29,6 @@ tasks:
       Creates a package that is intended for submission to the Chrome Web Store.
 
       Packaged file will be located in /web-ext-artifacts
-      Its filename will be retrotxt_for_chrome-{{.VERSION}}.zip
     cmds:
       - task: build-chrome
 
@@ -79,12 +40,9 @@ tasks:
       - sh: pnpm exec web-ext --version
         msg: "{{.REQWEXT}}"
     cmds:
-      - task: version-set
       - task: depends
       - cmd: pnpm exec web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
         ignore_error: true
-      - task: rename-build
-        vars: { BROWSER: "chrome" }
 
   checks:
     desc: Check, run and print the versions of the task commands and dependencies.
@@ -95,8 +53,6 @@ tasks:
       - cmd: node --version
       - cmd: pnpm exec shx echo -n "pnpm version "
       - cmd: pnpm --version
-      - cmd: pnpm exec shx echo -n "dot-json v"
-      - cmd: pnpm exec dot-json --version
       - cmd: pnpm exec shx --version
       - cmd: pnpm exec shx echo -n "Web-ext v"
       - cmd: pnpm exec web-ext --version
@@ -135,38 +91,6 @@ tasks:
     cmds:
       - cmd: pnpm install
       - task: depends
-
-  version-set:
-    desc: Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
-    deps: [set-version] # , set-ver
-
-  version-purge:
-    desc: Removes the current VERSION variable value as a tag from the GitHub repository.
-    preconditions:
-      - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
-      - sh: git -v
-        msg: "{{.REQGIT}}"
-    cmds:
-      - cmd: git tag "v{{.VERSION}}" --delete
-        ignore_error: true
-      - cmd: git push --tags
-
-  commit:
-    desc: Applies the VERSION variable to the JSON files and commits it to GitHub.
-    preconditions:
-      - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
-      - sh: git -v
-        msg: "{{.REQGIT}}"
-    deps: [set-version, version-purge, builds]
-    cmds:
-      - task: version-purge
-      - task: set-version
-      - task: builds
-      - cmd: git tag -a "v{{.VERSION}}" --message "Version {{.VERSION}}"
-      - cmd: git push --tags
-      - cmd: git push
 
   update:
     desc: Update to the latest dependencies.
