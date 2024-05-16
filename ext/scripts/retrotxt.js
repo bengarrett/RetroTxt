@@ -450,14 +450,15 @@ class DOM {
     let colorId = colorName
     // background to body
     if (colorName.startsWith(`theme-`) === false) colorId = `theme-${colorName}`
-    if (this.body.classList !== null) this.body.classList.add(`${colorName}-bg`)
-    else return console.error(`the classList for the body element is null`)
+    if (this.body.classList === null)
+      return console.error(`the classList for the body element is null`)
+    this.body.classList.add(`${colorName}-bg`)
     // foreground to article
     if (this.article === null)
       return console.error(`article element is missing`)
-    if (this.article.classList !== null)
-      this.article.classList.add(`${colorName}-fg`)
-    else return console.error(`the classList for the article element is null`)
+    if (this.article.classList === null)
+      return console.error(`the classList for the article element is null`)
+    this.article.classList.add(`${colorName}-fg`)
     // clean up custom colours
     if (colorName !== `theme-custom`) {
       this.body.removeAttribute(`style`)
@@ -2011,13 +2012,13 @@ class Invoke {
     const defaultBG = `theme-msdos-bg`,
       defaultFG = `theme-msdos-fg`
     let body = sessionStorage.getItem(`bodyClass`)
-    body = body !== null ? body : defaultBG
+    body = body === null ? defaultBG : body
     this._addClasses(this.dom.body, body)
     this._addBackground(this.dom.body)
     const main = sessionStorage.getItem(`mainClass`)
     this._addClasses(this.dom.main, main)
     let article = sessionStorage.getItem(`articleClass`)
-    article = article !== null ? article : defaultFG
+    article = article === null ? defaultFG : article
     this._addClasses(this.dom.article, article)
     const hide = `is-hidden`
     this.dom.pre.classList.add(hide)
@@ -2046,7 +2047,7 @@ class Invoke {
   _addBackground(elm = HTMLElement) {
     const key = `bodyBackground`
     let color = sessionStorage.getItem(key)
-    color = color !== null ? color : ``
+    color = color === null ? `` : color
     sessionStorage.removeItem(key)
     if (color === ``) return
     elm.style.backgroundColor = `${color}`
@@ -2335,19 +2336,19 @@ function handleMessages(message, sender) {
 /**
  * Execute RetroTxt, used by the chrome.tabs `executeScript` method.
  * @param [tabId=0] Browser tab id to execute RetroTxt
- * @param [tabEncode=`unknown`] Page encoding used by the tab
+ * @param [pageEncode=`unknown`] Page encoding used by the tab
  */
-function Execute(tabId = 0, tabEncode = `unknown`) {
+function Execute(tabId = 0, pageEncode = `unknown`) {
   if (typeof tabId !== `number`) CheckArguments(`tabId`, `number`, tabId)
-  if (typeof tabEncode !== `string`)
-    CheckArguments(`tabEncode`, `string`, tabEncode)
+  if (typeof pageEncode !== `string`)
+    CheckArguments(`pageEncode`, `string`, pageEncode)
 
   let DeveloperMode = false
   chrome.storage.local.get(Developer, (store) => {
     if (Developer in store) DeveloperMode = true
   })
 
-  tabEncode = tabEncode.toLowerCase()
+  const tabEncode = pageEncode.toLowerCase()
   // clean-up session items, in case the tab was previously used by RetroTxt
   try {
     sessionStorage.removeItem(`lockFont`)

@@ -656,7 +656,10 @@ class CharacterAttributes {
       background = 48
     if (isRGB()) {
       // reset colours
-      values[2] = values[3] = values[4] = values[5] = null
+      values[2] = null
+      values[3] = null
+      values[4] = null
+      values[5] = null
       switch (parseInt(this.value, 10)) {
         case foreground:
           this.toggles.rgbF = `color:rgb(${red},${green},${blue});`
@@ -1014,8 +1017,9 @@ class Markup {
   /**
    * Parse forward cursor control named sequence.
    */
-  _parseCursorForward(control = ``, movement = -1) {
-    if (movement <= 0) return
+  _parseCursorForward(control = ``, move = -1) {
+    if (move <= 0) return
+    let movement = move
     // each forward tabulation value is set as 4 spaces
     if (control === `CHT`) movement *= 4
     const sum = movement + cursor.column
@@ -1034,13 +1038,13 @@ class Markup {
   }
   /**
    * Parse control named sequences.
-   * @param [row=0] Current forwardLoop() row count
+   * @param [fwd=0] Current forwardLoop() row count
    * @param [item=``] A control code, character or `null`
    */
-  _parseNamedSequence(row = 0, item = ``) {
+  _parseNamedSequence(fwd = 0, item = ``) {
     if (typeof item !== `string`) CheckArguments(`item`, `string`, item)
     if (item.length < 1) CheckRange(`item`, `length`, `1`, item)
-    row = parseInt(row, 10)
+    const row = parseInt(fwd, 10)
     function parseItem() {
       const item = items[2]
       if (typeof item !== `undefined`) return parseInt(item, 10)

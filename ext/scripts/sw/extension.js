@@ -57,9 +57,10 @@ class Extension {
   /**
    * Activates and prepares browser tab to invoke RetroTxt.
    * @param [tab={}] Tab object
-   * @param [data] Optional fetch API data blob
+   * @param [blob] Optional fetch API data blob
    */
-  activateTab(tab = {}, data) {
+  activateTab(tab = {}, blob) {
+    let data = blob
     if (typeof data === `undefined` || data === null || !(`type` in data))
       data = { type: `unknown` }
     // is the tab hosting a text file and what is the tab page encoding?

@@ -538,7 +538,7 @@ class DOSText {
    * @param {number} [offsetOutput=0] Array index offset for the CP437 table
    * @returns {string} Unicode symbol
    */
-  _lookupCp437(number, offsetInput = 0, offsetOutput = 0) {
+  _lookupCp437(number, osInput = 0, osOutput = 0) {
     // This function takes a Unicode decimal character number, finds its
     // matching character in a legacy ISO codepage table to return the
     // MS-DOS CP-437 character that occupies the same table cell position.
@@ -561,6 +561,8 @@ class DOSText {
     // Latin/Cyrillic (legacy ISO) https://en.wikipedia.org/wiki/ISO/IEC_8859-5
     // Cyrillic (Unicode block) https://en.wikipedia.org/wiki/Cyrillic_(Unicode_block)
     // OEM-US (legacy MS-DOS, CP-437) https://en.wikipedia.org/wiki/Code_page_437
+    let offsetInput = osInput,
+      offsetOutput = osOutput
     if (this.codepage === Cs.ISO8859_5) {
       // handle inconsistencies where Unicode Cyrillic characters
       // are not found in ISO 8859-5
