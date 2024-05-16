@@ -477,7 +477,7 @@ class DOSText {
             // some ANSI/DOS art expect the ○ character
             if (this.codepage === Cs.Windows_1252_English)
               return this.asciiTable[9]
-            else return `\t`
+            return `\t`
           case lineFeed:
           case carriageReturn:
             return `\n`
@@ -582,7 +582,7 @@ class DOSText {
       }
     }
     // find character in the character table
-    let index = this.extendedTable.indexOf(
+    const index = this.extendedTable.indexOf(
       `${String.fromCharCode(number + offsetInput)}`,
     )
     const deleted = 127
@@ -1103,8 +1103,8 @@ class BBS {
   _normalizePipes() {
     const pre = this._newElement(`pre`)
     // replace escaped characters because text will be encoded by <pre>
-    let replaced = this._replaceEscapedChars(),
-      background = -1,
+    const replaced = this._replaceEscapedChars()
+    let background = -1,
       foreground = -1
     // to handle colour, split | characters
     const colours = replaced.split(`|`)

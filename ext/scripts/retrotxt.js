@@ -686,7 +686,7 @@ class DOM {
   async _restoreBackgroundScanlines() {
     const bsl = this.results.textBackgroundScanlines
     if (`${bsl}` === `true`) {
-      let toggle = bsl
+      const toggle = bsl
       ToggleScanlines(toggle, this.body)
     } else if (StringToBool(bsl) === null)
       this._restoreErr(`textBackgroundScanlines`)
@@ -736,7 +736,7 @@ class DOM {
   async _restoreRender() {
     const te = this.results.textRenderEffect
     if (typeof te === `string`) {
-      let effect = te
+      const effect = te
       return ToggleTextEffect(effect, this.article)
     }
     // 10-Feb-2024 Changed to use the new textRenderEffect setting boolean type
@@ -1230,8 +1230,7 @@ class SauceMeta {
         this.configs.codePage = fonts.get(`special`)
       const iso8859_1 = `819`
       if (split[2] === iso8859_1) codePage = fonts.get(`Amiga`)
-      // default
-      codePage = fonts.get(`DOS`)
+      else codePage = fonts.get(`DOS`)
     }
     this.configs.codePage = codePage
   }
@@ -1352,7 +1351,7 @@ class Output {
     // font override
     sessionStorage.removeItem(`lockFont`)
     const font = this.ecma48.font
-    if (font === undefined)
+    if (typeof font === `undefined`)
       CheckError(
         `🖫 'this.ecma48.font' should have returned a font value or 'null' but instead returned ${this.ecma48.font}.`,
       )
@@ -2014,7 +2013,7 @@ class Invoke {
     body = body !== null ? body : defaultBG
     this._addClasses(this.dom.body, body)
     this._addBackground(this.dom.body)
-    let main = sessionStorage.getItem(`mainClass`)
+    const main = sessionStorage.getItem(`mainClass`)
     this._addClasses(this.dom.main, main)
     let article = sessionStorage.getItem(`articleClass`)
     article = article !== null ? article : defaultFG
@@ -2133,7 +2132,7 @@ function handleChanges(change) {
   }
   if (changes.centerAlign) {
     if (changes.centerAlign.newValue == true) return dom.clickCenterAlign(true)
-    else return dom.clickCenterAlign(false)
+    return dom.clickCenterAlign(false)
   }
   if (changes.colorPalette)
     return dom.clickAnsiColorPalette(changes.colorPalette.newValue)
@@ -2262,8 +2261,8 @@ function handleChanges(change) {
  * @param message OnMessage event for the `chrome.runtime` object
  */
 function handleConnections(message) {
-  if (typeof message[`initTab`] === `number`) {
-    const tabID = message[`initTab`],
+  if (typeof message.initTab === `number`) {
+    const tabID = message.initTab,
       port = chrome.runtime.connect({ name: `invoker` })
     Console(`✉ initTab #${tabID} message received.`)
     if (document.getElementById(`retrotxt-styles`) === null) {
@@ -2275,13 +2274,13 @@ function handleConnections(message) {
     Console(`✉ initTab is true post message.`)
     return
   }
-  if (typeof message[`toggleTab`] === `number`) {
-    Console(`✉ toggleTab #${message[`toggleTab`]} message received.`)
+  if (typeof message.toggleTab === `number`) {
+    Console(`✉ toggleTab #${message.toggleTab} message received.`)
     new Invoke().toggle()
     return
   }
-  if (typeof message[`tabTranscode`] === `string`) {
-    const value = message[`tabTranscode`]
+  if (typeof message.tabTranscode === `string`) {
+    const value = message.tabTranscode
     Console(`✉ tabTranscode ${value} message received.`)
     if (value === Cs.UseCharSet) sessionStorage.removeItem(`lockTranscode`)
     else sessionStorage.setItem(`lockTranscode`, value)
@@ -2411,7 +2410,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   // attempt to guess the character set
   if (output.data.cs === ``) output.data.cs = guess.codePage(null, output)
   output.rebuildCharacterSet()
-  let inputMessage = ``
+  let inputMessage
   const fmt = textType(input.format)
   if (fmt === BBSText) {
     // handle non-ASCII text formatting
@@ -2419,7 +2418,6 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
       inputMessage = `${chrome.i18n.getMessage(input.format)}`
       if (inputMessage.length === 0) {
         console.warn(`"${input.format}" is not found in messages.json locales`)
-        inputMessage = `${input.format}`
       }
       // eslint-disable-next-line no-unused-vars
     } catch (e) {
@@ -2455,7 +2453,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
     dom.results = result
     if (sauce.version === `00`) {
       const i = parseInt(sauce.configs.iceColors, 10)
-      dom.ecma48.iceColors = i === 1 ? true : false
+      dom.ecma48.iceColors = i === 1
     }
     dom.constructHeader()
   })
@@ -2483,7 +2481,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   if (output.data.sauce !== null) information.append(output.data.sauce)
   // create an alert message at the top of the page
   const chkErr = globalThis.checkedErr
-  DisplayAlert(chkErr !== undefined && chkErr === true ? true : false)
+  DisplayAlert(Boolean(typeof chkErr !== `undefined` && chkErr === true))
   // hide original source text
   dom.rawText.classList.add(`is-hidden`)
   // set the document language, en is for generic English
@@ -2593,7 +2591,7 @@ function markTab(mark = `[··]`) {
     const path = globalThis.location.pathname
       .split(`/`)
       .filter((el) => {
-        return !!el
+        return Boolean(el)
       })
       .pop()
     return `${mark} ${path}`

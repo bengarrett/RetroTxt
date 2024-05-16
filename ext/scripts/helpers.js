@@ -102,7 +102,7 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
   if (typeof color === `string`) return applyNewClass(colorClass)
   // apply colours from local storage
   chrome.storage.local.get([`colorsTextPairs`], (result) => {
-    if (result.colorsTextPairs === undefined)
+    if (typeof result.colorsTextPairs === `undefined`)
       return CheckError(
         `Could not obtain the required colorsTextPairs setting to apply the scanlines effect`,
         true,
@@ -157,7 +157,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
         // use colours fetched from chrome storage (default)
         if (typeof result !== `string`) {
           chrome.storage.local.get([`colorsTextPairs`], (result) => {
-            if (result.colorsTextPairs === undefined)
+            if (typeof result.colorsTextPairs === `undefined`)
               CheckError(
                 `Could not obtain the required colorsTextPairs setting to apply the text shadow effect`,
                 true,

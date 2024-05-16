@@ -18,8 +18,8 @@ if (typeof chrome.runtime.onInstalled !== `undefined`) {
 // Get the active tab information of the current window.
 // eslint-disable-next-line no-unused-vars
 async function GetCurrentTab() {
-  let queryOptions = { active: true, currentWindow: true }
-  let [tab] = await chrome.tabs.query(queryOptions)
+  const queryOptions = { active: true, currentWindow: true }
+  const [tab] = await chrome.tabs.query(queryOptions)
   return tab
 }
 
@@ -182,10 +182,7 @@ class OptionsReset {
       .set(`textDOSControlGlyphs`, false)
       .set(`textLineHeight`, `1`)
       .set(`textRenderEffect`, `normal`)
-      .set(
-        `textSmearBlockCharacters`,
-        BrowserOS() === Os.windows ? true : false,
-      )
+      .set(`textSmearBlockCharacters`, BrowserOS() === Os.windows)
       // permitted domains.
       .set(`settingsWebsiteDomains`, [
         `localhost`,
@@ -398,7 +395,7 @@ function BrowserOS() {
 // eslint-disable-next-line no-unused-vars
 function WebBrowser() {
   const ui = chrome.runtime.getManifest().options_ui
-  if (ui !== undefined && ui.page !== undefined) {
+  if (typeof ui !== `undefined` && typeof ui.page !== `undefined`) {
     const manifest = ui.page,
       firefoxID = manifest.startsWith(`moz-extension`, 0)
     return firefoxID ? Engine.firefox : Engine.chrome

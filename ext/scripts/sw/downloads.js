@@ -90,8 +90,8 @@ class Downloads {
             textFile = config.validateFileExtension(downloads.item.filename),
             type = downloads.item.mime.split(`/`)
 
-          let url = new URL(downloads.item.finalUrl)
-          let allowedHosts = ["16colo.rs", "defacto2.net", "www.defacto2.net"]
+          const url = new URL(downloads.item.finalUrl)
+          const allowedHosts = ["16colo.rs", "defacto2.net", "www.defacto2.net"]
           if (
             !allowedHosts.includes(url.hostname) &&
             type[0] === `application`
@@ -133,7 +133,7 @@ class Downloads {
     // type. it is assumed to be a text file, as the browser didn't attempt to
     // download or render
     const format = split[0] || `text`
-    let subType = ``
+    let subType
     if (split[0] === ``) {
       console.log(`Tab #%s Blob MIME type is unknown.`, tab.tabid)
       subType = `unknown`
@@ -183,8 +183,8 @@ class Downloads {
         return false
       }
       // defacto2.net special case
-      let url = new URL(this.item.url)
-      let allowedHosts = ["defacto2.net", "www.defacto2.net"]
+      const url = new URL(this.item.url)
+      const allowedHosts = ["defacto2.net", "www.defacto2.net"]
       if (allowedHosts.includes(url.hostname)) {
         return true
       }

@@ -283,7 +283,7 @@ class Characters extends BrowserEncodings {
    * @returns string
    */
   titleOut() {
-    let newKey = ``
+    let newKey
     if (this.support() === false) return `error1`
     if (this.outputs.has(this.key)) newKey = this.outputs.get(this.key)
     else {
@@ -461,7 +461,7 @@ class Guess extends BrowserEncodings {
       if (i < length - limit) break
       const position = length - i || 0,
         codePoint = this.text.codePointAt(position)
-      if (codePoint !== undefined) finds.hex = codePoint.toString(16) // not used
+      if (typeof codePoint !== `undefined`) finds.hex = codePoint.toString(16) // not used
       // unsupported Unicode code point?
       const unsupported = 65535
       if (codePoint >= unsupported) {

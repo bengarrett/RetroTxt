@@ -14,7 +14,7 @@ chrome.runtime.onInstalled.addListener(() => {
  */
 // eslint-disable-next-line no-unused-vars
 function CheckError(error = ``, log = false) {
-  if (error !== undefined) {
+  if (typeof error !== `undefined`) {
     if (log !== true) {
       chrome.storage.local.get(Developer, (store) => {
         if (Developer in store) return console.warn(error)
@@ -23,7 +23,7 @@ function CheckError(error = ``, log = false) {
       return
     }
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0] === undefined) return
+      if (typeof tabs[0] === `undefined`) return
       chrome.tabs.sendMessage(
         tabs[0].id,
         { error: error, id: `CheckError` },
@@ -34,7 +34,8 @@ function CheckError(error = ``, log = false) {
             )
           )
             return
-          if (DeveloperModeDebug && result !== undefined) console.log(result)
+          if (DeveloperModeDebug && typeof result !== `undefined`)
+            console.log(result)
         },
       )
     })

@@ -260,7 +260,7 @@ class Cursor {
       case 0:
         return (cursor.column = 1)
       default:
-        cursor.column = cursor.column + track
+        cursor.column += track
         if (cursor.maxColumns !== 0 && cursor.column > cursor.maxColumns) {
           // reached the end of line so start a new line
           cursor.previousRow++
@@ -427,7 +427,7 @@ function italicElement(parameters = ``) {
  * @returns Data container
  */
 async function reset(name = -1) {
-  let data = {}
+  let data
   switch (name) {
     case resetCursor:
       data = new Cursor()
@@ -514,7 +514,7 @@ class CharacterAttributes {
     const parameters = this.parameters,
       values = parameters.split(`+`)
     // forward loop as multiple codes together have compound effects
-    let value = -1
+    let value
     rgbValues: for (const parameter of values) {
       const monochrome = 1,
         trueColor = 24,
@@ -574,7 +574,7 @@ class CharacterAttributes {
       whiteF = 97,
       whiteB = 107,
       difference = blackF - blackSGR // 60
-    let value = parseInt(this.value, 10)
+    const value = parseInt(this.value, 10)
     if (Number.isNaN(value)) return null
     if (value >= blackF && value <= whiteF) {
       this.toggles.bold = true
@@ -1017,7 +1017,7 @@ class Markup {
   _parseCursorForward(control = ``, movement = -1) {
     if (movement <= 0) return
     // each forward tabulation value is set as 4 spaces
-    if (control === `CHT`) movement = movement * 4
+    if (control === `CHT`) movement *= 4
     const sum = movement + cursor.column
     switch (cursor.maxColumns) {
       case 0:
@@ -1312,8 +1312,8 @@ class Metadata {
       defaultWidth = 80,
       data = this.data
     let info = ``,
-      width = -1,
-      iceColors = -1
+      width,
+      iceColors
     switch (data.version) {
       case `00`:
         if (data.configs.fontFamily.length > 0) {
@@ -1332,7 +1332,7 @@ class Metadata {
           console.info(`Maximum column width capped at ${cappedWidth}`)
         // override iCE Colors
         iceColors = parseInt(data.configs.iceColors, 10)
-        ecma48.iceColors = iceColors === 1 ? true : false
+        ecma48.iceColors = iceColors === 1
         // console feedback
         info += `Font: ${data.configs.fontName}`
         info += `\nAspect Ratio: ${
@@ -1429,7 +1429,7 @@ class Scan {
     }
     // if one of the scans found an hvp.flag then process its values
     let control = true,
-      loop = notFound
+      loop
     if (hvp.scan > notFound) {
       loop = hvp.scan
       const semicolon = 59
@@ -1718,7 +1718,7 @@ class Scan {
             cs.next2 = parseInt(values[i + 2], 10)
             if (isXterm256(cs.next1, cs.next2)) {
               cs.name += `+${value}${cs.next2}`
-              i = i + 2
+              i += 2
               continue codes
             }
           }
