@@ -155,6 +155,7 @@ class BrowserEncodings {
  * Character set, code page class.
  * @class Characters
  */
+// eslint-disable-next-line no-unused-vars
 class Characters extends BrowserEncodings {
   /**
    * Creates an instance of Characters.
@@ -323,6 +324,7 @@ class Characters extends BrowserEncodings {
  * Attempt to mostly inaccurately guess the text character encoding.
  * @class Guess
  */
+// eslint-disable-next-line no-unused-vars
 class Guess extends BrowserEncodings {
   constructor(text = ``) {
     super()
@@ -411,7 +413,7 @@ class Guess extends BrowserEncodings {
     const range = (start, end) => {
       return Array.from(
         Array.from(Array(Math.ceil(end - start + 1)).keys()),
-        (x) => start + x
+        (x) => start + x,
       )
     }
     const findArt = (codePoint = -1) => {
@@ -546,6 +548,7 @@ class Guess extends BrowserEncodings {
  * Hardware palette colour emulation.
  * @class HardwarePalette
  */
+// eslint-disable-next-line no-unused-vars
 class HardwarePalette {
   /**
    * Creates an instance of `HardwarePalette`.
@@ -641,6 +644,7 @@ class HardwarePalette {
  * Handles the CSS font family in the DOM.
  * @class FontFamily
  */
+// eslint-disable-next-line no-unused-vars
 class FontFamily {
   /**
    * Creates an instance of `FontFamily`.
@@ -667,7 +671,7 @@ class FontFamily {
       .set(`UNSCII8`, `Unscii 8`)
     this.fonts.set(
       `MONOSPACE`,
-      WebBrowser() === Engine.chrome ? `Fixed-width` : `Monospace`
+      WebBrowser() === Engine.chrome ? `Fixed-width` : `Monospace`,
     )
     Object.freeze(this.fonts)
     this.key = key.toUpperCase()
@@ -705,7 +709,7 @@ class FontFamily {
     if (lockFont === `true`)
       return console.log(
         `Cannot refresh font as lock-font is set to true.`,
-        `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`
+        `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`,
       )
     this._swap(dom)
   }
@@ -722,11 +726,11 @@ class FontFamily {
     // change the font
     if (typeof dom.className === `undefined`)
       return console.error(
-        `could not change the font, dom className is undefined`
+        `could not change the font, dom className is undefined`,
       )
     if (typeof dom.classList === `undefined`)
       return console.error(
-        `could not change the font, dom classList is undefined`
+        `could not change the font, dom classList is undefined`,
       )
     this.set()
     const fontClass = `font-${this.key.toLowerCase()}`
@@ -937,4 +941,3 @@ class FontFamily {
 }
 
 /* global CheckArguments Console Cs Engine WebBrowser */
-/* exported Characters FontFamily Guess HardwarePalette */

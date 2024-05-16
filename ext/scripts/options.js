@@ -13,19 +13,19 @@ function checkArgument(name = ``, expected = ``, actual) {
   switch (expected) {
     case `boolean`:
       return handleError(
-        `argument '${name}' should be a 'boolean' (true|false) instead of '${typeof actual}'`
+        `argument '${name}' should be a 'boolean' (true|false) instead of '${typeof actual}'`,
       )
     case `number`:
       return handleError(
-        `argument '${name}' should be a 'number' (unsigned) '${typeof actual}'`
+        `argument '${name}' should be a 'number' (unsigned) '${typeof actual}'`,
       )
     case `string`:
       return handleError(
-        `argument '${name}' should be a 'string' of text instead of '${typeof actual}'`
+        `argument '${name}' should be a 'string' of text instead of '${typeof actual}'`,
       )
     default:
       return handleError(
-        `argument '${name}' needs to be a '${expected}' instead of '${typeof actual}'`
+        `argument '${name}' needs to be a '${expected}' instead of '${typeof actual}'`,
       )
   }
 }
@@ -89,7 +89,7 @@ function localGet(key, result) {
     value = new OptionsReset().get(key)
     localStore(key, value)
     console.info(
-      `Failed to obtain the '${key}' setting so using default: "${value}"`
+      `Failed to obtain the '${key}' setting so using default: "${value}"`,
     )
   }
   return value
@@ -111,7 +111,7 @@ function localStore(key = ``, value = ``) {
       // Extension storage requires a key/value pair object
       chrome.storage.local.set({ [key]: value })
       Console(
-        `RetroTxt storage.local options localStore('${key}', ${value}) ${typeof value}`
+        `RetroTxt storage.local options localStore('${key}', ${value}) ${typeof value}`,
       )
   }
 }
@@ -162,7 +162,7 @@ class HTML {
     const key = `updateNotice`
     document.getElementById(`updateNoticeBtn`).addEventListener(`click`, () => {
       const result = confirm(
-        "Stop this update tab from launching with future RetroTxt upgrades?"
+        "Stop this update tab from launching with future RetroTxt upgrades?",
       )
       if (!result) return
       chrome.storage.local.set({ [key]: false })
@@ -383,7 +383,7 @@ class Permission {
     const checkbox = document.getElementById(`${this.elementId}`)
     if (!(`checked` in checkbox))
       return console.warn(
-        `Checkbox element <input id="${this.elementId}" type="checkbox"> is missing.`
+        `Checkbox element <input id="${this.elementId}" type="checkbox"> is missing.`,
       )
     chrome.permissions.contains({ permissions: this.permissions }, (result) => {
       if (result) return (checkbox.checked = true)
@@ -397,7 +397,7 @@ class Permission {
    */
   _checkedEvent(
     request = true,
-    testResult = { permissions: this.permissions }
+    testResult = { permissions: this.permissions },
   ) {
     switch (this.type) {
       case `downloads`:
@@ -406,7 +406,7 @@ class Permission {
           return chrome.permissions.request(testResult, (result) => {
             if (CheckLastError(`security permissionSet "${result}"`)) return
             alert(
-              `If download monitoring does not work, the browser may require a restart.`
+              `If download monitoring does not work, the browser may require a restart.`,
             )
             this._check()
           })
@@ -833,14 +833,14 @@ class Initialise extends CheckBox {
             serve.style.display = `inline`
             install.addEventListener(`click`, () => {
               window.location.assign(
-                `${chrome.runtime.getURL(`html/options.html`)}#newinstall`
+                `${chrome.runtime.getURL(`html/options.html`)}#newinstall`,
               )
               window.location.reload()
             })
             reload.addEventListener(`click`, () => chrome.runtime.reload())
             update.addEventListener(`click`, () => {
               window.location.assign(
-                `${chrome.runtime.getURL(`html/options.html`)}#update`
+                `${chrome.runtime.getURL(`html/options.html`)}#update`,
               )
               window.location.reload()
             })
@@ -991,7 +991,7 @@ class ColorPair {
   async _select() {
     const status = document.getElementById(`status`)
     status.textContent = `Saved ${this._name(
-      this.value
+      this.value,
     )} ${chrome.i18n.getMessage(`color`)} pair`
     this._sample(this.value)
   }
@@ -1039,7 +1039,7 @@ class ColorCustomPair {
   async listen() {
     if (this.input === null)
       return console.error(
-        `custom text pair element "${this.id}" cannot be found`
+        `custom text pair element "${this.id}" cannot be found`,
       )
     this.input.addEventListener(`input`, () => this._lengthCheck())
     // updates the sample whenever 'Custom' is selected in the Color pair menu
@@ -1050,7 +1050,7 @@ class ColorCustomPair {
       },
       {
         passive: true,
-      }
+      },
     )
   }
   /**
@@ -1137,7 +1137,7 @@ class ColorCustomPair {
   }
   _value() {
     const v = `${Array.from(document.getElementsByName("text-pair-form")).find(
-      (r) => r.checked
+      (r) => r.checked,
     )}`
     return v.value
   }
@@ -1321,7 +1321,7 @@ class Fonts extends Radios {
     this.sample.classList.add(`font-${this.value}`)
     if (this.spanSamples.length <= 0)
       return console.error(
-        `font preview could not update the display tab sample text elements.`
+        `font preview could not update the display tab sample text elements.`,
       )
     for (const elm of this.spanSamples) {
       if (elm.classList === null) continue
@@ -1374,15 +1374,15 @@ class LineHeight {
         this.value = this.lineHeight.value
         if (this.value < min || this.value > max)
           return console.error(
-            `line height select value "${this.value}" must be between ${min} and ${max}`
+            `line height select value "${this.value}" must be between ${min} and ${max}`,
           )
         this.status.textContent = `Saved line height selection ${this.value}`
         this.storageSave()
         document.getElementById(`lineHeightOutput`).value = this.m.get(
-          this.value
+          this.value,
         )
       },
-      { passive: true }
+      { passive: true },
     )
   }
   /**
@@ -1394,7 +1394,7 @@ class LineHeight {
       const value = localGet(key, result)
       this.lineHeight.value = value
       document.getElementById(`lineHeightOutput`).textContent = this.m.get(
-        this.lineHeight.value
+        this.lineHeight.value,
       )
     })
   }
@@ -1446,7 +1446,7 @@ class Hero {
     document.addEventListener(`DOMContentLoaded`, () => {
       const burgers = Array.prototype.slice.call(
         document.querySelectorAll(`.navbar-burger`),
-        0
+        0,
       )
       if (burgers.length > 0) {
         // Add a click event on each of them
@@ -1572,7 +1572,7 @@ class Backup {
       if (!items || count === 0)
         return console.info(`No storage.sync backup found.`)
       const ok = confirm(
-        `Use sync storage settings, found ${count} configurations?`
+        `Use sync storage settings, found ${count} configurations?`,
       )
       // if not okay, continue with the new install page
       if (!ok) return
@@ -1668,7 +1668,7 @@ class Backup {
         () => {
           this.storageLoad()
           console.log(`Backup to storage.sync is complete.`)
-        }
+        },
       )
     })
   }
@@ -1765,6 +1765,7 @@ class Hosts {
         // when URLs are pasted, attempt to return just the host
         const url = new URL(`${this.input.value}`)
         this.input.value = url.host
+        // eslint-disable-next-line no-unused-vars
       } catch (e) {
         // this catch is okay, as a host was probably pasted
       } finally {
@@ -1863,7 +1864,7 @@ class Hosts {
       `click`,
       (e) => {
         this._delete(e)
-      }
+      },
     )
   }
   /**
@@ -1880,6 +1881,7 @@ class Hosts {
       // test that the hostname can be used as a URL
       new URL(`https://${hostname}`)
       this.submit.disabled = false
+      // eslint-disable-next-line no-unused-vars
     } catch (e) {
       this.submit.disabled = true
     }
@@ -1937,7 +1939,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   for (const item of changedItems) {
     if (typeof changes[item].newValue === `undefined`) {
       console.log(
-        `Local storage item ${item}: is now undefined, assumed the host tab was closed.`
+        `Local storage item ${item}: is now undefined, assumed the host tab was closed.`,
       )
     }
     if (item === `optionTab`) hero.storageLoad()
@@ -2034,4 +2036,6 @@ function handlePopup() {
   }
 }
 
-/* global CheckLastError CheckRange Configuration Console DOMPurify Engine FontFamily HumaniseFS LinkDetails OptionsReset PlatformArch PlatformOS RemoveTextPairs SetIcon ToggleScanlines WebBrowser */
+/* global CheckLastError CheckRange Configuration Console DOMPurify Engine
+FontFamily HumaniseFS LinkDetails OptionsReset PlatformArch PlatformOS
+RemoveTextPairs SetIcon ToggleScanlines WebBrowser */

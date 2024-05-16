@@ -56,4 +56,3 @@ function SetToolbarIcon(darkMode = false) {
 }
 
 /*global ConsoleLoad */
-/*exported SetToolbarIcon */

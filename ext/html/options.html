@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="theme-light">
 
 <head>
   <meta charset="UTF-8" />
@@ -16,66 +16,66 @@
   <a id="navTop"></a>
   <article>
     <main>
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <span class="navbar-item">
+              <!-- status text -->
+              <div id="status" class="is-lowercase">&nbsp;</div>
+            </span>
+            <span class="navbar-burger burger" data-target="navbarMenuHeroA">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+          <div id="navbarMenuHeroA" class="navbar-menu">
+            <div class="navbar-end">
+              <a class="navbar-item is-active" id="hero0" href="#top">
+                Home
+              </a>
+              <a class="navbar-item" id="hero4" href="#top">
+                Fonts
+              </a>
+              <a class="navbar-item" id="hero5" href="#top">
+                Display
+              </a>
+              <a class="navbar-item" id="hero6" href="#top">
+                Settings
+              </a>
+              <a class="navbar-item" id="hero1" href="#top">Credits</a>
+              <a class="navbar-item" id="hero2" href="#top">Samples</a>
+              <a class="navbar-item" id="hero3" href="#top">Useful</a>
+              <span>&nbsp;</span>
+              <span class="navbar-item">
+                <a class="button is-primary is-inverted" id="getTheDocs" href="https://docs.retrotxt.com/usage/first/"
+                  title="Read the documentation">
+                  <span class="icon">
+                    <svg role="img" class="material-icons">
+                      <use xlink:href="../assets/svg/material-icons.svg#info"></use>
+                    </svg>
+                  </span>
+                  <span>Documentation</span>
+                </a>
+              </span>
+              <span class="navbar-item">
+                <a class="button is-primary is-inverted" id="getTheSource" href="https://github.com/bengarrett/RetroTxt"
+                  title="Get the source code hosted on GitHub">
+                  <span class="icon">
+                    <svg role="img" class="material-icons">
+                      <use xlink:href="../assets/svg/material-icons.svg#code"></use>
+                    </svg>
+                  </span>
+                  <span>GitHub</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </nav>
       <section class="hero is-primary is-fullheight" id="heroSection">
         <!-- Hero head: will stick at the top -->
         <div class="hero-head">
-          <nav class="navbar">
-            <div class="container">
-              <div class="navbar-brand">
-                <span class="navbar-item">
-                  <!-- status text -->
-                  <div id="status" class="is-lowercase">&nbsp;</div>
-                </span>
-                <span class="navbar-burger burger" data-target="navbarMenuHeroA">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </div>
-              <div id="navbarMenuHeroA" class="navbar-menu">
-                <div class="navbar-end">
-                  <a class="navbar-item is-active" id="hero0" href="#top">
-                    Home
-                  </a>
-                  <a class="navbar-item" id="hero4" href="#top">
-                    Fonts
-                  </a>
-                  <a class="navbar-item" id="hero5" href="#top">
-                    Display
-                  </a>
-                  <a class="navbar-item" id="hero6" href="#top">
-                    Settings
-                  </a>
-                  <a class="navbar-item" id="hero1" href="#top">Credits</a>
-                  <a class="navbar-item" id="hero2" href="#top">Samples</a>
-                  <a class="navbar-item" id="hero3" href="#top">Useful</a>
-                  <span>&nbsp;</span>
-                  <span class="navbar-item">
-                    <a class="button is-primary is-inverted" id="getTheDocs"
-                      href="https://docs.retrotxt.com/usage/first/" title="Read the documentation">
-                      <span class="icon">
-                        <svg role="img" class="material-icons">
-                          <use xlink:href="../assets/svg/material-icons.svg#info"></use>
-                        </svg>
-                      </span>
-                      <span>Documentation</span>
-                    </a>
-                  </span>
-                  <span class="navbar-item">
-                    <a class="button is-primary is-inverted" id="getTheSource"
-                      href="https://github.com/bengarrett/RetroTxt" title="Get the source code hosted on GitHub">
-                      <span class="icon">
-                        <svg role="img" class="material-icons">
-                          <use xlink:href="../assets/svg/material-icons.svg#code"></use>
-                        </svg>
-                      </span>
-                      <span>GitHub</span>
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </nav>
           <!-- Error content -->
           <article class="message is-danger mr-2 ml-2 mt-2" style="display: none;" id="error">
             <div class="message-header">
@@ -143,7 +143,7 @@
           </div>
           <!-- credits content -->
           <div class="tabcontent container" id="content1">
-            <div class="columns">
+            <div class="columns is-vcentered">
               <div class="column is-half">
                 <div class="box">
                   <h1 class="title has-text-black-ter is-size-3 mt-4">Credits</h1>
@@ -289,9 +289,9 @@
           <!-- samples content -->
           <div class="tabcontent container has-text-centered" id="content2">
             <div class="container">
-              <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                  <article class="tile is-child box is-info is-shadowless">
+              <div class="grid">
+                <div class="cell">
+                  <article class="box is-info is-shadowless">
                     <div class="content">
                       Here are a few links to sample some <a href="https://en.wikipedia.org/wiki/ANSI_art">ANSI</a> and
                       <a href="https://en.wikipedia.org/wiki/ASCII_art">ASCII</a> pieces to get you started.<br>
@@ -303,9 +303,9 @@
                   </article>
                 </div>
               </div>
-              <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+              <div class="grid">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">RetroTxt ad</p>
                     <p class="subtitle has-text-black">Zeus II, 2017</p>
                     <a href="https://retrotxt.com/e/preview_02.ans">
@@ -315,8 +315,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">WTF4</p>
                     <p class="subtitle has-text-black">R5, 2014</p>
                     <a href="https://retrotxt.com/e/preview_03.ans">
@@ -326,8 +326,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Spidertronics</p>
                     <p class="subtitle has-text-black">Luciano Ayres, 2017</p>
                     <a href="https://retrotxt.com/e/preview_06.ans">
@@ -338,9 +338,9 @@
                   </article>
                 </div>
               </div>
-              <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+              <div class="grid">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">The Lair</p>
                     <p class="subtitle has-text-black">
                       The Falcon's Lair, 1993
@@ -352,8 +352,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Critical Condition</p>
                     <p class="subtitle has-text-black">
                       Aces of ANSI Art, 1990
@@ -365,8 +365,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Colly</p>
                     <p class="subtitle has-text-black">
                       XD - 1997
@@ -378,8 +378,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">assskeyart</p>
                     <p class="subtitle has-text-black">
                       iks, 2017
@@ -391,8 +391,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Escher Blockls</p>
                     <p class="subtitle has-text-black">
                       prismate, 2018
@@ -405,9 +405,9 @@
                   </article>
                 </div>
               </div>
-              <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+              <div class="grid">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Retired Larry</p>
                     <p class="subtitle has-text-black">
                       Angel of Hell, 2017
@@ -419,8 +419,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">The Dark Empire</p>
                     <p class="subtitle has-text-black">
                       Vito, 1993
@@ -432,8 +432,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Blocktronics WTF4</p>
                     <p class="subtitle has-text-black">
                       Blocktronics, 2014
@@ -445,8 +445,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Lahabana</p>
                     <p class="subtitle has-text-black">
                       XZ, 2017
@@ -459,9 +459,9 @@
                   </article>
                 </div>
               </div>
-              <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+              <div class="grid">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">function party</p>
                     <p class="subtitle has-text-black">
                       iks, 2013
@@ -473,8 +473,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Cyonx</p>
                     <p class="subtitle has-text-black">
                       Enz0, 2014
@@ -486,8 +486,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">zenith</p>
                     <p class="subtitle has-text-black">
                       Squidgilator2, 1998
@@ -499,8 +499,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">a 3D attempt</p>
                     <p class="subtitle has-text-black">
                       R5, 2014
@@ -512,8 +512,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Orchestra</p>
                     <p class="subtitle has-text-black">
                       KE, 2016
@@ -528,9 +528,9 @@
 
 
               </div>
-              <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+              <div class="grid">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">TDC15</p>
                     <p class="subtitle has-text-black">
                       VileR, 2018
@@ -542,8 +542,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">ju67</p>
                     <p class="subtitle has-text-black">
                       2016
@@ -555,8 +555,8 @@
                     </a>
                   </article>
                 </div>
-                <div class="tile is-parent">
-                  <article class="tile is-child box">
+                <div class="cell">
+                  <article class="box">
                     <p class="title has-text-black">Blocktronics Horizontal</p>
                     <p class="subtitle has-text-black">Whazzit, 2016</p>
                     <a href="https://retrotxt.com/e/preview_19.ans">

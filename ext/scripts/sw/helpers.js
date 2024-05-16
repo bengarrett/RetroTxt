@@ -16,6 +16,7 @@ if (typeof chrome.runtime.onInstalled !== `undefined`) {
 }
 
 // Get the active tab information of the current window.
+// eslint-disable-next-line no-unused-vars
 async function GetCurrentTab() {
   let queryOptions = { active: true, currentWindow: true }
   let [tab] = await chrome.tabs.query(queryOptions)
@@ -29,8 +30,9 @@ async function GetCurrentTab() {
 
 // Developer is the verbose feedback store name.
 // DeveloperModeDebug gives additional Console log feedback when running in Developer mode.
-const Developer = `developer`,
-  DeveloperModeDebug = false
+const Developer = `developer`
+// eslint-disable-next-line no-unused-vars
+const DeveloperModeDebug = false
 
 // Browser rendering engine.
 const Engine = {
@@ -93,6 +95,7 @@ Object.freeze([Engine, Os, PlatformOS, PlatformArch, Cs])
  * Prints the string to the console when Developer mode is enabled.
  * @param {*} string
  */
+// eslint-disable-next-line no-unused-vars
 function Console(string = ``) {
   chrome.storage.local.get(Developer, (store) => {
     if (Developer in store) console.log(`${string}`)
@@ -112,6 +115,7 @@ function ConsoleLoad(page = ``) {
  * Handle `chrome.runtime.lastError` callback errors.
  * @param {string} [errorFor=``] Source description of the error
  */
+// eslint-disable-next-line no-unused-vars
 function CheckLastError(errorFor = ``) {
   /* Some methods that set chrome.runtime.lastError:
    * - chrome.runtime.openOptionsPage+
@@ -180,7 +184,7 @@ class OptionsReset {
       .set(`textRenderEffect`, `normal`)
       .set(
         `textSmearBlockCharacters`,
-        BrowserOS() === Os.windows ? true : false
+        BrowserOS() === Os.windows ? true : false,
       )
       // permitted domains.
       .set(`settingsWebsiteDomains`, [
@@ -211,6 +215,7 @@ class OptionsReset {
  * Configurations used by Options and the extension manifest.
  * @class Configuration
  */
+// eslint-disable-next-line no-unused-vars
 class Configuration extends OptionsReset {
   constructor() {
     super()
@@ -305,7 +310,7 @@ class Configuration extends OptionsReset {
   setLocalStorage(key = ``) {
     if (this.options.has(key) === false)
       return CheckError(
-        `The storage key ${key} is not a known chrome.storage.local item`
+        `The storage key ${key} is not a known chrome.storage.local item`,
       )
     // get saved item from browser storage
     chrome.storage.local.get([`${key}`], (result) => {
@@ -314,7 +319,7 @@ class Configuration extends OptionsReset {
         const defValue = this.options.get(key)
         if (defValue === null)
           return CheckError(
-            `Could not obtain the requested chrome.storage ${key} setting`
+            `Could not obtain the requested chrome.storage ${key} setting`,
           )
         chrome.storage.local.set({ [key]: defValue })
         sessionStorage.setItem(key, defValue)
@@ -390,6 +395,7 @@ function BrowserOS() {
  * Returns either a `0` for Chrome, Chromium and Edge or a `1` for Firefox.
  * @returns string
  */
+// eslint-disable-next-line no-unused-vars
 function WebBrowser() {
   const ui = chrome.runtime.getManifest().options_ui
   if (ui !== undefined && ui.page !== undefined) {
@@ -422,5 +428,4 @@ function StringToBool(string = ``) {
   }
 }
 
-/* global CheckError */
-/* exported CheckLastError Console ConsoleLoad Configuration DeveloperModeDebug Engine GetCurrentTab WebBrowser */
+/*global CheckError*/

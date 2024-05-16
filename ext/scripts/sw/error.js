@@ -12,6 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
  * @param [log=false] Log errors `false` are logged to the browser Console
  * otherwise a JavaScript exception is thrown
  */
+// eslint-disable-next-line no-unused-vars
 function CheckError(error = ``, log = false) {
   if (error !== undefined) {
     if (log !== true) {
@@ -29,12 +30,12 @@ function CheckError(error = ``, log = false) {
         (result) => {
           if (
             CheckLastError(
-              `check error send message to tab #${tabs[0].id}: ${error}`
+              `check error send message to tab #${tabs[0].id}: ${error}`,
             )
           )
             return
           if (DeveloperModeDebug && result !== undefined) console.log(result)
-        }
+        },
       )
     })
     try {
@@ -46,4 +47,3 @@ function CheckError(error = ``, log = false) {
 }
 
 /*global CheckLastError ConsoleLoad Developer DeveloperModeDebug */
-/*exported CheckError */

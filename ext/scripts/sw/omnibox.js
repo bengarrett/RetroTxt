@@ -13,6 +13,7 @@ chrome.runtime.onInstalled.addListener(() => {
  * To trigger type `txt ` (txt space).
  * @class Omnibox
  */
+// eslint-disable-next-line no-unused-vars
 class Omnibox {
   constructor() {
     this.keys = []
@@ -37,6 +38,7 @@ class Omnibox {
       chrome.omnibox.setDefaultSuggestion({
         description: `RetroTxt commands: ${this.keys.join(`, `)}`,
       })
+      // eslint-disable-next-line no-unused-vars
     } catch (e) {
       return CheckError(`RetroTxt failed to load the Omnibox.`, false)
     }
@@ -85,5 +87,4 @@ class Omnibox {
   }
 }
 
-/*exported Omnibox */
 /*global CheckError Console ConsoleLoad OpenOptions */

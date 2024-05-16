@@ -101,7 +101,7 @@ class CharacterSet {
       this.set_c,
       this.set_d,
       this.set_e,
-      this.set_f
+      this.set_f,
     )
   }
   /**
@@ -116,7 +116,7 @@ class CharacterSet {
       this.set_c,
       this.set_d,
       this.set_e,
-      this.set_f
+      this.set_f,
     )
   }
   /**
@@ -145,7 +145,7 @@ class CharacterSet {
       this.set_c,
       this.set_d,
       this.set_e,
-      this.set_f
+      this.set_f,
     )
   }
   /**
@@ -174,7 +174,7 @@ class CharacterSet {
       this.set_c,
       this.set_d,
       this.set_e,
-      this.set_f
+      this.set_f,
     )
   }
   /**
@@ -201,7 +201,7 @@ class CharacterSet {
       this.set_c,
       this.set_d,
       this.set_e,
-      this.set_f
+      this.set_f,
     )
   }
   /**
@@ -226,7 +226,7 @@ class CharacterSet {
       this.set_c,
       this.set_d,
       this.set_e,
-      this.set_f
+      this.set_f,
     )
   }
   /**
@@ -259,7 +259,7 @@ class CharacterSet {
       this.set_c,
       this.set_d,
       this.set_e,
-      this.set_f
+      this.set_f,
     )
   }
 }
@@ -305,7 +305,7 @@ class Transcode extends CharacterSet {
         break
       default:
         console.log(
-          `Transcode.rebuild() doesn't know lock-transcode item '${codepage}'`
+          `Transcode.rebuild() doesn't know lock-transcode item '${codepage}'`,
         )
     }
     // Handle character 1B to inject EMCA-48/ANSI control function support.
@@ -326,12 +326,12 @@ class Transcode extends CharacterSet {
       Console(`${i} ${String.fromCharCode(code)} ↣ ${table[i]}`)
       encodedText = encodedText.replace(
         RegExp(String.fromCharCode(code), `g`),
-        table[i]
+        table[i],
       )
     }
     encodedText = encodedText.replace(
       RegExp(String.fromCharCode(127), `g`),
-      ` `
+      ` `,
     ) // some Amiga ANSI use the Delete Control as a space
     this.text = encodedText
   }
@@ -371,6 +371,7 @@ class Transcode extends CharacterSet {
  * Convert (JavaScript) UTF-16 encoded strings to emulate a MS-DOS Code Page.
  * @class DOSText
  */
+// eslint-disable-next-line no-unused-vars
 class DOSText {
   /**
    * Creates an instance of DOSText.
@@ -381,7 +382,7 @@ class DOSText {
    */
   constructor(
     text = ``,
-    options = { codepage: `input_UTF16`, displayControls: null }
+    options = { codepage: `input_UTF16`, displayControls: null },
   ) {
     if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
     if (!(`codepage` in options)) options.codepage = `input_UTF16`
@@ -442,8 +443,8 @@ class DOSText {
     if (DeveloperModeDebug && number > 127)
       Console(
         `DOSText()._fromCharCode(${number}) String.fromCharCode = ${String.fromCharCode(
-          number
-        )} \\u${String.fromCharCode(number).codePointAt(0).toString(16)}`
+          number,
+        )} \\u${String.fromCharCode(number).codePointAt(0).toString(16)}`,
       )
     switch (this.codepage) {
       case Cs.Windows_1251: {
@@ -582,7 +583,7 @@ class DOSText {
     }
     // find character in the character table
     let index = this.extendedTable.indexOf(
-      `${String.fromCharCode(number + offsetInput)}`
+      `${String.fromCharCode(number + offsetInput)}`,
     )
     const deleted = 127
     if (number >= deleted)
@@ -590,14 +591,14 @@ class DOSText {
         `DOSText()._lookupCp437(${number}) number: %s character: %s @index: %s`,
         number + offsetInput,
         String.fromCharCode(number + offsetInput),
-        index
+        index,
       )
     if (index <= -1) {
       console.log(
         `${this.errorCharacter} ${
           this.codepage
         } extendedTable.indexOf(%s) character failed: \\u%s '%s' [${number} \\u${String.fromCharCode(
-          number
+          number,
         )
           .codePointAt(0)
           .toString(16)}]`,
@@ -605,7 +606,7 @@ class DOSText {
         String.fromCharCode(number + offsetInput)
           .codePointAt(0)
           .toString(16),
-        String.fromCharCode(number + offsetInput)
+        String.fromCharCode(number + offsetInput),
       )
       return `${this.errorCharacter}` // error, unknown character
     }
@@ -618,7 +619,7 @@ class DOSText {
         .codePointAt(0)
         .toString(16),
       String.fromCharCode(number + offsetInput),
-      table[index + offsetOutput]
+      table[index + offsetOutput],
     )
     // swap out the character from Macintosh with a matching decimal from the CP437 table
     return table[index + offsetOutput]
@@ -748,6 +749,7 @@ class DOSText {
  * HTML5 document with matching CSS colour styles.
  * @class BBS
  */
+// eslint-disable-next-line no-unused-vars
 class BBS {
   /**
    * Creates an instance of BBS.
@@ -815,7 +817,7 @@ class BBS {
    */
   _detect() {
     const format = FindControlSequences(
-      this.text.trim().slice(0, 10).replace(`@CLS@`, ``)
+      this.text.trim().slice(0, 10).replace(`@CLS@`, ``),
     )
     switch (format) {
       case CelerityText:
@@ -831,7 +833,7 @@ class BBS {
       default:
         console.log(
           `The format value '%s' for BBS._detect() is not supported`,
-          format
+          format,
         )
         return ``
     }
@@ -852,7 +854,7 @@ class BBS {
     // RegExp to markout block characters
     const row = text.replace(
       RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `ig`),
-      `${bringAttentionOpen}$1${bringAttentionClose}`
+      `${bringAttentionOpen}$1${bringAttentionClose}`,
     )
     let textNode = ``,
       b
@@ -919,7 +921,7 @@ class BBS {
   _normalizePCBoard() {
     this.sanitizedText = this.text.replace(
       RegExp(`@(CLS|CLS |PAUSE)@`, `ig`),
-      ``
+      ``,
     )
     return this._normalizeAtCodes()
   }
@@ -929,7 +931,7 @@ class BBS {
   _normalizeRenegade() {
     this.sanitizedText = this.text.replace(
       RegExp(`@(CLS|CLS |PAUSE)@`, `ig`),
-      ``
+      ``,
     )
     return this._normalizePipes()
   }
@@ -941,7 +943,7 @@ class BBS {
     // convert Telegard `-grave codes into PCBoard @-codes
     this.sanitizedText = this.text.replace(
       RegExp(/`([0-9|A-F])([0-9|A-F])/gi, `ig`),
-      `@X$1$2`
+      `@X$1$2`,
     )
     return this._normalizeAtCodes()
   }
@@ -967,8 +969,9 @@ class BBS {
    */
   _normalizeWWIVHeart() {
     this.sanitizedText = this.text.replace(
+      // eslint-disable-next-line no-control-regex
       RegExp(/\x03([0-9])/gi, `ig`),
-      `|0$1`
+      `|0$1`,
     )
     return this._normalizePipes()
   }
@@ -1030,7 +1033,7 @@ class BBS {
   _normalizeCelerity() {
     this.sanitizedText = this.text.replace(
       RegExp(`@(CLS|CLS |PAUSE)@`, `ig`),
-      ``
+      ``,
     )
     const pre = this._newElement(`pre`)
     // replace escaped characters because text will be encoded by <pre>
@@ -1150,7 +1153,6 @@ function eslintUndef() {
   return
 }
 
-/*eslint no-control-regex: "off"*/
 /*global CheckArguments Console Cs DeveloperModeDebug DOMPurify FindControlSequences
-CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText WWIVHeartText UnknownText */
-/*exported BBS Controls DOSText Transcode*/
+CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText
+WWIVHeartText UnknownText */
