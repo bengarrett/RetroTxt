@@ -155,7 +155,8 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
         if (typeof color === `string`)
           return dom.classList.add(`${colorClass}-shadowed`)
         // use colours fetched from chrome storage (default)
-        if (typeof result !== `string`) {
+        if (typeof result === `string`) dom.classList.add(`${result}-shadowed`)
+        else {
           chrome.storage.local.get([`colorsTextPairs`], (result) => {
             if (typeof result.colorsTextPairs === `undefined`)
               CheckError(
@@ -164,7 +165,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
               )
             else dom.classList.add(`${result.colorsTextPairs}-shadowed`)
           })
-        } else dom.classList.add(`${result}-shadowed`)
+        }
         break
       default:
         // 'normal, auto' do nothing as the text effects have been removed
@@ -293,12 +294,13 @@ function HumaniseFS(bytes = 0, si = 1024) {
     units = si === decimal ? [`kB`, `MB`] : [`KiB`, `MiB`]
   if (Math.abs(bytes) < thresh) return `${bytes}B`
   let u = -1
+  let calc = bytes
   do {
-    bytes /= thresh
+    calc /= thresh
     ++u
-  } while (Math.abs(bytes) >= thresh && u < units.length - 1)
+  } while (Math.abs(calc) >= thresh && u < units.length - 1)
   // round decimal value when the result is 10 or larger
-  const result = Math.round(bytes * 10) / 10,
+  const result = Math.round(calc * 10) / 10,
     value = result >= 10 ? Math.round(result) : result
   return `${value}${units[u]}`
 }
@@ -314,13 +316,13 @@ function ParseToChildren(text = ``) {
   if (typeof text !== `string`) CheckArguments(`text`, `string`, text)
   // `parseFromString()` creates a `<body>` element which we don't need,
   // so create a `<div>` container, and as a work-around return its content
-  text = `<div>${text}</div>`
+  const elm = `<div>${text}</div>`
   const tag = new DOMParser()
-    .parseFromString(text, `text/html`)
+    .parseFromString(elm, `text/html`)
     .getElementsByTagName(`div`)
   if (tag.length === 0)
     return CheckError(
-      `DOMParser.parseFromString('${text}','text/html') did not build a HTML object containing a <div> tag`,
+      `DOMParser.parseFromString('${elm}','text/html') did not build a HTML object containing a <div> tag`,
     )
   return tag[0]
 }

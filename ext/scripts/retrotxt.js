@@ -373,8 +373,9 @@ class DOM {
   /**
    * Toggles the 'ANSI color palette'.
    */
-  async clickAnsiColorPalette(name = ``) {
-    if (name === ``) name = `${this.results.colorsAnsiColorPalette}`
+  async clickAnsiColorPalette(palette = ``) {
+    const name =
+      palette === `` ? `${this.results.colorsAnsiColorPalette}` : palette
     const ansi = new HardwarePalette(),
       i = ansi.filenames.indexOf(name)
     if (i < -1) return console.error(`Unknown colour palette name '${name}'`)
@@ -467,7 +468,7 @@ class DOM {
     switch (colorId) {
       case `theme-atarist`:
       case `theme-windows`:
-        if (fixes == null)
+        if (fixes === null)
           this.head.append(
             CreateLink(
               `../css/text_colors_white_bg-fixes.css`,
@@ -476,7 +477,7 @@ class DOM {
           )
         break
       default:
-        if (fixes != null) fixes.remove()
+        if (fixes !== null) fixes.remove()
     }
     // handle theme-custom colours, this also loads the stylesheet and applies CSS
     if (colorName === `theme-custom`) {
@@ -652,7 +653,7 @@ class DOM {
   async linkFixTextPairs() {
     // colour choices
     if (typeof this.results.colorsTextPairs !== `string`) return
-    if (document.getElementById(`white-bg-fixes`) != null) return
+    if (document.getElementById(`white-bg-fixes`) !== null) return
     switch (this.results.colorsTextPairs) {
       case `theme-atarist`:
       case `theme-windows`:
@@ -2131,7 +2132,7 @@ function handleChanges(change) {
     return dom.clickBlinkingCursorText()
   }
   if (changes.centerAlign) {
-    if (changes.centerAlign.newValue == true) return dom.clickCenterAlign(true)
+    if (changes.centerAlign.newValue === true) return dom.clickCenterAlign(true)
     return dom.clickCenterAlign(false)
   }
   if (changes.colorPalette)

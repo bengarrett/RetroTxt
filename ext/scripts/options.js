@@ -1834,9 +1834,9 @@ class Hosts {
    * Adds a hostname tag with a working link and delete button.
    */
 
-  async _add(hostname = ``, init = false) {
-    if (hostname.length < this.minLength) return
-    hostname = DOMPurify.sanitize(hostname, { USE_PROFILES: { html: true } })
+  async _add(name = ``, init = false) {
+    if (name.length < this.minLength) return
+    const hostname = DOMPurify.sanitize(name, { USE_PROFILES: { html: true } })
     const tags = document.getElementById(`hostTags`),
       tag = this.template.cloneNode(true),
       anchor = tag.childNodes[1].childNodes[1],
@@ -1878,6 +1878,7 @@ class Hosts {
     if (hostname.includes(`/`)) return (this.submit.disabled = true)
     try {
       // test that the hostname can be used as a URL
+      // eslint-disable-next-line no-new
       new URL(`https://${hostname}`)
       this.submit.disabled = false
       // eslint-disable-next-line no-unused-vars
@@ -1905,6 +1906,7 @@ class Hosts {
    */
   _isSuggestion(hostname = ``) {
     for (const domain of this.suggestions) {
+      // eslint-disable-next-line eqeqeq
       if (hostname == domain) return true
     }
     return false
