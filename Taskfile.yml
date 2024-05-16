@@ -27,7 +27,8 @@ tasks:
     ignore_error: true
     cmds:
       # node and dependencies
-      - cmd: pnpm exec eslint ext/scripts/**/*.js --stats
+      - cmd: pnpm exec eslint ext/scripts/sw/*.js --stats
+      - cmd: pnpm exec eslint ext/scripts/*.js --stats
 
   # user commands that are displayed with `task --list`
   build:
