@@ -3,8 +3,6 @@
 // Character sets, browser encodings, code page handlers.
 // Also font selection and palette colour hardware emulation.
 
-const radix = 16
-
 /**
  * Capitalizes the first letter of a word while applying lowercasing to the others.
  * @param [word=``] Word to capitalize
@@ -361,6 +359,7 @@ class Guess extends BrowserEncodings {
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd374101%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
     const notFound = ``,
       mark = this.text.slice(0, 4),
+      radix = 16,
       byte1 = mark.charCodeAt(0).toString(radix).toLowerCase(),
       byte2 = mark.charCodeAt(1).toString(radix).toLowerCase(),
       byte3 = mark.charCodeAt(2).toString(radix).toLowerCase()
@@ -458,6 +457,7 @@ class Guess extends BrowserEncodings {
       ...[bulletOperator, middleDot, blackSquare],
     ]
     Object.freeze(artChars)
+    const radix = 16
     let i = length
     while (i--) {
       if (i < length - limit) break
