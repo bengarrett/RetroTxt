@@ -17,7 +17,9 @@
 
 const empty = `\u0020`,
   nbsp = `\u00A0`,
-  softHyphen = `\u00AD`
+  softHyphen = `\u00AD`,
+  radix = 16,
+  linefeed = 10
 
 /**
  * Simulate legacy text character sets (also called code pages) using Unicode
@@ -444,7 +446,7 @@ class DOSText {
       Console(
         `DOSText()._fromCharCode(${number}) String.fromCharCode = ${String.fromCharCode(
           number,
-        )} \\u${String.fromCharCode(number).codePointAt(0).toString(16)}`,
+        )} \\u${String.fromCharCode(number).codePointAt(0).toString(radix)}`,
       )
     switch (this.codepage) {
       case Cs.Windows_1251: {
@@ -453,7 +455,6 @@ class DOSText {
     }
     const NUL = 0,
       horizontalTab = 9,
-      lineFeed = 10,
       carriageReturn = 13,
       escape = 27,
       US = 31,
@@ -478,7 +479,7 @@ class DOSText {
             if (this.codepage === Cs.Windows_1252_English)
               return this.asciiTable[9]
             return `\t`
-          case lineFeed:
+          case linefeed:
           case carriageReturn:
             return `\n`
           default:
@@ -603,11 +604,11 @@ class DOSText {
           number,
         )
           .codePointAt(0)
-          .toString(16)}]`,
+          .toString(radix)}]`,
         number + offsetInput,
         String.fromCharCode(number + offsetInput)
           .codePointAt(0)
-          .toString(16),
+          .toString(radix),
         String.fromCharCode(number + offsetInput),
       )
       return `${this.errorCharacter}` // error, unknown character
@@ -619,7 +620,7 @@ class DOSText {
       number + offsetInput,
       String.fromCharCode(number + offsetInput)
         .codePointAt(0)
-        .toString(16),
+        .toString(radix),
       String.fromCharCode(number + offsetInput),
       table[index + offsetOutput],
     )
@@ -986,10 +987,9 @@ class BBS {
     const validate = (value) => {
       if (value === ` `) return false
       // convert from hexadecimal to decimal
-      const hex = parseInt(value, 16),
-        min = 0,
-        max = 16
-      if (Number.isNaN(hex) || hex < min || hex > max) return false
+      const hex = parseInt(value, radix),
+        min = 0
+      if (Number.isNaN(hex) || hex < min || hex > radix) return false
       return true
     }
     const pre = this._newElement(`pre`),
@@ -999,7 +999,7 @@ class BBS {
     // to handle colour, split @X characters
     const colours = replaced.split(`@X`)
     colour: for (const code of colours) {
-      if (code.length === 0 || code.charCodeAt(0) === 10) continue colour
+      if (code.length === 0 || code.charCodeAt(0) === linefeed) continue colour
       // check values to match expected prefix, otherwise treat as text
       const backgroundCode = `${code.substring(0, 1)}`,
         foregroundCode = `${code.substring(1, 2)}`
@@ -1113,7 +1113,7 @@ class BBS {
     // smear block characters
     const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     for (const code of colours) {
-      if (code.length === 0 || code.charCodeAt(0) === 10) continue
+      if (code.length === 0 || code.charCodeAt(0) === linefeed) continue
       // check values to match expected prefix, otherwise treat as text
       const pipe = `${code.substring(0, 2)}`,
         appendText = code.substring(2),

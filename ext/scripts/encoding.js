@@ -3,6 +3,8 @@
 // Character sets, browser encodings, code page handlers.
 // Also font selection and palette colour hardware emulation.
 
+const radix = 16
+
 /**
  * Capitalizes the first letter of a word while applying lowercasing to the others.
  * @param [word=``] Word to capitalize
@@ -357,12 +359,11 @@ class Guess extends BrowserEncodings {
   byteOrderMark() {
     // Using Byte Order Marks
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd374101%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
-    const hexadecimal = 16,
-      notFound = ``,
+    const notFound = ``,
       mark = this.text.slice(0, 4),
-      byte1 = mark.charCodeAt(0).toString(hexadecimal).toLowerCase(),
-      byte2 = mark.charCodeAt(1).toString(hexadecimal).toLowerCase(),
-      byte3 = mark.charCodeAt(2).toString(hexadecimal).toLowerCase()
+      byte1 = mark.charCodeAt(0).toString(radix).toLowerCase(),
+      byte2 = mark.charCodeAt(1).toString(radix).toLowerCase(),
+      byte3 = mark.charCodeAt(2).toString(radix).toLowerCase()
     if (byte1 === `ef` && byte2 === `bb` && byte3 === `bf`) return `UTF-8`
     if (byte1 === `ff` && byte2 === `fe`) return `UTF-16, little endian`
     if (byte1 === `fe` && byte2 === `ff`) return `UTF-16, big endian`
@@ -462,7 +463,8 @@ class Guess extends BrowserEncodings {
       if (i < length - limit) break
       const position = length - i || 0,
         codePoint = this.text.codePointAt(position)
-      if (typeof codePoint !== `undefined`) finds.hex = codePoint.toString(16) // not used
+      if (typeof codePoint !== `undefined`)
+        finds.hex = codePoint.toString(radix) // not used
       // unsupported Unicode code point?
       const unsupported = 65535
       if (codePoint >= unsupported) {

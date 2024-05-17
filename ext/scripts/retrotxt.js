@@ -21,7 +21,12 @@ const atascii = `candyantics`,
   potNoodle = `p0tnoodle`,
   microknight = `microknight`,
   microknight_ = `microknightplus`,
-  mosoul = `mosoul`
+  mosoul = `mosoul`,
+  trueColor = 24, // 24-bit colour
+  bit8Color = 8, // 256 colour
+  bit4Color = 4, // 16 colour
+  bit2Color = 2, // 4 colour
+  bit1Color = 1 // 2 colour
 
 /**
  * Document Object Model (DOM) programming interface for HTML.
@@ -223,10 +228,10 @@ class DOM {
   async _constructPalette() {
     const toggle = document.getElementById(`colorPaletteToggle`),
       palette = new HardwarePalette()
-    if (ecma48.colorDepth !== 4)
+    if (ecma48.colorDepth !== bit4Color)
       return toggle.classList.add(`has-text-weight-normal`)
     if (toggle === null) return
-    if (ecma48.colorDepth !== 4) return
+    if (ecma48.colorDepth !== bit4Color) return
     toggle.onclick = () => {
       // this cycles through to the next palette
       const css = document.getElementById(`retrotxt-4bit-ice`),
@@ -384,7 +389,8 @@ class DOM {
     const link = document.getElementById(`retrotxt-4bit`),
       elm = document.getElementById(`colorPaletteToggle`)
     if (link !== null) link.href = chrome.runtime.getURL(ansi.savedFilename())
-    if (elm !== null && ecma48.colorDepth === 4) elm.textContent = `${ansi.key}`
+    if (elm !== null && ecma48.colorDepth === bit4Color)
+      elm.textContent = `${ansi.key}`
   }
   /**
    * Toggles the 'Blinking cursor and text' blinking animation
@@ -607,8 +613,8 @@ class DOM {
       link4bit = `retrotxt-4bit`
     ecma48.colorDepth = depth
     switch (depth) {
-      case 24:
-      case 8:
+      case trueColor:
+      case bit8Color:
         this.palette.key = `xterm`
         this.palette.set()
         document.getElementById(link4bit).href = url(
@@ -636,8 +642,8 @@ class DOM {
     }
     // handle 8-bit stylesheet
     switch (depth) {
-      case 24:
-      case 8:
+      case trueColor:
+      case bit8Color:
         break
       default:
         document.getElementById(`retrotxt-8bit`).remove()
@@ -1925,7 +1931,7 @@ class Information extends Output {
       b = document.createElement(`span`)
     strong.id = `colorPaletteToggle`
     switch (colorDepth) {
-      case 24:
+      case trueColor:
         strong.title = `A range of 16.7 million ${chrome.i18n.getMessage(
           `color`,
         )}s using the RGB true ${chrome.i18n.getMessage(`color`)} palette`
@@ -1939,21 +1945,21 @@ class Information extends Output {
         strong.append(g)
         strong.append(b)
         break
-      case 8:
+      case bit8Color:
         strong.title = `A range of 256 ${chrome.i18n.getMessage(
           `color`,
         )}s using the xterm palette`
         strong.textContent = `xterm 8-bit`
         break
-      case 4:
+      case bit4Color:
         strong.title = `Switch ANSI ${chrome.i18n.getMessage(`color`)} palettes`
         strong.textContent = `IBM`
         break
-      case 2:
+      case bit2Color:
         strong.textContent = `4 ${chrome.i18n.getMessage(`color`)} magenta`
         break
-      case 1:
-        strong.textContent = `2 ${chrome.i18n.getMessage(`color`)} ASCII`
+      case bit1Color:
+        strong.textContent = `2 ${chrome.i18n.getMessage(`color`)} monochrome`
         break
       case 0:
         strong.textContent = `monochrome`

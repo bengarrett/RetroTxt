@@ -221,7 +221,8 @@ class Tab {
           if (result === null) return RemoveSession(this.id)
           if (Object.entries(result).length === 0) return RemoveSession(this.id)
           const updateCounts = result[key].update
-          if (updateCounts >= 3) return RemoveSession(this.id)
+          const maximum = 2
+          if (updateCounts > maximum) return RemoveSession(this.id)
           result.update = updateCounts + 1
           chrome.storage.local.set({ [key]: result[key] })
         })

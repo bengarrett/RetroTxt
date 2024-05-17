@@ -203,7 +203,8 @@ class Downloads {
         )
         return false
       }
-      if (this.item.url.length < 11) {
+      const minimum = 11
+      if (this.item.url.length < minimum) {
         console.log(`${error} URL is invalid\n(${this.item.url})`)
         return false
       }

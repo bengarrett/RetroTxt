@@ -280,9 +280,10 @@ class Configuration extends OptionsReset {
       // conflicts
       .set(`domains`, [`feedly.com`, `github.com`, `webhooks.retrotxt.com`])
     // RetroTxt render options
+    const characters = 80
     this.textRender = new Map()
       // default number of characters of text per line
-      .set(`columns`, 80)
+      .set(`columns`, characters)
       // default CSS page width value
       .set(`cssWidth`, `100%`) // = 640px
   }
