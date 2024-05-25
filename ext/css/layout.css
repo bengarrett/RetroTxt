@@ -89,6 +89,28 @@
   line-height: 4;
 }
 
+.is-font-2 {
+  font-size: 110%;
+}
+.is-font-3 {
+  font-size: 125%;
+}
+.is-font-4 {
+  font-size: 150%;
+}
+.is-font-5 {
+  font-size: 175%;
+}
+.is-font-6 {
+  font-size: 200%;
+}
+.is-font-7 {
+  font-size: 300%;
+}
+.is-font-8 {
+  font-size: 400%;
+}
+
 /* for ascii text that lack line breaks, wrap text to the browser tab */
 .has-text-plain {
   overflow-wrap: break-word;

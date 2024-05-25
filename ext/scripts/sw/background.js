@@ -35,7 +35,7 @@ chrome.runtime.onInstalled.addListener(() => {
 // details.reason is the reason the event is dispatched.
 chrome.runtime.onInstalled.addListener((details) => {
   if (typeof qunit !== `undefined`) return
-  if (chrome === undefined)
+  if (typeof chrome === `undefined`)
     return CheckError(
       `RetroTxt failed to run because the Extension API did not load!` +
         ` Please close this browser and try again.`,
@@ -91,7 +91,7 @@ function setPlatform() {
   chrome.runtime.getPlatformInfo((info) => {
     const windows = `win`,
       macOS = `mac`
-    let store = -1
+    let store
     switch (info.os) {
       case windows:
         store = Os.windows

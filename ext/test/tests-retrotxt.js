@@ -125,11 +125,6 @@ QUnit.test(`Output class`, (assert) => {
     `SPAN`,
     `Should be an SPAN element`
   )
-  assert.equal(
-    output.fontSize().title,
-    `Font size adjustment`,
-    `Should be a STRONG element`
-  )
 })
 
 QUnit.test(`Information class`, (assert) => {

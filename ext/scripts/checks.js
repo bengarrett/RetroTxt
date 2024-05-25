@@ -9,7 +9,7 @@
  */
 // eslint-disable-next-line no-unused-vars
 function CheckArguments(name = ``, expected = ``, actual) {
-  let err = ``
+  let err
   switch (expected) {
     case `boolean`:
       err = `argument '${name}' should be a 'boolean' (true|false) instead of a '${typeof actual}'`
@@ -35,9 +35,10 @@ function CheckArguments(name = ``, expected = ``, actual) {
  * console otherwise an exception is thrown
  */
 function CheckError(errorMessage, log = false) {
-  if (errorMessage !== undefined) {
+  if (typeof errorMessage !== `undefined`) {
     BusySpinner(false)
-    if (globalThis.checkedErr !== undefined) globalThis.checkedErr = true
+    if (typeof globalThis.checkedErr !== `undefined`)
+      globalThis.checkedErr = true
     if (typeof qunit === `undefined`) DisplayAlert()
     else throw new Error(errorMessage)
     if (log === true) return console.warn(errorMessage)
@@ -112,7 +113,7 @@ function DisplayAlert(show = true, message = ``) {
         .set(`reload`, `R`)
         .set(`ctrl`, `⌘ Command`)
         .set(`shift`, `⌥ Option`)
-    if (WebBrowser() == Engine.firefox) keyboard.set(`console`, `I`)
+    if (WebBrowser() === Engine.firefox) keyboard.set(`console`, `I`)
     // build error as a html node
     const alert = {
       div: document.createElement(`div`),

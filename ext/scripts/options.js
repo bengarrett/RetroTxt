@@ -121,7 +121,6 @@ function localStore(key = ``, value = ``) {
  * @class HTML
  */
 class HTML {
-  constructor() {}
   /**
    * Reveal the welcome banner in the Home tab.
    */
@@ -232,11 +231,13 @@ class HTML {
    */
   async showBrowser() {
     const m = chrome.runtime.getManifest()
-    if (m.options_ui !== undefined && m.options_ui.page !== undefined) {
+    if (
+      typeof m.options_ui !== `undefined` &&
+      typeof m.options_ui.page !== `undefined`
+    ) {
       const titles = Array.from(document.getElementsByName(`browser-title`)),
         fontScheme = document.getElementById(`settingsFont`)
-      let browser,
-        setting = ``
+      let browser, setting
       if (m.options_ui.page.startsWith(`moz-extension`, 0) === true) {
         browser = `Firefox`
         setting = `about:preferences`
@@ -265,7 +266,7 @@ class HTML {
     const txt = ` on ${browser.vendor} ${browser.name} ${browser.version}`
     document.getElementById(`program`).textContent = txt
     chrome.runtime.getPlatformInfo((info) => {
-      let text = ``
+      let text
       if (info.os === `mac` && info.arch === `arm`) text = `macOS M series`
       else text = `${PlatformOS[info.os]} with ${PlatformArch[info.arch]}`
       document.getElementById(`os`).textContent = text
@@ -334,31 +335,31 @@ class Permission {
     })
     // options theme buttons listeners
     const themes = document.getElementsByClassName(`option-theme`)
-    for (let theme of themes) {
+    for (const theme of themes) {
       theme.addEventListener(`click`, () => {
-        theme.classList.forEach(function (value) {
-          let arr = [`button`, `option-theme`, `notification`]
+        theme.classList.forEach((value) => {
+          const arr = [`button`, `option-theme`, `notification`]
           if (arr.includes(value)) return
           const hero = document.getElementById(`heroSection`),
             src = document.getElementById(`getTheSource`),
             doc = document.getElementById(`getTheDocs`),
             upd = document.getElementById(`enjoyRetroTxt`)
-          hero.classList.forEach(function (heroValue) {
+          hero.classList.forEach((heroValue) => {
             if (heroValue === `is-fullheight`) return
             if (!heroValue.startsWith(`is-`)) return
             hero.classList.replace(heroValue, value)
           })
-          src.classList.forEach(function (srcValue) {
+          src.classList.forEach((srcValue) => {
             if (srcValue === `is-inverted`) return
             if (!srcValue.startsWith(`is-`)) return
             src.classList.replace(srcValue, value)
           })
-          doc.classList.forEach(function (docValue) {
+          doc.classList.forEach((docValue) => {
             if (docValue === `is-inverted`) return
             if (!docValue.startsWith(`is-`)) return
             doc.classList.replace(docValue, value)
           })
-          upd.classList.forEach(function (updValue) {
+          upd.classList.forEach((updValue) => {
             upd.classList.replace(updValue, value)
           })
           chrome.storage.local.set({ [`optionClass`]: `${value}` })
@@ -533,7 +534,7 @@ class CheckBox {
       // link to the extension details tab
       const link = LinkDetails(),
         detailURLs = document.getElementsByClassName(`details-detail-url`)
-      for (let elm of detailURLs) {
+      for (const elm of detailURLs) {
         if (link.length === 0) break
         if (allowed === true && elm.id === `monitorDownloads`) break
         elm.textContent = `${link}`
@@ -621,7 +622,7 @@ class Initialise extends CheckBox {
     // check #3 - options tab
     let key = `optionTab`
     chrome.storage.local.get(key, (result) => {
-      let value = localGet(key, result)
+      const value = localGet(key, result)
       if (validTab(value) === false) {
         localGet(key, null)
       }
@@ -686,7 +687,7 @@ class Initialise extends CheckBox {
         if (fix === ``)
           handleError(`Initialise._checkBoolean(${id}) = "${value}"`)
         chrome.storage.local.set({ [`${key}`]: `${fix}` })
-        input.checked = fix === true ? true : false
+        input.checked = fix === true
     }
   }
   /**
@@ -719,28 +720,28 @@ class Initialise extends CheckBox {
    * Select a background and button color for the Options tab.
    */
   async _colorTheme(value = ``) {
-    let arr = [`button`, `option-theme`, `notification`]
+    const arr = [`button`, `option-theme`, `notification`]
     if (arr.includes(value)) return
     const hero = document.getElementById(`heroSection`),
       src = document.getElementById(`getTheSource`),
       doc = document.getElementById(`getTheDocs`),
       upd = document.getElementById(`enjoyRetroTxt`)
-    hero.classList.forEach(function (heroValue) {
+    hero.classList.forEach((heroValue) => {
       if (heroValue === `is-fullheight`) return
       if (!heroValue.startsWith(`is-`)) return
       hero.classList.replace(heroValue, value)
     })
-    src.classList.forEach(function (srcValue) {
+    src.classList.forEach((srcValue) => {
       if (srcValue === `is-inverted`) return
       if (!srcValue.startsWith(`is-`)) return
       src.classList.replace(srcValue, value)
     })
-    doc.classList.forEach(function (docValue) {
+    doc.classList.forEach((docValue) => {
       if (docValue === `is-inverted`) return
       if (!docValue.startsWith(`is-`)) return
       doc.classList.replace(docValue, value)
     })
-    upd.classList.forEach(function (updValue) {
+    upd.classList.forEach((updValue) => {
       upd.classList.replace(updValue, value)
     })
   }
@@ -880,7 +881,7 @@ class Initialise extends CheckBox {
             blocks.style.display = `inline`
           }
           if (info.os === windows) {
-            for (let scheme of schemes) {
+            for (const scheme of schemes) {
               scheme.textContent = `${scheme.textContent}${drive}`
             }
           }
@@ -1115,10 +1116,9 @@ class ColorCustomPair {
       return true
     }
     // reset sample text
-    let previousColor = ``
     if (`value` in this.input) this.input.value = this.input.value.toLowerCase()
     document.getElementById(`status`).textContent = `${this.title} `
-    previousColor = this.sampleText.style[this.property]
+    const previousColor = this.sampleText.style[this.property]
     // check the input colour is valid
     this.sampleText.style[this.property] = `${this.input.value}`
     // if the new colour style is invalid, the browser will instead return the
@@ -1344,6 +1344,68 @@ class Fonts extends Radios {
   }
 }
 /**
+ * Text size selection.
+ * @class TextSize
+ */
+class TextSize {
+  constructor() {
+    this.textSize = document.getElementById(`textSize`)
+    this.status = document.getElementById(`status`)
+    this.value = this.textSize.value
+    this.m = new Map()
+      .set("1", "100%")
+      .set("2", "110%")
+      .set("3", "125%")
+      .set("4", "150%")
+      .set("5", "175%")
+      .set("6", "200%")
+      .set("7", "300%")
+      .set("8", "400%")
+  }
+  /**
+   * Event listener for the `<select>` element.
+   */
+  async listen() {
+    this.textSize.addEventListener(
+      `change`,
+      () => {
+        const min = 1,
+          max = 8
+        this.value = this.textSize.value
+        if (this.value < min || this.value > max)
+          return console.error(
+            `text size select value "${this.value}" must be between ${min} and ${max}`,
+          )
+        this.status.textContent = `Saved text size selection ${this.value}`
+        this.storageSave()
+        document.getElementById(`textSizeOutput`).value = this.m.get(
+          this.value,
+        )
+      },
+      { passive: true },
+    )
+  }
+  /**
+   * Loads and selects the saved text size setting.
+   */
+  async storageLoad() {
+    const key = `textFontSize`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.textSize.value = value
+      document.getElementById(`textSizeOutput`).textContent = this.m.get(
+        this.textSize.value,
+      )
+    })
+  }
+  /**
+   * Save text size selection to the local storage.
+   */
+  storageSave() {
+    localStore(`textFontSize`, `${this.value}`)
+  }
+}
+/**
  * Line height selection.
  * @class LineHeight
  */
@@ -1476,22 +1538,22 @@ class Hero {
     const o = `options`
     switch (value) {
       case 1:
-        document.title = r + `credits`
+        document.title = `${r}credits`
         break
       case 2:
-        document.title = r + `samples`
+        document.title = `${r}samples`
         break
       case 3:
-        document.title = r + `useful links`
+        document.title = `${r}useful links`
         break
       case 4:
-        document.title = r + `fonts`
+        document.title = `${r}fonts`
         break
       case 5:
-        document.title = r + `display ` + o
+        document.title = `${r}display ${o}`
         break
       case 6:
-        document.title = r + `settings`
+        document.title = `${r}settings`
         break
       default:
         document.title = r + o
@@ -1565,7 +1627,6 @@ class Hero {
 }
 
 class Backup {
-  constructor() {}
   async newInstall() {
     chrome.storage.sync.get(null, (items) => {
       const count = Object.keys(items).length
@@ -1661,6 +1722,7 @@ class Backup {
           textBlinkingCursor: items.textBlinkingCursor,
           textCenterAlign: items.textCenterAlign,
           textDOSControlGlyphs: items.textDOSControlGlyphs,
+          textFontSize: items.textFontSize,
           textLineHeight: items.textLineHeight,
           textRenderEffect: items.textRenderEffect,
           textSmearBlockCharacters: items.textSmearBlockCharacters,
@@ -1701,6 +1763,7 @@ class Backup {
         case `textCenterAlign`:
         case `textDOSControlGlyphs`:
         case `textLineHeight`:
+        case `textFontSize`:
         case `textRenderEffect`:
         case `textSmearBlockCharacters`:
           chrome.storage.local.set({ [index]: value })
@@ -1715,7 +1778,7 @@ class Backup {
     chrome.storage.sync.get(null, (items) => {
       if (!items || Object.keys(items).length === 0)
         return console.info(`No storage.sync backup found.`)
-      for (let key in items) {
+      for (const key in items) {
         if (Object.prototype.hasOwnProperty.call(items, key)) {
           chrome.storage.local.set({ [key]: items[key] }, () => {
             console.log(`Restored ${key}.`)
@@ -1835,9 +1898,9 @@ class Hosts {
    * Adds a hostname tag with a working link and delete button.
    */
 
-  async _add(hostname = ``, init = false) {
-    if (hostname.length < this.minLength) return
-    hostname = DOMPurify.sanitize(hostname, { USE_PROFILES: { html: true } })
+  async _add(name = ``, init = false) {
+    if (name.length < this.minLength) return
+    const hostname = DOMPurify.sanitize(name, { USE_PROFILES: { html: true } })
     const tags = document.getElementById(`hostTags`),
       tag = this.template.cloneNode(true),
       anchor = tag.childNodes[1].childNodes[1],
@@ -1879,6 +1942,7 @@ class Hosts {
     if (hostname.includes(`/`)) return (this.submit.disabled = true)
     try {
       // test that the hostname can be used as a URL
+      // eslint-disable-next-line no-new
       new URL(`https://${hostname}`)
       this.submit.disabled = false
       // eslint-disable-next-line no-unused-vars
@@ -1906,6 +1970,7 @@ class Hosts {
    */
   _isSuggestion(hostname = ``) {
     for (const domain of this.suggestions) {
+      // eslint-disable-next-line eqeqeq
       if (hostname == domain) return true
     }
     return false
@@ -1931,7 +1996,7 @@ class Hosts {
   }
 }
 
-chrome.storage.onChanged.addListener(function (changes, namespace) {
+chrome.storage.onChanged.addListener((changes, namespace) => {
   if (typeof qunit !== `undefined`) return
   if (namespace !== `local`) return
   const changedItems = Object.keys(changes)
@@ -1980,6 +2045,9 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   const pal = new Palette()
   pal.storageLoad()
   pal.listen()
+  const ts = new TextSize()
+  ts.storageLoad()
+  ts.listen()
   const lh = new LineHeight()
   lh.storageLoad()
   lh.listen()

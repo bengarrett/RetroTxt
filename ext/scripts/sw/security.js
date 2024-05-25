@@ -76,7 +76,7 @@ class Security {
     if (typeof this.origin === `undefined`) return this.origins
     if (this.origin.length < 1) return this.origins
     // parse URL to valid host
-    var url = ``
+    let url
     try {
       url = new URL(this.origin)
       // eslint-disable-next-line no-unused-vars

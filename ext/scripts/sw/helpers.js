@@ -18,8 +18,8 @@ if (typeof chrome.runtime.onInstalled !== `undefined`) {
 // Get the active tab information of the current window.
 // eslint-disable-next-line no-unused-vars
 async function GetCurrentTab() {
-  let queryOptions = { active: true, currentWindow: true }
-  let [tab] = await chrome.tabs.query(queryOptions)
+  const queryOptions = { active: true, currentWindow: true }
+  const [tab] = await chrome.tabs.query(queryOptions)
   return tab
 }
 
@@ -181,11 +181,9 @@ class OptionsReset {
       .set(`textCenterAlign`, true)
       .set(`textDOSControlGlyphs`, false)
       .set(`textLineHeight`, `1`)
+      .set(`textFontSize`,`1`)
       .set(`textRenderEffect`, `normal`)
-      .set(
-        `textSmearBlockCharacters`,
-        BrowserOS() === Os.windows ? true : false,
-      )
+      .set(`textSmearBlockCharacters`, BrowserOS() === Os.windows)
       // permitted domains.
       .set(`settingsWebsiteDomains`, [
         `localhost`,
@@ -283,9 +281,10 @@ class Configuration extends OptionsReset {
       // conflicts
       .set(`domains`, [`feedly.com`, `github.com`, `webhooks.retrotxt.com`])
     // RetroTxt render options
+    const characters = 80
     this.textRender = new Map()
       // default number of characters of text per line
-      .set(`columns`, 80)
+      .set(`columns`, characters)
       // default CSS page width value
       .set(`cssWidth`, `100%`) // = 640px
   }
@@ -398,7 +397,7 @@ function BrowserOS() {
 // eslint-disable-next-line no-unused-vars
 function WebBrowser() {
   const ui = chrome.runtime.getManifest().options_ui
-  if (ui !== undefined && ui.page !== undefined) {
+  if (typeof ui !== `undefined` && typeof ui.page !== `undefined`) {
     const manifest = ui.page,
       firefoxID = manifest.startsWith(`moz-extension`, 0)
     return firefoxID ? Engine.firefox : Engine.chrome

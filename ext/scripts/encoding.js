@@ -8,8 +8,8 @@
  * @param [word=``] Word to capitalize
  */
 function Capitalize(word = ``) {
-  word = word.replaceAll(`_`, ` `).toLowerCase()
-  return `${word.charAt(0).toUpperCase()}${word.slice(1)}`
+  const words = word.replaceAll(`_`, ` `).toLowerCase()
+  return `${words.charAt(0).toUpperCase()}${words.slice(1)}`
 }
 
 /**
@@ -17,8 +17,8 @@ function Capitalize(word = ``) {
  * It applies all-caps to known acronyms and also removes hyphens.
  * @param [word=``] Word to capitalize
  */
-function Titleize(sentence = ``) {
-  if (sentence === ``) return ``
+function Titleize(sentences = ``) {
+  if (sentences === ``) return ``
   const acronyms = [
     `AI`,
     `APC`,
@@ -43,11 +43,11 @@ function Titleize(sentence = ``) {
     `XGA`,
   ]
   Object.freeze(acronyms)
-  sentence = sentence.replaceAll(`_`, ` `)
+  const sentence = sentences.replaceAll(`_`, ` `)
   const words = sentence.split(/[` `/-]/), // split both spaces and hyphens
     nonAlphabet = new RegExp(/[^A-Z]+/g)
-  words.forEach((word, i) => {
-    word = word.toUpperCase()
+  words.forEach((w, i) => {
+    const word = w.toUpperCase()
     words[i] = acronyms.includes(word.replace(nonAlphabet, ``))
       ? word.toUpperCase()
       : Capitalize(word)
@@ -283,7 +283,7 @@ class Characters extends BrowserEncodings {
    * @returns string
    */
   titleOut() {
-    let newKey = ``
+    let newKey
     if (this.support() === false) return `error1`
     if (this.outputs.has(this.key)) newKey = this.outputs.get(this.key)
     else {
@@ -357,12 +357,12 @@ class Guess extends BrowserEncodings {
   byteOrderMark() {
     // Using Byte Order Marks
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd374101%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
-    const hexadecimal = 16,
-      notFound = ``,
+    const notFound = ``,
       mark = this.text.slice(0, 4),
-      byte1 = mark.charCodeAt(0).toString(hexadecimal).toLowerCase(),
-      byte2 = mark.charCodeAt(1).toString(hexadecimal).toLowerCase(),
-      byte3 = mark.charCodeAt(2).toString(hexadecimal).toLowerCase()
+      radix = 16,
+      byte1 = mark.charCodeAt(0).toString(radix).toLowerCase(),
+      byte2 = mark.charCodeAt(1).toString(radix).toLowerCase(),
+      byte3 = mark.charCodeAt(2).toString(radix).toLowerCase()
     if (byte1 === `ef` && byte2 === `bb` && byte3 === `bf`) return `UTF-8`
     if (byte1 === `ff` && byte2 === `fe`) return `UTF-16, little endian`
     if (byte1 === `fe` && byte2 === `ff`) return `UTF-16, big endian`
@@ -374,12 +374,13 @@ class Guess extends BrowserEncodings {
    * @param [dom={}] HTML element
    * @returns string
    */
-  codePage(sauceSet = ``, dom = {}) {
-    if (typeof sauceSet !== `string` && sauceSet !== null)
-      CheckArguments(`sauceSet`, `string`, sauceSet)
+  codePage(charSet = ``, dom = {}) {
+    if (typeof charSet !== `string` && charSet !== null)
+      CheckArguments(`charSet`, `string`, charSet)
     if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
     // if there was no useful SAUCE data then use the transcode setting
-    if (sauceSet === ``) {
+    let sauceSet = charSet
+    if (charSet === ``) {
       sauceSet = sessionStorage.getItem(`lockTranscode`)
       if (sauceSet !== null)
         console.log(`Using saved lock-transcode setting: "${sauceSet}"`)
@@ -456,12 +457,14 @@ class Guess extends BrowserEncodings {
       ...[bulletOperator, middleDot, blackSquare],
     ]
     Object.freeze(artChars)
+    const radix = 16
     let i = length
     while (i--) {
       if (i < length - limit) break
       const position = length - i || 0,
         codePoint = this.text.codePointAt(position)
-      if (codePoint !== undefined) finds.hex = codePoint.toString(16) // not used
+      if (typeof codePoint !== `undefined`)
+        finds.hex = codePoint.toString(radix) // not used
       // unsupported Unicode code point?
       const unsupported = 65535
       if (codePoint >= unsupported) {
@@ -926,12 +929,12 @@ class FontFamily {
         case `ami`:
           return `American Megatrends Inc. ${Titleize(name.slice(4))}`
       }
-      name = name.replaceAll(`_`, ` `)
-      name = name.replaceAll(`1k`, ` 1000`)
-      name = name.replaceAll(`2k`, ` 2000`)
-      name = name.replaceAll(`-ii`, `-II`)
-      name = name.replaceAll(`-i`, `-I`)
-      return `${Titleize(name)}`
+      let fixed = name.replaceAll(`_`, ` `)
+      fixed = fixed.replaceAll(`1k`, ` 1000`)
+      fixed = fixed.replaceAll(`2k`, ` 2000`)
+      fixed = fixed.replaceAll(`-ii`, `-II`)
+      fixed = fixed.replaceAll(`-i`, `-I`)
+      return `${Titleize(fixed)}`
     }
     if (print) return font(name).trim()
     let title = `Font family used for display\n`

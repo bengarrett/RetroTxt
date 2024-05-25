@@ -21,7 +21,12 @@ const atascii = `candyantics`,
   potNoodle = `p0tnoodle`,
   microknight = `microknight`,
   microknight_ = `microknightplus`,
-  mosoul = `mosoul`
+  mosoul = `mosoul`,
+  trueColor = 24, // 24-bit colour
+  bit8Color = 8, // 256 colour
+  bit4Color = 4, // 16 colour
+  bit2Color = 2, // 4 colour
+  bit1Color = 1 // 2 colour
 
 /**
  * Document Object Model (DOM) programming interface for HTML.
@@ -62,6 +67,7 @@ class DOM {
       `textBackgroundScanlines`,
       `textBlinkingCursor`,
       `textCenterAlign`,
+      `textFontSize`,
       `textLineHeight`,
       `textRenderEffect`,
     ]
@@ -223,10 +229,10 @@ class DOM {
   async _constructPalette() {
     const toggle = document.getElementById(`colorPaletteToggle`),
       palette = new HardwarePalette()
-    if (ecma48.colorDepth !== 4)
+    if (ecma48.colorDepth !== bit4Color)
       return toggle.classList.add(`has-text-weight-normal`)
     if (toggle === null) return
-    if (ecma48.colorDepth !== 4) return
+    if (ecma48.colorDepth !== bit4Color) return
     toggle.onclick = () => {
       // this cycles through to the next palette
       const css = document.getElementById(`retrotxt-4bit-ice`),
@@ -373,8 +379,9 @@ class DOM {
   /**
    * Toggles the 'ANSI color palette'.
    */
-  async clickAnsiColorPalette(name = ``) {
-    if (name === ``) name = `${this.results.colorsAnsiColorPalette}`
+  async clickAnsiColorPalette(palette = ``) {
+    const name =
+      palette === `` ? `${this.results.colorsAnsiColorPalette}` : palette
     const ansi = new HardwarePalette(),
       i = ansi.filenames.indexOf(name)
     if (i < -1) return console.error(`Unknown colour palette name '${name}'`)
@@ -383,7 +390,8 @@ class DOM {
     const link = document.getElementById(`retrotxt-4bit`),
       elm = document.getElementById(`colorPaletteToggle`)
     if (link !== null) link.href = chrome.runtime.getURL(ansi.savedFilename())
-    if (elm !== null && ecma48.colorDepth === 4) elm.textContent = `${ansi.key}`
+    if (elm !== null && ecma48.colorDepth === bit4Color)
+      elm.textContent = `${ansi.key}`
   }
   /**
    * Toggles the 'Blinking cursor and text' blinking animation
@@ -449,14 +457,15 @@ class DOM {
     let colorId = colorName
     // background to body
     if (colorName.startsWith(`theme-`) === false) colorId = `theme-${colorName}`
-    if (this.body.classList !== null) this.body.classList.add(`${colorName}-bg`)
-    else return console.error(`the classList for the body element is null`)
+    if (this.body.classList === null)
+      return console.error(`the classList for the body element is null`)
+    this.body.classList.add(`${colorName}-bg`)
     // foreground to article
     if (this.article === null)
       return console.error(`article element is missing`)
-    if (this.article.classList !== null)
-      this.article.classList.add(`${colorName}-fg`)
-    else return console.error(`the classList for the article element is null`)
+    if (this.article.classList === null)
+      return console.error(`the classList for the article element is null`)
+    this.article.classList.add(`${colorName}-fg`)
     // clean up custom colours
     if (colorName !== `theme-custom`) {
       this.body.removeAttribute(`style`)
@@ -467,7 +476,7 @@ class DOM {
     switch (colorId) {
       case `theme-atarist`:
       case `theme-windows`:
-        if (fixes == null)
+        if (fixes === null)
           this.head.append(
             CreateLink(
               `../css/text_colors_white_bg-fixes.css`,
@@ -476,7 +485,7 @@ class DOM {
           )
         break
       default:
-        if (fixes != null) fixes.remove()
+        if (fixes !== null) fixes.remove()
     }
     // handle theme-custom colours, this also loads the stylesheet and applies CSS
     if (colorName === `theme-custom`) {
@@ -575,6 +584,28 @@ class DOM {
     }
   }
   /**
+   * Toggles 'Text size'
+   * @param [size=`1`] Text size value
+   */
+  async clickTextSize(size = `1`) {
+    console.log(`clickTextSize`, size)
+    if (typeof size !== `string`)
+      CheckArguments(`textFontSize`, `string`, size)
+    if (typeof this.rawText === `undefined`)
+      return console.error(`this.rawText element is missing`)
+    this.rawText.classList.remove(
+      `is-font-2`,
+      `is-font-3`,
+      `is-font-4`,
+      `is-font-5`,
+      `is-font-6`,
+      `is-font-7`,
+      `is-font-8`,
+    )
+    if (size === `1`) return
+    this.rawText.classList.add(`is-font-${size}`)
+  }
+  /**
    * Toggles 'Line height'
    * @param [height=`1`] Line height value
    */
@@ -605,8 +636,8 @@ class DOM {
       link4bit = `retrotxt-4bit`
     ecma48.colorDepth = depth
     switch (depth) {
-      case 24:
-      case 8:
+      case trueColor:
+      case bit8Color:
         this.palette.key = `xterm`
         this.palette.set()
         document.getElementById(link4bit).href = url(
@@ -634,8 +665,8 @@ class DOM {
     }
     // handle 8-bit stylesheet
     switch (depth) {
-      case 24:
-      case 8:
+      case trueColor:
+      case bit8Color:
         break
       default:
         document.getElementById(`retrotxt-8bit`).remove()
@@ -652,7 +683,7 @@ class DOM {
   async linkFixTextPairs() {
     // colour choices
     if (typeof this.results.colorsTextPairs !== `string`) return
-    if (document.getElementById(`white-bg-fixes`) != null) return
+    if (document.getElementById(`white-bg-fixes`) !== null) return
     switch (this.results.colorsTextPairs) {
       case `theme-atarist`:
       case `theme-windows`:
@@ -671,6 +702,7 @@ class DOM {
     this._restoreBlinkingCursorText()
     this._restoreCenterAlign()
     this._restoreFont()
+    this._restoreTextSize()
     this._restoreLineheight()
     this._restorePallete()
     this._restorePageWrap()
@@ -686,7 +718,7 @@ class DOM {
   async _restoreBackgroundScanlines() {
     const bsl = this.results.textBackgroundScanlines
     if (`${bsl}` === `true`) {
-      let toggle = bsl
+      const toggle = bsl
       ToggleScanlines(toggle, this.body)
     } else if (StringToBool(bsl) === null)
       this._restoreErr(`textBackgroundScanlines`)
@@ -716,6 +748,12 @@ class DOM {
     }
     this._restoreErr(`fontFamilyName`)
   }
+  async _restoreTextSize() {
+    console.log(this.results)
+    const ts = this.results.textFontSize
+    if (typeof ts === `string`) return this.clickTextSize(ts)
+    this._restoreErr(`textFontSize`)
+  }
   async _restoreLineheight() {
     const lh = this.results.textLineHeight
     if (typeof lh === `string`) return this.clickLineHeight(lh)
@@ -736,7 +774,7 @@ class DOM {
   async _restoreRender() {
     const te = this.results.textRenderEffect
     if (typeof te === `string`) {
-      let effect = te
+      const effect = te
       return ToggleTextEffect(effect, this.article)
     }
     // 10-Feb-2024 Changed to use the new textRenderEffect setting boolean type
@@ -1230,8 +1268,7 @@ class SauceMeta {
         this.configs.codePage = fonts.get(`special`)
       const iso8859_1 = `819`
       if (split[2] === iso8859_1) codePage = fonts.get(`Amiga`)
-      // default
-      codePage = fonts.get(`DOS`)
+      else codePage = fonts.get(`DOS`)
     }
     this.configs.codePage = codePage
   }
@@ -1352,7 +1389,7 @@ class Output {
     // font override
     sessionStorage.removeItem(`lockFont`)
     const font = this.ecma48.font
-    if (font === undefined)
+    if (typeof font === `undefined`)
       CheckError(
         `🖫 'this.ecma48.font' should have returned a font value or 'null' but instead returned ${this.ecma48.font}.`,
       )
@@ -1403,43 +1440,6 @@ class Output {
       msg += `\nThe display of the ANSI is inaccurate!`
       console.info(msg)
     }
-  }
-  /**
-   * Font size adjustment.
-   */
-  fontSize() {
-    const bold = this.newBold(),
-      pre = this.pre,
-      one = `text-1x`,
-      two = `text-2x`,
-      three = `text-3x`
-    bold.id = `sizeToggle`
-    bold.title = `Font size adjustment`
-    bold.textContent = `1x`
-    // create event listener
-    bold.onclick = () => {
-      switch (bold.textContent) {
-        case `1x`:
-          bold.textContent = `2x`
-          pre.classList.add(two)
-          pre.classList.remove(one, three)
-          pixels()
-          break
-        case `2x`:
-          bold.textContent = `3x`
-          pre.classList.add(three)
-          pre.classList.remove(one, two)
-          pixels()
-          break
-        case `3x`:
-          bold.textContent = `1x`
-          pre.classList.add(one)
-          pre.classList.remove(two, three)
-          pixels()
-          break
-      }
-    }
-    return bold
   }
 
   /**
@@ -1756,9 +1756,6 @@ class Information extends Output {
       this._label(`render`),
       this._setRender(),
       this._sep(),
-      this._label(`size`),
-      this.output.fontSize(),
-      this._sep(),
       this._label(`fontname`),
       this.font,
     )
@@ -1924,7 +1921,7 @@ class Information extends Output {
       b = document.createElement(`span`)
     strong.id = `colorPaletteToggle`
     switch (colorDepth) {
-      case 24:
+      case trueColor:
         strong.title = `A range of 16.7 million ${chrome.i18n.getMessage(
           `color`,
         )}s using the RGB true ${chrome.i18n.getMessage(`color`)} palette`
@@ -1938,21 +1935,21 @@ class Information extends Output {
         strong.append(g)
         strong.append(b)
         break
-      case 8:
+      case bit8Color:
         strong.title = `A range of 256 ${chrome.i18n.getMessage(
           `color`,
         )}s using the xterm palette`
         strong.textContent = `xterm 8-bit`
         break
-      case 4:
+      case bit4Color:
         strong.title = `Switch ANSI ${chrome.i18n.getMessage(`color`)} palettes`
         strong.textContent = `IBM`
         break
-      case 2:
+      case bit2Color:
         strong.textContent = `4 ${chrome.i18n.getMessage(`color`)} magenta`
         break
-      case 1:
-        strong.textContent = `2 ${chrome.i18n.getMessage(`color`)} ASCII`
+      case bit1Color:
+        strong.textContent = `2 ${chrome.i18n.getMessage(`color`)} monochrome`
         break
       case 0:
         strong.textContent = `monochrome`
@@ -2011,13 +2008,13 @@ class Invoke {
     const defaultBG = `theme-msdos-bg`,
       defaultFG = `theme-msdos-fg`
     let body = sessionStorage.getItem(`bodyClass`)
-    body = body !== null ? body : defaultBG
+    body = body === null ? defaultBG : body
     this._addClasses(this.dom.body, body)
     this._addBackground(this.dom.body)
-    let main = sessionStorage.getItem(`mainClass`)
+    const main = sessionStorage.getItem(`mainClass`)
     this._addClasses(this.dom.main, main)
     let article = sessionStorage.getItem(`articleClass`)
-    article = article !== null ? article : defaultFG
+    article = article === null ? defaultFG : article
     this._addClasses(this.dom.article, article)
     const hide = `is-hidden`
     this.dom.pre.classList.add(hide)
@@ -2046,7 +2043,7 @@ class Invoke {
   _addBackground(elm = HTMLElement) {
     const key = `bodyBackground`
     let color = sessionStorage.getItem(key)
-    color = color !== null ? color : ``
+    color = color === null ? `` : color
     sessionStorage.removeItem(key)
     if (color === ``) return
     elm.style.backgroundColor = `${color}`
@@ -2093,6 +2090,7 @@ function handleChanges(change) {
     lineHeight: change.textLineHeight,
     pageWrap: change.ansiPageWrap,
     renderEffect: change.textRenderEffect,
+    textFontSize: change.textFontSize,
     textPairs: change.colorsTextPairs,
     smearBlockCharacters: change.textSmearBlockCharacters,
     useIceColors: change.ansiUseIceColors,
@@ -2132,8 +2130,8 @@ function handleChanges(change) {
     return dom.clickBlinkingCursorText()
   }
   if (changes.centerAlign) {
-    if (changes.centerAlign.newValue == true) return dom.clickCenterAlign(true)
-    else return dom.clickCenterAlign(false)
+    if (changes.centerAlign.newValue === true) return dom.clickCenterAlign(true)
+    return dom.clickCenterAlign(false)
   }
   if (changes.colorPalette)
     return dom.clickAnsiColorPalette(changes.colorPalette.newValue)
@@ -2165,13 +2163,21 @@ function handleChanges(change) {
   if (changes.fontname) {
     const family = new FontFamily(`${changes.fontname.newValue}`)
     family.swap(dom.rawText)
-    return chrome.storage.local.get(`textLineHeight`, (result) => {
+    chrome.storage.local.get(`textLineHeight`, (result) => {
       if (!(`textLineHeight` in result))
         return CheckError(
           `🖫 Could not obtain the required textLineHeight setting to adjust the layout.`,
           true,
         )
       dom.clickLineHeight(result.textLineHeight)
+    })
+    chrome.storage.local.get(`textFontSize`, (result) => {
+      if (!(`textFontSize` in result))
+        return CheckError(
+          `🖫 Could not obtain the required textFontSize setting to adjust the layout.`,
+          true,
+        )
+      dom.clickTextSize(result.textFontSize)
     })
   }
   if (changes.info) {
@@ -2183,6 +2189,10 @@ function handleChanges(change) {
       case `close`:
         return dom.clickHeader(2)
     }
+  }
+  if (changes.textFontSize) {
+    console.log(changes.textFontSize.newValue, `textFontSize change`)
+    return dom.clickTextSize(changes.textFontSize.newValue)
   }
   if (changes.lineHeight)
     return dom.clickLineHeight(changes.lineHeight.newValue)
@@ -2262,8 +2272,8 @@ function handleChanges(change) {
  * @param message OnMessage event for the `chrome.runtime` object
  */
 function handleConnections(message) {
-  if (typeof message[`initTab`] === `number`) {
-    const tabID = message[`initTab`],
+  if (typeof message.initTab === `number`) {
+    const tabID = message.initTab,
       port = chrome.runtime.connect({ name: `invoker` })
     Console(`✉ initTab #${tabID} message received.`)
     if (document.getElementById(`retrotxt-styles`) === null) {
@@ -2275,13 +2285,13 @@ function handleConnections(message) {
     Console(`✉ initTab is true post message.`)
     return
   }
-  if (typeof message[`toggleTab`] === `number`) {
-    Console(`✉ toggleTab #${message[`toggleTab`]} message received.`)
+  if (typeof message.toggleTab === `number`) {
+    Console(`✉ toggleTab #${message.toggleTab} message received.`)
     new Invoke().toggle()
     return
   }
-  if (typeof message[`tabTranscode`] === `string`) {
-    const value = message[`tabTranscode`]
+  if (typeof message.tabTranscode === `string`) {
+    const value = message.tabTranscode
     Console(`✉ tabTranscode ${value} message received.`)
     if (value === Cs.UseCharSet) sessionStorage.removeItem(`lockTranscode`)
     else sessionStorage.setItem(`lockTranscode`, value)
@@ -2335,19 +2345,19 @@ function handleMessages(message, sender) {
 /**
  * Execute RetroTxt, used by the chrome.tabs `executeScript` method.
  * @param [tabId=0] Browser tab id to execute RetroTxt
- * @param [tabEncode=`unknown`] Page encoding used by the tab
+ * @param [pageEncode=`unknown`] Page encoding used by the tab
  */
-function Execute(tabId = 0, tabEncode = `unknown`) {
+function Execute(tabId = 0, pageEncode = `unknown`) {
   if (typeof tabId !== `number`) CheckArguments(`tabId`, `number`, tabId)
-  if (typeof tabEncode !== `string`)
-    CheckArguments(`tabEncode`, `string`, tabEncode)
+  if (typeof pageEncode !== `string`)
+    CheckArguments(`pageEncode`, `string`, pageEncode)
 
   let DeveloperMode = false
   chrome.storage.local.get(Developer, (store) => {
     if (Developer in store) DeveloperMode = true
   })
 
-  tabEncode = tabEncode.toLowerCase()
+  const tabEncode = pageEncode.toLowerCase()
   // clean-up session items, in case the tab was previously used by RetroTxt
   try {
     sessionStorage.removeItem(`lockFont`)
@@ -2411,7 +2421,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   // attempt to guess the character set
   if (output.data.cs === ``) output.data.cs = guess.codePage(null, output)
   output.rebuildCharacterSet()
-  let inputMessage = ``
+  let inputMessage
   const fmt = textType(input.format)
   if (fmt === BBSText) {
     // handle non-ASCII text formatting
@@ -2419,7 +2429,6 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
       inputMessage = `${chrome.i18n.getMessage(input.format)}`
       if (inputMessage.length === 0) {
         console.warn(`"${input.format}" is not found in messages.json locales`)
-        inputMessage = `${input.format}`
       }
       // eslint-disable-next-line no-unused-vars
     } catch (e) {
@@ -2455,7 +2464,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
     dom.results = result
     if (sauce.version === `00`) {
       const i = parseInt(sauce.configs.iceColors, 10)
-      dom.ecma48.iceColors = i === 1 ? true : false
+      dom.ecma48.iceColors = i === 1
     }
     dom.constructHeader()
   })
@@ -2483,7 +2492,7 @@ function Execute(tabId = 0, tabEncode = `unknown`) {
   if (output.data.sauce !== null) information.append(output.data.sauce)
   // create an alert message at the top of the page
   const chkErr = globalThis.checkedErr
-  DisplayAlert(chkErr !== undefined && chkErr === true ? true : false)
+  DisplayAlert(Boolean(typeof chkErr !== `undefined` && chkErr === true))
   // hide original source text
   dom.rawText.classList.add(`is-hidden`)
   // set the document language, en is for generic English
@@ -2593,7 +2602,7 @@ function markTab(mark = `[··]`) {
     const path = globalThis.location.pathname
       .split(`/`)
       .filter((el) => {
-        return !!el
+        return Boolean(el)
       })
       .pop()
     return `${mark} ${path}`

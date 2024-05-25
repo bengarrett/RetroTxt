@@ -16,7 +16,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
  */
 class Menu {
   constructor() {
-    this.support = chrome.contextMenus.onClicked !== undefined
+    this.support = typeof chrome.contextMenus.onClicked !== `undefined`
     // contexts types for the RetroTxt context menus
     const toolbarButton = `browser_action`,
       insecure = `http://*/*`,
@@ -75,7 +75,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "version" context menu`)) return
-      }
+      },
     )
   }
   _itemFonts() {
@@ -88,7 +88,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "fonts" context menu`)) return
-      }
+      },
     )
   }
   _itemDisplay() {
@@ -101,7 +101,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "display" context menu`)) return
-      }
+      },
     )
   }
   _itemSettings() {
@@ -114,7 +114,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "settings" context menu`)) return
-      }
+      },
     )
   }
   _itemDocumentation() {
@@ -127,7 +127,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "documentation" context menu`)) return
-      }
+      },
     )
   }
   _itemCredits() {
@@ -140,7 +140,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "credits" context menu`)) return
-      }
+      },
     )
   }
   _itemSamples() {
@@ -153,7 +153,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "samples" context menu`)) return
-      }
+      },
     )
   }
   _itemUseful() {
@@ -166,7 +166,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "useful" context menu`)) return
-      }
+      },
     )
   }
   /**
@@ -185,7 +185,7 @@ class Menu {
       },
       () => {
         if (CheckLastError(`create "separator" context menu`)) return
-      }
+      },
     )
   }
 }

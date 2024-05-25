@@ -17,7 +17,9 @@
 
 const empty = `\u0020`,
   nbsp = `\u00A0`,
-  softHyphen = `\u00AD`
+  softHyphen = `\u00AD`,
+  radix = 16,
+  linefeed = 10
 
 /**
  * Simulate legacy text character sets (also called code pages) using Unicode
@@ -444,7 +446,7 @@ class DOSText {
       Console(
         `DOSText()._fromCharCode(${number}) String.fromCharCode = ${String.fromCharCode(
           number,
-        )} \\u${String.fromCharCode(number).codePointAt(0).toString(16)}`,
+        )} \\u${String.fromCharCode(number).codePointAt(0).toString(radix)}`,
       )
     switch (this.codepage) {
       case Cs.Windows_1251: {
@@ -453,7 +455,6 @@ class DOSText {
     }
     const NUL = 0,
       horizontalTab = 9,
-      lineFeed = 10,
       carriageReturn = 13,
       escape = 27,
       US = 31,
@@ -477,8 +478,8 @@ class DOSText {
             // some ANSI/DOS art expect the ○ character
             if (this.codepage === Cs.Windows_1252_English)
               return this.asciiTable[9]
-            else return `\t`
-          case lineFeed:
+            return `\t`
+          case linefeed:
           case carriageReturn:
             return `\n`
           default:
@@ -538,7 +539,7 @@ class DOSText {
    * @param {number} [offsetOutput=0] Array index offset for the CP437 table
    * @returns {string} Unicode symbol
    */
-  _lookupCp437(number, offsetInput = 0, offsetOutput = 0) {
+  _lookupCp437(number, osInput = 0, osOutput = 0) {
     // This function takes a Unicode decimal character number, finds its
     // matching character in a legacy ISO codepage table to return the
     // MS-DOS CP-437 character that occupies the same table cell position.
@@ -561,6 +562,8 @@ class DOSText {
     // Latin/Cyrillic (legacy ISO) https://en.wikipedia.org/wiki/ISO/IEC_8859-5
     // Cyrillic (Unicode block) https://en.wikipedia.org/wiki/Cyrillic_(Unicode_block)
     // OEM-US (legacy MS-DOS, CP-437) https://en.wikipedia.org/wiki/Code_page_437
+    let offsetInput = osInput,
+      offsetOutput = osOutput
     if (this.codepage === Cs.ISO8859_5) {
       // handle inconsistencies where Unicode Cyrillic characters
       // are not found in ISO 8859-5
@@ -582,7 +585,7 @@ class DOSText {
       }
     }
     // find character in the character table
-    let index = this.extendedTable.indexOf(
+    const index = this.extendedTable.indexOf(
       `${String.fromCharCode(number + offsetInput)}`,
     )
     const deleted = 127
@@ -601,11 +604,11 @@ class DOSText {
           number,
         )
           .codePointAt(0)
-          .toString(16)}]`,
+          .toString(radix)}]`,
         number + offsetInput,
         String.fromCharCode(number + offsetInput)
           .codePointAt(0)
-          .toString(16),
+          .toString(radix),
         String.fromCharCode(number + offsetInput),
       )
       return `${this.errorCharacter}` // error, unknown character
@@ -617,7 +620,7 @@ class DOSText {
       number + offsetInput,
       String.fromCharCode(number + offsetInput)
         .codePointAt(0)
-        .toString(16),
+        .toString(radix),
       String.fromCharCode(number + offsetInput),
       table[index + offsetOutput],
     )
@@ -984,10 +987,9 @@ class BBS {
     const validate = (value) => {
       if (value === ` `) return false
       // convert from hexadecimal to decimal
-      const hex = parseInt(value, 16),
-        min = 0,
-        max = 16
-      if (Number.isNaN(hex) || hex < min || hex > max) return false
+      const hex = parseInt(value, radix),
+        min = 0
+      if (Number.isNaN(hex) || hex < min || hex > radix) return false
       return true
     }
     const pre = this._newElement(`pre`),
@@ -997,7 +999,7 @@ class BBS {
     // to handle colour, split @X characters
     const colours = replaced.split(`@X`)
     colour: for (const code of colours) {
-      if (code.length === 0 || code.charCodeAt(0) === 10) continue colour
+      if (code.length === 0 || code.charCodeAt(0) === linefeed) continue colour
       // check values to match expected prefix, otherwise treat as text
       const backgroundCode = `${code.substring(0, 1)}`,
         foregroundCode = `${code.substring(1, 2)}`
@@ -1103,15 +1105,15 @@ class BBS {
   _normalizePipes() {
     const pre = this._newElement(`pre`)
     // replace escaped characters because text will be encoded by <pre>
-    let replaced = this._replaceEscapedChars(),
-      background = -1,
+    const replaced = this._replaceEscapedChars()
+    let background = -1,
       foreground = -1
     // to handle colour, split | characters
     const colours = replaced.split(`|`)
     // smear block characters
     const smear = localStorage.getItem(`textSmearBlockCharacters`) || `false`
     for (const code of colours) {
-      if (code.length === 0 || code.charCodeAt(0) === 10) continue
+      if (code.length === 0 || code.charCodeAt(0) === linefeed) continue
       // check values to match expected prefix, otherwise treat as text
       const pipe = `${code.substring(0, 2)}`,
         appendText = code.substring(2),

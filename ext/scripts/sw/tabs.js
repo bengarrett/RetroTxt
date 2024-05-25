@@ -51,8 +51,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tabInfo) => {
   const tabs = new Tabs()
   tabs.tabId = tabId
   if (!(`url` in tabInfo)) {
-    const consoleLog =
-      `status` in changeInfo && changeInfo.status === `complete` ? true : false
+    const consoleLog = Boolean(
+      `status` in changeInfo && changeInfo.status === `complete`,
+    )
     return tabs._permissionDenied(consoleLog, `updated`)
   }
   new Tab(tabId, tabInfo.url, changeInfo).update()
@@ -220,8 +221,9 @@ class Tab {
           if (result === null) return RemoveSession(this.id)
           if (Object.entries(result).length === 0) return RemoveSession(this.id)
           const updateCounts = result[key].update
-          if (updateCounts >= 3) return RemoveSession(this.id)
-          result["update"] = updateCounts + 1
+          const maximum = 2
+          if (updateCounts > maximum) return RemoveSession(this.id)
+          result.update = updateCounts + 1
           chrome.storage.local.set({ [key]: result[key] })
         })
         // browser specific cases
@@ -286,7 +288,7 @@ class Tab {
    */
   _hostname() {
     if (this.url === ``) return ``
-    let url = ``
+    let url
     try {
       const u = new URL(`${this.url}`)
       url = u.hostname
