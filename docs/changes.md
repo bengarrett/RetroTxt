@@ -2,15 +2,16 @@
 title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2024-01-03
+date: 2024-05-25
 hide:
   - toc
 ---
 
-## 5.45
+## 5.5
 
 ## June 2024
 
+- New Text Size slider in the Options to adjust the font size and removed the Font size adjustment on the information header.
 - Updated the Bulma CSS framework to v1.0. The Options themes look different due to this update, as the framework was rewritten from scratch.
 - Updated Cascadia Mono and Code fonts to v2024.4 to use its new _Symbols for Legacy Computing_ support, "the Cascadia family now supports a whopping 1140 new glyphs covering sextants, octants, large type pieces, eights, sedecimants, quadrants (separated), segmented digits, circles and checkerboards... In addition, the existing block elements have been aligned to fit the same grid as the new characters to make for seamless ANSI art."
 

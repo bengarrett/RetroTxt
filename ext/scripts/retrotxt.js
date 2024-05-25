@@ -67,6 +67,7 @@ class DOM {
       `textBackgroundScanlines`,
       `textBlinkingCursor`,
       `textCenterAlign`,
+      `textFontSize`,
       `textLineHeight`,
       `textRenderEffect`,
     ]
@@ -583,6 +584,28 @@ class DOM {
     }
   }
   /**
+   * Toggles 'Text size'
+   * @param [size=`1`] Text size value
+   */
+  async clickTextSize(size = `1`) {
+    console.log(`clickTextSize`, size)
+    if (typeof size !== `string`)
+      CheckArguments(`textFontSize`, `string`, size)
+    if (typeof this.rawText === `undefined`)
+      return console.error(`this.rawText element is missing`)
+    this.rawText.classList.remove(
+      `is-font-2`,
+      `is-font-3`,
+      `is-font-4`,
+      `is-font-5`,
+      `is-font-6`,
+      `is-font-7`,
+      `is-font-8`,
+    )
+    if (size === `1`) return
+    this.rawText.classList.add(`is-font-${size}`)
+  }
+  /**
    * Toggles 'Line height'
    * @param [height=`1`] Line height value
    */
@@ -679,6 +702,7 @@ class DOM {
     this._restoreBlinkingCursorText()
     this._restoreCenterAlign()
     this._restoreFont()
+    this._restoreTextSize()
     this._restoreLineheight()
     this._restorePallete()
     this._restorePageWrap()
@@ -723,6 +747,12 @@ class DOM {
       return fonts.swap(this.rawText)
     }
     this._restoreErr(`fontFamilyName`)
+  }
+  async _restoreTextSize() {
+    console.log(this.results)
+    const ts = this.results.textFontSize
+    if (typeof ts === `string`) return this.clickTextSize(ts)
+    this._restoreErr(`textFontSize`)
   }
   async _restoreLineheight() {
     const lh = this.results.textLineHeight
@@ -1411,43 +1441,6 @@ class Output {
       console.info(msg)
     }
   }
-  /**
-   * Font size adjustment.
-   */
-  fontSize() {
-    const bold = this.newBold(),
-      pre = this.pre,
-      one = `text-1x`,
-      two = `text-2x`,
-      three = `text-3x`
-    bold.id = `sizeToggle`
-    bold.title = `Font size adjustment`
-    bold.textContent = `1x`
-    // create event listener
-    bold.onclick = () => {
-      switch (bold.textContent) {
-        case `1x`:
-          bold.textContent = `2x`
-          pre.classList.add(two)
-          pre.classList.remove(one, three)
-          pixels()
-          break
-        case `2x`:
-          bold.textContent = `3x`
-          pre.classList.add(three)
-          pre.classList.remove(one, two)
-          pixels()
-          break
-        case `3x`:
-          bold.textContent = `1x`
-          pre.classList.add(one)
-          pre.classList.remove(two, three)
-          pixels()
-          break
-      }
-    }
-    return bold
-  }
 
   /**
    * Creates information on the input, output codepage, and text encoding.
@@ -1762,9 +1755,6 @@ class Information extends Output {
     div2.append(
       this._label(`render`),
       this._setRender(),
-      this._sep(),
-      this._label(`size`),
-      this.output.fontSize(),
       this._sep(),
       this._label(`fontname`),
       this.font,
@@ -2100,6 +2090,7 @@ function handleChanges(change) {
     lineHeight: change.textLineHeight,
     pageWrap: change.ansiPageWrap,
     renderEffect: change.textRenderEffect,
+    textFontSize: change.textFontSize,
     textPairs: change.colorsTextPairs,
     smearBlockCharacters: change.textSmearBlockCharacters,
     useIceColors: change.ansiUseIceColors,
@@ -2172,13 +2163,21 @@ function handleChanges(change) {
   if (changes.fontname) {
     const family = new FontFamily(`${changes.fontname.newValue}`)
     family.swap(dom.rawText)
-    return chrome.storage.local.get(`textLineHeight`, (result) => {
+    chrome.storage.local.get(`textLineHeight`, (result) => {
       if (!(`textLineHeight` in result))
         return CheckError(
           `🖫 Could not obtain the required textLineHeight setting to adjust the layout.`,
           true,
         )
       dom.clickLineHeight(result.textLineHeight)
+    })
+    chrome.storage.local.get(`textFontSize`, (result) => {
+      if (!(`textFontSize` in result))
+        return CheckError(
+          `🖫 Could not obtain the required textFontSize setting to adjust the layout.`,
+          true,
+        )
+      dom.clickTextSize(result.textFontSize)
     })
   }
   if (changes.info) {
@@ -2190,6 +2189,10 @@ function handleChanges(change) {
       case `close`:
         return dom.clickHeader(2)
     }
+  }
+  if (changes.textFontSize) {
+    console.log(changes.textFontSize.newValue, `textFontSize change`)
+    return dom.clickTextSize(changes.textFontSize.newValue)
   }
   if (changes.lineHeight)
     return dom.clickLineHeight(changes.lineHeight.newValue)

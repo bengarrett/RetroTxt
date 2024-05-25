@@ -181,6 +181,7 @@ class OptionsReset {
       .set(`textCenterAlign`, true)
       .set(`textDOSControlGlyphs`, false)
       .set(`textLineHeight`, `1`)
+      .set(`textFontSize`,`1`)
       .set(`textRenderEffect`, `normal`)
       .set(`textSmearBlockCharacters`, BrowserOS() === Os.windows)
       // permitted domains.

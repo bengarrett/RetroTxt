@@ -1344,6 +1344,68 @@ class Fonts extends Radios {
   }
 }
 /**
+ * Text size selection.
+ * @class TextSize
+ */
+class TextSize {
+  constructor() {
+    this.textSize = document.getElementById(`textSize`)
+    this.status = document.getElementById(`status`)
+    this.value = this.textSize.value
+    this.m = new Map()
+      .set("1", "100%")
+      .set("2", "110%")
+      .set("3", "125%")
+      .set("4", "150%")
+      .set("5", "175%")
+      .set("6", "200%")
+      .set("7", "300%")
+      .set("8", "400%")
+  }
+  /**
+   * Event listener for the `<select>` element.
+   */
+  async listen() {
+    this.textSize.addEventListener(
+      `change`,
+      () => {
+        const min = 1,
+          max = 8
+        this.value = this.textSize.value
+        if (this.value < min || this.value > max)
+          return console.error(
+            `text size select value "${this.value}" must be between ${min} and ${max}`,
+          )
+        this.status.textContent = `Saved text size selection ${this.value}`
+        this.storageSave()
+        document.getElementById(`textSizeOutput`).value = this.m.get(
+          this.value,
+        )
+      },
+      { passive: true },
+    )
+  }
+  /**
+   * Loads and selects the saved text size setting.
+   */
+  async storageLoad() {
+    const key = `textFontSize`
+    chrome.storage.local.get(key, (result) => {
+      const value = localGet(key, result)
+      this.textSize.value = value
+      document.getElementById(`textSizeOutput`).textContent = this.m.get(
+        this.textSize.value,
+      )
+    })
+  }
+  /**
+   * Save text size selection to the local storage.
+   */
+  storageSave() {
+    localStore(`textFontSize`, `${this.value}`)
+  }
+}
+/**
  * Line height selection.
  * @class LineHeight
  */
@@ -1660,6 +1722,7 @@ class Backup {
           textBlinkingCursor: items.textBlinkingCursor,
           textCenterAlign: items.textCenterAlign,
           textDOSControlGlyphs: items.textDOSControlGlyphs,
+          textFontSize: items.textFontSize,
           textLineHeight: items.textLineHeight,
           textRenderEffect: items.textRenderEffect,
           textSmearBlockCharacters: items.textSmearBlockCharacters,
@@ -1700,6 +1763,7 @@ class Backup {
         case `textCenterAlign`:
         case `textDOSControlGlyphs`:
         case `textLineHeight`:
+        case `textFontSize`:
         case `textRenderEffect`:
         case `textSmearBlockCharacters`:
           chrome.storage.local.set({ [index]: value })
@@ -1981,6 +2045,9 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   const pal = new Palette()
   pal.storageLoad()
   pal.listen()
+  const ts = new TextSize()
+  ts.storageLoad()
+  ts.listen()
   const lh = new LineHeight()
   lh.storageLoad()
   lh.listen()
