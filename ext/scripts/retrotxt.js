@@ -408,7 +408,7 @@ class DOM {
    * Toggles 'Center align text' alignment.
    */
   async clickCenterAlign(center = false) {
-    if (this.article === null)
+    if (typeof this.article === `undefined`)
       return console.error(`this.article element does not exist`)
     this.article.classList.remove(`has-left`, `has-center`)
     if (center) this.article.classList.add(`has-center`)
@@ -461,7 +461,7 @@ class DOM {
       return console.error(`the classList for the body element is null`)
     this.body.classList.add(`${colorName}-bg`)
     // foreground to article
-    if (this.article === null)
+    if (typeof this.article === `undefined`)
       return console.error(`article element is missing`)
     if (this.article.classList === null)
       return console.error(`the classList for the article element is null`)
@@ -588,9 +588,7 @@ class DOM {
    * @param [size=`1`] Text size value
    */
   async clickTextSize(size = `1`) {
-    console.log(`clickTextSize`, size)
-    if (typeof size !== `string`)
-      CheckArguments(`textFontSize`, `string`, size)
+    if (typeof size !== `string`) CheckArguments(`textFontSize`, `string`, size)
     if (typeof this.rawText === `undefined`)
       return console.error(`this.rawText element is missing`)
     this.rawText.classList.remove(
@@ -749,7 +747,6 @@ class DOM {
     this._restoreErr(`fontFamilyName`)
   }
   async _restoreTextSize() {
-    console.log(this.results)
     const ts = this.results.textFontSize
     if (typeof ts === `string`) return this.clickTextSize(ts)
     this._restoreErr(`textFontSize`)
@@ -2190,10 +2187,8 @@ function handleChanges(change) {
         return dom.clickHeader(2)
     }
   }
-  if (changes.textFontSize) {
-    console.log(changes.textFontSize.newValue, `textFontSize change`)
+  if (changes.textFontSize)
     return dom.clickTextSize(changes.textFontSize.newValue)
-  }
   if (changes.lineHeight)
     return dom.clickLineHeight(changes.lineHeight.newValue)
   if (changes.pageWrap) {

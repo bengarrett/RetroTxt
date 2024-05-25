@@ -1022,7 +1022,7 @@ class BBS {
           USE_PROFILES: { html: true },
         })
         const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
-        element.innerHTML(bold)
+        element.innerHTML = bold
       } else element.textContent = appendText
       pre.append(element)
     }
@@ -1093,7 +1093,7 @@ class BBS {
           USE_PROFILES: { html: true },
         })
         const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
-        element.innerHTML(bold)
+        element.innerHTML = bold
       } else element.textContent = appendText
       pre.append(element)
     }
@@ -1131,7 +1131,7 @@ class BBS {
           USE_PROFILES: { html: true },
         })
         const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
-        element.innerHTML(bold)
+        element.innerHTML = bold
       } else element.textContent = appendText
       pre.append(element)
     }
