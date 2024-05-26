@@ -12,8 +12,13 @@ hide:
 ## June 2024
 
 - New Text Size slider in the Options to adjust the font size and removed the Font size adjustment on the information header.
-- Updated the Bulma CSS framework to v1.0. The Options themes look different due to this update, as the framework was rewritten from scratch.
+- Updated the Bulma CSS framework to v1.0. The Options themes look different due to this update, as the framework was rewritten from scratch. The fonts, tag elements and some buttons used in the Options are larger.
 - Updated Cascadia Mono and Code fonts to v2024.4 to use its new _Symbols for Legacy Computing_ support, "the Cascadia family now supports a whopping 1140 new glyphs covering sextants, octants, large type pieces, eights, sedecimants, quadrants (separated), segmented digits, circles and checkerboards... In addition, the existing block elements have been aligned to fit the same grid as the new characters to make for seamless ANSI art."
+- Reworked the Display Options tab.
+- - The _80 column wrap_ toggle is renamed to _Narrow wrap_ and works with both ANSI and plain text documents.
+- - Created a new _Style_ panel and moved a number of _Text_ toggles to it.
+- - _Colors_ panel has been split into _Text color_ and _ANSI color_.
+- - _Text pairs_ is now _Foreground and background pair_, and it now uses the current selected font for the color labels.
 
 ## 5.4
 

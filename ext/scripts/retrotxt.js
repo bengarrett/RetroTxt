@@ -2448,7 +2448,11 @@ function Execute(tabId = 0, pageEncode = `unknown`) {
     const bbs = new BBS(`${output.data.html}`, PlainText)
     output.data.html = ``
     output.pre = bbs.normalize()
-    output.pre.classList.add(`has-text-plain`)
+    const wrapCol = sessionStorage.getItem(`ansiColumnWrap`)
+    const wrapPage = sessionStorage.getItem(`ansiPageWrap`)
+    if (wrapCol === `true`)
+      output.pre.classList.add(`has-text-plain-with-container`)
+    else if (wrapPage === `true`) output.pre.classList.add(`has-text-plain`)
   }
   // apply a blinking cursor
   output.cursor()

@@ -116,6 +116,11 @@
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }
+.has-text-plain-with-container {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 60em;
+}
 
 /*
   use flexbox for our layout to stack HTML items
@@ -152,7 +157,7 @@ header hr {
   width: 98%;
 }
 
-header strong{
+header strong {
   cursor: pointer;
   user-select: none;
 }

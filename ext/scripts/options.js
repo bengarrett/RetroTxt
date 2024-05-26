@@ -1378,9 +1378,7 @@ class TextSize {
           )
         this.status.textContent = `Saved text size selection ${this.value}`
         this.storageSave()
-        document.getElementById(`textSizeOutput`).value = this.m.get(
-          this.value,
-        )
+        document.getElementById(`textSizeOutput`).value = this.m.get(this.value)
       },
       { passive: true },
     )
@@ -1915,7 +1913,7 @@ class Hosts {
       default:
         anchor.href = `https://${hostname}`
     }
-    if (!suggestion) anchor.classList.add(`is-light`)
+    if (!suggestion) anchor.classList.remove(`is-light`)
     this.input.value = ``
     this.submit.disabled = true
     tag.style.display = `inline`
