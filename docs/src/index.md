@@ -5,7 +5,7 @@ date: 2022-08-30
 
 This page instructs how to use and build the source code for Chrome.
 
-RetroTxt employs an [open-sourced license]((https://choosealicense.com/licenses/lgpl-3.0/)) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).
+RetroTxt employs an [open-sourced license](https://choosealicense.com/licenses/lgpl-3.0/) with the code available on [GitHub](https://github.com/bengarrett/RetroTxt).
 
 You'll require the following command line tools to download and initialize the repository.
 

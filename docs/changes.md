@@ -78,7 +78,7 @@ hide:
 
 ## 5.0
 
-### [Migration to Manifest v3](/src/mv3) ~ September 2022
+### [Migration to Manifest v3](src/mv3.md) ~ September 2022
 
 !!! warning
     Unfortunately, some Options settings may be lost in this upgrade when updating from RetroTxt versions 4.

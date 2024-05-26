@@ -26,7 +26,7 @@ ASCII is also a subset ([C0 Controls and Basic Latin](https://www.unicode.org/ch
 * [The US ASCII Character Set](http://www.columbia.edu/kermit/ascii.html/)
 * [Unicode charts](https://www.unicode.org/charts/)
 
-See [Codepages and text encodings](/specs/cp) for the character sets supported by the code.
+See [Codepages and text encodings](../specs/cp.md) for the character sets supported by the code.
 
 ## ANSI
 
@@ -46,4 +46,4 @@ ANSI usually refers to these near-identical standards.
 * [Microsoft ANSI.SYS](https://msdn.microsoft.com/en-us/library/cc722862.aspx)
 * [XTerm Control Sequences](https://invisible-island.net/xterm/ctlseqs/ctlseqs.html)
 
-See [ANSI / ECMA-48 support](/specs/ansi) for the control sequences supported by the code.
+See [ANSI / ECMA-48 support](../specs/ansi.md) for the control sequences supported by the code.

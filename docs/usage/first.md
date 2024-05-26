@@ -6,7 +6,7 @@ hide:
 !!! tip inline end "Read and change all data"
     Despite this access, __RetroTxt always ignores websites other than those you tell it to monitor in the background__. It also ignores all markup text, such as HTML or XML, for your privacy and overall browser performance.
 
-    [If unrestricted access remains a worry, you can configure the browser to restrict RetroTxt further](/usage/secure/).
+    [If unrestricted access remains a worry, you can configure the browser to restrict RetroTxt further](secure.md).
 
 ## Add extension
 
@@ -79,7 +79,7 @@ This example shows how to add a new website to the collection that RetroTxt moni
   <figcaption>Special-Use Domain Names text document</figcaption>
 </figure>
 
-- Click the RetroTxt toolbar button and a popup will display the websites it monitors in the background. [You can learn more about or remove these websites](/usage/secure/#remove-suggestions).
+- Click the RetroTxt toolbar button and a popup will display the websites it monitors in the background. [You can learn more about or remove these websites](secure.md/#remove-suggestions).
 
 <figure markdown>
   ![RetroTxt toolbar menu](../assets/discover-extension-popup.png){ loading=lazy, width=600 }
