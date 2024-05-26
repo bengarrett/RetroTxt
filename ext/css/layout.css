@@ -111,11 +111,6 @@
   font-size: 400%;
 }
 
-/* for ascii text that lack line breaks, wrap text to the browser tab */
-.has-text-plain {
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-}
 .has-text-plain-with-container {
   overflow-wrap: break-word;
   white-space: pre-wrap;

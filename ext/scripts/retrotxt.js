@@ -1764,9 +1764,6 @@ class Information extends Output {
         this._sep(),
         this._label(`iCE colors`),
         this._setIceColors(),
-        this._sep(),
-        this._label(`page wrap`),
-        this._setPageWrap(),
       )
       // append any ecma-48 errors
       const sum = this.ecma48.otherCodesCount + this.ecma48.unknownCount,
@@ -1774,6 +1771,7 @@ class Information extends Output {
       if (sum > errorTrigger) return this.append(this._setErrorBBS())
       if (sum > 0) return this.append(this._setWarningBBS())
     }
+    div2.append(this._sep(), this._label(`page wrap`), this._setPageWrap())
   }
   append(element) {
     this.show.append(element)
@@ -2452,7 +2450,7 @@ function Execute(tabId = 0, pageEncode = `unknown`) {
     const wrapPage = sessionStorage.getItem(`ansiPageWrap`)
     if (wrapCol === `true`)
       output.pre.classList.add(`has-text-plain-with-container`)
-    else if (wrapPage === `true`) output.pre.classList.add(`has-text-plain`)
+    if (wrapPage === `true`) output.pre.classList.add(`has-text-plain`)
   }
   // apply a blinking cursor
   output.cursor()
