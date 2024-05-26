@@ -8,7 +8,7 @@ date: 2023-04-25
 # Secure and restrict RetroTxt
 
 !!! info inline end ""
-    For security and performance, **RetroTxt will only work on websites and domains you specifically list** in the _Run RetroTxt on files hosted on these domains_ list. [From there you can add or remove the domains of your choosing](first.md#monitor-a-new-website).
+    For security and performance, **RetroTxt will only work on websites and domains you specifically list** in the _Autorun for websites_ list. [From there you can add or remove the domains of your choosing](first.md#monitor-a-new-website).
 
 Unfortunately, on installation, RetroTxt v5 requests the permission to __Read and change all your data on all websites__. It is a limitation of the permission configuration, and in the future, I hope these can be fine-tuned and narrowed.
 
@@ -46,7 +46,7 @@ For the fans of ANSI and ASCII art, there are several websites that RetroTxt mon
   <figcaption>RetroTxt settings button in the toolbar popup</figcaption>
 </figure>
 
-Under __Feature__ `>` __Run RetroTxt on files hosted on these domains__, click the **remove** button above _Suggestions_, and now RetroTxt will only monitor [retrotxt.com](https://retrotxt.com). Read on to also block this.
+Under __Feature__ `>` __Autorun for websites__, click the **remove** button above _Suggestions_, and now RetroTxt will only monitor [retrotxt.com](https://retrotxt.com). Read on to also block this.
 
 <figure markdown>
   ![RetroTxt after remove suggestions](../assets/suggestions-remove.png){ loading=lazy }

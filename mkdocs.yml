@@ -9,7 +9,6 @@
 #
 # pip install mkdocs
 # pip install mkdocs-material
-# pip install mkdocs-material-extensions
 #
 # pip install --upgrade mkdocs-material
 #
@@ -66,10 +65,10 @@ nav:
       - Nginx: host/nginx.md
   - Policies:
       - Privacy: privacy.md
-      - Security: https://github.com/bengarrett/RetroTxt/blob/main/.github/SECURITY.md
-      - Code of conduct: https://github.com/bengarrett/RetroTxt/blob/main/.github/CODE_OF_CONDUCT.md
-      - Contributing: https://github.com/bengarrett/RetroTxt/blob/main/.github/CONTRIBUTING.md
-      - License: https://github.com/bengarrett/RetroTxt/blob/main/LICENSE
+      - 🔗 Security: https://github.com/bengarrett/RetroTxt/blob/main/.github/SECURITY.md
+      - 🔗 Code of conduct: https://github.com/bengarrett/RetroTxt/blob/main/.github/CODE_OF_CONDUCT.md
+      - 🔗 Contributing: https://github.com/bengarrett/RetroTxt/blob/main/.github/CONTRIBUTING.md
+      - 🔗 License: https://github.com/bengarrett/RetroTxt/blob/main/LICENSE
 
 plugins:
   - search
@@ -79,6 +78,9 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite

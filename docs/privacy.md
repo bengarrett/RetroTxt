@@ -34,7 +34,7 @@ RetroTxt gets these permissions automatically on installation.
 
 It is needed so RetroTxt can read the current URL of the active browser tab and is used to determine:
 
-1. If the URL is known to the **Run RetroTxt on files hosted on these domains** list.
+1. If the URL is known to the **Autorun for websites** list.
 1. If the URL matches `*://retrotxt.com/*`.
 1. If the file points to a known text filename, such as a file extension `.nfo` or `.txt`.
 

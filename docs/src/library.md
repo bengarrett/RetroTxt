@@ -20,17 +20,15 @@ $ cd RetroTxt
 $ task --list
 
 task: Available tasks for this project:
-* builds:              Creates submission packages for Chrome.
-* checks:              Check, run and print the versions of the task commands and dependencies.
-* commit:              Applies the VERSION variable to the JSON files and commits it to GitHub.
+* build:               Creates the submission package for Chrome.
+* checks:              heck, run and print the versions of the task commands and dependencies.
 * default:             List the available tasks.
-* depends:             Copies the latest dependencies over to the package.
+* dep-copy:            Copies the dependencies from `node_modules` over to the `ext` directory.
+* dep-install:         Installs both the dependencies and dev-dependencies contained in the package.json.
+* dep-update:          Updates all dependencies to the latest version and copies them to the `ext` directory.
 * docs-build:          Build the current documentation in use on https://docs.retrotxt.com.
 * docs-serve:          Run an internal server to view the documentation in `docs`.
-* init:                Initialises this repository for first time use after being cloned.
-* update:              Update to the latest dependencies.
-* version-purge:       Removes the current VERSION variable value as a tag from the GitHub repository.
-* version-set:         Applies the VERSION in Taskfile.yml variable value to the manifest.json and package.json files.
+* lint:                Lint the JavaScript files in the `ext` directory.
 ```
 
 ## Documentation
@@ -39,7 +37,7 @@ This text and other documentation are in [Markdown](https://www.markdownguide.or
 
 ## Bulma
 
-[Bulma](https://bulma.io/) (`bulma.min.css`) is a lightweight CSS framework used by the Options Page of the web extension. While large at over 200 KB, this size doesn't matter when used within a web extension loaded locally by the browser.
+[Bulma](https://bulma.io/) (`bulma.min.css`) is a lightweight CSS framework used by the Options Page of the web extension. While large at 650 KB, this size doesn't matter when used within a web extension loaded locally by the browser.
 
 Bulma offers logical class naming conventions and extensive and responsive layout theming.
 
@@ -77,7 +75,7 @@ QUnit has a relatively easy syntax and shows the results of the tests in the bro
 
 > ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs.
 
-The `.eslintrc.json` file configures ESLint to be compatible with the Prettier source code formatting library and support Manifest V3 specific JS features.
+The `eslint.config.mjs` file configures ESLint to be compatible with the Prettier source code formatting library and support Manifest V3 specific JS features.
 
 ## Prettier
 

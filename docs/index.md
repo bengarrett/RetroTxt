@@ -8,31 +8,56 @@ hide:
   - toc
 ---
 
-!!! question inline end "Why does RetroTxt require Read and change all data permissions"
-    ![RetroTxt add extension](./assets/add-retrotxt.png){ loading=lazy }
-
-    The short answer is that it doesn't, which is a limitation of the web extension permissions. RetroTxt ignores all websites except those you tell it to monitor in the background.
-
-    [If you're in a corporate environment or security conscious, after installation, you can fine-tune the browser to further lockdown RetroTxt](usage/secure.md).
+# RetroTxt
 
 <p align="center">
   <img width="314" height="201" src="assets/retrotxt-readme.png">
 </p>
 <br>
 
- &nbsp; [Install on Chrome :material-google-chrome:](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn){ .md-button .md-button--primary } &nbsp; [Install on Edge :material-microsoft-edge:](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog){ .md-button } &nbsp; [Install on Firefox :material-firefox:](https://addons.mozilla.org/en-US/firefox/addon/retrotxt){ .md-button }
+<div class="grid cards" markdown>
 
-<small>[The source code is available](https://github.com/bengarrett/RetroTxt)</small>
+-   :material-google-chrome:{ .lg .middle } __Chrome__
 
----
+    ---
 
-# RetroTxt
+    Install from the chrome web store for all compatible browsers
 
-Turn pieces of ANSI, ASCII, and NFO documents into a web document. RetroTxt is the browser Extension that takes legacy and plain text files and correctly stylizes them for viewing or copying from a browser tab.
+    [:octicons-arrow-right-24: Install](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
+
+-   :material-microsoft-edge:{ .lg .middle } __Edge__
+
+    ---
+
+    Install from the Microsoft Edge Add-ons
+
+    [:octicons-arrow-right-24: Install](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog)
+
+-   :material-firefox:{ .lg .middle } __Firefox__
+
+    ---
+
+    Install from the Firefox Add-ons using an older version of RetroTxt
+
+    [:octicons-arrow-right-24: Install](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
+
+-   :material-github:{ .lg .middle } __Open Source, LGPL-3.0__
+
+    ---
+
+    RetroTxt is licensed under LGPL and available on [GitHub](https://github.com/bengarrett/RetroTxt)
+
+    [:octicons-arrow-right-24: Repository](https://github.com/bengarrett/RetroTxt)
+
+</div>
+
+### Turn pieces of ANSI, ASCII, and NFO documents into a web document<br><small>RetroTxt is the Extension that takes legacy and plain text files and correctly stylizes them for viewing or copying from a browser tab</small>
 
 - [x] View ANSI, ASCII, NFO, Shift JIS text art as a web document
 - [x] View server, terminal, and DevOps logs styled with colored text
 - [x] View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
+
+---
 
 ## Screenshots
 
@@ -78,13 +103,23 @@ Turn pieces of ANSI, ASCII, and NFO documents into a web document. RetroTxt is t
       <figcaption>Copy the output of RetroTxt and paste it into a standard text editor</figcaption>
     </figure>
 
+---
+
 ## Features
 
-* ### Swappable palettes for different color simulations<br>VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
+!!! question inline end "Why does RetroTxt require Read and change all data permissions"
+    ![RetroTxt add extension](./assets/add-retrotxt.png){ loading=lazy }
+
+    The short answer is that it doesn't, which is a limitation of the web extension permissions. RetroTxt ignores all websites except those you tell it to monitor in the background.
+
+    [If you're in a corporate environment or security conscious, after installation, you can fine-tune the browser to further lockdown RetroTxt](usage/secure.md).
+
+* ### Swappable palettes for different color simulations<br><small>VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors</small>
 * ### Customizable font and background colors
 * ### SAUCE metadata parsing
-* ### Support for multiple text encodings<br>MS-DOS CP-437, Amiga ISO-8959-1, Windows 1252, Japanese Shift-JIS
+* ### Support for multiple text encodings<br><small>MS-DOS CP-437, Amiga ISO-8959-1, Windows 1252, Japanese Shift-JIS</small>
 * ### Automatic fixes for block character and line artifacts
-* ### Hundreds of IBM PC font choices<br>VGA, EGA, CGA, MDA, PS/2, and more
-* ### Various Amiga and microcomputer fonts<br>From Amstrad, Atari, Apple, Commodore, Tandy, and many more
-* ### Open-source code
+* ### Hundreds of IBM PC font choices<br><small>VGA, EGA, CGA, MDA, PS/2, and more</small>
+* ### Various Amiga and microcomputer fonts<br><small>From Amstrad, Atari, Apple, Commodore, Tandy, and many more</small>
+
+---

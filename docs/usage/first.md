@@ -10,13 +10,11 @@ hide:
 
 ## Add extension
 
-On installation from the [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) or [Microsoft Edge add-ons](https://microsoftedge.microsoft.com/addons/detail/retrotxt/hmgfnpgcofcpkgkadekmjdicaaeopkog), your browser will prompt for permission to read and change all data on all websites. Unfortunately, there is no workaround to avoid this.
-
-See, _Read and change all data_ to the right.
+When you install [Chrome web store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) or [Microsoft Edge add-ons](https://microsoftedge.microsoft.com/addons/detail/retrotxt/hmgfnpgcofcpkgkadekmjdicaaeopkog), your browser will prompt for permission to read and change all data on all websites. Unfortunately, there is no workaround to avoid this. For more information, see __Read and change all data__ to the right.
 
 <figure markdown>
   ![RetroTxt add extension](../assets/add-retrotxt.png){ loading=lazy, width=600 }
-  <figcaption>Add "RetroTxt"? prompt to Add extension</figcaption>
+  <figcaption>Extension prompt, Add "RetroTxt"?</figcaption>
 </figure>
 
 ---
@@ -28,7 +26,7 @@ See, _Read and change all data_ to the right.
 
 Once installed, you can test the functionality by viewing the RetroTxt ANSI logo hosted at:
 
-[https://retrotxt.com/e/preview_02.ans](https://retrotxt.com/e/preview_02.ans)
+**[retrotxt.com/e/preview_02.ans](https://retrotxt.com/e/preview_02.ans)**
 
 <figure markdown>
   ![RetroTxt new logo](../assets/new-install.png){ loading=lazy, width=600 }
@@ -93,7 +91,7 @@ This example shows how to add a new website to the collection that RetroTxt moni
   <figcaption>Toolbar popup</figcaption>
 </figure>
 
-- Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_ `>` _Paste a URL or hostname_ input, copy and __add__ the website URL: <p>[https://www.iana.org](https://www.iana.org)</p>
+- Under __Feature__ `>` _Autorun for websites_ `>` _Paste a URL or hostname_ input, copy and __add__ the website URL: <p>[https://www.iana.org](https://www.iana.org)</p>
 
 <figure markdown>
   ![Run RetroTxt on files hosted on these domains](../assets/feature-add-url.png){ loading=lazy, width=600 }
@@ -146,7 +144,7 @@ This example shows how to add a new website to the collection that RetroTxt moni
   <figcaption>The RetroTxt display options button</figcaption>
 </figure>
 
-- Under __Colors__ `>` __Text pairs__, choose the _white on light_ selection.
+- Under __Text color__ `>` __Foreground and background pair__, choose the _white on light_ selection.
 
 <figure markdown>
   ![RetroTxt text pairs](../assets/colors-text-pairs.png){ loading=lazy, width=600 }
@@ -154,7 +152,7 @@ This example shows how to add a new website to the collection that RetroTxt moni
 </figure>
 
 !!! tip inline end "ANSI text"
-    A black background _Text pair_ works best with ANSI text.
+    A black background works best with ANSI text.
 
 Switch to the tab with the `special-use-domain-names.txt` text, and the page colors will reflect the change. Feel free to revert to the _MS-DOS_ color pair or choose another.
 
@@ -175,7 +173,7 @@ Finally, to remove the monitoring of [www.iana.org](https://www.iana.org).
   ![RetroTxt pop](../assets/popup-open-cog.png){ loading=lazy, width=600 }
 </figure>
 
-- Under __Feature__ `>` _Run RetroTxt on files hosted on these domains_
+- Under __Feature__ `>` _Autorun for websites_
 
 - Click the __X__ button (remove) besides the [www.iana.org](https://www.iana.org) entry.
 

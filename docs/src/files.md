@@ -25,10 +25,11 @@ These are the directories and files that comprise of RetroTxt source code.
 
 | File | Purpose |
 | -- | -- |
-| `.eslintrc.json` | [ESLint configuration file](https://eslint.org/docs/user-guide/configuring) |
+| `.editorconfig` | [EditorConfig](https://editorconfig.org) settings file |
 | `.gitattributes` | The [Git](https://git-scm.com) settings file for this repository |
 | `.gitignore` | The Git file to exclude items from being recorded |
 | `.prettierrc` | [Prettier configuration file](https://prettier.io/) |
+| `.eslint.config.mjs` | [ESLint configuration file](https://eslint.org/docs/user-guide/configuring) |
 | `LICENSE` | A copy of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html), Version 3 |
 | `mkdocs.yml` | [mkdocs configuration file](https://www.mkdocs.org/) |
 | `package.json` | [Pnpm configuration file](https://pnpm.io/) |
@@ -85,8 +86,10 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `helpers.js` | Service worker helper, shared functions |
 | ↳ `menu.js` | RetroTxt _(right-click)_ context menus |
 | ↳ `message.js` | Make service worker connections that can receive commands from the container-scripts |
+| ↳ `omnibox.js` | Address bar omnibox input to handle terminal like commands |
 | ↳ `security.js` | Web extension API restriction checks and permission grants |
 | ↳ `session.js` | Uses the local storage API to simulate a session storage store |
+| ↳ `storage.js` | RetroTxt settings and configurations store |
 | ↳ `tabs.js` | Monitors and handles the interactions with new and closed browser tabs |
 | ↳ `toolbar.js` | Toolbar button icon and badge |
 
