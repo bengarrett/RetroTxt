@@ -111,10 +111,10 @@
   font-size: 400%;
 }
 
-/* for ascii text that lack line breaks, wrap text to the browser tab */
-.has-text-plain {
+.has-text-plain-with-container {
   overflow-wrap: break-word;
   white-space: pre-wrap;
+  max-width: 60em;
 }
 
 /*
@@ -152,7 +152,7 @@ header hr {
   width: 98%;
 }
 
-header strong{
+header strong {
   cursor: pointer;
   user-select: none;
 }

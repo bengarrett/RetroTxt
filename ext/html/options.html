@@ -124,20 +124,10 @@
             </div>
             <div class="notice" style="display: none;" id="newInstallNotice">
               <div class="notification is-success is-light">
-                <p class="mb-2 is-size-2">Welcome. <small>Get started with,</small></p>
-                <p class="mt-2 is-size-5">Dozens of
-                  <a id="newInstallSamples">sample text art files</a>
-                  to try with RetroTxt.
-                </p>
-                <p class="mt-2 is-size-5"><a href="https://docs.retrotxt.com/usage/first/" target="_blank">
-                    First-time usage documentation</a>.</p>
-                <p class="mt-2 is-size-5">
-                  Use RetroTxt as a text file viewer. <span class="has-text-info">*</span>
-                </p>
-                <p class="mt-1">
-                  Either, drag-and-drop text files to this browser.<br>
-                  Or use <code class="file-url-scheme">file:///</code> in a tab.
-                </p>
+                <p class="mb-2 is-size-3">Welcome</p>
+                <p class="mt-2 is-size-5">The default settings are ready to go,
+                  but using the <em>Fonts</em> and <tab>Display</tab> tabs,
+                  you can tweak these to your liking.</p>
               </div>
             </div>
           </div>
@@ -3466,6 +3456,86 @@
                       recommendation <span class="has-text-info-bold">100%</span></p>
                   </div>
                 </div>
+                <hr>
+                <!-- narrow wrap, formerly 80 column wrap -->
+                <h2 class="title has-text-dark is-size-6 columns mb-0">
+                  <div class="column pb-0">Narrow wrap
+                    <p class="subtitle has-text-dark is-size-6 has-text-justified mt-2 mb-0">
+                      This option enforces an 80-character text width for all ANSI and BBS texts or a <code>60em</code>
+                      CSS value for plain texts to simulate a traditional terminal screen.
+                      <span class="has-text-info-bold">Any open tabs will require a reload.</span>
+                    </p>
+                    <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2">
+                      recommendation, for artwork <span class="has-text-success">on</span>,
+                      for logs <span class="has-text-grey">off</span>
+                    </p>
+                  </div>
+                  <div class="column is-2">
+                    <div class="toggleswitch">
+                      <input type="checkbox" id="eightyColumnWrap" tabindex="0" checked>
+                      <label class="toggleswitch-label" for="eightyColumnWrap"></label>
+                    </div>
+                  </div>
+                </h2>
+                <hr>
+                <!-- page wrap -->
+                <h2 class="title has-text-dark is-size-6 columns mb-0">
+                  <div class="column pb-0">Page wrap
+                    <p class="subtitle has-text-dark is-size-6 has-text-justified mt-2 mb-0">With page wrap enabled, all
+                      text behaves as HTML, where overflowing lines can break, to wrap the text to the browser tab.
+                    </p>
+                    <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2">recommendation, for
+                      artwork
+                      <span class="has-text-grey">off</span>, for logs <span class="has-text-success">on</span>
+                    </p>
+                  </div>
+                  <div class="column is-2">
+                    <div class="toggleswitch">
+                      <input type="checkbox" id="pageWrap" tabindex="0">
+                      <label class="toggleswitch-label" for="pageWrap"></label>
+                    </div>
+                  </div>
+                </h2>
+                <!-- center align text -->
+                <hr>
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column"><span class="msg-center">Center</span> align text
+                      <p class="subtitle has-text-dark is-size-6 mt-2 mb-0">Toggle the position of the text document
+                        from the left-top margin to the <span class="msg-center">center</span> of the display.</p>
+                      <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2 mb-0">recommendation <span
+                          class="has-text-success">on</span></p>
+                    </div>
+                    <div class="column is-2">
+                      <div class="toggleswitch">
+                        <input type="checkbox" id="centerAlignText" tabindex="0" checked>
+                        <label class="toggleswitch-label" for="centerAlignText"></label>
+                      </div>
+                    </div>
+                  </h2>
+                </div>
+                <!-- blinking cursor and text -->
+                <hr>
+                <div>
+                  <h2 class="title has-text-dark is-size-6 columns">
+                    <div class="column">Blinking cursor and text
+                      <p class="subtitle has-text-dark is-size-6 mt-2 mb-0 has-text-justified">When off, all pulsing and
+                        blinking text effects are disabled.</p>
+                      <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2 mb-0">recommendation <span
+                          class="has-text-success">on</span>
+                      </p>
+                    </div>
+                    <div class="column is-2">
+                      <div class="toggleswitch">
+                        <input type="checkbox" id="blinkingCursorText" tabindex="0" checked>
+                        <label class="toggleswitch-label" for="blinkingCursorText"></label>
+                      </div>
+                    </div>
+                  </h2>
+                </div>
+              </div>
+              <div class="box">
+                <h1 class="title has-text-black-ter is-size-3 mt-4">Style</h1>
                 <!-- hyperlinks -->
                 <hr>
                 <div>
@@ -3517,43 +3587,6 @@
                       <div class="toggleswitch">
                         <input type="checkbox" id="backgroundScanlines" tabindex="0" checked>
                         <label class="toggleswitch-label" for="backgroundScanlines"></label>
-                      </div>
-                    </div>
-                  </h2>
-                </div>
-                <!-- blinking cursor and text -->
-                <hr>
-                <div>
-                  <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">Blinking cursor and text
-                      <p class="subtitle has-text-dark is-size-6 mt-2 mb-0 has-text-justified">When off, all pulsing and
-                        blinking text effects are disabled.</p>
-                      <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2 mb-0">recommendation <span
-                          class="has-text-success">on</span>
-                      </p>
-                    </div>
-                    <div class="column is-2">
-                      <div class="toggleswitch">
-                        <input type="checkbox" id="blinkingCursorText" tabindex="0" checked>
-                        <label class="toggleswitch-label" for="blinkingCursorText"></label>
-                      </div>
-                    </div>
-                  </h2>
-                </div>
-                <!-- center align text -->
-                <hr>
-                <div>
-                  <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column"><span class="msg-center">Center</span> align text
-                      <p class="subtitle has-text-dark is-size-6 mt-2 mb-0">Toggle the position of the text document
-                        from the left-top margin to the <span class="msg-center">center</span> of the display.</p>
-                      <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2 mb-0">recommendation <span
-                          class="has-text-success">on</span></p>
-                    </div>
-                    <div class="column is-2">
-                      <div class="toggleswitch">
-                        <input type="checkbox" id="centerAlignText" tabindex="0" checked>
-                        <label class="toggleswitch-label" for="centerAlignText"></label>
                       </div>
                     </div>
                   </h2>
@@ -3687,80 +3720,11 @@
             </div>
             <div class="column is-half">
               <div class="box">
-                <h1 class="title has-text-black-ter is-size-3 mt-4">ANSI</h1>
-                <!-- 80 column wrap -->
-                <h2 class="title has-text-dark is-size-6 columns mb-0">
-                  <div class="column pb-0">Column wrap <small>80-column</small>
-                    <p class="subtitle has-text-dark is-size-6 has-text-justified mt-2 mb-0">Unless the <a
-                        href="https://www.acid.org/info/sauce/sauce.htm#FileType" class="has-text-link"
-                        target="_blank">SAUCE width</a>
-                      information exists, this option enforces an 80-character text width for all ANSI files to emulate
-                      the classic 80-column terminal screen.
-                      <span class="has-text-info-bold">Any open tabs will require a reload.</span>
-                    </p>
-                    <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2">
-                      recommendation, for artwork <span class="has-text-success">on</span>,
-                      for logs <span class="has-text-grey">off</span>
-                    </p>
-                  </div>
-                  <div class="column is-2">
-                    <div class="toggleswitch">
-                      <input type="checkbox" id="eightyColumnWrap" tabindex="0" checked>
-                      <label class="toggleswitch-label" for="eightyColumnWrap"></label>
-                    </div>
-                  </div>
-                </h2>
-                <hr>
-                <!-- page wrap -->
-                <h2 class="title has-text-dark is-size-6 columns mb-0">
-                  <div class="column pb-0">Page wrap
-                    <p class="subtitle has-text-dark is-size-6 has-text-justified mt-2 mb-0">With page wrap enabled the
-                      ANSI
-                      text will behave as HTML, where overflow lines can break to wrap the text. Otherwise, ANSI
-                      text preserves white space sequences with any text-overflow reachable via browser
-                      scrollbars.</p>
-                    <p class="subtitle has-text-dark is-size-6 has-text-justified mt-2 mb-0"><span
-                        class="has-text-info-bold">
-                        Page wrap helps read <span class="msg-color">color</span>ed text
-                        and logs, but the <u>80-column wrap should be off</u>.</span></p>
-                    <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2">recommendation, for
-                      artwork
-                      <span class="has-text-grey">off</span>, for logs <span class="has-text-success">on</span>
-                    </p>
-                  </div>
-                  <div class="column is-2">
-                    <div class="toggleswitch">
-                      <input type="checkbox" id="pageWrap" tabindex="0">
-                      <label class="toggleswitch-label" for="pageWrap"></label>
-                    </div>
-                  </div>
-                </h2>
-                <hr>
-                <!-- ice colors -->
-                <h2 class="title has-text-dark is-size-6 columns">
-                  <div class="column">Non-blink mode <small>iCE color</small>
-                    <p class="subtitle has-text-dark is-size-6 has-text-justified mb-0 mt-2">ANSI offers 16 static
-                      foreground <span class="msg-color">color</span>s, eight additional blinking foreground <span
-                        class="msg-color">color</span>s, and eight background <span class="msg-color">color</span>s.
-                      The non-blink mode, replaces the eight blinking <span class="msg-color">color</span>s with eight
-                      replacement backgrounds.</p>
-                    <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2">recommendation <span
-                        class="has-text-success">on</span></p>
-                  </div>
-                  <div class="column is-2">
-                    <div class="toggleswitch">
-                      <input type="checkbox" id="iceColorsMode" tabindex="0" checked>
-                      <label class="toggleswitch-label" for="iceColorsMode"></label>
-                    </div>
-                  </div>
-                </h2>
-              </div>
-              <div class="box">
                 <!-- text pair -->
                 <div>
-                  <h1 class="title has-text-black-ter is-size-3 mt-4"><span class="msg-color">Color</span>s</h1>
+                  <h1 class="title has-text-black-ter is-size-3 mt-4">Text <span class="msg-color">color</span></h1>
                   <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">Text pairs
+                    <div class="column">Foreground and background pair
                       <p class="subtitle has-text-dark is-size-6 has-text-justified mt-2 mb-0">
                         Here you can choose font and background
                         <span class="msg-color">color</span>s
@@ -3777,73 +3741,79 @@
                     <table class="table is-fullwidth has-text-left" id="color-text-pairs">
                       <tr>
                         <td class="control theme-msdos-fg theme-msdos-bg">
-                          <label for="theme-msdos" class="radio font-ibm_vga_9x16-example">Command prompt</label>
+                          <label for="theme-msdos" name="display-sample-text" class="radio">Command prompt</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-msdos" id="theme-msdos">
                         </td>
                         <td class="control theme-windows-fg theme-windows-bg">
-                          <label for="theme-windows" class="radio">Windows Notepad</label>
+                          <label for="theme-windows" name="display-sample-text" class="radio">Windows Notepad</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-windows"
                             id="theme-windows">
                         </td>
                         <td class="theme-amiga-fg theme-amiga-bg">
-                          <label for="theme-amiga" class="radio font-topaza500">Commodore Amiga</label>
+                          <label for="theme-amiga" name="display-sample-text" class="radio">Commodore Amiga</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-amiga" id="theme-amiga">
                         </td>
                       </tr>
                       <tr>
                         <td class="control theme-c64-fg theme-c64-bg">
-                          <label for="theme-c64" class="radio font-petme642y">Commodore 64</label>
+                          <label for="theme-c64" name="display-sample-text" class="radio">Commodore 64</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-c64" id="theme-c64">
                         </td>
                         <td class="control theme-appleii-fg theme-appleii-bg">
-                          <label for="theme-appleii" class="radio font-pr_number_3">Apple II</label>
+                          <label for="theme-appleii" name="display-sample-text" class="radio">Apple II</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-appleii"
                             id="theme-appleii">
                         </td>
                         <td class="control theme-atarist-fg theme-atarist-bg">
-                          <label for="theme-atarist" class="radio font-atarist">Atari ST</label>
+                          <label for="theme-atarist" name="display-sample-text" class="radio">Atari ST</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-atarist"
                             id="theme-atarist">
                         </td>
                       </tr>
                       <tr>
                         <td class="control theme-white-on-black-fg theme-white-on-black-bg">
-                          <label for="theme-white-on-black" class="radio">white on dark</label>
+                          <label for="theme-white-on-black" name="display-sample-text" class="radio">white on
+                            dark</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-white-on-black"
                             id="theme-white-on-black">
                         </td>
                         <td class="control theme-amber-on-black-fg theme-amber-on-black-bg">
-                          <label for="theme-amber-on-black" class="radio">amber on dark</label>
+                          <label for="theme-amber-on-black" name="display-sample-text" class="radio">amber on
+                            dark</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-amber-on-black"
                             id="theme-amber-on-black">
                         </td>
                         <td class="control theme-green-on-black-fg theme-green-on-black-bg">
-                          <label for="theme-green-on-black" class="radio">green on dark</label>
+                          <label for="theme-green-on-black" name="display-sample-text" class="radio">green on
+                            dark</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-green-on-black"
                             id="theme-green-on-black">
                         </td>
                       </tr>
                       <tr>
                         <td class="control theme-black-on-white-fg theme-black-on-white-bg">
-                          <label for="theme-black-on-white" class="radio">white on light</label>
+                          <label for="theme-black-on-white" name="display-sample-text" class="radio">white on
+                            light</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-black-on-white"
                             id="theme-black-on-white">
                         </td>
                         <td class="control theme-amber-on-white-fg theme-amber-on-white-bg">
-                          <label for="theme-amber-on-white" class="radio">amber on light</label>
+                          <label for="theme-amber-on-white" name="display-sample-text" class="radio">amber on
+                            light</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-amber-on-white"
                             id="theme-amber-on-white">
                         </td>
                         <td class="control theme-green-on-white-fg theme-green-on-white-bg">
-                          <label for="theme-green-on-white" class="radio">green on light</label>
+                          <label for="theme-green-on-white" name="display-sample-text" class="radio">green on
+                            light</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-green-on-white"
                             id="theme-green-on-white">
                         </td>
                       </tr>
                       <tr>
                         <td class="control" colspan="3" id="textPairCustomContainer">
-                          <label for="textPairCustomFont" class="radio" id="textPairCustomLabel">custom <span
-                              class="msg-color">color</span> values</label>
+                          <label for="textPairCustomFont" name="display-sample-text" class="radio"
+                            id="textPairCustomLabel">custom <span class="msg-color">color</span> values</label>
                           <input type="radio" class="radio" name="text-pair-form" value="theme-custom"
                             id="textPairCustomFont">
                         </td>
@@ -3875,14 +3845,35 @@
                       </div>
                     </div>
                     <div class="column is-2">
-                      <button id="customColorReset" class="button is-small is-outlined">Reset</button>
+                      <button id="customColorReset" class="button is-ghost">Reset</button>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="box">
+                <h1 class="title has-text-black-ter is-size-3 mt-4">ANSI <span class="msg-color">color</span></h1>
+                <!-- ice colors -->
+                <h2 class="title has-text-dark is-size-6 columns">
+                  <div class="column">Non-blink mode <small>iCE color</small>
+                    <p class="subtitle has-text-dark is-size-6 has-text-justified mb-0 mt-2">ANSI offers 16 static
+                      foreground <span class="msg-color">color</span>s, eight additional blinking foreground <span
+                        class="msg-color">color</span>s, and eight background <span class="msg-color">color</span>s.
+                      The non-blink mode, replaces the eight blinking <span class="msg-color">color</span>s with eight
+                      replacement backgrounds.</p>
+                    <p class="subtitle has-text-weight-bold has-text-dark is-size-6 mt-2">recommendation <span
+                        class="has-text-success">on</span></p>
+                  </div>
+                  <div class="column is-2">
+                    <div class="toggleswitch">
+                      <input type="checkbox" id="iceColorsMode" tabindex="0" checked>
+                      <label class="toggleswitch-label" for="iceColorsMode"></label>
+                    </div>
+                  </div>
+                </h2>
                 <hr>
                 <!-- color palette -->
                 <h2 class="title has-text-dark is-size-5 columns">
-                  <div class="column">ANSI <span class="msg-color">color</span> palette
+                  <div class="column">Palette
                     <p class="subtitle has-text-dark is-size-6 has-text-justified mb-0 mt-2">Unlike modern CSS and HTML
                       <span class="msg-color">color</span> names, the ANSI standard does not provide RGB values for
                       the <span class="msg-color">color</span>s it defines. These have always been left to the
@@ -4063,7 +4054,7 @@
           <div class="columns">
             <div class="column is-half">
               <div class="box">
-                <h1 class="title has-text-black-ter is-size-3 mt-4">Feature</h1>
+                <h1 class="title has-text-black-ter is-size-3 mt-4">RetroTxt</h1>
                 <!-- backup and restore -->
                 <div>
                   <h2 class="title has-text-dark is-size-6 columns">
@@ -4102,44 +4093,46 @@
                     </div>
                   </article>
                   <h2 class="title has-text-dark is-size-6 columns">
-                    <div class="column">Run RetroTxt on files hosted on these domains
+                    <div class="column">Autorun for websites
                       <p class="subtitle has-text-dark is-size-6 mt-2 has-text-justified">
-                        It runs in the background and applies RetroTxt to text files
+                        It runs in the background and applies RetroTxt on text files
                         hosted on these websites.</p>
                       <div class="field-body">
                         <div class="field">
+                          <label class="label">Paste a URL or hostname</label>
                           <div class="field has-addons">
                             <p class="control">
-                              <input id="newHost" class="input" type="url" placeholder="example.com">
-                            </p>
-                            <p class="control">
-                              <button id="submitHost" class="button is-success" disabled>
+                              <button id="submitHost" class="button is-primary px-5" disabled>
                                 Add
                               </button>
                             </p>
+                            <p class="control is-expanded">
+                              <input id="newHost" class="input" type="url" placeholder="example.com">
+                            </p>
                           </div>
-                          <p class="help">Paste a URL or hostname</p>
-                        </div>
-                        <div class="buttons has-text-centered">
-                          <button id="includeSuggestedDomains" class="button is-success is-small">
-                            Restore
-                          </button><button id="removeSuggestedDomains" class="button is-small">
-                            Clear
-                          </button>
                         </div>
                       </div>
                       <div class="field is-grouped is-grouped-multiline mt-5" id="hostTags">
                         <div class="control" style="display: none;" id="templateHost">
                           <div class="tags has-addons">
-                            <a class="tag is-link">example.com</a>
-                            <a class="tag is-delete"></a>
+                            <a class="tag is-medium is-info is-light px-5">example.com</a>
+                            <a class="tag is-medium is-delete px-0 mx-0"></a>
                           </div>
                         </div>
                         <div class="control" id="retrotxtCom">
                           <div class="tags has-addons">
-                            <a href="https://retrotxt.com/e" class="tag is-info">retrotxt.com</a>
+                            <a href="https://retrotxt.com/e" class="tag is-medium is-primary is-light px-5"
+                              title="The retrotxt domain can be used for troubleshooting and testing">retrotxt.com</a>
                           </div>
                         </div>
+                      </div>
+                      <div class="buttons has-text-centered mt-5">
+                        <button id="removeSuggestedDomains" class="button is-primary">
+                          Remove defaults
+                        </button>
+                        <button id="includeSuggestedDomains" class="button is-primary is-outlined">
+                          Restore
+                        </button>
                       </div>
                     </div>
                   </h2>
@@ -4152,12 +4145,11 @@
                     <div class="column is-2"> </div>
                   </h2>
                   <p class="subtitle has-text-dark is-size-6 has-text-justified mb-4">
-                    The options theme sets this options tab interface's background and button
-                    <span class="msg-color">color</span>.
+                    The options theme sets this options tab background <span class="msg-color">color</span>.
                   </p>
                   <div id="optionTheme">
                     <div class="buttons mb-0">
-                      <button class="button option-theme is-primary">Default</button>
+                      <button class="button option-theme is-primary">Teal</button>
                       <button class="button option-theme is-link">Blue</button>
                       <button class="button option-theme is-info">Cyan</button>
                       <button class="button option-theme is-success">Green</button>

@@ -10,6 +10,11 @@
   --blink-fast-timer: 0ms;
 }
 
+/* DOS cursor blinking */
+.dos-cursor {
+  animation: none;
+}
+
 /* PCBoard blinking */
 i.PB8,
 i.PB9,

@@ -142,6 +142,7 @@ function LinkDetails() {
 async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   if (typeof effect !== `string`) CheckArguments(`effect`, `string`, effect)
   if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
+  if (typeof dom.classList === `undefined`) return // error
   if (dom.classList === null) return // error
   // this removes any pre-existing text effect class names from the element
   for (const item of dom.classList) {

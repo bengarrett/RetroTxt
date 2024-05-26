@@ -46,8 +46,7 @@ async function LinkTos() {
       div1.classList.add(`is-hidden`)
       const div2 = document.getElementById(`unlockLocalfiles`)
       div2.classList.remove(`is-hidden`)
-      const a = document.getElementById(`linkUnlock`)
-      a.addEventListener(`click`, () => {
+      div2.addEventListener(`click`, () => {
         chrome.tabs.create({
           url: LinkDetails(),
         })

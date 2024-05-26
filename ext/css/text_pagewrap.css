@@ -24,3 +24,9 @@ article > pre {
   */
   min-width: auto;
 }
+
+/* for ascii text that lack line breaks, wrap text to the browser tab */
+.has-text-plain {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
