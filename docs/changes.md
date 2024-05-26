@@ -19,6 +19,7 @@ hide:
 - - Created a new _Style_ panel and moved a number of _Text_ toggles to it.
 - - _Colors_ panel has been split into _Text color_ and _ANSI color_.
 - - _Text pairs_ is now _Foreground and background pair_, and it now uses the current selected font for the color labels.
+- Fixed _Blinking cursor and text_ off option not applying to the cursor.
 
 ## 5.4
 
