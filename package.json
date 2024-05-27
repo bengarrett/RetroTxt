@@ -10,7 +10,7 @@
     "qunit": "^2.20.1"
   },
   "devDependencies": {
-    "ajv": "^8.13.0",
+    "ajv": "^8.14.0",
     "eslint": "^9.3.0",
     "prettier": "^3.2.5",
     "shx": "^0.3.4",
