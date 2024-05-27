@@ -136,11 +136,6 @@ class HTML {
     }
     if (location.hash.includes(`#newinstall`)) {
       document.getElementById(`newInstallNotice`).style.display = `inline`
-      document
-        .getElementById(`newInstallSamples`)
-        .addEventListener(`click`, () => {
-          document.getElementById(`hero2`).click()
-        })
       const backup = new Backup()
       backup.newInstall()
       // 10 Feb 2024, removed the unused, onclick event listener for
