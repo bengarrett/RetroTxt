@@ -5,11 +5,14 @@ authors:
 date: 2022-08-30
 ---
 
+!!! warning ""
+    The `ext/fonts/` directory contains fonts that are not compatible with the LGPL-3.0 license and cannot be used in other projects.
+
 ## Web Open Font Format 2
 
-RetroTxt relies on Truetype or OpenType web fonts in the WOFF2[^1] format. This offers the best compression to reduce the overall download and memory-use size of RetroTxt.
+RetroTxt relies on Truetype or OpenType web fonts in the WOFF2[^1] format that offers the best compression to reduce the overall download and memory-use.
 
-The WOFF2[^1] format is relatively new, and most font distributions do not offer it. To add these fonts into RetroTxt, older formats must first go through a conversion.
+The WOFF2[^1] format is relatively new, and many font distributions do not offer it. Older formats must first be converted to add these fonts to RetroTxt.
 
 ### [WebAssembly TTF to WOFF2](https://github.com/fontello/wawoff2)
 
@@ -52,7 +55,7 @@ pnpm run font fontname.ttf fontname.woff2
 
 ### Universal font conversion
 
-- [TransType](https://www.fontlab.com/font-converter/transtype)
+- [TransType](https://www.fontlab.com/font-converter/transtype) (paid)
 
 ### WOFF2 font conversion
 

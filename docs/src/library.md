@@ -10,11 +10,12 @@ hide:
 
 ## Package management
 
-[PnpM](https://pnpm.io/) is a replacement for the [npm application](https://www.npmjs.com/) for its speed and reduced hard drive space. It is a drop-in replacement for npm and [yarn](https://yarnpkg.com/), and it is compatible with the universal `package.json` file.
+The [pnpm](https://pnpm.io/) application, known for its speed and compactness, is a drop-in replacement for [npm](https://www.npmjs.com/ and is compatible with the universal `package.json` file.
 
 ## Build tool
 
-The [Task](https://taskfile.dev/) application is a runner and software build tool that is a single point for all the functions needed to build the web extension. Tasks can be run in a terminal or a Windows command line.
+The terminal [Task](https://taskfile.dev/) application is a runner and software build tool that is a single point for all the functions needed to build the web extension.
+
 ```
 $ cd RetroTxt
 $ task --list
@@ -33,7 +34,7 @@ task: Available tasks for this project:
 
 ## Documentation
 
-This text and other documentation are in [Markdown](https://www.markdownguide.org/basic-syntax/). The documents are converted into HTML using the [MkDocs](https://www.mkdocs.org/) static site generator that is geared towards software documentation. The generated HTML is then hosted on GitHub Pages and is available at [https://docs.retrotxt.com](https://docs.retrotxt.com).
+This text and all documentation are in [Markdown](https://www.markdownguide.org/basic-syntax/). The documents are converted into HTML using the [MkDocs](https://www.mkdocs.org/) static site generator, which is geared towards software documentation. The generated HTML is then hosted on GitHub Pages and is available at [https://docs.retrotxt.com](https://docs.retrotxt.com).
 
 ## Bulma
 

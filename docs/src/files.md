@@ -14,11 +14,14 @@ These are the directories and files that comprise of RetroTxt source code.
     Items ending with a forward-slash `/` are directories<br>
     Items starting with a dot `.` are flagged as hidden
 
+!!! warning ""
+    The `ext/fonts/` directory contains fonts that are not compatible with the LGPL-3.0 license and cannot be used in other projects.
+
 | Directory | Purpose |
 | -- | -- |
-| `.github/` | [GitHub repository](https://github.com/bengarrett/RetroTxt) configuration |
+| `.github/` | [GitHub repository](https://github.com/bengarrett/RetroTxt) configurations |
 | `.vscode/` | [Visual Studio Code](https://code.visualstudio.com) workspace settings |
-| `docs/` | This documentation written in [mkdocs Markdown](https://www.mkdocs.org/) |
+| `docs/` | This documentation written in [mkdocs markdown](https://www.mkdocs.org/) |
 | **`ext/`** | The RetroTxt Extension root directory |
 | `fonts/` | Original font packages with documentation and licences
 | `site/` | Documentation built by `mkdocs` into a website |
@@ -29,7 +32,7 @@ These are the directories and files that comprise of RetroTxt source code.
 | `.gitattributes` | The [Git](https://git-scm.com) settings file for this repository |
 | `.gitignore` | The Git file to exclude items from being recorded |
 | `.prettierrc` | [Prettier configuration file](https://prettier.io/) |
-| `.eslint.config.mjs` | [ESLint configuration file](https://eslint.org/docs/user-guide/configuring) |
+| `eslint.config.mjs` | [ESLint configuration file](https://eslint.org/docs/user-guide/configuring) |
 | `LICENSE` | A copy of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html), Version 3 |
 | `mkdocs.yml` | [mkdocs configuration file](https://www.mkdocs.org/) |
 | `package.json` | [Pnpm configuration file](https://pnpm.io/) |
@@ -41,6 +44,7 @@ These are the directories and files that comprise of RetroTxt source code.
 | **`ext/css/`** | Extension Cascading Style Sheets in CSS3 syntax |
 | ↳ `bulma.min.css` | [Bulma CSS framework](https://bulma.io) used by the Options tab |
 | ↳ `fonts_home.css` | Font faces and classes for the **Home computers** fonts |
+| ↳ `fonts_ibm-scale-9x.css` | Transformations for some 9px **IBM PC & family** fonts |
 | ↳ `fonts_ibm.css` | Font faces and classes for the **IBM PC & family** fonts |
 | ↳ `fonts_modern.css` | Font faces and classes for the **Modern** fonts |
 | ↳ `layout.css` | Base elements styles |
@@ -61,6 +65,7 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `text_colors_pcboard.css` | PCBoard BBS colour classes |
 | ↳ `text_colors_pipe.css` | Renegade BBS and other BBS software colours |
 | ↳ `text_colors_vga.css` | VGA ANSI color pallete |
+| ↳ `text_colors_white_bg-fixes.css` | Fixes for white background themes `windows` and `atarist` |
 | ↳ `text_colors_workbench.css` | Amiga Workbench ANSI color pallete |
 | ↳ `text_colors_wviv-pipe.css` | WVIV BBS and other BBS software colours |
 | ↳ `text_colors_xterm.css` | Xterm ANSI color pallete |
@@ -77,6 +82,7 @@ These are the directories and files that comprise of RetroTxt source code.
 | ↳ `options.js` | Isolated functions for the Options page located at `ext/html/options.html` |
 | ↳ `parse_ansi.js` | Functions to handle ANSI and ECMA-48 controls |
 | ↳ `parse_dos.js` | Functions to handle text encodings and DOS code pages |
+| ↳ `popup.js` | Isolated functions for the Toolbar popup page located at `ext/html/popup.html` |
 | ↳ `retrotxt.js` | Content-script to apply RetroTxt to a browser tab DOM, or restore the tab to its original raw text state |
 | **`ext/scripts/sw/`** | Manifest V3 service workers |
 | ↳ `background.js` | Background service worker functions and `importScripts` |
@@ -103,9 +109,10 @@ These are the directories and files that comprise of RetroTxt source code.
 | **`ext/assets/`** | PNG icons for RetroTxt |
 |  ↳ `snaps/` | PNG screenshots used by the Options samples tab |
 |  ↳ `svg/material-icons.svg` | SVG icons for the Options tab |
-| **`ext/fonts/`** | [Compressed fonts](https://developer.mozilla.org/en-US/docs/Web/Guide/WOFF) used in RetroTxt |
+| **`ext/fonts/`** | [Compressed fonts](https://developer.mozilla.org/en-US/docs/Web/Guide/WOFF) used by RetroTxt<br><u>These are not compatible with the LGPL-3.0 license</u> and cannot be used in other projects |
 | **`ext/html/`** | HTML5 assets |
 | ↳ `options.html` | Template for the Options page |
+| ↳ `popup.html` | Template for the Toolbar popup page |
 | **`ext/json/`** | JSON, human-readable data stores |
 | ↳ `font_info.json` | Font metadata for [The Ultimate Oldschool PC Font Pack](https://int10h.org/oldschool-pc-fonts/) (v2.2)<br>Required by [retrotxt-fonts](https://github.com/bengarrett/retrotxt-fonts) |
 | **`ext/test/`** | Unit and sample test files |

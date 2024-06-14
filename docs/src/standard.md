@@ -10,13 +10,13 @@ hide:
 
 ## ASCII
 
-The American Standard Code for Information Interchange was initially proposed in 1961 to the American National Standards Insitute as a standard method to allow various computing and communication devices to communicate with each other. Before this time, machines from multiple manufacturers and even between different models couldn't understand each other's alphabetics, numerals, and other characters.
+The American Standard Code for Information Interchange was initially proposed in 1961 by the American National Standards Institute as a standard method to allow various computing and communication devices to communicate with each other. Before this time, machines from multiple manufacturers and even between different models couldn't understand each other's alphabetics, numerals, and other characters.
 
-The proposal was revised multiple times but only caught on after a 1969 mandate requiring all new systems for US federal use to use the standard to minimize incompatibility between government hardware.
+The standard was revised multiple times, but it only caught on after a 1969 mandate requiring all new systems for US federal use to use the standard to minimize incompatibility between government hardware.
 
-ASCII became the core basis of the early Internet and part of the microcomputer and later PC revolution of the 1970s and 80s. It is why a plain text file written on an Apple II computer in 1977 could be viewed on an IBM PC running Microsoft Windows in 1994 or a Google Chrome mobile web browser in 2024.
+ASCII became the core basis of the early Internet and part of the microcomputer and later PC revolution of the 1970s and 80s. The standard is why anyone making text files on an Apple II from 1977 can view them on an Intel PC running Microsoft Windows in 2024.
 
-ASCII is also a subset ([C0 Controls and Basic Latin](https://www.unicode.org/charts/PDF/U0000.pdf)) of the Unicode standard, the default text encoding for the modern Internet and computing devices. The subset support often means basic text can be read and written by devices that use either standard.
+ASCII is also a subset ([C0 Controls and Basic Latin](https://www.unicode.org/charts/PDF/U0000.pdf)) of the Unicode standard, the default text encoding for the modern Internet and computing devices. The subset support often means simple text can be read and written by devices that use either standard.
 
 ### Links:
 
@@ -30,10 +30,9 @@ See [Codepages and text encodings](../specs/cp.md) for the character sets suppor
 
 ## ANSI
 
-ANSI is an ambiguous term. The [American National Standards Institute](https://www.ansi.org/) is a body that published numerous computer text standards, including the famed ANSI Standard (X3.64) Control Sequences for Video Terminals and Peripherals, which introduced the control sequences used in modern terminals applications.
+ANSI is an ambiguous term. The [American National Standards Institute](https://www.ansi.org/) is a body that has published numerous computer text standards, including the famed ANSI Standard (X3.64) Control Sequences for Video Terminals and Peripherals, which introduced the control sequences used in modern terminal applications.
 
-The term ANSI art is probably derived from Microsoft misnaming their [MS-DOS](https://www.britannica.com/technology/MS-DOS) `ANSI.SYS` system driver that allowed the use of these control sequences in the command line.
-
+It is believed that the term ANSI art originated from Microsoft's misnaming of the ANSI.SYS system driver, which allowed the use of their [MS-DOS](https://www.britannica.com/technology/MS-DOS) operating system.
 ANSI usually refers to these near-identical standards.
 
 * ISO 6429 - "Control functions for 7-bit and 8-bit coded character sets"
