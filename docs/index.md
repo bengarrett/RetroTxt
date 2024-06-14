@@ -45,7 +45,7 @@ hide:
 
     ---
 
-    RetroTxt is licensed under LGPL and available on [GitHub](https://github.com/bengarrett/RetroTxt)
+    RetroTxt is licensed under [LGPL](https://github.com/bengarrett/RetroTxt/blob/main/LICENSE) and available on [GitHub](https://github.com/bengarrett/RetroTxt)
 
     [:octicons-arrow-right-24: Repository](https://github.com/bengarrett/RetroTxt)
 
@@ -93,7 +93,7 @@ hide:
 
     <figure markdown>
       ![RetroTxt showcase](assets/showcase-info.png)
-      <figcaption>Optional, extra details for each text file</figcaption>
+      <figcaption>Optional extra details for each text file</figcaption>
     </figure>
 
 === "Text editor"

@@ -1,10 +1,10 @@
 {
   "recommendations": [
     "bierner.github-markdown-preview",
-    "bierner.markdown-preview-github-styles",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "visualstudioexptteam.vscodeintellicode",
-    "arcanis.vscode-zipfs"
+    "mikeburgh.xml-format",
+    "redhat.vscode-yaml"
   ]
 }

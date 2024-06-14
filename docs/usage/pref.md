@@ -14,11 +14,10 @@ hide:
 
 ## A system or browser preference?
 
-All supported browsers use the same, [Blink](https://www.chromium.org/blink/), open-sourced browser render engine.
+All supported browsers use the identical [Blink](https://www.chromium.org/blink/), open-sourced browser render engine.
 
-macOS is the best platform for RetroTxt, displaying all text characters without distortion.
-
-Chrome on other platforms including Windows, Linux and ChromeOS suffer from artifacts and distortions caused by its system-wide font hinting.
+Apple's **macOS is the best platform for RetroTxt** as it displays all text characters without distortion.
+However, Chrome on other platforms, including Windows, Linux, and ChromeOS, suffers from distortions caused by its system-wide font hinting.
 
 === "macOS"
 

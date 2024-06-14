@@ -51,22 +51,7 @@ pnpm update --dev
 Use [Task](https://taskfile.dev/) to update the RetroTxt dependencies.
 
 ```bash
-task depends
-```
-
-## Update version stamp
-
-```yml title="Edit Taskfile.yml"
-vars:
-  VERSION: "5.0.0"
-```
-
-```bash title="Apply VERSION stamp to the manifest file"
-task version-set
-```
-
-```bash title="Or set the VERSION and then submit to GitHub"
-task commit
+task dep-update
 ```
 
 ## Browser addon stores

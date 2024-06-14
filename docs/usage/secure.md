@@ -10,7 +10,7 @@ date: 2023-04-25
 !!! info inline end ""
     For security and performance, **RetroTxt will only work on websites and domains you specifically list** in the _Autorun for websites_ list. [From there you can add or remove the domains of your choosing](first.md#monitor-a-new-website).
 
-Unfortunately, on installation, RetroTxt v5 requests the permission to __Read and change all your data on all websites__. It is a limitation of the permission configuration, and in the future, I hope these can be fine-tuned and narrowed.
+Unfortunately, on installation, RetroTxt requests the permission to __Read and change all your data on all websites__. It is a limitation of the permission configuration, and in the future, I hope these can be fine-tuned and narrowed.
 
 RetroTxt ignores all websites other than those you tell it to monitor in the background and [does not collect or transmit any data](../privacy.md). But if you work in a corporate environment or want to limit access, please read on.
 

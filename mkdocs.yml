@@ -62,6 +62,7 @@ nav:
       - Tips for building: src/build.md
   - Changes: changes.md
   - Hosting on the web:
+      - Caddy: host/caddy.md
       - Nginx: host/nginx.md
   - Policies:
       - Privacy: privacy.md
