@@ -30,8 +30,8 @@ importers:
         specifier: ^4.1.3
         version: 4.1.3
       qunit:
-        specifier: ^2.21.0
-        version: 2.21.0
+        specifier: ^2.21.1
+        version: 2.21.1
     devDependencies:
       ajv:
         specifier: ^8.17.1
@@ -1491,8 +1491,8 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
-  qunit@2.21.0:
-    resolution: {integrity: sha512-kJJ+uzx5xDWk0oRrbOZ3zsm+imPULE58ZMIrNl+3POZl4a1k6VXj2E4OiqTmZ9j6hh9egE3kNgnAti9Q+BG6Yw==}
+  qunit@2.21.1:
+    resolution: {integrity: sha512-SMA8IBZamI9MyVB4dShGpn6+X6plO8mIyfZTQ815XBvv/nVMeUj+yxsw8SgZVnrMlrAvTziJkmjOhaDwkNMHWQ==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -3448,7 +3448,7 @@ snapshots:
 
   quick-lru@5.1.1: {}
 
-  qunit@2.21.0:
+  qunit@2.21.1:
     dependencies:
       commander: 7.2.0
       node-watch: 0.7.3
