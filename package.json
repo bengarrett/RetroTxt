@@ -4,15 +4,15 @@
     "dompurify": "^3.2.2",
     "globals": "^15.13.0",
     "js": "^0.1.0",
-    "linkify-element": "^4.1.4",
-    "linkify-plugin-ip": "^4.1.4",
-    "linkifyjs": "^4.1.4",
-    "qunit": "^2.22.0"
+    "linkify-element": "^4.2.0",
+    "linkify-plugin-ip": "^4.2.0",
+    "linkifyjs": "^4.2.0",
+    "qunit": "^2.23.1"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
     "eslint": "^9.16.0",
-    "prettier": "^3.4.1",
+    "prettier": "^3.4.2",
     "shx": "^0.3.4",
     "wawoff2": "^2.0.1",
     "web-ext": "^8.3.0"
