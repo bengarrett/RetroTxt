@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "bulma": "^1.0.2",
+    "bulma": "^1.0.3",
     "dompurify": "^3.2.3",
     "globals": "^15.14.0",
     "js": "^0.1.0",
