@@ -85,4 +85,5 @@ Fonts from,
 
 ---
 
-#### Also available, [Retrotxt for the terminal](https://github.com/bengarrett/retrotxtgo)! An app to handle legacy, code page text files in a modern shell.
+> [!TIP]
+> Also available, [Retrotxt for the terminal](https://github.com/bengarrett/retrotxtgo). An app to handle legacy, code page text files in a modern shell!
