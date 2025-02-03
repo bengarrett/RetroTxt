@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "bulma": "^1.0.3",
-    "dompurify": "^3.2.3",
+    "dompurify": "^3.2.4",
     "globals": "^15.14.0",
     "js": "^0.1.0",
     "linkify-element": "^4.2.0",
