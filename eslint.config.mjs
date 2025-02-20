@@ -2,8 +2,15 @@
 // ESLint flat configuration for JavaScript and JavaScript modules.
 import globals from "globals"
 import js from "@eslint/js"
+import css from "@eslint/css"
 
 export default [
+  // CSS support, https://eslint.org/blog/2025/02/eslint-css-support/
+  {
+    files: ["**/*.css"],
+    language: "css/css",
+    ...css.configs.recommended,
+  },
   {
     ignores: ["ext/js/**"],
   },
