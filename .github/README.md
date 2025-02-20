@@ -6,20 +6,21 @@
 
 Turn pieces of ANSI, ASCII, and NFO documents into HTML. RetroTxt is the browser Extension that takes legacy and plain text files and stylizes them into a more acceptable, valid format to view or copy from a web browser tab.
 
-#### View ANSI, ASCII, NFO, Shift JIS text art as HTML
+#### View color ANSI, ASCII, NFO, Japanese text art as HTML
 
-#### View server and DevOps logs styled with colored text
+#### View system, server and dev-op logs styled with colored text
 
-#### View BBS colored text files for Celerity, PC Board, Renegade, Telegard, Wildcat!, WVIV systems
+Built using modern service workers that are more efficient and use far less browser resources than traditional web extensions.
 
 ---
 
-#### Install from, [the Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Microsoft addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) · [Firefox addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
+### Install from, [the Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Microsoft addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog) · [Firefox addons](https://addons.mozilla.org/en-US/firefox/addon/retrotxt)
 
 ![RetroTxt showcase](../docs/assets/showcase-clean.png)
 
 ## Features
 
+- Open-source
 - Swappable palettes for different color simulations<br>
 VGA, CGA, Unix xterm, Apple IIgs, Commodore 64, monochrome and switchable iCE Colors
 - Customizable font and background colors
@@ -31,23 +32,26 @@ MS-DOS CP-437, Amiga ISO-8959-1, Windows 1252, Japanese Shift-JIS
 VGA, EGA, CGA, MDA, PS/2, and more
 - Various Amiga and microcomputer fonts<br>
 From Commodore, Atari, Apple, Tandy, and more
-- Open-source
 
 ## [Check out the documentation](https://docs.retrotxt.com)
 
 #### [Changes and what is new](https://docs.retrotxt.com/changes/)
 
-#### Support RetroTxt, why not buy me a coffee? ☕ Use [Ko-fi](https://ko-fi.com/codebyben) or [Buy Me a Coffee](https://www.buymeacoffee.com/4rtEGvUIY), thank you!
+Support RetroTxt, why not buy me a coffee? ☕ Use [Ko-fi](https://ko-fi.com/codebyben) or [Buy Me a Coffee](https://www.buymeacoffee.com/4rtEGvUIY), thank you!
 
-## [Install](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · suitable for all compatible browsers
+## [Install](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn)
+
+Suitable for all compatible browsers
 
 ### · [Chrome store](https://chrome.google.com/webstore/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) · [Edge addons](https://microsoftedge.microsoft.com/addons/detail/hmgfnpgcofcpkgkadekmjdicaaeopkog)
 
 ### · [Or use the source code](https://docs.retrotxt.com/src/)
 
-### · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt), discontinued
+---
 
-Firefox support will resume once its [Manifest version 3](https://docs.retrotxt.com/src/mv3/) implementation supports [service workers](https://bugzilla.mozilla.org/show_bug.cgi?id=1573659), 5 years and waiting.
+### · [Firefox](https://addons.mozilla.org/en-US/firefox/addon/retrotxt) halted
+
+Firefox support will resume once it fully implements support for service workers. A process that was once ongoing but abandoned in January 2021 after they gave up on Progressive Web Apps.
 
 ## [Privacy](https://docs.retrotxt.com/privacy)
 
