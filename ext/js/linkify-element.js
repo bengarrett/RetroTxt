@@ -91,13 +91,12 @@ var linkifyElement = (function (linkifyjs) {
 	 * @param {Document} doc The document implementaiton
 	 */
 	function getDefaultRender(doc) {
-	  return _ref => {
-	    let {
-	      tagName,
-	      attributes,
-	      content,
-	      eventListeners
-	    } = _ref;
+	  return ({
+	    tagName,
+	    attributes,
+	    content,
+	    eventListeners
+	  }) => {
 	    const link = doc.createElement(tagName);
 	    for (const attr in attributes) {
 	      link.setAttribute(attr, attributes[attr]);
@@ -121,16 +120,10 @@ var linkifyElement = (function (linkifyjs) {
 	 * @param {Document} [doc] (optional) window.document implementation, if differs from global
 	 * @returns {HTMLElement}
 	 */
-	function linkifyElement(element, opts, doc) {
-	  if (opts === void 0) {
-	    opts = null;
-	  }
-	  if (doc === void 0) {
-	    doc = null;
-	  }
+	function linkifyElement(element, opts = null, doc = null) {
 	  try {
 	    doc = doc || document || window && window.document || global && global.document;
-	  } catch (e) {/* do nothing for now */}
+	  } catch (_) {/* do nothing for now */}
 	  if (!doc) {
 	    throw new Error('Cannot find document implementation. ' + 'If you are in a non-browser environment like Node.js, ' + 'pass the document implementation as the third argument to linkifyElement.');
 	  }

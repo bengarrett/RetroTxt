@@ -1,5 +1,5 @@
 /*!
- * QUnit 2.20.1
+ * QUnit 2.24.1
  * https://qunitjs.com/
  *
  * Copyright OpenJS Foundation and other contributors
@@ -9,145 +9,102 @@
 (function () {
   'use strict';
 
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
-
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-      return typeof obj;
-    } : function (obj) {
-      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    }, _typeof(obj);
+  function _arrayLikeToArray(r, a) {
+    (null == a || a > r.length) && (a = r.length);
+    for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+    return n;
   }
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
+  function _arrayWithHoles(r) {
+    if (Array.isArray(r)) return r;
+  }
+  function _arrayWithoutHoles(r) {
+    if (Array.isArray(r)) return _arrayLikeToArray(r);
+  }
+  function _classCallCheck(a, n) {
+    if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
+  }
+  function _defineProperties(e, r) {
+    for (var t = 0; t < r.length; t++) {
+      var o = r[t];
+      o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
     }
   }
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
+  function _createClass(e, r, t) {
+    return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
+      writable: !1
+    }), e;
   }
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    Object.defineProperty(Constructor, "prototype", {
-      writable: false
-    });
-    return Constructor;
+  function _iterableToArray(r) {
+    if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r);
   }
-  function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-  }
-  function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-  }
-  function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-  }
-  function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-  }
-  function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-  }
-  function _iterableToArrayLimit(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-    if (_i == null) return;
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _s, _e;
-    try {
-      for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-        if (i && _arr.length === i) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
+  function _iterableToArrayLimit(r, l) {
+    var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+    if (null != t) {
+      var e,
+        n,
+        i,
+        u,
+        a = [],
+        f = !0,
+        o = !1;
       try {
-        if (!_n && _i["return"] != null) _i["return"]();
+        if (i = (t = t.call(r)).next, 0 === l) {
+          if (Object(t) !== t) return;
+          f = !1;
+        } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+      } catch (r) {
+        o = !0, n = r;
       } finally {
-        if (_d) throw _e;
+        try {
+          if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
+        } finally {
+          if (o) throw n;
+        }
       }
+      return a;
     }
-    return _arr;
-  }
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-  }
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-    return arr2;
-  }
-  function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
   function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  function _createForOfIteratorHelper(o, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-    if (!it) {
-      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-        if (it) o = it;
-        var i = 0;
-        var F = function () {};
-        return {
-          s: F,
-          n: function () {
-            if (i >= o.length) return {
-              done: true
-            };
-            return {
-              done: false,
-              value: o[i++]
-            };
-          },
-          e: function (e) {
-            throw e;
-          },
-          f: F
-        };
-      }
-      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _slicedToArray(r, e) {
+    return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
+  }
+  function _toConsumableArray(r) {
+    return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();
+  }
+  function _toPrimitive(t, r) {
+    if ("object" != typeof t || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+      var i = e.call(t, r || "default");
+      if ("object" != typeof i) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
     }
-    var normalCompletion = true,
-      didErr = false,
-      err;
-    return {
-      s: function () {
-        it = it.call(o);
-      },
-      n: function () {
-        var step = it.next();
-        normalCompletion = step.done;
-        return step;
-      },
-      e: function (e) {
-        didErr = true;
-        err = e;
-      },
-      f: function () {
-        try {
-          if (!normalCompletion && it.return != null) it.return();
-        } finally {
-          if (didErr) throw err;
-        }
-      }
-    };
+    return ("string" === r ? String : Number)(t);
+  }
+  function _toPropertyKey(t) {
+    var i = _toPrimitive(t, "string");
+    return "symbol" == typeof i ? i : i + "";
+  }
+  function _typeof(o) {
+    "@babel/helpers - typeof";
+
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+      return typeof o;
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+    }, _typeof(o);
+  }
+  function _unsupportedIterableToArray(r, a) {
+    if (r) {
+      if ("string" == typeof r) return _arrayLikeToArray(r, a);
+      var t = {}.toString.call(r).slice(8, -1);
+      return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+    }
   }
 
   // We don't use global-this-polyfill [1], because it modifies
@@ -191,10 +148,15 @@
   // This avoids a simple `export const` assignment as that would lead Rollup
   // to change getGlobalThis and use the same (generated) variable name there.
   var g = getGlobalThis();
-  var window$1 = g.window;
+
+  // These optional globals are undefined in one or more environments:
+  // modern browser, old browser, Node.js, SpiderMonkey.
+  // Calling code must check these for truthy-ness before use.
   var console$1 = g.console;
   var setTimeout$1 = g.setTimeout;
   var clearTimeout = g.clearTimeout;
+  var process$1 = g.process;
+  var window$1 = g.window;
   var document = window$1 && window$1.document;
   var navigator = window$1 && window$1.navigator;
   var localSessionStorage = function () {
@@ -281,7 +243,7 @@
   };
 
   var toString = Object.prototype.toString;
-  var hasOwn$2 = Object.prototype.hasOwnProperty;
+  var hasOwn$1 = Object.prototype.hasOwnProperty;
   var performance = {
     // eslint-disable-next-line compat/compat -- Checked
     now: window$1 && window$1.performance && window$1.performance.now ? window$1.performance.now.bind(window$1.performance) : Date.now
@@ -320,7 +282,7 @@
     var allowArray = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
     var vals = allowArray && is('array', obj) ? [] : {};
     for (var key in obj) {
-      if (hasOwn$2.call(obj, key)) {
+      if (hasOwn$1.call(obj, key)) {
         var val = obj[key];
         vals[key] = val === Object(val) ? objectValues(val, allowArray) : val;
       }
@@ -349,7 +311,7 @@
     // This enables subsetting [20, 30] with {1: 30}.
     var subset = {};
     for (var key in model) {
-      if (hasOwn$2.call(model, key) && hasOwn$2.call(obj, key)) {
+      if (hasOwn$1.call(model, key) && hasOwn$1.call(obj, key)) {
         subset[key] = objectValuesSubset(obj[key], model[key]);
       }
     }
@@ -357,7 +319,7 @@
   }
   function extend(a, b, undefOnly) {
     for (var prop in b) {
-      if (hasOwn$2.call(b, prop)) {
+      if (hasOwn$1.call(b, prop)) {
         if (b[prop] === undefined) {
           delete a[prop];
         } else if (!(undefOnly && typeof a[prop] !== 'undefined')) {
@@ -733,14 +695,24 @@
   var config = {
     // HTML Reporter: Modify document.title when suite is done
     altertitle: true,
+    // TODO: Move here from /src/core.js in QUnit 3.
+    // autostart: true,
+
     // HTML Reporter: collapse every test except the first failing test
     // If false, all failing tests will be expanded
     collapse: true,
+    countStepsAsOne: false,
+    // TODO: Make explicit in QUnit 3.
+    // current: undefined,
+
     // whether or not to fail when there are zero tests
     // defaults to `true`
     failOnZeroTests: true,
     // Select by pattern or case-insensitive substring match against "moduleName: testName"
     filter: undefined,
+    // TODO: Make explicit in QUnit 3.
+    // fixture: undefined,
+
     // Depth up-to which object will be dumped
     maxDepth: 5,
     // Select case-insensitive match of the module name
@@ -750,13 +722,25 @@
     // By default, run previously failed tests first
     // very useful in combination with "Hide passed tests" checked
     reorder: true,
+    reporters: {},
     // When enabled, all tests must call expect()
     requireExpects: false,
     // By default, scroll to top of the page when suite is done
     scrolltop: true,
+    // TODO: Make explicit in QUnit 3.
+    // seed: undefined,
+
     // The storage module to use for reordering tests
     storage: localSessionStorage,
     testId: undefined,
+    // The updateRate controls how often QUnit will yield the main thread
+    // between tests. This is mainly for the benefit of the HTML Reporter,
+    // so that the browser can visually paint DOM changes with test results.
+    // This also helps avoid causing browsers to prompt a warning about
+    // long-running scripts.
+    // TODO: Move here from /src/core.js in QUnit 3.
+    // updateRate: 1000,
+
     // HTML Reporter: List of URL parameters that are given visual controls
     urlConfig: [],
     // Internal: The first unnamed module
@@ -810,7 +794,15 @@
     globalHooks: {},
     // Internal: ProcessingQueue singleton, created in /src/core.js
     pq: null,
+    // Internal: Created in /src/core.js
+    // TODO: Move definitions here in QUnit 3.0.
+    // started: 0,
+
     // Internal state
+    _event_listeners: Object.create(null),
+    _event_memory: {},
+    _deprecated_timeout_shown: false,
+    _deprecated_countEachStep_shown: false,
     blocking: true,
     callbacks: {},
     modules: [],
@@ -821,6 +813,67 @@
       testCount: 0
     }
   };
+  function readFlatPreconfigBoolean(val, dest) {
+    if (typeof val === 'boolean' || typeof val === 'string' && val !== '') {
+      config[dest] = val === true || val === 'true';
+    }
+  }
+  function readFlatPreconfigNumber(val, dest) {
+    if (typeof val === 'number' || typeof val === 'string' && /^[0-9]+$/.test(val)) {
+      config[dest] = +val;
+    }
+  }
+  function readFlatPreconfigString(val, dest) {
+    if (typeof val === 'string' && val !== '') {
+      config[dest] = val;
+    }
+  }
+  function readFlatPreconfigStringOrBoolean(val, dest) {
+    if (typeof val === 'boolean' || typeof val === 'string' && val !== '') {
+      config[dest] = val;
+    }
+  }
+  function readFlatPreconfigStringArray(val, dest) {
+    if (typeof val === 'string' && val !== '') {
+      config[dest] = [val];
+    }
+  }
+  function readFlatPreconfig(obj) {
+    readFlatPreconfigBoolean(obj.qunit_config_altertitle, 'altertitle');
+    readFlatPreconfigBoolean(obj.qunit_config_autostart, 'autostart');
+    readFlatPreconfigBoolean(obj.qunit_config_collapse, 'collapse');
+    readFlatPreconfigBoolean(obj.qunit_config_failonzerotests, 'failOnZeroTests');
+    readFlatPreconfigString(obj.qunit_config_filter, 'filter');
+    readFlatPreconfigString(obj.qunit_config_fixture, 'fixture');
+    readFlatPreconfigBoolean(obj.qunit_config_hidepassed, 'hidepassed');
+    readFlatPreconfigNumber(obj.qunit_config_maxdepth, 'maxDepth');
+    readFlatPreconfigString(obj.qunit_config_module, 'module');
+    readFlatPreconfigStringArray(obj.qunit_config_moduleid, 'moduleId');
+    readFlatPreconfigBoolean(obj.qunit_config_noglobals, 'noglobals');
+    readFlatPreconfigBoolean(obj.qunit_config_notrycatch, 'notrycatch');
+    readFlatPreconfigBoolean(obj.qunit_config_reorder, 'reorder');
+    readFlatPreconfigBoolean(obj.qunit_config_requireexpects, 'requireExpects');
+    readFlatPreconfigBoolean(obj.qunit_config_scrolltop, 'scrolltop');
+    readFlatPreconfigStringOrBoolean(obj.qunit_config_seed, 'seed');
+    readFlatPreconfigStringArray(obj.qunit_config_testid, 'testId');
+    readFlatPreconfigNumber(obj.qunit_config_testtimeout, 'testTimeout');
+    var reporterKeys = {
+      qunit_config_reporters_console: 'console',
+      qunit_config_reporters_tap: 'tap'
+    };
+    for (var key in reporterKeys) {
+      var val = obj[key];
+      // Based on readFlatPreconfigBoolean
+      if (typeof val === 'boolean' || typeof val === 'string' && val !== '') {
+        var dest = reporterKeys[key];
+        config.reporters[dest] = val === true || val === 'true' || val === '1';
+      }
+    }
+  }
+  if (process$1 && 'env' in process$1) {
+    readFlatPreconfig(process$1.env);
+  }
+  readFlatPreconfig(g);
 
   // Apply a predefined QUnit.config object
   //
@@ -833,6 +886,12 @@
 
   // Push a loose unnamed module to the modules collection
   config.modules.push(config.currentModule);
+  if (config.seed === 'true' || config.seed === true) {
+    // Generate a random seed
+    // Length of `Math.random()` fraction, in base 36, may vary from 6-14.
+    // Pad and take slice to a consistent 10-digit value.
+    config.seed = (Math.random().toString(36) + '0000000000').slice(2, 12);
+  }
 
   var dump = (function () {
     function quote(str) {
@@ -1107,7 +1166,7 @@
         parentSuite.pushChildSuite(this);
       }
     }
-    _createClass(SuiteReport, [{
+    return _createClass(SuiteReport, [{
       key: "start",
       value: function start(recordTime) {
         if (recordTime) {
@@ -1206,7 +1265,6 @@
         }
       }
     }]);
-    return SuiteReport;
   }();
 
   var moduleStack = [];
@@ -1280,10 +1338,10 @@
       module.hooks[hookName].push(callback);
     };
   }
-  function processModule(name, options, executeNow) {
+  function processModule(name, options, scope) {
     var modifiers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
     if (typeof options === 'function') {
-      executeNow = options;
+      scope = options;
       options = undefined;
     }
     var module = createModule(name, options, modifiers);
@@ -1303,10 +1361,10 @@
     };
     var prevModule = config.currentModule;
     config.currentModule = module;
-    if (typeof executeNow === 'function') {
+    if (typeof scope === 'function') {
       moduleStack.push(module);
       try {
-        var cbReturnValue = executeNow.call(module.testEnvironment, moduleFns);
+        var cbReturnValue = scope.call(module.testEnvironment, moduleFns);
         if (cbReturnValue && typeof cbReturnValue.then === 'function') {
           Logger.warn('Returning a promise from a module callback is not supported. ' + 'Instead, use hooks for async behavior. ' + 'This will become an error in QUnit 3.0.');
         }
@@ -1322,9 +1380,9 @@
   }
   var focused$1 = false; // indicates that the "only" filter was used
 
-  function module$1(name, options, executeNow) {
+  function module$1(name, options, scope) {
     var ignored = focused$1 && !isParentModuleInQueue();
-    processModule(name, options, executeNow, {
+    processModule(name, options, scope, {
       ignored: ignored
     });
   }
@@ -1342,33 +1400,147 @@
     focused$1 = true;
     processModule.apply(void 0, arguments);
   };
-  module$1.skip = function (name, options, executeNow) {
+  module$1.skip = function (name, options, scope) {
     if (focused$1) {
       return;
     }
-    processModule(name, options, executeNow, {
+    processModule(name, options, scope, {
       skip: true
     });
   };
-  module$1.todo = function (name, options, executeNow) {
+  module$1.if = function (name, condition, options, scope) {
     if (focused$1) {
       return;
     }
-    processModule(name, options, executeNow, {
+    processModule(name, options, scope, {
+      skip: !condition
+    });
+  };
+  module$1.todo = function (name, options, scope) {
+    if (focused$1) {
+      return;
+    }
+    processModule(name, options, scope, {
       todo: true
     });
   };
 
-  // Doesn't support IE9, it will return undefined on these browsers
-  // See also https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error/Stack
-  var fileName = (sourceFromStacktrace(0) || '').replace(/(:\d+)+\)?/, '')
-  // Remove anything prior to the last slash (Unix/Windows)
-  // from the last frame
-  .replace(/.+[/\\]/, '');
+  // Stacktrace cleaner to focus on the path from error source to test suite.
+  //
+  // This should reduce a raw stack trace like this:
+  //
+  // > foo.broken()@/example/foo.js
+  // > Bar@/example/bar.js
+  // > @/test/bar.test.js
+  // > @/lib/qunit.js:500:12
+  // > @/lib/qunit.js:100:28
+  // > @/lib/qunit.js:200:56
+  // > setTimeout@
+  // > @/dist/vendor.js
+  //
+  // and shorten it to show up until the end of the user's bar.test.js code.
+  //
+  // > foo.broken()@/example/foo.js
+  // > Bar@/example/bar.js
+  // > @/test/bar.test.js
+  //
+  // QUnit will obtain one example trace (once per process/pageload suffices),
+  // strip off any :<line> and :<line>:<column>, and use that as match needle,
+  // to the first QUnit-internal frames, and then stop at that point.
+  // Any later frames, including those that are outside QUnit again, will be ommitted
+  // as being uninteresting to the test, since QUnit will have either started or
+  // resumed the test. This we also clean away browser built-ins, or other
+  // vendor/bundler that may be higher up the stack.
+  //
+  // Stripping :<line>:<column> is not for prettyness, it is essential for the
+  // match needle to work, since this sample trace will by definitin not be the
+  // same line as e.g. the QUnit.test() call we're trying to identify.
+  //
+  // See also:
+  // - https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error/Stack
+
+  function qunitFileName() {
+    var error = new Error();
+    if (!error.stack) {
+      // Copy of sourceFromStacktrace() to avoid circular dependency
+      // Support: IE 9-11
+      try {
+        throw error;
+      } catch (err) {
+        error = err;
+      }
+    }
+    return (error.stack || ''
+    // Copy of extractStacktrace() to avoid circular dependency
+    // Support: V8/Chrome
+    ).replace(/^error$\n/im, '').split('\n')[0]
+    // Global replace, because a frame like localhost:4000/lib/qunit.js:1234:50,
+    // would otherwise (harmlessly, but uselessly) remove only the port (first match).
+    // https://github.com/qunitjs/qunit/issues/1769
+    .replace(/(:\d+)+\)?/g, '')
+    // Remove anything prior to the last slash (Unix/Windows) from the last frame,
+    // leaving only "qunit.js".
+    .replace(/.+[/\\]/, '');
+  }
+  var fileName = qunitFileName();
+
+  /**
+   * Responsibilities:
+   * - For internal errors from QUnit itself, remove the first qunit.js frames.
+   * - For errors in Node.js, format any remaining qunit.js and node:internal
+   *   frames as internal (i.e. grey out).
+   *
+   * @param {string} stack Error#stack
+   * @param {Function} formatInternal Format a string in an "internal" color
+   * @param {string|null} [eToString] Error#toString() to help remove
+   *  noise from Node.js/V8 stack traces.
+   */
+  function annotateStacktrace(stack, formatInternal) {
+    var eToString = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var frames = stack.split('\n');
+    var annotated = [];
+    if (eToString && eToString.indexOf(frames[0]) !== -1) {
+      // In Firefox and Safari e.stack starts with frame 0, but in V8 (Chrome/Node.js),
+      // e.stack starts first stringified message. Preserve this separately,
+      // so that, below, we can distinguish between internal frames on top
+      // (to remove) vs later internal frames (to format differently).
+      annotated.push(frames.shift());
+    }
+    var initialInternal = true;
+    for (var i = 0; i < frames.length; i++) {
+      var frame = frames[i];
+      var isInternal = fileName && frame.indexOf(fileName) !== -1 ||
+      // Support Node 16+: ESM-style
+      // "at wrap (node:internal/modules/cjs/loader:1)"
+      frame.indexOf('node:internal/') !== -1 ||
+      // Support Node 12-14 (CJS-style)
+      // "at load (internal/modules/cjs/loader.js:7)"
+      frame.match(/^\s+at .+\(internal[^)]*\)$/) ||
+      // Support Node 10
+      // "at listOnTimeout (timers.js:263)"
+      // Avoid matching "(C:)" on Windows
+      // Avoid matching "(http:)"
+      frame.match(/^\s+at .+\([a-z]+\.js[:\d]*\)$/);
+      if (!isInternal) {
+        initialInternal = false;
+      }
+      // Remove initial internal frames entirely.
+      if (!initialInternal) {
+        annotated.push(isInternal ? formatInternal(frame) : frame);
+      }
+    }
+    return annotated.join('\n');
+  }
   function extractStacktrace(e, offset) {
     offset = offset === undefined ? 4 : offset;
+
+    // Support: IE9, e.stack is not supported, we will return undefined
     if (e && e.stack) {
       var stack = e.stack.split('\n');
+      // In Firefox and Safari, e.stack starts immediately with the first frame.
+      //
+      // In V8 (Chrome/Node.js), the stack starts first with a stringified error message,
+      // and the real stack starting on line 2.
       if (/^error$/i.test(stack[0])) {
         stack.shift();
       }
@@ -1390,8 +1562,9 @@
   function sourceFromStacktrace(offset) {
     var error = new Error();
 
-    // Support: Safari <=7 only, IE <=10 - 11 only
-    // Not all browsers generate the `stack` property for `new Error()`, see also #636
+    // Support: IE 9-11, iOS 7
+    // Not all browsers generate the `stack` property for `new Error()`
+    // See also https://github.com/qunitjs/qunit/issues/636
     if (!error.stack) {
       try {
         throw error;
@@ -1407,7 +1580,7 @@
       _classCallCheck(this, Assert);
       this.test = testContext;
     }
-    _createClass(Assert, [{
+    return _createClass(Assert, [{
       key: "timeout",
       value: function timeout(duration) {
         if (typeof duration !== 'number') {
@@ -1451,6 +1624,7 @@
         // Since the steps array is just string values, we can clone with slice
         var actualStepsClone = this.test.steps.slice();
         this.deepEqual(actualStepsClone, steps, message);
+        this.test.stepsCount += this.test.steps.length;
         this.test.steps.length = 0;
       }
     }, {
@@ -1475,13 +1649,24 @@
         var requiredCalls = count;
         return this.test.internalStop(requiredCalls);
       }
+    }, {
+      key: "closeTo",
+      value: function closeTo(actual, expected, delta, message) {
+        if (typeof delta !== 'number') {
+          throw new TypeError('closeTo() requires a delta argument');
+        }
+        this.pushResult({
+          result: Math.abs(actual - expected) <= delta,
+          actual: actual,
+          expected: expected,
+          message: message || "value should be within ".concat(delta, " inclusive")
+        });
+      }
 
-      // Exports test.push() to the user API
       // Alias of pushResult.
     }, {
       key: "push",
       value: function push(result, actual, expected, message, negative) {
-        Logger.warn('assert.push is deprecated and will be removed in QUnit 3.0.' + ' Please use assert.pushResult instead (https://api.qunitjs.com/assert/pushResult).');
         var currentAssert = this instanceof Assert ? this : config.current.assert;
         return currentAssert.pushResult({
           result: result,
@@ -1491,6 +1676,8 @@
           negative: negative
         });
       }
+
+      // Public API to internal test.pushResult()
     }, {
       key: "pushResult",
       value: function pushResult(resultInfo) {
@@ -1760,7 +1947,6 @@
         });
       }
     }]);
-    return Assert;
   }();
   function validateExpectedExceptionArgs(expected, message, assertionMethod) {
     var expectedType = objectType(expected);
@@ -1832,8 +2018,8 @@
   // eslint-disable-next-line dot-notation
   Assert.prototype.raises = Assert.prototype['throws'];
 
-  var LISTENERS = Object.create(null);
   var SUPPORTED_EVENTS = ['error', 'runStart', 'suiteStart', 'testStart', 'assertion', 'testEnd', 'suiteEnd', 'runEnd'];
+  var MEMORY_EVENTS = ['error', 'runEnd'];
 
   /**
    * Emits an event with the specified data to all currently registered listeners.
@@ -1853,10 +2039,13 @@
     }
 
     // Clone the callbacks in case one of them registers a new callback
-    var originalCallbacks = LISTENERS[eventName];
+    var originalCallbacks = config._event_listeners[eventName];
     var callbacks = originalCallbacks ? _toConsumableArray(originalCallbacks) : [];
     for (var i = 0; i < callbacks.length; i++) {
       callbacks[i](data);
+    }
+    if (inArray(eventName, MEMORY_EVENTS)) {
+      config._event_memory[eventName] = data;
     }
   }
 
@@ -1878,13 +2067,14 @@
     } else if (typeof callback !== 'function') {
       throw new TypeError('callback must be a function when registering a listener');
     }
-    if (!LISTENERS[eventName]) {
-      LISTENERS[eventName] = [];
-    }
+    var listeners = config._event_listeners[eventName] || (config._event_listeners[eventName] = []);
 
     // Don't register the same callback more than once
-    if (!inArray(callback, LISTENERS[eventName])) {
-      LISTENERS[eventName].push(callback);
+    if (!inArray(callback, listeners)) {
+      listeners.push(callback);
+      if (config._event_memory[eventName] !== undefined) {
+        callback(config._event_memory[eventName]);
+      }
     }
   }
 
@@ -2203,7 +2393,6 @@
         console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
       }
     };
-
     promisePolyfill.exports = Promise;
   })();
   var _Promise = promisePolyfill.exports;
@@ -2268,7 +2457,7 @@
       this._endTime = 0;
       suite.pushTest(this);
     }
-    _createClass(TestReport, [{
+    return _createClass(TestReport, [{
       key: "start",
       value: function start(recordTime) {
         if (recordTime) {
@@ -2343,7 +2532,6 @@
         });
       }
     }]);
-    return TestReport;
   }();
 
   function Test(settings) {
@@ -2351,6 +2539,9 @@
     this.assertions = [];
     this.module = config.currentModule;
     this.steps = [];
+    // This powers the QUnit.config.countStepsAsOne feature.
+    // https://github.com/qunitjs/qunit/pull/1775
+    this.stepsCount = 0;
     this.timeout = undefined;
     this.data = undefined;
     this.withData = false;
@@ -2433,7 +2624,7 @@
       skip: !!this.skip
     });
     if (this.skip) {
-      // Skipped tests will fully ignore any sent callback
+      // Skipped tests will fully ignore (and dereference for garbage collect) any sent callback
       this.callback = function () {};
       this.async = false;
       this.expected = 0;
@@ -2640,11 +2831,24 @@
         var stepsList = this.steps.join(', ');
         this.pushFailure('Expected assert.verifySteps() to be called before end of test ' + "after using assert.step(). Unverified steps: ".concat(stepsList), this.stack);
       }
+      if (!config._deprecated_countEachStep_shown && !config.countStepsAsOne && this.expected !== null && this.stepsCount) {
+        config._deprecated_countEachStep_shown = true;
+        if (config.requireExpects) {
+          Logger.warn('Counting each assert.step() for assert.expect() is changing in QUnit 3.0. You can enable QUnit.config.countStepsAsOne to prepare for the upgrade. https://qunitjs.com/api/assert/expect/');
+        } else {
+          Logger.warn('Counting each assert.step() for assert.expect() is changing in QUnit 3.0. Omit assert.expect() from tests that use assert.step(), or enable QUnit.config.countStepsAsOne to prepare for the upgrade. https://qunitjs.com/api/assert/expect/');
+        }
+      }
+      var actualCountForExpect = config.countStepsAsOne ? this.assertions.length - this.stepsCount : this.assertions.length;
       if (config.requireExpects && this.expected === null) {
         this.pushFailure('Expected number of assertions to be defined, but expect() was ' + 'not called.', this.stack);
-      } else if (this.expected !== null && this.expected !== this.assertions.length) {
-        this.pushFailure('Expected ' + this.expected + ' assertions, but ' + this.assertions.length + ' were run', this.stack);
-      } else if (this.expected === null && !this.assertions.length) {
+      } else if (this.expected !== null && this.expected !== actualCountForExpect && this.stepsCount && this.expected === this.assertions.length - this.stepsCount && !config.countStepsAsOne) {
+        this.pushFailure('Expected ' + this.expected + ' assertions, but ' + actualCountForExpect + ' were run\nIt looks like you might prefer to enable QUnit.config.countStepsAsOne, which will become the default in QUnit 3.0. https://qunitjs.com/api/assert/expect/', this.stack);
+      } else if (this.expected !== null && this.expected !== actualCountForExpect && this.stepsCount && this.expected === this.assertions.length && config.countStepsAsOne) {
+        this.pushFailure('Expected ' + this.expected + ' assertions, but ' + actualCountForExpect + ' were run\nRemember that with QUnit.config.countStepsAsOne and in QUnit 3.0, steps no longer count as separate assertions. https://qunitjs.com/api/assert/expect/', this.stack);
+      } else if (this.expected !== null && this.expected !== actualCountForExpect) {
+        this.pushFailure('Expected ' + this.expected + ' assertions, but ' + actualCountForExpect + ' were run', this.stack);
+      } else if (this.expected === null && !actualCountForExpect) {
         this.pushFailure('Expected at least one assertion, but none were run - call ' + 'expect(0) to accept zero assertions.', this.stack);
       }
       var module = this.module;
@@ -2811,7 +3015,7 @@
         runtime: Math.round(performance.now() - this.started),
         todo: !!this.todo
       };
-      if (hasOwn$2.call(resultInfo, 'expected')) {
+      if (hasOwn$1.call(resultInfo, 'expected')) {
         details.expected = resultInfo.expected;
       }
       if (!resultInfo.result) {
@@ -2826,14 +3030,13 @@
         message: resultInfo.message
       });
     },
-    pushFailure: function pushFailure(message, source, actual) {
+    pushFailure: function pushFailure(message, source) {
       if (!(this instanceof Test)) {
         throw new Error('pushFailure() assertion outside test context, was ' + sourceFromStacktrace(2));
       }
       this.pushResult({
         result: false,
         message: message || 'error',
-        actual: actual || null,
         source: source
       });
     },
@@ -2976,6 +3179,15 @@
           };
           clearTimeout(config.timeout);
           config.timeout = setTimeout$1(config.timeoutHandler(timeoutDuration), timeoutDuration);
+        } else {
+          clearTimeout(config.timeout);
+          config.timeout = setTimeout$1(function () {
+            config.timeout = null;
+            if (!config._deprecated_timeout_shown) {
+              config._deprecated_timeout_shown = true;
+              Logger.warn("Test \"".concat(test.testName, "\" took longer than 3000ms, but no timeout was set. Set QUnit.config.testTimeout or call assert.timeout() to avoid a timeout in QUnit 3. https://qunitjs.com/api/config/testTimeout/"));
+            }
+          }, 3000);
         }
       }
       return release;
@@ -3085,7 +3297,7 @@
     config.pollution = [];
     if (config.noglobals) {
       for (var key in g) {
-        if (hasOwn$2.call(g, key)) {
+        if (hasOwn$1.call(g, key)) {
           // In Opera sometimes DOM element ids show up here, ignore them
           if (/^qunit-test-output/.test(key)) {
             continue;
@@ -3138,10 +3350,54 @@
   function makeEachTestName(testName, argument) {
     return "".concat(testName, " [").concat(argument, "]");
   }
+
+  // Characters to avoid in test names especially CLI/AP output:
+  // * x00-1F: e.g. NULL, backspace (\b), line breaks (\r\n), ESC.
+  // * x74: DEL.
+  // * xA0: non-breaking space.
+  //
+  // See https://en.wikipedia.org/wiki/ASCII#Character_order
+  //
+  // eslint-disable-next-line no-control-regex
+  var rNonObviousStr = /[\x00-\x1F\x7F\xA0]/;
   function runEach(data, eachFn) {
     if (Array.isArray(data)) {
       for (var i = 0; i < data.length; i++) {
-        eachFn(data[i], i);
+        var value = data[i];
+
+        // Create automatic labels for primitive data in arrays passed to test.each().
+        // We want to avoid the default "example [0], example [1]" where possible since
+        // these are not self-explanatory in results, and are also tedious to locate
+        // the source of since the numerical key of an array isn't literally in the
+        // code (you have to count).
+        //
+        // Design requirements:
+        // * Unique. Each label must be unique and correspond 1:1 with a data value.
+        //   This way each test name will hash to a unique testId with Rerun link,
+        //   without having to rely on Test class enforcing uniqueness with invisible
+        //   space hack.
+        // * Unambigious. While technical uniqueness is a hard requirement above,
+        //   we also want the labels to be obvious and unambiguous to humans.
+        //   For example, abbrebating "foobar" and "foobaz" to "f" and "fo" is
+        //   technically unique, but ambigious to humans which one is which.
+        // * Short and readable. Where possible we omit the array index numbers
+        //   so that in most cases, the value is simply shown as-is.
+        //   We prefer "example [foo], example [bar]"
+        //   over "example [0: foo], example [2: bar]".
+        //   This also has the benefit of being stable and robust against e.g.
+        //   re-ordering data or adding new items during development, without
+        //   invalidating a previous filter or rerun link immediately.
+        var valueType = _typeof(value);
+        var testKey = i;
+        if (valueType === 'string' && value.length <= 40 && !rNonObviousStr.test(value) && !/\s*\d+: /.test(value)) {
+          testKey = value;
+        } else if (valueType === 'string' || valueType === 'number' || valueType === 'boolean' || valueType === 'undefined' || value === null) {
+          var valueForName = String(value);
+          if (!rNonObviousStr.test(valueForName)) {
+            testKey = i + ': ' + (valueForName.length <= 30 ? valueForName : valueForName.slice(0, 29) + '…');
+          }
+        }
+        eachFn(value, testKey);
       }
     } else if (_typeof(data) === 'object' && data !== null) {
       for (var key in data) {
@@ -3163,6 +3419,13 @@
       addTest({
         testName: testName,
         skip: true
+      });
+    },
+    if: function _if(testName, condition, callback) {
+      addTest({
+        testName: testName,
+        callback: callback,
+        skip: !condition
       });
     },
     only: function only(testName, callback) {
@@ -3201,6 +3464,18 @@
         testName: makeEachTestName(testName, testKey),
         stackOffset: 5,
         skip: true
+      });
+    });
+  };
+  test.if.each = function (testName, condition, dataset, callback) {
+    runEach(dataset, function (data, testKey) {
+      addTest({
+        testName: makeEachTestName(testName, testKey),
+        callback: callback,
+        withData: true,
+        stackOffset: 5,
+        skip: !condition,
+        data: condition ? data : undefined
       });
     });
   };
@@ -3350,7 +3625,7 @@
       runner.on('testEnd', this.onTestEnd.bind(this));
       runner.on('runEnd', this.onRunEnd.bind(this));
     }
-    _createClass(ConsoleReporter, [{
+    return _createClass(ConsoleReporter, [{
       key: "onError",
       value: function onError(error) {
         this.log('error', error);
@@ -3381,7 +3656,6 @@
         return new ConsoleReporter(runner, options);
       }
     }]);
-    return ConsoleReporter;
   }();
 
   // TODO: Consider using globalThis instead of window, so that the reporter
@@ -3421,7 +3695,7 @@
       runner.on('testStart', this.onTestStart.bind(this));
       runner.on('testEnd', this.onTestEnd.bind(this));
     }
-    _createClass(PerfReporter, [{
+    return _createClass(PerfReporter, [{
       key: "onRunStart",
       value: function onRunStart() {
         this.perf.mark('qunit_suite_0_start');
@@ -3464,7 +3738,6 @@
         return new PerfReporter(runner, options);
       }
     }]);
-    return PerfReporter;
   }();
 
   var FORCE_COLOR,
@@ -3575,8 +3848,6 @@
     };
   }
 
-  var hasOwn$1 = Object.prototype.hasOwnProperty;
-
   /**
    * Format a given value into YAML.
    *
@@ -3610,7 +3881,7 @@
    * "[Circular]" as they cannot otherwise be represented.
    */
   function prettyYamlValue(value) {
-    var indent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
+    var indent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
     if (value === undefined) {
       // Not supported in JSON/YAML, turn into string
       // and let the below output it as bare string.
@@ -3660,7 +3931,7 @@
 
         // See also <https://yaml-multiline.info/>
         // Support IE 9-11: Avoid ES6 String#repeat
-        var prefix = new Array(indent + 1).join(' ');
+        var _prefix = new Array(indent * 2 + 1).join(' ');
         var trailingLinebreakMatch = value.match(/\n+$/);
         var trailingLinebreaks = trailingLinebreakMatch ? trailingLinebreakMatch[0].length : 0;
         if (trailingLinebreaks === 1) {
@@ -3671,14 +3942,14 @@
           // Ignore the last new line, since we'll get that one for free
           // with the straight-forward Block syntax.
           .replace(/\n$/, '').split('\n').map(function (line) {
-            return prefix + line;
+            return _prefix + line;
           });
           return '|\n' + lines.join('\n');
         } else {
           // This has either no trailing new lines, or more than 1.
           // Use |+ so that YAML parsers will preserve it exactly.
           var _lines = value.split('\n').map(function (line) {
-            return prefix + line;
+            return _prefix + line;
           });
           return '|+\n' + _lines.join('\n');
         }
@@ -3687,9 +3958,12 @@
         return value;
       }
     }
+    var prefix = new Array(indent + 1).join(' ');
 
     // Handle null, boolean, array, and object
-    return JSON.stringify(decycledShallowClone(value), null, 2);
+    return JSON.stringify(decycledShallowClone(value), null, 2).split('\n').map(function (line, i) {
+      return i === 0 ? line : prefix + line;
+    }).join('\n');
   }
 
   /**
@@ -3734,6 +4008,7 @@
       // Support IE 9: Function#bind is supported, but no console.log.bind().
       this.log = options.log || Function.prototype.bind.call(console$1.log, console$1);
       this.testCount = 0;
+      this.started = false;
       this.ended = false;
       this.bailed = false;
       runner.on('error', this.onError.bind(this));
@@ -3741,10 +4016,13 @@
       runner.on('testEnd', this.onTestEnd.bind(this));
       runner.on('runEnd', this.onRunEnd.bind(this));
     }
-    _createClass(TapReporter, [{
+    return _createClass(TapReporter, [{
       key: "onRunStart",
       value: function onRunStart(_runSuite) {
-        this.log('TAP version 13');
+        if (!this.started) {
+          this.log('TAP version 13');
+          this.started = true;
+        }
       }
     }, {
       key: "onError",
@@ -3757,8 +4035,9 @@
         // Imitate onTestEnd
         // Skip this if we're past "runEnd" as it would look odd
         if (!this.ended) {
+          this.onRunStart();
           this.testCount = this.testCount + 1;
-          this.log($.red("not ok ".concat(this.testCount, " global failure")));
+          this.log("not ok ".concat(this.testCount, " ").concat($.red('global failure')));
           this.logError(error);
         }
         this.log('Bail out! ' + errorString(error).split('\n')[0]);
@@ -3774,14 +4053,14 @@
         if (test.status === 'passed') {
           this.log("ok ".concat(this.testCount, " ").concat(test.fullName.join(' > ')));
         } else if (test.status === 'skipped') {
-          this.log($.yellow("ok ".concat(this.testCount, " # SKIP ").concat(test.fullName.join(' > '))));
+          this.log("ok ".concat(this.testCount, " ").concat($.yellow(test.fullName.join(' > ')), " # SKIP"));
         } else if (test.status === 'todo') {
-          this.log($.cyan("not ok ".concat(this.testCount, " # TODO ").concat(test.fullName.join(' > '))));
+          this.log("not ok ".concat(this.testCount, " ").concat($.cyan(test.fullName.join(' > ')), " # TODO"));
           test.errors.forEach(function (error) {
             return _this.logAssertion(error, 'todo');
           });
         } else {
-          this.log($.red("not ok ".concat(this.testCount, " ").concat(test.fullName.join(' > '))));
+          this.log("not ok ".concat(this.testCount, " ").concat($.red(test.fullName.join(' > '))));
           test.errors.forEach(function (error) {
             return _this.logAssertion(error);
           });
@@ -3789,13 +4068,13 @@
       }
     }, {
       key: "onRunEnd",
-      value: function onRunEnd(runSuite) {
+      value: function onRunEnd(runEnd) {
         this.ended = true;
-        this.log("1..".concat(runSuite.testCounts.total));
-        this.log("# pass ".concat(runSuite.testCounts.passed));
-        this.log($.yellow("# skip ".concat(runSuite.testCounts.skipped)));
-        this.log($.cyan("# todo ".concat(runSuite.testCounts.todo)));
-        this.log($.red("# fail ".concat(runSuite.testCounts.failed)));
+        this.log("1..".concat(runEnd.testCounts.total));
+        this.log("# pass ".concat(runEnd.testCounts.passed));
+        this.log("# ".concat($.yellow("skip ".concat(runEnd.testCounts.skipped))));
+        this.log("# ".concat($.cyan("todo ".concat(runEnd.testCounts.todo))));
+        this.log("# ".concat($.red("fail ".concat(runEnd.testCounts.failed))));
       }
     }, {
       key: "logAssertion",
@@ -3803,16 +4082,22 @@
         var out = '  ---';
         out += "\n  message: ".concat(prettyYamlValue(error.message || 'failed'));
         out += "\n  severity: ".concat(prettyYamlValue(severity || 'failed'));
-        if (hasOwn$1.call(error, 'actual')) {
+
+        // When pushFailure() is used, actual/expected are initially unset but
+        // eventually in Test#logAssertion, for testReport#pushAssertion, these are
+        // forged into existence as undefined.
+        var hasAny = error.expected !== undefined || error.actual !== undefined;
+        if (hasAny) {
           out += "\n  actual  : ".concat(prettyYamlValue(error.actual));
-        }
-        if (hasOwn$1.call(error, 'expected')) {
           out += "\n  expected: ".concat(prettyYamlValue(error.expected));
         }
         if (error.stack) {
           // Since stacks aren't user generated, take a bit of liberty by
           // adding a trailing new line to allow a straight-forward YAML Blocks.
-          out += "\n  stack: ".concat(prettyYamlValue(error.stack + '\n'));
+          var fmtStack = annotateStacktrace(error.stack, $.grey);
+          if (fmtStack.length) {
+            out += "\n  stack: ".concat(prettyYamlValue(fmtStack + '\n'));
+          }
         }
         out += '\n  ...';
         this.log(out);
@@ -3824,7 +4109,10 @@
         out += "\n  message: ".concat(prettyYamlValue(errorString(error)));
         out += "\n  severity: ".concat(prettyYamlValue('failed'));
         if (error && error.stack) {
-          out += "\n  stack: ".concat(prettyYamlValue(error.stack + '\n'));
+          var fmtStack = annotateStacktrace(error.stack, $.grey, error.toString());
+          if (fmtStack.length) {
+            out += "\n  stack: ".concat(prettyYamlValue(fmtStack + '\n'));
+          }
         }
         out += '\n  ...';
         this.log(out);
@@ -3835,7 +4123,6 @@
         return new TapReporter(runner, options);
       }
     }]);
-    return TapReporter;
   }();
 
   var reporters = {
@@ -3897,7 +4184,7 @@
      * Advances the taskQueue to the next task. If the taskQueue is empty,
      * process the testQueue
      */
-    _createClass(ProcessingQueue, [{
+    return _createClass(ProcessingQueue, [{
       key: "advance",
       value: function advance() {
         this.advanceTaskQueue();
@@ -3928,10 +4215,6 @@
         var _this = this;
         if (this.taskQueue.length && !config.blocking) {
           var elapsedTime = performance.now() - start;
-
-          // The updateRate ensures that a user interface (HTML Reporter) can be updated
-          // at least once every second. This can also prevent browsers from prompting
-          // a warning about long running scripts.
           if (!setTimeout$1 || config.updateRate <= 0 || elapsedTime < config.updateRate) {
             var task = this.taskQueue.shift();
             _Promise.resolve(task()).then(function () {
@@ -4076,7 +4359,6 @@
         });
       }
     }]);
-    return ProcessingQueue;
   }();
 
   /**
@@ -4100,6 +4382,7 @@
    */
   function onUncaughtException(error) {
     if (config.current) {
+      // This omits 'actual' and 'expected' (undefined)
       config.current.assert.pushResult({
         result: false,
         message: "global failure: ".concat(errorString(error)),
@@ -4512,7 +4795,6 @@
     if (longtext.length < 4 || shorttext.length * 2 < longtext.length) {
       return null; // Pointless.
     }
-
     dmp = this; // 'this' becomes 'window' in a closure.
 
     /**
@@ -5181,7 +5463,7 @@
   QUnit.isLocal = window$1 && window$1.location && window$1.location.protocol === 'file:';
 
   // Expose the current QUnit version
-  QUnit.version = '2.20.1';
+  QUnit.version = '2.24.1';
   extend(QUnit, {
     config: config,
     diff: diff,
@@ -5217,15 +5499,22 @@
       if (config.autostart) {
         throw new Error('Called start() outside of a test context when ' + 'QUnit.config.autostart was true');
       }
+
+      // Until we remove QUnit.load() in QUnit 3, we keep `pageLoaded`.
+      // It no longer serves any purpose other than to support old test runners
+      // that still call only QUnit.load(), or that call both it and QUnit.start().
       if (!config.pageLoaded) {
-        // The page isn't completely loaded yet, so we set autostart and then
-        // load if we're in Node or wait for the browser's load event.
+        // If the test runner used `autostart = false` and is calling QUnit.start()
+        // to tell is their resources are ready, but the browser isn't ready yet,
+        // then enable autostart now, and we'll let the tests really start after
+        // the browser's "load" event handler calls autostart().
         config.autostart = true;
 
-        // Starts from Node even if .load was not previously called. We still return
-        // early otherwise we'll wind up "beginning" twice.
+        // If we're in Node or another non-browser environment, we start now as there
+        // won't be any "load" event. We return early either way since autostart
+        // is responsible for calling scheduleBegin (avoid "beginning" twice).
         if (!document) {
-          QUnit.load();
+          QUnit.autostart();
         }
         return;
       }
@@ -5245,9 +5534,17 @@
       return extend.apply(this, args);
     },
     load: function load() {
+      Logger.warn('QUnit.load is deprecated and will be removed in QUnit 3.0.' + ' https://qunitjs.com/api/QUnit/load/');
+      QUnit.autostart();
+    },
+    /**
+     * @internal
+     */
+    autostart: function autostart() {
       config.pageLoaded = true;
 
       // Initialize the configuration options
+      // TODO: Move this to config.js in QUnit 3.
       extend(config, {
         started: 0,
         updateRate: 1000,
@@ -5263,7 +5560,10 @@
     },
     stack: function stack(offset) {
       offset = (offset || 0) + 2;
-      return sourceFromStacktrace(offset);
+      // Support Safari: Use temp variable to avoid TCO for consistent cross-browser result
+      // https://bugs.webkit.org/show_bug.cgi?id=276187
+      var source = sourceFromStacktrace(offset);
+      return source;
     }
   });
   registerLoggingCallbacks(QUnit);
@@ -5287,6 +5587,16 @@
     if (config.started) {
       unblockAndAdvanceQueue();
       return;
+    }
+
+    // QUnit.config.reporters is considered writable between qunit.js and QUnit.start().
+    // Now that QUnit.start() has been called, it is time to decide which built-in reporters
+    // to load.
+    if (config.reporters.console) {
+      reporters.console.init(QUnit);
+    }
+    if (config.reporters.tap) {
+      reporters.tap.init(QUnit);
     }
 
     // The test run hasn't officially begun yet
@@ -5331,6 +5641,7 @@
     // Stores fixture HTML for resetting later
     function storeFixture() {
       // Avoid overwriting user-defined values
+      // TODO: Change to negative null/undefined check once declared in /src/config.js
       if (hasOwn.call(config, 'fixture')) {
         return;
       }
@@ -5369,16 +5680,28 @@
       return;
     }
     var urlParams = getUrlParams();
+
+    // TODO: Move to /src/core/ in QUnit 3
+    // TODO: Document this as public API (read-only)
     QUnit.urlParams = urlParams;
+
+    // TODO: Move to /src/core/config.js in QUnit 3,
+    // in accordance with /docs/api/config.index.md#order
     QUnit.config.filter = urlParams.filter;
+    // NOTE: Based on readFlatPreconfigNumber from QUnit 3.
+    if (/^[0-9]+$/.test(urlParams.maxDepth)) {
+      QUnit.config.maxDepth = QUnit.dump.maxDepth = +urlParams.maxDepth;
+    }
     QUnit.config.module = urlParams.module;
     QUnit.config.moduleId = [].concat(urlParams.moduleId || []);
     QUnit.config.testId = [].concat(urlParams.testId || []);
 
     // Test order randomization
-    if (urlParams.seed === true) {
-      // Generate a random seed if the option is specified without a value
-      QUnit.config.seed = Math.random().toString(36).slice(2);
+    // Generate a random seed if `?seed` is specified without a value (boolean true),
+    // or when set to the string "true".
+    if (urlParams.seed === 'true' || urlParams.seed === true) {
+      // NOTE: This duplicates logic from /src/core/config.js. Consolidated in QUnit 3.
+      QUnit.config.seed = (Math.random().toString(36) + '0000000000').slice(2, 12);
     } else if (urlParams.seed) {
       QUnit.config.seed = urlParams.seed;
     }
@@ -5560,9 +5883,7 @@
             }
             if (resultsLen === 0) return noResults;
             var results = new Array(resultsLen);
-            for (var i = resultsLen - 1; i >= 0; --i) {
-              results[i] = q.poll();
-            }
+            for (var i = resultsLen - 1; i >= 0; --i) results[i] = q.poll();
             results.total = resultsLen + limitedCount;
             return results;
           },
@@ -5693,15 +6014,12 @@
                 }
                 if (resultsLen === 0) return resolve(noResults);
                 var results = new Array(resultsLen);
-                for (var i = resultsLen - 1; i >= 0; --i) {
-                  results[i] = q.poll();
-                }
+                for (var i = resultsLen - 1; i >= 0; --i) results[i] = q.poll();
                 results.total = resultsLen + limitedCount;
                 resolve(results);
               }
               isNode ? setImmediate(step) : step(); //setTimeout here is too slow
             });
-
             p.cancel = function () {
               canceled = true;
             };
@@ -5795,7 +6113,6 @@
               obj: null
             }; // hidden
           },
-
           prepareSlow: function prepareSlow(target) {
             if (!target) return {
               target: '',
@@ -5814,7 +6131,6 @@
               obj: null
             }; // hidden
           },
-
           prepareSearch: function prepareSearch(search) {
             if (!search) search = '';
             return fuzzysort.prepareLowerCodes(search);
@@ -5882,7 +6198,6 @@
                     var searchLowerCodeNew = searchLowerCodes[searchI];
                     if (searchLowerCode === searchLowerCodeNew) continue; // doesn't make sense to transpose a repeat char
                   }
-
                   matchesSimpleLen = searchI;
                   targetI = matchesSimple[matchesSimpleLen - 1] + 1;
                   break;
@@ -5953,13 +6268,10 @@
               } else {
                 if (typoStrictI !== 0) score += -20; /*typoPenalty*/
               }
-
               score -= targetLen - searchLen;
               prepared.score = score;
               prepared.indexes = new Array(matchesBestLen);
-              for (var i = matchesBestLen - 1; i >= 0; --i) {
-                prepared.indexes[i] = matchesBest[i];
-              }
+              for (var i = matchesBestLen - 1; i >= 0; --i) prepared.indexes[i] = matchesBest[i];
               return prepared;
             }
           },
@@ -5985,7 +6297,6 @@
               ++targetI;
               if (targetI >= targetLen) return null; // Failed to find searchI
             }
-
             var searchI = 0;
             var successStrict = false;
             var matchesStrictLen = 0;
@@ -6040,9 +6351,7 @@
               score -= targetLen - searchLen;
               prepared.score = score;
               prepared.indexes = new Array(matchesBestLen);
-              for (var i = matchesBestLen - 1; i >= 0; --i) {
-                prepared.indexes[i] = matchesBest[i];
-              }
+              for (var i = matchesBestLen - 1; i >= 0; --i) prepared.indexes[i] = matchesBest[i];
               return prepared;
             }
           },
@@ -6050,9 +6359,7 @@
             var strLen = str.length;
             var lowerCodes = []; // new Array(strLen)    sparse array is too slow
             var lower = str.toLowerCase();
-            for (var i = 0; i < strLen; ++i) {
-              lowerCodes[i] = lower.charCodeAt(i);
-            }
+            for (var i = 0; i < strLen; ++i) lowerCodes[i] = lower.charCodeAt(i);
             return lowerCodes;
           },
           prepareBeginningIndexes: function prepareBeginningIndexes(target) {
@@ -6143,9 +6450,7 @@
         if (!Array.isArray(prop)) segs = prop.split('.');
         var len = segs.length;
         var i = -1;
-        while (obj && ++i < len) {
-          obj = obj[segs[i]];
-        }
+        while (obj && ++i < len) obj = obj[segs[i]];
         return obj;
       }
       function isObj(x) {
@@ -6162,17 +6467,13 @@
             var f = c + 1;
             e = c, f < o && r[f].score < r[c].score && (e = f), r[e - 1 >> 1] = r[e], c = 1 + (e << 1);
           }
-          for (var a = e - 1 >> 1; e > 0 && n.score < r[a].score; a = (e = a) - 1 >> 1) {
-            r[e] = r[a];
-          }
+          for (var a = e - 1 >> 1; e > 0 && n.score < r[a].score; a = (e = a) - 1 >> 1) r[e] = r[a];
           r[e] = n;
         }
         return e.add = function (e) {
           var n = o;
           r[o++] = e;
-          for (var c = n - 1 >> 1; n > 0 && e.score < r[c].score; c = (n = c) - 1 >> 1) {
-            r[n] = r[c];
-          }
+          for (var c = n - 1 >> 1; n > 0 && e.score < r[c].score; c = (n = c) - 1 >> 1) r[n] = r[c];
           r[n] = e;
         }, e.poll = function () {
           if (0 !== o) {
@@ -6308,7 +6609,7 @@
         if (!val.value || typeof val.value === 'string') {
           urlConfigHtml += "<label for='qunit-urlconfig-" + escaped + "' title='" + escapedTooltip + "'><input id='qunit-urlconfig-" + escaped + "' name='" + escaped + "' type='checkbox'" + (val.value ? " value='" + escapeText(val.value) + "'" : '') + (config[val.id] ? " checked='checked'" : '') + " title='" + escapedTooltip + "' />" + escapeText(val.label) + '</label>';
         } else {
-          urlConfigHtml += "<label for='qunit-urlconfig-" + escaped + "' title='" + escapedTooltip + "'>" + val.label + ": </label><select id='qunit-urlconfig-" + escaped + "' name='" + escaped + "' title='" + escapedTooltip + "'><option></option>";
+          urlConfigHtml += "<label for='qunit-urlconfig-" + escaped + "' title='" + escapedTooltip + "'>" + escapeText(val.label) + ": <select id='qunit-urlconfig-" + escaped + "' name='" + escaped + "' title='" + escapedTooltip + "'><option></option>";
           if (Array.isArray(val.value)) {
             for (var j = 0; j < val.value.length; j++) {
               escaped = escapeText(val.value[j]);
@@ -6325,7 +6626,7 @@
             escaped = escapeText(config[val.id]);
             urlConfigHtml += "<option value='" + escaped + "' selected='selected' disabled='disabled'>" + escaped + '</option>';
           }
-          urlConfigHtml += '</select>';
+          urlConfigHtml += '</select></label>';
         }
       }
       return urlConfigHtml;
@@ -6353,9 +6654,9 @@
         config[field.name] = value || false;
         var tests = id('qunit-tests');
         if (tests) {
-          var length = tests.children.length;
-          var children = tests.children;
           if (field.checked) {
+            var length = tests.children.length;
+            var children = tests.children;
             for (var i = 0; i < length; i++) {
               var test = children[i];
               var className = test ? test.className : '';
@@ -6365,23 +6666,19 @@
                 hiddenTests.push(test);
               }
             }
-            var _iterator = _createForOfIteratorHelper(hiddenTests),
-              _step;
-            try {
-              for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                var hiddenTest = _step.value;
-                tests.removeChild(hiddenTest);
-              }
-            } catch (err) {
-              _iterator.e(err);
-            } finally {
-              _iterator.f();
+
+            // Optimization: Avoid `for-of` iterator overhead.
+            for (var _i = 0; _i < hiddenTests.length; _i++) {
+              tests.removeChild(hiddenTests[_i]);
             }
           } else {
-            var _test;
-            while ((_test = hiddenTests.pop()) != null) {
-              tests.appendChild(_test);
+            // Optimization: Avoid `while (arr.length) arr.shift()` which would mutate the array many times.
+            // As of Chrome 126, HTMLElement.append(...hiddenTests) is still slower than
+            // calling appendChild in a loop.
+            for (var _i2 = 0; _i2 < hiddenTests.length; _i2++) {
+              tests.appendChild(hiddenTests[_i2]);
             }
+            hiddenTests.length = 0;
           }
         }
         window$1.history.replaceState(null, '', updatedUrl);
@@ -6749,6 +7046,7 @@
         return;
       }
       var title = document.createElement('strong');
+      title.className = 'qunit-test-name';
       title.innerHTML = getNameHtml(name, moduleName);
       var testBlock = document.createElement('li');
       testBlock.appendChild(title);
@@ -6877,10 +7175,13 @@
       var diff;
       var showDiff = false;
 
-      // The pushFailure doesn't provide details.expected
-      // when it calls, it's implicit to also not show expected and diff stuff
-      // Also, we need to check details.expected existence, as it can exist and be undefined
-      if (!details.result && hasOwn.call(details, 'expected')) {
+      // When pushFailure() is called, it is implied that no expected value
+      // or diff should be shown, because both expected and actual as undefined.
+      //
+      // This must check details.expected existence. If it exists as undefined,
+      // that's a regular assertion for which to render actual/expected and a diff.
+      var showAnyValues = !details.result && (details.expected !== undefined || details.actual !== undefined);
+      if (showAnyValues) {
         if (details.negative) {
           expected = 'NOT ' + QUnit.dump.parse(details.expected);
         } else {
@@ -6906,9 +7207,9 @@
             message += "<tr class='test-diff'><th>Diff: </th><td><pre>" + diff + '</pre></td></tr>';
           }
         } else if (expected.indexOf('[object Array]') !== -1 || expected.indexOf('[object Object]') !== -1) {
-          message += "<tr class='test-message'><th>Message: </th><td>" + 'Diff suppressed as the depth of object is more than current max depth (' + QUnit.config.maxDepth + ').<p>Hint: Use <code>QUnit.dump.maxDepth</code> to ' + " run with a higher max depth or <a href='" + escapeText(setUrl({
-            maxDepth: -1
-          })) + "'>" + 'Rerun</a> without max depth.</p></td></tr>';
+          message += "<tr class='test-message'><th>Message: </th><td>" + 'Diff suppressed as the depth of object is more than current max depth (' + QUnit.dump.maxDepth + ').<p>Hint: Use <code>QUnit.dump.maxDepth</code> to ' + " run with a higher max depth or <a href='" + escapeText(setUrl({
+            maxDepth: 0
+          })) + "'>" + 'Rerun without max depth</a>.</p></td></tr>';
         } else {
           message += "<tr class='test-message'><th>Message: </th><td>" + 'Diff suppressed as the expected and actual results have an equivalent' + ' serialization</td></tr>';
         }
@@ -7044,9 +7345,9 @@
       console$1.warn('Support for PhantomJS is deprecated and will be removed in QUnit 3.0.');
     }
     if (!usingPhantom && document.readyState === 'complete') {
-      QUnit.load();
+      QUnit.autostart();
     } else {
-      addEvent(window$1, 'load', QUnit.load);
+      addEvent(window$1, 'load', QUnit.autostart);
     }
 
     // Wrap window.onerror. We will call the original window.onerror to see if

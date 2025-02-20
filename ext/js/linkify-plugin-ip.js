@@ -5,10 +5,7 @@
 
 	const IPv4Token = linkifyjs.createTokenClass('ipv4', {
 	  isLink: true,
-	  toHref(scheme) {
-	    if (scheme === void 0) {
-	      scheme = linkifyjs.options.defaults.defaultProtocol;
-	    }
+	  toHref(scheme = linkifyjs.options.defaults.defaultProtocol) {
 	    return `${scheme}://${this.v}`;
 	  }
 	});
@@ -16,10 +13,9 @@
 	/**
 	 * @type {import('linkifyjs').TokenPlugin}
 	 */
-	function ipv4Tokens(_ref) {
-	  let {
-	    scanner
-	  } = _ref;
+	function ipv4Tokens({
+	  scanner
+	}) {
 	  const {
 	    start
 	  } = scanner;
@@ -69,10 +65,9 @@
 	/**
 	 * @type {import('linkifyjs').TokenPlugin}
 	 */
-	const ipv6Tokens = _ref2 => {
-	  let {
-	    scanner
-	  } = _ref2;
+	const ipv6Tokens = ({
+	  scanner
+	}) => {
 	  const {
 	    start
 	  } = scanner;
@@ -143,11 +138,10 @@
 	/**
 	 * @type {import('linkifyjs').Plugin}
 	 */
-	function ip(_ref3) {
-	  let {
-	    scanner,
-	    parser
-	  } = _ref3;
+	function ip({
+	  scanner,
+	  parser
+	}) {
 	  const {
 	    COLON,
 	    DOT,
