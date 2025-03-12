@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "ajv": "^8.17.1",
-    "eslint": "^9.21.0",
+    "eslint": "^9.22.0",
     "prettier": "^3.5.3",
     "shx": "^0.3.4",
     "wawoff2": "^2.0.1",
