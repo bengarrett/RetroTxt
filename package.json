@@ -11,11 +11,11 @@
   },
   "devDependencies": {
     "ajv": "^8.17.1",
-    "eslint": "^9.22.0",
+    "eslint": "^9.23.0",
     "prettier": "^3.5.3",
     "shx": "^0.4.0",
     "wawoff2": "^2.0.1",
-    "web-ext": "^8.4.0"
+    "web-ext": "^8.5.0"
   },
   "scripts": {
     "font": "woff2_compress.js"
