@@ -5,7 +5,17 @@
   Monospaced font size values should be tested against:
   https://retrotxt.com/e/preview_07.pcb
 */
-
+/* Departure Mono */
+@font-face {
+  font-family: "departuremono";
+  src: url("../fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-display: auto;
+}
+.font-departuremono {
+  font-family: departuremono;
+  font-size: 1rem;
+  line-height: 1rem;
+}
 /* Intel One Mono */
 @font-face {
   font-family: "intelonemono";

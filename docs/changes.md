@@ -2,10 +2,14 @@
 title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2024-05-25
+date: 2025-04-22
 hide:
   - toc
 ---
+
+## 5.5.1
+
+- New [Departure Mono](https://departuremono.com/) font.
 
 ## 5.5
 
