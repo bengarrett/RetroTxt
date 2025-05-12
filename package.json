@@ -2,11 +2,11 @@
   "dependencies": {
     "bulma": "^1.0.4",
     "dompurify": "^3.2.5",
-    "globals": "^16.0.0",
+    "globals": "^16.1.0",
     "js": "^0.1.0",
-    "linkify-element": "^4.2.0",
-    "linkify-plugin-ip": "^4.2.0",
-    "linkifyjs": "^4.2.0",
+    "linkify-element": "^4.3.1",
+    "linkify-plugin-ip": "^4.3.1",
+    "linkifyjs": "^4.3.1",
     "qunit": "^2.24.1"
   },
   "devDependencies": {

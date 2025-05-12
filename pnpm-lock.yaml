@@ -15,20 +15,20 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       globals:
-        specifier: ^16.0.0
-        version: 16.0.0
+        specifier: ^16.1.0
+        version: 16.1.0
       js:
         specifier: ^0.1.0
         version: 0.1.0
       linkify-element:
-        specifier: ^4.2.0
-        version: 4.2.0(linkifyjs@4.2.0)
+        specifier: ^4.3.1
+        version: 4.3.1(linkifyjs@4.3.1)
       linkify-plugin-ip:
-        specifier: ^4.2.0
-        version: 4.2.0(linkifyjs@4.2.0)
+        specifier: ^4.3.1
+        version: 4.3.1(linkifyjs@4.3.1)
       linkifyjs:
-        specifier: ^4.2.0
-        version: 4.2.0
+        specifier: ^4.3.1
+        version: 4.3.1
       qunit:
         specifier: ^2.24.1
         version: 2.24.1
@@ -906,8 +906,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@16.0.0:
-    resolution: {integrity: sha512-iInW14XItCXET01CQFqudPOWP2jYMl7T+QRQT+UNcR/iQncN/F0UNpgd76iFkBPgNQb4+X3LV9tLJYzwh+Gl3A==}
+  globals@16.1.0:
+    resolution: {integrity: sha512-aibexHNbb/jiUSObBgpHLj+sIuUmJnYcgXBlrfsiDZ9rt4aF2TFRbyLgZ2iFQuVZ1K5Mx3FVkbKRSgKrbK3K2g==}
     engines: {node: '>=18'}
 
   globalyzer@0.1.0:
@@ -1184,18 +1184,18 @@ packages:
     resolution: {integrity: sha512-wM1+Z03eypVAVUCE7QdSqpVIvelbOakn1M0bPDoA4SGWPx3sNDVUiMo3L6To6WWGClB7VyXnhQ4Sn7gxiJbE6A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  linkify-element@4.2.0:
-    resolution: {integrity: sha512-LahyRMhXAgWTP9TOid7pTv8UUZFDz+saLkIVAoGNmOvISt+uSeBzdGhk3dsvkdzAh1QMhkO+fVJjmkMEITre5g==}
+  linkify-element@4.3.1:
+    resolution: {integrity: sha512-98EU09urd7YlAY+MDsA5EUYlurj2Unj4a/OCCUY4jtt4EtN24+KHFIJKh/rhZaMrybQLkfzOaq+ztfws4JWfjA==}
     peerDependencies:
       linkifyjs: ^4.0.0
 
-  linkify-plugin-ip@4.2.0:
-    resolution: {integrity: sha512-MAOw14MPKuibNvEBquZQlurcbeklwItafhu8ulmJpLTlgSDBMx+6eUWcmrMeXm7mu8trltVqlBk0w8dRmekBgA==}
+  linkify-plugin-ip@4.3.1:
+    resolution: {integrity: sha512-IbD1VP8etSMbMhfyRf/ntxmQy+vLH+vurv72xUTcxcHz/LTTn1ShtfWeg+0tM7xnm6JcKRqFOxVab3Np/yAHWw==}
     peerDependencies:
       linkifyjs: ^4.0.0
 
-  linkifyjs@4.2.0:
-    resolution: {integrity: sha512-pCj3PrQyATaoTYKHrgWRF3SJwsm61udVh+vuls/Rl6SptiDhgE7ziUIudAedRY9QEfynmM7/RmLEfPUyw1HPCw==}
+  linkifyjs@4.3.1:
+    resolution: {integrity: sha512-DRSlB9DKVW04c4SUdGvKK5FR6be45lTU9M76JnngqPeeGDqPwYc0zdUErtsNVMtxPXgUWV4HbXbnC4sNyBxkYg==}
 
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
@@ -2966,7 +2966,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@16.0.0: {}
+  globals@16.1.0: {}
 
   globalyzer@0.1.0: {}
 
@@ -3186,15 +3186,15 @@ snapshots:
 
   lines-and-columns@2.0.4: {}
 
-  linkify-element@4.2.0(linkifyjs@4.2.0):
+  linkify-element@4.3.1(linkifyjs@4.3.1):
     dependencies:
-      linkifyjs: 4.2.0
+      linkifyjs: 4.3.1
 
-  linkify-plugin-ip@4.2.0(linkifyjs@4.2.0):
+  linkify-plugin-ip@4.3.1(linkifyjs@4.3.1):
     dependencies:
-      linkifyjs: 4.2.0
+      linkifyjs: 4.3.1
 
-  linkifyjs@4.2.0: {}
+  linkifyjs@4.3.1: {}
 
   locate-path@6.0.0:
     dependencies:
