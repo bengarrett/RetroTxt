@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "bulma": "^1.0.4",
-    "dompurify": "^3.2.5",
-    "globals": "^16.1.0",
+    "dompurify": "^3.2.6",
+    "globals": "^16.2.0",
     "js": "^0.1.0",
     "linkify-element": "^4.3.1",
     "linkify-plugin-ip": "^4.3.1",
@@ -16,7 +16,7 @@
     "prettier": "^3.5.3",
     "shx": "^0.4.0",
     "wawoff2": "^2.0.1",
-    "web-ext": "^8.6.0"
+    "web-ext": "^8.7.0"
   },
   "scripts": {
     "font": "woff2_compress.js"
