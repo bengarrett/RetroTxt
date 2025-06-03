@@ -40,8 +40,8 @@ importers:
         specifier: ^8.17.1
         version: 8.17.1
       eslint:
-        specifier: ^9.27.0
-        version: 9.27.0
+        specifier: ^9.28.0
+        version: 9.28.0
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
@@ -53,7 +53,7 @@ importers:
         version: 2.0.1
       web-ext:
         specifier: ^8.7.0
-        version: 8.7.0
+        version: 8.7.1
 
 packages:
 
@@ -124,8 +124,8 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@eslint/js@9.27.0':
-    resolution: {integrity: sha512-G5JD9Tu5HJEu4z2Uo4aHY2sLV64B7CDMXxFzqzjl3NKd6RVzSXNoE80jk7Y0lJkTTkjiIhBAqmlYwjuBY3tvpA==}
+  '@eslint/js@9.28.0':
+    resolution: {integrity: sha512-fnqSjGWd/CoIp4EXIxWVK/sHA6DOHN4+8Ix2cX5ycOY7LG0UY8nHCU5pIp2eaE1Mc7Qd8kHspYNzYXT2ojPLzg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.6':
@@ -212,6 +212,9 @@ packages:
   '@types/node@22.15.21':
     resolution: {integrity: sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ==}
 
+  '@types/node@22.15.29':
+    resolution: {integrity: sha512-LNdjOkUDlU1RZb8e1kOIUpN1qQUlzGkEtbVNo53vbrwDg5om6oduhm4SiUaPW5ASTXhAiP0jInWG8Qx9fVlOeQ==}
+
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
@@ -235,8 +238,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  addons-linter@7.12.0:
-    resolution: {integrity: sha512-nvVnLqZvLCtPlvLiiJx8s217k5UvXOMQ/Y2qDutBXu8I8CK3pL6uLr5KvZan4eqEY1c1iHekvb3fnvf86a/4fA==}
+  addons-linter@7.13.0:
+    resolution: {integrity: sha512-PCtnZtFfMw+7NSwHEsXPxlUC37ixvx4WBMUbT3T2WQ4N002lATRJQD4ixIXYbRNMDESrC8H2H91ReEE5jmS+Qg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -601,8 +604,8 @@ packages:
     deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
-  eslint@9.27.0:
-    resolution: {integrity: sha512-ixRawFQuMB9DZ7fjU3iGGganFDp3+45bPOdaRurcFHSXO1e/sYwUX/FtQZpLZJR6SjMoJH8hR2pPEAfDyCoU2Q==}
+  eslint@9.28.0:
+    resolution: {integrity: sha512-ocgh41VhRlf9+fVpe7QKzwLj9c92fDiqOj8Y3Sd4/ZmVA4Btx4PlUYPq4pp9JDyupkf1upbEXecxL2mwNV7jPQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     hasBin: true
     peerDependencies:
@@ -1528,8 +1531,8 @@ packages:
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
 
-  web-ext@8.7.0:
-    resolution: {integrity: sha512-A0djEbKMcRhlWVQW0NMX8I8dQyEeXjnbWaDrJ/++v790BcCG5foHTDPdAC38pRfwGaToTqgehztzCiT+68kLYw==}
+  web-ext@8.7.1:
+    resolution: {integrity: sha512-erzzLemPynhFSmSavgQ92PJkFGlY0XQEMZOHbc85D2f+pKi2wk7edaAwa8GU1E9AbyVrdPaFk7wGLpRGfRw8zw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
@@ -1653,9 +1656,9 @@ snapshots:
       eslint: 8.57.1
       eslint-visitor-keys: 3.4.3
 
-  '@eslint-community/eslint-utils@4.7.0(eslint@9.27.0)':
+  '@eslint-community/eslint-utils@4.7.0(eslint@9.28.0)':
     dependencies:
-      eslint: 9.27.0
+      eslint: 9.28.0
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.12.1': {}
@@ -1715,7 +1718,7 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@eslint/js@9.27.0': {}
+  '@eslint/js@9.28.0': {}
 
   '@eslint/object-schema@2.1.6': {}
 
@@ -1787,12 +1790,16 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
+  '@types/node@22.15.29':
+    dependencies:
+      undici-types: 6.21.0
+
   '@types/trusted-types@2.0.7':
     optional: true
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 22.15.21
+      '@types/node': 22.15.29
 
   '@ungap/structured-clone@1.3.0': {}
 
@@ -1806,7 +1813,7 @@ snapshots:
 
   acorn@8.14.1: {}
 
-  addons-linter@7.12.0:
+  addons-linter@7.13.0:
     dependencies:
       '@fluent/syntax': 0.19.0
       '@fregante/relaxed-json': 2.0.0
@@ -2212,15 +2219,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint@9.27.0:
+  eslint@9.28.0:
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.27.0)
+      '@eslint-community/eslint-utils': 4.7.0(eslint@9.28.0)
       '@eslint-community/regexpp': 4.12.1
       '@eslint/config-array': 0.20.0
       '@eslint/config-helpers': 0.2.2
       '@eslint/core': 0.14.0
       '@eslint/eslintrc': 3.3.1
-      '@eslint/js': 9.27.0
+      '@eslint/js': 9.28.0
       '@eslint/plugin-kit': 0.3.1
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
@@ -3108,11 +3115,11 @@ snapshots:
     dependencies:
       defaults: 1.0.4
 
-  web-ext@8.7.0:
+  web-ext@8.7.1:
     dependencies:
       '@babel/runtime': 7.27.1
       '@devicefarmer/adbkit': 3.3.8
-      addons-linter: 7.12.0
+      addons-linter: 7.13.0
       camelcase: 8.0.0
       chrome-launcher: 1.2.0
       debounce: 1.2.1
