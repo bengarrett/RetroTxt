@@ -12,8 +12,8 @@
   "devDependencies": {
     "@eslint/css": "^0.9.0",
     "ajv": "^8.17.1",
-    "eslint": "^9.29.0",
-    "prettier": "^3.6.0",
+    "eslint": "^9.30.0",
+    "prettier": "^3.6.2",
     "shx": "^0.4.0",
     "wawoff2": "^2.0.1",
     "web-ext": "^8.8.0"
