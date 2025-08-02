@@ -21,14 +21,14 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0
       linkify-element:
-        specifier: ^4.3.1
-        version: 4.3.1(linkifyjs@4.3.1)
+        specifier: ^4.3.2
+        version: 4.3.2(linkifyjs@4.3.2)
       linkify-plugin-ip:
-        specifier: ^4.3.1
-        version: 4.3.1(linkifyjs@4.3.1)
+        specifier: ^4.3.2
+        version: 4.3.2(linkifyjs@4.3.2)
       linkifyjs:
-        specifier: ^4.3.1
-        version: 4.3.1
+        specifier: ^4.3.2
+        version: 4.3.2
       qunit:
         specifier: ^2.24.1
         version: 2.24.1
@@ -40,8 +40,8 @@ importers:
         specifier: ^8.17.1
         version: 8.17.1
       eslint:
-        specifier: ^9.31.0
-        version: 9.31.0
+        specifier: ^9.32.0
+        version: 9.32.0
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -128,8 +128,8 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@eslint/js@9.31.0':
-    resolution: {integrity: sha512-LOm5OVt7D4qiKCqoiPbA7LWmI+tbw1VbTUowBcUMgQSuM6poJufkFkYDcQpo5KfgD39TnNySV26QjOh7VFpSyw==}
+  '@eslint/js@9.32.0':
+    resolution: {integrity: sha512-BBpRFZK3eX6uMLKz8WxFOBIFFcGFJ/g8XuwjTHCqHROSIsopI+ddn/d5Cfh36+7+e5edVS8dbSHnBNhrLEX0zg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.6':
@@ -595,8 +595,8 @@ packages:
     deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
-  eslint@9.31.0:
-    resolution: {integrity: sha512-QldCVh/ztyKJJZLr4jXNUByx3gR+TDYZCRXEktiZoUR3PGy4qCmSbkxcIle8GEwGpb5JBZazlaJ/CxLidXdEbQ==}
+  eslint@9.32.0:
+    resolution: {integrity: sha512-LSehfdpgMeWcTZkWZVIJl+tkZ2nuSkyyB9C27MZqFWXuph7DvaowgcTvKqxvpLW1JZIk8PN7hFY3Rj9LQ7m7lg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     hasBin: true
     peerDependencies:
@@ -996,18 +996,18 @@ packages:
     resolution: {integrity: sha512-wM1+Z03eypVAVUCE7QdSqpVIvelbOakn1M0bPDoA4SGWPx3sNDVUiMo3L6To6WWGClB7VyXnhQ4Sn7gxiJbE6A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  linkify-element@4.3.1:
-    resolution: {integrity: sha512-98EU09urd7YlAY+MDsA5EUYlurj2Unj4a/OCCUY4jtt4EtN24+KHFIJKh/rhZaMrybQLkfzOaq+ztfws4JWfjA==}
+  linkify-element@4.3.2:
+    resolution: {integrity: sha512-D8+QF5kVVr9vMQDGExbecY2cbIuBTz8yg22lBC/gUESHPxfJS0wp3p+QB6mmDIQC2YPjxGsiFDZJgz9XtPstRg==}
     peerDependencies:
       linkifyjs: ^4.0.0
 
-  linkify-plugin-ip@4.3.1:
-    resolution: {integrity: sha512-IbD1VP8etSMbMhfyRf/ntxmQy+vLH+vurv72xUTcxcHz/LTTn1ShtfWeg+0tM7xnm6JcKRqFOxVab3Np/yAHWw==}
+  linkify-plugin-ip@4.3.2:
+    resolution: {integrity: sha512-tJH0RUhRSXxw8N3ke4TD502boo0vbqEpqWm5znzzwGB0t0gMnyVBRKKqGgXxRllHboBGnN+1x/Srf7dzHeaH/w==}
     peerDependencies:
       linkifyjs: ^4.0.0
 
-  linkifyjs@4.3.1:
-    resolution: {integrity: sha512-DRSlB9DKVW04c4SUdGvKK5FR6be45lTU9M76JnngqPeeGDqPwYc0zdUErtsNVMtxPXgUWV4HbXbnC4sNyBxkYg==}
+  linkifyjs@4.3.2:
+    resolution: {integrity: sha512-NT1CJtq3hHIreOianA8aSXn6Cw0JzYOuDQbOrSPe7gqFnCpKP++MQe3ODgO3oh2GJFORkAAdqredOa60z63GbA==}
 
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
@@ -1595,9 +1595,9 @@ snapshots:
       eslint: 8.57.1
       eslint-visitor-keys: 3.4.3
 
-  '@eslint-community/eslint-utils@4.7.0(eslint@9.31.0)':
+  '@eslint-community/eslint-utils@4.7.0(eslint@9.32.0)':
     dependencies:
-      eslint: 9.31.0
+      eslint: 9.32.0
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.12.1': {}
@@ -1661,7 +1661,7 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@eslint/js@9.31.0': {}
+  '@eslint/js@9.32.0': {}
 
   '@eslint/object-schema@2.1.6': {}
 
@@ -2147,15 +2147,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint@9.31.0:
+  eslint@9.32.0:
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.31.0)
+      '@eslint-community/eslint-utils': 4.7.0(eslint@9.32.0)
       '@eslint-community/regexpp': 4.12.1
       '@eslint/config-array': 0.21.0
       '@eslint/config-helpers': 0.3.0
       '@eslint/core': 0.15.1
       '@eslint/eslintrc': 3.3.1
-      '@eslint/js': 9.31.0
+      '@eslint/js': 9.32.0
       '@eslint/plugin-kit': 0.3.4
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
@@ -2541,15 +2541,15 @@ snapshots:
 
   lines-and-columns@2.0.4: {}
 
-  linkify-element@4.3.1(linkifyjs@4.3.1):
+  linkify-element@4.3.2(linkifyjs@4.3.2):
     dependencies:
-      linkifyjs: 4.3.1
+      linkifyjs: 4.3.2
 
-  linkify-plugin-ip@4.3.1(linkifyjs@4.3.1):
+  linkify-plugin-ip@4.3.2(linkifyjs@4.3.2):
     dependencies:
-      linkifyjs: 4.3.1
+      linkifyjs: 4.3.2
 
-  linkifyjs@4.3.1: {}
+  linkifyjs@4.3.2: {}
 
   locate-path@6.0.0:
     dependencies:
