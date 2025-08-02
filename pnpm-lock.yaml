@@ -22,13 +22,13 @@ importers:
         version: 0.1.0
       linkify-element:
         specifier: ^4.3.1
-        version: 4.3.1(linkifyjs@4.3.1)
+        version: 4.3.1(linkifyjs@4.3.2)
       linkify-plugin-ip:
         specifier: ^4.3.1
-        version: 4.3.1(linkifyjs@4.3.1)
+        version: 4.3.1(linkifyjs@4.3.2)
       linkifyjs:
-        specifier: ^4.3.1
-        version: 4.3.1
+        specifier: ^4.3.2
+        version: 4.3.2
       qunit:
         specifier: ^2.24.1
         version: 2.24.1
@@ -1006,8 +1006,8 @@ packages:
     peerDependencies:
       linkifyjs: ^4.0.0
 
-  linkifyjs@4.3.1:
-    resolution: {integrity: sha512-DRSlB9DKVW04c4SUdGvKK5FR6be45lTU9M76JnngqPeeGDqPwYc0zdUErtsNVMtxPXgUWV4HbXbnC4sNyBxkYg==}
+  linkifyjs@4.3.2:
+    resolution: {integrity: sha512-NT1CJtq3hHIreOianA8aSXn6Cw0JzYOuDQbOrSPe7gqFnCpKP++MQe3ODgO3oh2GJFORkAAdqredOa60z63GbA==}
 
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
@@ -2541,15 +2541,15 @@ snapshots:
 
   lines-and-columns@2.0.4: {}
 
-  linkify-element@4.3.1(linkifyjs@4.3.1):
+  linkify-element@4.3.1(linkifyjs@4.3.2):
     dependencies:
-      linkifyjs: 4.3.1
+      linkifyjs: 4.3.2
 
-  linkify-plugin-ip@4.3.1(linkifyjs@4.3.1):
+  linkify-plugin-ip@4.3.1(linkifyjs@4.3.2):
     dependencies:
-      linkifyjs: 4.3.1
+      linkifyjs: 4.3.2
 
-  linkifyjs@4.3.1: {}
+  linkifyjs@4.3.2: {}
 
   locate-path@6.0.0:
     dependencies:
