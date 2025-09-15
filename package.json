@@ -2,7 +2,7 @@
   "dependencies": {
     "bulma": "^1.0.4",
     "dompurify": "^3.2.6",
-    "globals": "^16.3.0",
+    "globals": "^16.4.0",
     "js": "^0.1.0",
     "linkify-element": "^4.3.2",
     "linkify-plugin-ip": "^4.3.2",
