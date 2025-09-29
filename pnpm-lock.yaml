@@ -34,8 +34,8 @@ importers:
         version: 2.24.1
     devDependencies:
       '@eslint/css':
-        specifier: ^0.11.0
-        version: 0.11.0
+        specifier: ^0.11.1
+        version: 0.11.1
       ajv:
         specifier: ^8.17.1
         version: 8.17.1
@@ -108,8 +108,8 @@ packages:
     resolution: {integrity: sha512-bJgnXu0D0K1BbfPfHTmCaJe2ucBOjeg/tG37H2CSqYCw51VMmBtPfWrH8LKPLAVCOp0h94e1n8PfR3v9iRbtyA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
 
-  '@eslint/css@0.11.0':
-    resolution: {integrity: sha512-QQEw1zoOnF6E7+i9cyWpsXdOyy2ebH9hR9O2q+Vvl5mmBwBGBa33BkhKlWHqZiG9ib0AKlw0hGgnxOH0r12l9g==}
+  '@eslint/css@0.11.1':
+    resolution: {integrity: sha512-EWwIOS/NlvYYen+Bqzedruuvc0JpsHAm4fbkr/N5E0daEN0OaTQPFLoS/UayG7R0giFIpRDdjQ3l/wt3Z3Rf4A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/eslintrc@2.1.4':
@@ -1602,7 +1602,7 @@ snapshots:
       mdn-data: 2.23.0
       source-map-js: 1.2.1
 
-  '@eslint/css@0.11.0':
+  '@eslint/css@0.11.1':
     dependencies:
       '@eslint/core': 0.15.2
       '@eslint/css-tree': 3.6.5
