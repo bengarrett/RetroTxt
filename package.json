@@ -2,7 +2,7 @@
   "dependencies": {
     "bulma": "^1.0.4",
     "dompurify": "^3.3.0",
-    "globals": "^16.4.0",
+    "globals": "^16.5.0",
     "js": "^0.1.0",
     "linkify-element": "^4.3.2",
     "linkify-plugin-ip": "^4.3.2",
@@ -10,9 +10,9 @@
     "qunit": "^2.24.2"
   },
   "devDependencies": {
-    "@eslint/css": "^0.13.0",
+    "@eslint/css": "^0.14.0",
     "ajv": "^8.17.1",
-    "eslint": "^9.38.0",
+    "eslint": "^9.39.0",
     "prettier": "^3.6.2",
     "shx": "^0.4.0",
     "wawoff2": "^2.0.1",
