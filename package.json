@@ -10,9 +10,9 @@
     "qunit": "^2.24.2"
   },
   "devDependencies": {
-    "@eslint/css": "^0.14.0",
+    "@eslint/css": "^0.14.1",
     "ajv": "^8.17.1",
-    "eslint": "^9.39.0",
+    "eslint": "^9.39.1",
     "prettier": "^3.6.2",
     "shx": "^0.4.0",
     "wawoff2": "^2.0.1",
