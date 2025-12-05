@@ -1,5 +1,5 @@
 /*!
- * QUnit 2.24.1
+ * QUnit 2.24.3
  * https://qunitjs.com/
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1378,6 +1378,40 @@
       }
     }
   }
+
+  /**
+   * Clear the SuiteReport tree of all tests and leave only current module as child suite
+   *
+   * This should be called before defining the first module.only() or test.only()
+   * because otherwise:
+   * - `runEnd.testCounts` is too high.
+   * - UI (HtmlReporter) and TAP (TapReporter) display totals too high.
+   * - Test runners like QTap might timeout because the TAP plan
+   *   would be printed as "1..9" even if only 2 tests are run,
+   *   which means tap-finished will wait for 3-9.
+   */
+  function clearSuiteReports(currentModule) {
+    var childSuite = null;
+    var suiteReport = currentModule.suiteReport;
+    while (suiteReport) {
+      suiteReport.tests.length = 0;
+      var i = suiteReport.childSuites.indexOf(childSuite);
+      if (i === -1) {
+        suiteReport.childSuites.length = 0;
+      } else {
+        // Reduce in-place to just currentModule.suiteReport or its intermediary
+        suiteReport.childSuites.splice(0, i);
+        suiteReport.childSuites.splice(1);
+      }
+      if (suiteReport === runSuite) {
+        suiteReport = null;
+      } else {
+        childSuite = suiteReport;
+        currentModule = currentModule.parentModule;
+        suiteReport = currentModule && currentModule.suiteReport || runSuite;
+      }
+    }
+  }
   var focused$1 = false; // indicates that the "only" filter was used
 
   function module$1(name, options, scope) {
@@ -1392,6 +1426,7 @@
       // delete any and all previously registered modules and tests.
       config.modules.length = 0;
       config.queue.length = 0;
+      clearSuiteReports(config.currentModule);
 
       // Ignore any tests declared after this block within the same
       // module parent. https://github.com/qunitjs/qunit/issues/1645
@@ -3334,6 +3369,7 @@
     }
     if (!focused) {
       config.queue.length = 0;
+      clearSuiteReports(config.currentModule);
       focused = true;
     }
     var newTest = new Test(settings);
@@ -3905,7 +3941,10 @@
       // cause data loss or invalid YAML syntax.
       //
       // - Quotes, escapes, line breaks, or JSON-like stuff.
-      var rSpecialJson = /['"\\/[{}\]\r\n]/;
+      // - Not allowed in YAML unquoted strings per https://yaml.org/spec/1.2.2/#733-plain-style
+      //   * ": " (colon followed by space)
+      //   * " #" (space followed by hash)
+      var rSpecialJson = /['"\\/[{}\]\r\n|:#]/;
 
       // - Characters that are special at the start of a YAML value
       var rSpecialYaml = /[-?:,[\]{}#&*!|=>'"%@`]/;
@@ -5463,7 +5502,7 @@
   QUnit.isLocal = window$1 && window$1.location && window$1.location.protocol === 'file:';
 
   // Expose the current QUnit version
-  QUnit.version = '2.24.1';
+  QUnit.version = '2.24.3';
   extend(QUnit, {
     config: config,
     diff: diff,
