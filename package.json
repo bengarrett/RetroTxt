@@ -7,13 +7,13 @@
     "linkify-element": "^4.3.2",
     "linkify-plugin-ip": "^4.3.2",
     "linkifyjs": "^4.3.2",
-    "qunit": "^2.24.2"
+    "qunit": "^2.24.3"
   },
   "devDependencies": {
     "@eslint/css": "^0.14.1",
     "ajv": "^8.17.1",
     "eslint": "^9.39.1",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.3",
     "shx": "^0.4.0",
     "wawoff2": "^2.0.1",
     "web-ext": "^9.2.0"

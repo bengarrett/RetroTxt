@@ -30,8 +30,8 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2
       qunit:
-        specifier: ^2.24.2
-        version: 2.24.2
+        specifier: ^2.24.3
+        version: 2.24.3
     devDependencies:
       '@eslint/css':
         specifier: ^0.14.1
@@ -43,8 +43,8 @@ importers:
         specifier: ^9.39.1
         version: 9.39.1
       prettier:
-        specifier: ^3.6.2
-        version: 3.6.2
+        specifier: ^3.7.3
+        version: 3.7.3
       shx:
         specifier: ^0.4.0
         version: 0.4.0
@@ -1106,8 +1106,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@3.6.2:
-    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+  prettier@3.7.3:
+    resolution: {integrity: sha512-QgODejq9K3OzoBbuyobZlUhznP5SKwPqp+6Q6xw6o8gnhr4O85L2U915iM2IDcfF2NPXVaM9zlo9tdwipnYwzg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -1141,8 +1141,8 @@ packages:
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
 
-  qunit@2.24.2:
-    resolution: {integrity: sha512-dWlYs+Q9AIDT3eHKgkpEpWrSjHjqTJNCAJr1tUo5bQuDMzlZvaqCz1bNZhqzNu41ibkIQ7b50S9y6IMlrrUfNQ==}
+  qunit@2.24.3:
+    resolution: {integrity: sha512-JTHwSfHf2Cw8TqusZo2tT4F9d+XA/pp/veoxUDiPNHtB1Wc1VPctiHHIv6HA3vrXNOBu9LSzFM7YU2OV9Gz4vQ==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -2584,7 +2584,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.6.2: {}
+  prettier@3.7.3: {}
 
   process-nextick-args@2.0.1: {}
 
@@ -2611,7 +2611,7 @@ snapshots:
 
   quick-format-unescaped@4.0.4: {}
 
-  qunit@2.24.2:
+  qunit@2.24.3:
     dependencies:
       commander: 7.2.0
       node-watch: 0.7.3
