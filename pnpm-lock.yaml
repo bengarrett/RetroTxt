@@ -30,8 +30,8 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2
       qunit:
-        specifier: ^2.24.3
-        version: 2.24.3
+        specifier: ^2.25.0
+        version: 2.25.0
     devDependencies:
       '@eslint/css':
         specifier: ^0.14.1
@@ -1141,8 +1141,8 @@ packages:
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
 
-  qunit@2.24.3:
-    resolution: {integrity: sha512-JTHwSfHf2Cw8TqusZo2tT4F9d+XA/pp/veoxUDiPNHtB1Wc1VPctiHHIv6HA3vrXNOBu9LSzFM7YU2OV9Gz4vQ==}
+  qunit@2.25.0:
+    resolution: {integrity: sha512-MONPKgjavgTqArCwZOEz8nEMbA19zNXIp5ZOW9rPYj5cbgQp0fiI36c9dPTSzTRRzx+KcfB5eggYB/ENqxi0+w==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -2612,7 +2612,7 @@ snapshots:
 
   quick-format-unescaped@4.0.4: {}
 
-  qunit@2.24.3:
+  qunit@2.25.0:
     dependencies:
       commander: 7.2.0
       node-watch: 0.7.3
