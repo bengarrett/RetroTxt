@@ -101,7 +101,7 @@ These are the directories and files that comprise of RetroTxt source code.
 
 | Extension item | Purpose |
 | -- | -- |
-| `ext/.web-ext-chrome.js` | The [web-ext configuration file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext#Setting_option_defaults_in_a_configuration_file) for packaging a Chrome distribution package |
+| `ext/.web-ext-chrome.mjs` | The [web-ext configuration file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Getting_started_with_web-ext#Setting_option_defaults_in_a_configuration_file) for packaging a Chrome distribution package |
 | `ext/manifest.json` | An [Extension manifest file](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json) containing read-only metadata and configuration options |
 | **`ext/_locales/`** | Spelling differences for the UK and US English |
 |  ↳ `en_GB/messages.json` | Shared variables British UK spelling and names |

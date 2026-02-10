@@ -16,7 +16,7 @@ export default [
   },
   js.configs.recommended,
   {
-    files: ["ext/.web-ext-chrome.js"],
+    files: ["ext/.web-ext-chrome.mjs"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",

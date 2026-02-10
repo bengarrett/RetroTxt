@@ -98,6 +98,6 @@ All browsers used by the web extension support WOFF2, and the format offers bett
 [Web-ext](https://github.com/mozilla/web-ext) is by Mozilla, the creators of the [Firefox browser](https://www.mozilla.org/en-US/firefox/), and is used to build a compressed zip package that gets submitted to the
 [Chrome](https://chromewebstore.google.com/detail/retrotxt/gkjkgilckngllkopkogcaiojfajanahn) and [Microsoft](https://microsoftedge.microsoft.com/addons/detail/retrotxt/hmgfnpgcofcpkgkadekmjdicaaeopkog) web extension stores.
 
-A simple configuration file can be found in `.web-ext-chrome.js`.
+A simple configuration file can be found in `.web-ext-chrome.mjs`.
 
 The [web-ext command reference](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/) is available for more information.

@@ -22,8 +22,47 @@ tasks:
     cmds:
      - task --list
 
+  # install and uninstall packages and libraries
+  inst-packages:
+    desc: Installs both the dependencies and dev-dependencies contained in the package.json.
+    aliases: [i]
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+    cmds:
+      - cmd: pnpm install
+      - task: dep-copy
+
+  inst-docs:
+    desc: Install required Python packages for documentation (mkdocs, mkdocs-material).
+    aliases: [id]
+    cmds:
+      - cmd: pip install mkdocs mkdocs-material
+
+  inst-puppeteer:
+    desc: Download the required Chrome browser for Puppeteer.
+    aliases: [ip]
+    cmds:
+      - cmd: pnpm exec puppeteer browsers install chrome
+
+  rm-puppeteer:
+    desc: Remove the downloaded Chrome browser for Puppeteer.
+    aliases: [rp]
+    cmds:
+      - cmd: rm -rf ~/.cache/puppeteer
+
+  # linting commands
+  lints:
+    desc: Run both regular linting and security linting.
+    aliases: [ll]
+    ignore_error: true
+    cmds:
+      - task: lint
+      - task: lint-security
+
   lint:
     desc: Lint the JavaScript files in the `ext` directory.
+    aliases: [l]
     ignore_error: true
     cmds:
       - cmd: echo 'Running ESLint on extension scripts...'
@@ -31,108 +70,48 @@ tasks:
       - cmd: pnpm exec eslint ext/scripts/sw/*.js --stats
       - cmd: pnpm exec eslint ext/scripts/*.js --stats
 
-  lint:security:
+  lint-security:
     desc: Run security linting with ESLint security plugins.
+    aliases: [ls]
     ignore_error: true
     cmds:
       - cmd: echo 'Running security linting on extension scripts...'
       - cmd: cd ext && node security-lint.js
 
-  lint:security:ci:
-    desc: Run security linting in CI mode (strict, fails on issues).
-    cmds:
-      - cmd: echo 'Running security linting in CI mode...'
-      - cmd: cd ext && node security-lint.js
-      - cmd: test $? -eq 0 || (echo 'Security linting failed - vulnerabilities detected' && exit 1)
-
-  lint:all:
-    desc: Run both regular linting and security linting.
-    ignore_error: true
-    cmds:
-      - task: lint
-      - task: lint:security
-
-  lint:all:ci:
-    desc: Run both regular and security linting in CI mode (strict).
-    cmds:
-      - task: lint
-      - task: lint:security:ci
-
-  coverage:
+  lint-coverage:
     desc: Generate code coverage summary report.
+    aliases: [lc]
     cmds:
       - cmd: echo 'Generating code coverage summary...'
       - cmd: cd ext && node coverage-summary.js
 
-  coverage:ci:
-    desc: Generate code coverage summary in CI mode (strict).
-    cmds:
-      - cmd: echo 'Generating code coverage summary in CI mode...'
-      - cmd: cd ext && node coverage-summary.js
-      - cmd: test -f ext/coverage/summary.json || (echo 'Coverage summary generation failed' && exit 1)
-
-  benchmark:
+  lint-benchmark:
     desc: Run performance benchmarks.
+    aliases: [lb]
     cmds:
       - cmd: echo 'Running performance benchmarks...'
       - cmd: cd ext && node benchmark.js
 
-  benchmark:ci:
-    desc: Run performance benchmarks in CI mode (strict).
-    cmds:
-      - cmd: echo 'Running performance benchmarks in CI mode...'
-      - cmd: cd ext && node benchmark.js
-      - cmd: test -f ext/benchmarks/benchmark-*.json || (echo 'Benchmark generation failed' && exit 1)
-
-  benchmark:expanded:
+  lint-benchmark-expanded:
     desc: Run expanded performance benchmarks.
+    aliases: [lbe]
     cmds:
       - cmd: echo 'Running expanded performance benchmarks...'
       - cmd: cd ext && node benchmark-expanded.js
 
-  benchmark:expanded:ci:
-    desc: Run expanded performance benchmarks in CI mode (strict).
-    cmds:
-      - cmd: echo 'Running expanded performance benchmarks in CI mode...'
-      - cmd: cd ext && node benchmark-expanded.js
-      - cmd: test -f ext/benchmarks/benchmark-expanded-*.json || (echo 'Expanded benchmark generation failed' && exit 1)
-
-  benchmark:error:
+  lint-benchmark-error:
     desc: Run error handling benchmarks.
+    aliases: [lme]
     cmds:
       - cmd: echo 'Running error handling benchmarks...'
       - cmd: cd ext && node benchmark-error-handling.js
 
-  benchmark:error:ci:
-    desc: Run error handling benchmarks in CI mode (strict).
-    cmds:
-      - cmd: echo 'Running error handling benchmarks in CI mode...'
-      - cmd: cd ext && node benchmark-error-handling.js
-      - cmd: test -f ext/benchmarks/error-handling-*.json || (echo 'Error handling benchmark generation failed' && exit 1)
-
-  metrics:track:
+  lint-metrics:
     desc: Track and compare metrics over time.
+    aliases: [lm]
     cmds:
       - cmd: echo 'Tracking metrics...'
       - cmd: cd ext && node metrics-tracker.js
-
-  metrics:ci:
-    desc: Track metrics in CI mode (strict).
-    cmds:
-      - cmd: echo 'Tracking metrics in CI mode...'
-      - cmd: cd ext && node metrics-tracker.js
-      - cmd: test -f ext/metrics/metrics.json || (echo 'Metrics tracking failed' && exit 1)
-
-  ci:all:
-    desc: Run all CI checks (tests, linting, coverage, benchmarks).
-    cmds:
-      - cmd: echo 'Running all CI checks...'
-      - cmd: task test
-      - cmd: task lint:security:ci
-      - cmd: task coverage
-      - cmd: task benchmark
-      - cmd: task metrics:track
-      - cmd: echo 'All CI checks completed successfully!'
 
   # user commands that are displayed with `task --list`
   build:
@@ -146,15 +125,15 @@ tasks:
       - task: build-chrome
 
   build-chrome:
-    # edit web-ext-chrome.js to hide files and directories
+    # edit web-ext-chrome.mjs to hide files and directories
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
       - sh: pnpm exec web-ext --version
         msg: "{{.REQWEXT}}"
     cmds:
-      - task: dep-copy
-      - cmd: pnpm exec web-ext --config ext/.web-ext-chrome.js --source-dir ./ext build
+      - task: packages-copy
+      - cmd: pnpm exec web-ext --config ext/.web-ext-chrome.mjs --source-dir ./ext build
         ignore_error: true
 
   checks:
@@ -179,8 +158,10 @@ tasks:
       - cmd: git --version
       - cmd: task --version
 
-  dep-copy:
+  # packages for the web extension and builds
+  packages-copy:
     desc: Copies the dependencies from `node_modules` over to the `ext` directory.
+    aliases: [pc]
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
@@ -196,29 +177,9 @@ tasks:
       - cmd: pnpm exec shx cp -f "node_modules/linkify-element/dist/linkify-element.js" "ext/js/linkify-element.js"
       - cmd: pnpm exec shx cp -f "node_modules/dompurify/dist/purify.js" "ext/js/purify.js"
 
-  dep-install:
-    desc: Installs both the dependencies and dev-dependencies contained in the package.json.
-    preconditions:
-      - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
-    cmds:
-      - cmd: pnpm install
-      - task: dep-copy
-
-  dep-update:
-    desc: Updates all dependencies to the latest version and copies them to the `ext` directory.
-    preconditions:
-      - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
-      - sh: pnpm exec shx --version
-        msg: "{{.REQSHX}}"
-    cmds:
-      - cmd: pnpm update
-      - cmd: pnpm exec shx echo ""
-      - task: dep-copy
-
-  dep-latest:
+  packages-latest:
     desc: Interactively update to the latest dependencies and copy them to the `ext` directory.
+    aliases: [pl]
     preconditions:
       - sh: pnpm -v
         msg: "{{.REQPNPM}}"
@@ -229,49 +190,44 @@ tasks:
       - cmd: pnpm exec shx echo ""
       - task: dep-copy
 
-  test:
-    desc: Run QUnit tests in headless Chrome using Puppeteer, however this will return failed tests.
+  packages-update:
+    desc: Updates all dependencies to the latest version and copies them to the `ext` directory.
+    aliases: [pu]
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm exec shx --version
+        msg: "{{.REQSHX}}"
     cmds:
-      - cmd: node run-qunit.js
+      - cmd: pnpm update
+      - cmd: pnpm exec shx echo ""
+      - task: dep-copy
 
-  test-extension:
+  # unit tests
+  test:
     desc: Run QUnit tests in a real Chrome WebExtension context using Puppeteer.
+    aliases: [t]
     cmds:
       - cmd: node run-qunit-extension.js
 
-  test-install:
-    desc: Download the required Chrome browser for Puppeteer.
+  test-cli:
+    desc: Run QUnit tests in headless Chrome using Puppeteer, it will return failed tests.
+    aliases: [tc]
     cmds:
-      - cmd: pnpm exec puppeteer browsers install chrome
-
-  test-uninstall:
-    desc: Remove the downloaded Chrome browser for Puppeteer.
-    cmds:
-      - cmd: rm -rf ~/.cache/puppeteer
-
-  test-browser-rendering:
-    desc: Test file rendering in actual browser using Puppeteer (visual test).
-    cmds:
-      - cmd: echo 'Testing browser rendering with Puppeteer...'
-      - cmd: cd ext && node scripts/test-browser-rendering.js
-      - cmd: echo 'Browser rendering test completed. Check the browser window for results.'
-
-  test-extension-rendering:
-    desc: Test RetroTxt extension rendering with Puppeteer (loads WebExtension).
-    cmds:
-      - cmd: echo 'Testing RetroTxt extension rendering with Puppeteer...'
-      - cmd: cd ext && node scripts/test-extension-rendering.js
-      - cmd: echo 'Extension rendering test completed. Check the browser window for results.'
+      - cmd: node run-qunit.js
 
   test-webextension:
-    desc: Test RetroTxt WebExtension with proper file:/// URL handling.
+    desc: Test RetroTxt WebExtension with proper file:/// URL handling (TODO not working).
+    aliases: [ext]
     cmds:
       - cmd: echo 'Testing RetroTxt WebExtension with file:/// URLs...'
       - cmd: cd ext && node scripts/test-webextension-proper.js
       - cmd: echo 'WebExtension test completed. Check browser for results.'
 
+  # documentation
   docs-build:
     desc:  Build the current documentation in use on https://docs.retrotxt.com.
+    aliases: [doc]
     preconditions:
       - sh: pip show mkdocs-material
         msg: "{{.REQMAT}}"
@@ -282,13 +238,9 @@ tasks:
     cmds:
       - cmd: pnpm mkdocs build
 
-  docs-install:
-    desc: Install required Python packages for documentation (mkdocs, mkdocs-material).
-    cmds:
-      - cmd: pip install mkdocs mkdocs-material
-
   docs-serve:
     desc:  Run an internal server to view the documentation in `docs`.
+    aliases: [docs]
     preconditions:
       # - sh: pip show mkdocs-material
       #   msg: "{{.REQMAT}}"

@@ -1,7 +1,7 @@
-// .web-ext-chrome.js
+// .web-ext-chrome.mjs
 // Configuration for Mozilla's web-ext CLI tool
 // For options: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/web-ext_command_reference
-module.exports = {
+export default {
   // Global options:
   // by default, any file ending in .xpi or .zip is ignored
   // any hidden file (one that starts with a dot) is ignored
@@ -25,4 +25,3 @@ module.exports = {
     overwriteDest: true,
   },
 }
-/* global module */
