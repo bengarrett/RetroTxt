@@ -84,6 +84,32 @@ tasks:
       - cmd: cd ext && node benchmark.js
       - cmd: test -f ext/benchmarks/benchmark-*.json || (echo 'Benchmark generation failed' && exit 1)
 
+  benchmark:expanded:
+    desc: Run expanded performance benchmarks.
+    cmds:
+      - cmd: echo 'Running expanded performance benchmarks...'
+      - cmd: cd ext && node benchmark-expanded.js
+
+  benchmark:expanded:ci:
+    desc: Run expanded performance benchmarks in CI mode (strict).
+    cmds:
+      - cmd: echo 'Running expanded performance benchmarks in CI mode...'
+      - cmd: cd ext && node benchmark-expanded.js
+      - cmd: test -f ext/benchmarks/benchmark-expanded-*.json || (echo 'Expanded benchmark generation failed' && exit 1)
+
+  benchmark:error:
+    desc: Run error handling benchmarks.
+    cmds:
+      - cmd: echo 'Running error handling benchmarks...'
+      - cmd: cd ext && node benchmark-error-handling.js
+
+  benchmark:error:ci:
+    desc: Run error handling benchmarks in CI mode (strict).
+    cmds:
+      - cmd: echo 'Running error handling benchmarks in CI mode...'
+      - cmd: cd ext && node benchmark-error-handling.js
+      - cmd: test -f ext/benchmarks/error-handling-*.json || (echo 'Error handling benchmark generation failed' && exit 1)
+
   # user commands that are displayed with `task --list`
   build:
     desc: Creates the submission package for Chrome.
