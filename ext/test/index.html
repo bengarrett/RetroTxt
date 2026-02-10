@@ -34,6 +34,25 @@
   <script src="../scripts/retrotxt.js"></script>
   <script src="../scripts/parse_ansi.js"></script>
   <script src="../scripts/parse_dos.js"></script>
+<script>
+window.failedAssertions = [];
+QUnit.log(function(details) {
+  if (!details.result) {
+    window.failedAssertions.push({
+      module: details.module,
+      name: details.name,
+      message: details.message,
+      expected: details.expected,
+      actual: details.actual
+    });
+  }
+});
+QUnit.done(function(details) {
+  window.QUnit.doneCalled = true;
+  window.QUnit.testResults = details;
+  window.QUnit.failedAssertions = window.failedAssertions;
+});
+</script>
 </body>
 
 </html>

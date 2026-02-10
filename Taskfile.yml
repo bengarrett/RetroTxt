@@ -26,6 +26,7 @@ tasks:
     desc: Lint the JavaScript files in the `ext` directory.
     ignore_error: true
     cmds:
+      - cmd: echo 'Running ESLint on extension scripts...'
       # node and dependencies
       - cmd: pnpm exec eslint ext/scripts/sw/*.js --stats
       - cmd: pnpm exec eslint ext/scripts/*.js --stats
@@ -113,6 +114,26 @@ tasks:
       - cmd: pnpm exec shx echo ""
       - task: dep-copy
 
+  test:
+    desc: Run QUnit tests in headless Chrome using Puppeteer, however this will return failed tests.
+    cmds:
+      - cmd: node run-qunit.js
+
+  test-extension:
+    desc: Run QUnit tests in a real Chrome WebExtension context using Puppeteer.
+    cmds:
+      - cmd: node run-qunit-extension.js
+
+  test-install:
+    desc: Download the required Chrome browser for Puppeteer.
+    cmds:
+      - cmd: pnpm exec puppeteer browsers install chrome
+
+  test-uninstall:
+    desc: Remove the downloaded Chrome browser for Puppeteer.
+    cmds:
+      - cmd: rm -rf ~/.cache/puppeteer
+
   docs-build:
     desc:  Build the current documentation in use on https://docs.retrotxt.com.
     preconditions:
@@ -124,6 +145,11 @@ tasks:
         msg: "{{.REQDOCS}}"
     cmds:
       - cmd: pnpm mkdocs build
+
+  docs-install:
+    desc: Install required Python packages for documentation (mkdocs, mkdocs-material).
+    cmds:
+      - cmd: pip install mkdocs mkdocs-material
 
   docs-serve:
     desc:  Run an internal server to view the documentation in `docs`.
