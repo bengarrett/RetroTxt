@@ -31,33 +31,6 @@ tasks:
       - cmd: pnpm exec eslint ext/scripts/sw/*.js --stats
       - cmd: pnpm exec eslint ext/scripts/*.js --stats
 
-  lint:security:
-    desc: Run security linting with ESLint security plugins.
-    ignore_error: true
-    cmds:
-      - cmd: echo 'Running security linting on extension scripts...'
-      - cmd: cd ext && node security-lint.js
-
-  lint:security:ci:
-    desc: Run security linting in CI mode (strict, fails on issues).
-    cmds:
-      - cmd: echo 'Running security linting in CI mode...'
-      - cmd: cd ext && node security-lint.js
-      - cmd: test $? -eq 0 || (echo 'Security linting failed - vulnerabilities detected' && exit 1)
-
-  lint:all:
-    desc: Run both regular linting and security linting.
-    ignore_error: true
-    cmds:
-      - task: lint
-      - task: lint:security
-
-  lint:all:ci:
-    desc: Run both regular and security linting in CI mode (strict).
-    cmds:
-      - task: lint
-      - task: lint:security:ci
-
   # user commands that are displayed with `task --list`
   build:
     desc: Creates the submission package for Chrome.
