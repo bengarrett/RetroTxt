@@ -1,0 +1,26 @@
+Celerity BBS XSS Test File
+==========================
+
+This file contains safe test patterns for Celerity BBS processing.
+All payloads are harmless and designed for security testing.
+
+Test Patterns:
+-------------
+
+1. Span with class attribute:
+◘░<span class="celerity-test">SAFE_DEMO</span>▓█
+
+2. Div with ID attribute:
+◘░<div id="safe-content">TEST_DATA</div>▓█
+
+3. Mixed attributes test:
+◘░<b class="test" id="demo">MIXED_TEST</b>▓█
+
+4. Celerity-specific block chars:
+◘░▒▓█▄▐▌▀■
+
+5. Attribute preservation test:
+◘░<i class="safe-class">ATTR_TEST</i>▓█
+
+End of Celerity BBS Test File
+=============================

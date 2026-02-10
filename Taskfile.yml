@@ -249,6 +249,27 @@ tasks:
     cmds:
       - cmd: rm -rf ~/.cache/puppeteer
 
+  test-browser-rendering:
+    desc: Test file rendering in actual browser using Puppeteer (visual test).
+    cmds:
+      - cmd: echo 'Testing browser rendering with Puppeteer...'
+      - cmd: cd ext && node scripts/test-browser-rendering.js
+      - cmd: echo 'Browser rendering test completed. Check the browser window for results.'
+
+  test-extension-rendering:
+    desc: Test RetroTxt extension rendering with Puppeteer (loads WebExtension).
+    cmds:
+      - cmd: echo 'Testing RetroTxt extension rendering with Puppeteer...'
+      - cmd: cd ext && node scripts/test-extension-rendering.js
+      - cmd: echo 'Extension rendering test completed. Check the browser window for results.'
+
+  test-webextension:
+    desc: Test RetroTxt WebExtension with proper file:/// URL handling.
+    cmds:
+      - cmd: echo 'Testing RetroTxt WebExtension with file:/// URLs...'
+      - cmd: cd ext && node scripts/test-webextension-proper.js
+      - cmd: echo 'WebExtension test completed. Check browser for results.'
+
   docs-build:
     desc:  Build the current documentation in use on https://docs.retrotxt.com.
     preconditions:

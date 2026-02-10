@@ -1,0 +1,29 @@
+Renegade Pipes XSS Test File
+============================
+
+This file contains safe test patterns for Renegade pipe code processing.
+All payloads are harmless and cannot execute any code.
+
+Test Patterns:
+-------------
+
+1. Bold with class attribute:
+◘░<b class="pipe-test">SAFE_PIPE</b>▓█
+
+2. Italic with ID attribute:
+◘░<i id="test-pipe">DEMO_CONTENT</i>▓█
+
+3. Complex nested test:
+◘░<span class="outer"><b class="inner">NESTED_TEST</b></span>▓█
+
+4. Pipe-specific block characters:
+◘░▒▓█▄▐▌▀■
+
+5. Mixed formatting test:
+◘░<u class="underline-test">UNDERLINE_DEMO</u>▓█
+
+6. Attribute combination test:
+◘░<div class="test-class" id="test-id">COMBINED_TEST</div>▓█
+
+End of Renegade Pipes Test File
+===============================

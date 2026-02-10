@@ -1,0 +1,26 @@
+Wildcat BBS XSS Test File
+========================
+
+This file contains safe test patterns for Wildcat BBS processing.
+All payloads are harmless and cannot execute code.
+
+Test Patterns:
+-------------
+
+1. Simple HTML tag test:
+◘░<b>WILDCAT_TEST</b>▓█
+
+2. Different HTML tag test:
+◘░<i>SAFE_CONTENT</i>▓█
+
+3. Comment handling test:
+◘░<!-- SAFE_COMMENT -->▓█
+
+4. Mixed block characters:
+◘░▒▓█▄▐▌▀■
+
+5. Header with block chars:
+◘░<u>HEADER_TEST</u>▓█
+
+End of Wildcat BBS Test File
+============================
