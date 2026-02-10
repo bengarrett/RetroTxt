@@ -114,6 +114,18 @@ tasks:
       - cmd: pnpm exec shx echo ""
       - task: dep-copy
 
+  dep-latest:
+    desc: Interactively update to the latest dependencies and copy them to the `ext` directory.
+    preconditions:
+      - sh: pnpm -v
+        msg: "{{.REQPNPM}}"
+      - sh: pnpm exec shx --version
+        msg: "{{.REQSHX}}"
+    cmds:
+      - cmd: pnpm update --interactive --latest
+      - cmd: pnpm exec shx echo ""
+      - task: dep-copy
+
   test:
     desc: Run QUnit tests in headless Chrome using Puppeteer, however this will return failed tests.
     cmds:

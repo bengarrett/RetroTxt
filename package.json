@@ -12,12 +12,12 @@
   "devDependencies": {
     "@eslint/css": "^0.14.1",
     "ajv": "^8.17.1",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.0",
     "prettier": "^3.8.1",
     "puppeteer": "^24.37.2",
     "shx": "^0.4.0",
     "wawoff2": "^2.0.1",
-    "web-ext": "^9.2.0"
+    "web-ext": "^9.3.0"
   },
   "scripts": {
     "font": "woff2_compress.js"

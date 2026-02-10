@@ -1,5 +1,5 @@
 /*!
- * QUnit 2.24.3
+ * QUnit 2.25.0
  * https://qunitjs.com/
  *
  * Copyright OpenJS Foundation and other contributors
@@ -710,6 +710,7 @@
     failOnZeroTests: true,
     // Select by pattern or case-insensitive substring match against "moduleName: testName"
     filter: undefined,
+    testFilter: null,
     // TODO: Make explicit in QUnit 3.
     // fixture: undefined,
 
@@ -3290,12 +3291,32 @@
         return false;
       }
       var filter = config.filter;
-      if (!filter) {
-        return true;
+      if (filter) {
+        var regexFilter = /^(!?)\/([\w\W]*)\/(i?$)/.exec(filter);
+        var fullName = this.module.name + ': ' + this.testName;
+        if (regexFilter) {
+          if (!this.regexFilter(!!regexFilter[1], regexFilter[2], regexFilter[3], fullName)) {
+            return false;
+          }
+        } else if (!this.stringFilter(filter, fullName)) {
+          return false;
+        }
       }
-      var regexFilter = /^(!?)\/([\w\W]*)\/(i?$)/.exec(filter);
-      var fullName = this.module.name + ': ' + this.testName;
-      return regexFilter ? this.regexFilter(!!regexFilter[1], regexFilter[2], regexFilter[3], fullName) : this.stringFilter(filter, fullName);
+      if (typeof config.testFilter === 'function') {
+        var testInfo = {
+          testId: this.testId,
+          testName: this.testName,
+          module: this.module.name,
+          skip: !!this.skip
+        };
+        try {
+          return !!config.testFilter(testInfo);
+        } catch (error) {
+          Logger.warn('Error in QUnit.config.testFilter callback: ', error);
+          return false;
+        }
+      }
+      return true;
     },
     regexFilter: function regexFilter(exclude, pattern, flags, fullName) {
       var regex = new RegExp(pattern, flags);
@@ -5502,7 +5523,7 @@
   QUnit.isLocal = window$1 && window$1.location && window$1.location.protocol === 'file:';
 
   // Expose the current QUnit version
-  QUnit.version = '2.24.3';
+  QUnit.version = '2.25.0';
   extend(QUnit, {
     config: config,
     diff: diff,
