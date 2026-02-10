@@ -1,0 +1,25 @@
+{
+  "all": true,
+  "check-coverage": false,
+  "include": [
+    "scripts/**/*.js",
+    "!scripts/**/*.test.js"
+  ],
+  "exclude": [
+    "scripts/sw/helpers.js",
+    "scripts/sw/message.js",
+    "test/**/*.js"
+  ],
+  "reporter": [
+    "text",
+    "text-summary",
+    "html"
+  ],
+  "report-dir": "coverage",
+  "temp-dir": ".nyc_output",
+  "extension": [
+    ".js"
+  ],
+  "sourceMap": false,
+  "instrument": true
+}

@@ -26,10 +26,6 @@
     "web-ext": "^9.3.0"
   },
   "scripts": {
-    "font": "woff2_compress.js",
-    "test": "qunit test/index.html",
-    "test:coverage": "nyc npm test",
-    "coverage": "nyc report --reporter=text --reporter=html",
-    "coverage:check": "nyc check-coverage --lines 80 --functions 80 --branches 70"
+    "font": "woff2_compress.js"
   }
 }

@@ -1,0 +1,75 @@
+{
+  "timestamp": "2026-02-10T13:14:53.004Z",
+  "testFiles": [
+    {
+      "file": "tests-downloads.js",
+      "tests": 22,
+      "modules": 4
+    },
+    {
+      "file": "tests-errors.js",
+      "tests": 15,
+      "modules": 3
+    },
+    {
+      "file": "tests-expanded-examples.js",
+      "tests": 11,
+      "modules": 4
+    },
+    {
+      "file": "tests-file-examples.js",
+      "tests": 10,
+      "modules": 3
+    },
+    {
+      "file": "tests-helpers.js",
+      "tests": 0,
+      "modules": 0
+    },
+    {
+      "file": "tests-parse_ansi-sequences.js",
+      "tests": 0,
+      "modules": 0
+    },
+    {
+      "file": "tests-parse_ansi.js",
+      "tests": 0,
+      "modules": 0
+    },
+    {
+      "file": "tests-parse_dos.js",
+      "tests": 0,
+      "modules": 0
+    },
+    {
+      "file": "tests-retrotxt.js",
+      "tests": 0,
+      "modules": 0
+    },
+    {
+      "file": "tests-security.js",
+      "tests": 12,
+      "modules": 3
+    },
+    {
+      "file": "tests-sw.js",
+      "tests": 0,
+      "modules": 0
+    }
+  ],
+  "scriptFiles": 21,
+  "totalTests": 70,
+  "totalModules": 17,
+  "estimatedCoverage": {
+    "pct": 67,
+    "lines": {
+      "pct": 63
+    },
+    "functions": {
+      "pct": 60
+    },
+    "branches": {
+      "pct": 57
+    }
+  }
+}

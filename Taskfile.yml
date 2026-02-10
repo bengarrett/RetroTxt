@@ -58,6 +58,32 @@ tasks:
       - task: lint
       - task: lint:security:ci
 
+  coverage:
+    desc: Generate code coverage summary report.
+    cmds:
+      - cmd: echo 'Generating code coverage summary...'
+      - cmd: cd ext && node coverage-summary.js
+
+  coverage:ci:
+    desc: Generate code coverage summary in CI mode (strict).
+    cmds:
+      - cmd: echo 'Generating code coverage summary in CI mode...'
+      - cmd: cd ext && node coverage-summary.js
+      - cmd: test -f ext/coverage/summary.json || (echo 'Coverage summary generation failed' && exit 1)
+
+  benchmark:
+    desc: Run performance benchmarks.
+    cmds:
+      - cmd: echo 'Running performance benchmarks...'
+      - cmd: cd ext && node benchmark.js
+
+  benchmark:ci:
+    desc: Run performance benchmarks in CI mode (strict).
+    cmds:
+      - cmd: echo 'Running performance benchmarks in CI mode...'
+      - cmd: cd ext && node benchmark.js
+      - cmd: test -f ext/benchmarks/benchmark-*.json || (echo 'Benchmark generation failed' && exit 1)
+
   # user commands that are displayed with `task --list`
   build:
     desc: Creates the submission package for Chrome.
