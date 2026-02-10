@@ -31,7 +31,7 @@ tasks:
         msg: "{{.REQPNPM}}"
     cmds:
       - cmd: pnpm install
-      - task: dep-copy
+      - task: packages-copy
 
   inst-docs:
     desc: Install required Python packages for documentation (mkdocs, mkdocs-material).
@@ -76,42 +76,42 @@ tasks:
     ignore_error: true
     cmds:
       - cmd: echo 'Running security linting on extension scripts...'
-      - cmd: cd ext && node security-lint.js
+      - cmd: cd ext && node autogen/security-lint.js
 
   lint-coverage:
     desc: Generate code coverage summary report.
     aliases: [lc]
     cmds:
       - cmd: echo 'Generating code coverage summary...'
-      - cmd: cd ext && node coverage-summary.js
+      - cmd: cd ext && node autogen/coverage-summary.js
 
   lint-benchmark:
     desc: Run performance benchmarks.
     aliases: [lb]
     cmds:
       - cmd: echo 'Running performance benchmarks...'
-      - cmd: cd ext && node benchmark.js
+      - cmd: cd ext && node autogen/benchmark.js
 
   lint-benchmark-expanded:
     desc: Run expanded performance benchmarks.
     aliases: [lbe]
     cmds:
       - cmd: echo 'Running expanded performance benchmarks...'
-      - cmd: cd ext && node benchmark-expanded.js
+      - cmd: cd ext && node autogen/benchmark-expanded.js
 
   lint-benchmark-error:
     desc: Run error handling benchmarks.
     aliases: [lme]
     cmds:
       - cmd: echo 'Running error handling benchmarks...'
-      - cmd: cd ext && node benchmark-error-handling.js
+      - cmd: cd ext && node autogen/benchmark-error-handling.js
 
   lint-metrics:
     desc: Track and compare metrics over time.
     aliases: [lm]
     cmds:
       - cmd: echo 'Tracking metrics...'
-      - cmd: cd ext && node metrics-tracker.js
+      - cmd: cd ext && node autogen/metrics-tracker.js
 
   # user commands that are displayed with `task --list`
   build:
@@ -141,20 +141,23 @@ tasks:
     ignore_error: true
     cmds:
       # node and dependencies
+      - cmd: echo '• Checking Node.js'
       - cmd: pnpm exec shx echo -n "Node.js "
       - cmd: node --version
+      - cmd: echo '• Checking pnpm and web-ext'
       - cmd: pnpm exec shx echo -n "pnpm version "
       - cmd: pnpm --version
       - cmd: pnpm exec shx --version
       - cmd: pnpm exec shx echo -n "Web-ext v"
       - cmd: pnpm exec web-ext --version
       # python and dependencies
+      - cmd: echo '• Checking Python and the dependencies'
       - cmd: python --version
       - cmd: mkdocs --version
       - cmd: pip --version
       - cmd: pip show mkdocs-material --quiet
       # system tools
-      - cmd: pnpm exec shx echo ""
+      - cmd: echo '• Checking Git and Task'
       - cmd: git --version
       - cmd: task --version
 
@@ -188,7 +191,7 @@ tasks:
     cmds:
       - cmd: pnpm update --interactive --latest
       - cmd: pnpm exec shx echo ""
-      - task: dep-copy
+      - task: packages-copy
 
   packages-update:
     desc: Updates all dependencies to the latest version and copies them to the `ext` directory.
@@ -201,7 +204,7 @@ tasks:
     cmds:
       - cmd: pnpm update
       - cmd: pnpm exec shx echo ""
-      - task: dep-copy
+      - task: packages-copy
 
   # unit tests
   test:
@@ -221,7 +224,7 @@ tasks:
     aliases: [ext]
     cmds:
       - cmd: echo 'Testing RetroTxt WebExtension with file:/// URLs...'
-      - cmd: cd ext && node scripts/test-webextension-proper.js
+      - cmd: cd ext && node autogen/test-webextension-proper.js
       - cmd: echo 'WebExtension test completed. Check browser for results.'
 
   # documentation

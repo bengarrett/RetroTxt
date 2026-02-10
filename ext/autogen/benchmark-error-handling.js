@@ -63,7 +63,7 @@ async function testSuccessfulOperations(results) {
     try {
       const startTime = performance.now();
       const content = await fs.promises.readFile(
-        path.join(__dirname, `test/example_files/downloads/${file}`),
+        path.join(__dirname, `../test/example_files/downloads/${file}`),
         'utf8'
       );
       const endTime = performance.now();
@@ -103,7 +103,7 @@ async function testFailedOperations(results) {
     const startTime = performance.now();
     try {
       await fs.promises.readFile(
-        path.join(__dirname, `test/example_files/downloads/${file}`),
+        path.join(__dirname, `../test/example_files/downloads/${file}`),
         'utf8'
       );
     } catch (error) {
@@ -133,8 +133,9 @@ async function testErrorRecovery(results) {
   ];
 
   for (const scenario of errorScenarios) {
+    let startTime, endTime;
     try {
-      const startTime = performance.now();
+      startTime = performance.now();
       
       if (scenario.type === 'ENOENT') {
         await fs.promises.readFile('nonexistent-file.txt', 'utf8');
@@ -143,14 +144,14 @@ async function testErrorRecovery(results) {
         throw new Error('Permission denied');
       }
 
-      const endTime = performance.now();
+      endTime = performance.now();
       test.operations.push({
         scenario: scenario.action,
         time: endTime - startTime,
         recovered: false
       });
     } catch (error) {
-      const endTime = performance.now();
+      endTime = performance.now();
       test.operations.push({
         scenario: scenario.action,
         time: endTime - startTime,

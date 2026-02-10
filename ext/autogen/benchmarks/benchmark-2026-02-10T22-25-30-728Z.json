@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-02-10T22:25:30.699Z",
+  "benchmarks": [
+    {
+      "name": "File Loading Performance",
+      "description": "Measure time to load and process various file sizes",
+      "tests": [
+        {
+          "file": "small",
+          "size": 155,
+          "time": 4.772306999999998,
+          "rate": "32.48"
+        },
+        {
+          "file": "medium",
+          "size": 62893,
+          "time": 0.4183440000000047,
+          "rate": "150338.00"
+        },
+        {
+          "file": "large",
+          "size": 937788,
+          "time": 1.3597199999999958,
+          "rate": "689692.00"
+        }
+      ]
+    },
+    {
+      "name": "DOM Manipulation Performance",
+      "description": "Measure DOM operation performance (skipped in Node.js)",
+      "tests": [
+        {
+          "operation": "DOM manipulation",
+          "skipped": true,
+          "reason": "Not available in Node.js environment"
+        }
+      ]
+    },
+    {
+      "name": "Text Processing Performance",
+      "description": "Measure text manipulation performance",
+      "tests": [
+        {
+          "operation": "string replacement",
+          "time": 1.3531339999999972,
+          "size": 937788
+        },
+        {
+          "operation": "string splitting",
+          "time": 0.261722000000006,
+          "lines": 10001
+        },
+        {
+          "operation": "regex matching",
+          "time": 3.4903659999999945,
+          "matches": 20000
+        }
+      ]
+    },
+    {
+      "name": "Large File Processing",
+      "description": "Measure performance with very large files",
+      "tests": [
+        {
+          "operation": "10 iterations of large file processing",
+          "totalTime": 9.221289999999996,
+          "avgTime": 0.9221289999999996,
+          "iterations": 10,
+          "rate": "1084.45"
+        }
+      ]
+    },
+    {
+      "name": "Memory Usage",
+      "description": "Measure memory consumption",
+      "tests": [
+        {
+          "operation": "create large array",
+          "heapUsed": "-2134576 B",
+          "heapTotal": "17.54 MB"
+        },
+        {
+          "operation": "clear large array",
+          "heapUsed": "224 B",
+          "heapTotal": "17.54 MB"
+        }
+      ]
+    }
+  ],
+  "environment": {
+    "nodeVersion": "v22.22.0",
+    "platform": "linux",
+    "arch": "x64",
+    "memory": "8.27 MB"
+  }
+}

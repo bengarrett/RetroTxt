@@ -9,7 +9,6 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
-const { execSync } = require('child_process');
 
 /**
  * Main test function - Proper WebExtension test
@@ -275,7 +274,7 @@ async function getExtensionId(browser) {
   for (const target of targets) {
     if (target.type() === 'service_worker') {
       const url = target.url();
-      const match = url.match(/chrome-extension:\/\/([^\/]+)/);
+      const match = url.match(/chrome-extension:\/\/([^/]+)/);
       if (match) {
         return match[1];
       }
@@ -286,7 +285,7 @@ async function getExtensionId(browser) {
   const pages = await browser.pages();
   for (const page of pages) {
     const url = page.url();
-    const match = url.match(/chrome-extension:\/\/([^\/]+)/);
+    const match = url.match(/chrome-extension:\/\/([^/]+)/);
     if (match) {
       return match[1];
     }

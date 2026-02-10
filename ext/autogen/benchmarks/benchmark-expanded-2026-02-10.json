@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-02-10T23:10:55.479Z",
+  "benchmarks": [
+    {
+      "name": "File Reading",
+      "time": 8.744376000000003,
+      "success": true,
+      "details": {
+        "fileSize": 109,
+        "operation": "readFile"
+      }
+    },
+    {
+      "name": "Error Handling",
+      "time": 0.6358270000000061,
+      "success": true,
+      "errorType": "ENOENT",
+      "details": {
+        "errorHandlingTime": 0.6358270000000061
+      }
+    },
+    {
+      "name": "Directory Operations",
+      "time": 0.40707100000000196,
+      "success": true,
+      "details": {
+        "fileCount": 35,
+        "operation": "readdir"
+      }
+    }
+  ],
+  "environment": {
+    "nodeVersion": "v22.22.0",
+    "platform": "linux",
+    "arch": "x64",
+    "memory": "8.27 MB"
+  },
+  "summary": {
+    "totalTests": 3,
+    "successfulTests": 3,
+    "failedTests": 0,
+    "successRate": "100.00%",
+    "totalTime": 9.78727400000001
+  }
+}

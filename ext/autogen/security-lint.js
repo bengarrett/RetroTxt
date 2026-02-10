@@ -28,8 +28,8 @@ async function runSecurityLinting() {
 
     // Define files to lint
     const filesToLint = [
-      'scripts/**/*.js',
-      'scripts/sw/**/*.js'
+      '../scripts/**/*.js',
+      '../scripts/sw/**/*.js'
     ];
 
     console.log(chalk.gray(`Scanning files: ${filesToLint.join(', ')}\n`));

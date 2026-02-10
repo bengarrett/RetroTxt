@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-02-10T22:27:14.326Z",
+  "tests": [
+    {
+      "name": "Successful File Operations",
+      "operations": [
+        {
+          "file": "plain_text.txt",
+          "size": 155,
+          "time": 4.613586999999995,
+          "success": true
+        },
+        {
+          "file": "ansi_art.ans",
+          "size": 204,
+          "time": 0.2986389999999943,
+          "success": true
+        },
+        {
+          "file": "nfo_file.nfo",
+          "size": 649,
+          "time": 0.20549699999999405,
+          "success": true
+        }
+      ]
+    },
+    {
+      "name": "Failed File Operations",
+      "operations": [
+        {
+          "file": "nonexistent.txt",
+          "time": 0.1913019999999932,
+          "error": "ENOENT",
+          "success": false
+        },
+        {
+          "file": "missing.txt",
+          "time": 0.10138800000000003,
+          "error": "ENOENT",
+          "success": false
+        },
+        {
+          "file": "notfound.txt",
+          "time": 0.09184600000000387,
+          "error": "ENOENT",
+          "success": false
+        }
+      ]
+    },
+    {
+      "name": "Error Recovery Performance",
+      "operations": [
+        {
+          "scenario": "read non-existent file",
+          "time": 0.0445580000000092,
+          "error": "ENOENT: no such file or directory, open 'nonexistent-file.txt'",
+          "recovered": true
+        },
+        {
+          "scenario": "read with invalid permissions",
+          "time": 0.007125000000002046,
+          "error": "Permission denied",
+          "recovered": true
+        }
+      ]
+    }
+  ],
+  "environment": {
+    "nodeVersion": "v22.22.0",
+    "platform": "linux"
+  }
+}

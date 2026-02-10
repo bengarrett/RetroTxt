@@ -64,9 +64,9 @@ async function benchmarkFileLoading(results) {
   };
 
   const fileSizes = [
-    {name: 'small', path: 'test/example_files/downloads/plain_text.txt'},
-    {name: 'medium', path: 'test/example_files/downloads/large_file.txt'},
-    {name: 'large', path: 'test/example_files/downloads/very_large_file.txt'}
+    {name: 'small', path: '../test/example_files/downloads/plain_text.txt'},
+    {name: 'medium', path: '../test/example_files/downloads/large_file.txt'},
+    {name: 'large', path: '../test/example_files/downloads/very_large_file.txt'}
   ];
 
   for (const file of fileSizes) {
@@ -118,7 +118,7 @@ async function benchmarkTextProcessing(results) {
 
   // Load a large text file
   const content = await fs.promises.readFile(
-    path.join(__dirname, 'test/example_files/downloads/very_large_file.txt'),
+    path.join(__dirname, '../test/example_files/downloads/very_large_file.txt'),
     'utf8'
   );
 
@@ -167,7 +167,7 @@ async function benchmarkLargeFiles(results) {
 
   // Test processing a very large file multiple times
   const content = await fs.promises.readFile(
-    path.join(__dirname, 'test/example_files/downloads/very_large_file.txt'),
+    path.join(__dirname, '../test/example_files/downloads/very_large_file.txt'),
     'utf8'
   );
 

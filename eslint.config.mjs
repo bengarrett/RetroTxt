@@ -23,7 +23,16 @@ export default [
     },
   },
   {
-    files: ["ext/scripts/**/*.js", "test/**/*"],
+    files: ["ext/scripts/test-webextension-proper.js"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ["ext/scripts/**/*.js", "!ext/scripts/test-webextension-proper.js", "test/**/*"],
     languageOptions: {
       ecmaVersion: "latest",
       parserOptions: {

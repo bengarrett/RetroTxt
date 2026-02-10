@@ -18,7 +18,7 @@ function generateCoverageSummary() {
 
   try {
     // Count test files
-    const testDir = path.join(__dirname, 'test');
+    const testDir = path.join(__dirname, '../test');
     const testFiles = fs.readdirSync(testDir).filter(f => f.startsWith('tests-') && f.endsWith('.js'));
     
     // Count script files
