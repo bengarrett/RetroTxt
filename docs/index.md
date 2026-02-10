@@ -51,7 +51,7 @@ hide:
 
 </div>
 
-### Turn pieces of ANSI, ASCII, and NFO documents into a web document<br><small>RetroTxt is the Extension that takes legacy and plain text files and correctly stylizes them for viewing or copying from a browser tab</small>
+### Convert ANSI, ASCII, and NFO documents into web pages<br><small>RetroTxt is the Extension that takes legacy and plain text files and correctly stylizes them for viewing or copying from a browser tab</small>
 
 - [x] View ANSI, ASCII, NFO, Shift JIS text art as a web document
 - [x] View server, terminal, and DevOps logs styled with colored text

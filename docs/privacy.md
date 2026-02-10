@@ -13,7 +13,7 @@ All data is stored locally on your computer using the [storage.local API](https:
 
 ## Technical
 
-The `ext/manifest.json` lists all the Extension permissions RetroTxt requires for operation.
+Below is a breakdown of the permissions RetroTxt requires, as listed in `ext/manifest.json`.
 
 ```json title="manifest.json extraction"
 {

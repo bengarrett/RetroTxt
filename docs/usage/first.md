@@ -41,19 +41,19 @@ You can click the blue arrow on the upper-left corner to hide the header and rem
 
 <figure markdown>
   ![RetroTxt hidden header](../assets/highlight-the-blue-arrow.png){ loading=lazy, width=600 }
-  <figcaption>The blue arrow is clickable and hides the header</figcaption>
+  <figcaption>Click the blue arrow to hide the header and reduce clutter</figcaption>
 </figure>
 
 <figure markdown>
   ![RetroTxt hidden header](../assets/hide-the-header.png){ loading=lazy, width=600 }
-  <figcaption>The clutter free display</figcaption>
+  <figcaption>The clutter-free display</figcaption>
 </figure>
 
 ---
 
 ## Original text
 
-If you want to view the original ANSI document, focus the tab and to launch a view source tab, tap:
+To view the original ANSI document, focus the tab and launch a view source tab by pressing:
 
 ++ctrl++ <kbd>u</kbd> &nbsp; or &nbsp; ++command++ ++option++ <kbd>u</kbd>
 

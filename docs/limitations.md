@@ -11,7 +11,7 @@ This page contains the known but unfixable problems that may occur using RetroTx
 
 ## Unsupported text formats
 
-Micro-computer era, non-standard ASCII are not supported.
+Non-standard ASCII formats from the micro-computer era are not supported.
 
 - [**Atari ATASCII**](https://atariwiki.org/wiki/Wiki.jsp?page=Atari%20ATASCII%20Table)
 - [**Commodore PETSCII**](https://sta.c64.org/cbm64pet.html)
