@@ -110,6 +110,30 @@ tasks:
       - cmd: cd ext && node benchmark-error-handling.js
       - cmd: test -f ext/benchmarks/error-handling-*.json || (echo 'Error handling benchmark generation failed' && exit 1)
 
+  metrics:track:
+    desc: Track and compare metrics over time.
+    cmds:
+      - cmd: echo 'Tracking metrics...'
+      - cmd: cd ext && node metrics-tracker.js
+
+  metrics:ci:
+    desc: Track metrics in CI mode (strict).
+    cmds:
+      - cmd: echo 'Tracking metrics in CI mode...'
+      - cmd: cd ext && node metrics-tracker.js
+      - cmd: test -f ext/metrics/metrics.json || (echo 'Metrics tracking failed' && exit 1)
+
+  ci:all:
+    desc: Run all CI checks (tests, linting, coverage, benchmarks).
+    cmds:
+      - cmd: echo 'Running all CI checks...'
+      - cmd: task test
+      - cmd: task lint:security:ci
+      - cmd: task coverage
+      - cmd: task benchmark
+      - cmd: task metrics:track
+      - cmd: echo 'All CI checks completed successfully!'
+
   # user commands that are displayed with `task --list`
   build:
     desc: Creates the submission package for Chrome.
