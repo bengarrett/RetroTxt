@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Malicious Content Test</title>
+    <script>alert('XSS Test')</script>
+</head>
+<body>
+    <h1>Malicious Content Test File</h1>
+    <p>This file contains various types of potentially malicious content for testing.</p>
+    
+    <script>
+    // JavaScript that should be detected
+    console.log('Malicious script detected');
+    </script>
+    
+    <iframe src="javascript:alert('iframe')"></iframe>
+    
+    <div onclick="alert('click')">Clickable div</div>
+    
+    <img src="x" onerror="alert('image')">
+    
+    <p>End of malicious content test.</p>
+</body>
+</html>

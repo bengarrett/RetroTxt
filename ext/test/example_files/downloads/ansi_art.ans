@@ -1,0 +1,9 @@
+[31mRed Text[0m
+[32mGreen Text[0m
+[34mBlue Text[0m
+[1mBold Text[0m
+[4mUnderline[0m
+[7mInverse[0m
+
+This file contains ANSI escape codes for testing.
+Used to validate ANSI parsing functionality.

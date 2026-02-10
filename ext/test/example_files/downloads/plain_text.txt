@@ -1,0 +1,4 @@
+This is a plain text file for testing purposes.
+It contains multiple lines of text.
+Used to test basic text file handling.
+No special formatting or markup.

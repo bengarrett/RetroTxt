@@ -1,0 +1,29 @@
+╔════════════════════════════════════════════════════════════════╗
+║                    FILE_ID.DIZ - Description in Zip                   ║
+╚════════════════════════════════════════════════════════════════╝
+
+File:        TESTFILE.ZIP
+Size:        1,024 KB
+Date:        10-FEB-2024
+Type:        Demo/Application
+OS:          DOS/Windows
+Language:    English
+
+Description:
+────────────
+This is a test DIZ (Description in Zip) file commonly found in
+warez and demo scene archives. DIZ files contain information
+about the contents of a ZIP file and are typically in ASCII art
+format with a .DIZ extension.
+
+Features:
+─────────
+- ASCII art borders
+- File information
+- Release details
+- Group credits
+
+Notes:
+──────
+This file is for testing RetroTxt's DIZ file handling and
+ASCII art rendering capabilities.
