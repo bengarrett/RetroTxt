@@ -1603,7 +1603,6 @@ class Output {
     // reload the active tab
     Console(`Tab will be refreshed with a new character set.`)
     globalThis.location.reload()
-    return
   }
   /**
    * ECMA48 statistics.

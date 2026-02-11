@@ -17,5 +17,21 @@ node_modules
 # mkdocs build
 site
 
+# autogen generated content (generated security/benchmark/test reports)
+ext/autogen/reports/
+ext/autogen/benchmarks/
+ext/autogen/coverage/
+ext/autogen/metrics/
+
+# autogen generated scripts and documentation
+ext/autogen/*.js
+ext/autogen/*.md
+ext/autogen/*.png
+ext/autogen/*.txt
+ext/autogen/*.json
+ext/autogen/*.html
+ext/autogen/*.nycrc
+ext/autogen/*.eslintcache*
+
 # micro log
 log.txt

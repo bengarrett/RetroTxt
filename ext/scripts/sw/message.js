@@ -87,7 +87,6 @@ function tabInvoke(developerMode, message) {
   if (message.init === true) {
     const port = chrome.tabs.connect(message.tabID, { name: `tabInvoke` })
     port.postMessage({ toggleTab: message.tabID })
-    return
   }
 }
 

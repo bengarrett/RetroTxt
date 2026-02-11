@@ -167,7 +167,6 @@ class Downloads {
     if (test === true) return false
     // if tab is not holding a text file
     Console(`Skipped Retrotxt execution on tab #${tab.tabid}.\n${tab.url}`)
-    return
   }
   /**
    * Initialise the new file download so RetroTxt can monitor the download state.

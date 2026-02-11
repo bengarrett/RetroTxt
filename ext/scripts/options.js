@@ -127,9 +127,9 @@ class HTML {
   async welcome() {
     if (location.hash.includes(`#update`)) {
       const m = chrome.runtime.getManifest()
-      ;`version_name` in m
-        ? (document.title = `[··] ${m.version_name} update`)
-        : (document.title = `[··] ${m.short_name} update`)
+        ; `version_name` in m
+          ? (document.title = `[··] ${m.version_name} update`)
+          : (document.title = `[··] ${m.short_name} update`)
       document.getElementById(`hero0`).click()
       document.getElementById(`updateNotice`).style.display = `inline`
       return
@@ -146,7 +146,6 @@ class HTML {
       document.getElementById(`hero5`).click()
       // drop the #display in the url which conflict with the option tabs
       location.replace(`${chrome.runtime.getURL(`html/options.html`)}`)
-      return
     }
   }
   /**
@@ -2004,78 +2003,78 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   }
 })
 
-// IIFE, self-invoking anonymous function that runs whenever the Options dialogue is opened.
-;(() => {
-  if (typeof qunit !== `undefined`) return
-  SetIcon()
-  const init = new Initialise()
-  // lookup and applies checked, selections, active, once the HTML is loaded and parsed
-  document.addEventListener(`DOMContentLoaded`, init.checks())
-  // modifies `html/options.html`
-  init.updates()
-  // restore any saved options and apply event listeners
-  const cb = new CheckBox()
-  cb.storageLoad()
-  cb.listen()
-  const cp = new ColorPair()
-  cp.storageLoad()
-  cp.listen()
-  const ccb = new ColorCustomPair(`background`),
-    ccf = new ColorCustomPair(`foreground`)
-  ccb.storageLoad()
-  ccf.storageLoad()
-  ccb.listen()
-  ccf.listen()
-  const font = new Fonts()
-  font.storageLoad()
-  font.listen()
-  const head = new Header()
-  head.storageLoad()
-  head.listen()
-  const tb = new Toolbar()
-  tb.storageLoad()
-  tb.listen()
-  const pal = new Palette()
-  pal.storageLoad()
-  pal.listen()
-  const ts = new TextSize()
-  ts.storageLoad()
-  ts.listen()
-  const lh = new LineHeight()
-  lh.storageLoad()
-  lh.listen()
-  const hero = new Hero()
-  hero.storageLoad()
-  hero.listen()
-  const html = new HTML()
-  html.hideNotice()
-  html.setLocalization(`changesLink`, `url_new`)
-  html.showBrowser()
-  html.showRuntimeInfo()
-  html.welcome()
-  const hosts = new Hosts()
-  hosts.storageLoad()
-  hosts.listen()
-  const backup = new Backup()
-  backup.storageLoad()
-  backup.listen()
-  // apply regional English edits
-  localizeWord(`color`, `msg-color`)
-  localizeWord(`center`, `msg-center`)
-  localizeWord(`artifact`, `msg-artifact`)
-  localizeWord(`customize`, `msg-customize`)
-  localizeWord(`Minimalize`, `msg-minimalize`)
-  // capitalize the first letter
-  const customColorText = document
-    .getElementById(`customColorValues`)
-    .getElementsByClassName(`msg-color`)[0]
-  customColorText.textContent = customColorText.textContent.toLowerCase()
-  //handleError(`false positive test`)
+  // IIFE, self-invoking anonymous function that runs whenever the Options dialogue is opened.
+  ; (() => {
+    if (typeof qunit !== `undefined`) return
+    SetIcon()
+    const init = new Initialise()
+    // lookup and applies checked, selections, active, once the HTML is loaded and parsed
+    document.addEventListener(`DOMContentLoaded`, init.checks())
+    // modifies `html/options.html`
+    init.updates()
+    // restore any saved options and apply event listeners
+    const cb = new CheckBox()
+    cb.storageLoad()
+    cb.listen()
+    const cp = new ColorPair()
+    cp.storageLoad()
+    cp.listen()
+    const ccb = new ColorCustomPair(`background`),
+      ccf = new ColorCustomPair(`foreground`)
+    ccb.storageLoad()
+    ccf.storageLoad()
+    ccb.listen()
+    ccf.listen()
+    const font = new Fonts()
+    font.storageLoad()
+    font.listen()
+    const head = new Header()
+    head.storageLoad()
+    head.listen()
+    const tb = new Toolbar()
+    tb.storageLoad()
+    tb.listen()
+    const pal = new Palette()
+    pal.storageLoad()
+    pal.listen()
+    const ts = new TextSize()
+    ts.storageLoad()
+    ts.listen()
+    const lh = new LineHeight()
+    lh.storageLoad()
+    lh.listen()
+    const hero = new Hero()
+    hero.storageLoad()
+    hero.listen()
+    const html = new HTML()
+    html.hideNotice()
+    html.setLocalization(`changesLink`, `url_new`)
+    html.showBrowser()
+    html.showRuntimeInfo()
+    html.welcome()
+    const hosts = new Hosts()
+    hosts.storageLoad()
+    hosts.listen()
+    const backup = new Backup()
+    backup.storageLoad()
+    backup.listen()
+    // apply regional English edits
+    localizeWord(`color`, `msg-color`)
+    localizeWord(`center`, `msg-center`)
+    localizeWord(`artifact`, `msg-artifact`)
+    localizeWord(`customize`, `msg-customize`)
+    localizeWord(`Minimalize`, `msg-minimalize`)
+    // capitalize the first letter
+    const customColorText = document
+      .getElementById(`customColorValues`)
+      .getElementsByClassName(`msg-color`)[0]
+    customColorText.textContent = customColorText.textContent.toLowerCase()
+    //handleError(`false positive test`)
 
-  // handlers used by the popup.js module
-  handlePopup()
-  window.onhashchange = () => handlePopup()
-})()
+    // handlers used by the popup.js module
+    handlePopup()
+    window.onhashchange = () => handlePopup()
+  })()
 
 /**
  * Handles the popup behavior based on the document location hash.
