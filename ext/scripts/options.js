@@ -655,7 +655,6 @@ class Initialise extends CheckBox {
    * Applies a group of Options modifiers and adjustments.
    */
   async updates() {
-    this._browser()
     this._management()
     this._platform()
     this._version()
@@ -791,19 +790,6 @@ class Initialise extends CheckBox {
     const fonts = document.getElementsByName(`font`)
     for (const font of fonts) {
       if (font.value === this.value) return (font.checked = true)
-    }
-  }
-  /**
-   * Query the render engine to adjust browser specific Options.
-   */
-  async _browser() {
-    switch (WebBrowser()) {
-      case Engine.chrome:
-        return
-      case Engine.firefox:
-        return
-      default:
-        return
     }
   }
   /**
