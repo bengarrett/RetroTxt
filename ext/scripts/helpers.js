@@ -26,8 +26,6 @@ const UnknownText = -1,
 async function BusySpinner(display = true) {
   if (typeof display !== `boolean`)
     CheckArguments(`display`, `boolean`, display)
-  // TODO apply a timeout timer that will look for any uncaught errors and if
-  // detected, display them in the tab?
   const spin = globalThis.document.getElementById(`spinLoader`)
   switch (display) {
     case true:
@@ -36,11 +34,13 @@ async function BusySpinner(display = true) {
         div.id = `spinLoader`
         div.classList.add(`loader`)
         document.body.append(div)
-        const stylesheet = CreateLink(
-          `../css/retrotxt_loader.css`,
-          `retrotxt-loader`,
-        )
-        return document.querySelector(`head`).append(stylesheet)
+        // avoid duplication
+        let stylesheet = document.getElementById(`retrotxt-loader`)
+        if (!stylesheet) {
+          stylesheet = CreateLink(`../css/retrotxt_loader.css`, `retrotxt-loader`)
+          document.querySelector(`head`).append(stylesheet)
+        }
+        return
       }
       return spin.classList.remove(`is-hidden`)
     case false:
@@ -56,18 +56,18 @@ async function BusySpinner(display = true) {
  */
 function CreateLink(path = ``, id = ``) {
   if (typeof path !== `string`) CheckArguments(`path`, `string`, path)
-  const manifestKeys = Object.keys(chrome.runtime.getManifest()).length
-  if (manifestKeys === 0)
-    return console.error(
-      `RetroTxt cannot continue as the Extension API is inaccessible.`,
-    )
-  const link = document.createElement(`link`)
-  if (id.length > 0) link.id = id
-  link.href = chrome.runtime.getURL(path)
-  link.type = `text/css`
-  link.rel = `stylesheet`
-  link.crossOrigin = ``
-  return link
+  try {
+    const link = document.createElement(`link`)
+    if (id.length > 0) link.id = id
+    link.href = chrome.runtime.getURL(path)
+    link.type = `text/css`
+    link.rel = `stylesheet`
+    link.crossOrigin = ``
+    return link
+  } catch (error) {
+    console.error(`RetroTxt cannot create link element: ${error.message}`)
+    return null
+  }
 }
 
 /**
@@ -99,7 +99,7 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
   if (toggle === false)
     return dom.classList.remove(`scanlines-light`, `scanlines-dark`)
   // apply colors provided by the `colorClass` parameter
-  if (typeof color === `string`) return applyNewClass(colorClass)
+  if (typeof colorClass === `string`) return applyNewClass(colorClass)
   // apply colors from local storage
   chrome.storage.local.get([`colorsTextPairs`], (result) => {
     if (typeof result.colorsTextPairs === `undefined`)
@@ -153,7 +153,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
     switch (effect) {
       case `shadowed`:
         // use colors provided by the color parameter
-        if (typeof color === `string`)
+        if (typeof colorClass === `string`)
           return dom.classList.add(`${colorClass}-shadowed`)
         // use colors fetched from chrome storage (default)
         if (typeof result === `string`) dom.classList.add(`${result}-shadowed`)
@@ -381,22 +381,22 @@ function SetIcon() {
 // eslint-disable-next-line no-unused-vars
 function withPerformanceTracking(name, fn) {
   if (!DeveloperModeDebug) return fn()
-  
+
   const start = performance.now()
   const result = fn()
   const end = performance.now()
   const duration = end - start
-  
+
   // Only log operations that take significant time
   if (duration > 50) {
     Console(`[PERF] ${name}: ${duration.toFixed(2)}ms`)
   }
-  
+
   return result
 }
 
 // IIFE, self-invoking anonymous function
-;(() => {
+; (() => {
   SetIcon()
 })()
 
