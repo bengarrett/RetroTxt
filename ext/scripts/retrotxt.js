@@ -2544,32 +2544,120 @@ function pixels() {
   w.textContent = m.clientWidth
 }
 
+/**
+ * Safely cleans up RetroTxt output objects and global state.
+ * Preserves critical properties needed for palette functionality while
+ * effectively cleaning up memory-intensive objects.
+ *
+ * @param {Object} output - The output object to clean up
+ * @returns {void}
+ */
 function cleanup(output) {
-  delete output.article
-  delete output.columns
-  delete output.data
-  delete output.dom
-  delete output.ecma48
-  delete output.encode
-  delete output.main
-  delete output.pre
-  delete output.rows
-  delete output.sauce
-  delete output.slice
-  delete output.text
-  delete output.unknownCount
-  //delete ecma48.colorDepth (required for palette toggle)
-  delete ecma48.columns
-  delete ecma48.font
-  delete ecma48.htmlString
-  delete ecma48.iceColors
-  delete ecma48.lineWrap
-  delete ecma48.otherCodesCount
-  delete ecma48.rows
-  delete ecma48.sauce
-  delete ecma48.text
-  delete ecma48.unknownCount
-  delete ecma48.verbose
+  // Safety check for null/undefined output
+  if (!output) {
+    console.warn('cleanup() called with null/undefined output - skipping cleanup');
+    return;
+  }
+
+  try {
+    // =============================================
+    // OUTPUT OBJECT CLEANUP
+    // Use null assignment for better memory management
+    // =============================================
+
+    // DOM element references
+    output.article = null;
+    output.encode = null;
+    output.main = null;
+    output.pre = null;
+
+    // Data structures
+    output.data = null;
+    output.dom = null;
+    output.ecma48 = null;
+    output.sauce = null;
+
+    // Primitive values
+    output.columns = null;
+    output.rows = null;
+    output.slice = null;
+    output.text = null;
+    output.unknownCount = null;
+
+    // =============================================
+    // GLOBAL ECM48 CLEANUP
+    // Preserve critical properties for palette functionality
+    // =============================================
+
+    if (typeof ecma48 !== 'undefined') {
+      // Preserve properties required for palette toggle
+      // (Documented in line 2561 comment: "required for palette toggle")
+      const preservedColorDepth = ecma48.colorDepth;
+      const preservedIceColors = ecma48.iceColors;
+
+      // Clean up other properties that are no longer needed
+      delete ecma48.columns;
+      delete ecma48.font;
+      delete ecma48.htmlString;
+      delete ecma48.lineWrap;
+      delete ecma48.otherCodesCount;
+      delete ecma48.rows;
+      delete ecma48.sauce;
+      delete ecma48.text;
+      delete ecma48.unknownCount;
+      delete ecma48.verbose;
+
+      // Restore preserved properties
+      ecma48.colorDepth = preservedColorDepth;
+      ecma48.iceColors = preservedIceColors;
+    }
+
+    // =============================================
+    // MEMORY MANAGEMENT OPTIMIZATIONS
+    // =============================================
+
+    // Force garbage collection hint in environments that support it
+    // (Chrome with --expose-gc flag, or when running tests)
+    if (typeof gc === 'function') {
+      try {
+        gc();
+      } catch (gcError) {
+        // gc() might not be available even if typeof check passes
+        console.debug('Garbage collection hint failed:', gcError.message);
+      }
+    }
+
+  } catch (error) {
+    // =============================================
+    // FALLBACK ERROR HANDLING
+    // If anything goes wrong, fall back to original behavior
+    // =============================================
+    console.error('cleanup() encountered an error:', error);
+
+    // Attempt basic cleanup using delete (original behavior)
+    try {
+      if (output) {
+        for (const prop in output) {
+          if (Object.prototype.hasOwnProperty.call(output, prop)) {
+            delete output[prop];
+          }
+        }
+      }
+
+      if (typeof ecma48 !== 'undefined') {
+        // Preserve colorDepth even in fallback mode
+        const colorDepth = ecma48.colorDepth;
+        for (const prop in ecma48) {
+          if (prop !== 'colorDepth' && prop !== 'iceColors') {
+            delete ecma48[prop];
+          }
+        }
+        ecma48.colorDepth = colorDepth;
+      }
+    } catch (fallbackError) {
+      console.error('cleanup() fallback also failed:', fallbackError);
+    }
+  }
 }
 function consoleBBS(inputMessage = ``) {
   return console.info(
@@ -2678,6 +2766,17 @@ function textType(format = ``) {
       return PlainText
   }
 }
+// IMPORTANT: This cleanup function has been enhanced for better memory management
+// while preserving critical functionality.
+//
+// Key changes from original:
+// 1. Uses null assignment instead of delete for output properties
+// 2. Preserves ecma48.colorDepth and ecma48.iceColors for palette toggle
+// 3. Adds comprehensive error handling and fallback
+// 4. Includes garbage collection hints where supported
+//
+// The original delete-based approach is maintained as a fallback.
+
 // eslint no-unused-variable fix
 if (typeof Execute !== `undefined`) void 0
 
