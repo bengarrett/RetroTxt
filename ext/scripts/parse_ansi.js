@@ -6,6 +6,18 @@ const resetCursor = Symbol(`reset cursor position`),
   resetECMA = Symbol(`reset ECMA48/ANSI`),
   resetSGR = Symbol(`reset SGR control`)
 
+class Resetter {
+  /**
+   * Resets the cursor data container using the constructor defaults.
+   * @param [old={}] Data container object
+   */
+  async reset(old = {}) {
+    for (const key of Object.keys(this)) {
+      old[key] = this[key]
+    }
+  }
+}
+
 /**
  * The entry point for ANSI and ECMA-48 control sequence interpretation.
  * This receives control sequence embedded Unicode text and outputs it to HTML5
@@ -158,7 +170,7 @@ class Controls {
  * Creates an object that is used for tracking the active cursor position.
  * @class Cursor
  */
-class Cursor {
+class Cursor extends Resetter {
   /**
    * Creates an instance of Cursor.
    * @column      Track X axis
@@ -168,6 +180,7 @@ class Cursor {
    * @eraseLines  Used by the Erase in page and Erase in line
    */
   constructor() {
+    super()
     this.column = 1
     this.row = 1
     this.maxColumns = 80
@@ -203,16 +216,6 @@ class Cursor {
       return (this.maxColumns = defaultColumns)
     })
   }
-
-  /**
-   * Resets the cursor data container using the constructor defaults.
-   * @param [old={}] Data container object
-   */
-  async reset(old = {}) {
-    for (const key of Object.keys(this)) {
-      old[key] = this[key]
-    }
-  }
   /**
    * Creates white space to simulate a cursor position forward request.
    * The white space should not have any presentation controls applied
@@ -235,13 +238,11 @@ class Cursor {
       end = cursor.column + count - 1,
       element = italicElement()
     if (cursor.column === end)
-      domObject.html = `${domObject.html}</i><i id="column-${
-        cursor.column
-      }" class="SGR0">${` `.repeat(count)}</i>${element}`
+      domObject.html = `${domObject.html}</i><i id="column-${cursor.column
+        }" class="SGR0">${` `.repeat(count)}</i>${element}`
     else
-      domObject.html = `${domObject.html}</i><i id="column-${
-        cursor.column
-      }-to-${end}" class="SGR0">${` `.repeat(count)}</i>${element}`
+      domObject.html = `${domObject.html}</i><i id="column-${cursor.column
+        }-to-${end}" class="SGR0">${` `.repeat(count)}</i>${element}`
     this.columnParse(count)
   }
 
@@ -299,7 +300,7 @@ class Cursor {
  * ECMA48/ANSI Select Graphic Rendition toggles.
  * @class SGR
  */
-class SGR {
+class SGR extends Resetter {
   /**
    * Creates an instance of SGR.
    * @bold        Value 1
@@ -321,6 +322,7 @@ class SGR {
    * @rgbB        RGB background css value
    */
   constructor() {
+    super()
     const whiteForeground = 37,
       blackBackground = 40
     this.bold = false
@@ -342,22 +344,13 @@ class SGR {
     this.rgbF = ``
     this.rgbB = ``
   }
-  /**
-   * Resets the cursor data container using the `constructor()` defaults.
-   * @param [old={}] Data container object
-   */
-  async reset(old = {}) {
-    for (const key of Object.keys(old)) {
-      old[key] = this[key]
-    }
-  }
 }
 
 /**
  * ECMA48/ANSI Statistics.
  * @class Statistics
  */
-class Statistics {
+class Statistics extends Resetter {
   /**
    * Creates an instance of Statistics.
    * @other       Number of unsupported ANSI.SYS control sequences found
@@ -369,6 +362,7 @@ class Statistics {
    * alternative background colours
    */
   constructor() {
+    super()
     const fourBitColor = 4,
       primaryFont = 10
     this.other = 0
@@ -376,15 +370,6 @@ class Statistics {
     this.colorDepth = fourBitColor
     this.font = primaryFont
     this.iceColors = false
-  }
-  /**
-   * Resets the cursor data container using the `constructor()` defaults.
-   * @param [old={}] Data container object
-   */
-  async reset(old = {}) {
-    for (const key of Object.keys(this)) {
-      old[key] = this[key]
-    }
   }
 }
 
@@ -870,9 +855,8 @@ class Markup {
           domObject.html = `<div id="row-1">`
         else {
           this.item = item
-          domObject.html = `<div id="row-1">${this._element_i()}${
-            domObject.html
-          }`
+          domObject.html = `<div id="row-1">${this._element_i()}${domObject.html
+            }`
         }
         item.row1 = true
         continue sequences
@@ -888,8 +872,8 @@ class Markup {
     }
     // Clean up empty elements before the browser render
     const emptySpan = new RegExp(
-        /<i class="SGR[1]?3[0-9][0-9]* SGR4[0-9][ SGR\d+\d*]*"><\/i>/g,
-      ),
+      /<i class="SGR[1]?3[0-9][0-9]* SGR4[0-9][ SGR\d+\d*]*"><\/i>/g,
+    ),
       emptyRow = new RegExp(/<div id="row-(\d+)"><\/div>/g)
     domObject.html = domObject.html
       .replace(emptySpan, ``)
@@ -919,8 +903,8 @@ class Markup {
   _closeElements() {
     // regex for HTML modifications
     const nullSpace = new RegExp(
-        /<div id="row-(\d+)"><i class="SGR(\d+) SGR(\d+)"><\/i><\/div>/gi,
-      ),
+      /<div id="row-(\d+)"><i class="SGR(\d+) SGR(\d+)"><\/i><\/div>/gi,
+    ),
       dom = domObject
     switch (dom.html.endsWith(`\u241B\u005B\uFFFD\uFFFD`)) {
       case true:
@@ -1339,12 +1323,10 @@ class Metadata {
         ecma48.iceColors = iceColors === 1
         // console feedback
         info += `Font: ${data.configs.fontName}`
-        info += `\nAspect Ratio: ${
-          data.configs.aspectRatio
-        }, ${humaniseAspectRatio(data.configs.aspectRatio)} (not implemented)`
-        info += `\nLetter Spacing: ${
-          data.configs.letterSpacing
-        }, ${humaniseSpacing(data.configs.letterSpacing)}`
+        info += `\nAspect Ratio: ${data.configs.aspectRatio
+          }, ${humaniseAspectRatio(data.configs.aspectRatio)} (not implemented)`
+        info += `\nLetter Spacing: ${data.configs.letterSpacing
+          }, ${humaniseSpacing(data.configs.letterSpacing)}`
         info += `\nNon-blink mode (iCE Colors): ${ecma48.iceColors}`
         info += `\nANSI Flags: 000${data.configs.flags} [000|AR|LS|B]`
         console.groupCollapsed(`SAUCE configurations`)

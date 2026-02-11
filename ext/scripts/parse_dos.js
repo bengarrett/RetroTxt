@@ -362,9 +362,9 @@ class Transcode extends CharacterSet {
    */
   _table_cp1252() {
     // prettier-ignore
-    this.set_8 = [`€`,``,`‚`,`ƒ`,`„`,`…`,`†`,`‡`,`ˆ`,`‰`,`Š`,`‹`,`Œ`,``,`Ž`,``]
+    this.set_8 = [`€`, ``, `‚`, `ƒ`, `„`, `…`, `†`, `‡`, `ˆ`, `‰`, `Š`, `‹`, `Œ`, ``, `Ž`, ``]
     // prettier-ignore
-    this.set_9 = [``,`‘`,`’`,`“`,`”`,`•`,`–`,`—`,`\u02dc`,`™`,`š`,`›`,`œ`,``,`ž`,`Ÿ`]
+    this.set_9 = [``, `‘`, `’`, `“`, `”`, `•`, `–`, `—`, `\u02dc`, `™`, `š`, `›`, `œ`, ``, `ž`, `Ÿ`]
     return [...this.set_8, ...this.set_9]
   }
 }
@@ -598,8 +598,7 @@ class DOSText {
       )
     if (index <= -1) {
       console.log(
-        `${this.errorCharacter} ${
-          this.codepage
+        `${this.errorCharacter} ${this.codepage
         } extendedTable.indexOf(%s) character failed: \\u%s '%s' [${number} \\u${String.fromCharCode(
           number,
         )
@@ -978,6 +977,22 @@ class BBS {
     )
     return this._normalizePipes()
   }
+  _smearBlocks(element, appendText) {
+    const clean = DOMPurify.sanitize(appendText, {
+      USE_PROFILES: { html: true },
+    })
+    const parts = clean.split(/([◘░▒▓█▄▐▌▀■]+)/)
+    parts.forEach(part => {
+      if (/[◘░▒▓█▄▐▌▀■]+/.test(part)) {
+        const bold = document.createElement(`b`)
+        bold.textContent = part
+        element.appendChild(bold)
+      } else {
+        element.appendChild(document.createTextNode(part))
+      }
+    })
+    return element
+  }
   /**
    * Parse text encoded with PCBoard @-codes.
    */
@@ -1015,14 +1030,10 @@ class BBS {
         }
         // if childNodes = 0, then use the code below to create a new element
       }
-      const element = this._newElement(`i`)
+      let element = this._newElement(`i`)
       element.classList.add(`PB${backgroundCode}`, `PF${foregroundCode}`)
       if (smear === `true`) {
-        const clean = DOMPurify.sanitize(appendText, {
-          USE_PROFILES: { html: true },
-        })
-        const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
-        element.innerHTML = bold
+        element = this._smearBlocks(element, appendText)
       } else element.textContent = appendText
       pre.append(element)
     }
@@ -1070,8 +1081,8 @@ class BBS {
       if (code.length === 0) continue colour
       // check values to match expected prefix, otherwise treat as text
       const pipe = `${celerityCodes.get(code.substring(0, 1))}`,
-        appendText = code.substring(1),
-        element = this._newElement(`i`)
+        appendText = code.substring(1)
+      let element = this._newElement(`i`)
       if (pipe === `undefined`) {
         element.textContent = `|${code}`
         pre.append(element)
@@ -1089,11 +1100,7 @@ class BBS {
       }
       element.classList.add(`P${background}`, `P${foreground}`)
       if (smear === `true`) {
-        const clean = DOMPurify.sanitize(appendText, {
-          USE_PROFILES: { html: true },
-        })
-        const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
-        element.innerHTML = bold
+        element = this._smearBlocks(element, appendText)
       } else element.textContent = appendText
       pre.append(element)
     }
@@ -1117,21 +1124,17 @@ class BBS {
       // check values to match expected prefix, otherwise treat as text
       const pipe = `${code.substring(0, 2)}`,
         appendText = code.substring(2),
-        element = this._newElement(`i`),
         x = parseInt(pipe, 10),
         backgroundMin = 0,
         backgroundMax = 15,
         foregroundMin = 16,
         foregroundMax = 23
+      let element = this._newElement(`i`)
       if (x >= backgroundMin && x <= backgroundMax) background = pipe
       else if (x >= foregroundMin && x <= foregroundMax) foreground = pipe
       element.classList.add(`P${background}`, `P${foreground}`)
       if (smear === `true`) {
-        const clean = DOMPurify.sanitize(appendText, {
-          USE_PROFILES: { html: true },
-        })
-        const bold = clean.replace(RegExp(/([◘░▒▓█▄▐▌▀■]+)/, `g`), `<b>$1</b>`)
-        element.innerHTML = bold
+        element = this._smearBlocks(element, appendText)
       } else element.textContent = appendText
       pre.append(element)
     }

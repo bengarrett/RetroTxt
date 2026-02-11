@@ -1735,13 +1735,13 @@ class Information extends Output {
     this._createToggle()
     this.append(div1)
     div1.append(
-      this._info(`pixels`),
+      this._label(`pixels`),
       this.area,
       this._sep(),
-      this._info(`characters`),
+      this._label(`characters`),
       this.size,
       this._sep(),
-      this._info(`encoding`),
+      this._label(`encoding`),
       this.output.encode,
       this._sep(),
       this._label(`view original text`),
@@ -1864,11 +1864,6 @@ class Information extends Output {
     this.show.append(hide)
   }
   _label(text = ``) {
-    const s = document.createElement(`small`)
-    s.textContent = `${text} `
-    return s
-  }
-  _info(text = ``) {
     const s = document.createElement(`small`)
     s.textContent = `${text} `
     return s
