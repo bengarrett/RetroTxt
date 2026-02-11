@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-10T23:17:41.072Z",
+  "timestamp": "2026-02-11T01:59:16.854Z",
   "testFiles": [
     {
       "file": "tests-downloads.js",
@@ -57,13 +57,13 @@
       "modules": 0
     },
     {
-      "file": "tests-xss-vulnerability.js",
-      "tests": 8,
+      "file": "tests-xss-custom.js",
+      "tests": 2,
       "modules": 1
     }
   ],
   "scriptFiles": 0,
-  "totalTests": 78,
+  "totalTests": 72,
   "totalModules": 18,
   "estimatedCoverage": {
     "pct": 90,

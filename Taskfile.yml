@@ -220,7 +220,7 @@ tasks:
       - cmd: node run-qunit.js
 
   test-webextension:
-    desc: Test RetroTxt WebExtension with proper file:/// URL handling (TODO not working).
+    desc: Test RetroTxt WebExtension with proper file:/// URL handling.
     aliases: [ext]
     cmds:
       - cmd: echo 'Testing RetroTxt WebExtension with file:/// URLs...'
