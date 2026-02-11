@@ -36,6 +36,10 @@ ext/autogen/*.txt
 ext/autogen/*.json
 ext/autogen/*.html
 ext/autogen/*.eslintcache*
+ext/autogen/*.patch
+
+# generated backups
+ext/scripts/*.backup
 
 # micro log
 log.txt

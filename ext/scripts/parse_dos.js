@@ -22,6 +22,40 @@ const empty = `\u0020`,
   linefeed = 10
 
 /**
+ * Configuration for DOMPurify to lock it down further.
+ */
+const SECURE_DOMPURIFY_CONFIG = {
+  USE_PROFILES: { html: false },
+  ALLOWED_TAGS: ['b', 'i', 'u', 'br', 'div', 'span'],
+  ALLOWED_ATTR: [],
+  FORBID_TAGS: ['script', 'style', 'iframe', 'img', 'svg'],
+  FORBID_ATTR: ['on*', 'style', 'class', 'id', 'data-*']
+}
+
+/**
+ * Sanitizer text wrapper for DOMPurify with a fallback.
+ * @param {string} text - Text to sanitize
+ * @returns {string} - Sanitized text
+ */
+function sanitizer(text) {
+  try {
+    const clean = DOMPurify.sanitize(text, SECURE_DOMPURIFY_CONFIG)
+    if (clean && clean !== text && !clean.includes(`<script>`)) {
+      return clean
+    }
+    if (DeveloperModeDebug) {
+      Console('Text sanitizer failure, using the fallback')
+    }
+    return DOMPurify.sanitize(text, { USE_PROFILES: { html: true } })
+  } catch (error) {
+    if (DeveloperModeDebug) {
+      Console(`Text sanitizer error: ${error.message}, using the fallback`)
+    }
+    return DOMPurify.sanitize(text, { USE_PROFILES: { html: true } })
+  }
+}
+
+/**
  * Simulate legacy text character sets (also called code pages) using Unicode
  * symbols.
  * @class CharacterSet
@@ -29,7 +63,7 @@ const empty = `\u0020`,
 class CharacterSet {
   // Static cache for character tables to reduce memory usage
   static _tableCache = {}
-  
+
   /**
    * Creates an instance of CharacterSet.
    * @param [set=``] Character set name
@@ -37,7 +71,7 @@ class CharacterSet {
   constructor(set = ``) {
     this.set = set
   }
-  
+
   /**
    * Get cached table or create new one
    * @param {string} name - Table name
@@ -100,7 +134,7 @@ class CharacterSet {
         set_f: Array.from(`≡±≥≤⌠⌡÷≈°∙·√ⁿ²■${nbsp}`)
       }
     })
-    
+
     // Assign cached tables to instance for backward compatibility
     Object.assign(this, cachedTables)
   }
@@ -443,7 +477,7 @@ class DOSText {
         return chars.join('')
       })
     }
-    
+
     // Fallback without performance tracking
     this._characterTable()
     // Use pre-allocated array for better performance with large texts
@@ -1016,9 +1050,7 @@ class BBS {
     return this._normalizePipes()
   }
   _smearBlocks(element, appendText) {
-    const clean = DOMPurify.sanitize(appendText, {
-      USE_PROFILES: { html: true },
-    })
+    const clean = sanitizer(appendText)
     const parts = clean.split(/([◘░▒▓█▄▐▌▀■]+)/)
     parts.forEach(part => {
       if (/[◘░▒▓█▄▐▌▀■]+/.test(part)) {
