@@ -965,11 +965,87 @@ class SauceMeta {
     }
   }
   /**
-   * Validate the SAUCE record.
+   * Validate the SAUCE record structure and content.
+   * @returns boolean
    */
   valid() {
-    if (this.id === `SAUCE00`) return true
-    return false
+    // Original simple check (preserve backward compatibility)
+    if (this.id !== `SAUCE00`) {
+      console.debug(`SauceMeta: Invalid SAUCE identifier: '${this.id}'`);
+      return false;
+    }
+
+    try {
+      // 1. Check minimum record length (SAUCE00 + version = 7 bytes minimum)
+      if (this.sliced && this.sliced.length < 7) {
+        console.debug(`SauceMeta: SAUCE record too short: ${this.sliced.length} bytes`);
+        return false;
+      }
+
+      // 2. Check version compatibility (only version 00 is widely supported)
+      if (this.version !== `00`) {
+        console.debug(`SauceMeta: Unsupported SAUCE version: '${this.version}'`);
+        return false;
+      }
+
+      // 3. Check required fields exist (basic structural validation)
+      const requiredFields = [
+        { name: 'title', minLength: 0, maxLength: 35 },
+        { name: 'author', minLength: 0, maxLength: 20 },
+        { name: 'group', minLength: 0, maxLength: 20 },
+        { name: 'date', minLength: 8, maxLength: 8 } // Must be exactly 8 chars (CCYYMMDD)
+      ];
+
+      for (const field of requiredFields) {
+        const value = this[field.name];
+        if (typeof value !== 'string') {
+          console.debug(`SauceMeta: Field '${field.name}' is not a string: ${typeof value}`);
+          return false;
+        }
+
+        if (value.length < field.minLength || value.length > field.maxLength) {
+          console.debug(`SauceMeta: Field '${field.name}' has invalid length: ${value.length} (expected ${field.minLength}-${field.maxLength})`);
+          return false;
+        }
+      }
+
+      // 4. Basic date validation (format: CCYYMMDD)
+      if (this.date && this.date.length === 8) {
+        const year = parseInt(this.date.slice(0, 4));
+        const month = parseInt(this.date.slice(4, 6));
+        const day = parseInt(this.date.slice(6, 8));
+
+        if (isNaN(year) || isNaN(month) || isNaN(day)) {
+          console.debug(`SauceMeta: Invalid date format: '${this.date}'`);
+          return false;
+        }
+
+        // Basic sanity checks
+        if (year < 1980 || year > 2100) {
+          console.debug(`SauceMeta: Unreasonable year in date: ${year}`);
+          return false;
+        }
+
+        if (month < 1 || month > 12) {
+          console.debug(`SauceMeta: Invalid month in date: ${month}`);
+          return false;
+        }
+
+        if (day < 1 || day > 31) {
+          console.debug(`SauceMeta: Invalid day in date: ${day}`);
+          return false;
+        }
+      }
+
+      // If all checks pass, it's a valid SAUCE record
+      console.debug(`SauceMeta: Valid SAUCE record found`);
+      return true;
+
+    } catch (error) {
+      // Graceful fallback - if any validation fails, log and return false
+      console.error(`SauceMeta: Validation error:`, error);
+      return false;
+    }
   }
   /**
    * Parse and converts SAUCE metadata to HTML for page display.
