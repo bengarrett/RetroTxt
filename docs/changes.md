@@ -12,6 +12,7 @@ hide:
 - Fixed an edge case for a theoretical XSS attack when viewing texts with specific characters and specific configuration enabled.
 - Text parsing optimizations, to improve the performance for handling 100-500KB+ texts.
 - Significantly reduced (up to 85%) temporary memory usage when parsing texts and large ansi.
+- Fixed some typos and copy-paste errors in the Options font listings.
 
 ## 5.5.1
 

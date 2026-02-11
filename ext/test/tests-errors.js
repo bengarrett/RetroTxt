@@ -2,6 +2,7 @@
 /*global QUnit DOM Tab Extension */
 "use strict"
 
+
 QUnit.module('error handling', {
   before: () => {
     console.info('☑ New QUnit error handling tests.')
@@ -44,9 +45,12 @@ QUnit.test('DOM class - missing elements', (assert) => {
   assert.ok(dom, 'DOM instance should be created')
   
   // These should not throw even if elements are missing
-  assert.doesNotThrow(() => {
+  try {
     dom.construct()
-  }, 'construct() should handle missing elements')
+    assert.ok(true, 'construct() should handle missing elements')
+  } catch (error) {
+    assert.ok(false, 'construct() should handle missing elements - threw: ' + error.message)
+  }
 })
 
 QUnit.test('Tab class - network error handling', (assert) => {
@@ -83,9 +87,12 @@ QUnit.test('Tab class - invalid URL handling', (assert) => {
   assert.equal(tab.url, 'invalid-url-scheme://example.com', 'URL should be preserved')
   
   // Should handle invalid URLs gracefully
-  assert.doesNotThrow(() => {
+  try {
     tab._hostname()
-  }, 'Should handle invalid URLs in _hostname()')
+    assert.ok(true, 'Should handle invalid URLs in _hostname()')
+  } catch (error) {
+    assert.ok(false, 'Should handle invalid URLs in _hostname() - threw: ' + error.message)
+  }
 })
 
 QUnit.test('Downloads class - file type detection', (assert) => {
@@ -135,18 +142,24 @@ QUnit.test('Extension class - error handling', (assert) => {
   assert.ok(extension.defaults, 'Should have defaults')
   
   // Test with invalid tab object
-  assert.doesNotThrow(() => {
+  try {
     extension.activateTab({}, null)
-  }, 'Should handle invalid tab activation')
+    assert.ok(true, 'Should handle invalid tab activation')
+  } catch (error) {
+    assert.ok(false, 'Should handle invalid tab activation - threw: ' + error.message)
+  }
 })
 
 QUnit.test('Extension class - invalid details', (assert) => {
   const extension = new Extension()
   
   // Test with invalid installation details
-  assert.doesNotThrow(() => {
+  try {
     extension.install({reason: 'unknown'})
-  }, 'Should handle unknown installation reasons')
+    assert.ok(true, 'Should handle unknown installation reasons')
+  } catch (error) {
+    assert.ok(false, 'Should handle unknown installation reasons - threw: ' + error.message)
+  }
 })
 
 QUnit.module('error handling - edge cases', {
@@ -165,9 +178,12 @@ QUnit.test('DOM class - empty document', (assert) => {
   assert.ok(dom, 'DOM should handle empty document')
   
   // Should handle missing elements gracefully
-  assert.doesNotThrow(() => {
+  try {
     dom.constructHeader()
-  }, 'Should handle missing header elements')
+    assert.ok(true, 'Should handle missing header elements')
+  } catch (error) {
+    assert.ok(false, 'Should handle missing header elements - threw: ' + error.message)
+  }
 })
 
 QUnit.test('Tab class - missing tab info', (assert) => {
@@ -177,9 +193,12 @@ QUnit.test('Tab class - missing tab info', (assert) => {
   assert.equal(tab.id, 1, 'ID should be set')
   
   // Should handle missing info gracefully
-  assert.doesNotThrow(() => {
+  try {
     tab.create()
-  }, 'Should handle missing tab info')
+    assert.ok(true, 'Should handle missing tab info')
+  } catch (error) {
+    assert.ok(false, 'Should handle missing tab info - threw: ' + error.message)
+  }
 })
 
 QUnit.test('Downloads class - invalid blob type', (assert) => {
@@ -233,9 +252,12 @@ QUnit.test('Complete error handling workflow', (assert) => {
   const tab = new Tab(1, 'https://example.com', {status: 'complete'})
   
   // Should handle complete workflow without crashing
-  assert.doesNotThrow(() => {
+  try {
     tab.create()
-  }, 'Should handle complete workflow')
+    assert.ok(true, 'Should handle complete workflow')
+  } catch (error) {
+    assert.ok(false, 'Should handle complete workflow - threw: ' + error.message)
+  }
   
   setTimeout(done, 100) // Allow async operations to complete
 })
@@ -247,11 +269,14 @@ QUnit.test('Error recovery scenarios', (assert) => {
   const dom = new DOM()
   
   // Multiple operations should not crash
-  assert.doesNotThrow(() => {
+  try {
     dom.construct()
     dom.constructHeader()
     dom.constructPalette()
-  }, 'Should handle multiple operations')
+    assert.ok(true, 'Should handle multiple operations')
+  } catch (error) {
+    assert.ok(false, 'Should handle multiple operations - threw: ' + error.message)
+  }
   
   done()
 })

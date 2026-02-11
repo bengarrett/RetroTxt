@@ -2,6 +2,7 @@
 /*global QUnit Security chrome */
 "use strict"
 
+
 QUnit.module('security', {
   before: () => {
     console.info('☑ New QUnit security tests.')
@@ -70,10 +71,13 @@ QUnit.test('Security class - URL validation with invalid URL', (assert) => {
 QUnit.test('Security class - permission failure handling', (assert) => {
   const security = new Security('downloads', 'test')
   
-  // fail() should not throw
-  assert.doesNotThrow(() => {
+  // fail() should not throw - using native QUnit pattern
+  try {
     security.fail()
-  }, 'fail() should not throw errors')
+    assert.ok(true, 'fail() should not throw errors')
+  } catch (error) {
+    assert.ok(false, 'fail() threw an error: ' + error.message)
+  }
 })
 
 QUnit.test('Security class - different permission types', (assert) => {
