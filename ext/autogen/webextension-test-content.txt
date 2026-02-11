@@ -1,0 +1,14 @@
+This is a test file that should be processed by RetroTxt.
+The extension should detect this as a text file and apply formatting.
+
+Here's some ANSI art to test:
+
+╔═══════════════════════════════════════════╗
+║  RetroTxt WebExtension Autogen Test File  ║
+║  This file should be automatically        ║
+║  processed by the RetroTxt extension      ║
+╚═══════════════════════════════════════════╝
+
+Some colored text: [31mRED[32mGREEN[33mYELLOW[0mNORMAL
+
+End of test file.
