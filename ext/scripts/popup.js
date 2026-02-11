@@ -74,7 +74,7 @@ async function LinkTos() {
   const settings = document.getElementById(`settings`)
   settings.title = `Open the RetroTxt settings`
   settings.addEventListener(`click`, () => TabTo(`settings`))
-  // link to the options page to add new urls
+  // link to the options page to add new URLs
   const access = document.getElementById(`allowAccess`)
   access.addEventListener(`click`, () => TabTo(`settings`))
 }

@@ -507,7 +507,7 @@ class CheckBox {
   }
   /**
    * Disable a checkbox.
-   * Intended for use when a Extension feature lacks access permission.
+   * Intended for use when an Extension feature lacks access permission.
    */
   async _disable() {
     const reason = `RetroTxt requires 'Allow access to file URLs' to be toggled`,
@@ -739,7 +739,7 @@ class Initialise extends CheckBox {
     })
   }
   /**
-   * Selects a colour palette radio option.
+   * Selects a color palette radio option.
    */
   async _colorPalette() {
     const palettes = document.getElementsByName(`palette`)
@@ -757,7 +757,7 @@ class Initialise extends CheckBox {
     }
   }
   /**
-   * Selects a information header radio option.
+   * Selects an information header radio option.
    */
   async _infoHeader() {
     const heads = document.getElementsByName(`infoheader`)
@@ -766,7 +766,7 @@ class Initialise extends CheckBox {
     }
   }
   /**
-   * Selects a colour from the Colour Pair menu.
+   * Selects a color from the Color Pair menu.
    */
   async _selectColor() {
     const colors = document.getElementsByName(`text-pair-form`)
@@ -886,14 +886,14 @@ class Initialise extends CheckBox {
   }
 }
 /**
- * Combinations of paired themed colours for text.
+ * Combinations of paired themed colors for text.
  * @class ColorPair
  */
 class ColorPair {
   constructor() {
     this.pairForm = document.getElementsByName(`text-pair-form`)
     this.sampleText = document.getElementById(`sampleTerminal`)
-    // colour pair ids and names
+    // color pair ids and names
     // the full id also prefixes `theme-`; i.e `theme-amiga`
     this.pairs = new Map()
       .set(`amiga`, `Amiga`)
@@ -902,7 +902,7 @@ class ColorPair {
       .set(`c64`, `Commodore 64`)
       .set(`msdos`, `MS-DOS`)
       .set(`windows`, `Windows`)
-      .set(`custom`, `customised theme`)
+      .set(`custom`, `customized theme`)
   }
   /**
    *  Event listeners.
@@ -935,7 +935,7 @@ class ColorPair {
     }
   }
   /**
-   * Choose a theme from the menu of the Colour Pair options.
+   * Choose a theme from the menu of the Color Pair options.
    */
   async storageLoad() {
     const key = `colorsTextPairs`
@@ -946,7 +946,7 @@ class ColorPair {
     })
   }
   /**
-   * Get the colour pair name from an id value.
+   * Get the color pair name from an id value.
    * @returns string
    */
   _name() {
@@ -955,7 +955,7 @@ class ColorPair {
     return this.pairs.get(pair)
   }
   /**
-   * Applies the CSS class of a colour pair to the sample text.
+   * Applies the CSS class of a color pair to the sample text.
    */
   async _sample() {
     RemoveTextPairs(this.sampleText)
@@ -967,7 +967,7 @@ class ColorPair {
     }
   }
   /**
-   * Choose a theme from the select menu of the Colour Pair options.
+   * Choose a theme from the select menu of the Color Pair options.
    */
   async _select() {
     const status = document.getElementById(`status`)
@@ -977,7 +977,7 @@ class ColorPair {
     this._sample(this.value)
   }
   /**
-   * Save the id of a Colour text pair to local storage.
+   * Save the id of a Color text pair to local storage.
    * If an id is not provided the stored item will be deleted.
    */
   _storageSave() {
@@ -985,7 +985,7 @@ class ColorPair {
   }
 }
 /**
- * Combination of user supplied theme colours for text.
+ * Combination of user supplied theme colors for text.
  * @class ColorCustomPair
  */
 class ColorCustomPair {
@@ -1059,7 +1059,7 @@ class ColorCustomPair {
     this._select(`theme-custom`)
   }
   /**
-   * Previews the selected background or foreground colour in the custom value table.
+   * Previews the selected background or foreground color in the custom value table.
    * @param [color=``] CSS color or background color value.
    */
   async _previewColor(updateSample = false) {
@@ -1077,7 +1077,7 @@ class ColorCustomPair {
     })
   }
   /**
-   * Previews and saves a custom colour pair change.
+   * Previews and saves a custom color pair change.
    * @param [save=true] Save `input.value` to the local storage?
    */
   _update(save = true) {
@@ -1099,10 +1099,10 @@ class ColorCustomPair {
     if (`value` in this.input) this.input.value = this.input.value.toLowerCase()
     document.getElementById(`status`).textContent = `${this.title} `
     const previousColor = this.sampleText.style[this.property]
-    // check the input colour is valid
+    // check the input color is valid
     this.sampleText.style[this.property] = `${this.input.value}`
-    // if the new colour style is invalid, the browser will instead return the
-    // previous colour
+    // if the new color style is invalid, the browser will instead return the
+    // previous color
     if (this.sampleText.style[this.property] === previousColor) {
       colorTest(``)
       this.valid = false
@@ -1271,7 +1271,7 @@ class Toolbar extends Radios {
   }
 }
 /**
- * Default colour palette.
+ * Default color palette.
  * @class Palette
  */
 class Palette extends Radios {
@@ -1982,7 +1982,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   for (const item of changedItems) {
     if (typeof changes[item].newValue === `undefined`) {
       console.log(
-        `Local storage item ${item}: is now undefined, assumed the host tab was closed.`,
+        `Local storage item ${item}: is now undefined, assuming the host tab was closed.`,
       )
     }
     if (item === `optionTab`) hero.storageLoad()

@@ -2,7 +2,7 @@
 //
 // Service workers replace background pages that make the code more modular.
 // They are event based, and like event pages they do not persist between invocations.
-// Each of these helpers have their own event listeners.
+// Each of these helpers has its own event listeners.
 // Gotchas: Service workers must be registered at root level:
 // they cannot be in a nested directory.
 

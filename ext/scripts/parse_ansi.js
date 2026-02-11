@@ -51,7 +51,7 @@ class Controls {
   }
   /**
    * Parses a string of Unicode text for control functions that are used for
-   * cursor positioning and colouring. The controls are converted into HTML5
+   * cursor positioning and coloring. The controls are converted into HTML5
    * syntax with CSS dependencies for display in a web browser.
    *
    * The number of supported ECMA-48 control functions are based on the
@@ -1366,7 +1366,7 @@ class Scan {
     const i = parseInt(index, 10) + 2
     if (i < 2) CheckRange(`index`, `small`, `0`, index)
     // look-ahead objects that will be used with deeper scan while-loops
-    // these comprise of text slices that are to be scanned for CSI controls
+    // these comprise text slices that are to be scanned for CSI controls
     const scan = {
       // for performance, set a 9 character cap for most scans
       fast: codePoints.slice(i, i + 8),

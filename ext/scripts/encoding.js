@@ -1,7 +1,7 @@
 // File: scripts/encoding.js
 //
 // Character sets, browser encodings, code page handlers.
-// Also font selection and palette colour hardware emulation.
+// Also font selection and palette color hardware emulation.
 
 /**
  * Capitalizes the first letter of a word while applying lowercasing to the others.
@@ -548,7 +548,7 @@ class Guess extends BrowserEncodings {
   }
 }
 /**
- * Hardware palette colour emulation.
+ * Hardware palette color emulation.
  * @class HardwarePalette
  */
 // eslint-disable-next-line no-unused-vars

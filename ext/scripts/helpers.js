@@ -98,9 +98,9 @@ async function ToggleScanlines(toggle = true, dom = {}, colorClass = ``) {
   // disable scanlines
   if (toggle === false)
     return dom.classList.remove(`scanlines-light`, `scanlines-dark`)
-  // apply colours provided by the `colorClass` parameter
+  // apply colors provided by the `colorClass` parameter
   if (typeof color === `string`) return applyNewClass(colorClass)
-  // apply colours from local storage
+  // apply colors from local storage
   chrome.storage.local.get([`colorsTextPairs`], (result) => {
     if (typeof result.colorsTextPairs === `undefined`)
       return CheckError(
@@ -135,8 +135,8 @@ function LinkDetails() {
  * Uses CSS3 styles to manipulate font effects.
  * @param [effect=`normal`] Font effect name to apply
  * @param [dom={}] Required HTML DOM element object to apply shadow effect to
- * @param [colorClass=``] Optional CSS colour class when we already know the new
- * colour values
+ * @param [colorClass=``] Optional CSS color class when we already know the new
+ * color values
  */
 // eslint-disable-next-line no-unused-vars
 async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
@@ -152,10 +152,10 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
   const apply = (result) => {
     switch (effect) {
       case `shadowed`:
-        // use colours provided by the colour parameter
+        // use colors provided by the color parameter
         if (typeof color === `string`)
           return dom.classList.add(`${colorClass}-shadowed`)
-        // use colours fetched from chrome storage (default)
+        // use colors fetched from chrome storage (default)
         if (typeof result === `string`) dom.classList.add(`${result}-shadowed`)
         else {
           chrome.storage.local.get([`colorsTextPairs`], (result) => {
@@ -279,7 +279,7 @@ function FindControlSequences(text = ``) {
 }
 
 /**
- * Humanises numeric values of bytes into a useful string.
+ * Humanizes numeric values of bytes into a useful string.
  * @param [bytes=0] A numeric value of bytes
  * @param [si=1024] Decimal (filesize) `1000` or `1024` binary (RAM) conversion
  * @returns string

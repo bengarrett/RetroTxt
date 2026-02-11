@@ -83,7 +83,7 @@ function CheckRange(name = ``, issue = ``, expected, actual) {
 }
 
 /**
- * Creates a red coloured alert message box at the top of the active browser page.
+ * Creates a red colored alert message box at the top of the active browser page.
  * @param {boolean} [show=true] Reveal or hide the box
  */
 function DisplayAlert(show = true, message = ``) {

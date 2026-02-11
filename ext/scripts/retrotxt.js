@@ -22,11 +22,11 @@ const atascii = `candyantics`,
   microknight = `microknight`,
   microknight_ = `microknightplus`,
   mosoul = `mosoul`,
-  trueColor = 24, // 24-bit colour
-  bit8Color = 8, // 256 colour
-  bit4Color = 4, // 16 colour
-  bit2Color = 2, // 4 colour
-  bit1Color = 1 // 2 colour
+  trueColor = 24, // 24-bit color
+  bit8Color = 8, // 256 color
+  bit4Color = 4, // 16 color
+  bit2Color = 2, // 4 color
+  bit1Color = 1 // 2 color
 
 /**
  * Document Object Model (DOM) programming interface for HTML.
@@ -36,7 +36,7 @@ class DOM {
   /**
    * Creates an instance of DOM.
    * @param [ecma48={}] ANSI data object
-   * @param [palette=new HardwarePalette()] Colour palette object
+   * @param [palette=new HardwarePalette()] Color palette object
    */
   constructor(ecma48 = {}, palette = new HardwarePalette()) {
     this.body = document.body
@@ -132,14 +132,14 @@ class DOM {
     // build link tags
     const palette = new HardwarePalette(),
       path = `../css`
-    // 1-bit colour themes (ASCII, NFO)
+    // 1-bit color themes (ASCII, NFO)
     this.head.append(CreateLink(`${path}/retrotxt.css`, `retrotxt-styles`))
     this.head.append(CreateLink(`${path}/layout.css`, `retrotxt-layout`))
     this.head.append(CreateLink(`${path}/text_colors.css`, `retrotxt-theme`))
-    // load any CSS that are used to mimic colours by the text file
+    // load any CSS that is used to mimic colors by the text file
     const format = this.format,
       link4bit = `retrotxt-4bit`
-    // 4-bit colour text
+    // 4-bit color text
     switch (format) {
       case ANSIText:
         this.head.append(CreateLink(palette.savedFilename(), link4bit))
@@ -224,7 +224,7 @@ class DOM {
     }
   }
   /**
-   * Construct colour palette.
+   * Construct color palette.
    */
   async _constructPalette() {
     const toggle = document.getElementById(`colorPaletteToggle`),
@@ -260,7 +260,7 @@ class DOM {
 
     // Sep. 2022, BLOCKTRONICS WTF4 MEGAJOINT
     // this tab causes a memory leak due to the blinking characters
-    // in Manifest V2 this wasn't a issue but it is in Chrome v106?
+    // in Manifest V2 this wasn't an issue but it is in Chrome v106?
     const memoryLeak = `://retrotxt.com/e/preview_00.ans`
     if (window.location.toString().includes(memoryLeak)) {
       this.head.append(
@@ -384,7 +384,7 @@ class DOM {
       palette === `` ? `${this.results.colorsAnsiColorPalette}` : palette
     const ansi = new HardwarePalette(),
       i = ansi.filenames.indexOf(name)
-    if (i < -1) return console.error(`Unknown colour palette name '${name}'`)
+    if (i < -1) return console.error(`Unknown color palette name '${name}'`)
     ansi.key = `${ansi.palettes[i]}`
     ansi.set()
     const link = document.getElementById(`retrotxt-4bit`),
@@ -424,7 +424,7 @@ class DOM {
     } catch {
       // some Firefox versions throw a security error while using file:///
     }
-    // refresh scan lines & font shadows as they are effected by colour changes
+    // refresh scan lines & font shadows as they are affected by color changes
     chrome.storage.local.get(
       [`textBackgroundScanlines`, `textRenderEffect`],
       (result) => {
@@ -452,7 +452,7 @@ class DOM {
           ToggleTextEffect(`shadowed`, this.article)
       },
     )
-    // apply new colours
+    // apply new colors
     const colorName = this.backgroundColor
     let colorId = colorName
     // background to body
@@ -466,12 +466,12 @@ class DOM {
     if (this.article.classList === null)
       return console.error(`the classList for the article element is null`)
     this.article.classList.add(`${colorName}-fg`)
-    // clean up custom colours
+    // clean up custom colors
     if (colorName !== `theme-custom`) {
       this.body.removeAttribute(`style`)
       this.article.removeAttribute(`style`)
     }
-    // handle colour fixes
+    // handle color fixes
     const fixes = document.getElementById(`white-bg-fixes`)
     switch (colorId) {
       case `theme-atarist`:
@@ -487,7 +487,7 @@ class DOM {
       default:
         if (fixes !== null) fixes.remove()
     }
-    // handle theme-custom colours, this also loads the stylesheet and applies CSS
+    // handle theme-custom colors, this also loads the stylesheet and applies CSS
     if (colorName === `theme-custom`) {
       chrome.storage.local.get(
         [`colorsCustomBackground`, `colorsCustomForeground`],
@@ -679,7 +679,7 @@ class DOM {
    * Toggle any stylesheet fixes.
    */
   async linkFixTextPairs() {
-    // colour choices
+    // color choices
     if (typeof this.results.colorsTextPairs !== `string`) return
     if (document.getElementById(`white-bg-fixes`) !== null) return
     switch (this.results.colorsTextPairs) {
@@ -1396,7 +1396,7 @@ class Output {
       family.swap(this.pre)
       sessionStorage.setItem(`lockFont`, `true`)
     }
-    // colour palette
+    // color palette
     this.dom.ecma48 = this.ecma48
     this.dom.linkAnsiColorPalette()
     // parse text & insert it into the browser tab
@@ -2231,7 +2231,7 @@ function handleChanges(change) {
               ToggleTextEffect(te, article, newColor)
           }
         }
-        // update the centre alignment requirement
+        // update the center alignment requirement
         const ca = result.textCenterAlign
         if (typeof ca === `undefined`)
           CheckError(`${err} "textCenterAlign" is undefined.`, true)
