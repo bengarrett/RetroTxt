@@ -2553,30 +2553,22 @@ function pixels() {
  * @returns {void}
  */
 function cleanup(output) {
-  // Safety check for null/undefined output
   if (!output) {
     console.warn('cleanup() called with null/undefined output - skipping cleanup');
     return;
   }
 
   try {
-    // =============================================
-    // OUTPUT OBJECT CLEANUP
-    // Use null assignment for better memory management
-    // =============================================
-
     // DOM element references
     output.article = null;
     output.encode = null;
     output.main = null;
     output.pre = null;
-
     // Data structures
     output.data = null;
     output.dom = null;
     output.ecma48 = null;
     output.sauce = null;
-
     // Primitive values
     output.columns = null;
     output.rows = null;
@@ -2584,18 +2576,9 @@ function cleanup(output) {
     output.text = null;
     output.unknownCount = null;
 
-    // =============================================
-    // GLOBAL ECM48 CLEANUP
-    // Preserve critical properties for palette functionality
-    // =============================================
-
     if (typeof ecma48 !== 'undefined') {
-      // Preserve properties required for palette toggle
-      // (Documented in line 2561 comment: "required for palette toggle")
       const preservedColorDepth = ecma48.colorDepth;
       const preservedIceColors = ecma48.iceColors;
-
-      // Clean up other properties that are no longer needed
       delete ecma48.columns;
       delete ecma48.font;
       delete ecma48.htmlString;
@@ -2606,35 +2589,20 @@ function cleanup(output) {
       delete ecma48.text;
       delete ecma48.unknownCount;
       delete ecma48.verbose;
-
-      // Restore preserved properties
       ecma48.colorDepth = preservedColorDepth;
       ecma48.iceColors = preservedIceColors;
     }
-
-    // =============================================
-    // MEMORY MANAGEMENT OPTIMIZATIONS
-    // =============================================
-
     // Force garbage collection hint in environments that support it
-    // (Chrome with --expose-gc flag, or when running tests)
     if (typeof gc === 'function') {
       try {
         gc();
       } catch (gcError) {
-        // gc() might not be available even if typeof check passes
         console.debug('Garbage collection hint failed:', gcError.message);
       }
     }
 
   } catch (error) {
-    // =============================================
-    // FALLBACK ERROR HANDLING
-    // If anything goes wrong, fall back to original behavior
-    // =============================================
     console.error('cleanup() encountered an error:', error);
-
-    // Attempt basic cleanup using delete (original behavior)
     try {
       if (output) {
         for (const prop in output) {
@@ -2643,7 +2611,6 @@ function cleanup(output) {
           }
         }
       }
-
       if (typeof ecma48 !== 'undefined') {
         // Preserve colorDepth even in fallback mode
         const colorDepth = ecma48.colorDepth;
