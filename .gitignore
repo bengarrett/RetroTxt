@@ -18,19 +18,23 @@ node_modules
 site
 
 # autogen generated content (generated security/benchmark/test reports)
+# these are usually json dumps
 ext/autogen/reports/
 ext/autogen/benchmarks/
 ext/autogen/coverage/
 ext/autogen/metrics/
 
 # autogen generated scripts and documentation
-ext/autogen/*.js
-ext/autogen/*.md
+# note the *.js are node scripts used for testing
+# the markdowns are reports that can be imported by clients
+# the .nycrc is used for unit test coverage
+#ext/autogen/*.js
+#ext/autogen/*.md
+#ext/autogen/*.nycrc
 ext/autogen/*.png
 ext/autogen/*.txt
 ext/autogen/*.json
 ext/autogen/*.html
-ext/autogen/*.nycrc
 ext/autogen/*.eslintcache*
 
 # micro log
