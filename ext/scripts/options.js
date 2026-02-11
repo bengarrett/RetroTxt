@@ -63,7 +63,7 @@ async function localizeWord(word = ``, className = ``) {
   if (word.length < 1) CheckRange(`word`, `length`, `1`, word.length)
   if (className.length < 1)
     CheckRange(`className`, `length`, `1`, className.length)
-  const message = chrome.i18n.getMessage(word),
+  const message = chrome.i18n.getMessage(word) || word,
     elements = document.getElementsByClassName(className)
   for (const element of elements) {
     const text = element.textContent

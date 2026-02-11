@@ -342,9 +342,9 @@ class Guess extends BrowserEncodings {
     Object.freeze(this.characterSets)
     this.table_cp1252 = () => {
       // prettier-ignore
-      this.set_8 = [`€`,``,`‚`,`ƒ`,`„`,`…`,`†`,`‡`,`ˆ`,`‰`,`Š`,`‹`,`Œ`,``,`Ž`,``]
+      this.set_8 = [`€`, ``, `‚`, `ƒ`, `„`, `…`, `†`, `‡`, `ˆ`, `‰`, `Š`, `‹`, `Œ`, ``, `Ž`, ``]
       // prettier-ignore
-      this.set_9 = [``,`‘`,`’`,`“`,`”`,`•`,`–`,`—`,`\u02dc`,`™`,`š`,`›`,`œ`,``,`ž`,`Ÿ`]
+      this.set_9 = [``, `‘`, `’`, `“`, `”`, `•`, `–`, `—`, `\u02dc`, `™`, `š`, `›`, `œ`, ``, `ž`, `Ÿ`]
       return [...this.set_8, ...this.set_9]
     }
     this.text = text
@@ -369,15 +369,15 @@ class Guess extends BrowserEncodings {
     return notFound
   }
   /**
-   * Parse a HTML element and attempt to determine the text encoding.
+   * Parse text content and attempt to determine the text encoding.
    * @param [sauceSet=``] Document character set supplied by SAUCE metadata
-   * @param [dom={}] HTML element
+   * @param [outputObj={}] Output object containing text content
    * @returns string
    */
-  codePage(charSet = ``, dom = {}) {
+  codePage(charSet = ``, outputObj = {}) {
     if (typeof charSet !== `string` && charSet !== null)
       CheckArguments(`charSet`, `string`, charSet)
-    if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
+    if (typeof outputObj !== `object`) CheckArguments(`outputObj`, `object`, outputObj)
     // if there was no useful SAUCE data then use the transcode setting
     let sauceSet = charSet
     if (charSet === ``) {
@@ -401,7 +401,7 @@ class Guess extends BrowserEncodings {
     if (super.support() === false) {
       // unknown/unsupported encodings
       // take a guess but the result will probably be inaccurate
-      this.text = `${dom.slice}`
+      this.text = outputObj.slice || ''
       return this._characterSet()
     }
     return documentSet
@@ -709,7 +709,7 @@ class FontFamily {
   async swap(dom = {}) {
     if (typeof dom !== `object`) CheckArguments(`dom`, `object`, dom)
     const lockFont = `${sessionStorage.getItem(`lockFont`)}`
-    if (lockFont === `true`)
+    if (lockFont === 'true')
       return console.log(
         `Cannot refresh font as lock-font is set to true.`,
         `\nThis is either because the text is ANSI encoded or contains SAUCE metadata with font family information.`,
