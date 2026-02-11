@@ -2,10 +2,16 @@
 title: Changes and improvements
 authors:
     - Ben Garrett
-date: 2025-04-22
+date: 2026-02-12
 hide:
   - toc
 ---
+
+## 5.6
+
+- Fixed an edge case for a theoretical XSS attack when viewing texts with specific characters and specific configuration enabled.
+- Text parsing optimizations, to improve the performance for handling 100-500KB+ texts.
+- Significantly reduced (up to 85%) temporary memory usage when parsing texts and large ansi.
 
 ## 5.5.1
 

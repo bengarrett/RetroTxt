@@ -27,12 +27,27 @@ const empty = `\u0020`,
  * @class CharacterSet
  */
 class CharacterSet {
+  // Static cache for character tables to reduce memory usage
+  static _tableCache = {}
+  
   /**
    * Creates an instance of CharacterSet.
    * @param [set=``] Character set name
    */
   constructor(set = ``) {
     this.set = set
+  }
+  
+  /**
+   * Get cached table or create new one
+   * @param {string} name - Table name
+   * @returns {function} - Table creation function
+   */
+  static _getCachedTable(name, creator) {
+    if (!this._tableCache[name]) {
+      this._tableCache[name] = creator()
+    }
+    return this._tableCache[name]
   }
   /**
    * Unicode characters that emulate a code page set.
@@ -71,16 +86,23 @@ class CharacterSet {
    * ASCII and Unicode.
    */
   _cp437Table() {
-    this.set_0 = Array.from(`␀☺☻♥♦♣♠•◘○◙♂♀♪♫☼`)
-    this.set_1 = Array.from(`►◄↕‼¶§▬↨↑↓→←∟↔▲▼`)
-    this.set_8 = Array.from(`ÇüéâäàåçêëèïîìÄÅ`)
-    this.set_9 = Array.from(`ÉæÆôöòûùÿÖÜ¢£¥₧ƒ`)
-    this.set_a = Array.from(`áíóúñÑªº¿⌐¬½¼¡«»`)
-    this.set_b = Array.from(`░▒▓│┤╡╢╖╕╣║╗╝╜╛┐`)
-    this.set_c = Array.from(`└┴┬├─┼╞╟╚╔╩╦╠═╬╧`)
-    this.set_d = Array.from(`╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀`)
-    this.set_e = Array.from(`αßΓπΣσµτΦΘΩδ∞φε∩`)
-    this.set_f = Array.from(`≡±≥≤⌠⌡÷≈°∙·√ⁿ²■${nbsp}`)
+    const cachedTables = CharacterSet._getCachedTable('cp437', () => {
+      return {
+        set_0: Array.from(`␀☺☻♥♦♣♠•◘○◙♂♀♪♫☼`),
+        set_1: Array.from(`►◄↕‼¶§▬↨↑↓→←∟↔▲▼`),
+        set_8: Array.from(`ÇüéâäàåçêëèïîìÄÅ`),
+        set_9: Array.from(`ÉæÆôöòûùÿÖÜ¢£¥₧ƒ`),
+        set_a: Array.from(`áíóúñÑªº¿⌐¬½¼¡«»`),
+        set_b: Array.from(`░▒▓│┤╡╢╖╕╣║╗╝╜╛┐`),
+        set_c: Array.from(`└┴┬├─┼╞╟╚╔╩╦╠═╬╧`),
+        set_d: Array.from(`╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀`),
+        set_e: Array.from(`αßΓπΣσµτΦΘΩδ∞φε∩`),
+        set_f: Array.from(`≡±≥≤⌠⌡÷≈°∙·√ⁿ²■${nbsp}`)
+      }
+    })
+    
+    // Assign cached tables to instance for backward compatibility
+    Object.assign(this, cachedTables)
   }
   /**
    * Unicode characters that emulate Code Page 437.
@@ -408,13 +430,29 @@ class DOSText {
    * @returns {string} Unicode text
    */
   normalize() {
+    // Use performance tracking if available (defined in helpers.js)
+    if (typeof withPerformanceTracking === 'function') {
+      return withPerformanceTracking('DOSText.normalize', () => {
+        this._characterTable()
+        // Use pre-allocated array for better performance with large texts
+        const chars = new Array(this.text.length)
+        // loop through text and use the values to propagate the container
+        for (let i = 0; i < this.text.length; i++) {
+          chars[i] = this._fromCharCode(this.text.charCodeAt(i))
+        }
+        return chars.join('')
+      })
+    }
+    
+    // Fallback without performance tracking
     this._characterTable()
-    let normalized = ``
+    // Use pre-allocated array for better performance with large texts
+    const chars = new Array(this.text.length)
     // loop through text and use the values to propagate the container
     for (let i = 0; i < this.text.length; i++) {
-      normalized += this._fromCharCode(this.text.charCodeAt(i))
+      chars[i] = this._fromCharCode(this.text.charCodeAt(i))
     }
-    return normalized
+    return chars.join('')
   }
   /**
    * Build a character table.
@@ -1160,4 +1198,4 @@ function eslintUndef() {
 
 /*global CheckArguments Console Cs DeveloperModeDebug DOMPurify FindControlSequences
 CelerityText PlainText PCBoardText RenegadeText TelegardText WildcatText WWIVHashText
-WWIVHeartText UnknownText */
+WWIVHeartText UnknownText withPerformanceTracking */

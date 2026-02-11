@@ -371,9 +371,34 @@ function SetIcon() {
   })
 }
 
+/**
+ * Performance tracking utility for debugging slow operations
+ * Used in parse_dos.js and other modules
+ * @param {string} name - Operation name for logging
+ * @param {function} fn - Function to execute and track
+ * @returns {*} - Result of the function
+ */
+// eslint-disable-next-line no-unused-vars
+function withPerformanceTracking(name, fn) {
+  if (!DeveloperModeDebug) return fn()
+  
+  const start = performance.now()
+  const result = fn()
+  const end = performance.now()
+  const duration = end - start
+  
+  // Only log operations that take significant time
+  if (duration > 50) {
+    Console(`[PERF] ${name}: ${duration.toFixed(2)}ms`)
+  }
+  
+  return result
+}
+
 // IIFE, self-invoking anonymous function
 ;(() => {
   SetIcon()
 })()
 
-/*global CheckArguments CheckError CheckLastError */
+/* global CheckArguments CheckError CheckLastError Console DeveloperModeDebug */
+// withPerformanceTracking is used in other modules, defined here for global scope
