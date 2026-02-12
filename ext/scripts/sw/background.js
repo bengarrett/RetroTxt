@@ -34,11 +34,11 @@ chrome.runtime.onInstalled.addListener(() => {
 // details.previousVersion indicates the previous version of the extension.
 // details.reason is the reason the event is dispatched.
 chrome.runtime.onInstalled.addListener((details) => {
-  if (typeof qunit !== `undefined`) return
+  if (typeof QUnit !== `undefined`) return
   if (typeof chrome === `undefined`)
     return CheckError(
       `RetroTxt failed to run because the Extension API did not load!` +
-        ` Please close this browser and try again.`,
+      ` Please close this browser and try again.`,
       true,
     )
   if (`management` in chrome) devMode()
@@ -71,6 +71,14 @@ function startup() {
 // Detect the browser Developer mode.
 function devMode() {
   chrome.management.getSelf((info) => {
+    if (chrome.runtime.lastError) {
+      console.error('Management API error:', chrome.runtime.lastError)
+      return
+    }
+    if (!info?.installType) {
+      console.error('Management API info error')
+      return
+    }
     switch (info.installType) {
       // the add-on was installed unpacked from disk
       case `development`:
@@ -89,6 +97,14 @@ function devMode() {
 // Previously the deprecated `Navigator.platform` method was used.
 function setPlatform() {
   chrome.runtime.getPlatformInfo((info) => {
+    if (chrome.runtime.lastError) {
+      console.error('Platform API error:', chrome.runtime.lastError)
+      return
+    }
+    if (!info?.os) {
+      console.error('Platform API operating system detection error')
+      return
+    }
     const windows = `win`,
       macOS = `mac`
     let store

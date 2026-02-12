@@ -14,6 +14,7 @@ hide:
 - Significantly reduced (up to 85%) temporary memory usage when parsing texts and large ansi.
 - Fixed some typos and copy-paste errors in the Options font listings.
 - Fixed the usage of scanlines and text shadow sometimes not being toggled.
+- Fixed an occasional bug with the position of the Display Alert box.
 
 ## 5.5.1
 

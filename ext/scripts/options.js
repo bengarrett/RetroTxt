@@ -40,7 +40,7 @@ function handleError(error) {
   } catch (e) {
     console.error(`Failed to obtain the setting: ${e}`)
   }
-  if (typeof qunit === `undefined`) {
+  if (typeof QUnit === 'undefined') {
     document.getElementById(`error`).style.display = `inherit`
     document.getElementById(`status`).style.display = `none`
     document.getElementById(`errorReload`).addEventListener(`click`, () => {
@@ -49,6 +49,32 @@ function handleError(error) {
       chrome.runtime.reload()
     })
   }
+}
+
+/**
+ * Add event listener only if not already added.
+ * @param {HTMLElement} element - DOM element
+ * @param {string} type - Event type
+ * @param {function} handler - Event handler
+ * @param {string} [id] - Optional identifier for tracking
+ */
+function addListenerOnce(element, type, handler, id = '') {
+  if (!element) return;
+
+  // Create unique identifier for this listener
+  const listenerId = id || `${type}-${Math.random().toString(36).slice(2, 11)}`;
+
+  // Check if listener already added
+  if (element._listeners && element._listeners[listenerId]) {
+    return; // Listener already exists
+  }
+
+  // Add listener
+  element.addEventListener(type, handler);
+
+  // Track that we added it
+  element._listeners = element._listeners || {};
+  element._listeners[listenerId] = handler;
 }
 
 /**
@@ -153,14 +179,17 @@ class HTML {
    */
   async hideNotice() {
     const key = `updateNotice`
-    document.getElementById(`updateNoticeBtn`).addEventListener(`click`, () => {
-      const result = confirm(
-        "Stop this update tab from launching with future RetroTxt upgrades?",
-      )
-      if (!result) return
-      chrome.storage.local.set({ [key]: false })
-      globalThis.close()
-    })
+    const button = document.getElementById(`updateNoticeBtn`)
+    if (button) {
+      addListenerOnce(button, 'click', () => {
+        const result = confirm(
+          "Stop this update tab from launching with future RetroTxt upgrades?",
+        )
+        if (!result) return
+        chrome.storage.local.set({ [key]: false })
+        globalThis.close()
+      }, 'updateNoticeHandler')
+    }
   }
   /**
    * Manifest version of RetroTxt.
@@ -312,25 +341,28 @@ class Permission {
     // checkbox event listeners
     const checkbox = document.getElementById(`${this.elementId}`)
     if (checkbox !== null) {
-      checkbox.addEventListener(`change`, () => {
+      addListenerOnce(checkbox, 'change', () => {
         const value = document.getElementById(`${this.elementId}`).checked
         Console(`checkbox change event: ${value}`)
         this._checkedEvent(value)
         toggles()
-      })
+      }, `checkbox-${this.elementId}`)
       this._check()
     }
     // text area event listeners
-    document.getElementById(`submitHost`).addEventListener(`click`, () => {
-      if (this.type !== `http`) return
-      Console(`Hostnames have been updated`)
-      const reset = this.domains === `textarea.value`
-      if (reset) return this.origins.pop()
-    })
+    const submitHost = document.getElementById(`submitHost`)
+    if (submitHost) {
+      addListenerOnce(submitHost, 'click', () => {
+        if (this.type !== `http`) return
+        Console(`Hostnames have been updated`)
+        const reset = this.domains === `textarea.value`
+        if (reset) return this.origins.pop()
+      }, 'submitHostHandler')
+    }
     // options theme buttons listeners
     const themes = document.getElementsByClassName(`option-theme`)
     for (const theme of themes) {
-      theme.addEventListener(`click`, () => {
+      addListenerOnce(theme, 'click', () => {
         theme.classList.forEach((value) => {
           const arr = [`button`, `option-theme`, `notification`]
           if (arr.includes(value)) return
@@ -358,7 +390,7 @@ class Permission {
           })
           chrome.storage.local.set({ [`optionClass`]: `${value}` })
         })
-      })
+      }, `theme-${theme.id}`)
     }
     // reset custom color values
     const reset = document.getElementById(`customColorReset`)
@@ -1116,10 +1148,8 @@ class ColorCustomPair {
     this._previewColor()
   }
   _value() {
-    const v = `${Array.from(document.getElementsByName("text-pair-form")).find(
-      (r) => r.checked,
-    )}`
-    return v.value
+    return Array.from(document.getElementsByName("text-pair-form"))
+      .find(r => r.checked)?.value || '';
   }
 }
 /**
@@ -1975,7 +2005,7 @@ class Hosts {
 }
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (typeof qunit !== `undefined`) return
+  if (typeof QUnit !== 'undefined') return
   if (namespace !== `local`) return
   const changedItems = Object.keys(changes)
   const hero = new Hero()
@@ -1991,7 +2021,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 
   // IIFE, self-invoking anonymous function that runs whenever the Options dialogue is opened.
   ; (() => {
-    if (typeof qunit !== `undefined`) return
+    if (typeof QUnit !== 'undefined') return
     SetIcon()
     const init = new Initialise()
     // lookup and applies checked, selections, active, once the HTML is loaded and parsed

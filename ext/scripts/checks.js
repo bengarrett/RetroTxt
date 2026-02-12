@@ -3,6 +3,21 @@
 // Error, argument checkers and alerts for the container-scripts.
 
 /**
+ * @typedef {Object} DOM
+ * @property {HTMLElement} body
+ * @property {HTMLElement} article
+ * @property {HTMLElement} cssLink
+ * @property {HTMLHeadElement} head
+ * @property {HTMLCollection} headers
+ * @property {HTMLElement} main
+ * @property {HTMLElement} pre
+ * @property {number} preCount
+ * @property {HTMLElement} rawText
+ */
+
+/* global BusySpinner CreateLink DOM Engine WebBrowser */
+
+/**
  * Argument checker for functions and classes.
  * @param {string} [name=``] The argument name that failed
  * @param {string} [expecteparam {*} actual The actual argument used
@@ -24,7 +39,7 @@ function CheckArguments(name = ``, expected = ``, actual) {
       err = `argument '${name}' needs to be a '${expected}' instead of a '${typeof actual}'`
       break
   }
-  if (typeof qunit !== `undefined`) return err
+  if (typeof QUnit !== 'undefined') return err
   CheckError(err)
 }
 
@@ -39,7 +54,7 @@ function CheckError(errorMessage, log = false) {
     BusySpinner(false)
     if (typeof globalThis.checkedErr !== `undefined`)
       globalThis.checkedErr = true
-    if (typeof qunit === `undefined`) DisplayAlert()
+    if (typeof QUnit === 'undefined') DisplayAlert()
     else throw new Error(errorMessage)
     if (log === true) return console.warn(errorMessage)
     try {
@@ -78,7 +93,7 @@ function CheckRange(name = ``, issue = ``, expected, actual) {
       break
     default:
   }
-  if (typeof qunit !== `undefined`) return err
+  if (typeof QUnit !== 'undefined') return err
   CheckError(err)
 }
 
@@ -90,9 +105,8 @@ function DisplayAlert(show = true, message = ``) {
   // div element containing the error alert
   let div = globalThis.document.getElementById(`displayAlert`)
   const link = globalThis.document.getElementById(`retrotxt-styles`)
-  // the navigator.platform property is deprecated but it is the only way to
-  // detect macOS as the chrome.runtime.getPlatformInfo() is not available here
-  const macOS = navigator.platform.toUpperCase().indexOf("MAC") >= 0
+  const macOS = navigator.userAgentData?.platform.includes("macOS") ||
+    /Macintosh|Mac OS X/i.test(navigator.userAgent)
   if (div === null) {
     let ext = `reloading RetroTxt with the `
     switch (WebBrowser()) {
@@ -174,7 +188,7 @@ function DisplayAlert(show = true, message = ``) {
       dom.head.append(CreateLink(`../css/layout.css`, `retrotxt-layout`))
     }
     // inject div
-    dom.body.insertBefore(div, dom.pre0)
+    dom.body.insertBefore(div, dom.rawText)
   }
   // display error alert
   if (show === false) return div.classList.add(`is-hidden`)
@@ -229,7 +243,5 @@ function DisplayEncodingAlert() {
   alert.div = null
   div.id = `CheckEncoding`
   const dom = new DOM()
-  dom.body.insertBefore(div, dom.pre0)
+  dom.body.insertBefore(div, dom.rawText)
 }
-
-/* global BusySpinner CreateLink DOM Engine WebBrowser */

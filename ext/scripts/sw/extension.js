@@ -17,7 +17,7 @@ class Extension {
   }
   /**
    * Initialise RetroTxt after it is first installed or updated.
-   * @param details
+   * @param {chrome.runtime.InstalledDetails} details Installation/update details from chrome.runtime.onInstalled
    */
   install(details) {
     console.log(`Reticulating splines.`)
@@ -56,40 +56,39 @@ class Extension {
   }
   /**
    * Activates and prepares browser tab to invoke RetroTxt.
-   * @param [tab={}] Tab object
-   * @param [blob] Optional fetch API data blob
+   * @param {Object} [tab={}] Tab object
+   * @param {*} [blob] Optional fetch API data blob
    */
   activateTab(tab = {}, blob) {
     let data = blob
-    if (typeof data === `undefined` || data === null || !(`type` in data))
+    if (data == null || !data?.type)
       data = { type: `unknown` }
     // is the tab hosting a text file and what is the tab page encoding?
     SessionNew(tab.tabid, data)
     // if the tab has previously been flagged as 'do not autorun' then finish up
     const key = `${SessionKey}${tab.tabid}`
     chrome.storage.local.get(`${key}`, (store) => {
-      const textfile = Object.values(store)[0].textfile
-      if (!textfile) return
+      const sessionData = store[key]
+      if (!sessionData?.textfile) return
       chrome.storage.local.get(`settingsWebsiteDomains`, (store) => {
-        if (Object.values(store)[0] === `false`) return
+        if (store.settingsWebsiteDomains === false) return
         this.invokeOnTab(tab.tabid, data.type)
       })
     })
   }
   /**
    * Invokes RetroTxt for the first time in the browser tab.
-   * @param [tabId=0] Id of the tab
-   * @param [pageEncoding=``] Optional text character encoding
+   * @param {number} [tabId=0] Id of the tab
+   * @param {string} [pageEncoding=''] Optional text character encoding
    */
-  invokeOnTab(tabId = 0, pageEncoding = ``) {
+  invokeOnTab(tabId = 0, pageEncoding = '') {
     const lastErrorCallback = () => {
-      if (typeof chrome.runtime.lastError === `undefined`) return false
-      if (typeof chrome.runtime.lastError.message === `undefined`) return false
-      if (chrome.runtime.lastError.message === ``) return false
+      const error = chrome.runtime.lastError
+      if (!error?.message) return false
       console.error(
         `Extension.invokeOnTab() aborted for tab #%s\nReason: %s`,
         tabId,
-        chrome.runtime.lastError.message,
+        error.message,
       )
       return true
     }
@@ -149,7 +148,7 @@ class Extension {
       },
       () => {
         if (lastErrorCallback()) return
-        function execute(tabId = ``, page = ``) {
+        function execute(tabId = '', page = '') {
           window.Execute(tabId, page)
         }
         chrome.scripting.executeScript(

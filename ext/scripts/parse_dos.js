@@ -72,6 +72,10 @@ class CharacterSet {
     this.set = set
   }
 
+  // Dynamically assigned properties via _cp437Table()
+  /** @type {Array<string>|undefined} */ set_0
+  /** @type {Array<string>|undefined} */ set_1
+
   /**
    * Get cached table or create new one
    * @param {string} name - Table name

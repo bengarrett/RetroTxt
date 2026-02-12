@@ -287,4 +287,4 @@ class Downloads {
   }
 }
 
-/*global CheckError CheckLastError Configuration Console ConsoleLoad Developer Extension Os Security WebBrowser */
+/*global CheckError, CheckLastError, Configuration, Console, ConsoleLoad, Developer, Extension, Os, Security, WebBrowser */

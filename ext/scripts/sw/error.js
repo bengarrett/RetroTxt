@@ -8,13 +8,14 @@ chrome.runtime.onInstalled.addListener(() => {
 
 /**
  * Error handler for the service workers.
- * @param [error=``] Error feedback
- * @param [log=false] Log errors `false` are logged to the browser Console
- * otherwise a JavaScript exception is thrown
+ * @param {string} [error=''] Error message to process or log
+ * @param {boolean} [log=false] If true, sends error to active tab and throws exception.
+ *                              If false, logs to console only.
+ * @returns {void}
  */
 // eslint-disable-next-line no-unused-vars
 function CheckError(error = ``, log = false) {
-  if (typeof error !== `undefined`) {
+  if (error) {
     if (log !== true) {
       chrome.storage.local.get(Developer, (store) => {
         if (Developer in store) return console.warn(error)
@@ -23,18 +24,26 @@ function CheckError(error = ``, log = false) {
       return
     }
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (typeof tabs[0] === `undefined`) return
+      if (chrome.runtime.lastError) {
+        console.error('Failed to query active tab:', chrome.runtime.lastError)
+        return
+      }
+      if (!tabs?.[0]?.id) return
       chrome.tabs.sendMessage(
         tabs[0].id,
         { error: error, id: `CheckError` },
         (result) => {
+          if (chrome.runtime.lastError) {
+            console.error('Failed to send error to tab:', chrome.runtime.lastError)
+            return
+          }
           if (
             CheckLastError(
               `check error send message to tab #${tabs[0].id}: ${error}`,
             )
           )
             return
-          if (DeveloperModeDebug && typeof result !== `undefined`)
+          if (DeveloperModeDebug && result !== undefined)
             console.log(result)
         },
       )

@@ -201,16 +201,16 @@ class Cursor extends Resetter {
     const key = `ansiColumnWrap`,
       defaultColumns = 80
     chrome.storage.local.get([`${key}`], (result) => {
-      const value = result[`${key}`]
-      sessionStorage.setItem(key, value)
-      localStorage.setItem(key, value)
       try {
-        const key = `ansiColumnWrap`,
-          setting = sessionStorage.getItem(key) || localStorage.getItem(key)
+        const value = result?.[`${key}`] ?? defaultColumns
+        sessionStorage.setItem(key, value)
+        localStorage.setItem(key, value)
+        const setting = sessionStorage.getItem(key) || localStorage.getItem(key)
         if (`${setting}` === `false`)
           // set maxColumns to 0 to disable
           return (this.maxColumns = 0)
-      } catch {
+      } catch (error) {
+        console.error(`Failed to read ${key} setting:`, error)
         return (this.maxColumns = defaultColumns)
       }
       return (this.maxColumns = defaultColumns)
