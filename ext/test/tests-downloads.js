@@ -189,25 +189,25 @@ QUnit.module('downloads - file type detection', {
   }
 })
 
-QUnit.test('Downloads class - detect markup in text content', (assert) => {
+QUnit.test('Downloads class - detect markup in text content', (async assert) => {
   const done = assert.async()
 
   const downloads = new Downloads()
   const markupBlob = new Blob(['<!DOCTYPE html><html><body>Test</body></html>'], { type: 'text/plain' })
 
-  const result = downloads.parseBlob(markupBlob, { tabid: 1 }, true)
+  const result = await downloads.parseBlob(markupBlob, { tabid: 1 }, true)
 
   assert.equal(result, true, 'Should detect HTML markup in text/plain')
   done()
 })
 
-QUnit.test('Downloads class - detect XML in text content', (assert) => {
+QUnit.test('Downloads class - detect XML in text content', (async assert) => {
   const done = assert.async()
 
   const downloads = new Downloads()
   const xmlBlob = new Blob(['<?xml version="1.0"?><root>Test</root>'], { type: 'text/plain' })
 
-  const result = downloads.parseBlob(xmlBlob, { tabid: 1 }, true)
+  const result = await downloads.parseBlob(xmlBlob, { tabid: 1 }, true)
 
   assert.equal(result, true, 'Should detect XML markup in text/plain')
   done()
@@ -225,13 +225,13 @@ QUnit.test('Downloads class - detect script tags', (assert) => {
   done()
 })
 
-QUnit.test('Downloads class - detect plain text correctly', (assert) => {
+QUnit.test('Downloads class - detect plain text correctly', (async assert) => {
   const done = assert.async()
 
   const downloads = new Downloads()
   const plainBlob = new Blob(['This is plain text content.'], { type: 'text/plain' })
 
-  const result = downloads.parseBlob(plainBlob, { tabid: 1 }, true)
+  const result = await downloads.parseBlob(plainBlob, { tabid: 1 }, true)
 
   assert.equal(result, false, 'Should not detect markup in plain text')
   done()

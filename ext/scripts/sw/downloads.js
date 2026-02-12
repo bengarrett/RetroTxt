@@ -149,22 +149,33 @@ class Downloads {
           case `x-nfo`:
           case `unknown`: {
             // check to make sure `text/plain` is not HTML, XML or other markup
+            if (test === true) {
+              // In test mode, check the blob type
+              if (data.type.includes('html') || data.type.includes('xml')) {
+                return true
+              }
+              // For text/plain, check the actual content using blob.text()
+              return data.text().then(text => {
+                const trimmed = text.trim()
+                return [`<!`, `<?`].includes(trimmed.substring(0, 2))
+              }).catch(() => false)
+            }
             reader.onload = (loadedEvent) => {
               const text = loadedEvent.target.result.trim()
               // if the body starts with <! or <? then it is most likely markup
               const markUpCheck = [`<!`, `<?`].includes(text.substring(0, 2))
-              if (test === true) return markUpCheck
               if (markUpCheck === false) {
                 Console(`Retrotxt activated on tab #${tab.tabid}.\n${tab.url}`)
                 new Extension().activateTab(tab, data)
               }
             }
-            if (test === false) return reader.readAsText(data.slice(0, 2))
+            return reader.readAsText(data.slice(0, 2))
           }
         }
       }
     }
-    if (test === true) return false
+    // Handle non-text formats
+    if (test === true) return false  // Non-text formats are not supported
     // if tab is not holding a text file
     Console(`Skipped Retrotxt execution on tab #${tab.tabid}.\n${tab.url}`)
   }

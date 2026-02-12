@@ -101,14 +101,14 @@ QUnit.test('Tab class - invalid URL handling', (assert) => {
   }
 })
 
-QUnit.test('Downloads class - file type detection', (assert) => {
+QUnit.test('Downloads class - file type detection', (async assert) => {
   const done = assert.async()
 
   const downloads = new Downloads()
   const blob = new Blob(['test content'], { type: 'text/plain' })
 
   // Test file type detection
-  const result = downloads.parseBlob(blob, { tabid: 1 }, true)
+  const result = await downloads.parseBlob(blob, { tabid: 1 }, true)
 
   assert.equal(result, false, 'Plain text should not be marked as markup')
   done()

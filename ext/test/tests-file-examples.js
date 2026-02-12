@@ -107,7 +107,7 @@ QUnit.test('Downloads class - large file', (assert) => {
     })
 })
 
-QUnit.test('Downloads class - malicious content detection', (assert) => {
+QUnit.test('Downloads class - malicious content detection', (async assert) => {
   const done = assert.async()
   
   // Read the malicious content file
@@ -118,7 +118,7 @@ QUnit.test('Downloads class - malicious content detection', (assert) => {
       const blob = new Blob([content], {type: 'text/html'})
       
       // Test in detection mode
-      const result = downloads.parseBlob(blob, {tabid: 1}, true)
+      const result = await downloads.parseBlob(blob, {tabid: 1}, true)
       
       assert.equal(result, true, 'Should detect malicious content')
       done()

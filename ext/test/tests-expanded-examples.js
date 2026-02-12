@@ -41,7 +41,7 @@ QUnit.test('Downloads class - DIZ file', (assert) => {
     })
 })
 
-QUnit.test('Downloads class - ASCII art file', (assert) => {
+QUnit.test('Downloads class - ASCII art file', (async assert) => {
   const done = assert.async()
   
   fetch('/test/example_files/downloads/ascii_art.txt')
@@ -54,9 +54,7 @@ QUnit.test('Downloads class - ASCII art file', (assert) => {
       assert.ok(content.includes('░▒▓█'), 'Should contain block elements')
       assert.ok(content.includes('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 'Should contain character sets')
       
-      return downloads.parseBlob(blob, {tabid: 1})
-    })
-    .then(() => {
+      const result = await downloads.parseBlob(blob, {tabid: 1}, true)
       assert.ok(true, 'Should handle ASCII art file')
       done()
     })
