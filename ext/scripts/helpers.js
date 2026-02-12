@@ -153,7 +153,7 @@ async function ToggleTextEffect(effect = `normal`, dom = {}, colorClass = ``) {
     switch (effect) {
       case `shadowed`:
         // use colors provided by the color parameter
-        if (typeof colorClass === `string`)
+        if (typeof colorClass === `string` && colorClass != '')
           return dom.classList.add(`${colorClass}-shadowed`)
         // use colors fetched from chrome storage (default)
         if (typeof result === `string`) dom.classList.add(`${result}-shadowed`)
