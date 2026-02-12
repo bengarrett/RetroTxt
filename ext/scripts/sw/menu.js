@@ -3,7 +3,7 @@
 // RetroTxt (right-click) context menus.
 
 chrome.runtime.onInstalled.addListener(() => {
-  ConsoleLoad(`menu.js`)
+  ConsoleLoad('menu.js')
 })
 
 chrome.contextMenus.onClicked.addListener((info) => {
@@ -16,20 +16,21 @@ chrome.contextMenus.onClicked.addListener((info) => {
  */
 class Menu {
   constructor() {
-    this.support = typeof chrome.contextMenus.onClicked !== `undefined`
+    this.support = typeof chrome.contextMenus.onClicked !== 'undefined'
     // contexts types for the RetroTxt context menus
-    const toolbarButton = `browser_action`,
-      insecure = `http://*/*`,
-      secure = `https://*/*`,
-      localFiles = `file:///*`
-    this.contexts = [toolbarButton, `page`]
+    const toolbarButton = 'browser_action',
+      insecure = 'http://*/*',
+      secure = 'https://*/*',
+      localFiles = 'file:///*'
+    this.contexts = [toolbarButton, 'page']
     // URL patterns to trigger the menus, to avoid inappropriate reveals
     this.urlPatterns = [insecure, secure, localFiles]
   }
   /**
    * Creates the context menus used on pages and on the task bar button.
+   * This is a synchronous method.
    */
-  async startup() {
+  startup() {
     // each separator requires a unique id
     const id1 = 1
     // remove any existing menus to avoid undetected callback errors
@@ -47,31 +48,32 @@ class Menu {
   }
   /**
    * Handles the results after a menu item is clicked.
-   * @param [id=``] Id of the menu item that was clicked
-   * @param [tab={}] Tab details where the click took place (`tabs.Tab`)
+   * This is a synchronous method.
+   * @param [id=''] Id of the menu item that was clicked
+   * @param [tab={}] Tab details where the click took place ('tabs.Tab')
    */
-  async event(id = ``) {
+  event(id = '') {
     switch (id) {
-      case `version`:
-      case `credits`:
-      case `samples`:
-      case `useful`:
-      case `fonts`:
-      case `display`:
-      case `settings`:
-      case `documentation`:
-        return OpenOptions(`${id}`)
+      case 'version':
+      case 'credits':
+      case 'samples':
+      case 'useful':
+      case 'fonts':
+      case 'display':
+      case 'settings':
+      case 'documentation':
+        return OpenOptions(id)
       default:
-        return console.error(`an unknown Menu event id "${id}" was requested`)
+        return console.error('an unknown Menu event id "' + id + '" was requested')
     }
   }
   _itemVersion() {
     chrome.contextMenus.create(
       {
-        title: `Version`,
-        contexts: [`page`],
+        title: 'Version',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `version`,
+        id: 'version',
       },
       () => {
         if (CheckLastError(`create "version" context menu`)) return
@@ -81,10 +83,10 @@ class Menu {
   _itemFonts() {
     chrome.contextMenus.create(
       {
-        title: `Fonts`,
-        contexts: [`page`],
+        title: 'Fonts',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `fonts`,
+        id: 'fonts',
       },
       () => {
         if (CheckLastError(`create "fonts" context menu`)) return
@@ -94,10 +96,10 @@ class Menu {
   _itemDisplay() {
     chrome.contextMenus.create(
       {
-        title: `Display`,
-        contexts: [`page`],
+        title: 'Display',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `display`,
+        id: 'display',
       },
       () => {
         if (CheckLastError(`create "display" context menu`)) return
@@ -107,10 +109,10 @@ class Menu {
   _itemSettings() {
     chrome.contextMenus.create(
       {
-        title: `Settings`,
-        contexts: [`page`],
+        title: 'Settings',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `settings`,
+        id: 'settings',
       },
       () => {
         if (CheckLastError(`create "settings" context menu`)) return
@@ -120,10 +122,10 @@ class Menu {
   _itemDocumentation() {
     chrome.contextMenus.create(
       {
-        title: `Documentation`,
-        contexts: [`page`],
+        title: 'Documentation',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `documentation`,
+        id: 'documentation',
       },
       () => {
         if (CheckLastError(`create "documentation" context menu`)) return
@@ -133,10 +135,10 @@ class Menu {
   _itemCredits() {
     chrome.contextMenus.create(
       {
-        title: `Credits`,
-        contexts: [`page`],
+        title: 'Credits',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `credits`,
+        id: 'credits',
       },
       () => {
         if (CheckLastError(`create "credits" context menu`)) return
@@ -146,10 +148,10 @@ class Menu {
   _itemSamples() {
     chrome.contextMenus.create(
       {
-        title: `Samples`,
-        contexts: [`page`],
+        title: 'Samples',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `samples`,
+        id: 'samples',
       },
       () => {
         if (CheckLastError(`create "samples" context menu`)) return
@@ -159,10 +161,10 @@ class Menu {
   _itemUseful() {
     chrome.contextMenus.create(
       {
-        title: `Useful`,
-        contexts: [`page`],
+        title: 'Useful',
+        contexts: ['page'],
         documentUrlPatterns: this.urlPatterns,
-        id: `useful`,
+        id: 'useful',
       },
       () => {
         if (CheckLastError(`create "useful" context menu`)) return
@@ -172,13 +174,13 @@ class Menu {
   /**
    * Inserts a line divider into the context menu.
    * @param [id=1] Unique id to assign the separator
-   * @param [targets=[`page`]] Array of contexts in which to display
+   * @param [targets=['page']] Array of contexts in which to display
    * (see this.contexts)
    */
-  _itemSeparator(id = 1, targets = [`page`]) {
+  _itemSeparator(id = 1, targets = ['page']) {
     chrome.contextMenus.create(
       {
-        type: `separator`,
+        type: 'separator',
         contexts: targets,
         id: `sep${id}`,
         documentUrlPatterns: this.urlPatterns,

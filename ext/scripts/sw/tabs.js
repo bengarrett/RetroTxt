@@ -138,7 +138,11 @@ class Tab {
       ignore: !config.validateFilename(this.url),
       scheme: this.url.split(`:`)[0],
     }
-    Object.freeze(config, fetchInit, tab, uri)
+    // Object.freeze method only accepts a single argument.
+    Object.freeze(config)
+    Object.freeze(fetchInit)
+    Object.freeze(tab)
+    Object.freeze(uri)
     // check against the hard coded black list of domains & schemes to skip any
     // false positives or conflicts
     if (config.validateDomain(uri.domain))
@@ -307,7 +311,7 @@ class Tab {
   }
   _ignoreDir() {
     const directory = `/`
-    if (this.url.substring(this.url.length - 1) === directory) {
+    if (this.url.slice(-1) === directory) {
       Console(`Directory detected so ignoring tab #${this.id}.\n${this.url}`)
       return true
     }
