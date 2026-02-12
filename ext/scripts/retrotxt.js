@@ -183,6 +183,9 @@ class DOM {
     // information header
     if (hide !== null) hide.onclick = () => this.clickHeader(1)
     if (show !== null) show.onclick = () => this.clickHeader(2)
+    if (typeof this.results === 'undefined') {
+      this.results = {}
+    }
     switch (`${this.results.settingsInformationHeader}`) {
       case `on`:
         this.clickHeader(1)
@@ -510,6 +513,11 @@ class DOM {
    */
   async clickHeader(state = -1) {
     if (state === null) CheckArguments(`display`, `number`, state)
+    // Defensive check for missing headers
+    if (!this.headers || this.headers.length < 2) {
+      console.warn('Headers not available for manipulation')
+      return
+    }
     const hide = `is-hidden`,
       off = 0,
       always = 1,
