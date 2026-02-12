@@ -6,9 +6,12 @@
  * Tracks and compares metrics over time for performance, security, and test coverage.
  */
 
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function trackMetrics() {
   console.log(chalk.blue.bold('📊 RetroTxt Metrics Tracker'));
@@ -40,7 +43,7 @@ async function trackMetrics() {
 
 function loadPreviousMetrics() {
   try {
-    const metricsFile = path.join(__dirname, 'metrics', 'metrics.json');
+    const metricsFile = path.join(__dirname, '../autogen/metrics', 'metrics.json');
     if (fs.existsSync(metricsFile)) {
       return JSON.parse(fs.readFileSync(metricsFile, 'utf8'));
     }
@@ -105,14 +108,14 @@ function compareMetrics(previous, current) {
 
 function saveCurrentMetrics(metrics) {
   try {
-    const metricsDir = path.join(__dirname, 'metrics');
+    const metricsDir = path.join(__dirname, '../autogen/metrics');
     if (!fs.existsSync(metricsDir)) {
       fs.mkdirSync(metricsDir, { recursive: true });
     }
 
-    const metricsFile = path.join(metricsDir, 'metrics.json');
+    const metricsFile = path.join(metricsDir, '../autogen/metrics.json');
     fs.writeFileSync(metricsFile, JSON.stringify(metrics, null, 2));
-    
+
     console.log(chalk.green('Current metrics saved:'), metricsFile);
   } catch (error) {
     console.error(chalk.yellow('Could not save metrics:'), error.message);

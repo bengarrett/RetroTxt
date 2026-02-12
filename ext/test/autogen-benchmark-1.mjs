@@ -6,9 +6,13 @@
  * Advanced benchmarking with comprehensive coverage of RetroTxt functionality.
  */
 
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
+import fs from 'fs/promises';
+import path from 'path';
+import chalk from 'chalk';
+import { performance } from 'perf_hooks';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function runExpandedBenchmarks() {
   console.log(chalk.blue.bold('🚀 RetroTxt Expanded Performance Benchmarks'));
@@ -29,7 +33,7 @@ async function runExpandedBenchmarks() {
   try {
     const startTime = performance.now();
     const testFile = path.join(__dirname, '../test/example_files/_hello-world.txt');
-    const content = await fs.promises.readFile(testFile, 'utf8');
+    const content = await fs.readFile(testFile, 'utf8');
     const endTime = performance.now();
 
     results.benchmarks.push({
@@ -54,7 +58,7 @@ async function runExpandedBenchmarks() {
   let startTime, endTime;
   try {
     startTime = performance.now();
-    await fs.promises.readFile(
+    await fs.readFile(
       path.join(__dirname, '../test/example_files/downloads/nonexistent.txt'),
       'utf8'
     );
@@ -82,7 +86,7 @@ async function runExpandedBenchmarks() {
   // Test 3: Directory operations
   try {
     const startTime = performance.now();
-    const files = await fs.promises.readdir(path.join(__dirname, '../test/example_files'));
+    const files = await fs.readdir(path.join(__dirname, '../test/example_files'));
     const endTime = performance.now();
 
     results.benchmarks.push({
@@ -139,8 +143,8 @@ async function runExpandedBenchmarks() {
 
   // Save results to file
   try {
-    const outputPath = path.join(__dirname, 'benchmarks', `benchmark-expanded-${new Date().toISOString().slice(0, 10)}.json`);
-    await fs.promises.writeFile(outputPath, JSON.stringify(results, null, 2));
+    const outputPath = path.join(__dirname, '../autogen/benchmarks', `benchmark-expanded-${new Date().toISOString().slice(0, 10)}.json`);
+    await fs.writeFile(outputPath, JSON.stringify(results, null, 2));
     console.log(chalk.cyan(`\n💾 Results saved to: ${outputPath}`));
   } catch (error) {
     console.log(chalk.yellow(`\n⚠️  Could not save results: ${error.message}`));
@@ -150,7 +154,7 @@ async function runExpandedBenchmarks() {
 }
 
 // Run benchmarks if this script is executed directly
-if (require.main === module) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   runExpandedBenchmarks()
     .then(() => process.exit(0))
     .catch((error) => {
@@ -159,4 +163,4 @@ if (require.main === module) {
     });
 }
 
-module.exports = { runExpandedBenchmarks };
+export { runExpandedBenchmarks };

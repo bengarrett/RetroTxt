@@ -8,9 +8,12 @@
  * complex instrumentation.
  */
 
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function generateCoverageSummary() {
   console.log(chalk.blue.bold('📊 RetroTxt Coverage Summary'));
@@ -20,11 +23,11 @@ function generateCoverageSummary() {
     // Count test files
     const testDir = path.join(__dirname, '../test');
     const testFiles = fs.readdirSync(testDir).filter(f => f.startsWith('tests-') && f.endsWith('.js'));
-    
+
     // Count script files
     const scriptsDir = path.join(__dirname, 'scripts');
     const scriptFiles = [];
-    
+
     if (fs.existsSync(scriptsDir)) {
       const swFiles = fs.readdirSync(path.join(scriptsDir, 'sw')).filter(f => f.endsWith('.js'));
       const mainFiles = fs.readdirSync(scriptsDir).filter(f => f.endsWith('.js') && !f.includes('sw'));
@@ -38,7 +41,7 @@ function generateCoverageSummary() {
       const content = fs.readFileSync(path.join(testDir, file), 'utf8');
       const testCount = (content.match(/QUnit\.test\('/g) || []).length;
       const moduleCount = (content.match(/QUnit\.module\('/g) || []).length;
-      
+
       testStats.push({
         file,
         tests: testCount,
@@ -75,7 +78,7 @@ function generateCoverageSummary() {
     console.log(chalk`{gray Total Modules:} {white ${summary.totalModules}}`);
     console.log(chalk`{gray Tests per File:} {white ${(summary.totalTests / summary.testFiles).toFixed(1)}}`);
     console.log(chalk.blue('─────────────────────────────────────'));
-    
+
     console.log(chalk`\n{gray Estimated Coverage:} {green ${summary.estimatedCoverage.pct}%}`);
     console.log(chalk`{gray Lines:} {green ${summary.estimatedCoverage.lines.pct}%}`);
     console.log(chalk`{gray Functions:} {green ${summary.estimatedCoverage.functions.pct}%}`);
@@ -83,7 +86,7 @@ function generateCoverageSummary() {
     console.log(chalk.blue('─────────────────────────────────────'));
 
     // Save summary
-    const reportDir = path.join(__dirname, 'coverage');
+    const reportDir = path.join(__dirname, '../autogen/coverage');
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true });
     }
@@ -111,7 +114,7 @@ function generateCoverageSummary() {
 function calculateEstimatedCoverage(totalTests, totalScriptFiles) {
   // Simple estimation based on test count and file count
   const baseCoverage = Math.min(90, 60 + (totalTests / totalScriptFiles) * 2);
-  
+
   return {
     pct: Math.round(baseCoverage),
     lines: { pct: Math.round(baseCoverage * 0.95) },

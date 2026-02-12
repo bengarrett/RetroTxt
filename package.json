@@ -15,7 +15,7 @@
     "eslint": "^10.0.0",
     "eslint-plugin-no-unsanitized": "^4.1.4",
     "eslint-plugin-security": "^3.0.1",
-    "eslint-plugin-sonarjs": "^3.0.6",
+    "eslint-plugin-sonarjs": "^3.0.7",
     "eslint-plugin-xss": "^0.1.12",
     "nyc": "^17.1.0",
     "prettier": "^3.8.1",

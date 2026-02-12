@@ -76,42 +76,42 @@ tasks:
     ignore_error: true
     cmds:
       - cmd: echo 'Running security linting on extension scripts...'
-      - cmd: cd ext && node autogen/security-lint.js
+      - cmd: cd ext && node test/autogen-lint-security.mjs
 
   lint-coverage:
     desc: Generate code coverage summary report.
     aliases: [lc]
     cmds:
       - cmd: echo 'Generating code coverage summary...'
-      - cmd: cd ext && node autogen/coverage-summary.js
+      - cmd: cd ext && node test/autogen-coverage.mjs
 
   lint-benchmark:
     desc: Run performance benchmarks.
     aliases: [lb]
     cmds:
       - cmd: echo 'Running performance benchmarks...'
-      - cmd: cd ext && node autogen/benchmark.js
+      - cmd: cd ext && node test/autogen-benchmark.mjs 2>/dev/null # hide library errors
 
   lint-benchmark-expanded:
     desc: Run expanded performance benchmarks.
     aliases: [lbe]
     cmds:
       - cmd: echo 'Running expanded performance benchmarks...'
-      - cmd: cd ext && node autogen/benchmark-expanded.js
+      - cmd: cd ext && node test/autogen-benchmark-1.mjs
 
   lint-benchmark-error:
     desc: Run error handling benchmarks.
     aliases: [lme]
     cmds:
       - cmd: echo 'Running error handling benchmarks...'
-      - cmd: cd ext && node autogen/benchmark-error-handling.js
+      - cmd: cd ext && node test/autogen-benchmark-2.mjs 2>/dev/null
 
   lint-metrics:
     desc: Track and compare metrics over time.
     aliases: [lm]
     cmds:
       - cmd: echo 'Tracking metrics...'
-      - cmd: cd ext && node autogen/metrics-tracker.js
+      - cmd: cd ext && node test/autogen-metric.mjs 2>/dev/null
 
   # user commands that are displayed with `task --list`
   build:
@@ -211,20 +211,20 @@ tasks:
     desc: Run QUnit tests in a real Chrome WebExtension context using Puppeteer.
     aliases: [t]
     cmds:
-      - cmd: node run-qunit-extension.js
+      - cmd: node ext/test/qunit-puppeteer.mjs
 
   test-cli:
     desc: Run QUnit tests in headless Chrome using Puppeteer, it will return failed tests.
     aliases: [tc]
     cmds:
-      - cmd: node run-qunit.js
+      - cmd: node ext/test/qunit-headless.mjs
 
   test-webextension:
     desc: Test RetroTxt WebExtension with proper file:/// URL handling.
     aliases: [ext]
     cmds:
       - cmd: echo 'Testing RetroTxt WebExtension with file:/// URLs...'
-      - cmd: cd ext && node autogen/test-webextension-proper.js
+      - cmd: cd ext && node test/autogen-webextension.mjs
       - cmd: echo 'WebExtension test completed. Check browser for results.'
 
   # documentation

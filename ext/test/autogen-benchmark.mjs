@@ -7,9 +7,14 @@
  * and generates detailed performance reports.
  */
 
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
+import fs from 'fs/promises';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import { performance } from 'perf_hooks';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function runBenchmarks() {
   console.log(chalk.blue.bold('⏱️  RetroTxt Performance Benchmarks'));
@@ -64,17 +69,17 @@ async function benchmarkFileLoading(results) {
   };
 
   const fileSizes = [
-    {name: 'small', path: '../test/example_files/downloads/plain_text.txt'},
-    {name: 'medium', path: '../test/example_files/downloads/large_file.txt'},
-    {name: 'large', path: '../test/example_files/downloads/very_large_file.txt'}
+    { name: 'small', path: '../test/example_files/downloads/plain_text.txt' },
+    { name: 'medium', path: '../test/example_files/downloads/large_file.txt' },
+    { name: 'large', path: '../test/example_files/downloads/very_large_file.txt' }
   ];
 
   for (const file of fileSizes) {
     try {
       const startTime = performance.now();
-      const content = await fs.promises.readFile(path.join(__dirname, file.path), 'utf8');
+      const content = await fs.readFile(path.join(__dirname, file.path), 'utf8');
       const endTime = performance.now();
-      
+
       benchmark.tests.push({
         file: file.name,
         size: content.length,
@@ -117,14 +122,14 @@ async function benchmarkTextProcessing(results) {
   };
 
   // Load a large text file
-  const content = await fs.promises.readFile(
+  const content = await fs.readFile(
     path.join(__dirname, '../test/example_files/downloads/very_large_file.txt'),
     'utf8'
   );
 
   // Test 1: String replacement
   const startTime1 = performance.now();
-  const replaced = content.replace(/Line/g, 'Benchmark');
+  content.replace(/Line/g, 'Benchmark');
   const endTime1 = performance.now();
 
   // Test 2: String splitting
@@ -166,7 +171,7 @@ async function benchmarkLargeFiles(results) {
   };
 
   // Test processing a very large file multiple times
-  const content = await fs.promises.readFile(
+  const content = await fs.readFile(
     path.join(__dirname, '../test/example_files/downloads/very_large_file.txt'),
     'utf8'
   );
@@ -177,7 +182,7 @@ async function benchmarkLargeFiles(results) {
   for (let i = 0; i < iterations; i++) {
     // Simulate processing
     const lines = content.split('\n');
-    const processed = lines.map(line => line.trim()).join('\n');
+    lines.map(line => line.trim()).join('\n');
   }
 
   const endTime = performance.now();
@@ -218,7 +223,7 @@ async function benchmarkMemoryUsage(results) {
 
   // Clear the array
   largeArray.length = 0;
-  
+
   const afterClear = process.memoryUsage();
 
   benchmark.tests.push({
@@ -244,16 +249,16 @@ function formatMemory(bytes) {
 
 function saveBenchmarkResults(results) {
   try {
-    const reportDir = path.join(__dirname, 'benchmarks');
-    if (!fs.existsSync(reportDir)) {
-      fs.mkdirSync(reportDir, { recursive: true });
+    const reportDir = path.join(__dirname, '../autogen/benchmarks');
+    if (!existsSync(reportDir)) {
+      mkdirSync(reportDir, { recursive: true });
     }
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const reportFile = path.join(reportDir, `benchmark-${timestamp}.json`);
 
-    fs.writeFileSync(reportFile, JSON.stringify(results, null, 2));
-    
+    writeFileSync(reportFile, JSON.stringify(results, null, 2));
+
     console.log(chalk.green('Benchmark results saved:'), reportFile);
   } catch (error) {
     console.error(chalk.yellow('Could not save benchmark results:'), error.message);
@@ -267,7 +272,7 @@ function displayBenchmarkSummary(results) {
   results.benchmarks.forEach(benchmark => {
     console.log(chalk`\n{white.bold ${benchmark.name}}`);
     console.log(chalk`{gray ${benchmark.description}}`);
-    
+
     benchmark.tests.forEach(test => {
       if (test.error) {
         console.log(chalk`  {red ❌ ${test.operation}: ${test.error}}`);
@@ -297,3 +302,5 @@ if (typeof document === 'undefined') {
   // Browser environment - not supported for this benchmark
   console.log(chalk.yellow('⚠️  Benchmarking requires Node.js environment'));
 }
+
+export { runBenchmarks };

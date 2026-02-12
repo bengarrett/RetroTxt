@@ -13,9 +13,12 @@
  * 5. ANSI art rendering and color processing
  */
 
-const puppeteer = require('puppeteer');
-const path = require('path');
-const fs = require('fs');
+import puppeteer from 'puppeteer';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Main test function - Proper WebExtension test
@@ -434,11 +437,9 @@ main().catch(error => {
 });
 
 // Export for potential use in other scripts
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    testWebExtensionProper,
-    testExtensionPopup,
-    createTestTextFile,
-    getExtensionId
-  };
-}
+export {
+  testWebExtensionProper,
+  testExtensionPopup,
+  createTestTextFile,
+  getExtensionId
+};

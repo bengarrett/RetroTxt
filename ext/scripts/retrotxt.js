@@ -2671,6 +2671,7 @@ function cleanup(output) {
     // Force garbage collection hint in environments that support it
     if (typeof gc === 'function') {
       try {
+        /* global gc */
         gc();
       } catch (gcError) {
         console.debug('Garbage collection hint failed:', gcError.message);

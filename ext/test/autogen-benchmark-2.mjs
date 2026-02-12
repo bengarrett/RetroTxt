@@ -6,9 +6,14 @@
  * Focused benchmark for error handling performance.
  */
 
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
+import fs from 'fs/promises';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import { performance } from 'perf_hooks';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function runErrorHandlingBenchmark() {
   console.log(chalk.blue.bold('🛡️  RetroTxt Error Handling Benchmark'));
@@ -62,7 +67,7 @@ async function testSuccessfulOperations(results) {
   for (const file of files) {
     try {
       const startTime = performance.now();
-      const content = await fs.promises.readFile(
+      const content = await fs.readFile(
         path.join(__dirname, `../test/example_files/downloads/${file}`),
         'utf8'
       );
@@ -102,7 +107,7 @@ async function testFailedOperations(results) {
   for (const file of nonExistentFiles) {
     const startTime = performance.now();
     try {
-      await fs.promises.readFile(
+      await fs.readFile(
         path.join(__dirname, `../test/example_files/downloads/${file}`),
         'utf8'
       );
@@ -136,9 +141,9 @@ async function testErrorRecovery(results) {
     let startTime, endTime;
     try {
       startTime = performance.now();
-      
+
       if (scenario.type === 'ENOENT') {
-        await fs.promises.readFile('nonexistent-file.txt', 'utf8');
+        await fs.readFile('nonexistent-file.txt', 'utf8');
       } else if (scenario.type === 'permission') {
         // This would require actual permission testing
         throw new Error('Permission denied');
@@ -166,16 +171,16 @@ async function testErrorRecovery(results) {
 
 function saveErrorHandlingResults(results) {
   try {
-    const reportDir = path.join(__dirname, 'benchmarks');
-    if (!fs.existsSync(reportDir)) {
-      fs.mkdirSync(reportDir, { recursive: true });
+    const reportDir = path.join(__dirname, '../autogen/benchmarks');
+    if (!existsSync(reportDir)) {
+      mkdirSync(reportDir, { recursive: true });
     }
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const reportFile = path.join(reportDir, `error-handling-${timestamp}.json`);
 
-    fs.writeFileSync(reportFile, JSON.stringify(results, null, 2));
-    
+    writeFileSync(reportFile, JSON.stringify(results, null, 2));
+
     console.log(chalk.green('Error handling results saved:'), reportFile);
   } catch (error) {
     console.error(chalk.yellow('Could not save error handling results:'), error.message);
@@ -188,7 +193,7 @@ function displayErrorHandlingSummary(results) {
 
   results.tests.forEach(test => {
     console.log(chalk`\n{white.bold ${test.name}}`);
-    
+
     test.operations.forEach(op => {
       if (op.error) {
         console.log(chalk`  {red ❌ ${op.file || op.scenario}: ${op.error}}`);
@@ -218,3 +223,5 @@ if (typeof document === 'undefined') {
 } else {
   console.log(chalk.yellow('⚠️  Error handling benchmark requires Node.js environment'));
 }
+
+export { runErrorHandlingBenchmark };

@@ -1,10 +1,10 @@
 // RetroTxt Security Linting Configuration
 // Compatible configuration for ESLint v10
 
-const noUnsanitizedPlugin = require('eslint-plugin-no-unsanitized');
-const sonarjsPlugin = require('eslint-plugin-sonarjs');
+import noUnsanitizedPlugin from 'eslint-plugin-no-unsanitized';
+import sonarjsPlugin from 'eslint-plugin-sonarjs';
 
-module.exports = [
+export default [
   {
     // Base configuration
     languageOptions: {

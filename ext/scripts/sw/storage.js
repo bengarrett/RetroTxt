@@ -1,4 +1,4 @@
-// File: script/sw/storage.js
+// File: scripts/sw/storage.js
 //
 // RetroTxt settings and configurations store.
 //

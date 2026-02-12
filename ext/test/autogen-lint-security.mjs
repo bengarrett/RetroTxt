@@ -7,10 +7,13 @@
  * security vulnerabilities in the RetroTxt extension codebase.
  */
 
-const { ESLint } = require('eslint');
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
+import { ESLint } from 'eslint';
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function runSecurityLinting() {
   console.log(chalk.blue.bold('🔒 RetroTxt Security Linting'));
@@ -20,10 +23,10 @@ async function runSecurityLinting() {
     // Create ESLint instance with security configuration
     const eslint = new ESLint({
       cwd: __dirname,
-      overrideConfig: require('./.eslintrc-security.js'),
+      overrideConfig: (await import('./autogen-eslintrc-security.mjs')).default,
       fix: false,
       cache: true,
-      cacheLocation: path.join(__dirname, '.eslintcache-security')
+      cacheLocation: path.join(__dirname, 'autogen-eslintcache')
     });
 
     // Define files to lint
@@ -56,11 +59,12 @@ async function runSecurityLinting() {
 
         result.messages.forEach(message => {
           // Filter for security-related issues
-          if (message.ruleId.startsWith('security/') || 
-              message.ruleId.startsWith('no-unsanitized/') ||
-              message.ruleId.startsWith('xss/') ||
-              message.ruleId.startsWith('sonarjs/')) {
-            
+          if (message.ruleId && (
+            message.ruleId.startsWith('security/') ||
+            message.ruleId.startsWith('no-unsanitized/') ||
+            message.ruleId.startsWith('xss/') ||
+            message.ruleId.startsWith('sonarjs/'))) {
+
             report.securityIssues.push({
               file: result.filePath,
               line: message.line,
@@ -138,13 +142,13 @@ function displayResults(report) {
     console.log(chalk.green.bold('✅ No security issues found!'));
     console.log(chalk.green('All files passed security linting checks.'));
   }
-  
+
   console.log();
 }
 
 function saveReport(report) {
   try {
-    const reportDir = path.join(__dirname, 'reports');
+    const reportDir = path.join(__dirname, '../autogen/reports');
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true });
     }

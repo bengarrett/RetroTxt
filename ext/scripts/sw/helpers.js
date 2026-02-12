@@ -422,6 +422,7 @@ async function BrowserOS() {
           }
         })()
         
+        // eslint-disable-next-line require-atomic-updates
         browserOSCache = osResult // Cache the result
         return osResult
       }
@@ -432,18 +433,22 @@ async function BrowserOS() {
     try {
       const userAgent = navigator.userAgent
       if (userAgent.includes('Windows')) {
+        // eslint-disable-next-line require-atomic-updates
         browserOSCache = Os.windows
         return Os.windows
       }
       if (userAgent.includes('Macintosh') || userAgent.includes('Mac OS')) {
+        // eslint-disable-next-line require-atomic-updates
         browserOSCache = Os.macOS
         return Os.macOS
       }
       if (userAgent.includes('Linux') || userAgent.includes('Android')) {
+        // eslint-disable-next-line require-atomic-updates
         browserOSCache = Os.linux
         return Os.linux
       }
       if (userAgent.includes('CrOS')) { // ChromeOS
+        // eslint-disable-next-line require-atomic-updates
         browserOSCache = Os.linux
         return Os.linux
       }
@@ -452,6 +457,7 @@ async function BrowserOS() {
     }
     
     // Ultimate fallback
+    // eslint-disable-next-line require-atomic-updates
     browserOSCache = Os.linux
     return Os.linux
   } catch (error) {

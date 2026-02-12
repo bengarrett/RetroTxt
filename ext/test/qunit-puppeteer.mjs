@@ -1,9 +1,12 @@
-const puppeteer = require('puppeteer');
-const path = require('path');
+import puppeteer from 'puppeteer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 (async () => {
   // Path to the unpacked extension directory (adjust if needed)
-  const extensionPath = path.resolve(__dirname, 'ext');
+  const extensionPath = path.resolve(__dirname, '../../ext');
 
   const browser = await puppeteer.launch({
     headless: false, // Extensions require non-headless mode
@@ -19,7 +22,7 @@ const path = require('path');
   // Wait a moment for all targets to register
   await new Promise(r => setTimeout(r, 2000));
   // Enumerate all targets and look for the extension ID
-  const targets = await browser.targets();
+  const targets = browser.targets();
   let extensionId = null;
   for (const t of targets) {
     const url = t.url();
@@ -36,12 +39,12 @@ const path = require('path');
   }
   const testPage = `chrome-extension://${extensionId}/test/index.html`;
   await page.goto(testPage);
-  await page.waitForFunction('window.QUnit && window.QUnit.doneCalled', {timeout: 60000});
+  await page.waitForFunction('window.QUnit && window.QUnit.doneCalled', { timeout: 60000 });
   const result = await page.evaluate(() => window.QUnit.testResults);
   const failedAssertions = await page.evaluate(() => window.QUnit && window.QUnit.failedAssertions ? window.QUnit.failedAssertions : []);
   console.log(`QUnit Results: ${result.passed} passed, ${result.failed} failed, ${result.total} total, runtime: ${result.runtime}ms`);
   if (result.failed > 0) {
-    failedAssertions.forEach((fail, i) => {
+    failedAssertions.forEach((fail) => {
       console.log(`\n[FAIL] ${fail.module ? fail.module + ' - ' : ''}${fail.name}`);
       console.log(`  ${fail.message}`);
       if (fail.expected !== undefined || fail.actual !== undefined) {
