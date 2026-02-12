@@ -179,6 +179,7 @@ class Tab {
             console.error(
               `Tabs.compatibleURL(${this.menuId}, ${this.url}, ${this.id}) failed: ${error}.`,
             )
+            throw error
           })
       default:
         Console(
