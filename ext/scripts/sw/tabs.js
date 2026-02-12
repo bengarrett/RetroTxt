@@ -376,3 +376,9 @@ class Tab {
 
 /* global Console Developer ConsoleLoad Configuration Security Extension Downloads Os
 RemoveSession SessionKey WebBrowser */
+
+// Expose classes to global scope for testing
+if (typeof window !== 'undefined') {
+  window.Tab = Tab;
+  window.Tabs = Tabs;
+}

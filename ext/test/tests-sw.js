@@ -1,22 +1,5 @@
-/* global QUnit, Downloads, Engine, Extension, Security, Tab, WebBrowser */
+/* global QUnit, Downloads, Engine, Extension, Security, Tab, Tabs, WebBrowser */
 "use strict"
-
-// Mock Tabs class for testing
-class Tabs {
-  constructor() {
-    this.tabId = 0;
-  }
-
-  async listen() {
-    // Mock implementation
-    return Promise.resolve();
-  }
-
-  async remove() {
-    // Mock implementation
-    return Promise.resolve();
-  }
-}
 try {
   QUnit.module(`service worker`, {
     before: () => {

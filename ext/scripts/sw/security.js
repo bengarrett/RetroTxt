@@ -15,9 +15,13 @@ class Security {
   /**
    * Creates an instance of Security.
    * @param [type=``] Permission type to handle `action`, `downloads`, `files` or `http`
-   * @param [origin=``] An optional URL or URI
+   * @param [origin=undefined] An optional URL or URI
    */
-  constructor(type = ``, origin = ``) {
+  constructor(type = ``, origin = undefined) {
+    // Set instance properties first
+    this.origin = origin
+    this.type = type
+
     // IMPORTANT!
     // These mapped values must match the Permission class of `scripts/options.js`.
     const permissions = new Map()
@@ -40,8 +44,7 @@ class Security {
       )
     this.permissions = permissions.get(`${type}`)
     this.origins = origins.get(`${type}`)
-    this.origin = origin
-    this.type = type
+    // this.origin and this.type already set above
   }
   /**
    * API access permission has been denied by the browser.
@@ -73,8 +76,8 @@ class Security {
    * @returns Array containing host permissions
    */
   _httpToOrigins() {
-    if (typeof this.origin === `undefined`) return this.origins
-    if (this.origin.length < 1) return this.origins
+    if (typeof this.origin === `undefined`) return []
+    if (this.origin.length < 1) return []
     // parse URL to valid host
     let url
     try {

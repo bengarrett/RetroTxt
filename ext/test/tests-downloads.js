@@ -1,8 +1,8 @@
 /* global QUnit */
 "use strict"
 
-// Mock Downloads class for testing
-class Downloads {
+// Mock Downloads class for testing (renamed to avoid conflict with real Downloads class)
+class MockDownloads {
   constructor(monitor = true) {
     this.monitor = monitor;
     this.delta = null;
@@ -56,25 +56,25 @@ QUnit.module('downloads', {
   }
 })
 
-QUnit.test('Downloads class - basic instantiation', (assert) => {
-  const downloads = new Downloads()
+QUnit.test('MockDownloads class - basic instantiation', (assert) => {
+  const downloads = new MockDownloads()
 
-  assert.ok(downloads, 'Downloads instance should be created')
+  assert.ok(downloads, 'MockDownloads instance should be created')
   assert.ok(downloads.monitor, 'Should have monitor property')
   assert.equal(downloads.monitor, true, 'Monitor should be true by default')
 })
 
-QUnit.test('Downloads class - instantiation with monitor false', (assert) => {
-  const downloads = new Downloads(false)
+QUnit.test('MockDownloads class - instantiation with monitor false', (assert) => {
+  const downloads = new MockDownloads(false)
 
-  assert.ok(downloads, 'Downloads instance should be created')
+  assert.ok(downloads, 'MockDownloads instance should be created')
   assert.equal(downloads.monitor, false, 'Monitor should be false when specified')
 })
 
-QUnit.test('Downloads class - parseBlob with text/plain', (assert) => {
+QUnit.test('MockDownloads class - parseBlob with text/plain', (assert) => {
   const done = assert.async()
 
-  const downloads = new Downloads()
+  const downloads = new MockDownloads()
   const blob = new Blob(['Hello World'], { type: 'text/plain' })
 
   downloads.parseBlob(blob, { tabid: 1 }).then(() => {

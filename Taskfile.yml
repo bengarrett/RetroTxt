@@ -208,8 +208,13 @@ tasks:
 
   # unit tests
   test:
-    desc: Run QUnit tests in a real Chrome WebExtension context using Puppeteer.
+    desc: Run QUnit tests.
     aliases: [t]
+    cmds:
+      - cmd: node ext/test/qunit-terminal.mjs
+  test-old:
+    desc: Run QUnit tests in a real Chrome WebExtension context using Puppeteer.
+    aliases: [to]
     cmds:
       - cmd: node ext/test/qunit-puppeteer.mjs
 
@@ -220,7 +225,7 @@ tasks:
       - cmd: node ext/test/qunit-headless.mjs
 
   test-webextension:
-    desc: Test RetroTxt WebExtension with proper file:/// URL handling.
+    desc: Run RetroTxt WebExtension with proper file:/// URL handling.
     aliases: [ext]
     cmds:
       - cmd: echo 'Testing RetroTxt WebExtension with file:/// URLs...'

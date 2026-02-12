@@ -288,3 +288,7 @@ class Downloads {
 }
 
 /*global CheckError, CheckLastError, Configuration, Console, ConsoleLoad, Developer, Extension, Os, Security, WebBrowser */
+
+if (typeof window !== 'undefined') {
+  window.Downloads = Downloads;
+}
