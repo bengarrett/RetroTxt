@@ -3,12 +3,12 @@
 // RetroTxt (right-click) context menus.
 
 chrome.runtime.onInstalled.addListener(() => {
-  ConsoleLoad('menu.js')
-})
+  ConsoleLoad('menu.js');
+});
 
 chrome.contextMenus.onClicked.addListener((info) => {
-  new Menu().event(info.menuItemId)
-})
+  new Menu().event(info.menuItemId);
+});
 
 /**
  * Manage RetroTxt context menus.
@@ -16,15 +16,15 @@ chrome.contextMenus.onClicked.addListener((info) => {
  */
 class Menu {
   constructor() {
-    this.support = typeof chrome.contextMenus.onClicked !== 'undefined'
+    this.support = typeof chrome.contextMenus.onClicked !== 'undefined';
     // contexts types for the RetroTxt context menus
     const toolbarButton = 'browser_action',
       insecure = 'http://*/*',
       secure = 'https://*/*',
-      localFiles = 'file:///*'
-    this.contexts = [toolbarButton, 'page']
+      localFiles = 'file:///*';
+    this.contexts = [toolbarButton, 'page'];
     // URL patterns to trigger the menus, to avoid inappropriate reveals
-    this.urlPatterns = [insecure, secure, localFiles]
+    this.urlPatterns = [insecure, secure, localFiles];
   }
   /**
    * Creates the context menus used on pages and on the task bar button.
@@ -32,19 +32,19 @@ class Menu {
    */
   startup() {
     // each separator requires a unique id
-    const id1 = 1
+    const id1 = 1;
     // remove any existing menus to avoid undetected callback errors
-    chrome.contextMenus.removeAll()
+    chrome.contextMenus.removeAll();
     // add items in order of display
-    this._itemVersion()
-    this._itemFonts()
-    this._itemDisplay()
-    this._itemSettings()
-    this._itemSeparator(id1)
-    this._itemDocumentation()
-    this._itemCredits()
-    this._itemSamples()
-    this._itemUseful()
+    this._itemVersion();
+    this._itemFonts();
+    this._itemDisplay();
+    this._itemSettings();
+    this._itemSeparator(id1);
+    this._itemDocumentation();
+    this._itemCredits();
+    this._itemSamples();
+    this._itemUseful();
   }
   /**
    * Handles the results after a menu item is clicked.
@@ -62,9 +62,9 @@ class Menu {
       case 'display':
       case 'settings':
       case 'documentation':
-        return OpenOptions(id)
+        return OpenOptions(id);
       default:
-        return console.error('an unknown Menu event id "' + id + '" was requested')
+        return console.error(`an unknown Menu event id "${id}" was requested`);
     }
   }
   _itemVersion() {
@@ -76,9 +76,9 @@ class Menu {
         id: 'version',
       },
       () => {
-        if (CheckLastError(`create "version" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "version" context menu`)) return;
+      }
+    );
   }
   _itemFonts() {
     chrome.contextMenus.create(
@@ -89,9 +89,9 @@ class Menu {
         id: 'fonts',
       },
       () => {
-        if (CheckLastError(`create "fonts" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "fonts" context menu`)) return;
+      }
+    );
   }
   _itemDisplay() {
     chrome.contextMenus.create(
@@ -102,9 +102,9 @@ class Menu {
         id: 'display',
       },
       () => {
-        if (CheckLastError(`create "display" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "display" context menu`)) return;
+      }
+    );
   }
   _itemSettings() {
     chrome.contextMenus.create(
@@ -115,9 +115,9 @@ class Menu {
         id: 'settings',
       },
       () => {
-        if (CheckLastError(`create "settings" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "settings" context menu`)) return;
+      }
+    );
   }
   _itemDocumentation() {
     chrome.contextMenus.create(
@@ -128,9 +128,9 @@ class Menu {
         id: 'documentation',
       },
       () => {
-        if (CheckLastError(`create "documentation" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "documentation" context menu`)) return;
+      }
+    );
   }
   _itemCredits() {
     chrome.contextMenus.create(
@@ -141,9 +141,9 @@ class Menu {
         id: 'credits',
       },
       () => {
-        if (CheckLastError(`create "credits" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "credits" context menu`)) return;
+      }
+    );
   }
   _itemSamples() {
     chrome.contextMenus.create(
@@ -154,9 +154,9 @@ class Menu {
         id: 'samples',
       },
       () => {
-        if (CheckLastError(`create "samples" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "samples" context menu`)) return;
+      }
+    );
   }
   _itemUseful() {
     chrome.contextMenus.create(
@@ -167,9 +167,9 @@ class Menu {
         id: 'useful',
       },
       () => {
-        if (CheckLastError(`create "useful" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "useful" context menu`)) return;
+      }
+    );
   }
   /**
    * Inserts a line divider into the context menu.
@@ -186,9 +186,9 @@ class Menu {
         documentUrlPatterns: this.urlPatterns,
       },
       () => {
-        if (CheckLastError(`create "separator" context menu`)) return
-      },
-    )
+        if (CheckLastError(`create "separator" context menu`)) return;
+      }
+    );
   }
 }
 

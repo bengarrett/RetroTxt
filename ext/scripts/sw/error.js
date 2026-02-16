@@ -3,8 +3,8 @@
 // Service worker error handlers.
 
 chrome.runtime.onInstalled.addListener(() => {
-  ConsoleLoad(`error.js`)
-})
+  ConsoleLoad(`error.js`);
+});
 
 /**
  * Error handler for the service workers.
@@ -18,40 +18,43 @@ function CheckError(error = ``, log = false) {
   if (error) {
     if (log !== true) {
       chrome.storage.local.get(Developer, (store) => {
-        if (Developer in store) return console.warn(error)
-        console.log(error)
-      })
-      return
+        if (Developer in store) return console.warn(error);
+        console.log(error);
+      });
+      return;
     }
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (chrome.runtime.lastError) {
-        console.error('Failed to query active tab:', chrome.runtime.lastError)
-        return
+        console.error('Failed to query active tab:', chrome.runtime.lastError);
+        return;
       }
-      if (!tabs?.[0]?.id) return
+      if (!tabs?.[0]?.id) return;
       chrome.tabs.sendMessage(
         tabs[0].id,
         { error: error, id: `CheckError` },
         (result) => {
           if (chrome.runtime.lastError) {
-            console.error('Failed to send error to tab:', chrome.runtime.lastError)
-            return
+            console.error(
+              'Failed to send error to tab:',
+              chrome.runtime.lastError
+            );
+            return;
           }
           if (
             CheckLastError(
-              `check error send message to tab #${tabs[0].id}: ${error}`,
+              `check error send message to tab #${tabs[0].id}: ${error}`
             )
           )
-            return
-          if (DeveloperModeDebug && result !== undefined)
-            console.log(result)
-        },
-      )
-    })
+            return;
+          if (DeveloperModeDebug && typeof result !== 'undefined')
+            console.log(result);
+        }
+      );
+    });
     try {
-      throw new Error(error)
+      throw new Error(error);
     } catch (result) {
-      console.error(result)
+      console.error(result);
     }
   }
 }

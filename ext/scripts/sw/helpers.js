@@ -11,47 +11,47 @@
 // onInstalled only works with service workers.
 if (typeof chrome.runtime.onInstalled !== `undefined`) {
   chrome.runtime.onInstalled.addListener(() => {
-    ConsoleLoad(`shared helpers`)
+    ConsoleLoad(`shared helpers`);
     // Initialize platform detection early
-    BrowserOS().catch(error => {
-      console.error('Early platform detection failed:', error)
-    })
-  })
+    BrowserOS().catch((error) => {
+      console.error('Early platform detection failed:', error);
+    });
+  });
 }
 
 // Get the active tab information of the current window.
 // eslint-disable-next-line no-unused-vars
 async function GetCurrentTab() {
-  const queryOptions = { active: true, currentWindow: true }
-  const [tab] = await chrome.tabs.query(queryOptions)
-  return tab
+  const queryOptions = { active: true, currentWindow: true };
+  const [tab] = await chrome.tabs.query(queryOptions);
+  return tab;
 }
 
 // The IIFE serves as an onStartup method for content-scripts.
-;(() => {
+(() => {
   // placeholder
-})()
+})();
 
 // Developer is the verbose feedback store name.
 // DeveloperModeDebug gives additional Console log feedback when running in Developer mode.
-const Developer = `developer`
+const Developer = `developer`;
 // eslint-disable-next-line no-unused-vars
-const DeveloperModeDebug = false
+const DeveloperModeDebug = false;
 
 // Cache for BrowserOS result to handle synchronous calls
-let browserOSCache = null
+let browserOSCache = null;
 
 // Browser rendering engine.
 const Engine = {
   chrome: 0,
   firefox: 1,
-}
+};
 // Browser host operating system.
 const Os = {
   linux: 0,
   macOS: 1,
   windows: 2,
-}
+};
 // Browser platform operating system.
 const PlatformOS = {
   mac: `macOS`,
@@ -60,16 +60,16 @@ const PlatformOS = {
   cros: `ChromeOS`,
   linux: `Linux`,
   openbsd: `OpenBSD`,
-}
+};
 // Browser platform architecture.
 const PlatformArch = {
   arm: `ARM`,
   arm64: `ARM64`,
-  "x86-32": `Intel x86`,
-  "x86-64": `Intel x64`,
+  'x86-32': `Intel x86`,
+  'x86-64': `Intel x64`,
   mips: `MIPS`,
   mips64: `MIPS64`,
-}
+};
 // Character sets keys and values.
 // The keys and their values should be distinct from any IANA character set names.
 const Cs = {
@@ -95,13 +95,13 @@ const Cs = {
   OutputISO8859_15: `iso_8859_15➡`, // transcode text into Internet legacy ISO-8859-15 before Unicode
   OutputUS_ASCII: `us_ascii➡`, // transcode text into legacy 7-bit US-ASCII before Unicode
   OutputUFT8: `utf_8➡`, // keep as Unicode, this is used by the Guess() class.
-}
+};
 // Freeze each enumeration object individually to prevent modification
-Object.freeze(Engine)
-Object.freeze(Os)
-Object.freeze(PlatformOS)
-Object.freeze(PlatformArch)
-Object.freeze(Cs)
+Object.freeze(Engine);
+Object.freeze(Os);
+Object.freeze(PlatformOS);
+Object.freeze(PlatformArch);
+Object.freeze(Cs);
 
 /**
  * Prints the string to the console when Developer mode is enabled.
@@ -110,8 +110,8 @@ Object.freeze(Cs)
 // eslint-disable-next-line no-unused-vars
 function Console(string = '') {
   chrome.storage.local.get(Developer, (store) => {
-    if (Developer in store) console.log(`${string}`)
-  })
+    if (Developer in store) console.log(`${string}`);
+  });
 }
 
 /**
@@ -119,8 +119,8 @@ function Console(string = '') {
  * @param {*} string
  */
 function ConsoleLoad(page = '') {
-  if (page === '') return
-  console.info(`🖫 ${page} service worker installed.`)
+  if (page === '') return;
+  console.info(`🖫 ${page} service worker installed.`);
 }
 
 /**
@@ -146,22 +146,22 @@ function CheckLastError(errorFor = '') {
    * - chrome.fileSystem
    * - chrome.tabs.sendMessage+
    */
-  return lastError(errorFor)
+  return lastError(errorFor);
 }
 
 function lastError(errorFor = '') {
-  if (typeof chrome.runtime.lastError === `undefined`) return false
-  const message = chrome.runtime.lastError.message
-  if (typeof message === `undefined`) return false
-  if (message === '') return false
+  if (typeof chrome.runtime.lastError === `undefined`) return false;
+  const message = chrome.runtime.lastError.message;
+  if (typeof message === `undefined`) return false;
+  if (message === '') return false;
   if (
     message.startsWith(`The message port closed before a response was received`)
   ) {
-    console.warn(`Last error for %s\nReason: %s`, errorFor, message)
-    return false
+    console.warn(`Last error for %s\nReason: %s`, errorFor, message);
+    return false;
   }
-  console.error(`Last error for %s\nReason: %s`, errorFor, message)
-  return true
+  console.error(`Last error for %s\nReason: %s`, errorFor, message);
+  return true;
 }
 
 /**
@@ -193,7 +193,7 @@ class OptionsReset {
       .set(`textCenterAlign`, true)
       .set(`textDOSControlGlyphs`, false)
       .set(`textLineHeight`, `1`)
-      .set(`textFontSize`,`1`)
+      .set(`textFontSize`, `1`)
       .set(`textRenderEffect`, `normal`)
       .set(`textSmearBlockCharacters`, getBrowserOS() === Os.windows)
       // permitted domains.
@@ -208,7 +208,7 @@ class OptionsReset {
       ])
       // permitted url schemes, these MUST also be listed in the
       // `manifest.json` file under the `host_permissions` key.
-      .set(`schemesPermitted`, [`file`, `http`, `https`])
+      .set(`schemesPermitted`, [`file`, `http`, `https`]);
   }
   /**
    * Get the reset value of the option key.
@@ -216,8 +216,8 @@ class OptionsReset {
    * @returns any
    */
   get(item = '') {
-    if (this.options.has(item)) return this.options.get(item)
-    return `error: not found`
+    if (this.options.has(item)) return this.options.get(item);
+    return `error: not found`;
   }
 }
 
@@ -228,7 +228,7 @@ class OptionsReset {
 // eslint-disable-next-line no-unused-vars
 class Configuration extends OptionsReset {
   constructor() {
-    super()
+    super();
     // RetroTxt background triggers
     this.triggers = new Map()
       // file extensions that trigger RetroTxt when a `file:///` url is in use
@@ -245,7 +245,7 @@ class Configuration extends OptionsReset {
         `txt`,
       ])
       // list of domains that RetroTxt will run in the background
-      .set(`domains`, super.get(`settingsWebsiteDomains`))
+      .set(`domains`, super.get(`settingsWebsiteDomains`));
     this.errors = new Map()
       // file extensions to ignore when a `file:///` url is in use
       .set(`code`, [`css`, `htm`, `html`, `js`, `json`, `md`, `xml`, `yml`])
@@ -291,28 +291,28 @@ class Configuration extends OptionsReset {
       ])
       // list of domains that RetroTxt will always ignore because of rendering
       // conflicts
-      .set(`domains`, [`feedly.com`, `github.com`, `webhooks.retrotxt.com`])
+      .set(`domains`, [`feedly.com`, `github.com`, `webhooks.retrotxt.com`]);
     // RetroTxt render options
-    const characters = 80
+    const characters = 80;
     this.textRender = new Map()
       // default number of characters of text per line
       .set(`columns`, characters)
       // default CSS page width value
-      .set(`cssWidth`, `100%`) // = 640px
+      .set(`cssWidth`, `100%`); // = 640px
   }
   /**
    * Number of characters of text per line.
    * @returns number
    */
   cssWidth() {
-    return this.textRender.get(`cssWidth`)
+    return this.textRender.get(`cssWidth`);
   }
   /**
    * A list of domains that RetroTxt can monitor.
    * @returns array
    */
   domains() {
-    return this.triggers.get(`domains`)
+    return this.triggers.get(`domains`);
   }
   /**
    * Sets the missing `chrome.storage.local` item to the reset value.
@@ -321,24 +321,24 @@ class Configuration extends OptionsReset {
   setLocalStorage(key = '') {
     if (this.options.has(key) === false)
       return CheckError(
-        `The storage key ${key} is not a known chrome.storage.local item`,
-      )
+        `The storage key ${key} is not a known chrome.storage.local item`
+      );
     // get saved item from browser storage
     chrome.storage.local.get([`${key}`], (result) => {
-      const value = result[`${key}`]
+      const value = result[`${key}`];
       if (StringToBool(value) === null) {
-        const defValue = this.options.get(key)
+        const defValue = this.options.get(key);
         if (defValue === null)
           return CheckError(
-            `Could not obtain the requested chrome.storage ${key} setting`,
-          )
-        chrome.storage.local.set({ [key]: defValue })
-        sessionStorage.setItem(key, defValue)
-        return localStorage.setItem(key, defValue)
+            `Could not obtain the requested chrome.storage ${key} setting`
+          );
+        chrome.storage.local.set({ [key]: defValue });
+        sessionStorage.setItem(key, defValue);
+        return localStorage.setItem(key, defValue);
       }
-      sessionStorage.setItem(key, value)
-      return localStorage.setItem(key, value)
-    })
+      sessionStorage.setItem(key, value);
+      return localStorage.setItem(key, value);
+    });
   }
   /**
    * Check the `uri` to see if RetroTxt is permitted to monitor.
@@ -346,8 +346,8 @@ class Configuration extends OptionsReset {
    * @returns boolean
    */
   validateDomain(uri = '') {
-    const domains = this.errors.get(`domains`)
-    return domains.includes(uri)
+    const domains = this.errors.get(`domains`);
+    return domains.includes(uri);
   }
   /**
    * Check the `filename` to see if RetroTxt download event handler should
@@ -356,10 +356,10 @@ class Configuration extends OptionsReset {
    * @returns boolean
    */
   validateFileExtension(filename = '') {
-    const arr = filename.split(`.`)
-    if (arr.length < 2) return false
-    const ext = arr[arr.length - 1]
-    return this.triggers.get(`extensions`).includes(ext.toLowerCase())
+    const arr = filename.split(`.`);
+    if (arr.length < 2) return false;
+    const ext = arr[arr.length - 1];
+    return this.triggers.get(`extensions`).includes(ext.toLowerCase());
   }
   /**
    * Check the `filename` to see if RetroTxt will trigger.
@@ -367,10 +367,10 @@ class Configuration extends OptionsReset {
    * @returns boolean
    */
   validateFilename(filename = '') {
-    const arr = filename.split(`.`)
-    if (arr.length < 2) return false
-    const ext = arr[arr.length - 1]
-    return !this._fileExtsError().includes(ext.toLowerCase())
+    const arr = filename.split(`.`);
+    if (arr.length < 2) return false;
+    const ext = arr[arr.length - 1];
+    return !this._fileExtsError().includes(ext.toLowerCase());
   }
   /**
    * An array of filename extensions that RetroTxt always ignores.
@@ -383,7 +383,7 @@ class Configuration extends OptionsReset {
       ...this.errors.get(`images`),
       ...this.errors.get(`media`),
       ...this.errors.get(`others`),
-    ]
+    ];
   }
 }
 
@@ -396,74 +396,75 @@ class Configuration extends OptionsReset {
 async function BrowserOS() {
   // Return cached value if available
   if (browserOSCache !== null) {
-    return browserOSCache
+    return browserOSCache;
   }
-  
+
   try {
     // Check if modern Chrome 99+ API is available
     if (typeof chrome.runtime.getPlatformInfo === 'function') {
-      const info = await chrome.runtime.getPlatformInfo()
+      const info = await chrome.runtime.getPlatformInfo();
       if (chrome.runtime.lastError) {
-        console.error('Platform detection error:', chrome.runtime.lastError)
+        console.error('Platform detection error:', chrome.runtime.lastError);
         // Fall through to user agent detection
       } else if (info?.os) {
         const osResult = (() => {
           switch (info.os) {
             case 'win':
-              return Os.windows
+              return Os.windows;
             case 'mac':
-              return Os.macOS
+              return Os.macOS;
             case 'linux':
             case 'cros':
             case 'android':
             case 'openbsd':
             default:
-              return Os.linux
+              return Os.linux;
           }
-        })()
-        
+        })();
+
         // eslint-disable-next-line require-atomic-updates
-        browserOSCache = osResult // Cache the result
-        return osResult
+        browserOSCache = osResult; // Cache the result
+        return osResult;
       }
     }
-    
+
     // Fallback: Use navigator.userAgent for basic detection
     // This works in both service worker and content script contexts
     try {
-      const userAgent = navigator.userAgent
+      const userAgent = navigator.userAgent;
       if (userAgent.includes('Windows')) {
         // eslint-disable-next-line require-atomic-updates
-        browserOSCache = Os.windows
-        return Os.windows
+        browserOSCache = Os.windows;
+        return Os.windows;
       }
       if (userAgent.includes('Macintosh') || userAgent.includes('Mac OS')) {
         // eslint-disable-next-line require-atomic-updates
-        browserOSCache = Os.macOS
-        return Os.macOS
+        browserOSCache = Os.macOS;
+        return Os.macOS;
       }
       if (userAgent.includes('Linux') || userAgent.includes('Android')) {
         // eslint-disable-next-line require-atomic-updates
-        browserOSCache = Os.linux
-        return Os.linux
+        browserOSCache = Os.linux;
+        return Os.linux;
       }
-      if (userAgent.includes('CrOS')) { // ChromeOS
+      if (userAgent.includes('CrOS')) {
+        // ChromeOS
         // eslint-disable-next-line require-atomic-updates
-        browserOSCache = Os.linux
-        return Os.linux
+        browserOSCache = Os.linux;
+        return Os.linux;
       }
     } catch (fallbackError) {
-      console.warn('User agent fallback failed:', fallbackError)
+      console.warn('User agent fallback failed:', fallbackError);
     }
-    
+
     // Ultimate fallback
     // eslint-disable-next-line require-atomic-updates
-    browserOSCache = Os.linux
-    return Os.linux
+    browserOSCache = Os.linux;
+    return Os.linux;
   } catch (error) {
-    console.error('Platform detection failed, using ultimate fallback:', error)
-    browserOSCache = Os.linux
-    return Os.linux
+    console.error('Platform detection failed, using ultimate fallback:', error);
+    browserOSCache = Os.linux;
+    return Os.linux;
   }
 }
 
@@ -475,37 +476,41 @@ async function BrowserOS() {
 function getBrowserOS() {
   // If we have a cached value, return it synchronously
   if (browserOSCache !== null) {
-    return browserOSCache
+    return browserOSCache;
   }
-  
+
   // Try synchronous user agent detection immediately
   try {
-    const userAgent = navigator.userAgent
+    const userAgent = navigator.userAgent;
     if (userAgent.includes('Windows')) {
-      browserOSCache = Os.windows
-      return Os.windows
+      browserOSCache = Os.windows;
+      return Os.windows;
     }
     if (userAgent.includes('Macintosh') || userAgent.includes('Mac OS')) {
-      browserOSCache = Os.macOS
-      return Os.macOS
+      browserOSCache = Os.macOS;
+      return Os.macOS;
     }
-    if (userAgent.includes('Linux') || userAgent.includes('Android') || userAgent.includes('CrOS')) {
-      browserOSCache = Os.linux
-      return Os.linux
+    if (
+      userAgent.includes('Linux') ||
+      userAgent.includes('Android') ||
+      userAgent.includes('CrOS')
+    ) {
+      browserOSCache = Os.linux;
+      return Os.linux;
     }
   } catch (error) {
-    console.warn('Synchronous platform detection failed:', error)
+    console.warn('Synchronous platform detection failed:', error);
   }
-  
+
   // If still no cached value, initiate async detection in background
   if (browserOSCache === null) {
-    BrowserOS().catch(error => {
-      console.error('Background platform detection failed:', error)
-    })
+    BrowserOS().catch((error) => {
+      console.error('Background platform detection failed:', error);
+    });
   }
-  
+
   // Return cached value or default
-  return browserOSCache !== null ? browserOSCache : Os.linux
+  return browserOSCache ?? Os.linux;
 }
 
 /**
@@ -516,18 +521,18 @@ function getBrowserOS() {
 // eslint-disable-next-line no-unused-vars
 function WebBrowser() {
   try {
-    const ui = chrome.runtime.getManifest().options_ui
+    const ui = chrome.runtime.getManifest().options_ui;
     if (typeof ui !== `undefined` && typeof ui.page !== `undefined`) {
       const manifest = ui.page,
-        firefoxID = manifest.startsWith(`moz-extension`, 0)
-      return firefoxID ? Engine.firefox : Engine.chrome
+        firefoxID = manifest.startsWith(`moz-extension`, 0);
+      return firefoxID ? Engine.firefox : Engine.chrome;
     }
     // Default to Chrome engine if manifest structure is unexpected
-    return Engine.chrome
+    return Engine.chrome;
   } catch (error) {
-    console.error('Browser engine detection failed:', error)
+    console.error('Browser engine detection failed:', error);
     // Fallback to Chrome engine on error
-    return Engine.chrome
+    return Engine.chrome;
   }
 }
 
@@ -543,14 +548,14 @@ function StringToBool(string = '') {
     case `yes`:
     case `on`:
     case `1`:
-      return true
+      return true;
     case `false`:
     case `no`:
     case `off`:
     case `0`:
-      return false
+      return false;
     default:
-      return null
+      return null;
   }
 }
 
