@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "bulma": "^1.0.4",
-    "dompurify": "^3.3.1",
+    "dompurify": "^3.3.2",
     "globals": "^17.4.0",
     "js": "^0.1.0",
     "linkify-element": "^4.3.2",
@@ -12,18 +12,18 @@
   "devDependencies": {
     "@eslint/css": "^0.14.1",
     "ajv": "^8.18.0",
-    "eslint": "^10.0.2",
+    "eslint": "^10.0.3",
     "eslint-plugin-no-unsanitized": "^4.1.5",
     "eslint-plugin-security": "^4.0.0",
-    "eslint-plugin-sonarjs": "^4.0.0",
+    "eslint-plugin-sonarjs": "^4.0.1",
     "eslint-plugin-xss": "^0.1.12",
     "nyc": "^18.0.0",
     "prettier": "^3.8.1",
-    "puppeteer": "^24.37.5",
+    "puppeteer": "^24.38.0",
     "shx": "^0.4.0",
     "ts-api-utils": "^2.4.0",
     "wawoff2": "^2.0.1",
-    "web-ext": "^9.3.0"
+    "web-ext": "^9.4.0"
   },
   "scripts": {
     "font": "woff2_compress.js",
