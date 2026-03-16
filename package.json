@@ -10,7 +10,7 @@
     "qunit": "^2.25.0"
   },
   "devDependencies": {
-    "@eslint/css": "^0.14.1",
+    "@eslint/css": "^1.0.0",
     "ajv": "^8.18.0",
     "eslint": "^10.0.3",
     "eslint-plugin-no-unsanitized": "^4.1.5",
