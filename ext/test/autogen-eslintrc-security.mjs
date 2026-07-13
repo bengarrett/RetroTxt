@@ -14,16 +14,16 @@ export default [
         chrome: 'readonly',
         browser: 'readonly',
         qunit: 'readonly',
-        DOMPurify: 'readonly'
-      }
+        DOMPurify: 'readonly',
+      },
     },
-    
+
     // Security plugin rules
     plugins: {
       'no-unsanitized': noUnsanitizedPlugin,
-      sonarjs: sonarjsPlugin
+      sonarjs: sonarjsPlugin,
     },
-    
+
     rules: {
       // No-unsanitized plugin rules - prevent XSS vulnerabilities
       'no-unsanitized/method': 'error',
@@ -51,36 +51,36 @@ export default [
 
       // RetroTxt specific security rules
       'no-console': 'off',
-      'no-alert': 'off'
-    }
+      'no-alert': 'off',
+    },
   },
-  
+
   // Overrides for service workers
   {
     files: ['scripts/sw/**/*.js'],
     rules: {
       // Service workers can have more strict security
       'no-unsanitized/method': 'error',
-      'no-unsanitized/property': 'error'
-    }
+      'no-unsanitized/property': 'error',
+    },
   },
-  
+
   // Overrides for content scripts
   {
     files: ['scripts/**/*.js'],
     rules: {
       // Allow some DOM manipulation in content scripts
       'no-unsanitized/method': 'warn',
-      'no-unsanitized/property': 'warn'
-    }
+      'no-unsanitized/property': 'warn',
+    },
   },
-  
+
   // Overrides for test files
   {
     files: ['test/**/*.js'],
     rules: {
       'no-unsanitized/method': 'off',
-      'no-unsanitized/property': 'off'
-    }
-  }
+      'no-unsanitized/property': 'off',
+    },
+  },
 ];

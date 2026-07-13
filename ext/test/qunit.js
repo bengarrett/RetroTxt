@@ -1,5 +1,5 @@
 /*!
- * QUnit 2.25.0
+ * QUnit 2.26.0
  * https://qunitjs.com/
  *
  * Copyright OpenJS Foundation and other contributors
@@ -710,6 +710,7 @@
     failOnZeroTests: true,
     // Select by pattern or case-insensitive substring match against "moduleName: testName"
     filter: undefined,
+    ignoreUnhandledRejections: false,
     testFilter: null,
     // TODO: Make explicit in QUnit 3.
     // fixture: undefined,
@@ -1939,6 +1940,7 @@
           expected: expected,
           message: message
         });
+        return actual;
       }
     }, {
       key: "rejects",
@@ -1980,6 +1982,7 @@
             message: message
           });
           done();
+          return actual;
         });
       }
     }]);
@@ -5523,7 +5526,7 @@
   QUnit.isLocal = window$1 && window$1.location && window$1.location.protocol === 'file:';
 
   // Expose the current QUnit version
-  QUnit.version = '2.25.0';
+  QUnit.version = '2.26.0';
   extend(QUnit, {
     config: config,
     diff: diff,
@@ -7454,7 +7457,9 @@
       return ret;
     };
     window$1.addEventListener('unhandledrejection', function (event) {
-      QUnit.onUncaughtException(event.reason);
+      if (!QUnit.config.ignoreUnhandledRejections) {
+        QUnit.onUncaughtException(event.reason);
+      }
     });
   })();
 

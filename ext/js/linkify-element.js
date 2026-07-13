@@ -123,7 +123,9 @@ var linkifyElement = (function (linkifyjs) {
 	function linkifyElement(element, opts = null, doc = null) {
 	  try {
 	    doc = doc || document || window && window.document || global && global.document;
-	  } catch (_) {/* do nothing for now */}
+	  } catch (_) {
+	    /* do nothing for now */
+	  }
 	  if (!doc) {
 	    throw new Error('Cannot find document implementation. ' + 'If you are in a non-browser environment like Node.js, ' + 'pass the document implementation as the third argument to linkifyElement.');
 	  }
