@@ -1,34 +1,33 @@
-/* eslint-env qunit:true */
-/*global QUnit Controls domObject reset resetCursor resetECMA resetSGR*/
-"use strict"
+/*global Controls domObject reset resetCursor resetECMA resetSGR*/
+'use strict';
 
 QUnit.module(`ansi sequence`, {
   before: () => {
     // prepare something once for all tests
     console.info(
       `☑ New QUnit ansi sequence ←[ tests, data containers have been reset.`
-    )
-    reset(resetCursor)
-    reset(resetSGR)
-    domObject.html = ``
+    );
+    reset(resetCursor);
+    reset(resetSGR);
+    domObject.html = ``;
   },
   beforeEach: () => {
     // prepare something before each test
-    reset()
+    reset();
   },
   afterEach: () => {
     // clean up after each test
-    reset()
+    reset();
   },
   after: () => {
     // clean up once after all tests are done
-    reset(resetCursor)
-    reset(resetECMA)
-    reset(resetSGR)
-    domObject.html = ``
-    console.info(`☑ QUnit ansi sequence ←[ tests are complete.`)
+    reset(resetCursor);
+    reset(resetECMA);
+    reset(resetSGR);
+    domObject.html = ``;
+    console.info(`☑ QUnit ansi sequence ←[ tests are complete.`);
   },
-})
+});
 
 // When needing to work on a single test, uncomment and use this
 // const { only } = QUnit
@@ -45,8 +44,8 @@ QUnit.module(`ansi sequence`, {
 // })
 
 const textIn = `Hello world.`,
-  textOut = `<div id="row-1"><i class="SGR37 SGR40">Hello world.</i></div>`
-let sample = ``
+  textOut = `<div id="row-1"><i class="SGR37 SGR40">Hello world.</i></div>`;
+let sample = ``;
 
 // ANSI.SYS controls (https://msdn.microsoft.com/en-us/library/cc722862.aspx)
 
@@ -58,16 +57,16 @@ const testC0 = new Map()
   .set(
     `Hello\nworld.`,
     `<div id="row-1"><i class="SGR37 SGR40">Hello</i></div><div id="row-2"><i class="SGR37 SGR40">world.</i></div>`
-  )
+  );
 
 QUnit.test(`ANSI.SYS C0 controls`, (assert) => {
-  const ansi = new Controls()
+  const ansi = new Controls();
   for (const [sample, result] of testC0.entries()) {
-    ansi.text = sample
-    ansi.parse()
-    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+    ansi.text = sample;
+    ansi.parse();
+    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});
 
 const testCU = new Map()
   .set(`←[H${textIn}`, textOut)
@@ -125,16 +124,16 @@ const testCU = new Map()
   .set(
     `hello←[s\n←[u world`,
     `<div id="row-1"><i class="SGR37 SGR40">hello world</i></div>`
-  )
+  );
 
 QUnit.test(`ANSI.SYS CU (cursor position)`, (assert) => {
-  const ansi = new Controls()
+  const ansi = new Controls();
   for (const [sample, result] of testCU.entries()) {
-    ansi.text = sample
-    ansi.parse()
-    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+    ansi.text = sample;
+    ansi.parse();
+    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});
 
 const testHVP = new Map()
   .set(`←[f${textIn}`, textOut)
@@ -161,16 +160,16 @@ const testHVP = new Map()
   .set(
     `←[1;81f${textIn}`,
     `<div id="row-1"><br></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
-  )
+  );
 
 QUnit.test(`ANSI.SYS HVP (horizontal vertical position)`, (assert) => {
-  const ansi = new Controls()
+  const ansi = new Controls();
   for (const [sample, result] of testHVP.entries()) {
-    ansi.text = sample
-    ansi.parse()
-    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+    ansi.text = sample;
+    ansi.parse();
+    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});
 
 const testErase = new Map()
   // ED2 Erase display
@@ -182,16 +181,16 @@ const testErase = new Map()
   .set(
     `←[K${textIn}`,
     `<div id="row-1"><i id="column-1-to-80" class="SGR0">                                                                                </i></div><div id="row-2"><i class="SGR37 SGR40">Hello world.</i></div>`
-  )
+  );
 
 QUnit.test(`ANSI.SYS erase controls`, (assert) => {
-  const ansi = new Controls()
+  const ansi = new Controls();
   for (const [sample, result] of testErase.entries()) {
-    ansi.text = sample
-    ansi.parse()
-    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+    ansi.text = sample;
+    ansi.parse();
+    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});
 
 const testSGM = new Map()
   // All attributes off
@@ -270,44 +269,44 @@ const testSGM = new Map()
   .set(
     `Hello ←[31;41mworld.`,
     `<div id="row-1"><i class="SGR37 SGR40">Hello </i><i class="SGR31 SGR41">world.</i></div>`
-  )
+  );
 
 QUnit.test(`ANSI.SYS SGM (set graphics mode)`, (assert) => {
-  const ansi = new Controls()
+  const ansi = new Controls();
   for (const [sample, result] of testSGM.entries()) {
-    ansi.text = sample
-    ansi.parse()
-    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+    ansi.text = sample;
+    ansi.parse();
+    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});
 QUnit.test(`ANSI.SYS SM (set mode)`, (assert) => {
-  const ansi = new Controls()
+  const ansi = new Controls();
   // SM set mode
-  let smReply = `should set to mode '40 x 148 x 25 monochrome (text)'`
-  sample = `←[0h${textIn}`
-  ansi.text = sample
-  ansi.parse()
-  assert.equal(ansi.colorDepth, 1, `'${sample}' colorDepth ${smReply}`)
-  assert.equal(ansi.font, `ibm_cga`, `'${sample}' font ${smReply}`)
-  assert.equal(ansi.lineWrap, undefined, `'${sample}' lineWrap ${smReply}`)
-  sample = `←[7h${textIn}`
-  smReply = `should enable line wrapping but it is not implemented`
-  ansi.text = sample
-  ansi.parse()
-  assert.equal(ansi.lineWrap, undefined, `'${sample}' ${smReply}`)
+  let smReply = `should set to mode '40 x 148 x 25 monochrome (text)'`;
+  sample = `←[0h${textIn}`;
+  ansi.text = sample;
+  ansi.parse();
+  assert.equal(ansi.colorDepth, 1, `'${sample}' colorDepth ${smReply}`);
+  assert.equal(ansi.font, `ibm_cga`, `'${sample}' font ${smReply}`);
+  assert.equal(ansi.lineWrap, undefined, `'${sample}' lineWrap ${smReply}`);
+  sample = `←[7h${textIn}`;
+  smReply = `should enable line wrapping but it is not implemented`;
+  ansi.text = sample;
+  ansi.parse();
+  assert.equal(ansi.lineWrap, undefined, `'${sample}' ${smReply}`);
   // RM restore mode
-  sample = `←[0l${textIn}`
-  smReply = `should restore to mode '40 x 148 x 25 monochrome (text)'`
-  ansi.text = sample
-  ansi.parse()
-  assert.equal(ansi.font, `ibm_cga`, `'${sample}' font ${smReply}`)
-  assert.equal(ansi.lineWrap, undefined, `'${sample}' lineWrap ${smReply}`)
-  sample = `←[7l${textIn}`
-  smReply = `should disable line wrapping but it is not implemented`
-  ansi.text = sample
-  ansi.parse()
-  assert.equal(ansi.lineWrap, undefined, `'${sample}' ${smReply}`)
-})
+  sample = `←[0l${textIn}`;
+  smReply = `should restore to mode '40 x 148 x 25 monochrome (text)'`;
+  ansi.text = sample;
+  ansi.parse();
+  assert.equal(ansi.font, `ibm_cga`, `'${sample}' font ${smReply}`);
+  assert.equal(ansi.lineWrap, undefined, `'${sample}' lineWrap ${smReply}`);
+  sample = `←[7l${textIn}`;
+  smReply = `should disable line wrapping but it is not implemented`;
+  ansi.text = sample;
+  ansi.parse();
+  assert.equal(ansi.lineWrap, undefined, `'${sample}' ${smReply}`);
+});
 
 const testE48 = new Map()
   // ED Erase in Page
@@ -347,15 +346,15 @@ const testE48 = new Map()
   .set(
     `←[2K${textIn}`,
     `<div id="row-1" class="ED"><i class="SGR37 SGR40">Hello world.</i></div>`
-  )
+  );
 
 QUnit.test(`ECMA-48 controls`, (assert) => {
   for (const [sample, result] of testE48.entries()) {
-    const ac = new Controls(`${sample}`)
-    ac.parse()
-    assert.equal(ac.htmlString, result, `'${sample}' ${result}`)
+    const ac = new Controls(`${sample}`);
+    ac.parse();
+    assert.equal(ac.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});
 
 const testSGR = new Map()
   // border effects
@@ -396,59 +395,57 @@ const testSGR = new Map()
   .set(
     `←[6n${textIn}`,
     `<div id="row-1"><i class="SGR37 SGR40">␛[6nHello world.</i></div>`
-  )
+  );
 
 QUnit.test(`ECMA-48 SGR (select graphic rendition)`, (assert) => {
   const ansi = new Controls(),
-    reply = `sequence into HTML.`
+    reply = `sequence into HTML.`;
   // SGR Select Graphic Rendition
-  // effects
-  let uniqueResult = ``
   // cancelled effects
-  sample = `←[1mHello ←[22mworld.`
-  ansi.text = sample
-  ansi.parse()
-  uniqueResult = `<div id="row-1"><i class="SGR137 SGR40">Hello </i><i class="SGR37 SGR40">world.</i></div>`
-  assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`)
+  sample = `←[1mHello ←[22mworld.`;
+  ansi.text = sample;
+  ansi.parse();
+  let uniqueResult = `<div id="row-1"><i class="SGR137 SGR40">Hello </i><i class="SGR37 SGR40">world.</i></div>`;
+  assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`);
   for (let sgr = 23; sgr < 29; sgr++) {
     switch (sgr) {
       case 26:
       case 28:
-        continue
+        continue;
     }
-    sample = `←[${sgr - 20}mHello ←[${sgr}mworld.`
-    ansi.text = sample
-    ansi.parse()
+    sample = `←[${sgr - 20}mHello ←[${sgr}mworld.`;
+    ansi.text = sample;
+    ansi.parse();
     uniqueResult = `<div id="row-1"><i class="SGR37 SGR40 SGR${
       sgr - 20
-    }">Hello </i><i class="SGR37 SGR40">world.</i></div>`
-    assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`)
+    }">Hello </i><i class="SGR37 SGR40">world.</i></div>`;
+    assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`);
   }
   // foreground colours
   for (let sgr = 30; sgr < 40; sgr++) {
-    if (sgr === 38) continue
-    sample = `←[${sgr}m${textIn}`
-    ansi.text = sample
-    ansi.parse()
-    uniqueResult = `<div id="row-1"><i class="SGR${sgr} SGR40">Hello world.</i></div>`
-    assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`)
+    if (sgr === 38) continue;
+    sample = `←[${sgr}m${textIn}`;
+    ansi.text = sample;
+    ansi.parse();
+    uniqueResult = `<div id="row-1"><i class="SGR${sgr} SGR40">Hello world.</i></div>`;
+    assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`);
   }
   // background colours
   for (let sgr = 40; sgr < 50; sgr++) {
-    if (sgr === 48) continue
-    sample = `←[${sgr}m${textIn}`
-    ansi.text = sample
-    ansi.parse()
-    uniqueResult = `<div id="row-1"><i class="SGR37 SGR${sgr}">Hello world.</i></div>`
-    assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`)
+    if (sgr === 48) continue;
+    sample = `←[${sgr}m${textIn}`;
+    ansi.text = sample;
+    ansi.parse();
+    uniqueResult = `<div id="row-1"><i class="SGR37 SGR${sgr}">Hello world.</i></div>`;
+    assert.equal(ansi.htmlString, uniqueResult, `'${sample}' ${reply}`);
   }
-  reset()
+  reset();
   for (const [sample, result] of testSGR.entries()) {
-    ansi.text = sample
-    ansi.parse()
-    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+    ansi.text = sample;
+    ansi.parse();
+    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});
 
 {
   const output4 = `<div id="row-1"><i class="SGR37 SGR40 SGR12">Hello world.</i></div>`,
@@ -463,19 +460,19 @@ QUnit.test(`ECMA-48 SGR (select graphic rendition)`, (assert) => {
       .set(`←[18h${textIn}`, output18)
       .set(`←[?18h${textIn}`, output18)
       .set(`←[=18h${textIn}`, output18)
-      .set(`←[>18h${textIn}`, output18)
+      .set(`←[>18h${textIn}`, output18);
 
   QUnit.test(
     `ECMA-48 CSI alternatives (control sequence introducer)`,
     (assert) => {
-      const ansi = new Controls()
+      const ansi = new Controls();
       for (const [sample, result] of testE48Alt.entries()) {
-        ansi.text = sample
-        ansi.parse()
-        assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+        ansi.text = sample;
+        ansi.parse();
+        assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
       }
     }
-  )
+  );
 }
 
 const testiCE = new Map()
@@ -497,13 +494,13 @@ const testiCE = new Map()
   .set(
     `←[?33h←[6;47miCE iCE Baby ←[?33l${textIn}`,
     `<div id="row-1"><i class="SGR37 SGR47 SGR6">iCE iCE Baby Hello world.</i></div>`
-  )
+  );
 
 QUnit.test(`iCE colors (non-blinking mode)`, (assert) => {
-  const ansi = new Controls()
+  const ansi = new Controls();
   for (const [sample, result] of testiCE.entries()) {
-    ansi.text = sample
-    ansi.parse()
-    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`)
+    ansi.text = sample;
+    ansi.parse();
+    assert.equal(ansi.htmlString, result, `'${sample}' ${result}`);
   }
-})
+});

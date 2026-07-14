@@ -4,7 +4,7 @@ import puppeteer from 'puppeteer';
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   // Adjust the path if your test HTML is named differently or in another location
-  await page.goto('file://' + process.cwd() + '/ext/test/index.html');
+  await page.goto(`file://${  process.cwd()  }/ext/test/index.html`);
   await page.waitForFunction('window.QUnit && window.QUnit.doneCalled', {timeout: 60000});
   const result = await page.evaluate(() => window.QUnit.testResults);
   if (!result) {
@@ -17,7 +17,7 @@ import puppeteer from 'puppeteer';
     // Print failed assertion details from QUnit log callback
     const failedAssertions = await page.evaluate(() => window.QUnit && window.QUnit.failedAssertions ? window.QUnit.failedAssertions : []);
     failedAssertions.forEach((fail) => {
-      console.log(`\n[FAIL] ${fail.module ? fail.module + ' - ' : ''}${fail.name}`);
+      console.log(`\n[FAIL] ${fail.module ? `${fail.module  } - ` : ''}${fail.name}`);
       console.log(`  ${fail.message}`);
       if (fail.expected !== undefined || fail.actual !== undefined) {
         console.log(`    Expected: ${fail.expected}`);

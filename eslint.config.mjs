@@ -8,6 +8,7 @@ export default [
   {
     ignores: [
       'ext/js/**',
+      'ext/test/qunit.js',
       'site/assets/javascripts/**',
       '**/*.min.js',
       '**/*.min.css',
@@ -118,6 +119,86 @@ export default [
       'dot-notation': 'warn',
       eqeqeq: 'warn',
       'no-extend-native': 'error',
+    },
+  },
+  // Qunit tests files
+  {
+    files: [
+      'ext/test/tests-expanded-examples.js',
+      'ext/test/tests-file-examples.js',
+      'ext/test/tests-helpers.js',
+      'ext/test/tests-parse_ansi-sequences.js',
+      'ext/test/tests-parse_ansi.js',
+      'ext/test/tests-parse_dos.js',
+      'ext/test/tests-retrotxt.js',
+      'ext/test/tests-xss.js',
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.qunit,
+      },
+    },
+    rules: {
+      'no-undefined': 'off',
+    },
+  },
+  {
+    files: ['ext/test/tests-errors.js'],
+    languageOptions: {
+      globals: {
+        ...globals.qunit,
+        Security: 'readonly',
+      },
+    },
+    rules: {
+      'no-undefined': 'off',
+    },
+  },
+  {
+    files: ['ext/test/tests-downloads.js'],
+    languageOptions: {
+      globals: {
+        ...globals.qunit,
+        Downloads: 'readonly',
+      },
+    },
+    rules: {
+      'no-undefined': 'off',
+    },
+  },
+  {
+    files: ['ext/test/tests-security.js'],
+    languageOptions: {
+      globals: {
+        ...globals.qunit,
+        global: 'readonly',
+      },
+    },
+    rules: {
+      'no-undefined': 'off',
+    },
+  },
+  // Puppeteer test files
+  {
+    files: [
+      'ext/test/autogen-benchmark-1.mjs',
+      'ext/test/autogen-benchmark-2.mjs',
+      'ext/test/autogen-benchmark.mjs',
+      'ext/test/autogen-lint-security.mjs',
+      'ext/test/autogen-metric.mjs',
+      'ext/test/autogen-webextension.mjs',
+      'ext/test/qunit-headless.mjs',
+      'ext/test/qunit-puppeteer.mjs',
+      'ext/test/qunit-simple.mjs',
+      'ext/test/qunit-terminal.mjs',
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      'no-undefined': 'off',
     },
   },
   // CSS support, https://eslint.org/blog/2025/02/eslint-css-support/
