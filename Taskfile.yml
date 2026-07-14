@@ -5,22 +5,22 @@
 # This task runner requires Task to be installed.
 # https://taskfile.dev/#/installation
 #
-version: "3"
+version: '3'
 
 silent: true
 
 vars:
-  REQDOCS: "task requires the installation of mkdocs: https://www.mkdocs.org/user-guide/installation"
-  REQPNPM: "task requires the installation of pnpm: https://pnpm.io/installation"
-  REQSHX: "task requires the installation of shelljs/shx: https://github.com/shelljs/shx"
-  REQWEXT: "task requires the installation of Web-ext: https://github.com/mozilla/web-ext"
-  REQMAT: "task requires the installation of Material for MkDocs: https://squidfunk.github.io/mkdocs-material"
+  REQDOCS: 'task requires the installation of mkdocs: https://www.mkdocs.org/user-guide/installation'
+  REQPNPM: 'task requires the installation of pnpm: https://pnpm.io/installation'
+  REQSHX: 'task requires the installation of shelljs/shx: https://github.com/shelljs/shx'
+  REQWEXT: 'task requires the installation of Web-ext: https://github.com/mozilla/web-ext'
+  REQMAT: 'task requires the installation of Material for MkDocs: https://squidfunk.github.io/mkdocs-material'
 
 tasks:
   default:
     desc: List the available tasks.
     cmds:
-     - task --list
+      - task --list
 
   # install and uninstall packages and libraries
   inst-packages:
@@ -28,7 +28,7 @@ tasks:
     aliases: [i]
     preconditions:
       - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
+        msg: '{{.REQPNPM}}'
     cmds:
       - cmd: pnpm install
       - task: packages-copy
@@ -52,14 +52,6 @@ tasks:
       - cmd: rm -rf ~/.cache/puppeteer
 
   # linting commands
-  lints:
-    desc: Run both regular linting and security linting.
-    aliases: [ll]
-    ignore_error: true
-    cmds:
-      - task: lint
-      - task: lint-security
-
   lint:
     desc: Lint the JavaScript files in the `ext` directory.
     aliases: [l]
@@ -69,14 +61,6 @@ tasks:
       # node and dependencies
       - cmd: pnpm exec eslint ext/scripts/sw/*.js --stats
       - cmd: pnpm exec eslint ext/scripts/*.js --stats
-
-  lint-security:
-    desc: Run security linting with ESLint security plugins.
-    aliases: [ls]
-    ignore_error: true
-    cmds:
-      - cmd: echo 'Running security linting on extension scripts...'
-      - cmd: cd ext && node test/autogen-lint-security.mjs
 
   lint-coverage:
     desc: Generate code coverage summary report.
@@ -128,9 +112,9 @@ tasks:
     # edit web-ext-chrome.mjs to hide files and directories
     preconditions:
       - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
+        msg: '{{.REQPNPM}}'
       - sh: pnpm exec web-ext --version
-        msg: "{{.REQWEXT}}"
+        msg: '{{.REQWEXT}}'
     cmds:
       - task: packages-copy
       - cmd: pnpm exec web-ext --config ext/.web-ext-chrome.mjs --source-dir ./ext build
@@ -167,9 +151,9 @@ tasks:
     aliases: [pc]
     preconditions:
       - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
+        msg: '{{.REQPNPM}}'
       - sh: pnpm exec shx --version
-        msg: "{{.REQSHX}}"
+        msg: '{{.REQSHX}}'
     # use shx for Windows compatibility
     cmds:
       - cmd: pnpm exec shx cp -f "node_modules/bulma/css/bulma.min.css" "ext/css/bulma.min.css"
@@ -185,9 +169,9 @@ tasks:
     aliases: [pl]
     preconditions:
       - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
+        msg: '{{.REQPNPM}}'
       - sh: pnpm exec shx --version
-        msg: "{{.REQSHX}}"
+        msg: '{{.REQSHX}}'
     cmds:
       - cmd: pnpm update --interactive --latest
       - cmd: pnpm exec shx echo ""
@@ -198,9 +182,9 @@ tasks:
     aliases: [pu]
     preconditions:
       - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
+        msg: '{{.REQPNPM}}'
       - sh: pnpm exec shx --version
-        msg: "{{.REQSHX}}"
+        msg: '{{.REQSHX}}'
     cmds:
       - cmd: pnpm update
       - cmd: pnpm exec shx echo ""
@@ -234,28 +218,28 @@ tasks:
 
   # documentation
   docs-build:
-    desc:  Build the current documentation in use on https://docs.retrotxt.com.
+    desc: Build the current documentation in use on https://docs.retrotxt.com.
     aliases: [doc]
     preconditions:
       - sh: pip show mkdocs-material
-        msg: "{{.REQMAT}}"
+        msg: '{{.REQMAT}}'
       - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
+        msg: '{{.REQPNPM}}'
       - sh: pnpm mkdocs -V
-        msg: "{{.REQDOCS}}"
+        msg: '{{.REQDOCS}}'
     cmds:
       - cmd: pnpm mkdocs build
 
   docs-serve:
-    desc:  Run an internal server to view the documentation in `docs`.
+    desc: Run an internal server to view the documentation in `docs`.
     aliases: [docs]
     preconditions:
       # - sh: pip show mkdocs-material
       #   msg: "{{.REQMAT}}"
       - sh: pnpm -v
-        msg: "{{.REQPNPM}}"
+        msg: '{{.REQPNPM}}'
       - sh: pnpm mkdocs -V
-        msg: "{{.REQDOCS}}"
+        msg: '{{.REQDOCS}}'
     cmds:
       - cmd: pnpm mkdocs serve
         ignore_error: true # ignore Ctrl-C exit interrupts

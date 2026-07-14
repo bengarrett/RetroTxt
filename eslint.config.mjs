@@ -4,7 +4,22 @@ import globals from 'globals';
 import js from '@eslint/js';
 import css from '@eslint/css';
 
+import securityPlugin from 'eslint-plugin-security';
+import noUnsanitizedPlugin from 'eslint-plugin-no-unsanitized';
+
 export default [
+  // Block 2: Dedicated Security Configuration
+  {
+    files: ['scripts/**/*.js'],
+    plugins: {
+      security: securityPlugin,
+      'no-unsanitized': noUnsanitizedPlugin,
+    },
+    rules: {
+      ...securityPlugin.configs.recommended.rules,
+      ...noUnsanitizedPlugin.configs.recommended.rules,
+    },
+  },
   {
     ignores: [
       'ext/js/**',

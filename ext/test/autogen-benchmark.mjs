@@ -2,7 +2,7 @@
 
 /**
  * RetroTxt Performance Benchmarking Tool
- * 
+ *
  * This script runs performance benchmarks on key RetroTxt functionality
  * and generates detailed performance reports.
  */
@@ -16,10 +16,9 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-async function runBenchmarks() {
-  console.log(chalk.blue.bold('⏱️  RetroTxt Performance Benchmarks'));
-  console.log(chalk.blue('Measuring performance metrics...\n'));
+const hr = `─────────────────────────────────────`;
 
+async function runBenchmarks() {
   const results = {
     timestamp: new Date().toISOString(),
     benchmarks: [],
@@ -27,34 +26,18 @@ async function runBenchmarks() {
       nodeVersion: process.version,
       platform: process.platform,
       arch: process.arch,
-      memory: `${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`
-    }
+      memory: `${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`,
+    },
   };
 
   try {
-    // Benchmark 1: File Loading Performance
     await benchmarkFileLoading(results);
-
-    // Benchmark 2: DOM Manipulation
-    await benchmarkDOMManipulation(results);
-
-    // Benchmark 3: Text Processing
     await benchmarkTextProcessing(results);
-
-    // Benchmark 4: Large File Handling
     await benchmarkLargeFiles(results);
-
-    // Benchmark 5: Memory Usage
     await benchmarkMemoryUsage(results);
-
-    // Save results
     saveBenchmarkResults(results);
-
-    // Display summary
     displayBenchmarkSummary(results);
-
     return true;
-
   } catch (error) {
     console.error(chalk.red.bold('❌ Benchmarking failed:'), error.message);
     return false;
@@ -65,51 +48,40 @@ async function benchmarkFileLoading(results) {
   const benchmark = {
     name: 'File Loading Performance',
     description: 'Measure time to load and process various file sizes',
-    tests: []
+    tests: [],
   };
 
   const fileSizes = [
     { name: 'small', path: '../test/example_files/downloads/plain_text.txt' },
     { name: 'medium', path: '../test/example_files/downloads/large_file.txt' },
-    { name: 'large', path: '../test/example_files/downloads/very_large_file.txt' }
+    {
+      name: 'large',
+      path: '../test/example_files/downloads/very_large_file.txt',
+    },
   ];
 
   for (const file of fileSizes) {
     try {
       const startTime = performance.now();
-      const content = await fs.readFile(path.join(__dirname, file.path), 'utf8');
+      const content = await fs.readFile(
+        path.join(__dirname, file.path),
+        'utf8'
+      );
       const endTime = performance.now();
 
       benchmark.tests.push({
         file: file.name,
         size: content.length,
         time: endTime - startTime,
-        rate: (content.length / (endTime - startTime)).toFixed(2)
+        rate: (content.length / (endTime - startTime)).toFixed(2),
       });
     } catch (error) {
       benchmark.tests.push({
         file: file.name,
-        error: error.message
+        error: error.message,
       });
     }
   }
-
-  results.benchmarks.push(benchmark);
-}
-
-async function benchmarkDOMManipulation(results) {
-  const benchmark = {
-    name: 'DOM Manipulation Performance',
-    description: 'Measure DOM operation performance (skipped in Node.js)',
-    tests: []
-  };
-
-  // Skip DOM manipulation in Node.js environment
-  benchmark.tests.push({
-    operation: 'DOM manipulation',
-    skipped: true,
-    reason: 'Not available in Node.js environment'
-  });
 
   results.benchmarks.push(benchmark);
 }
@@ -118,7 +90,7 @@ async function benchmarkTextProcessing(results) {
   const benchmark = {
     name: 'Text Processing Performance',
     description: 'Measure text manipulation performance',
-    tests: []
+    tests: [],
   };
 
   // Load a large text file
@@ -145,19 +117,19 @@ async function benchmarkTextProcessing(results) {
   benchmark.tests.push({
     operation: 'string replacement',
     time: endTime1 - startTime1,
-    size: content.length
+    size: content.length,
   });
 
   benchmark.tests.push({
     operation: 'string splitting',
     time: endTime2 - startTime2,
-    lines: lines.length
+    lines: lines.length,
   });
 
   benchmark.tests.push({
     operation: 'regex matching',
     time: endTime3 - startTime3,
-    matches: matches ? matches.length : 0
+    matches: matches ? matches.length : 0,
   });
 
   results.benchmarks.push(benchmark);
@@ -167,7 +139,7 @@ async function benchmarkLargeFiles(results) {
   const benchmark = {
     name: 'Large File Processing',
     description: 'Measure performance with very large files',
-    tests: []
+    tests: [],
   };
 
   // Test processing a very large file multiple times
@@ -182,7 +154,7 @@ async function benchmarkLargeFiles(results) {
   for (let i = 0; i < iterations; i++) {
     // Simulate processing
     const lines = content.split('\n');
-    lines.map(line => line.trim()).join('\n');
+    lines.map((line) => line.trim()).join('\n');
   }
 
   const endTime = performance.now();
@@ -194,7 +166,7 @@ async function benchmarkLargeFiles(results) {
     totalTime,
     avgTime,
     iterations,
-    rate: (iterations / totalTime * 1000).toFixed(2)
+    rate: ((iterations / totalTime) * 1000).toFixed(2),
   });
 
   results.benchmarks.push(benchmark);
@@ -204,7 +176,7 @@ async function benchmarkMemoryUsage(results) {
   const benchmark = {
     name: 'Memory Usage',
     description: 'Measure memory consumption',
-    tests: []
+    tests: [],
   };
 
   // Get initial memory usage
@@ -215,7 +187,7 @@ async function benchmarkMemoryUsage(results) {
   for (let i = 0; i < 10000; i++) {
     largeArray.push({
       id: i,
-      content: `Item ${i}: ${'x'.repeat(100)}`
+      content: `Item ${i}: ${'x'.repeat(100)}`,
     });
   }
 
@@ -229,13 +201,13 @@ async function benchmarkMemoryUsage(results) {
   benchmark.tests.push({
     operation: 'create large array',
     heapUsed: formatMemory(afterCreation.heapUsed - initialMemory.heapUsed),
-    heapTotal: formatMemory(afterCreation.heapTotal)
+    heapTotal: formatMemory(afterCreation.heapTotal),
   });
 
   benchmark.tests.push({
     operation: 'clear large array',
     heapUsed: formatMemory(afterClear.heapUsed - afterCreation.heapUsed),
-    heapTotal: formatMemory(afterClear.heapTotal)
+    heapTotal: formatMemory(afterClear.heapTotal),
   });
 
   results.benchmarks.push(benchmark);
@@ -261,46 +233,70 @@ function saveBenchmarkResults(results) {
 
     console.log(chalk.green('Benchmark results saved:'), reportFile);
   } catch (error) {
-    console.error(chalk.yellow('Could not save benchmark results:'), error.message);
+    console.error(
+      chalk.yellow('Could not save benchmark results:'),
+      error.message
+    );
   }
+  console.log(``);
 }
-
 function displayBenchmarkSummary(results) {
-  console.log(chalk.blue.bold('\n📊 Benchmark Summary'));
-  console.log(chalk.blue('─────────────────────────────────────'));
+  console.log(chalk.blue(hr));
+  console.log(chalk.blue.bold('Benchmark Summary'));
 
-  results.benchmarks.forEach(benchmark => {
-    console.log(chalk`\n{white.bold ${benchmark.name}}`);
-    console.log(chalk`{gray ${benchmark.description}}`);
+  results.benchmarks.forEach((benchmark) => {
+    console.log(chalk.blue(hr));
+    console.log(`${chalk.white.bold(benchmark.name)}`);
+    console.log(`${chalk.gray(benchmark.description)}`);
 
-    benchmark.tests.forEach(test => {
+    benchmark.tests.forEach((test) => {
       if (test.error) {
-        console.log(chalk`  {red ❌ ${test.operation}: ${test.error}}`);
+        console.log(
+          `  ${chalk.red('❌')} ${chalk.red(test.file || test.operation)}: ${chalk.red(test.error)}`
+        );
+      } else if (test.skipped) {
+        console.log(
+          `  ${chalk.yellow('⚠')} ${chalk.yellow(test.operation)}: ${chalk.gray(test.reason)}`
+        );
       } else if (test.time !== undefined) {
-        console.log(chalk`  {green ✓ ${test.operation}: ${test.time.toFixed(2)}ms}`);
-        if (test.rate) console.log(chalk`     {gray (${test.rate} ops/sec)}`);
-        if (test.size) console.log(chalk`     {gray (${formatMemory(test.size)})}`);
+        // Fix for File Loading tests vs Text Processing tests property names
+        const label = test.file ? `file: ${test.file}` : test.operation;
+        console.log(
+          `  ${chalk.green('✓')} ${chalk.white(label)}: ${chalk.green(`${test.time.toFixed(2)} ms`)}`
+        );
+        if (test.rate)
+          console.log(`      ${chalk.gray(`(${test.rate} ops/sec)`)}`);
+        if (test.size)
+          console.log(`      ${chalk.gray(`(${formatMemory(test.size)})`)}`);
       } else if (test.heapUsed) {
-        console.log(chalk`  {green ✓ ${test.operation}: ${test.heapUsed}}`);
+        console.log(
+          `  ${chalk.green('✓')} ${chalk.white(test.operation)}: ${chalk.green(test.heapUsed)}`
+        );
       }
     });
   });
 
-  console.log(chalk.blue('\n─────────────────────────────────────'));
-  console.log(chalk`{gray Environment:}`);
-  console.log(chalk`  {white Node:} {gray ${results.environment.nodeVersion}}`);
-  console.log(chalk`  {white Platform:} {gray ${results.environment.platform} (${results.environment.arch})}`);
-  console.log(chalk`  {white Memory:} {gray ${results.environment.memory}}`);
-  console.log(chalk.green.bold('\n✅ Benchmarking complete!'));
+  console.log(chalk.blue(hr));
+  console.log(`${chalk.gray('Environment:')}`);
+  console.log(
+    `  ${chalk.white('Node:')} ${chalk.gray(results.environment.nodeVersion)}`
+  );
+  console.log(
+    `  ${chalk.white('Platform:')} ${chalk.gray(`${results.environment.platform} (${results.environment.arch})`)}`
+  );
+  console.log(
+    `  ${chalk.white('Memory:')} ${chalk.gray(results.environment.memory)}`
+  );
+  console.log(chalk.blue(hr));
+  console.log(chalk.green.bold('Benchmark complete'));
 }
 
 // Run the benchmarks
 if (typeof document === 'undefined') {
   // Node.js environment
-  runBenchmarks().then(process.exit);
+  runBenchmarks().then((success) => process.exit(success ? 0 : 1));
 } else {
   // Browser environment - not supported for this benchmark
-  console.log(chalk.yellow('⚠️  Benchmarking requires Node.js environment'));
+  console.log(chalk.yellow('Benchmark requires a Node.js environment'));
 }
-
 export { runBenchmarks };
