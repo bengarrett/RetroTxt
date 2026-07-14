@@ -136,8 +136,9 @@ export default [
   // Qunit tests files
   {
     files: [
-      'ext/test/tests-expanded-examples.js',
-      'ext/test/tests-file-examples.js',
+      'ext/test/qunit-bridge.js',
+      'ext/test/tests-examples.js',
+      'ext/test/tests-example-files.js',
       'ext/test/tests-helpers.js',
       'ext/test/tests-parse_ansi-sequences.js',
       'ext/test/tests-parse_ansi.js',
@@ -201,7 +202,6 @@ export default [
       'ext/test/autogen-webextension.mjs',
       'ext/test/qunit-headless.mjs',
       'ext/test/qunit-puppeteer.mjs',
-      'ext/test/qunit-simple.mjs',
       'ext/test/qunit-terminal.mjs',
     ],
     languageOptions: {

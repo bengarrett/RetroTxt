@@ -201,12 +201,6 @@ tasks:
     cmds:
       - cmd: node ext/test/qunit-puppeteer.mjs
 
-  test-cli:
-    desc: Run QUnit tests in headless Chrome using Puppeteer, it will return failed tests.
-    aliases: [tc]
-    cmds:
-      - cmd: node ext/test/qunit-headless.mjs
-
   test-webextension:
     desc: Run RetroTxt WebExtension with proper file:/// URL handling.
     aliases: [ext]

@@ -129,6 +129,10 @@ class Downloads {
    * @param [tab={}] Tab object
    */
   parseBlob(data, tab = {}, test = false) {
+    if (!data || !data.type) {
+      if (test === true) return Promise.resolve(false);
+      return false;
+    }
     // Blob object API: https://developer.mozilla.org/en-US/docs/Web/API/Blob
     // mime type split (text/plain)
     const split = data.type.split(`/`, 2);
@@ -159,12 +163,12 @@ class Downloads {
               }
               // For text/plain, check the actual content using blob.text()
               return data
+                .slice(0, 100)
                 .text()
                 .then((text) => {
                   const trimmed = text.trim();
                   return [`<!`, `<?`].includes(trimmed.substring(0, 2));
-                })
-                .catch(() => false);
+                });
             }
             reader.onload = (loadedEvent) => {
               const text = loadedEvent.target.result.trim();

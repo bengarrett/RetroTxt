@@ -15,6 +15,7 @@
 
 import puppeteer from 'puppeteer';
 import path from 'path';
+import chalk from 'chalk';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
@@ -24,13 +25,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  * Main test function - Proper WebExtension test
  */
 async function testWebExtensionProper() {
-  console.log('🚀 Starting proper WebExtension test...');
+  console.log('Starting WebExtension testing');
 
   let browser;
   try {
     // Get extension path
     const extensionPath = path.join(__dirname, '..');
-    console.log(`📁 Extension path: ${extensionPath}`);
+    console.log(`Extension path: ${extensionPath}`);
 
     // Check extension files
     checkExtensionFiles(extensionPath);
@@ -45,7 +46,7 @@ async function testWebExtensionProper() {
     checkTestFile(testFilePath);
 
     // Launch browser with extension
-    console.log('🌐 Launching Chrome with RetroTxt extension...');
+    console.log('Launching Chrome with RetroTxt');
 
     browser = await puppeteer.launch({
       headless: false,
@@ -64,25 +65,25 @@ async function testWebExtensionProper() {
 
     // Get extension ID
     const extensionId = await getExtensionId(browser);
-    console.log(`🆔 Extension ID: ${extensionId}`);
+    console.log(`Extension ID: ${extensionId}`);
 
     // Create a test text file that the extension can process
     const testTextFile = createTestTextFile(extensionPath);
-    console.log(`📄 Created test text file: ${testTextFile}`);
+    console.log(`Created testing text file: ${testTextFile}`);
 
     // Open the test text file in a new tab
     const page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 800 });
 
     const fileUrl = `file://${testTextFile}`;
-    console.log(`🌐 Opening test text file: ${fileUrl}`);
+    console.log(`Opening test text file: ${fileUrl}`);
 
     await page.goto(fileUrl, {
       waitUntil: 'networkidle0',
       timeout: 30000,
     });
 
-    console.log('✅ Test page loaded successfully');
+    console.log('Test page loaded successfully');
 
     // Take screenshot
     const screenshotPath = path.join(
@@ -95,25 +96,25 @@ async function testWebExtensionProper() {
       fullPage: true,
     });
 
-    console.log(`📸 Screenshot saved: ${screenshotPath}`);
+    console.log(`Screenshot saved: ${screenshotPath}`);
 
     // Analyze content
     const content = await page.content();
-    console.log(`📊 Page content length: ${content.length} characters`);
+    console.log(`Page content length: ${content.length} characters`);
 
     // Check if extension elements are present
     const hasExtensionElements = await checkForExtensionElements(page);
     console.log(
-      `🔧 Extension elements detected: ${hasExtensionElements ? '✅ Yes' : '❌ No'}`
+      `Extension elements detected: ${hasExtensionElements ? '✅ Yes' : '❌ No'}`
     );
 
     // Test with an actual ANSI file from the example files
-    console.log('\n🔄 Now testing with actual ANSI file...');
+    console.log('\nNow testing with an ANSI file');
     const ansiPage = await browser.newPage();
     await ansiPage.setViewport({ width: 1200, height: 800 });
 
     const ansiFileUrl = `file://${testFilePath}`;
-    console.log(`🌐 Opening ANSI test file: ${ansiFileUrl}`);
+    console.log(`Opening ANSI test file: ${ansiFileUrl}`);
 
     await ansiPage.goto(ansiFileUrl, {
       waitUntil: 'networkidle0',
@@ -133,10 +134,10 @@ async function testWebExtensionProper() {
       fullPage: true,
     });
 
-    console.log(`📸 ANSI screenshot saved: ${ansiScreenshotPath}`);
+    console.log(`ANSI screenshot saved: ${ansiScreenshotPath}`);
 
     // Test with custom XSS test file
-    console.log('\n🔄 Now testing with custom XSS test file...');
+    console.log('\nNow testing with custom XSS test file');
     const xssPage = await browser.newPage();
     await xssPage.setViewport({ width: 1200, height: 800 });
 
@@ -147,14 +148,14 @@ async function testWebExtensionProper() {
       'xss-celerity.pip'
     );
     const xssFileUrl = `file://${xssFilePath}`;
-    console.log(`🌐 Opening XSS test file: ${xssFileUrl}`);
+    console.log(`Opening XSS test file: ${xssFileUrl}`);
 
     await xssPage.goto(xssFileUrl, {
       waitUntil: 'networkidle0',
       timeout: 30000,
     });
 
-    console.log('✅ XSS test file loaded successfully');
+    console.log('XSS test file loaded successfully');
 
     // Take screenshot of XSS test file
     const xssScreenshotPath = path.join(
@@ -167,7 +168,7 @@ async function testWebExtensionProper() {
       fullPage: true,
     });
 
-    console.log(`📸 XSS screenshot saved: ${xssScreenshotPath}`);
+    console.log(`XSS screenshot saved: ${xssScreenshotPath}`);
 
     // Check for XSS vulnerability indicators
     const xssContent = await xssPage.content();
@@ -178,23 +179,27 @@ async function testWebExtensionProper() {
 
     if (hasHtmlElements) {
       console.log(
-        '⚠️  POTENTIAL XSS VULNERABILITY: HTML elements detected in processed content'
+        chalk.yellow(
+          '   POTENTIAL XSS VULNERABILITY: HTML elements detected in processed content'
+        )
       );
       console.log(
-        '   This may indicate that HTML sanitization is not working properly'
+        chalk.yellow(
+          '   This may indicate that HTML sanitization is not working properly'
+        )
       );
     } else {
       console.log(
-        '✅ SAFE: No HTML elements detected - XSS vulnerability appears to be fixed'
+        '   SAFE: No HTML elements detected - XSS vulnerability appears to be fixed'
       );
     }
 
     // Keep browser open for manual inspection
-    console.log('👀 Browser will remain open for manual inspection...');
-    console.log('💡 The extension should process the file content.');
-    console.log('💡 Press Ctrl+C to exit when done.');
+    console.log('Browser will remain open for manual inspection...');
+    console.log('The extension should process the file content.');
+    console.log('Press Ctrl+C to exit when done.');
     console.log('');
-    console.log('📋 Manual testing options:');
+    console.log('Manual testing options:');
     console.log('   1. Use extension popup to choose file manually');
     console.log('   2. Drag and drop text files onto pages');
     console.log('   3. Test context menu on text file links');
@@ -285,15 +290,10 @@ async function checkForExtensionElements(page) {
     }
 
     // Check for font family changes (RetroTxt uses specific monospace fonts)
-    const fontElements = await page.$$eval('*', (elements) =>
-      elements.some(
-        (el) =>
-          el.style.fontFamily &&
-          /ibm|commodore|c64|atascii/i.test(el.style.fontFamily)
-      )
+    const retroFontClass = await page.$eval('#styledDocument', (el) =>
+      /font-ibm|font-c64|font-commodore|font-atascii/i.test(el.className)
     );
-
-    if (fontElements) checks.hasFontStyles = true;
+    if (retroFontClass) checks.hasFontStyles = true;
 
     // Check for color classes (RetroTxt adds specific color classes)
     const colorElements = await page.$$eval('*', (elements) =>
@@ -306,7 +306,7 @@ async function checkForExtensionElements(page) {
 
     if (colorElements) checks.hasColorClasses = true;
 
-    console.log('🔍 Extension processing checks:');
+    console.log('Extension processing checks:');
     console.log(
       `   • RetroTxt styles: ${checks.hasRetroTxtStyles ? '✅' : '❌'}`
     );
@@ -319,7 +319,7 @@ async function checkForExtensionElements(page) {
     // Consider it processed if any of the checks pass
     return Object.values(checks).some((check) => check);
   } catch (error) {
-    console.log('⚠️ Could not check for extension elements:', error.message);
+    console.log('Could not check for extension elements:', error.message);
     return false;
   }
 }
@@ -335,14 +335,14 @@ function checkExtensionFiles(extensionPath) {
     'scripts/retrotxt.js',
   ];
 
-  console.log('🔍 Checking extension files...');
+  console.log('Checking extension files...');
 
   for (const file of requiredFiles) {
     const filePath = path.join(extensionPath, file);
     if (fs.existsSync(filePath)) {
       console.log(`✅ Found: ${file}`);
     } else {
-      console.warn(`⚠️ Missing extension file: ${file}`);
+      console.warn(`Missing extension file: ${file}`);
     }
   }
 }
@@ -355,10 +355,10 @@ function checkTestFile(testFilePath) {
     console.log(`✅ Test file found: ${testFilePath}`);
 
     const stats = fs.statSync(testFilePath);
-    console.log(`📊 File size: ${(stats.size / 1024).toFixed(1)} KB`);
+    console.log(`File size: ${(stats.size / 1024).toFixed(1)} KB`);
   } else {
     console.error(`❌ Test file not found: ${testFilePath}`);
-    console.log('📁 Available test files:');
+    console.log('Available test files:');
 
     const exampleFilesDir = path.join(path.dirname(testFilePath), '..');
     if (fs.existsSync(exampleFilesDir)) {
@@ -413,7 +413,7 @@ async function getExtensionId(browser) {
  * Alternative approach: Test extension popup directly
  */
 async function testExtensionPopup() {
-  console.log('📱 Testing extension popup directly...');
+  console.log('Testing extension popup directly...');
 
   let browser;
   try {
@@ -437,7 +437,7 @@ async function testExtensionPopup() {
     const page = await browser.newPage();
     await page.goto(popupUrl, { waitUntil: 'networkidle0' });
 
-    console.log('✅ Extension popup loaded');
+    console.log('Extension popup loaded');
 
     // Take screenshot
     const screenshotPath = path.join(
@@ -446,11 +446,11 @@ async function testExtensionPopup() {
       'extension-popup.png'
     );
     await page.screenshot({ path: screenshotPath });
-    console.log(`📸 Popup screenshot saved: ${screenshotPath}`);
+    console.log(`Popup screenshot saved: ${screenshotPath}`);
 
     // Manual interaction required
-    console.log('👆 Manual interaction required!');
-    console.log('📋 Please:');
+    console.log('Manual interaction required!');
+    console.log('Please:');
     console.log('   1. Click "Choose File" button');
     console.log('   2. Select test/example_files/ZII-RTXT.ans');
     console.log('   3. Observe rendering in new tab');
@@ -470,10 +470,10 @@ async function testExtensionPopup() {
  * Main execution
  */
 async function main() {
-  console.log('🎯 RetroTxt WebExtension Test');
+  console.log('   RetroTxt WebExtension Test');
   console.log('================================');
   console.log('');
-  console.log('This test loads the WebExtension and tests:');
+  console.log('This does the following after loading RetroTxt in Chrome:');
   console.log('  • Automatic processing of .txt, .ans, .nfo files');
   console.log('  • Manual file loading via extension popup');
   console.log('  • Drag and drop functionality');

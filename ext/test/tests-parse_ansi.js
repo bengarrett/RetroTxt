@@ -4,15 +4,14 @@ Build CharacterAttributes Cursor Markup Metadata Scan SGR Statistics */
 
 QUnit.module(`ansi`, {
   before: () => {
-    // prepare something once for all tests
-    console.info(`☑ New QUnit ansi test, data containers have been reset.`);
+    // before all tests
     reset(resetCursor);
     reset(resetECMA);
     reset(resetSGR);
     domObject.html = ``;
   },
   beforeEach: () => {
-    // prepare something before each test
+    // before each test
     reset(resetCursor);
     reset(resetECMA);
     reset(resetSGR);
@@ -26,16 +25,15 @@ QUnit.module(`ansi`, {
     domObject.html = ``;
   },
   after: () => {
-    // clean up once after all tests are done
+    // clean up after all tests
     reset(resetCursor);
     reset(resetECMA);
     reset(resetSGR);
     domObject.html = ``;
-    console.info(`☑ QUnit ansi tests are complete.`);
   },
 });
 
-QUnit.test(`Controls class hideEntities`, (t) => {
+QUnit.test(`Controls() class : hideEntities()`, (t) => {
   const ansi = new Controls();
 
   ansi.text = `Hello<p>& world</p>`;
@@ -55,7 +53,7 @@ QUnit.test(`Controls class hideEntities`, (t) => {
   t.equal(test, `⮘i⮚`);
 });
 
-QUnit.test(`Controls class parseFont`, (t) => {
+QUnit.test(`Controls() class : parseFont()`, (t) => {
   const ansi = new Controls();
   t.equal(ansi._parseFont(), null);
   t.equal(ansi._parseFont(20), `eaglespcga_alt3`);
@@ -76,14 +74,15 @@ QUnit.test(`Cursor class`, (t) => {
   t.equal(test.maxColumns, 80, `Should be \`80\``);
 });
 
-QUnit.test(`Cursor class columnElement`, (t) => {
+QUnit.test(`Cursor() class : columnElement()`, (t) => {
   const test = new Cursor(),
     done0 = t.async(),
     done1 = t.async(),
     done10 = t.async(),
     doneNaN = t.async();
+  const reset = ``;
   setTimeout(() => {
-    domObject.html = ``; // reset
+    domObject.html = reset;
     test.columnElement(0);
     t.equal(
       domObject.html,
@@ -93,7 +92,7 @@ QUnit.test(`Cursor class columnElement`, (t) => {
     done0();
   }, 50);
   setTimeout(() => {
-    domObject.html = ``; // reset
+    domObject.html = reset;
     test.columnElement(1);
     t.equal(
       domObject.html,
@@ -103,7 +102,7 @@ QUnit.test(`Cursor class columnElement`, (t) => {
     done1();
   }, 50);
   setTimeout(() => {
-    domObject.html = ``; // reset
+    domObject.html = reset;
     test.columnElement(10);
     t.equal(
       domObject.html,
@@ -113,7 +112,7 @@ QUnit.test(`Cursor class columnElement`, (t) => {
     done10();
   }, 50);
   setTimeout(() => {
-    domObject.html = ``; // reset
+    domObject.html = reset;
     test.columnElement(`abc`);
     t.equal(
       domObject.html,
@@ -124,7 +123,7 @@ QUnit.test(`Cursor class columnElement`, (t) => {
   }, 500);
 });
 
-QUnit.test(`Cursor class columnParse`, (t) => {
+QUnit.test(`Cursor() class : columnParse()`, (t) => {
   const test = new Cursor();
   cursor.column = 1;
   test.columnParse();
@@ -137,7 +136,7 @@ QUnit.test(`Cursor class columnParse`, (t) => {
   t.equal(cursor.column, 1, `cursor.column should be unchanged \`1\``);
 });
 
-QUnit.test(`Cursor class rowElement`, (t) => {
+QUnit.test(`Cursor() class : rowElement()`, (t) => {
   const reset = () => {
     cursor.column = 1;
     cursor.row = 1;
@@ -158,7 +157,7 @@ QUnit.test(`Cursor class rowElement`, (t) => {
   t.equal(cursor.row, 1, `cursor.row should be unchanged \`1\``);
 });
 
-QUnit.test(`SGR class`, (t) => {
+QUnit.test(`SGR() class`, (t) => {
   const sgr = new SGR();
   t.equal(sgr.colorF, 37, `Should be \`37\``);
   t.equal(sgr.bold, false, `Should be \`false\``);
@@ -169,7 +168,7 @@ QUnit.test(`SGR class`, (t) => {
   t.equal(test.bold, false, `Should be \`false\``);
 });
 
-QUnit.test(`Statistics class`, (t) => {
+QUnit.test(`Statistics() class`, (t) => {
   const cursor = new Statistics();
   t.equal(cursor.unknown, 0, `Should be \`80\``);
   t.equal(cursor.colorDepth, 4, `Should be \`1\``);
@@ -180,14 +179,14 @@ QUnit.test(`Statistics class`, (t) => {
   t.equal(test.unknown, 0, `Should be \`80\``);
 });
 
-QUnit.test(`italicElement function`, (t) => {
+QUnit.test(`italicElement() function`, (t) => {
   let test = italicElement();
   t.equal(test, `<i class="SGR37 SGR40">`, `Should be a default element`);
   test = italicElement(`SGR30`);
   t.equal(test, `<i class="SGR37 SGR40">`, `Should be a default element`);
 });
 
-QUnit.test(`CharacterAttributes class createSGRClass`, (t) => {
+QUnit.test(`CharacterAttributes() class : createSGRClass()`, (t) => {
   const test = new CharacterAttributes();
   // test initial values
   t.equal(test.toggles.colorF, 37, `colorF should be \`37\``);
@@ -220,7 +219,7 @@ QUnit.test(`CharacterAttributes class createSGRClass`, (t) => {
   );
 });
 
-QUnit.test(`CharacterAttributes class createRGBStyle`, (t) => {
+QUnit.test(`CharacterAttributes() class : createRGBStyle()`, (t) => {
   const test = new CharacterAttributes();
   // test RGB styles
   test.parameters = `SGR+38+2+0+0+0`;
@@ -249,7 +248,7 @@ QUnit.test(`CharacterAttributes class createRGBStyle`, (t) => {
   t.equal(test.createRGBStyle(), ``, `Is an invalid RGB paramater`);
 });
 
-QUnit.test(`CharacterAttributes class aixterm`, (t) => {
+QUnit.test(`CharacterAttributes() class : aixterm()`, (t) => {
   const test = new CharacterAttributes();
   test.value = 90;
   test.toggles.bold = false;
@@ -272,7 +271,7 @@ QUnit.test(`CharacterAttributes class aixterm`, (t) => {
   );
 });
 
-QUnit.test(`CharacterAttributes class setBackground`, (t) => {
+QUnit.test(`CharacterAttributes() class : setBackground()`, (t) => {
   const test = new CharacterAttributes(),
     foreground = 37,
     background = 47,
@@ -295,7 +294,7 @@ QUnit.test(`CharacterAttributes class setBackground`, (t) => {
   );
 });
 
-QUnit.test(`CharacterAttributes class setForeground`, (t) => {
+QUnit.test(`CharacterAttributes() class : setForeground()`, (t) => {
   const test = new CharacterAttributes(),
     foreground = 37,
     background = 47,
@@ -318,7 +317,7 @@ QUnit.test(`CharacterAttributes class setForeground`, (t) => {
   );
 });
 
-QUnit.test(`CharacterAttributes class rgb`, (t) => {
+QUnit.test(`CharacterAttributes() class : rgb()`, (t) => {
   const reset = () => {
     test.styles = ``;
     test.toggles.rgbB = ``;
@@ -349,7 +348,7 @@ QUnit.test(`CharacterAttributes class rgb`, (t) => {
   t.equal(test._rgb(), ``, `Is not a valid RGB value`);
 });
 
-QUnit.test(`CharacterAttributes class xtermBG`, (t) => {
+QUnit.test(`CharacterAttributes() class : xtermBG()`, (t) => {
   const test = new CharacterAttributes(),
     goodValues = [480, 4811, 48255];
   for (const v of goodValues) {
@@ -371,7 +370,7 @@ QUnit.test(`CharacterAttributes class xtermBG`, (t) => {
   }
 });
 
-QUnit.test(`CharacterAttributes class xtermFG`, (t) => {
+QUnit.test(`CharacterAttributes() class : xtermFG()`, (t) => {
   const test = new CharacterAttributes(),
     goodValues = [380, 3888, 38255];
   for (const v of goodValues) {
@@ -393,7 +392,7 @@ QUnit.test(`CharacterAttributes class xtermFG`, (t) => {
   }
 });
 
-QUnit.test(`CharacterAttributes class presentation`, (t) => {
+QUnit.test(`CharacterAttributes() class : presentation()`, (t) => {
   const ca = new CharacterAttributes(),
     normalIntensityColor = 22,
     italic = 3,
@@ -448,9 +447,9 @@ const testBuild = new Map()
     [`a`, `\n`, `b`, `undefined`, `c`, `null`, `d`],
     `<div id="row-1"><i class="SGR37 SGR40">a</i></div><div id="row-2"><i class="SGR37 SGR40">bcd</i></div>`
   );
-// TODO very extensive testing on SGR+ combinations
+// TODO: very extensive testing on SGR+ combinations
 
-QUnit.test(`Markup class build`, (t) => {
+QUnit.test(`Markup() class build`, (t) => {
   for (const [seq, result] of testBuild.entries()) {
     domObject.html = ``;
     const h = new Markup();
@@ -488,7 +487,7 @@ const testElmI = new Map()
   .set(`SGR+4899`, `<i class="SGR37 SGR4899">`)
   .set(`SGR+38254`, `<i class="SGR38254 SGR4899">`);
 
-QUnit.test(`Markup class element_i`, (t) => {
+QUnit.test(`Markup() class : element_i()`, (t) => {
   for (const [item, result] of testElmI.entries()) {
     const h = new Markup();
     h.item.value = `${item}`;
@@ -496,7 +495,7 @@ QUnit.test(`Markup class element_i`, (t) => {
   }
 });
 
-QUnit.test(`Markup class`, (t) => {
+QUnit.test(`Markup() class`, (t) => {
   const h = new Markup();
   // _closeElements()
   domObject.html = `<div id="row-1"><i class="SGR37 SGR40">Hi`;
@@ -557,7 +556,7 @@ QUnit.test(`Markup class`, (t) => {
   );
 });
 
-QUnit.test(`Markup class parseNamedSequence CUD`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() CUD`, (t) => {
   const h = new Markup();
   h._parseNamedSequence(0, ``);
   t.equal(cursor.row, 1, `Row should remain at 1`);
@@ -570,7 +569,7 @@ QUnit.test(`Markup class parseNamedSequence CUD`, (t) => {
   t.equal(cursor.previousRow, 6, `Previous row should be 6`);
 });
 
-QUnit.test(`Markup class parseNamedSequence CUF`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() CUF`, (t) => {
   const h = new Markup(),
     defaultColumns = 80;
   h._parseNamedSequence(0, ``);
@@ -588,7 +587,7 @@ QUnit.test(`Markup class parseNamedSequence CUF`, (t) => {
   t.equal(cursor.column, 56, `Cursor be at 56`);
 });
 
-QUnit.test(`Markup class parseNamedSequence HVP`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() HVP`, (t) => {
   const h = new Markup(),
     defaultColumns = 80;
   // test invalid coordinates
@@ -632,7 +631,7 @@ QUnit.test(`Markup class parseNamedSequence HVP`, (t) => {
   t.equal(cursor.previousRow, 50, `Previous row should be 50`);
 });
 
-QUnit.test(`Markup class parseNamedSequence ICE`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() ICE`, (t) => {
   const h = new Markup();
   h._parseNamedSequence(0, ``);
   t.equal(ecma48.iceColors, false, `Toggle should remain unchanged`);
@@ -647,7 +646,7 @@ QUnit.test(`Markup class parseNamedSequence ICE`, (t) => {
   );
 });
 
-QUnit.test(`Markup class parseNamedSequence SGR`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() SGR`, (t) => {
   const h = new Markup();
   // this command does not effect sgr toggles
   h._parseNamedSequence(0, `SGR+1`);
@@ -670,7 +669,7 @@ QUnit.test(`Markup class parseNamedSequence SGR`, (t) => {
   );
 });
 
-QUnit.test(`Markup class parseNamedSequence ED+`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() ED+`, (t) => {
   const h = new Markup();
   h._parseNamedSequence(0, `ED+0`);
   t.deepEqual(cursor.eraseLines, [], `Should have no effect`);
@@ -689,7 +688,7 @@ QUnit.test(`Markup class parseNamedSequence ED+`, (t) => {
   t.equal(cursor.eraseLines.length, 999, `Should hide 999 rows`);
 });
 
-QUnit.test(`Markup class parseNamedSequence EL+`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() EL+`, (t) => {
   const h = new Markup();
   h._parseNamedSequence(0, `EL+0`);
   t.deepEqual(cursor.eraseLines, [], `Should have no effect`);
@@ -713,7 +712,7 @@ QUnit.test(`Markup class parseNamedSequence EL+`, (t) => {
   );
 });
 
-QUnit.test(`Markup class parseNamedSequence SM+`, (t) => {
+QUnit.test(`Markup() class parseNamedSequence() SM+`, (t) => {
   const h = new Markup();
   h._parseNamedSequence(0, `SM+0`);
   t.strictEqual(h.colorDepth, 1, `1-bit color should be triggered`);
@@ -727,7 +726,7 @@ QUnit.test(`Markup class parseNamedSequence SM+`, (t) => {
   t.strictEqual(h.font, 17, `VGA font #17 should be triggered`);
 });
 
-QUnit.test(`Markup class parseNamedSetMode`, (t) => {
+QUnit.test(`Markup() class parseNamedSetMode()`, (t) => {
   const h = new Markup();
   h._parseNamedSetMode(0);
   t.strictEqual(h.colorDepth, 1, `1-bit color should be triggered`);
@@ -748,7 +747,7 @@ const testSpecial = new Map()
   .set(`⮙`, `&amp;`)
   .set(`\n`, `lf`);
 
-QUnit.test(`Markup class specialMarker`, (t) => {
+QUnit.test(`Markup() class specialMarker()`, (t) => {
   for (const [item, result] of testSpecial.entries()) {
     const h = new Markup();
     domObject.html = ``;
@@ -756,7 +755,7 @@ QUnit.test(`Markup class specialMarker`, (t) => {
   }
 });
 
-QUnit.test(`Metadata class parse`, (t) => {
+QUnit.test(`Metadata() class parse`, (t) => {
   const data = {
     version: `00`,
     configs: { fontFamily: `vga8`, width: 100, iceColors: 1 },
@@ -771,7 +770,7 @@ QUnit.test(`Metadata class parse`, (t) => {
   t.equal(ecma48.iceColors, false, `iCE Colors should not be flagged`);
 });
 
-QUnit.test(`Scan class controlCode`, (t) => {
+QUnit.test(`Scan() class controlCode`, (t) => {
   // Initialise the test of controlCode()
   // @values Array of text characters represented in Unicode decimal values
   const run = (values = []) => {
@@ -1024,7 +1023,7 @@ const testFuncs = new Map()
   .set([`EL`, `?`, 1], `EL+1`)
   .set([`EL`, `?`, 2], `EL+2`);
 
-QUnit.test(`Scan class`, (t) => {
+QUnit.test(`Scan() class`, (t) => {
   for (const [test, result] of testFuncs.entries()) {
     const s = new Scan();
     t.equal(
@@ -1049,7 +1048,7 @@ const testFfa = new Map()
   .set([`CUB`, `5`, `5`], ``)
   .set([], ``);
 
-QUnit.test(`Scan class functionsForArray`, (t) => {
+QUnit.test(`Scan() class functionsForArray()`, (t) => {
   for (const [test, result] of testFfa.entries()) {
     const s = new Scan();
     t.equal(
@@ -1065,7 +1064,7 @@ const testChrAttr = new Map()
   .set(`39m;0;1;36m`, `SGR,10,39,0,1,36`)
   .set(`0m`, `SGR,2,0`);
 
-QUnit.test(`Scan class characterAttributes`, (t) => {
+QUnit.test(`Scan() class characterAttributes()`, (t) => {
   const input = (text) => {
     const b = new Build(`${text}`);
     return b._decimals();
@@ -1089,7 +1088,7 @@ const testCursorC = new Map()
   .set(68, true)
   .set(69, false);
 
-QUnit.test(`Scan class cursorCode`, (t) => {
+QUnit.test(`Scan() class cursorCode()`, (t) => {
   for (const [test, result] of testCursorC.entries()) {
     const s = new Scan();
     t.equal(s._cursorCode(test), result, `[${test}] should return "${result}"`);
@@ -1111,7 +1110,7 @@ const testCursorM = new Map()
   .set([64, [0]], ``)
   .set([65, [64]], `CUU,2,@`);
 
-QUnit.test(`Scan class cursorMove`, (t) => {
+QUnit.test(`Scan() class cursorMove()`, (t) => {
   for (const [test, result] of testCursorM.entries()) {
     const s = new Scan();
     t.equal(
@@ -1129,7 +1128,7 @@ const testCursorH = new Map()
   .set(68, `left`)
   .set(69, ``);
 
-QUnit.test(`Scan class cursorHuman`, (t) => {
+QUnit.test(`Scan() class cursorHuman()`, (t) => {
   for (const [test, result] of testCursorH.entries()) {
     const s = new Scan();
     t.equal(
@@ -1147,7 +1146,7 @@ const testCursorN = new Map()
   .set(68, `CUB`)
   .set(69, ``);
 
-QUnit.test(`Scan class cursorName`, (t) => {
+QUnit.test(`Scan() class cursorName()`, (t) => {
   for (const [test, result] of testCursorN.entries()) {
     const s = new Scan();
     t.equal(s._cursorName(test), result, `[${test}] should return "${result}"`);
@@ -1162,7 +1161,7 @@ const testDigit = new Map()
   .set(57, true)
   .set(58, false);
 
-QUnit.test(`Scan class digit`, (t) => {
+QUnit.test(`Scan() class digit()`, (t) => {
   for (const [test, result] of testDigit.entries()) {
     const s = new Scan();
     t.equal(s._digit(test), result, `[${test}] should return "${result}"`);
@@ -1175,7 +1174,7 @@ const testCursorHVP = new Map()
   .set([51, 49, 59], `HVP,4,31,1`)
   .set([55, 59], `HVP,3,7,1`);
 
-QUnit.test(`Scan class cursorHVP`, (t) => {
+QUnit.test(`Scan() class cursorHVP()`, (t) => {
   for (const [test, result] of testCursorHVP.entries()) {
     const s = new Scan();
     t.equal(s._cursorHVP(test), result, `[${test}] should return "${result}"`);
@@ -1196,7 +1195,7 @@ const testPabloDraw = new Map()
   // pass an invalid RGB value of (1,591,0)
   .set([49, 59, 49, 57, 49, 116, 48, 59, 53, 116], ``);
 
-QUnit.test(`Scan class pabloDrawRGB`, (t) => {
+QUnit.test(`Scan() class pabloDrawRGB()`, (t) => {
   for (const [test, result] of testPabloDraw.entries()) {
     const s = new Scan();
     t.equal(
@@ -1220,7 +1219,7 @@ const testSM = new Map()
   // invalid modes (values do not matter)
   .set([104, [55, 88], true], `SM,4,7X`);
 
-QUnit.test(`Scan class setMode`, (t) => {
+QUnit.test(`Scan() class setMode()`, (t) => {
   for (const [test, result] of testSM.entries()) {
     const s = new Scan();
     t.equal(
@@ -1252,7 +1251,7 @@ const testAOT = new Map()
   // test MSDOS end of file
   .set(`abc→`, [`a`, `b`, `c`, `SGR+0`]);
 
-QUnit.test(`Build class arrayOfText`, (t) => {
+QUnit.test(`Build() class arrayOfText()`, (t) => {
   for (const [test, result] of testAOT.entries()) {
     const b = new Build(test);
     t.deepEqual(b.arrayOfText(), result, `"${test}" should return [${result}]`);
@@ -1266,7 +1265,7 @@ const testDec = new Map()
   .set(`098`, [48, 57, 56])
   .set(`←[0;30;47m`, [155, -1, 48, 59, 51, 48, 59, 52, 55, 109]);
 
-QUnit.test(`Build class decimals`, (t) => {
+QUnit.test(`Build() class decimals()`, (t) => {
   for (const [test, result] of testDec.entries()) {
     const b = new Build(test);
     t.deepEqual(b._decimals(), result, `"${test}" should return [${result}]`);

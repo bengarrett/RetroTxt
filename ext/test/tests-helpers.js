@@ -1,21 +1,19 @@
 /*global BrowserEncodings Characters CheckArguments CheckRange Configuration C0Controls CreateLink Cs
 FindControlSequences FontFamily Guess HardwarePalette HumaniseFS OptionsReset PCBoardText PlainText WildcatText Capitalize
-ParseToChildren StringToBool Titleize WebBrowser*/
+ParseToChildren StringToBool Titleize*/
 'use strict';
 QUnit.module(`helper`, {
   before: () => {
-    // prepare something once for all tests
-    console.info(`☑ New QUnit helper tests.`);
+    // before all tests
   },
   beforeEach: () => {
-    // prepare something before each test
+    // before each test
   },
   afterEach: () => {
     // clean up after each test
   },
   after: () => {
-    // clean up once after all tests are done
-    console.info(`☑ QUnit helper tests are complete.`);
+    // clean up after all tests
   },
 });
 
@@ -53,7 +51,7 @@ QUnit.test(`CheckArguments() functions`, (assert) => {
   );
 });
 
-QUnit.test(`C0Controls class`, (assert) => {
+QUnit.test(`C0Controls() class`, (assert) => {
   let c0controls = new C0Controls(`A`);
   assert.equal(c0controls.special(), false, `A is not a C0 character`);
   c0controls = new C0Controls(`${String.fromCharCode(9)}`);
@@ -64,7 +62,7 @@ QUnit.test(`C0Controls class`, (assert) => {
   );
 });
 
-QUnit.test(`BrowserEncodings class`, (assert) => {
+QUnit.test(`BrowserEncodings() class`, (assert) => {
   let encoding = new BrowserEncodings(`UTF-32`);
   assert.equal(encoding.support(), false, `UTF-32 is unsupported`);
   assert.equal(encoding.label(), undefined, `UTF-32 is unsupported`);
@@ -84,7 +82,7 @@ QUnit.test(`BrowserEncodings class`, (assert) => {
   );
 });
 
-QUnit.test(`Characters class`, (assert) => {
+QUnit.test(`Characters() class`, (assert) => {
   let characters = new Characters(Cs.DOS_437_English);
   assert.equal(
     characters.key,
@@ -186,7 +184,7 @@ QUnit.test(`Characters class`, (assert) => {
   );
 });
 
-QUnit.test(`Guess class`, (assert) => {
+QUnit.test(`Guess() class`, (assert) => {
   const hi = `hello`;
   let test = `\u00ef\u00bb\u00bf${hi}`,
     guess = new Guess(test);
@@ -250,7 +248,7 @@ QUnit.test(`Guess class`, (assert) => {
   assert.equal(result, Cs.OutputISO8859_1, `Should be \`OutputISO8859_1\``);
 });
 
-QUnit.test(`Configuration class`, (assert) => {
+QUnit.test(`Configuration() class`, (assert) => {
   const cfg = new Configuration();
   assert.equal(cfg.cssWidth(), `100%`, `Configuration should be 100%`);
   assert.equal(
@@ -286,7 +284,7 @@ QUnit.test(`Configuration class`, (assert) => {
   );
 });
 
-QUnit.test(`Font class`, (assert) => {
+QUnit.test(`FontFamily() class`, (assert) => {
   const fonts = new FontFamily(`appleii`);
   fonts.set();
   assert.equal(fonts.family, `Apple II`, `Font name should be Apple II`);
@@ -306,7 +304,7 @@ QUnit.test(`Font class`, (assert) => {
   );
 });
 
-QUnit.test(`OptionsReset class`, (assert) => {
+QUnit.test(`OptionsReset() class`, (assert) => {
   const ro = new OptionsReset();
   assert.equal(
     ro.get(`textBackgroundScanlines`),
@@ -325,7 +323,7 @@ QUnit.test(`OptionsReset class`, (assert) => {
   );
 });
 
-QUnit.test(`HardwarePalette class`, (assert) => {
+QUnit.test(`HardwarePalette() class`, (assert) => {
   const palette = new HardwarePalette(),
     gray = `${chrome.i18n.getMessage(`Gray`)}`;
 
@@ -353,7 +351,7 @@ QUnit.test(`HardwarePalette class`, (assert) => {
   );
 });
 
-QUnit.test(`CreateLink function`, (assert) => {
+QUnit.test(`CreateLink() function`, (assert) => {
   function css(then, expected) {
     assert.equal(CreateLink(`test.css`, then), expected);
   }
@@ -371,7 +369,7 @@ QUnit.test(`CreateLink function`, (assert) => {
   css(undefined, link);
 });
 
-QUnit.test(`FindControlSequences function`, (assert) => {
+QUnit.test(`FindControlSequences() function`, (assert) => {
   let content = FindControlSequences(`Hello world`);
   assert.equal(content, PlainText, `Should be \`plain\` text`);
   content = FindControlSequences(`@X17Hello world`);
@@ -380,29 +378,7 @@ QUnit.test(`FindControlSequences function`, (assert) => {
   assert.equal(content, WildcatText, `Should be \`wildcat\` text`);
 });
 
-QUnit.test(`WebBrowser function`, (assert) => {
-  // use an alternative method of detecting browser engine
-  // this may not work in future browser updates
-  let engine = 0;
-  if (typeof browser !== `undefined`) {
-    engine = 1;
-  }
-  const browsergetBrowserEngine = WebBrowser();
-  if (engine === 0)
-    assert.equal(
-      browsergetBrowserEngine,
-      0,
-      `Should return \`0\` if you're using a Chrome or Edge browser`
-    );
-  else if (engine === 1)
-    assert.equal(
-      browsergetBrowserEngine,
-      1,
-      `Should return \`1\` if you're using a Firefox browser`
-    );
-});
-
-QUnit.test(`HumaniseFS function`, (assert) => {
+QUnit.test(`HumaniseFS() function`, (assert) => {
   let filesize = HumaniseFS();
   assert.equal(filesize, `0B`, `Should be 0 bytes`);
   filesize = HumaniseFS(10000);
@@ -419,7 +395,7 @@ QUnit.test(`HumaniseFS function`, (assert) => {
   assert.equal(filesize, `124MB`, `Should be 124MB`);
 });
 
-QUnit.test(`ParseToChildren function`, (assert) => {
+QUnit.test(`ParseToChildren() function`, (assert) => {
   const children = ParseToChildren(`Hello world`);
   assert.equal(
     children.nodeName,
@@ -433,7 +409,7 @@ QUnit.test(`ParseToChildren function`, (assert) => {
   );
 });
 
-QUnit.test(`StringToBool function`, (assert) => {
+QUnit.test(`StringToBool() function`, (assert) => {
   let boolean = StringToBool(`error`);
   assert.equal(boolean, null, `'error' is not a valid boolean`);
   boolean = StringToBool(`true`);
@@ -446,7 +422,7 @@ QUnit.test(`StringToBool function`, (assert) => {
   assert.equal(boolean, false, `'false' is a boolean`);
 });
 
-QUnit.test(`Capitalize function`, (assert) => {
+QUnit.test(`Capitalize() function`, (assert) => {
   let word = Capitalize();
   assert.equal(word, ``, `Should be an empty string`);
   word = Capitalize(`hi`);
@@ -459,7 +435,7 @@ QUnit.test(`Capitalize function`, (assert) => {
   assert.equal(word, `The quick brown fox`, `Should be The quick brown fox`);
 });
 
-QUnit.test(`Titleize function`, (assert) => {
+QUnit.test(`Titleize() function`, (assert) => {
   let word = Titleize();
   assert.equal(word, ``, `Should be an empty string`);
   word = Titleize(`hi`);

@@ -3,16 +3,13 @@
 
 QUnit.module(`ansi sequence`, {
   before: () => {
-    // prepare something once for all tests
-    console.info(
-      `☑ New QUnit ansi sequence ←[ tests, data containers have been reset.`
-    );
+    // before all tests
     reset(resetCursor);
     reset(resetSGR);
     domObject.html = ``;
   },
   beforeEach: () => {
-    // prepare something before each test
+    // before each test
     reset();
   },
   afterEach: () => {
@@ -20,12 +17,11 @@ QUnit.module(`ansi sequence`, {
     reset();
   },
   after: () => {
-    // clean up once after all tests are done
+    // clean up after all tests
     reset(resetCursor);
     reset(resetECMA);
     reset(resetSGR);
     domObject.html = ``;
-    console.info(`☑ QUnit ansi sequence ←[ tests are complete.`);
   },
 });
 

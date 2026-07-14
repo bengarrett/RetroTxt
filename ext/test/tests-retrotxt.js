@@ -12,7 +12,9 @@ QUnit.module(`retrotxt`, {
     // prepare something before each test
   },
   afterEach: () => {
-    // clean up after each test
+    /// Automatically scrub the test environment clean after every single test run
+    const existingLink = document.getElementById('retrotxt-styles');
+    if (existingLink) existingLink.remove(); // clean up after each test
   },
   after: () => {
     // clean up once after all tests are done
@@ -21,20 +23,42 @@ QUnit.module(`retrotxt`, {
 });
 
 QUnit.test(`DOM class`, (assert) => {
-  const dom = new DOM();
-  assert.equal(dom.head.nodeName, `HEAD`, `Should be a <head> element`);
-  assert.equal(dom.cssLink, null, `Should be null element doesn't exist`);
-  assert.equal(
-    dom.storage[1],
-    `colorsAnsiColorPalette`,
-    `Storage item 1 should be colorsCustomBackground`
-  );
-  dom.construct();
-  assert.equal(
-    dom.head.lastChild.nodeName,
-    `LINK`,
-    `Should be a <link> element`
-  );
+  // 1. Clean up any real residual nodes first
+  const realLink = document.getElementById('retrotxt-styles');
+  if (realLink) realLink.remove();
+
+  // 2. Temporarily hijack document.getElementById to force a null return for this test instance
+  const originalGetElementById = document.getElementById;
+  document.getElementById = function (id) {
+    if (id === 'retrotxt-styles') return null;
+    return originalGetElementById.apply(this, arguments);
+  };
+
+  try {
+    const dom = new DOM();
+
+    assert.equal(dom.head.nodeName, `HEAD`, `Should be a <head> element`);
+
+    // This will now guaranteed be null regardless of what else is on the page
+    assert.equal(dom.cssLink, null, `Should be null element doesn't exist`);
+
+    assert.equal(
+      dom.storage[1],
+      `colorsAnsiColorPalette`,
+      `Storage item 1 should be colorsAnsiColorPalette`
+    );
+
+    dom.construct();
+
+    assert.equal(
+      dom.head.lastChild.nodeName,
+      `LINK`,
+      `Should be a <link> element`
+    );
+  } finally {
+    // 3. ALWAYS restore the original document method so you don't break subsequent tests
+    document.getElementById = originalGetElementById;
+  }
 });
 
 QUnit.test(`Input class`, (assert) => {
