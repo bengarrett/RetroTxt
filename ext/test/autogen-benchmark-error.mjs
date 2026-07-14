@@ -2,7 +2,7 @@
 
 /**
  * RetroTxt Error Handling Benchmark
- * 
+ *
  * Focused benchmark for error handling performance.
  */
 
@@ -15,17 +15,16 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-async function runErrorHandlingBenchmark() {
-  console.log(chalk.blue.bold('🛡️  RetroTxt Error Handling Benchmark'));
-  console.log(chalk.blue('Testing error handling performance...\n'));
+const hr = `─────────────────────────────────────`;
 
+async function runErrorHandlingBenchmark() {
   const results = {
     timestamp: new Date().toISOString(),
     tests: [],
     environment: {
       nodeVersion: process.version,
-      platform: process.platform
-    }
+      platform: process.platform,
+    },
   };
 
   try {
@@ -45,9 +44,11 @@ async function runErrorHandlingBenchmark() {
     displayErrorHandlingSummary(results);
 
     return true;
-
   } catch (error) {
-    console.error(chalk.red.bold('❌ Error handling benchmark failed:'), error.message);
+    console.error(
+      chalk.red.bold('Error handling benchmark failed:'),
+      error.message
+    );
     return false;
   }
 }
@@ -55,14 +56,10 @@ async function runErrorHandlingBenchmark() {
 async function testSuccessfulOperations(results) {
   const test = {
     name: 'Successful File Operations',
-    operations: []
+    operations: [],
   };
 
-  const files = [
-    'plain_text.txt',
-    'ansi_art.ans',
-    'nfo_file.nfo'
-  ];
+  const files = ['plain_text.txt', 'ansi_art.ans', 'nfo_file.nfo'];
 
   for (const file of files) {
     try {
@@ -77,13 +74,13 @@ async function testSuccessfulOperations(results) {
         file,
         size: content.length,
         time: endTime - startTime,
-        success: true
+        success: true,
       });
     } catch (error) {
       test.operations.push({
         file,
         error: error.message,
-        success: false
+        success: false,
       });
     }
   }
@@ -94,15 +91,11 @@ async function testSuccessfulOperations(results) {
 async function testFailedOperations(results) {
   const test = {
     name: 'Failed File Operations',
-    operations: []
+    operations: [],
   };
 
   // Test non-existent files
-  const nonExistentFiles = [
-    'nonexistent.txt',
-    'missing.txt',
-    'notfound.txt'
-  ];
+  const nonExistentFiles = ['nonexistent.txt', 'missing.txt', 'notfound.txt'];
 
   for (const file of nonExistentFiles) {
     const startTime = performance.now();
@@ -117,7 +110,7 @@ async function testFailedOperations(results) {
         file,
         time: endTime - startTime,
         error: error.code,
-        success: false
+        success: false,
       });
     }
   }
@@ -128,13 +121,13 @@ async function testFailedOperations(results) {
 async function testErrorRecovery(results) {
   const test = {
     name: 'Error Recovery Performance',
-    operations: []
+    operations: [],
   };
 
   // Test recovery from various error conditions
   const errorScenarios = [
     { type: 'ENOENT', action: 'read non-existent file' },
-    { type: 'permission', action: 'read with invalid permissions' }
+    { type: 'permission', action: 'read with invalid permissions' },
   ];
 
   for (const scenario of errorScenarios) {
@@ -153,7 +146,7 @@ async function testErrorRecovery(results) {
       test.operations.push({
         scenario: scenario.action,
         time: endTime - startTime,
-        recovered: false
+        recovered: false,
       });
     } catch (error) {
       endTime = performance.now();
@@ -161,7 +154,7 @@ async function testErrorRecovery(results) {
         scenario: scenario.action,
         time: endTime - startTime,
         error: error.message,
-        recovered: true
+        recovered: true,
       });
     }
   }
@@ -183,45 +176,59 @@ function saveErrorHandlingResults(results) {
 
     console.log(chalk.green('Error handling results saved:'), reportFile);
   } catch (error) {
-    console.error(chalk.yellow('Could not save error handling results:'), error.message);
+    console.error(
+      chalk.yellow('Could not save error handling results:'),
+      error.message
+    );
   }
 }
 
 function displayErrorHandlingSummary(results) {
-  console.log(chalk.blue.bold('\n🛡️  Error Handling Summary'));
-  console.log(chalk.blue('─────────────────────────────────────'));
+  console.log(chalk.blue(hr));
+  console.log(chalk.blue.bold('Error Handling Summary'));
 
-  results.tests.forEach(test => {
-    console.log(chalk`\n{white.bold ${test.name}}`);
+  results.tests.forEach((test) => {
+    console.log(chalk.blue(hr));
+    console.log(`${chalk.white.bold(test.name)}`);
 
-    test.operations.forEach(op => {
-      if (op.error) {
-        console.log(chalk`  {red ❌ ${op.file || op.scenario}: ${op.error}}`);
-      } else if (op.success !== undefined) {
-        if (op.success) {
-          console.log(chalk`  {green ✓ ${op.file || op.scenario}: ${op.time.toFixed(2)}ms}`);
-        } else {
-          console.log(chalk`  {yellow ⚠ ${op.file || op.scenario}: ${op.time.toFixed(2)}ms}`);
-        }
-      } else if (op.recovered !== undefined) {
+    test.operations.forEach((op) => {
+      const label = op.file || op.scenario;
+
+      if (op.recovered !== undefined) {
         if (op.recovered) {
-          console.log(chalk`  {green ✓ ${op.scenario}: ${op.time.toFixed(2)}ms (recovered)`);
+          console.log(
+            `  ${chalk.green('✓')} ${chalk.white(label)}: ${chalk.green(`${op.time.toFixed(2)} ms`)} ${chalk.gray('(recovered)')}`
+          );
         } else {
-          console.log(chalk`  {red ❌ ${op.scenario}: ${op.time.toFixed(2)}ms (not recovered)`);
+          console.log(
+            `  ${chalk.red('❌')} ${chalk.white(label)}: ${chalk.red(`${op.time.toFixed(2)} ms`)} ${chalk.red('(not recovered)')}`
+          );
         }
+      } else if (op.error) {
+        console.log(
+          `  ${chalk.red('❌')} ${chalk.white(label)}: ${chalk.red(op.error)}`
+        );
+      } else if (op.success !== undefined) {
+        const statusColor = op.success ? chalk.green : chalk.yellow;
+        const symbol = op.success ? '✓' : '⚠';
+        console.log(
+          `  ${statusColor(symbol)} ${chalk.white(label)}: ${statusColor(`${op.time.toFixed(2)} ms`)}`
+        );
       }
     });
   });
 
-  console.log(chalk.blue('─────────────────────────────────────'));
-  console.log(chalk.green.bold('\n✅ Error handling benchmark complete!'));
+  console.log(chalk.blue(hr));
+  console.log(chalk.green.bold('Error handling benchmark complete'));
 }
 
 // Run the error handling benchmark
 if (typeof document === 'undefined') {
-  runErrorHandlingBenchmark().then(process.exit);
+  runErrorHandlingBenchmark().then((success) => process.exit(success ? 0 : 1));
 } else {
-  console.log(chalk.yellow('⚠️  Error handling benchmark requires Node.js environment'));
+  console.log(
+    chalk.yellow('Error handling benchmark requires Node.js environment')
+  );
 }
 
 export { runErrorHandlingBenchmark };

@@ -76,19 +76,19 @@ tasks:
       - cmd: echo 'Running performance benchmarks...'
       - cmd: cd ext && node test/autogen-benchmark.mjs 2>/dev/null # hide library errors
 
-  lint-benchmark-expanded:
+  lint-benchmark-performance:
     desc: Run expanded performance benchmarks.
-    aliases: [lbe]
+    aliases: [lbp]
     cmds:
       - cmd: echo 'Running expanded performance benchmarks...'
-      - cmd: cd ext && node test/autogen-benchmark-1.mjs
+      - cmd: cd ext && node test/autogen-benchmark-perf.mjs
 
   lint-benchmark-error:
     desc: Run error handling benchmarks.
-    aliases: [lme]
+    aliases: [lbe]
     cmds:
       - cmd: echo 'Running error handling benchmarks...'
-      - cmd: cd ext && node test/autogen-benchmark-2.mjs 2>/dev/null
+      - cmd: cd ext && node test/autogen-benchmark-error.mjs 2>/dev/null
 
   lint-metrics:
     desc: Track and compare metrics over time.

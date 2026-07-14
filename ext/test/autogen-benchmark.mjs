@@ -39,7 +39,7 @@ async function runBenchmarks() {
     displayBenchmarkSummary(results);
     return true;
   } catch (error) {
-    console.error(chalk.red.bold('❌ Benchmarking failed:'), error.message);
+    console.error(chalk.red.bold('Benchmarking failed:'), error.message);
     return false;
   }
 }

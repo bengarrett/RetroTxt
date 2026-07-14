@@ -54,9 +54,6 @@ export default [
   },
   {
     files: [
-      // 'ext/scripts/**/*.js',
-      // '!ext/scripts/test-webextension-proper.js',
-      // 'test/**/*',
       'ext/scripts/**/*.js',
       '!ext/scripts/test-webextension-proper.js',
       'test/**/*.js',
@@ -196,8 +193,8 @@ export default [
   // Puppeteer test files
   {
     files: [
-      'ext/test/autogen-benchmark-1.mjs',
-      'ext/test/autogen-benchmark-2.mjs',
+      'ext/test/autogen-benchmark-error.mjs',
+      'ext/test/autogen-benchmark-perf.mjs',
       'ext/test/autogen-benchmark.mjs',
       'ext/test/autogen-lint-security.mjs',
       'ext/test/autogen-metric.mjs',
