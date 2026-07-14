@@ -2,8 +2,7 @@
 
 /**
  * RetroTxt Metrics Tracker
- * 
- * Tracks and compares metrics over time for performance, security, and test coverage.
+ * * Tracks and compares metrics over time for performance, security, and test coverage.
  */
 
 import fs from 'fs';
@@ -13,9 +12,10 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const hr = `─────────────────────────────────────`;
+
 async function trackMetrics() {
-  console.log(chalk.blue.bold('📊 RetroTxt Metrics Tracker'));
-  console.log(chalk.blue('Tracking metrics over time...\n'));
+  console.log(chalk.blue.bold('Tracking metrics over time'));
 
   try {
     // Load previous metrics if available
@@ -34,16 +34,15 @@ async function trackMetrics() {
     displayMetricsComparison(comparison);
 
     return true;
-
   } catch (error) {
-    console.error(chalk.red.bold('❌ Metrics tracking failed:'), error.message);
+    console.error(chalk.red.bold('Metrics tracking failed:'), error.message);
     return false;
   }
 }
 
 function loadPreviousMetrics() {
   try {
-    const metricsFile = path.join(__dirname, '../autogen/metrics', 'metrics.json');
+    const metricsFile = path.join(__dirname, '../autogen/metrics/metrics.json');
     if (fs.existsSync(metricsFile)) {
       return JSON.parse(fs.readFileSync(metricsFile, 'utf8'));
     }
@@ -59,28 +58,28 @@ async function collectCurrentMetrics() {
     timestamp: new Date().toISOString(),
     performance: {},
     security: {},
-    coverage: {}
+    coverage: {},
   };
 
   // Collect performance metrics (simplified for now)
   metrics.performance = {
     fileLoading: 'fast',
     textProcessing: 'optimized',
-    memoryUsage: 'efficient'
+    memoryUsage: 'efficient',
   };
 
   // Collect security metrics
   metrics.security = {
     issuesFound: 10,
     issuesFixed: 0,
-    severity: 'medium'
+    severity: 'medium',
   };
 
   // Collect coverage metrics
   metrics.coverage = {
     testFiles: 11,
     totalTests: 70,
-    estimatedCoverage: '67%'
+    estimatedCoverage: '67%',
   };
 
   return metrics;
@@ -90,7 +89,7 @@ function compareMetrics(previous, current) {
   if (!previous) {
     return {
       isFirstRun: true,
-      current
+      current,
     };
   }
 
@@ -100,22 +99,28 @@ function compareMetrics(previous, current) {
     current,
     improvements: {
       performance: 'stable',
-      security: current.security.issuesFound < previous.security.issuesFound ? 'improved' : 'stable',
-      coverage: current.coverage.estimatedCoverage > previous.coverage.estimatedCoverage ? 'improved' : 'stable'
-    }
+      security:
+        current.security.issuesFound < previous.security.issuesFound
+          ? 'improved'
+          : 'stable',
+      coverage:
+        current.coverage.estimatedCoverage > previous.coverage.estimatedCoverage
+          ? 'improved'
+          : 'stable',
+    },
   };
 }
 
 function saveCurrentMetrics(metrics) {
+  console.log();
   try {
     const metricsDir = path.join(__dirname, '../autogen/metrics');
     if (!fs.existsSync(metricsDir)) {
       fs.mkdirSync(metricsDir, { recursive: true });
     }
 
-    const metricsFile = path.join(metricsDir, '../autogen/metrics.json');
+    const metricsFile = path.join(metricsDir, 'metrics.json');
     fs.writeFileSync(metricsFile, JSON.stringify(metrics, null, 2));
-
     console.log(chalk.green('Current metrics saved:'), metricsFile);
   } catch (error) {
     console.error(chalk.yellow('Could not save metrics:'), error.message);
@@ -123,39 +128,57 @@ function saveCurrentMetrics(metrics) {
 }
 
 function displayMetricsComparison(comparison) {
-  console.log(chalk.blue.bold('\n📊 Metrics Comparison'));
-  console.log(chalk.blue('─────────────────────────────────────'));
+  console.log();
+  console.log(chalk.blue(hr));
+  console.log(chalk.blue.bold('Metrics Comparison'));
 
   if (comparison.isFirstRun) {
     console.log(chalk.yellow('First run - no previous metrics to compare'));
-    console.log(chalk`\n{white Current Metrics:}`);
+    console.log(`\n${chalk.white.bold('Current Metrics:')}`);
     displayCurrentMetrics(comparison.current);
   } else {
-    console.log(chalk`\n{white Previous Metrics (${new Date(comparison.previous.timestamp).toLocaleDateString()}):}`);
+    const prevDate = new Date(
+      comparison.previous.timestamp
+    ).toLocaleDateString();
+    const currDate = new Date(
+      comparison.current.timestamp
+    ).toLocaleDateString();
+
+    console.log(`\n${chalk.white.bold(`Previous Metrics (${prevDate}):`)}`);
     displayCurrentMetrics(comparison.previous);
 
-    console.log(chalk`\n{white Current Metrics (${new Date(comparison.current.timestamp).toLocaleDateString()}):}`);
+    console.log(chalk.blue(hr));
+    console.log(`${chalk.white.bold(`Current Metrics (${currDate}):`)}`);
     displayCurrentMetrics(comparison.current);
 
-    console.log(chalk`\n{white Improvements:}`);
-    console.log(chalk`  Performance: {green ${comparison.improvements.performance}}`);
-    console.log(chalk`  Security: {green ${comparison.improvements.security}}`);
-    console.log(chalk`  Coverage: {green ${comparison.improvements.coverage}}`);
+    console.log(chalk.blue(hr));
+    console.log(`${chalk.white.bold('Improvements:')}`);
+    console.log(
+      `  Performance: ${chalk.green(comparison.improvements.performance)}`
+    );
+    console.log(`  Security: ${chalk.green(comparison.improvements.security)}`);
+    console.log(`  Coverage: ${chalk.green(comparison.improvements.coverage)}`);
   }
 
-  console.log(chalk.blue('─────────────────────────────────────'));
-  console.log(chalk.green.bold('\n✅ Metrics tracking complete!'));
+  console.log(chalk.blue(hr));
+  console.log(chalk.green.bold('Metrics tracking complete'));
 }
 
 function displayCurrentMetrics(metrics) {
-  console.log(chalk`  Performance: {white ${metrics.performance.fileLoading}}, {white ${metrics.performance.textProcessing}}, {white ${metrics.performance.memoryUsage}}`);
-  console.log(chalk`  Security: {white ${metrics.security.issuesFound}} issues (${metrics.security.severity})`);
-  console.log(chalk`  Coverage: {white ${metrics.coverage.estimatedCoverage}} (${metrics.coverage.testFiles} files, ${metrics.coverage.totalTests} tests)`);
+  const perfStr = `${chalk.white(metrics.performance.fileLoading)}, ${chalk.white(metrics.performance.textProcessing)}, ${chalk.white(metrics.performance.memoryUsage)}`;
+  const secStr = `${chalk.white(metrics.security.issuesFound)} issues (${metrics.security.severity})`;
+  const covStr = `${chalk.white(metrics.coverage.estimatedCoverage)} (${metrics.coverage.testFiles} files, ${metrics.coverage.totalTests} tests)`;
+
+  console.log(`  Performance: ${perfStr}`);
+  console.log(`  Security:    ${secStr}`);
+  console.log(`  Coverage:    ${covStr}`);
 }
 
 // Run the metrics tracker
 if (typeof document === 'undefined') {
-  trackMetrics().then(process.exit);
+  trackMetrics().then((success) => process.exit(success ? 0 : 1));
 } else {
-  console.log(chalk.yellow('⚠️  Metrics tracker requires Node.js environment'));
+  console.log(chalk.yellow('Metrics tracker requires Node.js environment'));
 }
+
+export { trackMetrics };

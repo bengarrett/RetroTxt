@@ -18,7 +18,6 @@ vars:
 
 tasks:
   default:
-    desc: List the available tasks.
     cmds:
       - task --list
 

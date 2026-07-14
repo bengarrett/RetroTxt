@@ -15,9 +15,11 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const hr = `─────────────────────────────────────`;
+
 function generateCoverageSummary() {
-  console.log(chalk.blue.bold('📊 RetroTxt Coverage Summary'));
-  console.log(chalk.blue('Analyzing test coverage...\n'));
+  console.log();
+  console.log(chalk.blue.bold('Analyzing test coverage'));
 
   try {
     // Count test files
@@ -27,13 +29,15 @@ function generateCoverageSummary() {
       .filter((f) => f.startsWith('tests-') && f.endsWith('.js'));
 
     // Count script files
-    const scriptsDir = path.join(__dirname, 'scripts');
+    const scriptsDir = path.join(__dirname, '../ext/scripts');
     const scriptFiles = [];
 
     if (fs.existsSync(scriptsDir)) {
-      const swFiles = fs
-        .readdirSync(path.join(scriptsDir, 'sw'))
-        .filter((f) => f.endsWith('.js'));
+      const swDir = path.join(scriptsDir, 'sw');
+      const swFiles = fs.existsSync(swDir)
+        ? fs.readdirSync(swDir).filter((f) => f.endsWith('.js'))
+        : [];
+
       const mainFiles = fs
         .readdirSync(scriptsDir)
         .filter((f) => f.endsWith('.js') && !f.includes('sw'));
@@ -77,31 +81,44 @@ function generateCoverageSummary() {
       ),
     };
 
-    // Display results
-    console.log(chalk.blue.bold('Test Coverage Summary:'));
-    console.log(chalk.blue('─────────────────────────────────────'));
-    console.log(chalk`{gray Test Files:} {white ${summary.testFiles}}`);
-    console.log(chalk`{gray Script Files:} {white ${summary.scriptFiles}}`);
-    console.log(chalk`{gray Total Tests:} {white ${summary.totalTests}}`);
-    console.log(chalk`{gray Total Modules:} {white ${summary.totalModules}}`);
-    console.log(
-      chalk`{gray Tests per File:} {white ${(summary.totalTests / summary.testFiles).toFixed(1)}}`
-    );
-    console.log(chalk.blue('─────────────────────────────────────'));
+    const totalTestFilesCount = summary.testFiles.length;
+    const testsPerFile =
+      totalTestFilesCount > 0
+        ? (summary.totalTests / totalTestFilesCount).toFixed(1)
+        : 0;
 
+    // Display results
+    console.log(chalk.blue(hr));
+    console.log(chalk.blue.bold('Test Coverage Summary'));
     console.log(
-      chalk`\n{gray Estimated Coverage:} {green ${summary.estimatedCoverage.pct}%}`
+      `${chalk.gray('Test Files:')} ${chalk.white(totalTestFilesCount)}`
     );
     console.log(
-      chalk`{gray Lines:} {green ${summary.estimatedCoverage.lines.pct}%}`
+      `${chalk.gray('Script Files:')} ${chalk.white(summary.scriptFiles)}`
     );
     console.log(
-      chalk`{gray Functions:} {green ${summary.estimatedCoverage.functions.pct}%}`
+      `${chalk.gray('Total Tests:')} ${chalk.white(summary.totalTests)}`
     );
     console.log(
-      chalk`{gray Branches:} {green ${summary.estimatedCoverage.branches.pct}%}`
+      `${chalk.gray('Total Modules:')} ${chalk.white(summary.totalModules)}`
     );
-    console.log(chalk.blue('─────────────────────────────────────'));
+    console.log(
+      `${chalk.gray('Tests per File:')} ${chalk.white(testsPerFile)}`
+    );
+    console.log(chalk.blue(hr));
+    console.log(
+      `${chalk.gray('Estimated Coverage:')} ${chalk.green(`${summary.estimatedCoverage.pct}%`)}`
+    );
+    console.log(
+      `${chalk.gray('Lines:')} ${chalk.green(`${summary.estimatedCoverage.lines.pct}%`)}`
+    );
+    console.log(
+      `${chalk.gray('Functions:')} ${chalk.green(`${summary.estimatedCoverage.functions.pct}%`)}`
+    );
+    console.log(
+      `${chalk.gray('Branches:')} ${chalk.green(`${summary.estimatedCoverage.branches.pct}%`)}`
+    );
+    console.log(chalk.blue(hr));
 
     // Save summary
     const reportDir = path.join(__dirname, '../autogen/coverage');
@@ -111,15 +128,19 @@ function generateCoverageSummary() {
 
     const reportFile = path.join(reportDir, 'summary.json');
     fs.writeFileSync(reportFile, JSON.stringify(summary, null, 2));
-
-    console.log(chalk.green.bold('\n✅ Coverage summary generated!'));
-    console.log(chalk.green('Summary available in: coverage/summary.json'));
+    console.log();
+    console.log(
+      chalk.green('Summary results saved:'),
+      'autogen/coverage/summary.json'
+    );
+    console.log();
 
     // Display detailed test file info
-    console.log(chalk.blue('\n📋 Test File Details:'));
+    console.log(chalk.blue(hr));
+    console.log(chalk.blue.bold('Test File Details'));
     testStats.forEach((stat) => {
       console.log(
-        chalk`  {white ${stat.file}}: {green ${stat.tests}} tests, {green ${stat.modules}} modules`
+        `  ${chalk.white(stat.file)}: ${chalk.green(stat.tests)} tests, ${chalk.green(stat.modules)} modules`
       );
     });
 
@@ -132,7 +153,8 @@ function generateCoverageSummary() {
 
 function calculateEstimatedCoverage(totalTests, totalScriptFiles) {
   // Simple estimation based on test count and file count
-  const baseCoverage = Math.min(90, 60 + (totalTests / totalScriptFiles) * 2);
+  const safeScriptCount = totalScriptFiles || 1; // Prevent Division-by-Zero errors if paths change
+  const baseCoverage = Math.min(90, 60 + (totalTests / safeScriptCount) * 2);
 
   return {
     pct: Math.round(baseCoverage),
