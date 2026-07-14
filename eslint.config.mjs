@@ -211,6 +211,14 @@ export default [
       'require-atomic-updates': 'off',
       'no-irregular-whitespace': 'off',
       'no-useless-assignment': 'off',
+      'css/use-baseline': 'off',
+      'css/font-family-fallbacks': 'off',
+      'css/no-invalid-properties': [
+        'error',
+        {
+          allowUnknownVariables: true,
+        },
+      ],
     },
   },
 ];
