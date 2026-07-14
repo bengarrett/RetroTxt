@@ -337,3 +337,158 @@ QUnit.test('Downloads class : startup and cleanup', (assert) => {
       done();
     });
 });
+
+// Ensure a Configuration mock exists if it's not loaded globally in the test environment
+if (typeof globalThis.Configuration === 'undefined') {
+  globalThis.Configuration = class {
+    validateFilename(filename) {
+      return filename !== '' && !filename.includes('invalid-file');
+    }
+  };
+}
+
+QUnit.module('mock downloads create', {
+  beforeEach: function () {
+    // Reset our chrome storage mock tracker for every test execution
+    this.storageSpy = {
+      called: false,
+      key: null,
+      value: null,
+    };
+
+    // Dynamically intercept the chrome.storage.local mock to track calls
+    window.chrome.storage.local.set = (obj, callback) => {
+      this.storageSpy.called = true;
+      const key = Object.keys(obj)[0];
+      this.storageSpy.key = key;
+      this.storageSpy.value = obj[key];
+      callback?.();
+    };
+
+    // Helper to generate a default valid item schema
+    this.createTestItem = (overrides = {}) => ({
+      id: 101,
+      url: 'https://example.com/assets/archive.txt',
+      filename: 'archive.txt',
+      ...overrides,
+    });
+  },
+});
+
+QUnit.test('missing id or url properties', function (assert) {
+  const downloads = new Downloads();
+  // missing ID
+  downloads.item = this.createTestItem();
+  delete downloads.item.id;
+  downloads._create();
+  assert.false(this.storageSpy.called, 'Should bail early when id is missing');
+  // missing URL
+  downloads.item = this.createTestItem();
+  delete downloads.item.url;
+  downloads._create();
+  assert.false(this.storageSpy.called, 'Should bail early when url is missing');
+});
+
+QUnit.test('URL length is under the 11 character minimum', function (assert) {
+  const downloads = new Downloads();
+  downloads.item = this.createTestItem({ url: 'http://a.b' }); // 10 chars
+  downloads._create();
+  assert.false(
+    this.storageSpy.called,
+    'Should reject exceptionally short URLs'
+  );
+});
+
+QUnit.test('malformed urls', function (assert) {
+  const downloads = new Downloads();
+  downloads.item = this.createTestItem({ url: 'not-a-valid-url-at-all' });
+  try {
+    downloads._create();
+    assert.false(
+      this.storageSpy.called,
+      'Should handle structural failures gracefully without storage updates'
+    );
+  } catch (error) {
+    assert.ok(
+      false,
+      `Function crashed entirely instead of catching the URL error: ${error.message}`
+    );
+  }
+});
+
+QUnit.test('defacto2.net hosts', function (assert) {
+  const downloads = new Downloads();
+  // Give it a valid text filename structure so it passes the final validation guard clause
+  downloads.item = this.createTestItem({
+    url: 'https://defacto2.net/subpath',
+    filename: 'defacto-report.txt',
+  });
+  downloads._create();
+  assert.true(
+    this.storageSpy.called,
+    'Should allow naked defacto2.net domain down to the download pipe'
+  );
+});
+
+QUnit.test('filename property is missing entirely', function (assert) {
+  const downloads = new Downloads();
+  downloads.item = this.createTestItem();
+  delete downloads.item.filename;
+  downloads._create();
+  assert.false(
+    this.storageSpy.called,
+    "Should reject if the filename property descriptor doesn't exist"
+  );
+});
+
+QUnit.test(
+  'clean URL paths with appended queries and fragments',
+  function (assert) {
+    const downloads = new Downloads();
+    downloads.item = this.createTestItem({
+      url: 'https://example.com/downloads/sheet.txt?token=abc&session=123#page-2',
+      filename: '',
+    });
+    downloads._create();
+    assert.true(
+      this.storageSpy.called,
+      'Should proceed through pipeline after pulling filename from context'
+    );
+    assert.strictEqual(
+      downloads.item.filename,
+      'sheet.txt',
+      'Should have dynamically fixed empty string item targets'
+    );
+    assert.strictEqual(
+      this.storageSpy.value,
+      'sheet.txt',
+      'Should commit the parsed filename to local runtime extension states'
+    );
+  }
+);
+
+QUnit.test('strip trailing slashes', function (assert) {
+  const downloads = new Downloads();
+  downloads.item = this.createTestItem({
+    url: 'https://example.com/dist/install.txt/',
+    filename: '',
+  });
+  downloads._create();
+  assert.strictEqual(
+    downloads.item.filename,
+    'install.txt',
+    'Should process correct trailing elements regardless of directory endings'
+  );
+});
+
+QUnit.test('confirm validation', function (assert) {
+  const downloads = new Downloads();
+  downloads.item = this.createTestItem();
+  downloads._create();
+  assert.true(
+    this.storageSpy.called,
+    'Should successfully complete state pipeline executions'
+  );
+  assert.strictEqual(this.storageSpy.key, 'download101-localpath');
+  assert.strictEqual(this.storageSpy.value, 'archive.txt');
+});

@@ -195,25 +195,39 @@ class Downloads {
   _create() {
     // sanity checks
     const valid = () => {
-      if (!Object.hasOwn(this.item, `id`)) return false;
+      if (!Object.hasOwn(this.item, `id`) || !Object.hasOwn(this.item, `url`))
+        return false;
       const error = `Create download #${this.item.id} cannot be monitored as the`;
-      if (!Object.hasOwn(this.item, `url`)) return false;
-      if (!Object.hasOwn(this.item, `filename`)) {
-        console.log(`${error} filename is missing.\n(${this.item.url})`);
+      // url minimum length requirement
+      const minimum = 11;
+      if (this.item.url.length < minimum) {
+        console.log(`${error} URL is invalid\n(${this.item.url})`);
+        return false;
+      }
+      // url parsing
+      let url;
+      try {
+        url = new URL(this.item.url);
+      } catch {
+        console.log(`${error} URL is malformed\n(${this.item.url})`);
         return false;
       }
       // defacto2.net special case
-      const url = new URL(this.item.url);
       const allowedHosts = ['defacto2.net', 'www.defacto2.net'];
       if (allowedHosts.includes(url.hostname)) {
         return true;
       }
+      // we require a filename property to work out the suitability of the download
+      if (!Object.hasOwn(this.item, `filename`)) {
+        console.log(`${error} filename is missing.\n(${this.item.url})`);
+        return false;
+      }
       // note: some browsers and sites leave the filename as an property empty
       // so as an alternative monitor method, the chrome.storage.local might also be set in this.update()
       if (this.item.filename.length < 1) {
-        // attempt to determine the filename from the URL
-        const url = new URL(this.item.url);
-        const filename = url.pathname.split('/').pop();
+        // attempt to get the filename from the URL
+        const segments = url.pathname.split('/').filter(Boolean);
+        const filename = segments.pop() || '';
         this.item.filename = filename;
         if (new Configuration().validateFilename(filename) === true) {
           return true;
@@ -221,11 +235,6 @@ class Downloads {
         console.log(
           `${error} filename cannot be determined\n"${this.item.filename}" for (${this.item.url})`
         );
-        return false;
-      }
-      const minimum = 11;
-      if (this.item.url.length < minimum) {
-        console.log(`${error} URL is invalid\n(${this.item.url})`);
         return false;
       }
       return true;
